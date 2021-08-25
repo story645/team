@@ -127,3 +127,37 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+syntax: glob
+*~
+*.aux
+*.glo
+*.idx
+*.log
+*.toc
+*.ist
+*.acn
+*.acr
+*.alg
+*.bbl
+*blx.bib
+*.bib.bak
+*.blg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.glg
+*.gls
+*.ilg
+*.ind
+*.lof
+*.lot
+*.maf
+*.mtc
+*.mtc1
+*.out
+*.run.xml
+*.synctex.gz
+*.thm
+*.nav
+*.snm
