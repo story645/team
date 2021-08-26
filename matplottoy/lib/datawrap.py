@@ -16,6 +16,6 @@ class DataFrameWrapper:
 
     def query(self, data_bounds:Optional[dict] = None, sampling_rate:int=None)->List[dict]:
         local_section = self.global_section
-        return [{Fi:local_section[Fi].values.squeeze() for Fi in local_section.columns}]
-
-    
+        records = {Fi:local_section[Fi].values.squeeze() for Fi in local_section.columns}
+        records['k'] = local_section.index.values
+        return [records]

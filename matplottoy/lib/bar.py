@@ -2,6 +2,7 @@ from __future__ import annotations
 from collections import namedtuple
 from collections.abc import Iterable
 import copy
+from dataclasses import dataclass
 from typing import List, Dict, Tuple, Optional, Any, Callable, Union
 
 
@@ -21,17 +22,28 @@ from matplottoy.encoders import mtypes
 
 # mu = \nu \circ \tau 
 #\tau = data.query().projection()
-Mu = namedtuple('Mu', ['nu_i', 'F_i'])
-Vspec= Dict[str, Tuple[Tuple[str,...], Mu]]
+
+@dataclass
+class FtoV:
+    nu: Callable
+    f: Union[Tuple[str, ...], None] = None
+    nu_inv: Union[Callable, None] = None
+
+Vspec= Dict[str, Tuple[Tuple[str,...], FtoV]]
 # Spivak's records = sections evaluated on U \subset K
 Records = Dict[str, Union[Iterable, Callable]]
-
 
 class Rho: 
     # rho: S \rightarrow H
     # rho = \q \circ \xi^*(\mu) =? \qhat \circ \mu (over^k)
+    
+    def __init__(self, V:Optional[Vspec]=None):
+        # F->V maps need to be fixed here, but use fiber name instead of function
+        self.V = {} if V is None else V
+
     def mu(self, tau_restricted: Records):
         pass
+    
     @staticmethod
     def qhat():
         pass
@@ -70,37 +82,31 @@ class Bar(Rho):
     P_optional = {'floor', 'width', 'facecolor', 'edgecolor', 
                   'linewidth', 'linestyle'}
 
-    def __init__(self, V:Optional[Vspec]=None):
-        # F->V maps need to be fixed here, but use fiber name instead of function
-        self.V = {} if V is None else V
-
     # Spivak r: C \rightarrow U_{\sigma}, U_{sigma}=F_{i}=F_{c} 
-    def compose_with_nu(self, pi:str, fi: Tuple[str,...], nu: callable)->Bar:
+    def compose_with_nu(self, p:str, f:Tuple[str,...], nu:callable, nu_inv:callable=None)->Bar:
         #trying to sort out how to not lose existing specs
         # also maybe type checking here? (Is this nu valid for this fiber?)
         new = copy.copy(self)
         # user needs to do nu_i = nu_i_j \circ nu_i_k composition
-        new.V[pi] = Mu(nu_i=nu, F_i=fi) 
+        new.V[p] = FtoV(nu=nu, f=f, nu_inv=nu_inv) 
         return new
 
     def mu(self, tau_restricted: Records)->Records: #draw
-        # pull this up - the parent functions should rename into 
-        mus = {}
-        for p_i in self.P_required: #required nus, also done first to get length
-            mus[p_i] = self.V[p_i].nu_i(*(tau_restricted[f] 
-                                        for f in self.V[p_i].F_i))
+        #required nus, also done first to get length
+        mus = {p: self.V[p].nu(*(tau_restricted[c] 
+                for c in self.V[p].f)) for p in self.P_required}
 
-        N = len(mus[p_i]) # length of mus 
+        N = len(mus[list(self.P_required)[0]]) # length of mus 
 
-        for p_i in self.P_optional:
-            if self.V[p_i].F_i is None:
+        for p in self.P_optional:
+            if self.V[p].f is None:
                 # don't like this 'cause this is special casing for None
                 # also it's mpl enforcing the structure of default nus
                 # down in the artist level
-                mus[p_i] = self.V[p_i].nu_i(N)
+                mus[p] = self.V[p].nu(N)
             else:
-                mus[p_i] = self.V[p_i].nu_i(*(tau_restricted[f] 
-                                        for f in self.V[p_i].F_i))
+                mus[p] = self.V[p].nu(*(tau_restricted[c] 
+                                        for c in self.V[p].f))
         return mus
 
     @staticmethod
@@ -114,7 +120,6 @@ class Bar(Rho):
                 path = mpath.Path([(xi, fl), (xi, fl + yi), 
                            (xi + wd, fl + yi), 
                            (xi + wd, fl), (xi, fl)], closed=True)
-
                 render.draw_path(gc=gc, path=path, 
                     transform=transform, 
                     rgbFace=(fc.r, fc.g, fc.b, fc.a))
@@ -123,10 +128,8 @@ class Bar(Rho):
 class BarH(Bar):
     @staticmethod
     def qhat(x, width, y, floor, facecolor, edgecolor, linewidth, linestyle):
+        # horizontal bar, x0 is floor, x1 is height, y is y0, width is y1
         return Bar.qhat(floor, x, width, y, facecolor, edgecolor, linewidth, linestyle)
-
-
-
 
 
 class GenericArtist(martist.Artist):
@@ -140,7 +143,12 @@ class GenericArtist(martist.Artist):
         # actual limits...scale...projections...
         # x1, x1
         bbox = self.get_window_extent(renderer)
+        print(bbox)
 
+        x_in = self.artist.graphic.V['x'].nu_inv
+    
+
+        y_in = self.artist.graphic.V['y'].nu_inv
         return None, None
 
     def draw(self, renderer):
@@ -148,7 +156,8 @@ class GenericArtist(martist.Artist):
         # get bounding box from coordinates on screen to data coordinates
         # can compute 
         ### assume we have data bounds
-        # part of Xi -> converts screen to data
+
+        # converts screen to data, there's nu k \in U yet 
         bounding_box, sampling_rate = self.get_screen_bounds_to_data_bounds(renderer)
         # tau: U\subset K \rightarrow F
         #topArtist.graphic.V.items()[0]
