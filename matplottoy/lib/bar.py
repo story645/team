@@ -123,8 +123,7 @@ class Bar(Rho):
                 path = mpath.Path([(xi, fl), (xi, fl + yi), 
                            (xi + wd, fl + yi), 
                            (xi + wd, fl), (xi, fl)], closed=True)
-                render.draw_path(gc=gc, path=path, 
-                    transform=transform, 
+                render.draw_path(gc=gc, path=path, transform=transform, 
                     rgbFace=(fc.r, fc.g, fc.b, fc.a))
         return fake_draw
 
@@ -140,63 +139,22 @@ class GenericArtist(martist.Artist):
     def __init__(self, artist:TopologicalArtist):
         super().__init__()
         self.artist = artist
-        self.artist.V['x'] # update w/ transforms ax.transdata.transform
-        self.artist.V['y'] # update transform
-  
-    # rename, this isn't on screen
-    # proxy for half xi, VtoF
-    # axes is an artist, data in E is bounds
-    # axes has nus for those bounds to screen space
-    # get data in axes bounds
-    # tau_genericArtist_x \subset tau_Axes_x
-    # tau_genericArtist_y \subset tau_Axes_y
-    # this assumes shared nu
-    # mu_genericArtist_x \subset mu_Axes_x
-    # get_xlim()/get_ylim = (mu_x, mu_y)
-    # genericArtist_nu_preimage(mu_x, mu_y) => genericArtst_tau
-    # AxesArtist_nu_preimage(mu_x, mu_y) => AxesArtist_tau
-    # get_xlim(), get_ylim() -> 0,1-AxesNu->[100,400]
-    # data = nu([50, 20, 19, 290])-DataNu->[100-400]
-    # mu [ 100, 200,  400] <- see on screen which is mu
-    # Assume that the artist shares a nu with an underlying axes
-        # cheat about doing the filtering on f rather than mu
-    # can't cheat
-        # invert/clean_preimage: get the mu_Axes, preimage through artist_nu, filter back into data
-        # handwave as I know about this, but it's out of scopeish
-        # no_invertable: no cheat: k = data.query() \subset preimage , data.query(k)
-    # matplotlib does not return tau_Axes
-    # matplotlib currently gives approx mu_1_Axes 
-    # datetime->datetime
 
-    # data gets selection 
     def get_screen_bounds_to_data_bounds(self, renderer)->(dict, int):
-        """proxy for S->F over K"""
-        # actual limits...scale...projections...
-        # x1, x1
-        # this should maybe be owned by the data object 
-        # since it's so specific
-        # render gives you the dpi
-        # width in pixels of the data
-        # renderer has wiidth and dpi or ask axes
-        # axes in screen coordinates or data coordinates
-        # how many pixels to up/down sample
-        # don't cache it, use it for up and down  
-        # we cheat by being in V since we have \Q^{-1}(renderer) as a transfrom.inverted
-        # BoundaryNu([5, 6,7, 8, 9]) -> 1 -
-        # xlim = 1   
-        # nu_preimage(1) = [5,6,7,8,9]
-        # x_data_min = min(5,6,7,8,9)
-        xmin = min(nu_inv(self.axes.get_xlim()))
-        xmax = max
-        #assumes that D->V w/o any transforms
-        nu = lambda x: x + 2
-        mu = d1+2
-        axes.get_xlim()->(x0, x1)->(0, 5)
-        E-> [0, 5] or [-2, 3]
+        """
+        uses the Axes object as a proxy for the screeen 
+        """
+        bounds = {}
+        for pos, (vmin, vmax) in [('x', self.axes.get_xlim()), ('y', self.axes.get_ylim())]:
+            if self.artist.graphic.V[pos].nu == self.axes.transData:
+                bounds[pos] = vmin, vmax
+            elif (inv_nu:=self.artist.graphic.V[pos].nu_inv) is not None:
+                bounds[pos] = inv_nu((vmin, vmax))
+            else:
+                bounds[pos] = None
 
         #output has to be in dataspace
-        return {'x': self.axes.get_xlim(), 
-                'y': self.axes.get_ylim()}, renderer.dpi
+        return bounds, renderer.dpi
 
     def draw(self, renderer):
         # get bounding ax.get_xlim(), ax.get_ylim()

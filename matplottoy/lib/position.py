@@ -34,7 +34,7 @@ class Nominal:
 
     def inverse(self, value):
         values = np.atleast_1d(np.array(value, dtype=object))
-        return [self._inverse[v] for v in values]
+        return [self._inverse[int(v)] for v in values]
 
     def validate(self, mtype):
         return True
