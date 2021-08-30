@@ -27,5 +27,6 @@ class Nominal:
         return [mtypes.RGBA(*mcolors.to_rgba(self._mapping[v])) for v in values]
 
     def inverse(self, value):
-        return self._inverse[value]
+        values = np.atleast_1d(np.array(value, dtype=object))
+        return [self._inverse[v] for v in values]
 
