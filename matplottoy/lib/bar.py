@@ -80,9 +80,10 @@ def barV(V):
 
 class Bar(Rho): 
     #what are the 
-    P_required = {'x', 'y'}
+    P_required = {'position', 'length'}
     P_optional = {'floor', 'width', 'facecolor', 'edgecolor', 
                   'linewidth', 'linestyle'}
+    bounds = {'x': 'position', 'y': 'length'}
 
     # Spivak r: C \rightarrow U_{\sigma}, U_{sigma}=F_{i}=F_{c} 
     def compose_with_nu(self, p:str, f:Tuple[str,...], nu:callable, nu_inv:callable=None)->Bar:
@@ -112,10 +113,10 @@ class Bar(Rho):
         return mus
 
     @staticmethod
-    def qhat(x, width, y, floor, facecolor, edgecolor, linewidth, linestyle):
+    def qhat(position, width, length, floor, facecolor, edgecolor, linewidth, linestyle):
         # are matplotlib 
         def fake_draw(render, transform=mtransforms.IdentityTransform()):
-            for (xi, wd, yi, fl, fc, ec, lw, ls) in zip(x, width, y, floor, facecolor, edgecolor, linewidth, linestyle):
+            for (xi, wd, yi, fl, fc, ec, lw, ls) in zip(position, width, length, floor, facecolor, edgecolor, linewidth, linestyle):
                 gc = render.new_gc()
                 gc.set_foreground((ec.r, ec.g, ec.b, ec.a))
                 gc.set_dashes(*ls)
@@ -128,11 +129,11 @@ class Bar(Rho):
         return fake_draw
 
 class BarH(Bar):
+    bounds = {'x': 'length', 'y': 'position'}
     @staticmethod
-    def qhat(x, width, y, floor, facecolor, edgecolor, linewidth, linestyle):
+    def qhat(length, width, position, floor, facecolor, edgecolor, linewidth, linestyle):
         # horizontal bar, x0 is floor, x1 is height, y is y0, width is y1
-        return Bar.qhat(floor, x, width, y, facecolor, edgecolor, linewidth, linestyle)
-
+        return Bar.qhat(floor, length, width, position, facecolor, edgecolor, linewidth, linestyle)
 
 class GenericArtist(martist.Artist):
     # start w/ working w/ an artist object then stripped down artist
@@ -146,13 +147,15 @@ class GenericArtist(martist.Artist):
         """
         bounds = {}
         for pos, (vmin, vmax) in [('x', self.axes.get_xlim()), ('y', self.axes.get_ylim())]:
-            if self.artist.graphic.V[pos].nu == self.axes.transData:
-                bounds[pos] = vmin, vmax
-            elif (inv_nu:=self.artist.graphic.V[pos].nu_inv) is not None:
-                bounds[pos] = inv_nu((vmin, vmax))
+            fibers = self.artist.graphic.V[self.artist.graphic.bounds[pos]].f
+            if self.artist.graphic.V[self.artist.graphic.bounds[pos]].nu == self.axes.transData.transform:
+                # may have to rework this for polar...
+                # assumes .transData.transform(xi)
+                bounds[fibers] = ((vmin, vmax),)
+            elif (inv_nu:=self.artist.graphic.V[self.artist.graphic.bounds[pos]].nu_inv) is not None:
+                bounds[fibers] = inv_nu((vmin, vmax))
             else:
-                bounds[pos] = None
-
+                bounds[fibers] = [None for _ in fibers]
         #output has to be in dataspace
         return bounds, renderer.dpi
 

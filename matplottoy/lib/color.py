@@ -20,7 +20,6 @@ class Nominal:
         curried higher level function"""
         assert(mcolors.is_color_like(color) for color in mapping.values())
         self._mapping = mapping
-        self._inverse = {v:k for k, v in mapping.items()}
 
     def __call__(self, value):
         values = np.atleast_1d(value)
@@ -28,5 +27,5 @@ class Nominal:
 
     def inverse(self, value):
         values = np.atleast_1d(np.array(value, dtype=object))
-        return [self._inverse[v] for v in values]
+        return [k for (k, v) in self._mapping.items() if v in values]
 

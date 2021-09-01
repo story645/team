@@ -26,15 +26,20 @@ class Log:
 class Nominal:
     def __init__(self, mapping):
         self._mapping = mapping
-        self._inverse = {v:k for k, v in mapping.items()}
         
     def __call__(self, value):
         values = np.atleast_1d(np.array(value, dtype=object))
-        return np.array([self._mapping[v] for v in values])
+        return [self._mapping[v] for v in values]
 
     def inverse(self, value):
+        # really needs something more robust, 
+        # but current assumption is that since position is monotonic
+        # must return elements corresponding to the monotonicity
+        # if you want individaual, must ask for it
+
         values = np.atleast_1d(np.array(value, dtype=object))
-        return [self._inverse[int(v)] for v in values]
+        return ([k for (k, v) in self._mapping.items() 
+                if min(values)<=v<=max(values)], )
 
     def validate(self, mtype):
         return True
