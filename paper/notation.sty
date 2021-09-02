@@ -1,0 +1,69 @@
+\ProvidesPackage{notation}
+
+%% defintion function: \cdef{name}{symbol}
+\newcommand\cdef[2]{%
+    \expandafter\newcommand\csname #1\endcsname{\ensuremath{#2}}}
+
+\definecolor{total}{HTML}{248EA6}
+\definecolor{fiber}{HTML}{E30B5C}
+\definecolor{base}{HTML}{021859}
+\definecolor{section}{HTML}{696969}
+\definecolor{artist}{HTML}{a020f0}
+
+%% sets
+\cdef{reals}{\mathbb{R}}
+\cdef{realsp}{\mathbb{R}^+}
+
+%% databundle
+\cdef{dtotal}{\textcolor{total}{E}}
+\cdef{dfiber}{\textcolor{fiber}{F}}
+\cdef{delement}{r}
+\cdef{dbase}{\textcolor{base}{K}}
+\cdef{dbasepoint}{\MakeLowercase{\dbase}}
+\cdef{dbasepath}{J}
+\cdef{dbasepathpoint}{\MakeLowercase{\dbasepath}}
+\cdef{dsection}{\textcolor{section}{\tau}}
+\cdef{dx}{j}
+\cdef{dy}{k}
+
+% fiber
+\cdef{ftotal}{\mathbb{U}}
+\cdef{fsection}{\sigma}
+\cdef{fttype}{\ftotal_{\fsection}}
+\cdef{fnames}{C}
+\cdef{fname}{\MakeLowercase{\fnames}}
+\cdef{ftypes}{\textbf{DT}}
+\cdef{ftype}{T}
+
+%monoid 
+\cdef{monoid}{M}
+
+%graphic bundle
+\cdef{gtotal}{\textcolor{total}{H}}
+\cdef{gfiber}{\textcolor{fiber}{D}}
+\cdef{gbase}{\textcolor{base}{S}}
+\cdef{gbasepoint}{\MakeLowercase{\gbase}}
+\cdef{gsection}{\textcolor{section}{\rho}}
+\cdef{gx}{\alpha}
+\cdef{gy}{\beta}
+
+%visual bundle
+\cdef{vtotal}{\textcolor{total}{V}}
+\cdef{vfiber}{\textcolor{fiber}{P}}
+\cdef{velement}{\MakeLowercase{\vtotal}}
+\cdef{vsection}{\textcolor{section}{\mu}}
+
+% artist maps
+\cdef{vartist}{\textcolor{artist}{A}}
+\cdef{vartisteq}{\vartist^{\prime}}
+\cdef{vchannel}{\textcolor{artist}{\nu}}
+\cdef{vmark}{\textcolor{artist}{Q}}
+\cdef{vmarkd}{\textcolor{artist}{\hat{\vmark}}}
+\cdef{vindex}{\textcolor{artist}{\xi}}
+
+
+%visual pullbacks
+\cdef{vtotalpull}{\textcolor{total}{\vindex^{*}\vtotal}}
+\cdef{vfiberpull}{\textcolor{fiber}{\vfiber^{*}\vsection}}
+\cdef{vsectionpull}{\textcolor{section}{\vindex^{*}\vsection}}
+\cdef{vpreimg}{\vindex^{-1}(\dbasepoint)}
