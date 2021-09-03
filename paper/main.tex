@@ -136,80 +136,190 @@ IEEEtran.cls version 1.8b and later.
 % (should never be an issue)
 I wish you the best of success.
 \section{Related Work}
+\subsection{Describe API w/ Category Theory}
+\begin{equation}
+  \label{eq:artist}
+  \mathscr{\vartist}: \mathscr{\dtotal} \rightarrow \mathscr{\gtotal}
+\end{equation}
+
 \subsection{Continuity}
-\begin{figure}[!t]
+Continuity is
+\begin{figure}[!h]
   \includegraphics[width=2.5in]{k_different_types.png}
 \end{figure}
+
+
+We care about continuity b/c 
+\begin{figure}
+  \includegraphics[width=2.5in]{whycontinuity.png}
+\end{figure}
+
+We express continuity using fiber bundles, which are ...
 \cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989}
+\begin{equation}
+  \label{eq:fiber_bundle}
+  \begin{tikzcd}
+      \dfiber \arrow[r, hook] & \dtotal \arrow[r, "\pi"] & \dbase
+  \end{tikzcd}
+\end{equation}
+
+
+
 \subsection{Equivariance}
-\begin{figure}[!t]
+What is it?
+
+\begin{figure}[!h]
   \includegraphics[width=2.5in]{equiv.png}
 \end{figure}
 
-\subsection{Category Theory}
+\begin{tikzcd}
+  data \arrow[r] \arrow[d, "function"] & representation \arrow[r] & visual\;stimulus \arrow[d, "visual\;equivalent\;to\;function"] \\
+  data \arrow[r]                       & representation \arrow[r] & visual\; stimulus                                          
+\end{tikzcd}
 
 \section{Topological Equivariant Artist Model}
-%%- brief intro to artist in most simple form $\A\rightarrow H$ 
+%%- brief intro to artist in most simple form $\vartist \dtotal \rightarrow \gtotal$ 
+
+\section{Union of Artists}
+\begin{figure}[!h]
+\centering
+\subfloat[Artists with shared $\mu_i$ renderered correctly]{\includegraphics[width=1.2in]{combined_artist.png}%
+\label{fig_first_case}}
+%\hfil
+\subfloat[Artists without shared $\mu_i$]{\includegraphics[width=1.2in]{exploding_artist.png}%
+\label{fig_second_case}}
+\caption{Simulation results for the network.}
+\label{fig_sim}
+\end{figure}
+}
+
 
 \subsection{Data Bundle \dtotal}
-\begin{figure}[!t]
-
+\begin{figure}[!h]
+  \includegraphics[width=2.5in]{k_qspace.png}
+  \caption{this is gonna be replaced w/ more concrete}
 \end{figure}
-\paragraph{Continuity: Base Space \dbase}
-\paragraph{Equivariance: Fiber \dfiber}
+
 \paragraph{Structured Data: Section \dsection}
-\subsubsection{Continuity of Data: sheaf $\mathcal{O}$}
+\begin{equation}
+  \begin{tikzcd}
+      \dfiber \arrow[r, hook] & \dtotal \arrow[d, "\pi"'] \\
+                        & \dbase \arrow[u, "\dsection"', bend right]
+  \end{tikzcd}
+\end{equation}
+
+\paragraph{Structure: Continuity and Equivariant Actions}
+\begin{equation}
+  \begin{tikzcd}
+      \dfiber_i \arrow[d, "m_j"'] \arrow[rd, "m_j\;\circ\; m_k"] &         \\
+      \dfiber_i \arrow[r, "m_k"']  & \dfiber_i
+  \end{tikzcd}
+\end{equation}
+
+\subsubsection{Continuity of Data: sheaf \sheaf}
 \begin{figure}
   \includegraphics[width=2.5in]{sheaf.png}
   \caption{Maybe create a figure that shows what the sheaf does, like 
   https://www.euclideanspace.com/maths/topology/sheaf/index.htm}
 \end{figure}
-\subsection{Visual Bundle \gtotal} %probably doesn't all need to be subsections, just figure + short description
+
+\subsection{Graphic Bundle \gtotal} %probably doesn't all need to be subsections, just figure + short description
 \begin{figure}
   \includegraphics[width=2.5in]{render.png}
 \end{figure}
+\begin{equation}
+  \begin{tikzcd}[ampersand replacement=\&]
+      \gfiber \arrow[r, hook] \& \gtotal \arrow[d, "\pi"'] \\
+                        \& \gbase \arrow[u, "\gsection"', bend right]
+  \end{tikzcd}
+\end{equation}
 \paragraph{Continuity: Base Space \gbase}
 \paragraph{Equivariance: Fiber \gfiber}
 \paragraph{Structured Data: Visual \gsection}
+
 \subsection{Artist}
 %% flesh out categorical framing of artist, walk through how eq 16 is part of implementing the artists
 %% https://github.com/story645/proposal/blob/main/notes/meetings/2021_08_30.md
+\begin{equation}
+  \vartist: \sheaf(\dtotal) \rightarrow \sheaf(\gtotal)
+  \label{eq:math:artist:artist}
+\end{equation}
 
-\subsubsection{Visual to Data: \vindex}
-\begin{figure}[!t]
+
+\subsubsection{Graphic to Data: \vindex}
+\begin{figure}[!h]
   \includegraphics[width=2.5in]{xi.png}
 \end{figure}
-\subsubsection{Representation Bundle: \vtotal}
+\begin{equation}
+  \begin{tikzcd}
+      \dtotal \arrow[d, "\pi"'] & \gtotal \arrow[d, "\pi"'] \\
+      \dbase                   & \gbase \arrow[l, "\vindex"']
+  \end{tikzcd}
+  \label{eq:math:graphic:vindex}
+\end{equation}
+
+\begin{equation}
+  \label{eq:math:artist:diagram}
+  \begin{tikzcd}
+      \dtotal \arrow[r, "\vchannel"] \arrow[rd, "\pi"'] & \vtotal \arrow[d, "\pi"] & \vindex^*\vtotal \arrow[r, "\vmark"] \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"'] & \gtotal \arrow[ld, "\pi"] \\
+                                            & \dbase                  & \gbase \arrow[l, "\vindex"']                                              &                    
+      \end{tikzcd}
+\end{equation}
+
+\subsubsection{Representation \vtotal}
+\begin{equation}
+  \begin{tikzcd}[ampersand replacement=\&]
+      \vfiber \arrow[r, hook] \& \vtotal \arrow[d, "\pi"'] \\
+                        \& \dbase \arrow[u, "\vsection"', bend right]
+  \end{tikzcd}
+\end{equation}
 
 \subsubsection{Data to Representation: \vchannel} %look at what K&S call these stages
-\begin{figure}[!t]
+\begin{figure}[!h]
   \includegraphics[width=2.5in]{nu.png}
 \end{figure}
+\begin{equation}
+  \label{eq:math:artist:nu}
+  \{\vchannel_{0}, \ldots, \vchannel_{n}\}: \{\dsection_{0}, \ldots, \dsection_{n}\} \mapsto \{\vsection_{0}, \ldots, \vsection_{n}\}
+\end{equation}
+
+We enforce the equivariance constraint
+\begin{equation}
+  \label{eq:math:artist:nu_commute}
+\begin{tikzcd}
+  \dtotal_i \arrow[r] \arrow[r, "\vchannel_i"] \arrow[d, "m_{\delement}"'] & \vtotal_i \arrow[d, "m_{\velement}"] \\
+  \dtotal_i \arrow[r, "\vchannel_i"]                           & \vtotal_i               
+\end{tikzcd}
+\end{equation}
 
 \subsubsection{Representation to Visual: \vmark} % look at what K&S call these stages
-\begin{figure}[!t]
+
+\begin{figure}[!h]
   \includegraphics[width=2.5in]{q.png}
 \end{figure}
 
-\begin{figure}[!t]
-  \includegraphics[width=2.5in]{path_of_q.png}
+\begin{figure}[!h]
+  \includegraphics[width=2.5in]{diff_type_q.png}
   \caption{rework this as a commutative box w/ the r in E row associated w/ this qhat(k)}
 \end{figure}
-
-
-\subsection{Combining Artists}
-\begin{figure}[!t]
-\centering
-\subfloat[Artists with shared $\mu_i$ renderered correctly]{\includegraphics[width=2.5in]{combined_artist.png}%
-\label{fig_first_case}}
-\hfil
-\subfloat[Artists without shared $\mu_i$]{\includegraphics[width=2.5in]{exploding_artist.png}%
-\label{fig_second_case}}
-\caption{Simulation results for the network.}
-\label{fig_sim}
-\end{figure}
+ 
+\subsubsection{Data $\leftrightarrow$ Visual}
+Putting all the pieces together, we have a system for 
+\begin{equation}
+  \label{eq:math:artist:diagram}
+  \begin{tikzcd}
+      \dtotal \arrow[r, "\vchannel"] \arrow[rd, "\pi"'] & \vtotal \arrow[d, "\pi"] & \vindex^*\vtotal \arrow[r, "\vmark"] \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"'] & \gtotal \arrow[ld, "\pi"] \\
+                                            & \dbase                  & \gbase \arrow[l, "\vindex"']                                              &                    
+      \end{tikzcd}
+\end{equation}
 
 \section{Case Study}
+\begin{figure}[t!]
+  \includegraphics[width=2.5in]{path_of_q.png}
+    \caption{add in xi!}
+  \label{fig:api}
+\end{figure}
+We implement the \texbf{arrows} in \autoref{fig:api} 
 
 
 
@@ -224,12 +334,13 @@ The conclusion goes here.
 \appendices
 \section{Rendering: \gsection}
 \section{Manufacturing $\vmarkd \leftarrow \vmark$}
+\begin{equation}
+  \begin{tikzcd}
+      \textcolor{gray!50}{\dtotal} \arrow[r, "\vchannel", color=gray!50] \arrow[rd, "\pi"', color=gray!50] & \vtotal \arrow[d, "\pi"']                  & \vindex^*\vtotal \arrow[r, "\vmark", color=gray!50] \arrow[d, "\vindex^*\pi"'] \arrow[l,  "\vindex^*"'] & \textcolor{gray!50}{\gtotal} \arrow[ld, "\pi", color=gray!50] \\ & \dbase \arrow[u, "\vsection"', bend right] & \gbase \arrow[l, "\vindex"'] \arrow[u, "\vindex^*\vsection"', bend right]               &                          
+      \end{tikzcd}
+      \label{eq:math:artist:qhat}
+\end{equation}
 
-
-% you can choose not to have a title for an appendix
-% if you want by leaving the argument blank
-\section{}
-Appendix two text goes here.
 
 
 % use section* for acknowledgment
