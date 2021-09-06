@@ -1,8 +1,10 @@
 \ProvidesPackage{notation}
 
+
 %% defintion function: \cdef{name}{symbol}
 \newcommand\cdef[2]{%
     \expandafter\newcommand\csname #1\endcsname{\ensuremath{#2}}}
+
 
 \definecolor{total}{HTML}{248EA6}
 \definecolor{fiber}{HTML}{E30B5C}
@@ -10,7 +12,7 @@
 \definecolor{section}{HTML}{03C04A}
 \definecolor{artist}{HTML}{A020F0}
 \definecolor{action}{HTML}{F0741F}
-\definecolor{sheaf}{HTML}{FFD700}
+\definecolor{sheaf}{HTML}{E65331}
 
 %% sheaf
 \cdef{sheaf}{\textcolor{sheaf}{\mathcal{O}}}
