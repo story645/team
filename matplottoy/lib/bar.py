@@ -130,9 +130,11 @@ class Bar(Rho):
 
 class BarH(Bar):
     bounds = {'x': 'length', 'y': 'position'}
+
     @staticmethod
     def qhat(length, width, position, floor, facecolor, edgecolor, linewidth, linestyle):
         # horizontal bar, x0 is floor, x1 is height, y is y0, width is y1
+        # alternative is to do this renamin in nu calling parent nu first
         return Bar.qhat(floor, length, width, position, facecolor, edgecolor, linewidth, linestyle)
 
 class GenericArtist(martist.Artist):
