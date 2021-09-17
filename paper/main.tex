@@ -35,11 +35,13 @@
 % well as large increases in file sizes.
 
 % *** MATH PACKAGES ***
-\usepackage{amsmath}
 %% with other math-related packages, you may want to disable it.
-\usepackage{amsmath,amsfonts,amssymb,eulervm,xspace}
-%\usepackage{mathrsfs} % math script fonts
-
+\usepackage{amsmath, amsthm, amsfonts,amssymb,eulervm,xspace, mathtools}
+\usepackage{mathrsfs} % math script fonts
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem{example}{Example}[section]
 % *** SPECIALIZED LIST PACKAGES ***
 \usepackage{xcolor}
 \usepackage{algorithmic}
@@ -163,6 +165,7 @@ Domain specific libraries can guarantee consistency because they have a single m
 
  
 \subsubsection{Fiber Bundles}
+\label{sec:related-work:fiber-bundles}
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{fiberbundle.png}
   \caption{A fiber bundle is mathematical construct that allows us to express the relationship between data and continuity. The \textcolor{total}{total} space \dtotal is the topological space in which the data is embedded. The \textcolor{fiber}{fiber} space \dfiber\ is embedded in \dtotal\ and is the set of all possible values that any
@@ -176,9 +179,7 @@ A model that allows for expressing data continuity in a general flexible way all
 A topological space a topological space $(X, \mathscr{T})$ is a set $X$ with a topology $\mathscr{T}$. Topologies are collections of open sets 
 
 
-such that the empty set and $X$ are in the collection of open sets $\mathscr{T}$, the union of elements in $\mathscr{T}
-
-
+such that the empty set and $X$ are in the collection of open sets $\mathscr{T}$, the union of elements in $\mathscr{T}$
 
 
 Specifically, Butler, Bryson, and Pendley suggest that fiber bundles be the basis of an abstract data model. Fiber bundles are a collection $(\dtotal, \dbase, \dfiber, \pi)$ of topological spaces
@@ -197,8 +198,24 @@ with a projection map $\pi:\dtotal\rightarrow\dbase$ that connects every point i
   \end{tikzcd}
 \end{equation}
 
-As indicated by $\hookrightarrow$, the fiber space \dfiber\ is embedded inside the total space \dtotal\. This is illustrated in \autoref{fig:related-work:fiber-bundle}, wherein the data lives in the manifold \dtotal. Each data point has two dimensions, represented as the square fiber \dfiber. While the data is embedded in \dtotal, it's continuity is that each point lies along a line, represented by the base space \dbase. 
+As indicated by $\hookrightarrow$, the fiber space \dfiber\ is embedded inside the total space \dtotal\. This is illustrated in \autoref{fig:related-work:fiber-bundle}, wherein values lives in the fiber $\dfiber\subseteq\dtotal$. In this example, the fiber \dfiber\ is the cartesian product of two sets $F_{0}\times F_{1}$ where each fiber $F_{i}$ is ....
+\begin{equation}
+  formal equation of the fiber?
+  \label{eq:related-work:fiber}
+\end{equation}
 
+While the values are embedded in \dfiber, the continuity of the data is modeled as the base space \dbase, which is the quotient space \cite{QuotientSpaceTopology2020}
+\begin{equation}
+formal math of the base space as equivalence class for F_[k]
+\end{equation}
+which means that every point in $\dfiber_{k}$ maps to a point $k \subset K$. 
+
+\begin{equation}
+  \begin{tikzcd}
+      \dfiber \arrow[r, hook] & \dtotal \arrow[d, "\pi"'] \\
+                        & \dbase \arrow[u, "\dsection"', bend right]
+  \end{tikzcd}
+\end{equation}
 
 \subsection{Sheaf Maps \sheaf}
 We can use sheafs to ensure continuity even when the data is broken up. Is the glue rules -> we can haz parallism. 
@@ -245,50 +262,58 @@ The \textcolor{artist}{Artist $\mathcal{\vartist}$} is a transformation from a
 %%% nu bundle map on bundle + functor on fibers, Q takes you to H
 %%% K to S is pullback of deform retract, A is functor on imageA in H
 
+We propose that the artist $\mathcal{\vartist}$ is a function 
 
 \begin{equation}
   \vartist: \dtotal \rightarrow \gtotal
   \label{eq:math:artist:artist}
 \end{equation}
 
-\subsection{Data Bundle \dtotal}
+\begin{definition}The category $\mathcal{\dbase}$ consists of 
+  \begin{enumerate}
+    \item \textit{objects} all open sets $U_{i} \in \{U\}$ in \dbase, including the empty set $\varnothing$ and the maximum set \dbase
+    \item \textit{morphisms} inclusion maps $\iota: U_{i} \hookrightarrow U_{j}$ 
+  \end{enumerate} 
+\end{definition}
+
+\begin{definition} The category $\mathcal{\E}$ consists of 
+  \begin{enumerate}
+    \item\textit{objects} bundles \dtotal
+    \item\textit{morphisms} inclusion maps: $\iota: E_i \hookrightarrow E_j$
+  \end{enumerate}
+\end{definition}
+
+\begin{definition} 
+\end{definition}
+
+\subsection{Data}
+We model data as sections of a fiber bundle $(\dtotal, \pi, \dbase, \dfiber)$. We encode the continuity of the data as the \textcolor{base}{base space} $\dbase$. \note{does this go in intro? This is mostly important for data, and we kinda use it for visual intermediary but not really for H} The \textcolor{fiber}{fiber space} \dfiber\ is the space of all possible values of the data \autoref{eq:related-work:fiber}. To allow us to map multiple fields of the same datatype to distinct fibers, we adopt Spivak's formulation of the fiber as a (column name, data domain) simple schema \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak models the fiber space as a fiber bundle with sections $\sigma:C \rightarrow DT$ that take as input column name $c \in C$ and returns as output the set of values associated with the type of the field $T \in DT$, for example $\mathbb{R}$ for \texttt{floats}. In the paper, the $\dfiber$ is the cartesian cross product of these datatype domains \textbf{DT}. We model the data as the section \dsection because, as described in \autoref{sec:related-work:fiber-bundles}, the section is the map from the indexing space \dbase to the space of possible data values \dfiber. Spivak's notation also allows for associating elements in a section with the field it comes from. This allows for field based selection of values, while inclusion allows for continuity (index) based selections. 
+
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{fiberbundle.png}
-  \caption{
-  
-  \note{replace with more concrete}}
+  \caption{\note{replace with more concrete}}
+  \label{fig:artist:data}
 \end{figure}
-We use topology to model 
 
-The The continuity of the data is encoded in the base space \dbase. 
+One example of encoding data as a section of a fiber bundle is illustrated in \autoref{fig:artist:data}. In this example, the data is a \note{not totally decided yet} table of weather station data. Here we are interested in the time series of temperature values in the data, so we encode the continuity as the 1D interval \dbase. In this multivariate data set, the fields we want to visualize are \texttt{time}, \texttt{temperature}, and \texttt{station}. The fiber space \dfiber\ is the cartesian cross product of the fibers of each field
+\begin{equation*}
+  \dfiber = \dfiber_{time} \times \dfiber_{temperature} \times \dfiber_{station}
+\end{equation*}
+where each field fiber is the set of values that are valid for the field: 
+\begin{align*}
+  \dfiber_{time} &= \mathbb{R} \\
+  \dfiber_{temperature} &= \mathbb{R}\\
+  \dfiber_{station} &= \{s_0, s_1, \cdots, s_i, \cdots, s_n\} 
+\end{align*}
 
-The properties of the variables are encoded in the fiber space \dfiber. The \textcolor{fiber}{fiber} is a topological space 
-
-
-
-Spivak provides notation for describing the set of all possible values $U_{\sigma}$ of a single column with name $c$ and type $T$. This set of values is the fiber "F" $F = U_{\sigma}(c)$. When data is multivariate, the fiber F is the cartesian product of each columns fiber space (5)
-
-\subsubsection{Structured Data: Section \dsection}
-\begin{equation}
-  \begin{tikzcd}
-      \dfiber \arrow[r, hook] & \dtotal \arrow[d, "\pi"'] \\
-                        & \dbase \arrow[u, "\dsection"', bend right]
-  \end{tikzcd}
-\end{equation}
-
-\subsubsection{Structure: Continuity and Equivariant Actions}
-\begin{equation}
-  \begin{tikzcd}
-      \dfiber_i \arrow[d, "m_j"'] \arrow[rd, "m_j\;\circ\; m_k"] & \\
-      \dfiber_i \arrow[r, "m_k"']  & \dfiber_i
-  \end{tikzcd}
-\end{equation}
+The section \dsection\ is the abstraction of the data being visualized. The section at a point $k \in K$ in the base space returns a value from each field in the fiber.
+\begin{equation*}
+  \tau(k) = ((time, t_k); (precipitation, p_k); (station\;name, n_k))
+\end{equation*}
 
 
-\subsection{Graphic Bundle \gtotal} %probably doesn't all need to be subsections, just figure + short description
-\begin{figure}[h!]
-  \includegraphics[width=\columnwidth]{render.png}
-\end{figure}
+\subsection{Graphic} 
+The object of the graphic category $\mathcal{\gtotal}$ is the fiberbundle \gtotal. The bundle \gtotal\ has the same structure as the data bundle \dtotal
 
 \begin{equation}
   \begin{tikzcd}[ampersand replacement=\&]
@@ -296,10 +321,32 @@ Spivak provides notation for describing the set of all possible values $U_{\sigm
                         \& \gbase \arrow[u, "\gsection"', bend right]
   \end{tikzcd}
 \end{equation}
-\paragraph{Continuity: Base Space \gbase}
-\paragraph{Equivariance: Fiber \gfiber}
-\paragraph{Structured Data: Visual \gsection}
+with a fiber space \gfiber\ embedded in the total space \gtotal\ and a section map $\gsection:\gbase\rightarrow\gtotal$. The attributes of the graphic bundle $(\gtotal, \pi, \gfiber, \gbase)$ encode attributes of the graphic and display space 
 
+\begin{LaTeXdescription}
+\item [\textcolor{base}{base space} \gbase] continuity of display space (e.g. screen, 3D print)
+\item [\textcolor{fiber}{fiber space} \gfiber] attributes of the display space (e.g a pixel = (x,y,r,g,b,a))
+\end{Latex}
+\item [\textcolor{section}{section} \gsection] graphic generating function
+\end{LaTeXdescription}.
+
+We use a fiber bundle because it allows us to generalize implementation details. In this work, \gtotal\ assumes the the display is an idealized 2D screen, but there is no barrier to encoding for example a 3D print surface. In the same vein, \gsection\ is an abstraction of rendering; it can be a specification such as PDF\cite{bienz1993portable}, SVG\cite{quintScalable2003}, ... or a rendering engine such as cairo or agg, 
+
+
+\begin{figure}[h!]
+  \includegraphics[width=\columnwidth]{render.png}
+  \caption{}
+  \label{fig:artist:graphic}
+\end{figure}
+
+\begin{example}
+As illustrated in \autoref{fig:artist:graphic}, 
+\end{example}
+
+
+\begin{definition}[Category $\mathcal{\gtotal}$]
+  
+\end{definition}
 
 
 \subsection{Union of Artists}
@@ -317,40 +364,29 @@ Spivak provides notation for describing the set of all possible values $U_{\sigm
 
 
 \section{Constraints: Construction and formal properties of Artists}
-Identify the constraints, category theory makes it easier to spell out these constraints, this map has to be equivariant
-ordered data & data on trees, there is a monoid that acts on them & is not clear that if your map acts on them there will be a nice map on ordered
-why category theory? 
-- F->V->D
--> F->V is 1:1 equivariance
--> V->D is glyph equivariance
-
-What are the formal properties and constraints on xi, nu, and qhat
-
-nu = any function f:E\rightarrow E, equiv V\rightarrow V
-f: F_i\rightarrow F_i, v_i: F_i\right P_i, 
-
-define category of structure preserving transformations on F
-  - valid maps F->F
-  - user in setting up fibers, sets up what are valid transforms/morphisms
-  - nu is a functor
-
-%xi is a deform retract, continuous, surjective 
-
-%Q: \Gamma (V) \Gamma(H) - is defined on functions not on outputs
-
-%Qhat to Q can't break continuity when it goes from Q to Q hat
-
-%% xi is screen data binding,  map of glyph back to ideal platonic mark
-
-%% continuity is in the sheafs -> requiring that we have a sheaf map and that nu induces a sheaf map, nu can also act on individual components
-
-%% nus are a sheaf map, act on indivdual fibers, induce a sheaf map on E to V, 
-%% pull sheafs and sections up to intro, Q is also sheaf map on S 
-%%% Q is a sheaf map, category of structure preserving maps, Q is a functor at least on the image 
-
-\begin{figure*}[]
+\begin{figure*}[h!]
   \includegraphics[width=\linewidth]{q.png}
+  \caption{}
+  \label{fig:constraints:q-overall}
 \end{figure*}
+
+
+\begin{definition} Following from \label{def:artist:} the artist \vartist is a special case of  natural transformations
+  \begin{equation}
+    \vartist: \Gamma(\dtotal, \dbase)\nrightarrow \Gamma(\gtotal, \gbase)
+  \end{equation}
+  between the profunctor objects $\Gamma(E),\Gamma(H)$ that preserves continuity and equivariance.
+\end{definition}
+  Natural transformations are functions that map functions between categories (functors) to other functors in a structure preserving way \cite{riehlCategoryTheoryContext, spanier1989algebraic, fongInvitationAppliedCategory2019}.
+
+\begin{definition} We define the \textcolor{artist}{Artist} natural transformation \vartist\ as the tuple $(\vindex, \vchannel, \vmark, \dtotal, \vtotal, \gtotal)$ where
+  \begin{enumerate}
+    \item \vindex\ is a continuity preserving functor
+    \item \vchannel\ and \vmark\ are equivariance preserving functors
+    \item \dtotal, \vtotal, and \gtotal\ are profunctor categories of sheafs (\autoref{def:artist:profunctor})
+  \end{enumerate}
+\end{definition}
+
 
 \begin{equation}
   \label{eq:math:artist:diagram}
@@ -413,8 +449,6 @@ Visual encodings to something like marks
   \caption{rework this as a commutative box w/ the r in E row associated w/ this qhat(k)}
 \end{figure}
  
-
-
 \section{Case Study}
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{path_of_q.png}
