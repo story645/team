@@ -173,8 +173,7 @@ Domain specific libraries can guarantee consistency because they have a single m
   \label{fig:related-work:fiber-bundle}
 \end{figure}
 
-
-A model that allows for expressing data continuity in a general flexible way allows us to express, and therefore be faithful to, the multivariate consistency constraints described by Qu and Hullman\cite{hullmanKeeping2018}. A general data model also allows for consistent adaptation to modern data needs, such as complex, metadata rich, distributed, or streaming data. The mathematical theory of fiber bundles provides one such abstraction that can express complicated dimensionality and continuity without being tied to any one data container type, as proposed by Butler, Bryson, and Pendley\cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992}. In this paper, we build on their work that proposes using topological spaces to represent different properties of data. Here we present a brief summary of topology, for more information see Hatcher\cite{hatcherAlgebraicTopology2002}, Munkres\cite{munkresElementsAlgebraicTopology1984}, and Bradley et. al. \cite{bradleyTopologyCategoricalApproach2020}. 
+The model described in this work provides a method for expressing different types of continuities and nested continuities using the same model. We obtain this generality by using the mathematical theory of fiber bundles as the basis of our abstraction, as proposed by Butler, Bryson, and Pendley\cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992}. In this paper, we build on their work that proposes using topological spaces to represent different properties of data. Here we present a brief summary of topology, for more information see Hatcher\cite{hatcherAlgebraicTopology2002}, Munkres\cite{munkresElementsAlgebraicTopology1984}, and Bradley et. al. \cite{bradleyTopologyCategoricalApproach2020}. 
 
 A topological space a topological space $(X, \mathscr{T})$ is a set $X$ with a topology $\mathscr{T}$. Topologies are collections of open sets 
 
@@ -231,7 +230,8 @@ We can use sheafs to ensure continuity even when the data is broken up. Is the g
 
 
 \subsection{Equivariance}
-What is it?
+Many visualization theorists have expressed the notion that scales, which are maps from data to visual representation, 
+Hullman and Qu scales \cite{hullmanKeeping2018}
 
 \begin{figure}[!h]
   \includegraphics[width=\columnwidth]{equiv.png}
@@ -262,14 +262,63 @@ The \textcolor{artist}{Artist $\mathcal{\vartist}$} is a transformation from a
 %%% nu bundle map on bundle + functor on fibers, Q takes you to H
 %%% K to S is pullback of deform retract, A is functor on imageA in H
 
-We propose that the artist $\mathcal{\vartist}$ is a function 
+We propose that the artist $\mathcal{\vartist}$ is a morphism of presheaves defined to be a natural transformation (\autoref{sec:related-work:category-theory})
+\note{ommutative diagram maybe?}
+
+We can then explain inclusion & continuity as special cases, preservation as consequence of this. Generalize inclusion of open sets and restriction (how topology is put together) and equivariance on the fiber in terms of natural transformations <- condition we want to satisfy is natural transformation. Constraint on artist is that it's a natural transformations, will construct that way, will show 
+
+1) bundle E restricted to U is presheaf, 
+
+F_1: \mathcal{K_1} \rightarrow Set <-presheaf is the functor F_1
+any map on base spaces will give us a map on functors, sections will pull back
+
+artist w. particular base space w/ particular, 
+
+How do you define the category E
+objects: F_1 
+  - presheaf: is it defined on fixed K and E0 (this provides the Equivariance on fibers + continuity), declaring it as E->V is natural transformation
+  - presheaves: is it defined on arbitrary K and Eo
+morphisms: inclusion -> these go back and forth, hence is a profunctor
+
+fiber preserving maps 
+fiber as category -> map preserves the structure, monotonic etc
+
+How are you defining the artist? fix E0 and K and nu and q
+
+same sheaf w/ arrow to itself , requires that all bundles be morphisms of a bundle to itself
+  - morphisms are actions, bundle to bundle which when restricted to bundle are morphisms of bundle to itself 
+
+- presheaf is just a functor
+
+F is object in category that just has itself as only object 
+if we have a bundle transfrom F_0 to F_0, then we have a natural transfrom F_0 to F_0
+
+same thing has to happen on V side, declare which bundle maps are OK on which side, nu goes from one to the other, preserving the structure3 , doesn't have to have the same dimension,
+- we don't care about a change in fiber dim - nu defines type it eats, which is static and defined relative to the fibers - can't change K, or E, nu is fixed on F/E, V and E can be different dimensions
+
+category w/ one functor E_0, morphisms are functor to itself, f is data to data, g is graphic to graphic, nu(f) \rightarrow (g), when we get to H bundle, 
+V over K -> H over S, 
+
+nu is bundle to bundle (natural transformation)
+Q is a natural transformation - proposition, map that satisifies this condition, v \rightarrow h v, 
 
 \begin{equation}
   \vartist: \dtotal \rightarrow \gtotal
   \label{eq:math:artist:artist}
 \end{equation}
 
-\begin{definition}The category $\mathcal{\dbase}$ consists of 
+\begin{definition} A presheaf is a category with extra structure - definition
+  
+\end{definition}
+
+\begin{definition} a morphism of presheaves is defined to be a natural transform
+  
+\end{definition}
+
+1) start w/ presheaf definition and explain K etc in context, $\Gamma(U, E)$ is an object in set, presheaf(U)->\Gamma(E,U)
+
+
+\begin{definition} 
   \begin{enumerate}
     \item \textit{objects} all open sets $U_{i} \in \{U\}$ in \dbase, including the empty set $\varnothing$ and the maximum set \dbase
     \item \textit{morphisms} inclusion maps $\iota: U_{i} \hookrightarrow U_{j}$ 
@@ -330,8 +379,7 @@ with a fiber space \gfiber\ embedded in the total space \gtotal\ and a section m
 \item [\textcolor{section}{section} \gsection] graphic generating function
 \end{LaTeXdescription}.
 
-We use a fiber bundle because it allows us to generalize implementation details. In this work, \gtotal\ assumes the the display is an idealized 2D screen, but there is no barrier to encoding for example a 3D print surface. In the same vein, \gsection\ is an abstraction of rendering; it can be a specification such as PDF\cite{bienz1993portable}, SVG\cite{quintScalable2003}, ... or a rendering engine such as cairo or agg, 
-
+We use a fiber bundle because it allows us to generalize implementation details. In this work, \gtotal\ assumes the the display is an idealized 2D screen and \gsection\ is an abstraction of rendering. For example, \gsection\ can be a specification such as PDF\cite{bienz1993portable}, SVG\cite{quintScalable2003} or an OpenGL scene graph\cite{CarsonOpenGL1997}, or a rendering engine such as Cairo\cite{CairographicsOrg} or AGG\cite{shemanarevAntiGrainGeometry}.
 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{render.png}
@@ -415,7 +463,7 @@ As illustrated in \autoref{fig:artist:graphic},
 \end{equation}
 
 \subsection{Data to Visual Encodings: \vchannel} %look at what K&S call these stages
-Visual Channel Encodings
+\note{needs a sentence on why this is broader than scales}
 \begin{figure}[!h]
   \centering
   \subfloat[Artists with shared $\mu_i$ renderered correctly]{\includegraphics[width=1.2in]{partial_fixed.png}%
