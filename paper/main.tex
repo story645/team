@@ -150,8 +150,9 @@ This work aims to develop a model for describing visualization transformations t
   \caption{Continuity is how elements in a data set are connected to each other, which is distinct from how the data is structured. The rows in (a) are discrete, therefore they have discrete continuity as illustrated by the discrete dots. The gaussian in (b) is a 1D continuous function, therefore the continuity of the elements of the gaussian can be represented as a line on an interval (0,1). In (c), every element of the globe is connected to its nearest neighbors, which yields a 2D continuous continuity as illustrated by the square.}
   \label{fig:related-work:continuity}
 \end{figure}
+We propose that a robust model of continuity, which is how the elements in a dataset are connected to each other, provides a way to develop library components that \note{finish this sentence in a sensible way}
 
-Continuity is a representation of how the elements in a dataset are connected to each other. For example, in \autoref{fig:related-work:continuity}, each station record in the table is independent of the others; therefore, the continuity of the table is discrete. The data provided by the gaussian are points sampled along the curve, therefore the continuity of the points on the line is 1D continuous. Every point on the globe is connected to its 6 nearest cardinal neighboring points (NW, N, NE, E, SE, S, SW, W). 
+For example, in \autoref{fig:related-work:continuity}, each station record in the table is independent of the others; therefore, the continuity of the table is discrete. The data provided by the gaussian are points sampled along the curve, therefore the continuity of the points on the line is 1D continuous. Every point on the globe is connected to its 6 nearest cardinal neighboring points (NW, N, NE, E, SE, S, SW, W). 
 
 \begin{figure}[!h]
   \includegraphics[width=\columnwidth]{whycontinuity.png}
@@ -230,8 +231,12 @@ We can use sheafs to ensure continuity even when the data is broken up. Is the g
 
 
 \subsection{Equivariance}
-Many visualization theorists have expressed the notion that scales, which are maps from data to visual representation, 
-Hullman and Qu scales \cite{hullmanKeeping2018}
+\label{sec:related-work:equivariance}
+When introducing the retinal variables, Bertin informally specifies that continuity is preserved in the mark and defines equivariance constraints in terms of data and visual variables being selective, associative, ordered, or quantitative\cite{bertinSemiologyGraphicsDiagrams2011a}. In the \textit{A Presentation Tool}(APT) model, Mackinlay embeds the continuity constraint in the choice of visualization type and generalizes the equivariance constraint to preserving a binary operator from one domain to another. The algebraic model of visualization\cite{kindlmannAlgebraicProcessVisualization2014}, proposed by Kindlmann and Scheidegger, restricts equivariance to invertible transformations.
+
+\note{something about how structure of data field serves as basis of equivariance in viz literature}
+Besides expressing continuities, fiber bundles also provide us a way to richly express the structure of the fields in the data. Specifically, we do this by adopting Spivak's formulation of the fiber as a (column name, data domain) simple schema \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak formally maps column names and field types to the set of values associated with the field type, for example $\mathbb{R}$ for a \texttt{float} column named \textit{temperature}. In the paper, the $\dfiber$ is the cartesian cross product of the fibers for each column.  
+
 
 \begin{figure}[!h]
   \includegraphics[width=\columnwidth]{equiv.png}
@@ -247,96 +252,53 @@ Hullman and Qu scales \cite{hullmanKeeping2018}
 In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al provide a brief introduction to category theory for visualization practitioners \cite{vickersUnderstandingVisualizationFormal2013}, but their work focuses on data, representation, and evocation, while this paper is aims to provide guidance on how the map from data to representation should be implemented. 
 
 \section{Artist} 
-%%- brief intro to artist in most simple form $\vartist \dtotal \rightarrow \gtotal$ 
-The \textcolor{artist}{Artist $\mathcal{\vartist}$} is a transformation from a 
-%% flesh out categorical framing of artist, walk through how eq 16 is part of implementing the artists
-%% https://github.com/story645/proposal/blob/main/notes/meetings/2021_08_30.md
-
-%% domain of A is category E, with sheaves on E7   
-%% range of A is category H, sheaves on H
-%% category bundles, functions are bundles maps, 
-%% subset/restriction is a type of bundle map - bundle over subset is bundle over whole thing, which induces map on section which goes other way which is restriction
-%% bundle map induces a sheaf map, fibers themselves are categories, map from fiber to fiber that's legit in F
-%%% what is the set up? category of bundles, bundle maps - fiber have some structure/any structure/no structure - bundle maps should be functors, A is gonna be a functor, H is a category of bundles + sheaves of bundles, A is a functor
-%%% we claim that for visualizations, A decomposes as 
-%%% nu bundle map on bundle + functor on fibers, Q takes you to H
-%%% K to S is pullback of deform retract, A is functor on imageA in H
-
-We propose that the artist $\mathcal{\vartist}$ is a morphism of presheaves defined to be a natural transformation (\autoref{sec:related-work:category-theory})
-\note{ommutative diagram maybe?}
-
-We can then explain inclusion & continuity as special cases, preservation as consequence of this. Generalize inclusion of open sets and restriction (how topology is put together) and equivariance on the fiber in terms of natural transformations <- condition we want to satisfy is natural transformation. Constraint on artist is that it's a natural transformations, will construct that way, will show 
-
-1) bundle E restricted to U is presheaf, 
-
-F_1: \mathcal{K_1} \rightarrow Set <-presheaf is the functor F_1
-any map on base spaces will give us a map on functors, sections will pull back
-
-artist w. particular base space w/ particular, 
-
-How do you define the category E
-objects: F_1 
-  - presheaf: is it defined on fixed K and E0 (this provides the Equivariance on fibers + continuity), declaring it as E->V is natural transformation
-  - presheaves: is it defined on arbitrary K and Eo
-morphisms: inclusion -> these go back and forth, hence is a profunctor
-
-fiber preserving maps 
-fiber as category -> map preserves the structure, monotonic etc
-
-How are you defining the artist? fix E0 and K and nu and q
-
-same sheaf w/ arrow to itself , requires that all bundles be morphisms of a bundle to itself
-  - morphisms are actions, bundle to bundle which when restricted to bundle are morphisms of bundle to itself 
-
-- presheaf is just a functor
-
-F is object in category that just has itself as only object 
-if we have a bundle transfrom F_0 to F_0, then we have a natural transfrom F_0 to F_0
-
-same thing has to happen on V side, declare which bundle maps are OK on which side, nu goes from one to the other, preserving the structure3 , doesn't have to have the same dimension,
-- we don't care about a change in fiber dim - nu defines type it eats, which is static and defined relative to the fibers - can't change K, or E, nu is fixed on F/E, V and E can be different dimensions
-
-category w/ one functor E_0, morphisms are functor to itself, f is data to data, g is graphic to graphic, nu(f) \rightarrow (g), when we get to H bundle, 
-V over K -> H over S, 
-
-nu is bundle to bundle (natural transformation)
-Q is a natural transformation - proposition, map that satisifies this condition, v \rightarrow h v, 
+The \textcolor{artist}{Artist $\mathcal{\vartist}$} is a transformation from data space to graphic. 
 
 \begin{equation}
   \vartist: \dtotal \rightarrow \gtotal
   \label{eq:math:artist:artist}
 \end{equation}
 
-\begin{definition} A presheaf is a category with extra structure - definition
-  
-\end{definition}
+We propose that the artist $\mathcal{\vartist}$ is a morphism of presheaves defined to be a natural transformation (\autoref{sec:related-work:category-theory})
+\note{commutative diagram maybe?}
 
-\begin{definition} a morphism of presheaves is defined to be a natural transform
-  
-\end{definition}
+We can then explain inclusion & continuity as special cases, preservation as consequence of this. Generalize inclusion of open sets and restriction (how topology is put together) and equivariance on the fiber in terms of natural transformations <- condition we want to satisfy is natural transformation. Constraint on artist is that it's a natural transformations, will construct that way, will show 
 
-1) start w/ presheaf definition and explain K etc in context, $\Gamma(U, E)$ is an object in set, presheaf(U)->\Gamma(E,U)
+To show that the artist is a natural transformation, we first define the categories $\mathcal{E}$ and $\mathcal{H}$. In order to define these categories, we introduce the category of open sets $\mathcal{K}$
 
-
-\begin{definition} 
-  \begin{enumerate}
+\begin{definition} The category $\mathcal{K}$ consists of 
+  \begin{itemize}
     \item \textit{objects} all open sets $U_{i} \in \{U\}$ in \dbase, including the empty set $\varnothing$ and the maximum set \dbase
-    \item \textit{morphisms} inclusion maps $\iota: U_{i} \hookrightarrow U_{j}$ 
-  \end{enumerate} 
+    \item \textit{morphisms} inclusion maps from a subspace to a larger space $\iota: U_{i} \hookrightarrow U_{j}$, which is equivalent to $U_{i} \subseteq U_{j}$ and  
+  \end{itemize} 
 \end{definition}
+
+The open set objects $U_{i}$ are used to track subsets of the data defined globally on \dbase. For example, 
+
+
+\begin{definition} For each open set object $U_{i}$ of category $\mathcal{K}$, there is a set $\Gamma(U_i, \dtotal)$. The elements of this set are the sections $\{\dsection^{0},\cdots, \dsection^{i}, \dsection^{n}\}$ of \dtotal\ over open set $\U_{i}$. The sections $\Gamma(\dbase, \dtotal)$ are called the global sections of $\dtotal$. \cite{SheafMathematics2021,spanier1989algebraic}.
+\end{definition}
+
+Each section is how we represent a unique dataset, where the set of sections $\Gamma$ is the set of all datasets that have the same data fields \dfiber\ and continuity \dbase\. For example, database tables that have the same schema and discrete index \cite{spivakSIMPLICIALDATABASES}.
+
 
 \begin{definition} The category $\mathcal{\E}$ consists of 
-  \begin{enumerate}
-    \item\textit{objects} bundles \dtotal
+  \begin{itemize}
+    \item\textit{objects} the presheaf $F: 
+  
     \item\textit{morphisms} inclusion maps: $\iota: E_i \hookrightarrow E_j$
-  \end{enumerate}
+  \end{itemize}
 \end{definition}
 
 \begin{definition} 
 \end{definition}
 
+
+
+
 \subsection{Data}
-We model data as sections of a fiber bundle $(\dtotal, \pi, \dbase, \dfiber)$. We encode the continuity of the data as the \textcolor{base}{base space} $\dbase$. \note{does this go in intro? This is mostly important for data, and we kinda use it for visual intermediary but not really for H} The \textcolor{fiber}{fiber space} \dfiber\ is the space of all possible values of the data \autoref{eq:related-work:fiber}. To allow us to map multiple fields of the same datatype to distinct fibers, we adopt Spivak's formulation of the fiber as a (column name, data domain) simple schema \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak models the fiber space as a fiber bundle with sections $\sigma:C \rightarrow DT$ that take as input column name $c \in C$ and returns as output the set of values associated with the type of the field $T \in DT$, for example $\mathbb{R}$ for \texttt{floats}. In the paper, the $\dfiber$ is the cartesian cross product of these datatype domains \textbf{DT}. We model the data as the section \dsection because, as described in \autoref{sec:related-work:fiber-bundles}, the section is the map from the indexing space \dbase to the space of possible data values \dfiber. Spivak's notation also allows for associating elements in a section with the field it comes from. This allows for field based selection of values, while inclusion allows for continuity (index) based selections. 
+We model data as sections of a fiber bundle $(\dtotal, \pi, \dbase, \dfiber)$. We encode the continuity of the data as the \textcolor{base}{base space} $\dbase$. \note{does this go in intro? The \textcolor{fiber}{fiber space} \dfiber\ is the space of all possible values of the data \autoref{eq:related-work:fiber}. We model the data as the section \dsection because, as described in \autoref{sec:related-work:fiber-bundles}, the section is the map from the indexing space \dbase to the space of possible data values \dfiber. Spivak's notation, as discussed in \autoref{sec:related-work:equivariance}, also allows for associating elements in a section with the field it comes from. This allows for field based selection of values, while inclusion allows for continuity (index) based selections. 
+
 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{fiberbundle.png}
@@ -379,7 +341,7 @@ with a fiber space \gfiber\ embedded in the total space \gtotal\ and a section m
 \item [\textcolor{section}{section} \gsection] graphic generating function
 \end{LaTeXdescription}.
 
-We use a fiber bundle because it allows us to generalize implementation details. In this work, \gtotal\ assumes the the display is an idealized 2D screen and \gsection\ is an abstraction of rendering. For example, \gsection\ can be a specification such as PDF\cite{bienz1993portable}, SVG\cite{quintScalable2003} or an OpenGL scene graph\cite{CarsonOpenGL1997}, or a rendering engine such as Cairo\cite{CairographicsOrg} or AGG\cite{shemanarevAntiGrainGeometry}.
+We represent the graphic output as a fiber bundle because it is an abstraction that is generalizable to various output mediums (screens, 3D prints) and types of graphics. In this work, \gtotal\ assumes the the display is an idealized 2D screen and \gsection\ is an abstraction of rendering. For example, \gsection\ can be a specification such as PDF\cite{bienz1993portable}, SVG\cite{quintScalable2003} or an OpenGL scene graph\cite{CarsonOpenGL1997}, or a rendering engine such as Cairo\cite{CairographicsOrg} or AGG\cite{shemanarevAntiGrainGeometry}.
 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{render.png}
@@ -406,9 +368,11 @@ As illustrated in \autoref{fig:artist:graphic},
 %\hfil
 \subfloat[Artist with shared/harmonized \vsection]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
 \label{fig_second_case}}
-\caption{Simulation results for the network.}
+\caption{Coherance? }
 \label{fig_sim}
 \end{figure}
+\note{do we define coherant visualizations as one with shared inclusions?}
+
 
 
 \section{Constraints: Construction and formal properties of Artists}
@@ -463,7 +427,11 @@ As illustrated in \autoref{fig:artist:graphic},
 \end{equation}
 
 \subsection{Data to Visual Encodings: \vchannel} %look at what K&S call these stages
-\note{needs a sentence on why this is broader than scales}
+Visual encoding functions \vindex\ are functors because they are expected to preserve structure on the data and visual side, as discussed in \autoref{sec:related-work:equivariance}. 
+
+ This constraint is expressed in our construction of \vchannel
+
+
 \begin{figure}[!h]
   \centering
   \subfloat[Artists with shared $\mu_i$ renderered correctly]{\includegraphics[width=1.2in]{partial_fixed.png}%
@@ -490,6 +458,8 @@ We enforce the equivariance constraint
 \end{tikzcd}
 \end{equation}
 
+One advantage of expressing the data to visual encoding $\vchannel_i$ as a functor from data fiber $\dfiber_i$ to $\vfiber_i$ is that it lets us formally express that encodings are bound to data and therefore should be consistent across views, as proposed by Hullamn and Qu\cite{hullmanKeeping2018}.
+
 \subsubsection{Visual to Graphic: \vmark} % look at what K&S call these stages
 Visual encodings to something like marks 
 \begin{figure}[!h]
@@ -503,7 +473,7 @@ Visual encodings to something like marks
     \caption{\note{add in xi!}}
   \label{fig:api}
 \end{figure}
-We implement the \textbf{arrows} in \autoref{fig:api}. \mintinline{python}{axesArtist} is a parent artist that acts as a screen. This allows for the composition described in \autoref{sec:artist:union}
+We implement the \textbf{arrows} in \autoref{fig:api}. \mintinline{python}{axesArtist} is a parent artist that acts as a screen. This allows for the composition described in                                           \autoref{sec:artist:union}
 
 \subsection{\vartist}
 \begin{minted}{python}
