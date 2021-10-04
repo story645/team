@@ -220,6 +220,7 @@ which means that every point in $\dfiber_{k}$ maps to a point $k \subset K$.
   \end{tikzcd}
 \end{equation}
 
+Throughout this paper, we denote fiber bundles with the tuple $(\textcolor{total}{total space}, \textcolor{base}{base space}, \pi, \textcolor{fiber}{fiber space})$
 
 \subsection{Equivariance}
 \label{sec:related-work:equivariance}
@@ -239,70 +240,141 @@ Besides expressing continuities, fiber bundles also provide us a way to richly e
 In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al provide a brief introduction to category theory for visualization practitioners \cite{vickersUnderstandingVisualizationFormal2013}, but their work focuses on data, representation, and evocation, while this paper is aims to provide guidance on how the map from data to representation should be implemented. 
 
 \section{Artist} 
-The \textcolor{artist}{Artist} $\mathcal{\vartist}$\footnote{We call this transformation the artist because the Artist object in Matplotlib\cite{hunterMatplotlib2DGraphics2007} is responsible for converting data to a prerender graphical object} is a transformation from data  $\mathcal{\dtotal}$ to graphic $\mathcal{\gtotal}$.
+The \textcolor{artist}{Artist} $\mathcal{\vartist}$\footnote{We call this transformation the artist because the Artist object in Matplotlib\cite{hunterMatplotlib2DGraphics2007} is responsible for converting data to a prerender graphical object} is a functor from data $\mathcal{\dtotal}$ to graphic $\mathcal{\gtotal}$.}
 
 \begin{equation}
   \vartist: \mathcal{\dtotal} \rightarrow \mathcal{\gtotal}
   \label{eq:math:artist:artist}
 \end{equation}
 
-We formally define data and graphic as the categories $\mathcal{\dtotal}$ and $\mathcal{\gtotal}$. To explain these categories, we first define the category of open sets $\mathcal{\dbase}$ and the category of fiber spaces $\mathcal{\dfiber}$. 
+We formally define data and graphic as the categories $\mathcal{\dtotal}$ and $\mathcal{\gtotal}$. We develop these categories as analogues to fiber bundle $(\dtotal, \dbase, \pi, \dfiber)$, introduced in \autoref{sec:related-work:fiber-bundles}, and fiber bundle $(\gtotal, \gbase, \pi, \gfiber)$. Throughout this section, we assume that $\mathcal{E}$ is defined in terms of a fixed continuity and fiber space, for example a class of images or tables with the same schema. Similarly we assume that $\mathcal{H}$ is a stand in for a specific type of graphic, such as a scatter or line plot. 
 
-\begin{definition} The category $\mathcal{\dbase}$ consists of 
+As introduced in \autoref{sec:related-work:fiber-bundles}, sets of open sets form the basis of topological spaces. We propose that we can express how the elements in our dataset are glued together by modeling that continuity as a topological space \dbase, and we express the constraints on \dbase by defining the analogues category $\mathcal{\dbase}$. 
+
+\begin{definition} The category of open sets $\mathcal{\dbase}$ consists of
+  \label{def:category:K} 
   \begin{itemize}
-    \item \textit{objects} all open sets $U_{i} \in \{U\}$ in \dbase, including the empty set $\varnothing$ and the maximum set \dbase
+    \item \textit{objects} all open sets $U_{i} \in \{U\}$ in the topological space\cite{bradleyTopologyCategoricalApproach2020, } $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
     \item \textit{morphisms} inclusion maps from a subspace to a larger space $\iota: U_{i} \hookrightarrow U_{j}$, which is equivalent to $U_{i} \subseteq U_{j}$ and  
   \end{itemize} 
 \end{definition}
 
-The objects $U_{i}$ are a way to manage subsets of the data. For example, let there be a data value for each point along the interval $\dbase=\right[0,1\left]$. Since this function is continuous, there is a subset of the data defined along the open set $U_{a} = \right(0.2, 0.4\left)$. The open set $U_{a}$ provides a unique way of identifying that subset.
+The objects $U_{i}$ are a way to manage subsets of the data. For example, let there be a data value for each point along the interval $\dbase=\right[0,1\left]$. Since this function is continuous, there is a subset of the data defined along the open set $U_{a} = \right(0.2, 0.4\left)$. The open set $U_{a}$ provides a unique way of identifying that subset. 
 
 \note{maybe a small image here or when we introduce open sets showing what we mean?}
 
-\begin{definition} For each open set object $U_{i}$ of category $\mathcal{\dbase}$, there is a set $\Gamma(U_i, \dtotal)$. The elements of this set are the sections $\{\tau^{j}:U_i \rightarrow \dfiber_{U_{i}}\}_{j\in I}$ of \dtotal\ over open set $\U_{i}$. The sections $\Gamma(\dbase, \dtotal)$ are called the global sections of $\dtotal$. \cite{SheafMathematics2021,spanier1989algebraic}.
+\begin{definition} 
+  \label{def:category:F}
+  The category $\mathcal{\dfiber}$ is a subcategory of an arbitrary category $\mathcal{C}$. $\mathcal{\dfiber}$ is a monoidal category, meaning it has one object \texttt{\dfiber} and a functor\footnote{The functor $\otimes$ is a bifunctor because it takes as input the product of two categories \cite{nlab:bifunctor}} $\otimes:\mathcal{\dfiber}\times{\mathcal{\dfiber}}\rightarrow \mathcal{\dfiber}$\cite{barrCategoryTheoryComputing}.
 \end{definition}
 
+The object $\texttt{\dfiber}$ can be an object of any arbitrary category $\mathcal{C}$, which allows $\texttt{\dfiber}$ to encode most data fields. For example, a lists of strings is an instance of an object in \textbf{Set}, networks are an instance of \textbf{Graph}, and images are vector spaces which are a specific type of topological space \textbf{Top}.
+
+%Monoid b/c arrows form a Monoid, F + Monoid that acts on F
+
+
+
+%% F, M action on F, 
+%%% F \->E->K 
+
+\begin{definition} For each open set object $U_{i}$ of category $\mathcal{\dbase}$, there is a set $\Gamma(U_i, \dtotal)$. The elements of this set are the sections $\{\tau^{j}:U_i \rightarrow \dfiber_{U_{i}}\}_{j\in I}$ of the fiber bundle \dtotal\ over open set $\U_{i}$. 
+  
+  The sections $\Gamma(\dbase, \dtotal)$ are called the global sections of $\dtotal$. \cite{SheafMathematics2021,spanier1989algebraic}.
+\end{definition}
 Each section is how we represent a unique dataset, where the set of sections $\Gamma$ is the set of all datasets that have the same data fields in the \dfiber\ and continuity as encoded in\dbase\. For example, database tables that have the same schema and discrete index, as illustrated in Spivak \cite{spivakSIMPLICIALDATABASES}.
 
-
-\begin{definition} The fiber space category $\mathcal{\dfiber}$ is a category of sets \textbf{Set}. This means its objects are sets, and its morphisms are total functions\cite{barrCategoryTheoryComputing}
-\end{definition}
-
-
-\begin{definition} The monad $T$ is [a,b,c]
-  
-\end{definition}
-
 For example, these functions could be the binary operations, group actions, and measurement scales discussed in \autoref{sec:related-work:equivariance}. These functions could also be monoid actions, which are a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}
-}
 
 \begin{definition} The category $\mathcal{\dtotal}$ consists of 
   \begin{itemize}
     \item\textit{object} the space of continuous\footnote{or piecewise continuous}sections $\sheaf: U_{i} \rightarrow \Gamma(U_{i}, \dtotal) $ which is a sheaf\cite{spanier1989algebraic,SheafMathematics2021}. 
     \item\textit{morphisms} bundle maps E, E, fiber to itself and is the fiber map allowable, functions F to itself forms a monoid (one object category), F and it's allowable maps form a category, monoid could be monotonic functions, group actions, extending that to bundle E, interested in E to itself, which when restricted to fiber are category maps of fiber to itself, maps from sheaf to itself, that when restricted to fiber gives you fiber to itself, given bundle map E->E, then you can show that you have a sheaf map... Given E->E, and F->F, then there's a map from one sheaf to another. bundle map induces on level of sections induces on sheafs -> part of the definition of the presheaf
- 
+    \item \textit{morphisms} E->E such that restricted to fiber it's the allowed maps, and restricted to base it's the inclusion map, sheaf to itself so is an endofunctor (category to itself)
   \end{itemize}
-\end{definition
-The functions on the data
+\end{definition}
 
 
+\begin{definition}We define the endofunctor \monoid on E as the structure preserving map which is the monoid. ...
+\end{definition}
 
 \note{equivariance is a special case of functions}
 \note{actions are a special case of actions}
 \begin{definition} category of bundle maps, which include category of fiber maps, what are allowable of fiber to itself, ex translation and scales only ..., objects are a fiber, maps are fiber to fiber defined as their own category, E to V fibers changes
-
-zooming is inclusion maps on both sides 
 \end{definition}
 
 The objects of the data category $\mathcal{\dtotal}$ and graphic category $\mathcal{\gtotal}$ are the sheaves $\Gamma(\dbase, \dtotal)$ and $\Gamma(\gbase, \gtotal)$. An alternate notation is $\sheaf(\dtotal)$ and $\sheaf(\gtotal)$. The artist is a morphism of sheafs $\sheaf(\dtotal)$ to $\sheaf(\gtotal)$, which means it is by definition a natural transform\cite{SheafMathematics2021}. As mentioned in \autoref{sec:related-work:equivariance:category}
-
 that the artist $\vartist$ transforms functions that act on data $f:\dtotal\rightarrow \dtotal$ to functions that act on graphics $\g: \gtotal\rightarrow \dtotal$ in a way in which the following diagram commutes 
-\begin{tikzcd}
-  \mathcal{\dtotal} \arrow[r, "\vartist"] \arrow[d, "f"] & \mathcal{\gtotal} \arrow[d, "g"] \arrow[d, "\ca"] \\
-  \mathcal{\dtotal} \arrow[r, "\vartist"]                & \mathcal{\gtotal}                                
-\end{tikzcd}
+\begin{equation}
+  \begin{tikzcd}
+    \mathcal{\dtotal} \arrow[r, "\vartist"] \arrow[d, "f"] & \mathcal{\gtotal} \arrow[d, "g"] \arrow[d, "\ca"] \\
+    \mathcal{\dtotal} \arrow[r, "\vartist"]                & \mathcal{\gtotal}                                
+  \end{tikzcd}
+\end{equation}
+
 meaning that, as described in \autoref{sec:related-work:equivariance}, the artist \vartist is constructed such that $\vartist(f(\dtotal)) = g(\vartist(\dtotal))$, meaning a transformation of the data has a consistent equivalent transformation of the graphic. In \autoref{sec:artist:construction}, we show a method of constructing the artist such that continuity and equivariance are preserved. We then use this formulation to guide the development of visualization library components in \autoref{sec:case-study}.
 
+
+
+
+\begin{definition}[Category $\mathcal{\gtotal}$]
+  
+\end{definition}
+
+
+% For this sake we don't do polymorphism, but we have a notion of equivalance classes of artists s.t... every parameter you want to fix is a fiber in E 
+% given a nu, 
+% maximal V has all the visual variables 
+% nu_red()->red 
+
+
+\subsection{Union of Artists}
+\label{sec:artist:union}
+\begin{figure}[!h]
+\centering
+\subfloat[Union of H]{\includegraphics[width=.4\columnwidth]{exploding_artist.png}%
+\label{fig_first_case}}
+%\hfil
+\subfloat[Artist with shared/harmonized \vsection]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
+\label{fig_second_case}}
+\caption{Coherance? }
+\label{fig_sim}
+\end{figure}
+\note{do we define coherant visualizations as one with shared inclusions?}
+
+
+\section{Constraints: Construction and formal properties of Artists}
+\label{sec:artist:construction}
+\begin{figure*}[h!]
+  \includegraphics[width=\linewidth]{q.png}
+  \caption{}
+  \label{fig:constraints:q-overall}
+\end{figure*}
+
+
+\begin{definition} Following from \label{def:artist:} the artist \vartist is a special case of  natural transformations
+  \begin{equation}
+    \vartist: \Gamma(\dtotal, \dbase)\nrightarrow \Gamma(\gtotal, \gbase)
+  \end{equation}
+  between the profunctor objects $\Gamma(E),\Gamma(H)$ that preserves continuity and equivariance.
+\end{definition}
+  Natural transformations are functions that map functions between categories (functors) to other functors in a structure preserving way \cite{riehlCategoryTheoryContext, spanier1989algebraic, fongInvitationAppliedCategory2019}.
+
+\begin{definition} We define the natural transformation \textcolor{artist}{Artist}  \vartist\ as the tuple $(\vindex, \vchannel, \vmark, \mathcal{\dtotal},\mathcal{\vtotal}, \mathcal{\gtotal})$ where
+  \begin{enumerate}
+    \item \vindex\ is a continuity preserving functor
+    \item \vchannel\ and \vmark\ are equivariance preserving functors
+    \item $\mathcal{\dtotal}$, $\mathcal{\vtotal}$, and $\mathcal{\gtotal}$ are profunctor categories of sheafs
+    \item 
+  \end{enumerate}
+\end{definition}
+
+\begin{equation}
+  \label{eq:math:artist:diagram}
+  \begin{tikzcd}
+      \dtotal \arrow[r, "\vchannel"] \arrow[rd, "\pi"'] & \vtotal \arrow[d, "\pi"] & \vindex^*\vtotal \arrow[r, "\vmark"] \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"'] & \gtotal \arrow[ld, "\pi"] \\
+                                            & \dbase                  & \gbase \arrow[l, "\vindex"']                                              &                    
+      \end{tikzcd}
+\end{equation}
 
 \subsection{Data}
 We model data as sections of a fiber bundle $(\dtotal, \pi, \dbase, \dfiber)$. We encode the continuity of the data as the \textcolor{base}{base space} $\dbase$. \note{does this go in intro?} The \textcolor{fiber}{fiber space} \dfiber\ is the space of all possible values of the data \autoref{eq:related-work:fiber}. We model the data as the section \dsection because, as described in \autoref{sec:related-work:fiber-bundles}, the section is the map from the indexing space \dbase to the space of possible data values \dfiber. Spivak's notation, as discussed in \autoref{sec:related-work:equivariance}, also allows for associating elements in a section with the field it comes from. This allows for field based selection of values, while inclusion allows for continuity (index) based selections. 
@@ -360,63 +432,8 @@ We represent the graphic output as a fiber bundle because it is an abstraction t
 As illustrated in \autoref{fig:artist:graphic}, 
 \end{example}
 
-
-\begin{definition}[Category $\mathcal{\gtotal}$]
-  
-\end{definition}
-
-
-\subsection{Union of Artists}
-\label{sec:artist:union}
-\begin{figure}[!h]
-\centering
-\subfloat[Union of H]{\includegraphics[width=.4\columnwidth]{exploding_artist.png}%
-\label{fig_first_case}}
-%\hfil
-\subfloat[Artist with shared/harmonized \vsection]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
-\label{fig_second_case}}
-\caption{Coherance? }
-\label{fig_sim}
-\end{figure}
-\note{do we define coherant visualizations as one with shared inclusions?}
-
-
-
-\section{Constraints: Construction and formal properties of Artists}
-\label{sec:artist:construction}
-\begin{figure*}[h!]
-  \includegraphics[width=\linewidth]{q.png}
-  \caption{}
-  \label{fig:constraints:q-overall}
-\end{figure*}
-
-
-\begin{definition} Following from \label{def:artist:} the artist \vartist is a special case of  natural transformations
-  \begin{equation}
-    \vartist: \Gamma(\dtotal, \dbase)\nrightarrow \Gamma(\gtotal, \gbase)
-  \end{equation}
-  between the profunctor objects $\Gamma(E),\Gamma(H)$ that preserves continuity and equivariance.
-\end{definition}
-  Natural transformations are functions that map functions between categories (functors) to other functors in a structure preserving way \cite{riehlCategoryTheoryContext, spanier1989algebraic, fongInvitationAppliedCategory2019}.
-
-\begin{definition} We define the natural transformation \textcolor{artist}{Artist}  \vartist\ as the tuple $(\vindex, \vchannel, \vmark, \mathcal{\dtotal},\mathcal{\vtotal}, \mathcal{\gtotal})$ where
-  \begin{enumerate}
-    \item \vindex\ is a continuity preserving functor
-    \item \vchannel\ and \vmark\ are equivariance preserving functors
-    \item $\mathcal{\dtotal}$, $\mathcal{\vtotal}$, and $\mathcal{\gtotal}$ are profunctor categories of sheafs
-    \item 
-  \end{enumerate}
-\end{definition}
-
-\begin{equation}
-  \label{eq:math:artist:diagram}
-  \begin{tikzcd}
-      \dtotal \arrow[r, "\vchannel"] \arrow[rd, "\pi"'] & \vtotal \arrow[d, "\pi"] & \vindex^*\vtotal \arrow[r, "\vmark"] \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"'] & \gtotal \arrow[ld, "\pi"] \\
-                                            & \dbase                  & \gbase \arrow[l, "\vindex"']                                              &                    
-      \end{tikzcd}
-\end{equation}
-
-\subsection{Graphic to Data: \vindex}
+\subsection{Visualization Library Components}
+\subsubsection{Graphic to Data: \vindex}
 \begin{equation}
   \begin{tikzcd}
       \dtotal \arrow[d, "\pi"'] & \gtotal \arrow[d, "\pi"'] \\
@@ -427,7 +444,7 @@ As illustrated in \autoref{fig:artist:graphic},
 
 The functor $\vindex$ is a deformation retract, which means....\cite{hatcherAlgebraicTopology2002,spanier1989algebraic}
 
-\subsection{Visual Bundle \vtotal}
+\subsubsection{Visual Bundle \vtotal}
 \begin{equation}
   \begin{tikzcd}[ampersand replacement=\&]
       \vfiber \arrow[r, hook] \& \vtotal \arrow[d, "\pi"'] \\
@@ -435,7 +452,7 @@ The functor $\vindex$ is a deformation retract, which means....\cite{hatcherAlge
   \end{tikzcd}
 \end{equation}
 
-\subsection{Data to Visual Encodings: \vchannel} %look at what K&S call these stages
+\subsubsection{Data to Visual Encodings: \vchannel} %look at what K&S call these stages
 Visual encoding functions \vindex\ are functors because they are expected to preserve structure on the data and visual side, as discussed in \autoref{sec:related-work:equivariance}. 
 
  This constraint is expressed in our construction of \vchannel
