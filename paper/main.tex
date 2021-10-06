@@ -255,70 +255,37 @@ As introduced in \autoref{sec:related-work:fiber-bundles}, sets of open sets for
   \end{itemize} 
 \end{definition}
 
-Besides expressing continuities, fiber bundles also provide us a way to richly express the structure of the fields in the data. Specifically, we do this by adopting Spivak's formulation of the fiber as a (column name, data domain) simple schema \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak formally maps column names and field types to the set of values associated with the field type, for example $\mathbb{R}$ for a \texttt{float} column named \textit{temperature}. In the paper, the $\dfiber$ is the cartesian cross product of the fibers for each column.  
+The inclusion maps $iota$ can be used to piece together the subsets $U_{i}$, particularly individual points $\dbasepoint \in \dbase$. This is how we provide knowledge of continuity to the artist \vartist\ in a way where the artist does not need all the data at once. This is what allows the artist to generate graphics where the subset of data on view is dynamically updated, such as pan and zoom navigation\cite{NekrasovskiEvaluationPanZoom2006} and sliding windows on streaming data\cite{crouchDynamicGraphsSlidingwindow2013,chuTimeSeriesSegmentation1995}.
 
-The category $\mathcal{\dfiber}$ is a subcategory of an arbitrary category $\mathcal{C}$. $\mathcal{\dfiber}$ is, meaning it has one object \texttt{\dfiber} and a functor\footnote{The functor $\otimes$ is a bifunctor because it takes as input the product of two categories \cite{nlab:bifunctor}} $\otimes:\mathcal{\dfiber}\times{\mathcal{\dfiber}}\rightarrow \mathcal{\dfiber}$\cite{barrCategoryTheoryComputing}.
+Besides expressing continuities, fiber bundles also provide us a way to richly express the structure of the fields in the data. Specifically, we do this by adopting Spivak's formulation of the fiber as a (column name, data domain) simple schema \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak formally maps column names and field types to the set of values associated with the field type, for example $\mathbb{R}$ for a \texttt{float} column named \textit{temperature}. We define $\dfiber$ as  the cartesian cross product of the fibers $\dfiber_c$ for each field, where $c$ is the field name.  
 
 \begin{definition} 
   \label{def:category:F} 
-  The category $\mathcal{\dfiber}$ consists of one object $\dfiber$ with maps back to itself $\monoid: \dfiber \rightarrow \dfiber$. 
+  The category $\mathcal{\dfiber}$ consists of a single object $\dfiber$ and morphisms between the object and itself $\monoid: \dfiber \rightarrow \dfiber$. 
 \end{definition}
 
+The object $\texttt{\dfiber}$ can be an object of any category $\mathcal{C}$, allowing $\texttt{\dfiber}$ to encode most data fields. For example, a lists of strings is an instance of an object in \textbf{Set}, networks are an instance of \textbf{Graph}, and images are vector spaces which are a specific type of topological space \textbf{Top}. We note that a one object category is a monoid \cite{nlab:monoid,barrCategoryTheoryComputing}. \note{&? why is this important} The morphisms $\monoid$ are functions from the data to itself, for example the binary operations, group actions, and measurement scales discussed in \autoref{sec:related-work:equivariance}. These functions could also be monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}
 
-%F is the one object category with maps back to itself M: F\rightarrow F, fiber and all its allowed maps. morphsims in categroy C that go back to same object fixed F, we note that this is also a category w/ one object, a one object categry is a monoid
+We encode individual datasets in the fiberbundle as sections, and we follow the convention that $\Gamma(U_i, \dtotal)$ denotes the set of sections $\{\dsection^{j}:U_i \rightarrow \dfiber_{U_{i}}\}_{j\in I}$ of the fiber bundle \dtotal\ over an open set $\U_{i}$.  The sections $\Gamma(\dbase, \dtotal)$ are called the global sections of $\dtotal$ \cite{SheafMathematics2021,spanier1989algebraic}. Each section is how we represent a unique dataset, where the set of sections $\Gamma$ is the set of all datasets that have the same data fields in the \dfiber\ and continuity as encoded in\dbase\. For example, Spivak describes tables that have the same schema and discrete index as sections of the same fiber bundle\cite{spivakSIMPLICIALDATABASES}.
 
-The object $\texttt{\dfiber}$ is an object of some category $\mathcal{C}$, which allows $\texttt{\dfiber}$ to encode most data fields. For example, a lists of strings is an instance of an object in \textbf{Set}, networks are an instance of \textbf{Graph}, and images are vector spaces which are a specific type of topological space \textbf{Top}. We note that a one object category is a monoid \cite{nlab:mo}
-
-%Monoid b/c arrows form a Monoid, F + Monoid that acts on F
-
-%% F, M action on F, 
-%%% F \->E->K 
-
-%insteaf of trying to define gamma, write this up as a paragaraph... we use the convention \Gamma(U,E) to denote, the map from U_i to gamma U_e...defines a presheaf which is also a sheaf.... continue w/ global sections 
-\begin{definition} For each open set object $U_{i}$ of category $\mathcal{\dbase}$, there is a set $\Gamma(U_i, \dtotal)$. The elements of this set are the sections $\{\tau^{j}:U_i \rightarrow \dfiber_{U_{i}}\}_{j\in I}$ of the fiber bundle \dtotal\ over open set $\U_{i}$. The sections $\Gamma(\dbase, \dtotal)$ are called the global sections of $\dtotal$. \cite{SheafMathematics2021,spanier1989algebraic}.
-\end{definition}
-
-Each section is how we represent a unique dataset, where the set of sections $\Gamma$ is the set of all datasets that have the same data fields in the \dfiber\ and continuity as encoded in\dbase\. For example, database tables that have the same schema and discrete index, as illustrated in Spivak \cite{spivakSIMPLICIALDATABASES}.
-
-For example, these functions could be the binary operations, group actions, and measurement scales discussed in \autoref{sec:related-work:equivariance}. These functions could also be monoid actions, which are a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}
 
 \begin{definition} The category $\mathcal{\dtotal}$ consists of 
   \begin{itemize}
-    \item\textit{object} the space of continuous\footnote{or piecewise continuous}sections $\sheaf: U_{i} \rightarrow \Gamma(U_{i}, \dtotal) $ which is a sheaf\cite{spanier1989algebraic,SheafMathematics2021}. 
-    \item\textit{morphisms} allowed maps from sheaf to sheaf, when restricted to a fiber, that should be a map from a fiber to fiber.  
-    \item\textit{morphisms} bundle maps E, E, fiber to itself and is the fiber map allowable, functions F to itself forms a monoid (one object category), F and it's allowable maps form a category, monoid could be monotonic functions, group actions, extending that to bundle E, interested in E to itself, which when restricted to fiber are category maps of fiber to itself, maps from sheaf to itself, that when restricted to fiber gives you fiber to itself, given bundle map E->E, then you can show that you have a sheaf map... Given E->E, and F->F, then there's a map from one sheaf to another. bundle map induces on level of sections induces on sheafs -> part of the definition of the presheaf
-    \item \textit{morphisms} E->E such that restricted to fiber it's the allowed maps, and restricted to base it's the inclusion map, sheaf to itself so is an endofunctor (category to itself)
+    \item\textit{object} the functor $\sheaf: \mathcal{K}^{op} \rightarrow \Gamma(\mathcal{K}, \dtotal)$, which is a sheaf\cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf} \note{this might need an appendix/footnote: it is a presheaf b/c $\iota:\Gamma(U_2)\rightarrow \Gamma(U_1)$ and $\iota: \dbase_1\rightarrow \dbase_2$ (smaller subspace in bigger subspace, larger section includes smaller), which means $\mathcal{K}$ is contravariant, and $\Gamma(U_{i}, \dtotal)$ is \textbf{set}}
+    \item \textit{morphisms} the endomorphic\cite{fongInvitationAppliedCategory2019} maps $\cdot: \dtotal\rightarrow \dtotal$, which are the fiber maps $\monoid:\mathcal{\dfiber}\rightarrow \mathcal{\dfiber}$ when the morphisms are restricted to a single point in the base space $\dbasepoint\in \dbase$
   \end{itemize}
 \end{definition}
 
+The graphic category $\mathcal{\gtotal}$ consists of the functor $\sheaf: \mathcal{S}^{op} \rightarrow \Gamma(\mathcal{S}, \gtotal)$. The category $\mathcal{S}$ is the category of open sets over the graphic base space \gbase\, and $\Gamma(\mathcal{S}, \gtotal)$ is the set of sections $\gsection$ over $\mathcal{\gbase}$. The artist is a morphism of sheafs $\vartist: \mathcal{\dtotal} \rightarrow \mathcal{\gtotal}$, which means it is by definition a natural transform\cite{SheafMathematics2021}. This means that the following diagram must commute
 
-\begin{definition}We define the endofunctor \monoid on E as the structure preserving map which is the monoid. ...
-\end{definition}
-
-\note{equivariance is a special case of functions}
-\note{actions are a special case of actions}
-\begin{definition} category of bundle maps, which include category of fiber maps, what are allowable of fiber to itself, ex translation and scales only ..., objects are a fiber, maps are fiber to fiber defined as their own category, E to V fibers changes
-\end{definition}
-
-The objects of the data category $\mathcal{\dtotal}$ and graphic category $\mathcal{\gtotal}$ are the sheaves $\Gamma(\dbase, \dtotal)$ and $\Gamma(\gbase, \gtotal)$. An alternate notation is $\sheaf(\dtotal)$ and $\sheaf(\gtotal)$. The artist is a morphism of sheafs $\sheaf(\dtotal)$ to $\sheaf(\gtotal)$, which means it is by definition a natural transform\cite{SheafMathematics2021}. As mentioned in \autoref{sec:related-work:equivariance:category}
-that the artist $\vartist$ transforms functions that act on data $f:\dtotal\rightarrow \dtotal$ to functions that act on graphics $\g: \gtotal\rightarrow \dtotal$ in a way in which the following diagram commutes 
 \begin{equation}
   \begin{tikzcd}
-    \mathcal{\dtotal} \arrow[r, "\vartist"] \arrow[d, "f"] & \mathcal{\gtotal} \arrow[d, "g"] \arrow[d, "\ca"] \\
+    \mathcal{\dtotal} \arrow[r, "\vartist"] \arrow[d, "M"] & \mathcal{\gtotal} \arrow[d, "A(M)"] \arrow[d, "\ca"] \\
     \mathcal{\dtotal} \arrow[r, "\vartist"]                & \mathcal{\gtotal}                                
   \end{tikzcd}
 \end{equation}
 
-meaning that, as described in \autoref{sec:related-work:equivariance}, the artist \vartist is constructed such that $\vartist(f(\dtotal)) = g(\vartist(\dtotal))$, meaning a transformation of the data has a consistent equivalent transformation of the graphic. In \autoref{sec:artist:construction}, we show a method of constructing the artist such that continuity and equivariance are preserved. We then use this formulation to guide the development of visualization library components in \autoref{sec:case-study}.
-
-\begin{definition}[Category $\mathcal{\gtotal}$]
-  
-\end{definition}
-% For this sake we don't do polymorphism, but we have a notion of equivalance classes of artists s.t... every parameter you want to fix is a fiber in E 
-% given a nu, 
-% maximal V has all the visual variables 
-% nu_red()->red 
-
+such that the morphisms on the graphic category $\mathcal{H}$ are homomorphic to the morphisms $\monoid$ on the fibers $\mathcal{F}$ \cite{spanier1989algebraic,fongInvitationAppliedCategory2019}. In \autoref{sec:artist:construction}, we show a method of constructing the artist such that this constraint can be satisfied, thereby ensuring equivariance. We then use this formulation to guide the development of visualization library components in \autoref{sec:case-study}.
 
 \subsection{Union of Artists}
 \label{sec:artist:union}
