@@ -303,16 +303,22 @@ such that the morphisms on the graphic category $\mathcal{H}$ are homomorphic to
 \label{sec:artist:union}
 \begin{figure}[!h]
 \centering
-\subfloat[Union of H]{\includegraphics[width=.4\columnwidth]{exploding_artist.png}%
-\label{fig_first_case}}
+\subfloat[Addition]{\includegraphics[width=.4\columnwidth]{exploding_artist.png}%
+\label{fig:artist:union:glue}}
 %\hfil
-\subfloat[Artist with shared/harmonized \vsection]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
-\label{fig_second_case}}
-\caption{Coherance? }
-\label{fig_sim}
+\subfloat[Inclusion]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
+\label{fig:artist:union:continuity}}
+\caption{In \autoref{fig:artist:union:glue}, the outputs of various artist are independently rendered to the same graphic space \gtotal. The inputs to the artists in \autoref{fig:artist:union:continuity} are sections over the same fiber bundle base space \dbase; therefore, they should share transformation functions to produce a consistent image.}
 \end{figure}
-\note{do we define coherant visualizations as one with shared inclusions?}
 
+Visualizations generally consist of more than one graphic, for example two line plots, a legend, axis ticks, spines, and labels. One form of composition is to render the family of artists $(\dtotal_i: i\in I)$  targeting the same graphical space $\gtotal$ as a set of independent artists, as illustrated by \autoref{fig:artist:union:glue}. We define this composition as the addition of artists
+\begin{equation}
+  \label{eq:artist:union:glue}
++ \coloneqq \underset{i\in I}{\sqcup} \dtotal_{i}
+\end{equation}
+
+Many times, the graphics are generated from the same dataset, or from datasets that share continuity and fibers. This is implicit in figures such as \autoref{fig:artist:union:continuity} where the line plots are two timeseries for the same period, the x and y axis are shared with the timeseries, and the legend reflects the timeseries. 
+In these cases, we define a composition that incorporates the inclusion $\iota: \dtotal_i \rightarrow \dtotal_j$ between the data input to the artists. Doing so provides a way to keep track of which fiber spaces are the same, and therefore which fibers share transformation functions to visual elements. \cite{this is really about shared $\vchannel$ so not sure it should go here} This type of composition is important for visualizations where elements update together in a consistent way, such as multiple views \cite{alboRadarComparativeEvaluation2016a, hullmanKeeping2018} and brush-linked views \cite{beckerBrushingScatterplots1987,bujaInteractiveData1991}.
 
 \section{Constraints: Construction and formal properties of Artists}
 \label{sec:artist:construction}
