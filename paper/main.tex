@@ -141,7 +141,7 @@ The abstract goes here.
 This work aims to develop a model for describing visualization transformations that can serve as guidance for how to architecture a general purpose visualization library. We define a general purpose visualization library as one that provides non domain specific building block components\cite{wongsuphasawatNavigatingWideWorld2021} for building visualizations, for example functions for converting data to color or encoding data as dots. In this section, we describe how visualization libraries attempt this goal and discuss work that formally describes what properties of data should be preserved in a visualization. We restrict the properties of data that should be preserved to 
 
 \begin{LaTeXdescription}
-  \item [continuity] how elements in a dataset are connect to each other, e.g. discrete rows in a table, networked nodes, pixels in an image, points on a line
+  \item [continuity] how elements in a dataset are organized, e.g. discrete rows in a table, networked nodes, pixels in an image, points on a line
   \item [equivariance] functions on data that have an equivalent effect on the graphical representation, e.g. rotating a matrix has a matching rotation of the image, translating the points on a line has a matching visual shift in the line plot
 \end{LaTeXdescription}
 
@@ -151,7 +151,9 @@ This work aims to develop a model for describing visualization transformations t
   \caption{Continuity is how elements in a data set are connected to each other, which is distinct from how the data is structured. The rows in (a) are discrete, therefore they have discrete continuity as illustrated by the discrete dots. The gaussian in (b) is a 1D continuous function, therefore the continuity of the elements of the gaussian can be represented as a line on an interval (0,1). In (c), every element of the globe is connected to its nearest neighbors, which yields a 2D continuous continuity as illustrated by the square.}
   \label{fig:related-work:continuity}
 \end{figure}
-We propose that a robust model of continuity, which is how the elements in a dataset are connected to each other, provides a way to develop library components that \note{finish this sentence in a sensible way}
+Continuity, which Wilkinson terms topological properties \cite{wilkinsonGrammarGraphics2005}, describes how elements in a data set are organized. Wilkenson provides the examples of values that are isolated from each other, and therefore discrete, and values lying on a continuum or in a compact region. We propose that a robust model of continuity, which is how the elements in a dataset are connected to each other, provides a way to develop library components that can 
+
+
 
 For example, in \autoref{fig:related-work:continuity}, each station record in the table is independent of the others; therefore, the continuity of the table is discrete. The data provided by the gaussian are points sampled along the curve, therefore the continuity of the points on the line is 1D continuous. Every point on the globe is connected to its 6 nearest cardinal neighboring points (NW, N, NE, E, SE, S, SW, W). 
 
@@ -177,15 +179,15 @@ Domain specific libraries can often guarantee consistency because they have a si
   \label{fig:related-work:fiber-bundle}
 \end{figure}
 
-The model described in this work provides a method for expressing different types of continuities and nested continuities using the same model. We obtain this generality by using the mathematical theory of fiber bundles as the basis of our abstraction, as proposed by Butler, Bryson, and Pendley\cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992}. In this paper, we build on their work that proposes using topological spaces to represent different properties of data.
+The model described in this work provides a modol for expressing data sets with different topological properties. 
+We obtain this generality by using the mathematical theory of fiber bundles as the basis of our abstraction, as proposed by Butler, Bryson, and Pendley\cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992}. In this paper, we build on their work that proposes using topological spaces to represent different properties of data.
 
-Specifically, Butler, Bryson, and Pendley suggest that fiber bundles be the basis of an abstract data model. Fiber bundles are a collection of topological spaces. 
+Specifically,Butler, Bryson, and Pendley suggest that fiber bundles be the basis of an abstract data model. Fiber bundles are a collection of topological spaces. 
 \begin{definition}
 A topological space $(X, \mathscr{T})$ is a set $X$ with a topology $\mathscr{T}$. Topologies are collections of open sets $U$ such that the empty set and $X$ are in the collection of open sets $\mathscr{T}$, the union of elements in $\mathscr{T}$ \note{finish out this definition}
 \end{definition}
 
 Here we present a very brief summary of topics, for more information see Hatcher\cite{hatcherAlgebraicTopology2002}, Munkres\cite{munkresElementsAlgebraicTopology1984}, and Bradley et. al. \cite{bradleyTopologyCategoricalApproach2020}. 
-
 
 \begin{LaTeXdescription}
   \item[\textcolor{total}{Total Space} \dtotal]
@@ -250,7 +252,7 @@ As introduced in \autoref{sec:related-work:fiber-bundles}, sets of open sets for
 \begin{definition} The category of open sets $\mathcal{\dbase}$ consists of
   \label{def:category:K} 
   \begin{itemize}
-    \item \textit{objects} all open sets $U_{i} \in \{U\}$ in the topological space\cite{bradleyTopologyCategoricalApproach2020, } $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
+    \item \textit{objects} all open sets $U_{i} \in \{U\}$ in the topological space $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
     \item \textit{morphisms} inclusion maps from a subspace to a larger space $\iota: U_{i} \hookrightarrow U_{j}$, which is equivalent to $U_{i} \subseteq U_{j}$ and  
   \end{itemize} 
 \end{definition}
@@ -303,30 +305,34 @@ such that the morphisms on the graphic category $\mathcal{H}$ are homomorphic to
 \label{sec:artist:union}
 \begin{figure}[!h]
 \centering
-\subfloat[Addition]{\includegraphics[width=.4\columnwidth]{exploding_artist.png}%
+\subfloat[+]{\includegraphics[width=.4\columnwidth]{exploding_artist.png}%
 \label{fig:artist:union:glue}}
 %\hfil
-\subfloat[Component Bundles]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
+\subfloat[$\oplus$]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
 \label{fig:artist:union:continuity}}
-\caption{In \autoref{fig:artist:union:glue}, the outputs of various artist are independently rendered to the same graphic space \gtotal. The inputs to the artists in \autoref{fig:artist:union:continuity} are sections over the same fiber bundle base space \dbase; therefore, they should share transformation functions to produce a consistent image.}
+\caption{In \autoref{fig:artist:union:glue}, the outputs of various artist are independently rendered to the same graphic space \gtotal. The inputs to the artists in \autoref{fig:artist:union:continuity} are sections over the same fiber bundle base space \dbase; therefore, they should share transformation functions to produce a consistent image. \note{add a border/make the same size/etc so 1 doesn't run over into two}}
 \end{figure}
 
-Visualizations generally consist of more than one graphic, for example two line plots, a legend, axis ticks, spines, and labels. One form of composition is to render the family of artists $(\dtotal_i: i\in I)$  targeting the same graphical space $\gtotal$ as a set of independent artists, one example being the disjointed image in \autoref{fig:artist:union:glue}. We define this composition as the addition of artists
+Visualizations generally consist of more than one graphic, for example two line plots, a legend, axis ticks, spines, and labels. \note{formalize superposition, than break down what that means for composition}
+
+
+
+These graphics can be generated by disjoint data inputs  $(\dtotal_i: i\in I)$ into different artist functions $\vartist$ with the same output target space $\gtotal$. We define this composition via the disjoint union of the inputs 
 \begin{equation}
   \label{eq:artist:union:glue}
 + \coloneqq \underset{i\in I}{\sqcup} \dtotal_{i}
 \end{equation}
+This approach does not guarantee a coherent image, as illustrated in \autoref{fig:artist:union:glue}, because each data is explicitly considered as distinct from the others. 
 
-\note{this isn't really composition, cause the actual composition is still the + above, this is about consistency/coherancy/E}
-Many times though, graphics are generated from subsets of a larger data set. This is implicit in figures such as \autoref{fig:artist:union:continuity} where the line plots are two timeseries for the same period, the x and y axis are shared with the timeseries, and the legend reflects the timeseries. 
-In these situations, we consider each of the data inputs to the artist $\mathcal{\dtotal}$ as component bundles of a larger bundle \dtotal. 
+Many times though, graphics are generated from subsets of a larger data set, such as when using multiple views \cite{alboRadarComparativeEvaluation2016a, hullmanKeeping2018} and brush-linked views \cite{beckerBrushingScatterplots1987,bujaInteractiveData1991}. In these situations, we consider each of the data inputs as component bundles over a shared continuity \dbase. 
 
 \begin{equation}
   \label{eq:math:data:base:decompose}
   \pi:\dtotal_1\oplus\ldots\oplus \dtotal_i \oplus\ldots \oplus \dtotal_n \rightarrow \dbase
 \end{equation}
 
-These component bundles all share the same continuity, which means that sections $\dsection$ on each component bundle over a point $\dbasepoint$ are all sets of data values associated with that point. We use this property to establish which of these points are the same, because they come from the same fiber,and therefore should share transformation functions to visual elements. This type of composition is important for visualizations where elements update together in a consistent way, such as multiple views \cite{alboRadarComparativeEvaluation2016a, hullmanKeeping2018} and brush-linked views \cite{beckerBrushingScatterplots1987,bujaInteractiveData1991}.
+The sections $\dsection$ on each component bundle $\dtotal_i$ over a point $\dbasepoint \in \dbase$ are the elements of the data associated with that point. We use this property to establish which of these elements are the same, because they come from the same fiber, and therefore should share transformation functions to visual elements. This bookkeeping yields graphics with consistent visual encoding of data elements, as shown in \autoref{fig:artist:union:continuity}. 
+
 
 \section{Constraints: Construction and formal properties of Artists}
 \label{sec:artist:construction}
