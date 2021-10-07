@@ -272,7 +272,7 @@ We encode individual datasets in the fiberbundle as sections, and we follow the 
 \begin{definition} The category $\mathcal{\dtotal}$ consists of 
   \begin{itemize}
     \item\textit{object} the contravariant functor $\sheaf: \mathcal{K}^{op} \rightarrow \Gamma(\mathcal{K}, \dtotal)$
-    \item \textit{morphisms} the endomorphic\cite{fongInvitationAppliedCategory2019} maps $\cdot: \dtotal\rightarrow \dtotal$, which are the fiber maps $\monoid:\mathcal{\dfiber}\rightarrow \mathcal{\dfiber}$ when the morphisms are restricted to a single point in the base space $\dbasepoint\in \dbase$
+    \item \textit{morphisms} the endomorphic\cite{fongInvitationAppliedCategory2019} bundle maps $\bullet: \dtotal\rightarrow \dtotal$, which are the fiber maps $\monoid:\mathcal{\dfiber}\rightarrow \mathcal{\dfiber}$ when the sheaf is over a single point in the base space $\dbasepoint\in \dbase$
   \end{itemize}
 \end{definition}
 
@@ -306,19 +306,27 @@ such that the morphisms on the graphic category $\mathcal{H}$ are homomorphic to
 \subfloat[Addition]{\includegraphics[width=.4\columnwidth]{exploding_artist.png}%
 \label{fig:artist:union:glue}}
 %\hfil
-\subfloat[Inclusion]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
+\subfloat[Component Bundles]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
 \label{fig:artist:union:continuity}}
 \caption{In \autoref{fig:artist:union:glue}, the outputs of various artist are independently rendered to the same graphic space \gtotal. The inputs to the artists in \autoref{fig:artist:union:continuity} are sections over the same fiber bundle base space \dbase; therefore, they should share transformation functions to produce a consistent image.}
 \end{figure}
 
-Visualizations generally consist of more than one graphic, for example two line plots, a legend, axis ticks, spines, and labels. One form of composition is to render the family of artists $(\dtotal_i: i\in I)$  targeting the same graphical space $\gtotal$ as a set of independent artists, as illustrated by \autoref{fig:artist:union:glue}. We define this composition as the addition of artists
+Visualizations generally consist of more than one graphic, for example two line plots, a legend, axis ticks, spines, and labels. One form of composition is to render the family of artists $(\dtotal_i: i\in I)$  targeting the same graphical space $\gtotal$ as a set of independent artists, one example being the disjointed image in \autoref{fig:artist:union:glue}. We define this composition as the addition of artists
 \begin{equation}
   \label{eq:artist:union:glue}
 + \coloneqq \underset{i\in I}{\sqcup} \dtotal_{i}
 \end{equation}
 
-Many times, the graphics are generated from the same dataset, or from datasets that share continuity and fibers. This is implicit in figures such as \autoref{fig:artist:union:continuity} where the line plots are two timeseries for the same period, the x and y axis are shared with the timeseries, and the legend reflects the timeseries. 
-In these cases, we define a composition that incorporates the inclusion $\iota: \dtotal_i \rightarrow \dtotal_j$ between the data input to the artists. Doing so provides a way to keep track of which fiber spaces are the same, and therefore which fibers share transformation functions to visual elements. \cite{this is really about shared $\vchannel$ so not sure it should go here} This type of composition is important for visualizations where elements update together in a consistent way, such as multiple views \cite{alboRadarComparativeEvaluation2016a, hullmanKeeping2018} and brush-linked views \cite{beckerBrushingScatterplots1987,bujaInteractiveData1991}.
+\note{this isn't really composition, cause the actual composition is still the + above, this is about consistency/coherancy/E}
+Many times though, graphics are generated from subsets of a larger data set. This is implicit in figures such as \autoref{fig:artist:union:continuity} where the line plots are two timeseries for the same period, the x and y axis are shared with the timeseries, and the legend reflects the timeseries. 
+In these situations, we consider each of the data inputs to the artist $\mathcal{\dtotal}$ as component bundles of a larger bundle \dtotal. 
+
+\begin{equation}
+  \label{eq:math:data:base:decompose}
+  \pi:\dtotal_1\oplus\ldots\oplus \dtotal_i \oplus\ldots \oplus \dtotal_n \rightarrow \dbase
+\end{equation}
+
+These component bundles all share the same continuity, which means that sections $\dsection$ on each component bundle over a point $\dbasepoint$ are all sets of data values associated with that point. We use this property to establish which of these points are the same, because they come from the same fiber,and therefore should share transformation functions to visual elements. This type of composition is important for visualizations where elements update together in a consistent way, such as multiple views \cite{alboRadarComparativeEvaluation2016a, hullmanKeeping2018} and brush-linked views \cite{beckerBrushingScatterplots1987,bujaInteractiveData1991}.
 
 \section{Constraints: Construction and formal properties of Artists}
 \label{sec:artist:construction}
