@@ -242,7 +242,8 @@ In this section, we use category theory to formally express the implicit assumpt
   \label{eq:math:artist:artist}
 \end{equation}
 
-We define the categories $\mathcal{\dtotal}, \mathcal{\gtotal}$ as sheaves of sections\cite{SheafMathematics2021,spanier1989algebraic}, of fiberbundles, as introduced in \autoref{sec:related-work:fiber-bundles}.  We assume that $\mathcal{E}$ is defined in terms of a fixed base and fiber space, for example a class of images or tables with the same schema. The graphic category $\mathcal{\gtotal}$ consists of the set of graphics that an artist \vartist is allowed to generate from a given $\mathcal{E}$, which is discussed further in \autoref{sec:artist:construction}.
+We define the categories $\mathcal{\dtotal}$ and $\mathcal{\gtotal}$ as sheaves of sections\cite{SheafMathematics2021,spanier1989algebraic}, of fiberbundles, as introduced in \autoref{sec:related-work:fiber-bundles}. Sheaves are mathematical abstractions of how data over different parts of a continuous base space are glued together \cite{ghristElementaryAppliedTopology2014, ghri}, whether the data is distributed, streaming, or in disk; therefore sheaves are a way to express the continuity that the artist preserves. 
+We assume that $\mathcal{E}$ is defined in terms of a fixed base and fiber space, for example a class of images or tables with the same schema. The graphic category $\mathcal{\gtotal}$ consists of the set of graphics that an artist \vartist\ is allowed to generate from a given $\mathcal{E}$, which is discussed further in \autoref{sec:artist:construction}.
 
 As introduced in \autoref{sec:related-work:fiber-bundles}, sets of open sets form the basis of topological spaces. We propose that we can express how the elements in our data are connected to each other by modeling the data continuity as a topological space \dbase. We express subsets of the continuity, which can be mapped into subsets of the data, as open sets $U_{i}$ in \dbase. We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the continuity and the inclusion maps that glue them together. 
 
@@ -267,15 +268,12 @@ The object $\texttt{\dfiber}$ can be an object of any category $\mathcal{C}$, al
 
 We encode individual datasets in the fiberbundle as sections, and we follow the convention that $\Gamma(U_i, \dtotal)$ denotes the set of sections $\{\dsection^{j}:U_i \rightarrow \dfiber_{U_{i}}\}_{j\in I}$ of the fiber bundle \dtotal\ over an open set $\U_{i}$.  As mentioned in \autoref{sec:related-work:fiber-bundles}, the fiber space is embedded in the total space $\dfiber \hookrightarrow \dtotal$. The sections $\Gamma(\dbase, \dtotal)$ are called the global sections of $\dtotal$ \cite{SheafMathematics2021,spanier1989algebraic}. Each section is how we represent a unique dataset, where the set of sections $\Gamma$ is the set of all datasets that have the same data fields in the \dfiber\ and continuity as encoded in\dbase\. For example, Spivak describes tables that have the same schema and discrete index as sections of the same fiber bundle\cite{spivakSIMPLICIALDATABASES}.
 
-
 \begin{definition} The category $\mathcal{\dtotal}$ consists of 
   \begin{itemize}
-    \item\textit{object} the contravariant functor $\sheaf: \mathcal{K}^{op} \rightarrow \Gamma(\mathcal{K}, \dtotal)$
-    \item \textit{morphisms} the endomorphic\cite{fongInvitationAppliedCategory2019} bundle maps $\bullet: \dtotal\rightarrow \dtotal$, which are the fiber maps $\monoid:\mathcal{\dfiber}\rightarrow \mathcal{\dfiber}$ when the sheaf is over a single point in the base space $\dbasepoint\in \dbase$
+    \item\textit{object} the sheaf\cite{SheafMathematics2021,ghristElementaryAppliedTopology2014} $\sheaf: \mathcal{K}^{op} \rightarrow \Gamma(\mathcal{K}, \dtotal)$
+    \item \textit{morphisms} the endomorphic\cite{fongInvitationAppliedCategory2019} bundle maps $\bullet: \dtotal\rightarrow \dtotal$, which are the fiber maps $Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ when the sheaf is restricted to the stalk\cite{StalkSheaf2019} $\mathscr{F}_{k}$ over a point $\dbasepoint\in \dbase$
   \end{itemize}
 \end{definition}
-% continuous functions on a bundle with a limit around k is the stalk - maps from open neighborhood to point in neighborhood - topologically collapse open neighborhood to to point in neighborhood, pullback map goes one way, pullback other - gives a way to embed the fiber in the sections/constant sections, in the stalk F sites as a constant section, stalk contains F over point, map of O(F1)->O(F), induces map from stalk to stalk, F\hookright arrow stalk F, map F to F, require that map be in Hom(F,F)
-% if E = K \times F, can get rid of localization and just consider fiber maps directly 
 
 The functor object of $\mathcal{E}$ is a presheaf because the definition of a presheaf is that it is a contravariant functor from a category $\mathcal{K}$ to a set \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. As illustrated in the diagram, 
 \begin{equation}
@@ -286,7 +284,7 @@ The functor object of $\mathcal{E}$ is a presheaf because the definition of a pr
     U_2                      & {\Gamma(U_2, \dtotal)} \arrow[uu, "\iota^*"']
     \end{tikzcd}
 \end{equation}
-the functor \sheaf\ is contravariant because the inclusion map $\iota$ between objects in $\mathcal{K}$ goes the in the opposite direction from the map $\iota$ between open set objects in $\mathcal{K}$ \cite{riehlCategoryTheoryContext}. The open set $U_1$ is a subset of $U_2$, therefore $\iota: U_1 \rightarrow U_2$. On the other hand, a set of functions defined on a space $U_2$ must be defined on the subspace $\iota: \Gamma(U_2, \dbase) \rightarrow \Gamma(U_1, \dbase)$ but the reverse does not need to be true. For example, a continuous function defined over the interval $\left[.25,.5\right]$ need not be defined over $\left[0, 1\right]$ but must exist over  $\left[.3, .45\right]$. We use the notation $\mathcal{K}^{op}$ to signify that the functor $\sheaf$ is contravariant and $\sheaf$ to denote that it is a sheaf. A sheaf is a presheaf where sections are defined over unions of open sets \cite{nlab:sheaf,ghristElementaryAppliedTopology2014}
+the functor \sheaf\ is contravariant because the inclusion map $\iota$ between open sets in $\mathcal{K}$ goes in the opposite direction from the map $\iota^*$ between the sections in $\Gamma(U_{i}, \dtotal)$ \cite{riehlCategoryTheoryContext}. The open set $U_1$ is a subset of $U_2$, therefore $\iota: U_1 \rightarrow U_2$. On the other hand, a set of functions defined on a space $U_2$ must be defined on the subspace $\iota: \Gamma(U_2, \dbase) \rightarrow \Gamma(U_1, \dbase)$ but the reverse does not need to be true. For example, a continuous function defined over the interval $\left[.25,.5\right]$ need not be defined over $\left[0, 1\right]$ but must exist over  $\left[.3, .45\right]$. We use the notation $\mathcal{K}^{op}$ to signify that the functor $\sheaf$ is contravariant and $\sheaf$ to denote that it is a sheaf. A sheaf is a presheaf where sections are defined over unions of open sets \cite{nlab:sheaf,ghristElementaryAppliedTopology2014}. The sheaf over a limit of open sets that contain a point \dbasepoint\ is approximately the same as a sheaf over a point \dbase\ and is called the stalk $\mathscr{F}_{k}\coloneqq \lim\limits_{U\ni k} \mathscr{F}(U)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{k}\hookrightarrow \mathscr{F}_{k}$. Our criteria for equivariance is that the set of maps from fiber to fiber $Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ is preserved, since these maps include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, meaning $\dtotal=\dbase \times \dfiber$, then we can dispense with localization and directly consider the fiber maps $Hom(F_{k}, F_{k})$. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
 The graphic category $\mathcal{\gtotal}$ consists of the functor $\sheaf: \mathcal{S}^{op} \rightarrow \Gamma(\mathcal{S}, \gtotal)$. The category $\mathcal{S}$ is the category of open sets over the graphic base space \gbase\, and $\Gamma(\mathcal{S}, \gtotal)$ is the set of sections $\gsection$ over $\mathcal{\gbase}$. The artist is a morphism of sheafs $\vartist: \mathcal{\dtotal} \rightarrow \mathcal{\gtotal}$, which means it is by definition a natural transform\cite{SheafMathematics2021}. \note{which means? why is to good for it to be a natural transformation->}
 
@@ -508,7 +506,8 @@ for local_tau in axesArtist.artist.data.query(screen_bounds, dpi):
 
 where the artist is already parameterized with the \vindex\ functions and which fibers they are associated to:
 
-\begin{min
+\begin{minted}{python}
+\end{minted}
 
 
 \subsubsection{\vindex}
