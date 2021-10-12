@@ -235,11 +235,11 @@ In this work, we propose that equivariance constraints can be expressed using ca
 For more information on category theory, see Barr and Wells\cite{barrCategoryTheoryComputing}, Fong and Spivak \cite{fongInvitationAppliedCategory2019}, Riehl\cite{riehlCategoryTheoryContext} and Bradley et. al. \cite{bradleyTopologyCategoricalApproach2020}.
 
 \section{Artist} 
-In this section, we use category theory to formally express the implicit assumptions that visualization library components make in transforming data into graphical representations. We propose that the visualization transformation can be modeled as a functor, which we call the \textcolor{artist}{Artist} $\mathcal{\vartist}$\footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist converts data, which we model as the catgory $\mathcal{\dtotal}$ to graphics, which we model as the category $\mathcal{\gtotal}$.}
+In this section, we use category theory to formally express the implicit assumptions that visualization library components make in transforming data into graphical representations. We propose that the visualization transformation can be modeled as a functor, which we call the \textcolor{artist}{Artist} $\mathcal{\vartist}$\footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts data, which we model as the catgory $\mathcal{\dtotal}$ to graphics, which we model as the category $\mathcal{\gtotal}$.
 
 \begin{equation}
   \vartist: \mathcal{\dtotal} \rightarrow \mathcal{\gtotal}
-  \label{eq:math:artist:artist}
+  \label{eq:artist:artist}
 \end{equation}
 
 We define the categories $\mathcal{\dtotal}$ and $\mathcal{\gtotal}$ as sheaves of sections\cite{SheafMathematics2021,spanier1989algebraic}, of fiberbundles, as introduced in \autoref{sec:related-work:fiber-bundles}. Sheaves are mathematical abstractions of how data over different parts of a continuous base space are glued together \cite{ghristElementaryAppliedTopology2014, ghri}, whether the data is distributed, streaming, or in disk; therefore sheaves are a way to express the continuity that the artist preserves. 
@@ -261,23 +261,25 @@ Besides expressing continuities, fiber bundles also provide us a way to richly e
 
 \begin{definition} 
   \label{def:category:F} 
-  The category $\mathcal{\dfiber}$ consists of a single object $\dfiber$ and morphisms between the object and itself $\monoid: \dfiber \rightarrow \dfiber$. 
+  The category $\mathcal{\dfiber}$ consists of a single object $\dfiber$ and the morphisms between the object and itself $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$, which is the hom-set \cite{maclaneCategoriesWorkingMathematician2013,milewskiCategoryTheoryProgrammers}.
 \end{definition}
 
-The object $\texttt{\dfiber}$ can be an object of any category $\mathcal{C}$, allowing $\texttt{\dfiber}$ to encode most data fields. For example, a lists of strings is an instance of an object in \textbf{Set}, networks are an instance of \textbf{Graph}, and images are vector spaces which are a specific type of topological space \textbf{Top}. We note that a one object category is a monoid \cite{nlab:monoid,barrCategoryTheoryComputing}. \note{&? why is this important} The morphisms $\monoid$ are functions from the data to itself, for example the binary operations, group actions, and measurement scales discussed in \autoref{sec:related-work:equivariance}. These functions could also be monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}
+The object $\texttt{\dfiber}$ can be an object of any category $\mathcal{C}$, allowing $\texttt{\dfiber}$ to encode most data fields. For example, a lists of strings is an instance of an object in \textbf{Set}, networks are an instance of \textbf{Graph}, and images are vector spaces which are a specific type of topological space \textbf{Top}. We note that a one object category is a monoid \cite{nlab:monoid,barrCategoryTheoryComputing}, which is an algebraic structure that lends itself to computer library design because they are an abstraction of function composition \cite{yorgeyMonoidsThemeVariations}. 
 
-We encode individual datasets in the fiberbundle as sections, and we follow the convention that $\Gamma(U_i, \dtotal)$ denotes the set of sections $\{\dsection^{j}:U_i \rightarrow \dfiber_{U_{i}}\}_{j\in I}$ of the fiber bundle \dtotal\ over an open set $\U_{i}$.  As mentioned in \autoref{sec:related-work:fiber-bundles}, the fiber space is embedded in the total space $\dfiber \hookrightarrow \dtotal$. The sections $\Gamma(\dbase, \dtotal)$ are called the global sections of $\dtotal$ \cite{SheafMathematics2021,spanier1989algebraic}. Each section is how we represent a unique dataset, where the set of sections $\Gamma$ is the set of all datasets that have the same data fields in the \dfiber\ and continuity as encoded in\dbase\. For example, Spivak describes tables that have the same schema and discrete index as sections of the same fiber bundle\cite{spivakSIMPLICIALDATABASES}.
+The morphisms $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ are functions from the data to itself, for example the binary operations, group actions, and measurement scales discussed in \autoref{sec:related-work:equivariance}. These functions could also be monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}
+
+We encode individual datasets in the fiberbundle as sections of the bundle. We follow the convention that $\Gamma(U_i, \dtotal)$ denotes the set of sections $\{\dsection^{j}:U_i \rightarrow \dfiber_{U_{i}}\}_{j\in I}$ of the fiber bundle \dtotal\ over an open set $U_{i}\subseteq \dbase$.  As mentioned in \autoref{sec:related-work:fiber-bundles}, the fiber space is embedded in the total space $\dfiber \hookrightarrow \dtotal$. The sections $\Gamma(\dbase, \dtotal)$ are called the global sections of $\dtotal$ \cite{SheafMathematics2021,spanier1989algebraic}. Each section is how we represent a unique dataset, where the set of sections $\Gamma$ is the set of all datasets that have the same data fields in the \dfiber\ and continuity as encoded in\dbase\. For example, Spivak describes tables that have the same schema and discrete index as sections of the same fiber bundle\cite{spivakSIMPLICIALDATABASES}.
 
 \begin{definition} The category $\mathcal{\dtotal}$ consists of 
   \begin{itemize}
-    \item\textit{object} the sheaf\cite{SheafMathematics2021,ghristElementaryAppliedTopology2014} $\sheaf: \mathcal{K}^{op} \rightarrow \Gamma(\mathcal{K}, \dtotal)$
+    \item\textit{object} the sheaf\cite{SheafMathematics2021,ghristElementaryAppliedTopology2014} $\sheaf_{\mathcal{\dtotal}}: \mathcal{K}^{op} \rightarrow \Gamma(\mathcal{K}, \dtotal)$
     \item \textit{morphisms} the endomorphic\cite{fongInvitationAppliedCategory2019} bundle maps $\bullet: \dtotal\rightarrow \dtotal$, which are the fiber maps $Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ when the sheaf is restricted to the stalk\cite{StalkSheaf2019} $\mathscr{F}_{k}$ over a point $\dbasepoint\in \dbase$
   \end{itemize}
 \end{definition}
 
 The functor object of $\mathcal{E}$ is a presheaf because the definition of a presheaf is that it is a contravariant functor from a category $\mathcal{K}$ to a set \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. As illustrated in the diagram, 
 \begin{equation}
-  \label{eq:artist:[presheaf}
+  \label{eq:artist:presheaf}
   \begin{tikzcd}[row sep=small]
     U_1 \arrow[dd, "\iota"'] & {\Gamma(U_1, \dtotal)}                              \\
     {} \arrow[r, "\sheaf"]   & {}                                                  \\
@@ -286,27 +288,52 @@ The functor object of $\mathcal{E}$ is a presheaf because the definition of a pr
 \end{equation}
 the functor \sheaf\ is contravariant because the inclusion map $\iota$ between open sets in $\mathcal{K}$ goes in the opposite direction from the map $\iota^*$ between the sections in $\Gamma(U_{i}, \dtotal)$ \cite{riehlCategoryTheoryContext}. The open set $U_1$ is a subset of $U_2$, therefore $\iota: U_1 \rightarrow U_2$. On the other hand, a set of functions defined on a space $U_2$ must be defined on the subspace $\iota: \Gamma(U_2, \dbase) \rightarrow \Gamma(U_1, \dbase)$ but the reverse does not need to be true. For example, a continuous function defined over the interval $\left[.25,.5\right]$ need not be defined over $\left[0, 1\right]$ but must exist over  $\left[.3, .45\right]$. We use the notation $\mathcal{K}^{op}$ to signify that the functor $\sheaf$ is contravariant and $\sheaf$ to denote that it is a sheaf. We also denote the sheaf over the fiberbundle \dtotal\ as $\sheaf(\dtotal)$. A sheaf is a presheaf where sections are defined over unions of open sets \cite{nlab:sheaf,ghristElementaryAppliedTopology2014}. The sheaf over a limit of open sets that contain a point \dbasepoint\ is approximately the same as a sheaf over a point \dbase\ and is called the stalk $\mathscr{F}_{k}\coloneqq \lim\limits_{U\ni k} \mathscr{F}(U)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{k}\hookrightarrow \mathscr{F}_{k}$. Our criteria for equivariance is that the set of maps from fiber to fiber $Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ is preserved, since these maps include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, meaning $\dtotal=\dbase \times \dfiber$, then we can dispense with localization and directly consider the fiber maps $Hom(F_{k}, F_{k})$. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
-The graphic category $\mathcal{\gtotal}$ consists of the functor $\sheaf: \mathcal{S}^{op} \rightarrow \Gamma(\mathcal{S}, \gtotal)$, which we also denote as $\sheaf(\gtotal)$. The category $\mathcal{S}$ is the category of open sets over the graphic base space \gbase\, and $\Gamma(\mathcal{S}, \gtotal)$ is the set of sections $\gsection$ over $\mathcal{\gbase}$. The artist is a morphism of sheafs $\vartist: \mathcal{\dtotal} \rightarrow \mathcal{\gtotal}$; therefore it is a map between functors, which means that the artist is a natural transformation\cite{SheafMathematics2021,bradleyWhatNaturalTransformation}.
+The graphic category $\mathcal{\gtotal}$ consists of the functor $\sheaf_{\mathcal{\gtotal}}: \mathcal{S}^{op} \rightarrow \Gamma(\mathcal{S}, \gtotal)$, which we also denote as $\sheaf(\gtotal)$. The category $\mathcal{S}$ is the category of open sets over the graphic base space \gbase\, and $\Gamma(\mathcal{S}, \gtotal)$ is the set of sections $\gsection$ over $\mathcal{\gbase}$. The artist is a morphism of sheafs 
+\begin{equation}
+  \label{eq:artist:morphism-of-sheaf}
+  \begin{tikzcd}
+    & \Gamma(\dtotal) & & & \Gamma(\gtotal) & \\
+{} \arrow[rr, "f", Rightarrow, shift right, shorten=3em] & 
+& 
+{} \arrow[r, "\vartist", shorten=-1.25em, bold] & {} \arrow[rr, "g", Rightarrow, shift right, shorten=3em] & & {} \\
+& \mathcal{\dbase}^{op} \arrow[uu, "\mathcal{\dtotal}\coloneqq\sheaf_{\mathcal{\dtotal}}", bend left] 
+  \arrow[uu, "\sheaf_{\mathcal{\dtotal}}"', bend right] 
+  & & 
+& \mathcal{\gbase}^{op} \arrow[uu, "\sheaf_{\mathcal{\gtotal}}", bend left] 
+  \arrow[uu, "\mathcal{\gtotal}\coloneqq \sheaf_{\mathcal{\gtotal}}"', bend right] &   
+  \end{tikzcd}
+\end{equation}
+
+therefore the artist is a map between functors
+\begin{equation}
+  \tag{\ref{eq:artist:artist}}
+  \vartist:\mathcal{\dtotal}\rightarrow{\mathcal{\gtotal}} 
+\end{equation} which means that the artist is a natural transformation\cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. One of the properties of a natural transformation is that the following diagram commutes
+\begin{equation}
+  \label{eg:artist:natural-transformation}
+  \begin{tikzcd}
+    \mathcal{\dtotal} \arrow[d, "f"'] \arrow[r, "\vartist"] & \mathcal{\gtotal} \arrow[d, "\vartist_{f} \coloneqq g"] \\
+    \mathcal{\dtotal} \arrow[r, "\vartist"]                 & \mathcal{\gtotal}                                      
+  \end{tikzcd}
+\end{equation}
 
 
-
+meaning that functions $f: \mathcal{\dtotal}\rightarrow \mathcal{\dtotal}$ 
  
 
 Extra property that implies equivariance is preserved is illustrated in the diagram which must commute
 %% note Im_A in \H, A_M (lifting/pushforward)
 \begin{equation}
-  \label{eq:artist:natural-transform}
+  \label{eq:artist:equivariance}
   \begin{tikzcd}
-    \mathcal{\dtotal} \arrow[r, "\vartist"] \arrow[d, "{Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)}"'] & \mathcal{\gtotal} \arrow[d, "\vartist_{Hom_{\mathcal{\dfiber}}}"] \\
-    \mathcal{\dtotal} \arrow[r, "\vartist"]                                                           & \mathcal{\gtotal}                                                
+    \mathcal{\dtotal} \arrow[r, "\vartist"] \arrow[d, "{Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)}"'] & Im_{\vartist} \in \mathcal{\gtotal} \arrow[d, "\vartist_{Hom_{\mathcal{\dfiber}}}"] \\
+    \mathcal{\dtotal} \arrow[r, "\vartist"]                                                           & Im_{\vartist} \in \mathcal{\gtotal}                                                
   \end{tikzcd}
 \end{equation}
 
-%H is the codomain, ImA is the range, K & S -> 
-% clipping problem: shift lines and stuff w/o shifting frame, when we shift the frame, only shifting the bits of H that belongs to the artist  
-such that the morphisms on the graphic category $\mathcal{H}$ are homomorphic to the morphisms $\monoid$ on the fibers $\mathcal{F}$ \cite{spanier1989algebraic,fongInvitationAppliedCategory2019}. \note{equivariant not homomorphic, this isn't saying anything, change Hom(F,F)} 
+such that the morphisms on the graphic category $\mathcal{H}$ are homomorphic to the morphisms $\monoid$ on the fibers $\mathcal{F}$ \cite{spanier1989algebraic,fongInvitationAppliedCategory2019}. 
 
-In \autoref{sec:artist:construction}, we show a method of constructing the artist such that this constraint can be satisfied, thereby ensuring equivariance. We then use this formulation to guide the development of visualization library components in \autoref{sec:case-study}.
+In \autoref{sec:artist:construction}, we show a method of constructing the artist such that the constraints of \autoref{eq:artist:morphism-of-sheaf} and \autoref{eq:artist:equivariance} can be satisfied, thereby ensuring equivariance and the preservation of continuity. We then use this formulation to guide the development of visualization library components in \autoref{sec:case-study}.
 
 \subsection{Union of Artists}
 \label{sec:artist:union}
