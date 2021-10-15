@@ -258,7 +258,7 @@ As introduced in \autoref{sec:related-work:fiber-bundles}, sets of open sets for
   \end{itemize} 
 \end{definition}
 
-The inclusion maps $iota$ can be used to piece together the subsets $U_{i}$, particularly individual points $\dbasepoint \in \dbase$. This is how we provide knowledge of continuity to the artist \vartist\ in a way where the artist does not need all the data at once. This is what allows the artist to generate graphics where the subset of data on view is dynamically updated, such as pan and zoom navigation\cite{NekrasovskiEvaluationPanZoom2006} and sliding windows on streaming data\cite{crouchDynamicGraphsSlidingwindow2013,chuTimeSeriesSegmentation1995}.
+The inclusion maps $\iota$ can be used to piece together the subsets $U_{i}$, particularly individual points $\dbasepoint \in \dbase$. This is how we provide knowledge of continuity to the artist \vartist\ in a way where the artist does not need all the data at once. This is what allows the artist to generate graphics where the subset of data on view is dynamically updated, such as pan and zoom navigation\cite{NekrasovskiEvaluationPanZoom2006} and sliding windows on streaming data\cite{crouchDynamicGraphsSlidingwindow2013,chuTimeSeriesSegmentation1995}.
 
 Besides expressing continuities, fiber bundles also provide us a way to richly express the structure of the fields in the data. Specifically, we do this by adopting Spivak's formulation of the fiber as a (column name, data domain) simple schema \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak formally maps column names and field types to the set of values associated with the field type, for example $\mathbb{R}$ for a \texttt{float} column named \textit{temperature}. We define $\dfiber$ as  the cartesian cross product of the fibers $\dfiber_c$ for each field, where $c$ is the field name.  
 
@@ -276,8 +276,8 @@ We encode individual datasets in the fiberbundle as sections of the bundle. We f
 \begin{definition} The category $\textcolor{section}{\mathcal{T}}$ consists of 
   \label{def:category:Tau}
   \begin{itemize}
-  \item \textit{object} the set of sections $\Gamma(U_i)$ where $U_i$ can be any open set object in $\mathcal{\dbase}$
-  \item \textit{morphisms} fiber maps $Hom(F, F)$, because sections are maps from a point in the base space to a point in the fiber $\tau: \dbase \rightarrow \dfiber$
+  \item \textit{object} the set of sections $\Gamma(U, \dtotal)$ where $U$ can be any object in $\mathcal{\dbase}$
+  \item \textit{morphisms} restrictions \note{\iota which we will use in (6) so 7 is cleanly abstracted}
   \end{itemize}
 \end{definition}
 
