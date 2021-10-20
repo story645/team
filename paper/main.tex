@@ -235,14 +235,13 @@ In this work, we propose that equivariance constraints can be expressed using ca
 For more information on category theory, see Barr and Wells\cite{barrCategoryTheoryComputing}, Fong and Spivak \cite{fongInvitationAppliedCategory2019}, Riehl\cite{riehlCategoryTheoryContext} and Bradley et. al. \cite{bradleyTopologyCategoricalApproach2020}.
 
 \section{Artist} 
-In this section, we use category theory to formally express the implicit assumptions that visualization library components make in transforming data into graphical representations. We propose that the visualization transformation can be modeled as a functor, which we call the \textcolor{artist}{Artist} $\mathcal{\vartist}$\footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts data, which we model as the catgory $\mathcal{\dtotal}$ to graphics, which we model as the category $\mathcal{\gtotal}$.
+In this section, we use category theory to formally express the implicit assumptions that visualization library components make in transforming data into graphical representations. We propose that the visualization transformation can be modeled as a functor, which we call the \textcolor{artist}{Artist} $\mathcal{\vartist}$\footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts data, which we model as the catgory $\mathcal{\dtotal}$ to graphics, which we model as the category $\mathcal{\gtotal}$. We formulate this association as 
 
 \begin{equation}
   \vartist: \mathcal{\dtotal} \rightarrow \mathcal{\gtotal}
   \label{eq:artist:artist}
 \end{equation}
-
-\note{roadmap the rest of this section}
+In this section we describe the structure of the data and graphic spaces, which we formulate as objects in categories and the morphisms between those objects. We then use these definitions to express the structure that an artist must preserve. Finally, we propose that artists can be composed by manufacturing new artists based on various types of input data. 
 
 \subsection{Categorical Artist}
 We define the categories $\mathcal{\dtotal}$ and $\mathcal{\gtotal}$ as sheaves of sections\cite{SheafMathematics2021,spanier1989algebraic}, of fiberbundles, as introduced in \autoref{sec:related-work:fiber-bundles}. Sheaves are mathematical abstractions of how data over different parts of a continuous base space are glued together \cite{ghristElementaryAppliedTopology2014, ghri}, whether the data is distributed, streaming, or in disk; therefore sheaves are a way to express the continuity that the artist preserves. 
@@ -311,61 +310,22 @@ Arbitrary morphisms on sheafs $\varphi:\mathcal{\dtotal} \rightarrow \mathcal{\d
 
 The sheaf $\sheaf_{\mathcal{\dtotal}}$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf_{\mathcal{\dtotal}}|_{k}\coloneqq \lim\limits_{U\ni k} \Gamma(U, \dtotal)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{k}\hookrightarrow \mathscr{F}_{k}$. Our criteria for equivariance is that bundle maps $f$ that are in the set of fiber to fiber maps $Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ are preserved. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, meaning $\dtotal=\dbase \times \dfiber$, then we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{k}, \dfiber_{k})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
-The graphic category $\mathcal{\gtotal}$ consists of the functor object $\sheaf_{\mathcal{\gtotal}}: \mathcal{S}^{op} \rightarrow \Gamma(\mathcal{S}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{S}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{S}, \gtotal)$ is a subcatagory of \texbf{Set}. A set $\Gamma(U_i, \gtotal)$ contains functions to generate arbitrary graphics with a shared continuity and display space; bar plots and scatter plots on a 2D screen are two such objects. 
+The graphic category $\mathcal{\gtotal}$ consists of the functor object $\sheaf_{\mathcal{\gtotal}}: \mathcal{S}^{op} \rightarrow \Gamma(\mathcal{S}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{S}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{S}, \gtotal)$ is a subcatagory of \texbf{Set}. A set $\Gamma(U_i, \gtotal)$ contains functions to generate arbitrary graphics with a shared continuity and display space, while the artist $\vartist$ is constructed such that it generates a single type of graphic, as described in \autoref{sec:artist:construction}. Therefore, the range of the the artist functor, which we denote $Im_{\vartist}$, is a sheaf map $Im_{\vartist}$. The sheaf $Im_{\vartist}$ is a map between the category of open sets $\gtotal^{op}$ and a subcategory of \textbf{Set}. In this subcatagory, each set of sections in the sheaf $Im_{\vartist}$ over an arbitrary open set $U_{i}$ is a subset of the corresponding full set of sections $\Gamma(U_i, \gtotal)$. 
 
-
-
-
-
-As will be discussed in \autoref{sec:artist:construction}, the  $\vartist$ is constructed in such a way that it generates a single type of graphic; 
-
-
-Therefore, we define the object as a morphism from data to the sheaf mage of the artist in the graphic space $\vartist: \mathcal{\dtotal} \rightarrow Im_A \subset \mathcal{H}$
-
+Since the artist is a morphism of sheafs
 \begin{equation}
-  \label{eq:artist:morphism-of-sheaf}
-  \begin{tikzcd}
-    & \mathcal{T} & & & \mathcal{P} & \\
-{} \arrow[rr, "f", Rightarrow, shift right, shorten=3em] & 
-& 
-{} \arrow[r, "\vartist", shorten=-1.25em, bold] & {} \arrow[rr, "g", Rightarrow, shift right, shorten=3em] & & {} \\
-& \mathcal{\dbase}^{op} \arrow[uu, "\mathcal{\dtotal}", bend left] 
-  \arrow[uu, "\mathcal{\dtotal}"', bend right] 
-  & & 
-& \mathcal{\gbase}^{op} \arrow[uu, "\mathcal{\gtotal}", bend left] 
-  \arrow[uu, "\mathcal{\gtotal}"', bend right] &   
-  \end{tikzcd}
+  \vartist: \mathcal{\dtotal} \rightarrow Im_A
 \end{equation}
+it is a natural transformation\cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. This means that, by definition, all morphisms $\varphi$ on $\mathcal{\dtotal}$ are expected to commute \cite{spanier1989algebraic,fongInvitationAppliedCategory2019}. This is the basis of the equivariance illustrated in \autoref{eq:artist:equivariance}
 
-% f is a natural transform, all transforms on the sheafs commute
-% g is a natural transform ...
-% space of g->g is too big, so we look at Im...
-% b/c it's a natural transform, - f carries i over b/c it's a natural transformation 
-
-therefore the artist is a map between functors
-\begin{equation}
-  \tag{\ref{eq:artist:artist}}
-  \vartist:\mathcal{\dtotal}\rightarrow{\mathcal{\gtotal}} 
-\end{equation} 
-which means that the artist is a natural transformation\cite{SheafMathematics2021,bradleyWhatNaturalTransformation}.
-
-% such that (9)
-
-Extra property that implies equivariance is preserved is illustrated in the diagram which must commute
-%% note Im_A in \H, A_M (lifting/pushforward)
 \begin{equation}
   \label{eq:artist:equivariance}
   \begin{tikzcd}
-    \mathcal{\dtotal} \arrow[r, "\vartist"] \arrow[d, "{Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)}"'] & Im_{\vartist} \in \mathcal{\gtotal} \arrow[d, "\vartist_{Hom_{\mathcal{\dfiber}}}"] \\
-    \mathcal{\dtotal} \arrow[r, "\vartist"]                                                           & Im_{\vartist} \in \mathcal{\gtotal}                                                
+    \mathcal{\dtotal} \arrow[r, "\vartist"] \arrow[d, "\varphi \in {Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)}"'] & Im_{\vartist} \arrow[d, "\vartist_{\varphi \in Hom_{\mathcal{\dfiber}}}"] \\
+    \mathcal{\dtotal} \arrow[r, "\vartist"]                                                           & Im_{\vartist}                                                 
   \end{tikzcd}
 \end{equation}
-
-such that the morphisms on the graphic category $\mathcal{H}$ are homomorphic to the morphisms $\monoid$ on the fibers $\mathcal{F}$ \cite{spanier1989algebraic,fongInvitationAppliedCategory2019}. 
-%% such that monoid on this side is monoid on that side
-
-In \autoref{sec:artist:construction}, we show a method of constructing the artist such that the constraints of \autoref{eq:artist:morphism-of-sheaf} and \autoref{eq:artist:equivariance} can be satisfied, thereby ensuring equivariance and the preservation of continuity. We then use this formulation to guide the development of visualization 
-library components in \autoref{sec:case-study}.
+which states that transforms on the data side $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ have an approximately equivalent transform in the data side $\vartist_{\varphi \in Hom_{\mathcal{\dfiber}}}$. This commutativity is described as the matching of data and visual structure by Kindlmann and Scheidegger when introducing their analougous correspondence principal. In \autoref{sec:artist:construction}, we show a method of constructing the artist such that the constraints of \autoref{eq:artist:morphism-of-sheaf} and \autoref{eq:artist:equivariance} can be satisfied, thereby ensuring equivariance and the preservation of continuity. We then use this formulation to guide the development of visualization library components in \autoref{sec:case-study}.
 
 \subsection{Artist Composition}
 \label{sec:artist:union}
