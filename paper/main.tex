@@ -244,6 +244,7 @@ In this section, we use category theory to formally express the implicit assumpt
 In this section we describe the structure of the data and graphic spaces, which we formulate as objects in categories and the morphisms between those objects. We then use these definitions to express the structure that an artist must preserve. Finally, we propose that artists can be composed by manufacturing new artists based on various types of input data. 
 
 \subsection{Categorical Artist}
+\label{sec:artist:category}
 We define the categories $\mathcal{\dtotal}$ and $\mathcal{\gtotal}$ as sheaves of sections\cite{SheafMathematics2021,spanier1989algebraic}, of fiberbundles, as introduced in \autoref{sec:related-work:fiber-bundles}. Sheaves are mathematical abstractions of how data over different parts of a continuous base space are glued together \cite{ghristElementaryAppliedTopology2014, ghri}, whether the data is distributed, streaming, or in disk; therefore sheaves are a way to express the continuity that the artist preserves. 
 We assume that $\mathcal{E}$ is defined in terms of a fixed base and fiber space, for example a class of images or tables with the same schema. The graphic category $\mathcal{\gtotal}$ consists of the set of graphics that an artist \vartist\ is allowed to generate from a given $\mathcal{E}$, which is discussed further in \autoref{sec:artist:construction}.
 
@@ -257,7 +258,7 @@ As introduced in \autoref{sec:related-work:fiber-bundles}, sets of open sets for
   \end{itemize} 
 \end{definition}
 
-The inclusion maps $\iota$ can be used to piece together the subsets $U_{i}$, particularly individual points $\dbasepoint \in \dbase$. This is how we provide knowledge of continuity to the artist \vartist\ in a way where the artist does not need all the data at once. This is what allows the artist to generate graphics where the subset of data on view is dynamically updated, such as pan and zoom navigation\cite{NekrasovskiEvaluationPanZoom2006} and sliding windows on streaming data\cite{crouchDynamicGraphsSlidingwindow2013,chuTimeSeriesSegmentation1995}.
+The inclusion maps $\iota$ can be used to piece together the subsets $U_{i}$, particularly individual points $\dbasepoint \in \dbase$. This is how we provide knowledge of continuity to the artist \vartist\ in a way where the artist does not need all the data at once. This is what allows the artist to generate graphics where the subset of data on view is dynamically updated, such as pan and zoom navigation\cite{NekrasovskiEvaluationPanZoom2006} and sliding windows on streaming data\cite{crouchDynamicGraphsSlidingwindow2013,chuTimeSeriesSegmentation1995}. \note{does this actually go down in the composition section?}
 
 Besides expressing continuities, fiber bundles also provide us a way to richly express the structure of the fields in the data. Specifically, we do this by adopting Spivak's formulation of the fiber as a (column name, data domain) simple schema \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak formally maps column names and field types to the set of values associated with the field type, for example $\mathbb{R}$ for a \texttt{float} column named \textit{temperature}. We define $\dfiber$ as  the cartesian cross product of the fibers $\dfiber_c$ for each field, where $c$ is the field name.  
 
@@ -314,9 +315,9 @@ The graphic category $\mathcal{\gtotal}$ consists of the functor object $\sheaf_
 
 Since the artist is a morphism of sheafs
 \begin{equation}
-  \vartist: \mathcal{\dtotal} \rightarrow Im_A
+  \vartist: \mathcal{\dtotal} \rightarrow Im_{\vartist}
 \end{equation}
-it is a natural transformation\cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. This means that, by definition, all morphisms $\varphi$ on $\mathcal{\dtotal}$ are expected to commute \cite{spanier1989algebraic,fongInvitationAppliedCategory2019}. This is the basis of the equivariance illustrated in \autoref{eq:artist:equivariance}
+it is by definition a natural transformation\cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. This means that all morphisms $\varphi$ on $\mathcal{\dtotal}$ are expected to commute \cite{spanier1989algebraic,fongInvitationAppliedCategory2019}. This is the basis of the equivariance condition illustrated in \autoref{eq:artist:equivariance}
 
 \begin{equation}
   \label{eq:artist:equivariance}
@@ -325,9 +326,11 @@ it is a natural transformation\cite{SheafMathematics2021,bradleyWhatNaturalTrans
     \mathcal{\dtotal} \arrow[r, "\vartist"]                                                           & Im_{\vartist}                                                 
   \end{tikzcd}
 \end{equation}
-which states that transforms on the data side $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ have an approximately equivalent transform in the data side $\vartist_{\varphi \in Hom_{\mathcal{\dfiber}}}$. This commutativity is described as the matching of data and visual structure by Kindlmann and Scheidegger when introducing their analougous correspondence principal. In \autoref{sec:artist:construction}, we show a method of constructing the artist such that the constraints of \autoref{eq:artist:morphism-of-sheaf} and \autoref{eq:artist:equivariance} can be satisfied, thereby ensuring equivariance and the preservation of continuity. We then use this formulation to guide the development of visualization library components in \autoref{sec:case-study}.
+which states that transforms on the data side $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ have an approximately equivalent transform in the data side $\vartist_{\varphi \in Hom_{\mathcal{\dfiber}}}$. This commutativity property states that visualization library components must be implemented such that changes in data induce equivalent changes in the output, which is how visualization libraries can produce visualizations that satisfy Kindlmann and Scheidegger's correspondence principal that data and visual structure must match. 
 
-\subsection{Multiple Graphics: Superposition and Composition}
+In \autoref{sec:artist:construction}, we show a method of constructing the artist such that the constraints of \autoref{eq:artist:morphism-of-sheaf} and \autoref{eq:artist:equivariance} can be satisfied, thereby ensuring equivariance and the preservation of continuity. We then use this formulation to guide the development of visualization library components in \autoref{sec:case-study}.
+
+\subsection{Composition of Artists}
 \label{sec:artist:union}
 \begin{figure}[!h]
 \centering
@@ -336,20 +339,35 @@ which states that transforms on the data side $\varphi \in Hom_{\mathcal{\dfiber
 %\hfil
 \subfloat[$\oplus$]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
 \label{fig:artist:union:continuity}}
-\caption{In \autoref{fig:artist:union:glue}, the outputs of various artist are independently rendered to the same graphic space \gtotal. The inputs to the artists in \autoref{fig:artist:union:continuity} are sections over the same fiber bundle base space \dbase; therefore, they should share transformation functions to produce a consistent image. \note{add a border/make the same size/etc so 1 doesn't run over into two}}
+\caption{In \autoref{fig:artist:union:glue}, the outputs of various artist are independently rendered to the same graphic space. The inputs to the artists in \autoref{fig:artist:union:continuity} are sections over the same fiber bundle base space \dbase; therefore, they should share transformation functions to produce a consistent image. \note{add a border/make the same size/etc so 1 doesn't run over into two}}
 \end{figure}
-%% artist composition is fiber products/sums of artists on sheafs -> closed cartesian category maybe? 
 
-Visualizations generally consist of more than one graphic, for example two line plots, a legend, axis ticks, spines, and labels. \note{formalize superposition, than break down what that means for composition}
-\subsubsection{Superposition: Multiple Datasets}
-\note{far as we care, this can technically be A = A1 + A2....}
+\note{is about building artist that preserves constraint A1 out of A2 + A3}
+% generalizing sheaf to collection of sheafs w/ inclusion maps so can tell you how to assemble A1 + A2 such that that push out is preserved 
+% when we build an artist out of nus and qs, this is how to preserve this 
+% if the artist is a black box, what are the pre and post conditionsg
+Visualizations generally consist of more than one visual element, for example line plots, a legend, axis ticks, spines, and labels. Many times, visualizations are generated from subsets of a larger data set, such as when using multiple views \cite{alboRadarComparativeEvaluation2016a} and brush-linked views \cite{beckerBrushingScatterplots1987,bujaInteractiveData1991}, and there is an expectation of consistency in how this data is visualized\cite{hullmanKeeping2018}. In \autoref{fig:artist:union:glue}, the disjointedness of the graphic lends itself to an interpretation that the data is disjoint, whereas the consistency of the visual encodings in \autoref{fig:artist:union:continuity} indicates that visual elements share data attributes. In this section, we describe how to express the structure of the data input in terms of  whether the sheaf objects $\sheaf_{\mathcal{\dtotal}}$ are disjoint or share attributes. We then propose that a topologically equivariant artist will preserve this structure in its output. 
 
-\subsubsection{Composite Artist: Multivariate Datasets}
-\note{This is A = A_1 \circ A_2 b\c it's sharing nus or xis or all of the above}
+\subsection{Union of Base Spaces}
+\begin{figure}[h!]
+  \includegraphics[width=\columnwidth]{union_k.png}
+  \caption{}
+  \label{fig:artist:compose:union_base}
+\end{figure}
 
-\paragraph{Overlapping Base Spaces}
+\begin{figure}[h!]
+  \includegraphics[width=\columnwidth]{disjoint_k.png}
+  \caption{}
+  \label{fig:artist:compose:disjoint_base}
+\end{figure}
 
-\paragraph{Shared Fibers}
+\paragraph{Shared fibers}
+
+\begin{figure}[h!]
+  \includegraphics[width=\columnwidth]{intersection_f.png}
+  \caption{}
+  \label{fig:artist:compose:union_fiber}
+\end{figure}
 
 
 \section{Construction and formal properties of Artists}
