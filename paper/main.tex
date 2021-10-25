@@ -361,6 +361,12 @@ Visualizations generally consist of more than one visual element, for example li
   \label{fig:artist:compose:disjoint_base}
 \end{figure}
 
+\begin{tikzcd}
+  \dbase_{k} \arrow[d, "\iota", hook] \arrow[r, "\iota", hook] & \dbase_{j} \arrow[d, "i_{\dbase_j}"]      \\
+  \dbase_{i} \arrow[r, "i_{\dbase_i}"]                         & \dbase_{i} \bigcup_{\dbase_{k}}\dbase_{j}
+  \end{tikzcd}
+where the functions $i_{\dbase_i},i_{\dbase_j}$ project  
+
 \paragraph{Shared fibers}
 
 \begin{figure}[h!]
