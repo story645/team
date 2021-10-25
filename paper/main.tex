@@ -322,8 +322,8 @@ it is by definition a natural transformation\cite{SheafMathematics2021,bradleyWh
 \begin{equation}
   \label{eq:artist:equivariance}
   \begin{tikzcd}
-    \mathcal{\dtotal} \arrow[r, "\vartist"] \arrow[d, "\varphi \in {Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)}"'] & Im_{\vartist} \arrow[d, "\vartist_{\varphi \in Hom_{\mathcal{\dfiber}}}"] \\
-    \mathcal{\dtotal} \arrow[r, "\vartist"]                                                           & Im_{\vartist}                                                 
+    \mathcal{\dtotal} \arrow[r, "\vartist"] \arrow[d, "\varphi \in {Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)}"'] & Im_{\vartist} \arrow[d, "\vartist_{\varphi}"] \\
+    \mathcal{\dtotal} \arrow[r, "\vartist"] & Im_{\vartist}                                                 
   \end{tikzcd}
 \end{equation}
 which states that transforms on the data side $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ have an approximately equivalent transform in the data side $\vartist_{\varphi \in Hom_{\mathcal{\dfiber}}}$. This commutativity property states that visualization library components must be implemented such that changes in data induce equivalent changes in the output, which is how visualization libraries can produce visualizations that satisfy Kindlmann and Scheidegger's correspondence principal that data and visual structure must match. 
@@ -332,39 +332,41 @@ In \autoref{sec:artist:construction}, we show a method of constructing the artis
 
 \subsection{Composition of Artists}
 \label{sec:artist:union}
-Visualizations generally consist of more than one visual element, for example line plots, a legend, axis ticks, spines, and labels. Many times, visualizations are generated from subsets of a larger data set, such as when using multiple views \cite{alboRadarComparativeEvaluation2016a} and brush-linked views \cite{beckerBrushingScatterplots1987,bujaInteractiveData1991}, and there is an expectation of consistency in how this data is visualized\cite{hullmanKeeping2018}. In this section, we generalize the sheaf input object $\sheaf_{\dtotal}$ to a collection of sheaves $E^\prime$ with inclusion maps that dictate the how the sheaves are glued together. For example, given$\mathcal{E}_1, \mathcal{E}_2 \in \mathcal{E^{prime}}
+Visualizations generally consist of more than one visual element, for example line plots, a legend, axis ticks, spines, and labels.  We propose that we can express expected consistency between these elements as a preservation of morphisms between objects of different data categories $\mathcal{\dtotal}$. 
 
- (\note{need citation/explainationn of why I can just do this}) 
 
-% generalizing sheaf to collection of sheafs w/ inclusion maps so can tell you how to assemble A1 + A2 such that that push out is preserved 
-% when we build an artist out of nus and qs, this is how to preserve this 
-% if the artist is a black box, what are the pre and post conditionsg
-
-\subsection{Union of Base Spaces}
-
+\subsection{Shared Index}
 \begin{figure}[!h]
   \centering
-  \subfloat[$K_{k}\neq \varnothing$]{\includegraphics[width=.4\columnwidth]{union_k.png}%
+  \subfloat[$\dbase_c = \dbase_a \cap \dbase_b$]{\includegraphics[width=.4\columnwidth]{union_k.png}%
   \label{fig:artist:union:k}}
-  %\hfil
-  \subfloat[$K_{k}=\varnothing$]{\includegraphics[width=.4\columnwidth]{disjoint_k.png}%
+  %\hfill
+  \subfloat[$\dbase_c = \varnothing$]{\includegraphics[width=.4\columnwidth]{disjoint_k.png}%
   \label{fig:artist:union:disjoint_k}}
-  \caption{}}
-  \end{figure}
+  \caption{In \autoref{fig:artist:union:k}, the input object $\sheaf_{\dtotal}$ encodes a continuous function over spaces $\dtotal_a$, $\dtotal_b$ 
+  and overlapping space $\dtotal_c$. In this figure, the visual transformation is to a point on the line on screen. An artist that preserves the continuity of the function must generate graphics such that functions evaluted  $\dbasepoint \in \dbase_a \cap \dbase_b$ 
+\end{figure}
 
+An example of overlapping indexing is a parallelized verion of a sliding window algorithm where window overlaps must resolve to the same value at the same position \cite{chuTimeSeriesSegmentation1995}; 
+
+
+\begin{equation}
+\label{eq:artist:union:k}
 \begin{tikzcd}
-  \dbase_{k} \arrow[d, "\iota", hook] \arrow[r, "\iota", hook] & \dbase_{j} \arrow[d, "i_{\dbase_j}"]      \\
-  \dbase_{i} \arrow[r, "i_{\dbase_i}"]                         & \dbase_{i} \bigsqcup_{\dbase_{k}}\dbase_{j}
+  \dbase_{c} \arrow[d, "\iota", hook] \arrow[r, "\iota", hook] & \dbase_{b} \arrow[d, "i_{\dbase_b}"]      \\
+  \dbase_{a} \arrow[r, "i_{\dbase_a}"]                         & \dbase_{a} \bigsqcup_{\dbase_{c}}\dbase_{b}
   \end{tikzcd}
-where the projection functions $i_{\dbase_i},i_{\dbase_j}$ behave such that $i_{\dbase_{i}}(\dbasepoint)|_{\dbasepoint \in \dbase_i} = \[\dbasepoint\]$,  $i_{\dbase_{j}}(\dbasepoint)|_{\dbasepoint \in \dbase_j} = \[\dbasepoint\]$, meaning the projection functions yield equivalent points in the disjoint union $\dbase_i \bigsqcup \dbase_j$. The special case of 
+\end{equation}
+where the projection functions $i_{\dbase_a},i_{\dbase_b}$ behave such that $i_{\dbase_a}(\dbasepoint)|_{\dbasepoint \in \dbase_b} = \left[\dbasepoint\right]$, $i_{\dbase_b}(\dbasepoint)|_{\dbasepoint \in \dbase_b} = \left[\dbasepoint\right]$, meaning the projection functions yield equivalent points in the disjoint union $\dbase_a \bigsqcup_{\dbase_c} \dbase_b$. Data that is completely disjoint in the index, as shown in \autoref{fig:artist:union:disjoint_k}, is a special case where $\dbase_c=\varnothing$ and therefore there is no constraint on the artist with regards to how this data is rendered. 
 
-\paragraph{Shared fibers}
+\paragraph{Shared Fields}
 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{intersection_f.png}
-  \caption{}
+  \caption{The fiber spaces $F_a, F_b$ have a shared fiber space $F_c$. If they are input into the same artist $A_1$, then an equivariant transformation is one where $F_c$ is transformed to a visual element in a consistent matter. In this figure, $F_c$ is mapped to the x-axis for both $F_a$ and $F_b$.}
   \label{fig:artist:compose:union_fiber}
 \end{figure}
+an example of expecting consistency in overlapping fields are the multiple view constraints described by Qu and Hullman \cite{hullmanKeeping2018}. 
 
 
 \section{Construction and formal properties of Artists}
