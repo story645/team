@@ -280,23 +280,23 @@ As mentioned in \autoref{sec:related-work:fiber-bundles}, the fiber space is emb
 
 \begin{definition} The category $\mathcal{\dtotal}$ consists of 
   \begin{itemize}
-    \item\textit{object} the sheaf\cite{SheafMathematics2021,ghristElementaryAppliedTopology2014} $\sheaf_{\mathcal{\dtotal}}: \mathcal{K}^{op} \rightarrow \Gamma(\mathcal{K}, \dtotal)$
+    \item\textit{object} the sheaf\cite{SheafMathematics2021,ghristElementaryAppliedTopology2014} $\sheaf_{\dtotal}: \mathcal{K}^{op} \rightarrow \Gamma(\mathcal{K}, \dtotal)$
     \item \textit{morphisms} arbitrary endomorphic\cite{fongInvitationAppliedCategory2019} bundle maps $\varphi: \dtotal\rightarrow \dtotal$. When the sheaf is restricted to the stalk\cite{StalkSheaf2019} $\mathscr{F}_{k}$ over a point $\dbasepoint\in \dbase$, then allowable morphisms are $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. 
   \end{itemize}
 \end{definition}
 
- The artist takes as input the sheaf object $\mathcal{E}\coloneqq\sheaf_{\mathcal{E}}$ because the sheaf is a way of keeping track of how data over topological spaces is glued together \cite{ghristElementaryAppliedTopology2014}. This bookkeeping is  illustrated in \autoref{eq:artist:presheaf} as the preservation of inclusion maps $\iota, \iota^{*}$ in presheaf maps between open sets $U_i$ and their corresponding set of sections $\Gamma(U_i, \dtotal)$. A presheaf is a contravariant functor from an arbitrary category $\mathcal{C}$ to \textbf{Set} \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf} and sheafs are presheafs where sets of sections $\Gamma$ are defined over unions of open sets $U \cup_{U\in \mathscr{U}}$ \cite{spanier1989algebraic, nlab:sheaf}. 
+ The artist takes as input the sheaf object $\sheaf_{\dtotal}$ because the sheaf is a way of keeping track of how data over topological spaces is glued together \cite{ghristElementaryAppliedTopology2014}. This bookkeeping is  illustrated in \autoref{eq:artist:presheaf} as the preservation of inclusion maps $\iota, \iota^{*}$ in presheaf maps between open sets $U_i$ and their corresponding set of sections $\Gamma(U_i, \dtotal)$. A presheaf is a contravariant functor from an arbitrary category $\mathcal{C}$ to \textbf{Set} \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf} and sheafs are presheafs where sets of sections $\Gamma$ are defined over unions of open sets $U \cup_{U\in \mathscr{U}}$ \cite{spanier1989algebraic, nlab:sheaf}. 
 
 \begin{equation}
   \label{eq:artist:presheaf}
   \begin{tikzcd}[row sep=small]
     U_1 \arrow[dd, "\iota"'] & {\Gamma(U_1, \dtotal)}                              \\
-    {} \arrow[r, "\mathcal{\dtotal}\coloneqq\sheaf_{\mathcal{\dtotal}}"]   & {}                                                  \\
+    {} \arrow[r, "\sheaf_{\dtotal}"]   & {}                                                  \\
     U_2                      & {\Gamma(U_2, \dtotal)} \arrow[uu, "\iota^*"']
     \end{tikzcd}
 \end{equation}
 
- The functor $\sheaf_{\mathcal{\dtotal}}$ is contravariant because the inclusion map $\iota$ between open sets $U_i \in \mathcal{K}$ goes in the opposite direction from the map $\iota^*$ between the sections in $\Gamma(U_{i}, \dtotal)$ \cite{riehlCategoryTheoryContext}. The open set $U_1$ is a subset of $U_2$, therefore $\iota: U_1 \rightarrow U_2$. On the other hand, a set of functions defined on a space $U_2$ must be defined on the subspace $\iota: \Gamma(U_2, \dbase) \rightarrow \Gamma(U_1, \dbase)$ but the reverse does not need to be true. For example, a continuous function defined over the interval $\left[.25,.5\right]$ need not be defined over $\left[0, 1\right]$ but must exist over  $\left[.3, .45\right]$. We use the notation $\mathcal{K}^{op}$ to signify that the functor $\sheaf$ is contravariant and $\sheaf$ to denote that it is a sheaf. We also denote the sheaf over the total space \dbase\ of the fiber bundle \dtotal\ as $\sheaf(\dtotal)$. 
+ The functor $\sheaf_{\dtotal}$ is contravariant because the inclusion map $\iota$ between open sets $U_i \in \mathcal{K}$ goes in the opposite direction from the map $\iota^*$ between the sections in $\Gamma(U_{i}, \dtotal)$ \cite{riehlCategoryTheoryContext}. The open set $U_1$ is a subset of $U_2$, therefore $\iota: U_1 \rightarrow U_2$. On the other hand, a set of functions defined on a space $U_2$ must be defined on the subspace $\iota: \Gamma(U_2, \dbase) \rightarrow \Gamma(U_1, \dbase)$ but the reverse does not need to be true. For example, a continuous function defined over the interval $\left[.25,.5\right]$ need not be defined over $\left[0, 1\right]$ but must exist over  $\left[.3, .45\right]$. We use the notation $\mathcal{K}^{op}$ to signify that the functor $\sheaf$ is contravariant and $\sheaf$ to denote that it is a sheaf. We also denote the sheaf over the total space \dbase\ of the fiber bundle \dtotal\ as $\sheaf(\dtotal)$. 
 
 Arbitrary morphisms on sheafs $\varphi:\mathcal{\dtotal} \rightarrow \mathcal{\dtotal}$ are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}, meaning that the morphisms $\varphi$ compose with the inclusion maps $\iota$ \cite{fongInvitationAppliedCategory2019}. As defined in \autoref{def:category:Tau}, the sets of sections $\Gamma(U_{i},\dtotal)$ are objects of the category $\mathcal{T}$. 
 
@@ -305,13 +305,13 @@ Arbitrary morphisms on sheafs $\varphi:\mathcal{\dtotal} \rightarrow \mathcal{\d
   \begin{tikzcd}
     & \Gamma(\mathcal{K}, \dfiber) & \\
 {} \arrow[rr, "\varphi", Rightarrow, shift right, shorten=3.5em] & & {} \\
-    & \mathcal{\dbase}^{op} \arrow[uu, "\sheaf_{\mathcal{\dtotal}}", bend left] \arrow[uu, "\sheaf_{\mathcal{\dtotal}}"', bend right] &   
+    & \mathcal{\dbase}^{op} \arrow[uu, "\sheaf_{\dtotal}", bend left] \arrow[uu, "\sheaf_{\dtotal}"', bend right] &   
 \end{tikzcd}
 \end{equation}
 
-The sheaf $\sheaf_{\mathcal{\dtotal}}$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf_{\mathcal{\dtotal}}|_{k}\coloneqq \lim\limits_{U\ni k} \Gamma(U, \dtotal)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{k}\hookrightarrow \mathscr{F}_{k}$. Our criteria for equivariance is that bundle maps $f$ that are in the set of fiber to fiber maps $Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ are preserved. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, meaning $\dtotal=\dbase \times \dfiber$, then we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{k}, \dfiber_{k})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
+The sheaf $\sheaf_{\dtotal}$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf_{\mathcal{\dtotal}}|_{k}\coloneqq \lim\limits_{U\ni k} \Gamma(U, \dtotal)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{k}\hookrightarrow \mathscr{F}_{k}$. Our criteria for equivariance is that bundle maps $f$ that are in the set of fiber to fiber maps $Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ are preserved. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, meaning $\dtotal=\dbase \times \dfiber$, then we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{k}, \dfiber_{k})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
-The graphic category $\mathcal{\gtotal}$ consists of the functor object $\sheaf_{\mathcal{\gtotal}}: \mathcal{S}^{op} \rightarrow \Gamma(\mathcal{S}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{S}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{S}, \gtotal)$ is a subcatagory of \texbf{Set}. A set $\Gamma(U_i, \gtotal)$ contains functions to generate arbitrary graphics with a shared continuity and display space, while the artist $\vartist$ is constructed such that it generates a single type of graphic, as described in \autoref{sec:artist:construction}. Therefore, the range of the the artist functor, which we denote $Im_{\vartist}$, is a sheaf map $Im_{\vartist}$. The sheaf $Im_{\vartist}$ is a map between the category of open sets $\gtotal^{op}$ and a subcategory of \textbf{Set}. In this subcatagory, each set of sections in the sheaf $Im_{\vartist}$ over an arbitrary open set $U_{i}$ is a subset of the corresponding full set of sections $\Gamma(U_i, \gtotal)$. 
+The graphic category $\mathcal{\gtotal}$ consists of the functor object $\sheaf_{\gtotal}: \mathcal{S}^{op} \rightarrow \Gamma(\mathcal{S}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{S}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{S}, \gtotal)$ is a subcatagory of \texbf{Set}. A set $\Gamma(U_i, \gtotal)$ contains functions to generate arbitrary graphics with a shared continuity and display space, while the artist $\vartist$ is constructed such that it generates a single type of graphic, as described in \autoref{sec:artist:construction}. Therefore, the range of the the artist functor, which we denote $Im_{\vartist}$, is a sheaf map $Im_{\vartist}$. The sheaf $Im_{\vartist}$ is a map between the category of open sets $\gtotal^{op}$ and a subcategory of \textbf{Set}. In this subcatagory, each set of sections in the sheaf $Im_{\vartist}$ over an arbitrary open set $U_{i}$ is a subset of the corresponding full set of sections $\Gamma(U_i, \gtotal)$. 
 
 Since the artist is a morphism of sheafs
 \begin{equation}
@@ -332,40 +332,31 @@ In \autoref{sec:artist:construction}, we show a method of constructing the artis
 
 \subsection{Composition of Artists}
 \label{sec:artist:union}
-\begin{figure}[!h]
-\centering
-\subfloat[+]{\includegraphics[width=.4\columnwidth]{exploding_artist.png}%
-\label{fig:artist:union:glue}}
-%\hfil
-\subfloat[$\oplus$]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
-\label{fig:artist:union:continuity}}
-\caption{In \autoref{fig:artist:union:glue}, the outputs of various artist are independently rendered to the same graphic space. The inputs to the artists in \autoref{fig:artist:union:continuity} are sections over the same fiber bundle base space \dbase; therefore, they should share transformation functions to produce a consistent image. \note{add a border/make the same size/etc so 1 doesn't run over into two}}
-\end{figure}
+Visualizations generally consist of more than one visual element, for example line plots, a legend, axis ticks, spines, and labels. Many times, visualizations are generated from subsets of a larger data set, such as when using multiple views \cite{alboRadarComparativeEvaluation2016a} and brush-linked views \cite{beckerBrushingScatterplots1987,bujaInteractiveData1991}, and there is an expectation of consistency in how this data is visualized\cite{hullmanKeeping2018}. In this section, we generalize the sheaf input object $\sheaf_{\dtotal}$ to a collection of sheaves $E^\prime$ with inclusion maps that dictate the how the sheaves are glued together. For example, given$\mathcal{E}_1, \mathcal{E}_2 \in \mathcal{E^{prime}}
 
-\note{is about building artist that preserves constraint A1 out of A2 + A3}
+ (\note{need citation/explainationn of why I can just do this}) 
+
 % generalizing sheaf to collection of sheafs w/ inclusion maps so can tell you how to assemble A1 + A2 such that that push out is preserved 
 % when we build an artist out of nus and qs, this is how to preserve this 
 % if the artist is a black box, what are the pre and post conditionsg
-Visualizations generally consist of more than one visual element, for example line plots, a legend, axis ticks, spines, and labels. Many times, visualizations are generated from subsets of a larger data set, such as when using multiple views \cite{alboRadarComparativeEvaluation2016a} and brush-linked views \cite{beckerBrushingScatterplots1987,bujaInteractiveData1991}, and there is an expectation of consistency in how this data is visualized\cite{hullmanKeeping2018}. In \autoref{fig:artist:union:glue}, the disjointedness of the graphic lends itself to an interpretation that the data is disjoint, whereas the consistency of the visual encodings in \autoref{fig:artist:union:continuity} indicates that visual elements share data attributes. In this section, we describe how to express the structure of the data input in terms of  whether the sheaf objects $\sheaf_{\mathcal{\dtotal}}$ are disjoint or share attributes. We then propose that a topologically equivariant artist will preserve this structure in its output. 
 
 \subsection{Union of Base Spaces}
-\begin{figure}[h!]
-  \includegraphics[width=\columnwidth]{union_k.png}
-  \caption{}
-  \label{fig:artist:compose:union_base}
-\end{figure}
 
-\begin{figure}[h!]
-  \includegraphics[width=\columnwidth]{disjoint_k.png}
-  \caption{}
-  \label{fig:artist:compose:disjoint_base}
-\end{figure}
+\begin{figure}[!h]
+  \centering
+  \subfloat[$K_{k}\neq \varnothing$]{\includegraphics[width=.4\columnwidth]{union_k.png}%
+  \label{fig:artist:union:k}}
+  %\hfil
+  \subfloat[$K_{k}=\varnothing$]{\includegraphics[width=.4\columnwidth]{disjoint_k.png}%
+  \label{fig:artist:union:disjoint_k}}
+  \caption{}}
+  \end{figure}
 
 \begin{tikzcd}
   \dbase_{k} \arrow[d, "\iota", hook] \arrow[r, "\iota", hook] & \dbase_{j} \arrow[d, "i_{\dbase_j}"]      \\
-  \dbase_{i} \arrow[r, "i_{\dbase_i}"]                         & \dbase_{i} \bigcup_{\dbase_{k}}\dbase_{j}
+  \dbase_{i} \arrow[r, "i_{\dbase_i}"]                         & \dbase_{i} \bigsqcup_{\dbase_{k}}\dbase_{j}
   \end{tikzcd}
-where the functions $i_{\dbase_i},i_{\dbase_j}$ project  
+where the projection functions $i_{\dbase_i},i_{\dbase_j}$ behave such that $i_{\dbase_{i}}(\dbasepoint)|_{\dbasepoint \in \dbase_i} = \[\dbasepoint\]$,  $i_{\dbase_{j}}(\dbasepoint)|_{\dbasepoint \in \dbase_j} = \[\dbasepoint\]$, meaning the projection functions yield equivalent points in the disjoint union $\dbase_i \bigsqcup \dbase_j$. The special case of 
 
 \paragraph{Shared fibers}
 
