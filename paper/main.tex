@@ -337,7 +337,7 @@ In \autoref{sec:artist:construction}, we show a method of constructing the artis
 Visualizations generally consist of more than one visual element, for example line plots, a legend, axis ticks, spines, and labels.  We propose that we can express expected consistency between these elements as a preservation of morphisms between objects of different data categories $\mathcal{\dtotal}$. 
 
 
-\subsection{Shared Index}
+\subsubsection{Shared Index}
 \begin{figure}[!h]
   \centering
   \subfloat[$\dbase_c = \dbase_a \cap \dbase_b$]{\includegraphics[width=.4\columnwidth]{union_k.png}%
@@ -355,14 +355,13 @@ An example of overlapping indexing is a parallelized verion of a sliding window 
 \begin{equation}
 \label{eq:artist:intersection:basespace}
 \begin{tikzcd}
-  \dfiber_a \arrow[rrrr, "\vartist_a"] \arrow[rrd, "proj_a" description] &  &             &  & {\Gamma(\gbase_a, \gfiber_a)} \arrow[lld, "ga" description, dashed]  \\
-                                                                         &  & \dfiber_{c} &  &                                                                      \\
-  \dfiber_b \arrow[rrrr, "\vartist_b"] \arrow[rru, "proj_b" description] &  &             &  & {\Gamma(\gbase_b, \gfiber_b)} \arrow[llu, "g_b" description, dashed]
+  \dbase_{c} \arrow[d, "\iota", hook] \arrow[r, "\iota", hook] & \dbase_{b} \arrow[d, "i_{\dbase_b}"]      \\
+  \dbase_{a} \arrow[r, "i_{\dbase_a}"]                         & \dbase_{a} \bigsqcup_{\dbase_{c}}\dbase_{b}
   \end{tikzcd}
 \end{equation}
 where the projection functions $i_{\dbase_a},i_{\dbase_b}$ behave such that $i_{\dbase_a}(\dbasepoint)|_{\dbasepoint \in \dbase_b} = \left[\dbasepoint\right]$, $i_{\dbase_b}(\dbasepoint)|_{\dbasepoint \in \dbase_b} = \left[\dbasepoint\right]$, meaning the projection functions yield equivalent points in the disjoint union $\dbase_a \bigsqcup_{\dbase_c} \dbase_b$. Data that is completely disjoint in the index, as shown in \autoref{fig:artist:union:disjoint_k}, is a special case where $\dbase_c=\varnothing$ and therefore there is no constraint on the artist with regards to how this data is rendered. 
 
-\paragraph{Shared Fields}
+\subsubsection{}{Shared Fields}
 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{intersection_f.png}
