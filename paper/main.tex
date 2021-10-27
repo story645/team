@@ -133,7 +133,7 @@ The abstract goes here.
 \IEEEraisesectionheading{\section{Introduction}\label{sec:introduction}}
 
 
-\IEEEPARstart{T}his paper uses methods from topology and category theory to develop a model of the transformation from data to graphical representation. This model provides a language to specify how data is structured and how this structure is carried through in the visualization, and serves as the basis for a functional approach to implementing visualization library components. Topology allows us to describe the structure of the data and graphics in a generalizable, scalable, and trackable way. Category theory provides a framework for separating the transformations implemented by visualization libraries from the various stages of visualization and therefore can be used to describe the constraints imposed on the library components \cite{wielsManagementEvolvingSpecifications1998,goguenCategoricalManifesto1991}. Well constrained modular components are inherently functional\cite{hughesWhyFunctionalProgramming1989}, and a functional framework yields a library implementation that is likely to be shorter, clearer, and more suited to distributed, concurrent, and on demand tasks\cite{huHowFunctionalProgramming2015}. Using this functional approach, this paper contributes a practical framework for decoupling data processing from visualization generation in a way that allows for modular visualization components that are applicable to a variety of data sets in different formats. \note{is it OK that this is something reviewer 4 wrote}
+\IEEEPARstart{T}his paper uses methods from algebraic topology and category theory to develop a model of the transformation from data to graphical representation. This model provides a language to specify how data is structured and how this structure is carried through in the visualization, and serves as the basis for a functional approach to implementing visualization library components. Topology allows us to describe the structure of the data and graphics in a generalizable, scalable, and trackable way. Category theory provides a framework for separating the transformations implemented by visualization libraries from the various stages of visualization and therefore can be used to describe the constraints imposed on the library components \cite{wielsManagementEvolvingSpecifications1998,goguenCategoricalManifesto1991}. Well constrained modular components are inherently functional\cite{hughesWhyFunctionalProgramming1989}, and a functional framework yields a library implementation that is likely to be shorter, clearer, and more suited to distributed, concurrent, and on demand tasks\cite{huHowFunctionalProgramming2015}. Using this functional approach, this paper contributes a practical framework for decoupling data processing from visualization generation in a way that allows for modular visualization components that are applicable to a variety of data sets in different formats. \note{is it OK that this is something reviewer 4 wrote}
 
 
 
@@ -313,6 +313,8 @@ The sheaf $\sheaf_{\dtotal}$ over a limit of open sets that contain a point $\db
 
 The graphic category $\mathcal{\gtotal}$ consists of the functor object $\sheaf_{\gtotal}: \mathcal{S}^{op} \rightarrow \Gamma(\mathcal{S}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{S}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{S}, \gtotal)$ is a subcatagory of \texbf{Set}. A set $\Gamma(U_i, \gtotal)$ contains functions to generate arbitrary graphics with a shared continuity and display space, while the artist $\vartist$ is constructed such that it generates a single type of graphic, as described in \autoref{sec:artist:construction}. Therefore, the range of the the artist functor, which we denote $Im_{\vartist}$, is a sheaf map $Im_{\vartist}$. The sheaf $Im_{\vartist}$ is a map between the category of open sets $\gtotal^{op}$ and a subcategory of \textbf{Set}. In this subcatagory, each set of sections in the sheaf $Im_{\vartist}$ over an arbitrary open set $U_{i}$ is a subset of the corresponding full set of sections $\Gamma(U_i, \gtotal)$. 
 
+
+
 Since the artist is a morphism of sheafs
 \begin{equation}
   \vartist: \mathcal{\dtotal} \rightarrow Im_{\vartist}
@@ -351,10 +353,11 @@ An example of overlapping indexing is a parallelized verion of a sliding window 
 
 
 \begin{equation}
-\label{eq:artist:union:k}
+\label{eq:artist:intersection:basespace}
 \begin{tikzcd}
-  \dbase_{c} \arrow[d, "\iota", hook] \arrow[r, "\iota", hook] & \dbase_{b} \arrow[d, "i_{\dbase_b}"]      \\
-  \dbase_{a} \arrow[r, "i_{\dbase_a}"]                         & \dbase_{a} \bigsqcup_{\dbase_{c}}\dbase_{b}
+  \dfiber_a \arrow[rrrr, "\vartist_a"] \arrow[rrd, "proj_a" description] &  &             &  & {\Gamma(\gbase_a, \gfiber_a)} \arrow[lld, "ga" description, dashed]  \\
+                                                                         &  & \dfiber_{c} &  &                                                                      \\
+  \dfiber_b \arrow[rrrr, "\vartist_b"] \arrow[rru, "proj_b" description] &  &             &  & {\Gamma(\gbase_b, \gfiber_b)} \arrow[llu, "g_b" description, dashed]
   \end{tikzcd}
 \end{equation}
 where the projection functions $i_{\dbase_a},i_{\dbase_b}$ behave such that $i_{\dbase_a}(\dbasepoint)|_{\dbasepoint \in \dbase_b} = \left[\dbasepoint\right]$, $i_{\dbase_b}(\dbasepoint)|_{\dbasepoint \in \dbase_b} = \left[\dbasepoint\right]$, meaning the projection functions yield equivalent points in the disjoint union $\dbase_a \bigsqcup_{\dbase_c} \dbase_b$. Data that is completely disjoint in the index, as shown in \autoref{fig:artist:union:disjoint_k}, is a special case where $\dbase_c=\varnothing$ and therefore there is no constraint on the artist with regards to how this data is rendered. 
@@ -367,7 +370,24 @@ where the projection functions $i_{\dbase_a},i_{\dbase_b}$ behave such that $i_{
   \label{fig:artist:compose:union_fiber}
 \end{figure}
 an example of expecting consistency in overlapping fields are the multiple view constraints described by Qu and Hullman \cite{hullmanKeeping2018}. 
+\begin{equation}
+  \label{eq:artist:intersection:fiber}
+  \begin{tikzcd}
+    \dfiber_a \arrow[rrd, "proj_a" description] \arrow[rrrr, "\vartist_a"] &  &             &  & {\Gamma(\gbase_a, \gfiber_a)} \arrow[lld, "g_a" description, dashed] \\
+                                                                           &  & \dfiber_{c} &  &                                                                      \\
+    \dfiber_b \arrow[rru, "proj_b" description] \arrow[rrrr, "\vartist_b"] &  &             &  & {\Gamma(\gbase_a, \gfiber_a)} \arrow[llu, "g_b" description, dashed]
+\end{tikzcd}
+\end{equation}
 
+
+% introduce notion of equivariant fiber, chasing diagram of F is different Gamma - Kosara and Zeminiskwy differentiable glyph 
+% case 1: F3 \subset F1, {JFK} \in {JFK, EWR}
+% case 2: F1 = F3 \times F1, F2= F3 \times F2, 
+  % F1 ->F3 is projection -> Fiber consistency
+% in that case, we can form the plus operator, disjoint union of A1 + A2 going in is consistent on subspace
+
+
+We can compose these diagrams together to generate an \vartist\ to handle any of the things. 
 
 \section{Construction and formal properties of Artists}
 \label{sec:artist:construction}
@@ -484,7 +504,6 @@ Visual encoding functions \vindex\ are functors because they are expected to pre
 
  This constraint is expressed in our construction of \vchannel
 
-
 \begin{figure}[!h]
   \centering
   \subfloat[Artists with shared $\mu_i$ renderered correctly]{\includegraphics[width=1.2in]{partial_fixed.png}%
@@ -501,17 +520,18 @@ Visual encoding functions \vindex\ are functors because they are expected to pre
   \{\vchannel_{0}, \ldots, \vchannel_{n}\}: \{\dsection_{0}, \ldots, \dsection_{n}\} \mapsto \{\vsection_{0}, \ldots, \vsection_{n}\}
 \end{equation}
 
-We enforce the equivariance constraint
-
+We enforce the equivariance constraint specified in \autoref{eq:artist:construction:multi_nu} by constructing artists that apply \vchannel\ encoders such that 
 \begin{equation}
-  \label{eq:math:artist:nu_commute}
-\begin{tikzcd}
-  \dtotal_i \arrow[r] \arrow[r, "\vchannel_i"] \arrow[d, "m_{\delement}"'] & \vtotal_i \arrow[d, "m_{\velement}"] \\
-  \dtotal_i \arrow[r, "\vchannel_i"]                           & \vtotal_i               
-\end{tikzcd}
+  \label{eq:artist:construction:multi_nu}
+  \begin{tikzcd}
+    \dfiber_a \arrow[rrd, "proj_a" description] \arrow[rrrr, "\vchannel^{a}_{\dfiber_c}"] &  &                                                                                                                       &  & \vfiber^{a}_{\dfiber_c} \\
+                                                                                          &  & \dfiber_{c} \arrow[rru, "\vchannel^{a}_{\dfiber_c}" description] \arrow[rrd, "\vchannel^{b}_{\dfiber_c}" description] &  &                         \\
+    \dfiber_b \arrow[rru, "proj_b" description] \arrow[rrrr, "\vchannel^{a}_{\dfiber_c}"] &  &                                                                                                                       &  & \vfiber^{b}_{\dfiber_c}
+    \end{tikzcd}
 \end{equation}
 
-One advantage of expressing the data to visual encoding $\vchannel_i$ as a functor from data fiber $\dfiber_i$ to $\vfiber_i$ is that it lets us formally express that encodings are bound to data and therefore should be consistent across views, as proposed by Hullamn and Qu\cite{hullmanKeeping2018}.
+the same fiber in two different data sets run through the same $\vchannel_{i}$ encoder will output to the same set of visual values in the corresponding visual fiber $\vfiber_i$.
+
 
 \subsubsection{Visual to Graphic: \vmark} % look at what K&S call these stages
 Visual encodings to something like marks 
