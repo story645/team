@@ -372,10 +372,10 @@ where the projection functions $i_{\dbase_a},i_{\dbase_b}$ behave such that $i_{
 an example of expecting consistency in overlapping fields are the multiple view constraints described by Qu and Hullman \cite{hullmanKeeping2018}. 
 \begin{equation}
   \label{eq:artist:intersection:fiber}
-  \begin{tikzcd}
-    \dfiber_a \arrow[rrd, "proj_a" description] \arrow[rrrr, "\vartist_a"] &  &             &  & {\Gamma(\gbase_a, \gfiber_a)} \arrow[lld, "g_a" description, dashed] \\
+  \begin{tikzcd}[row sep = .5em]
+    \dfiber_a \arrow[rrd, "proj_a" description] \arrow[rrrr, "\vartist_a"] &  &             &  & Im_{\vartist_a} \arrow[lld, "g_a" description, dashed] \\
                                                                            &  & \dfiber_{c} &  &                                                                      \\
-    \dfiber_b \arrow[rru, "proj_b" description] \arrow[rrrr, "\vartist_b"] &  &             &  & Im_{\vartist_b} \in \gtotal \arrow[llu, "g_b" description, dashed]
+    \dfiber_b \arrow[rru, "proj_b" description] \arrow[rrrr, "\vartist_b"] &  &             &  & Im_{\vartist_b} \in \arrow[llu, "g_b" description, dashed]
 \end{tikzcd}
 \end{equation}
 
@@ -416,7 +416,7 @@ We can compose these diagrams together to generate an \vartist\ to handle any of
 \end{definition}
 
 \begin{equation}
-  \label{eq:math:artist:diagram}
+  \label{eq:artist:construction:all}
   \begin{tikzcd}
       \dtotal \arrow[r, "\vchannel"] \arrow[rd, "\pi"'] & \vtotal \arrow[d, "\pi"] & \vindex^*\vtotal \arrow[r, "\vmark"] \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"'] & \gtotal \arrow[ld, "\pi"] \\
                                             & \dbase                  & \gbase \arrow[l, "\vindex"']                                              &                    
@@ -480,16 +480,7 @@ As illustrated in \autoref{fig:artist:graphic},
 \end{example}
 
 \subsection{Visualization Library Components}
-\subsubsection{Graphic to Data: \vindex}
-\begin{equation}
-  \begin{tikzcd}
-      \dtotal \arrow[d, "\pi"'] & \gtotal \arrow[d, "\pi"'] \\
-      \dbase                   & \gbase \arrow[l, "\vindex"']
-  \end{tikzcd}
-  \label{eq:math:graphic:vindex}
-\end{equation}
 
-The functor $\vindex$ is a deformation retract, which means....\cite{hatcherAlgebraicTopology2002,spanier1989algebraic}
 
 \subsubsection{Visual Bundle \vtotal}
 \begin{equation}
@@ -499,7 +490,45 @@ The functor $\vindex$ is a deformation retract, which means....\cite{hatcherAlge
   \end{tikzcd}
 \end{equation}
 
-\subsubsection{Data to Visual Encodings: \vchannel} %look at what K&S call these stages
+\subsubsection{Graphic to Data: \vindex}
+\begin{equation}
+  \label{eq:artist:construction:xi}
+  \begin{tikzcd}
+      \dtotal \arrow[d, "\pi"'] & \gtotal \arrow[d, "\pi"'] \\
+      \dbase                   & \gbase \arrow[l, "\vindex"']
+  \end{tikzcd}
+\end{equation}
+
+The functor $\vindex$ is a deformation retract, which means....\cite{hatcherAlgebraicTopology2002,spanier1989algebraic}
+
+
+\begin{equation}
+  \label{eq:artist:construction:xi:multi_base}
+  \begin{tikzcd}
+    \dbase_{c} \arrow[d, hook] \arrow[r, hook] & \dbase_{b}                 & \gbase_b \arrow[l, "\vindex"]                                                \\
+    \dbase_{a}                                 & \gbase_a \arrow[l, "\vindex"'] & \gbase_c \arrow[l, hook'] \arrow[u, hook] \arrow[llu, "\vindex" description]
+  \end{tikzcd}
+\end{equation}
+
+Can be implemented in V
+
+\begin{equation}
+  \label{eq:artist:construction:xi:v}
+  \begin{tikzcd}
+  \textcolor{color=gray!50}{\dtotal}\arrow[rd, "\pi"', color=gray!50] & \vtotal \arrow[d, "\pi"] & \vindex^*\vtotal \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"', dashed] & \textcolor{color=gray!50}{\gtotal} \arrow[ld, "\pi", color=gray!50] \\
+    & \dbase                   & \gbase \arrow[l, "\vindex"']                                                &                          
+    \end{tikzcd}
+\end{equation}
+
+\subsubsection{Data to Visual Encodings: \vchannel} 
+\begin{equation}
+  \label{eq:artist:construction:nu}
+\begin{tikzcd}
+  \textcolor{gray!50}{\dtotal} \arrow[rd, "\pi"'] \arrow[r, "\vchannel"] & \vtotal \arrow[d, "\pi"] & \vindex^*\vtotal \arrow[d, "\vindex^*\pi"', color=gray!50] \arrow[l, "\vindex^*", color=gray!50] & \textcolor{gray!50}{\gtotal} \arrow[ld, "\pi", color=gray!50] \\
+& \dbase                   & \textcolor{gray!50}{\gbase} \arrow[l, "\vindex"', color=gray!50]                                       &                          
+  \end{tikzcd}
+\end{equation}
+
 Visual encoding functions \vindex\ are functors because they are expected to preserve structure on the data and visual side, as discussed in \autoref{sec:related-work:equivariance}. 
 
  This constraint is expressed in our construction of \vchannel
@@ -515,31 +544,84 @@ Visual encoding functions \vindex\ are functors because they are expected to pre
   \label{fig_sim}
   \end{figure}
 
+
+\begin{equation}
+\label{eq:artist:construction:nu:fiber_map}
+\begin{tikzcd}[column sep=.5em]
+  \dfiber \arrow[rr, "\vchannel"] &                                                         & \vfiber \\
+                                  & \dbase \arrow[lu, "\dsection"] \arrow[ru, "\vsection"'] &        
+  \end{tikzcd}
+\end{equation}
+
+which means equivariance of 
+\begin{equation}
+\label{eq:artist:construction:nu:equivariance}
+\begin{tikzcd}
+  \dsection \arrow[d, "\varphi"'] \arrow[r, "\vchannel"] & \vsection \arrow[d, "\vchannel_{\varphi}"] \\
+  \dsection^{\prime} \arrow[r, "\vchannel"]                       & \vsection^{\prime}                                 
+  \end{tikzcd}
+\end{equation}
+
+
+But actually multiple variables please
 \begin{equation}
   \label{eq:math:artist:nu}
   \{\vchannel_{0}, \ldots, \vchannel_{n}\}: \{\dsection_{0}, \ldots, \dsection_{n}\} \mapsto \{\vsection_{0}, \ldots, \vsection_{n}\}
 \end{equation}
 
+
+
 We enforce the equivariance constraint specified in \autoref{eq:artist:construction:multi_nu} by constructing artists that apply \vchannel\ encoders such that 
 \begin{equation}
   \label{eq:artist:construction:multi_nu}
-  \begin{tikzcd}
-    \dfiber_a \arrow[rrd, "proj_a" description] \arrow[rrrr, "\vchannel^{a}_{\dfiber_c}"] &  &                                                                                                                       &  & \vfiber^{a}_{\dfiber_c} \\
-                                                                                          &  & \dfiber_{c} \arrow[rru, "\vchannel^{a}_{\dfiber_c}" description] \arrow[rrd, "\vchannel^{b}_{\dfiber_c}" description] &  &                         \\
-    \dfiber_b \arrow[rru, "proj_b" description] \arrow[rrrr, "\vchannel^{a}_{\dfiber_c}"] &  &                                                                                                                       &  & \vfiber^{b}_{\dfiber_c}
+  \begin{tikzcd}[row sep=.5em]
+    \dfiber_a \arrow[rrd, "proj_a" description] \arrow[rrrr, "\vchannel_{\dfiber_c}"]          &  &                                                                                                                        &  & \vfiber_{\dfiber_c}          \\
+    &  & \dfiber_{c} \arrow[rru, "\vchannel_{\dfiber_c}" description] \arrow[rrd, "\vchannel^{\prime}_{\dfiber_c}" description] &  &                              \\
+\dfiber_b \arrow[rru, "proj_b" description] \arrow[rrrr, "\vchannel^{\prime}_{\dfiber_c}"] &  &                                                                                                                        &  & \vfiber^{\prime}_{\dfiber_c}
     \end{tikzcd}
 \end{equation}
 
-the same fiber in two different data sets run through the same $\vchannel_{i}$ encoder will output to the same set of visual values in the corresponding visual fiber $\vfiber_i$.
+\subsubsection{Visual to Graphic: \vmark} 
+\begin{equation}
+  \label{eq:artist:construction:q}
+  \begin{tikzcd}
+    \textcolor{gray!50}{\dtotal} \arrow[rd, "\pi"', color=gray!50] \arrow[r, "\vchannel", color=gray!50] & \textcolor{gray!50}{\vtotal} \arrow[d, "\pi", color=gray!50] & \vindex^*\vtotal \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"', color=gray!50] \arrow[r, "\vmark"] & \gtotal \arrow[ld, "\pi"] \\
+    & \dbase & \gbase \arrow[l, "\vindex"', color=gray!50]                                            &                          
+    \end{tikzcd}
+\end{equation}
 
+\begin{equation}
+  \label{eq:artist:construction:q:xi}
+  \begin{tikzcd}[column sep= 1em, row sep=.7em]
+    \vtotal \arrow[rrd, "\hat{\vmark}"]                             &  &         \\
+                                                                    &  & \gtotal \\
+    \vindex^*\vtotal \arrow[uu, "\vindex^*"] \arrow[rru, "\vmark"'] &  &        
+    \end{tikzcd}
+\end{equation}
 
-\subsubsection{Visual to Graphic: \vmark} % look at what K&S call these stages
+\begin{equation}
+  \label{eq:artist:construction:q:fiber}
+  \begin{tikzcd}[column sep=.5em]
+    \vfiber \arrow[rr, "\vmark"] &                                                         & \gfiber \\
+    & \gbase \arrow[ru, "\gsection"'] \arrow[lu, "\vsection"] &        
+    \end{tikzcd}
+\end{equation}
 Visual encodings to something like marks 
+
+
+\begin{equation}
+  \label{eq:artist:construction:q:equivariance}
+  \begin{tikzcd}
+    \vsection \arrow[d, "\vchannel_\varphi"'] \arrow[r, "\vmark"] & \gsection \arrow[d, "\vmark_\varphi"] \\
+    \vsection^{\prime} \arrow[r, "\vmark"]                                 & \gsection^{\prime}                            
+    \end{tikzcd}
+\end{equation}
+
 \begin{figure}[!h]
   \includegraphics[width=\columnwidth]{diff_type_q.png}
   \caption{rework this as a commutative box w/ the r in E row associated w/ this qhat(k)}
 \end{figure}
- 
+
 \section{Case Study}
 \label{sec:case-study}
 \begin{figure}[h!]
@@ -578,14 +660,7 @@ The conclusion goes here.
 
 
 \appendices
-\section{Rendering: \gsection}
-\section{Manufacturing $\vmarkd \leftarrow \vmark$}
-\begin{equation}
-  \begin{tikzcd}
-      \textcolor{gray!50}{\dtotal} \arrow[r, "\vchannel", color=gray!50] \arrow[rd, "\pi"', color=gray!50] & \vtotal \arrow[d, "\pi"']                  & \vindex^*\vtotal \arrow[r, "\vmark", color=gray!50] \arrow[d, "\vindex^*\pi"'] \arrow[l,  "\vindex^*"'] & \textcolor{gray!50}{\gtotal} \arrow[ld, "\pi", color=gray!50] \\ & \dbase \arrow[u, "\vsection"', bend right] & \gbase \arrow[l, "\vindex"'] \arrow[u, "\vindex^*\vsection"', bend right]               &                          
-      \end{tikzcd}
-      \label{eq:math:artist:qhat}
-\end{equation}
+
 
 
 
