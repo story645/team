@@ -311,11 +311,12 @@ Arbitrary morphisms on sheafs $\varphi:\mathcal{\dtotal} \rightarrow \mathcal{\d
 
 The sheaf $\sheaf_{\dtotal}$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf_{\mathcal{\dtotal}}|_{k}\coloneqq \lim\limits_{U\ni k} \Gamma(U, \dtotal)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{k}\hookrightarrow \mathscr{F}_{k}$. Our criteria for equivariance is that bundle maps $f$ that are in the set of fiber to fiber maps $Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ are preserved. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, meaning $\dtotal=\dbase \times \dfiber$, then we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{k}, \dfiber_{k})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
-The graphic category $\mathcal{\gtotal}$ consists of the functor object $\sheaf_{\gtotal}: \mathcal{S}^{op} \rightarrow \Gamma(\mathcal{S}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{S}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{S}, \gtotal)$ is a subcatagory of \texbf{Set}. A set $\Gamma(U_i, \gtotal)$ contains functions to generate arbitrary graphics with a shared continuity and display space, while the artist $\vartist$ is constructed such that it generates a single type of graphic, as described in \autoref{sec:artist:construction}. Therefore, the range of the the artist functor, which we denote $Im_{\vartist}$, is a sheaf map $Im_{\vartist}$. The sheaf $Im_{\vartist}$ is a map between the category of open sets $\gtotal^{op}$ and a subcategory of \textbf{Set}. In this subcatagory, each set of sections in the sheaf $Im_{\vartist}$ over an arbitrary open set $U_{i}$ is a subset of the corresponding full set of sections $\Gamma(U_i, \gtotal)$. 
+The graphic category $\mathcal{\gtotal}$ consists of the functor object $\sheaf_{\gtotal}: \mathcal{S}^{op} \rightarrow \Gamma(\mathcal{S}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{S}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{S}, \gtotal)$ is a subcatagory of \texbf{Set}.
 
+\begin{definition} The sheaf $Im_{\vartist}$ is a map between the category of open sets $\gtotal^{op}$ and a subcategory of \textbf{Set}. This subcategory is the set of subsets of sections $\{\gsection^{k}:U_i \rightarrow \gfiber_{U_{i}}\} \subset \Gamma(U_i, \gtotal)$ over the space of all open sets in $\mathcal{\gbase}$. 
+\end{definition}
 
-
-Since the artist is a morphism of sheafs
+A set $\Gamma(U_i, \gtotal)$ contains functions to generate arbitrary graphics with a shared continuity and display space, while the artist $\vartist$ is constructed such that it generates a single type of graphic, as described in \autoref{sec:artist:construction}. Therefore, the range of the the artist functor, which we denote $Im_{\vartist}$, is a sheaf map $Im_{\vartist}$. Since the artist is a morphism of sheafs
 \begin{equation}
   \vartist: \mathcal{\dtotal} \rightarrow Im_{\vartist}
 \end{equation}
@@ -374,7 +375,7 @@ an example of expecting consistency in overlapping fields are the multiple view 
   \begin{tikzcd}
     \dfiber_a \arrow[rrd, "proj_a" description] \arrow[rrrr, "\vartist_a"] &  &             &  & {\Gamma(\gbase_a, \gfiber_a)} \arrow[lld, "g_a" description, dashed] \\
                                                                            &  & \dfiber_{c} &  &                                                                      \\
-    \dfiber_b \arrow[rru, "proj_b" description] \arrow[rrrr, "\vartist_b"] &  &             &  & {\Gamma(\gbase_a, \gfiber_a)} \arrow[llu, "g_b" description, dashed]
+    \dfiber_b \arrow[rru, "proj_b" description] \arrow[rrrr, "\vartist_b"] &  &             &  & Im_{\vartist_b} \in \gtotal \arrow[llu, "g_b" description, dashed]
 \end{tikzcd}
 \end{equation}
 
@@ -450,7 +451,7 @@ The section \dsection\ is the abstraction of the data being visualized. The sect
 
 
 \subsection{Graphic} 
-The object of the graphic category $\mathcal{\gtotal}$ is the fiberbundle \gtotal. The bundle \gtotal\ has the same structure as the data bundle \dtotal
+The object of the graphic category $\mathcal{\gtotal}$ is the fiber bundle \gtotal. The bundle \gtotal\ has the same structure as the data bundle \dtotal
 
 \begin{equation}
   \begin{tikzcd}[ampersand replacement=\&]
