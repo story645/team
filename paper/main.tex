@@ -524,7 +524,7 @@ Can be implemented in V
 \begin{equation}
   \label{eq:artist:construction:nu}
 \begin{tikzcd}
-  \textcolor{gray!50}{\dtotal} \arrow[rd, "\pi"'] \arrow[r, "\vchannel"] & \vtotal \arrow[d, "\pi"] & \vindex^*\vtotal \arrow[d, "\vindex^*\pi"', color=gray!50] \arrow[l, "\vindex^*", color=gray!50] & \textcolor{gray!50}{\gtotal} \arrow[ld, "\pi", color=gray!50] \\
+  \dtotal \arrow[rd, "\pi"'] \arrow[r, "\vchannel"] & \vtotal \arrow[d, "\pi"] & \textcolor{fade}{\vindex^*\vtotal} \arrow[d, "\vindex^*\pi"', color=fade] \arrow[l, "\vindex^*", color=fade] & \textcolor{fade}{\gtotal} \arrow[ld, "\pi", color=fade] \\
 & \dbase                   & \textcolor{gray!50}{\gbase} \arrow[l, "\vindex"', color=gray!50]                                       &                          
   \end{tikzcd}
 \end{equation}
@@ -575,9 +575,9 @@ We enforce the equivariance constraint specified in \autoref{eq:artist:construct
 \begin{equation}
   \label{eq:artist:construction:multi_nu}
   \begin{tikzcd}[row sep=.5em]
-    \dfiber_a \arrow[rrd, "proj_a" description] \arrow[rrrr, "\vchannel_{\dfiber_c}"]          &  &                                                                                                                        &  & \vfiber_{\dfiber_c}          \\
-    &  & \dfiber_{c} \arrow[rru, "\vchannel_{\dfiber_c}" description] \arrow[rrd, "\vchannel^{\prime}_{\dfiber_c}" description] &  &                              \\
-\dfiber_b \arrow[rru, "proj_b" description] \arrow[rrrr, "\vchannel^{\prime}_{\dfiber_c}"] &  &                                                                                                                        &  & \vfiber^{\prime}_{\dfiber_c}
+    \dfiber_a \arrow[rrd, "proj_a" description] \arrow[rrrr, "\vchannel_{\dfiber_c}"]           &  &  &  & \vfiber_{\dfiber_c}          \\
+     &  & \dfiber_{c} \arrow[rru, "\vchannel_{\dfiber_c}" description] \arrow[rrd, "\vchannel^{\prime}_{\dfiber_c}" description] &  &                              \\
+    \dfiber_b \arrow[rru, "proj_b" description] \arrow[rrrr, "\vchannel^{\prime}_{\dfiber_c}"'] &  &                                                                                                                        &  & \vfiber^{\prime}_{\dfiber_c}
     \end{tikzcd}
 \end{equation}
 
@@ -585,18 +585,16 @@ We enforce the equivariance constraint specified in \autoref{eq:artist:construct
 \begin{equation}
   \label{eq:artist:construction:q}
   \begin{tikzcd}
-    \textcolor{gray!50}{\dtotal} \arrow[rd, "\pi"', color=gray!50] \arrow[r, "\vchannel", color=gray!50] & \textcolor{gray!50}{\vtotal} \arrow[d, "\pi", color=gray!50] & \vindex^*\vtotal \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"', color=gray!50] \arrow[r, "\vmark"] & \gtotal \arrow[ld, "\pi"] \\
-    & \dbase & \gbase \arrow[l, "\vindex"', color=gray!50]                                            &                          
+    \textcolor{fade}{\dtotal} \arrow[rd, "\pi"', color=fade] \arrow[r, "\vchannel", color=fade] & \textcolor{gray!50}{\vtotal} \arrow[d, "\pi", color=fade] & \vindex^*\vtotal \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"', color=fade] \arrow[r, "\vmark"] & \gtotal \arrow[ld, "\pi"] \\
+    & \textcolor{fade}{\dbase} & \gbase \arrow[l, "\vindex"', color=fade]                                            &                          
     \end{tikzcd}
 \end{equation}
 
 \begin{equation}
   \label{eq:artist:construction:q:xi}
-  \begin{tikzcd}[column sep= 1em, row sep=.7em]
-    \vtotal \arrow[rrd, "\hat{\vmark}"]                             &  &         \\
-                                                                    &  & \gtotal \\
-    \vindex^*\vtotal \arrow[uu, "\vindex^*"] \arrow[rru, "\vmark"'] &  &        
-    \end{tikzcd}
+  \begin{tikzcd}
+    \vtotalc \arrow[rr, "\vmarkdc", bend left] & \vtotalpullc \arrow[l, "\vindexc^*"] \arrow[r, "\vmarkc"'] & \gtotalc
+  \end{tikzcd}
 \end{equation}
 
 \begin{equation}
