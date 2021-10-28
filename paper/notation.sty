@@ -13,22 +13,35 @@
 \definecolor{artist}{HTML}{A020F0}
 \definecolor{action}{HTML}{F0741F}
 \definecolor{sheaf}{HTML}{E65331}
+\definecolor{fade}{gray}{0.5}
 
 %% sheaf
-\cdef{sheaf}{\textcolor{sheaf}{\mathcal{O}}}
+\cdef{sheaf}{\mathcal{O}}
+\cdef{sheafc}{\textcolor{sheaf}{\sheaf}}
+
 %% sets
 \cdef{reals}{\mathbb{R}}
 \cdef{realsp}{\mathbb{R}^+}
 
 %% databundle
-\cdef{dtotal}{\textcolor{total}{E}}
-\cdef{dfiber}{\textcolor{fiber}{F}}
+\cdef{dtotal}{E}
+\cdef{dtotalc}{\textcolor{total}{\dtotal}}
+
+\cdef{dfiber}{F}
+\cdef{dfiberc}{\textcolor{fiber}{\dfiber}}
+
 \cdef{delement}{r}
-\cdef{dbase}{\textcolor{base}{K}}
+
+\cdef{dbase}{K}
+\cdef{dbasec}{\textcolor{base}{\dbase}}
+
 \cdef{dbasepoint}{\MakeLowercase{\dbase}}
 \cdef{dbasepath}{J}
 \cdef{dbasepathpoint}{\MakeLowercase{\dbasepath}}
-\cdef{dsection}{\textcolor{section}{\tau}}
+
+\cdef{dsection}{\tau}
+\cdef{dsectionc}{\textcolor{section}{\desection}}
+
 \cdef{dx}{j}
 \cdef{dy}{k}
 
@@ -42,34 +55,74 @@
 \cdef{ftype}{T}
 
 %monoid 
+\cdef{dfunc}{\varphi}
+\cdef{dfuncc}{\textcolor{action}{dfunc_c}}
 \cdef{monoid}{\textcolor{action}{M}}
 
 %graphic bundle
-\cdef{gtotal}{\textcolor{total}{H}}
-\cdef{gfiber}{\textcolor{fiber}{D}}
-\cdef{gbase}{\textcolor{base}{S}}
+\cdef{gtotal}{H}
+\cdef{gtotalc}{\textcolor{total}{\gtotal}}
+
+\cdef{gfiber}{D}
+\cdef{gfiberc}{\textcolor{fiber}{\gfiber}}
+
+\cdef{gbase}{S}
+\cdef{gbasec}{\textcolor{base}{\gbase}}
+
 \cdef{gbasepoint}{\MakeLowercase{\gbase}}
-\cdef{gsection}{\textcolor{section}{\rho}}
+
+
+\cdef{gsection}{\rho}
+\cdef{gsectionc}{\textcolor{section}{\gsection}}
+
 \cdef{gx}{\alpha}
 \cdef{gy}{\beta}
 
 %visual bundle
-\cdef{vtotal}{\textcolor{total}{V}}
-\cdef{vfiber}{\textcolor{fiber}{P}}
+\cdef{vtotal}{V}
+\cdef{vtotalc}{\textcolor{total}{\vtotal}}
+
+\cdef{vfiber}{P}
+\cdef{vfiberc}{\textcolor{fiber}{\vfiber}}
+
 \cdef{velement}{\MakeLowercase{\vtotal}}
-\cdef{vsection}{\textcolor{section}{\mu}}
+
+\cdef{vsection}{\mu}
+\cdef{vsectionc}{\textcolor{section}{\vsection}}
+
 
 % artist maps
-\cdef{vartist}{\textcolor{artist}{A}}
+
+\cdef{vartist}{A}
+\cdef{vartistc}{\textcolor{artist}{\vartist}}
+
 \cdef{vartisteq}{\vartist^{\prime}}
-\cdef{vchannel}{\textcolor{artist}{\nu}}
-\cdef{vmark}{\textcolor{artist}{Q}}
-\cdef{vmarkd}{\textcolor{artist}{\hat{\vmark}}}
-\cdef{vindex}{\textcolor{artist}{\xi}}
+\cdef{vartisteqc}{\vartist_c^{\prime}}
+
+\cdef{vchannel}{\nu}
+\cdef{vchannelc}{\textcolor{artist}{\vchannel}}
+
+\cdef{vmark}{Q}
+\cdef{vmarkc}{\textcolor{artist}{\vmark}}
+
+\cdef{vmarkd}{\hat{\vmark}}
+\cdef{vmarkdc}{\textcolor{artist}{\vmarkd}}
+
+
+\cdef{vindex}{\xi}
+\cdef{vindexc}{\textcolor{artist}{\vindex}}
 
 
 %visual pullbacks
-\cdef{vtotalpull}{\textcolor{total}{\vindex^{*}\vtotal}}
+
+\cdef{vtotalpull}{\vindex^{*}\vtotal}
+\cdef{vtotalpullc}{\textcolor{total}{\vtotalpull}}
+
+
 \cdef{vfiberpull}{\textcolor{fiber}{\vfiber^{*}\vsection}}
-\cdef{vsectionpull}{\textcolor{section}{\vindex^{*}\vsection}}
+\cdef{vfiberpullc}{\textcolor{fiber}{\vfiberpull}}
+
+\cdef{vsectionpull}{\vindex^{*}\vsection}
+\cdef{vsectionpullc}{\textcolor{section}{\vsectionpull}}
+
 \cdef{vpreimg}{\vindex^{-1}(\dbasepoint)}
