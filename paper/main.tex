@@ -372,13 +372,11 @@ where the projection functions $i_{\dbase_a},i_{\dbase_b}$ behave such that $i_{
 an example of expecting consistency in overlapping fields are the multiple view constraints described by Qu and Hullman \cite{hullmanKeeping2018}. 
 \begin{equation}
   \label{eq:artist:intersection:fiber}
-  \begin{tikzcd}[row sep = .5em]
-    \dfiber_a \arrow[rrd, "proj_a" description] \arrow[rrrr, "\vartist_a"] &  &             &  & Im_{\vartist_a} \arrow[lld, "g_a" description, dashed] \\
-                                                                           &  & \dfiber_{c} &  &                                                                      \\
-    \dfiber_b \arrow[rru, "proj_b" description] \arrow[rrrr, "\vartist_b"] &  &             &  & Im_{\vartist_b} \in \arrow[llu, "g_b" description, dashed]
-\end{tikzcd}
+  \begin{tikzcd}
+    F_a\times{_{F_c}}F_b     & F_a \arrow[d, "proj_a"] \\
+    F_b \arrow[r, "proj_b"'] & F_c                    
+    \end{tikzcd}
 \end{equation}
-
 
 % introduce notion of equivariant fiber, chasing diagram of F is different Gamma - Kosara and Zeminiskwy differentiable glyph 
 % case 1: F3 \subset F1, {JFK} \in {JFK, EWR}
@@ -575,9 +573,9 @@ We enforce the equivariance constraint specified in \autoref{eq:artist:construct
 \begin{equation}
   \label{eq:artist:construction:multi_nu}
   \begin{tikzcd}[row sep=.5em]
-    \dfiber_a \arrow[rrd, "proj_a" description] \arrow[rrrr, "\vchannel_{\dfiber_c}"]           &  &  &  & \vfiber_{\dfiber_c}          \\
-     &  & \dfiber_{c} \arrow[rru, "\vchannel_{\dfiber_c}" description] \arrow[rrd, "\vchannel^{\prime}_{\dfiber_c}" description] &  &                              \\
-    \dfiber_b \arrow[rru, "proj_b" description] \arrow[rrrr, "\vchannel^{\prime}_{\dfiber_c}"'] &  &                                                                                                                        &  & \vfiber^{\prime}_{\dfiber_c}
+    \dfiberc_a \arrow[rrd, "proj_a" description] \arrow[rrrr, "\vchannelc_c"]  &  &  &  & \vfiberc_c \\
+    &  & \dfiberc_{c} \arrow[rru, "\vchannelc_c" description] \arrow[rrd, "\vchannelc^{\prime}_c" description] &  & \\
+    \dfiberc_b \arrow[rru, "proj_b" description] \arrow[rrrr, "{\vchannelc_c}^{\prime}"'] &  &                                                                                                       &  & {\vfiberc_c}^{\prime}
     \end{tikzcd}
 \end{equation}
 
@@ -619,6 +617,15 @@ Visual encodings to something like marks
   \includegraphics[width=\columnwidth]{diff_type_q.png}
   \caption{rework this as a commutative box w/ the r in E row associated w/ this qhat(k)}
 \end{figure}
+
+\begin{equation}
+  \label{eq:artist:construction:q:multifiber}
+\begin{tikzcd}
+  \dfiberc_a \arrow[rr, "\vchannelc"] \arrow[rd, "proj_a" description]          &            & \vfiberc_a \arrow[rr, "\vmarkd"]         &  & Im_{\vmarkdc} \subset \gtotalc \arrow[llld, "g_a" description, dashed]                  \\
+ & \dfiberc_c &                                          &  &\\
+  \dfiberc_b \arrow[rr, "\vchannelc^{\prime}"] \arrow[ru, "proj_b" description] &            & \vfiber_b \arrow[rr, "\vmarkd^{\prime}"] &  & Im_{\vmarkdc^{\prime}}\subset \gtotalc^{\prime} \arrow[lllu, "g_b" description, dashed]
+  \end{tikzcd}
+\end{equation}
 
 \section{Case Study}
 \label{sec:case-study}
