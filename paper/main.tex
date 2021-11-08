@@ -182,7 +182,7 @@ Specifically,Butler, Bryson, and Pendley suggest that fiber bundles be the basis
 A topological space $(X, \mathscr{T})$ is a set $X$ with a topology $\mathscr{T}$. Topologies are collections of open sets $U$ such that the empty set and $X$ are in the collection of open sets $\mathscr{T}$, the union of elements in $\mathscr{T}$ \note{finish out this definition}
 \end{definition}
 
-Here we present a very brief summary of topics, for more information Hatcher\cite{hatcherAlgebraicTopology2002}, Munkres\cite{munkresElementsAlgebraicTopology1984}, and Spanier \cite{spanier1989algebraic}. 
+Here we present a very brief summary of fiber bundles, for more information see Hatcher\cite{hatcherAlgebraicTopology2002}, Munkres\cite{munkresElementsAlgebraicTopology1984}, and Spanier \cite{spanier1989algebraic}. 
 
 \begin{LaTeXdescription}
   \item[\textcolor{total}{Total Space} \dtotal]
@@ -289,10 +289,10 @@ As mentioned in \autoref{sec:related-work:fiber-bundles}, the fiber space is emb
 
 \begin{equation}
   \label{eq:artist:presheaf}
-  \begin{tikzcd}[row sep=small]
-    U_1 \arrow[dd, "\iota"'] & {\Gamma(U_1, \dtotal)}                              \\
-    {} \arrow[r, "\sheaf_{\dtotal}"]   & {}                                                  \\
-    U_2                      & {\Gamma(U_2, \dtotal)} \arrow[uu, "\iota^*"']
+  \begin{tikzcd}[column sep=small]
+    {\Gamma(U_1, \dtotalc)}                                       & {}                                                    & {\Gamma(U_2, \dtotalc)} \arrow[ll, "\iota^*"', hook'] \\
+                                                                  &                                                       &                                                       \\
+    U_1 \arrow[uu, "\sheaf_{\dtotal}"] \arrow[rr, "\iota"', hook] & {} \arrow[uu, "\sheaf_{\dtotal}" description, dotted] & U_2 \arrow[uu, "\sheaf_\dtotal"']                    
     \end{tikzcd}
 \end{equation}
 
@@ -303,15 +303,16 @@ Arbitrary morphisms on sheafs $\varphi:\mathcal{\dtotal} \rightarrow \mathcal{\d
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
   \begin{tikzcd}
-    & \Gamma(\mathcal{K}, \dfiber) & \\
-{} \arrow[rr, "\varphi", Rightarrow, shift right, shorten=3.5em] & & {} \\
-    & \mathcal{\dbase}^{op} \arrow[uu, "\sheaf_{\dtotal}", bend left] \arrow[uu, "\sheaf_{\dtotal}"', bend right] &   
+    & \mathcal{\dtotalc} & \\
+{} \arrow[rr, "\dfuncc", Rightarrow, shift right, shorten=3em] & & {} \\
+    & \mathcal{\dbasec}^{op} \arrow[uu, "\sheaf_{\dtotalc}", bend left] \arrow[uu, "\sheaf_{\dtotalc}"', bend right] &   
 \end{tikzcd}
 \end{equation}
 
 The sheaf $\sheaf_{\dtotal}$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf_{\mathcal{\dtotal}}|_{k}\coloneqq \lim\limits_{U\ni k} \Gamma(U, \dtotal)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{k}\hookrightarrow \mathscr{F}_{k}$. Our criteria for equivariance is that bundle maps $f$ that are in the set of fiber to fiber maps $Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ are preserved. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, meaning $\dtotal=\dbase \times \dfiber$, then we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{k}, \dfiber_{k})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
-The graphic category $\mathcal{\gtotal}$ consists of the functor object $\sheaf_{\gtotal}: \mathcal{S}^{op} \rightarrow \Gamma(\mathcal{S}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{S}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{S}, \gtotal)$ is a subcatagory of \texbf{Set}.
+\note{rewrite paragraph}
+The graphic category $\mathcal{\gtotalc}$ consists of the functor object $\sheaf_{\gtotalc}: \mathcal{\gbasec}^{op} \rightarrow \Gamma(\mathcal{\gbasec}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{\gbasec}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{\gbase}, \gtotal)$ is a subcatagory of \textbf{Set}.
 
 \begin{definition} The sheaf $Im_{\vartist}$ is a map between the category of open sets $\gtotal^{op}$ and a subcategory of \textbf{Set}. This subcategory is the set of subsets of sections $\{\gsection^{k}:U_i \rightarrow \gfiber_{U_{i}}\} \subset \Gamma(U_i, \gtotal)$ over the space of all open sets in $\mathcal{\gbase}$. 
 \end{definition}
@@ -340,52 +341,44 @@ Visualizations generally consist of more than one visual element, for example li
 
 \subsubsection{Shared Index}
 \begin{figure}[!h]
-  \centering
-  \subfloat[$\dbase_c = \dbase_a \cap \dbase_b$]{\includegraphics[width=.4\columnwidth]{union_k.png}%
-  \label{fig:artist:union:k}}
-  %\hfill
-  \subfloat[$\dbase_c = \varnothing$]{\includegraphics[width=.4\columnwidth]{disjoint_k.png}%
+  \includegraphics[width=\columnwidth]{k_union.png}
   \label{fig:artist:union:disjoint_k}}
   \caption{In \autoref{fig:artist:union:k}, the input object $\sheaf_{\dtotal}$ encodes a continuous function over spaces $\dtotal_a$, $\dtotal_b$ 
-  and overlapping space $\dtotal_c$. In this figure, the visual transformation is to a point on the line on screen. An artist that preserves the continuity of the function must generate graphics such that functions evaluted  $\dbasepoint \in \dbase_a \cap \dbase_b$}
+  and overlapping space $\dtotal_c$. In this figure, the visual transformation is to a point on the line on screen. An artist that preserves the continuity of the function must generate graphics such that functions evaluated  $\dbasepoint \in \dbase_a \cap \dbase_b$}
 \end{figure}
 
-An example of overlapping indexing is a parallelized verion of a sliding window algorithm where window overlaps must resolve to the same value at the same position \cite{chuTimeSeriesSegmentation1995}; 
+An example of overlapping indexing is a parallelized version of a sliding window algorithm where window overlaps must resolve to the same value at the same position \cite{chuTimeSeriesSegmentation1995}; 
 
 
 \begin{equation}
 \label{eq:artist:intersection:basespace}
 \begin{tikzcd}
-  \dbase_{c} \arrow[d, "\iota", hook] \arrow[r, "\iota", hook] & \dbase_{b} \arrow[d, "i_{\dbase_b}"]      \\
-  \dbase_{a} \arrow[r, "i_{\dbase_a}"]                         & \dbase_{a} \bigsqcup_{\dbase_{c}}\dbase_{b}
+  \dbasec_{c} \arrow[d, "\iota", hook] \arrow[r, "\iota", hook] & \dbasec_{b} \arrow[d, "i_{\dbasec_b}"]      \\
+  \dbasec_{a} \arrow[r, "i_{\dbasec_a}"]                         & \dbasec_{a} \bigsqcup_{\dbasec_{c}}\dbasec_{b}
   \end{tikzcd}
 \end{equation}
+
 where the projection functions $i_{\dbase_a},i_{\dbase_b}$ behave such that $i_{\dbase_a}(\dbasepoint)|_{\dbasepoint \in \dbase_b} = \left[\dbasepoint\right]$, $i_{\dbase_b}(\dbasepoint)|_{\dbasepoint \in \dbase_b} = \left[\dbasepoint\right]$, meaning the projection functions yield equivalent points in the disjoint union $\dbase_a \bigsqcup_{\dbase_c} \dbase_b$. Data that is completely disjoint in the index, as shown in \autoref{fig:artist:union:disjoint_k}, is a special case where $\dbase_c=\varnothing$ and therefore there is no constraint on the artist with regards to how this data is rendered. 
 
-\subsubsection{}{Shared Fields}
+\subsubsection{Shared Fields}
 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{intersection_f.png}
   \caption{The fiber spaces $F_a, F_b$ have a shared fiber space $F_c$. If they are input into the same artist $A_1$, then an equivariant transformation is one where $F_c$ is transformed to a visual element in a consistent matter. In this figure, $F_c$ is mapped to the x-axis for both $F_a$ and $F_b$.}
   \label{fig:artist:compose:union_fiber}
 \end{figure}
-an example of expecting consistency in overlapping fields are the multiple view constraints described by Qu and Hullman \cite{hullmanKeeping2018}. 
+
 \begin{equation}
   \label{eq:artist:intersection:fiber}
   \begin{tikzcd}
-    F_a\times{_{F_c}}F_b     & F_a \arrow[d, "proj_a"] \\
-    F_b \arrow[r, "proj_b"'] & F_c                    
+    \dfiberc_{a}\times \dfiberc_{b} \arrow[d, "proj_b"] \arrow[rr, "proj_a"] &  & \dfiberc_{a} \arrow[d, "proj_c"] \\
+    \dfiberc_{b} \arrow[rr, "proj_b"]                                                  &  & \dfiberc_{c}                    
     \end{tikzcd}
 \end{equation}
 
-% introduce notion of equivariant fiber, chasing diagram of F is different Gamma - Kosara and Zeminiskwy differentiable glyph 
-% case 1: F3 \subset F1, {JFK} \in {JFK, EWR}
-% case 2: F1 = F3 \times F1, F2= F3 \times F2, 
-  % F1 ->F3 is projection -> Fiber consistency
-% in that case, we can form the plus operator, disjoint union of A1 + A2 going in is consistent on subspace
-
 
 We can compose these diagrams together to generate an \vartist\ to handle any of the things. 
+
 
 \section{Construction and formal properties of Artists}
 \label{sec:artist:construction}
@@ -397,6 +390,8 @@ We can compose these diagrams together to generate an \vartist\ to handle any of
 
 
 \begin{definition} Following from \label{def:artist:} the artist \vartist is a special case of  natural transformations
+
+  %% this equation is actually on sheafs and is not a map 
   \begin{equation}
     \vartist: \Gamma(\dtotal, \dbase)\nrightarrow \Gamma(\gtotal, \gbase)
   \end{equation}
@@ -413,12 +408,15 @@ We can compose these diagrams together to generate an \vartist\ to handle any of
   \end{enumerate}
 \end{definition}
 
+%%% no arrow V->H
+%%% Q is defined at the level of Gamma\begin{equation}
 \begin{equation}
   \label{eq:artist:construction:all}
   \begin{tikzcd}
-      \dtotal \arrow[r, "\vchannel"] \arrow[rd, "\pi"'] & \vtotal \arrow[d, "\pi"] & \vindex^*\vtotal \arrow[r, "\vmark"] \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"'] & \gtotal \arrow[ld, "\pi"] \\
-                                            & \dbase                  & \gbase \arrow[l, "\vindex"']                                              &                    
-      \end{tikzcd}
+    \dtotalc \arrow[rr, "\vchannel"] \arrow[rdd, "\pi"] &         & \dtotalc \arrow[ldd, "\pi"'] & \mathcal{\vtotalc}                                                        & Im_{\vmarkc} \subset \gtotalc                     \\
+    &         &                              & {} \arrow[r, "\vmarkc"]                                                   & {}                                                \\
+    & \dbasec &                              & \mathcal{\dbasec} \arrow[uu, "\sheaf_{\vtotalc}"] \arrow[r, "\vindexc^*"] & \mathcal{\gbasec} \arrow[uu, "\sheaf_{\vmarkc}"']
+    \end{tikzcd}
 \end{equation}
 
 \subsection{Data}
@@ -560,8 +558,22 @@ which means equivariance of
   \end{tikzcd}
 \end{equation}
 
+\paragraph{Multiview Constraints}
+\begin{figure}[!h]
+  \centering
+  \subfloat[No shared fields]]{\includegraphics[width=.4\columnwidth]{exploding_artist.png}%
+  \label{fig:artist:union:k}}
+  %\hfill
+  \subfloat[Shared fields]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
+  \label{fig:artist:union:disjoint_k}}
+  \caption{In \autoref{fig:artist:union:k}, the input object $\sheaf_{\dtotal}$ encodes a continuous function over spaces $\dtotal_a$, $\dtotal_b$ 
+  and overlapping space $\dtotal_c$. In this figure, the visual transformation is to a point on the line on screen. An artist that preserves the continuity of the function must generate graphics such that functions evaluted  $\dbasepoint \in \dbase_a \cap \dbase_b$}
+\end{figure}
 
-But actually multiple variables please
+The concept that shared data fields should be encoded visually in a consistent is formally expressed by Qu and Hullman \cite{hullmanKeeping2018} as the notion that the same field should have the same scale. 
+
+
+
 \begin{equation}
   \label{eq:math:artist:nu}
   \{\vchannel_{0}, \ldots, \vchannel_{n}\}: \{\dsection_{0}, \ldots, \dsection_{n}\} \mapsto \{\vsection_{0}, \ldots, \vsection_{n}\}
