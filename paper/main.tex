@@ -498,6 +498,17 @@ As illustrated in \autoref{fig:artist:graphic},
 The functor $\vindex$ is a deformation retract, which means....\cite{hatcherAlgebraicTopology2002,spanier1989algebraic}
 
 
+\begin{figure}[!h]
+  \centering
+  \subfloat[\dbasec_a \sqcup_{\dbasec_c} \dase_b]{\includegraphics[width=1.2in]{union_k.png}%
+  \label{fig_first_case}}
+  %\hfil
+  \subfloat[\dbasec_c=\varnothing]{\includegraphics[width=1.2in]{disjoint_k.png}%
+  \label{fig_second_case}}
+  \caption{\note{probably doesn't need the k=0}}
+  \label{fig_sim}
+\end{figure}
+
 \begin{equation}
   \label{eq:artist:construction:xi:multi_base}
   \begin{tikzcd}
@@ -567,7 +578,8 @@ which means equivariance of
   \subfloat[Shared fields]{\includegraphics[width=.4\columnwidth]{combined_artist.png}%
   \label{fig:artist:union:disjoint_k}}
   \caption{In \autoref{fig:artist:union:k}, the input object $\sheaf_{\dtotal}$ encodes a continuous function over spaces $\dtotal_a$, $\dtotal_b$ 
-  and overlapping space $\dtotal_c$. In this figure, the visual transformation is to a point on the line on screen. An artist that preserves the continuity of the function must generate graphics such that functions evaluted  $\dbasepoint \in \dbase_a \cap \dbase_b$}
+  and overlapping space $\dtotal_c$. In this figure, the visual transformation is to a point on the line on screen. An artist that preserves the continuity of the function must generate graphics such that functions evaluted  $\dbasepoint \in \dbase_a \cap \dbase_b$
+  \note{replace a) w/ fiber cross diagram? - use first half introduced in \autoref{fig:artist:compose:union_fiber}}}
 \end{figure}
 
 The concept that shared data fields should be encoded visually in a consistent is formally expressed by Qu and Hullman \cite{hullmanKeeping2018} as the notion that the same field should have the same scale. 
