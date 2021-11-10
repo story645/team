@@ -174,23 +174,11 @@ Domain specific libraries can often guarantee consistency because they have a si
   \label{fig:related-work:fiber-bundle}
 \end{figure}
 
-The model described in this work provides a modol for expressing data sets with different topological properties. 
-We obtain this generality by using the mathematical theory of fiber bundles as the basis of our abstraction, as proposed by Butler, Bryson, and Pendley\cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992}. In this paper, we build on their work that proposes using topological spaces to represent different properties of data.
+The model described in this work provides a model for expressing data sets with different topological properties. 
+We obtain this generality by using a mathematical structure called a fiber bundles as the basis of our abstraction, as proposed by Butler, Bryson, and Pendley\cite{butlerVisualizationModelBased1989,
+butlerVectorBundleClassesForm1992}. As described by them, a fiber bundle is a formal model of the mapping between data points and the underlying topological space they lie in. For example, nodes on a network and the graph of the network, an image and the underlying grid at which the image is sampled, or table columns and the table index.
 
-Specifically,Butler, Bryson, and Pendley suggest that fiber bundles be the basis of an abstract data model. Fiber bundles are a collection of topological spaces. 
-\begin{definition}
-A topological space $(X, \mathscr{T})$ is a set $X$ with a topology $\mathscr{T}$. Topologies are collections of open sets $U$ such that the empty set and $X$ are in the collection of open sets $\mathscr{T}$, the union of elements in $\mathscr{T}$ \note{finish out this definition}
-\end{definition}
-
-Here we present a very brief summary of fiber bundles, for more information see Hatcher\cite{hatcherAlgebraicTopology2002}, Munkres\cite{munkresElementsAlgebraicTopology1984}, and Spanier \cite{spanier1989algebraic}. 
-
-\begin{LaTeXdescription}
-  \item[\textcolor{total}{Total Space} \dtotal]
-  \item[\textcolor{fiber}{Fiber Space} \dfiber]
-  \item[\textcolor{base}{Base Space} \dbase]  
-\end{LaTeXdescription}
-
-with a projection map $\pi:\dtotal\rightarrow\dbase$ that connects every point in \dtotal\ to a point in \dbase. 
+Formally, a fiber bundle is a mathematical structure $(\dtotalc, \dbasec, \pi, \dfiberc)$
 \begin{equation}
   \label{eq:fiber_bundle}
   \begin{tikzcd}
@@ -198,7 +186,20 @@ with a projection map $\pi:\dtotal\rightarrow\dbase$ that connects every point i
   \end{tikzcd}
 \end{equation}
 
-As indicated by $\hookrightarrow$, the fiber space \dfiber\ is embedded inside the total space \dtotal\. This is illustrated in \autoref{fig:related-work:fiber-bundle}, wherein values lives in the fiber $\dfiber\subseteq\dtotal$. In this example, the fiber \dfiber\ is the cartesian product of two sets $F_{0}\times F_{1}$ where each fiber $F_{i}$ is ....
+\begin{definition}
+The \textcolor{base}{base space} \dbasec\ is a topological space, which means it is a a set $\dbase$ with a collection of open sets surrounding each element in the set. For each point $\dbasepoint in \dbase$, there is a collection of subsets $\{U\} \subset \dbase$ such that $x \in U \subseteq \dbase$ \cite{spanier1989algebraic, bradleyTopologyCategoricalApproach2020}  
+\end{definition}
+\note{intuition about base space}
+
+\begin{definition} The \textcolor{fiber}{fiber space} \dfiberc\ is a topological space such that for every $\dbasepoint \in \dbase$, the fiber over that point is isomorphic to the preimage of that point $\dfiber_{\dbasepoint} \cong \pi^{-1}(\{k\})$. All fibers $\dfiber_{\dbasepoint}$ are homemorphic to each other.  \cite{spanier1989algebraic, hatcherAlgebraicTopology2002}
+\end{definition}
+\note{intuition about fiber} 
+
+\begin{definition} The \textcolor{total}{total space} \dtotalc\ is the space reachable via the projection map $\pi$. The total space is always locally trivial, meaning $\dtotal = \dbase \times \dfiber$ over any open neighborhood $U_{k}$. The bundle is trivial when $\dtotal = \dbase \times \dfiber$ is true globally; a non-trivial bundle can be thought of as  the twisted product. \cite{hatcherAlgebraicTopology2002,nlab:twisting_function}  
+\end{definition}
+ 
+
+This is illustrated in \autoref{fig:related-work:fiber-bundle}, wherein values lives in the fiber $\dfiber\subseteq\dtotal$. In this example, the fiber \dfiber\ is the cartesian product of two sets $F_{0}\times F_{1}$ where each fiber $F_{i}$ is ....
 \begin{equation}
   formal equation of the fiber?
   \label{eq:related-work:fiber}
@@ -217,7 +218,7 @@ which means that every point in $\dfiber_{k}$ maps to a point $k \subset K$.
   \end{tikzcd}
 \end{equation}
 
-Throughout this paper, we denote fiber bundles with the tuple $(\textcolor{total}{total space}, \textcolor{base}{base space}, \pi, \textcolor{fiber}{fiber space})$
+Here we present a very brief summary of fiber bundles and sheaves, for more information see Hatcher\cite{hatcherAlgebraicTopology2002}, Munkres\cite{munkresElementsAlgebraicTopology1984}, Spanier \cite{spanier1989algebraic} and Ghrist\cite{ghristElementaryAppliedTopology2014,ghristHomologicalAlgebraData2018}. 
 
 \subsection{Equivariance}
 \label{sec:related-work:equivariance}
@@ -342,7 +343,7 @@ Visualizations generally consist of more than one visual element, for example li
 \subsubsection{Shared Index}
 \begin{figure}[!h]
   \includegraphics[width=\columnwidth]{k_union.png}
-  \label{fig:artist:union:disjoint_k}}
+  \label{fig:artist:union:disjoint_k}
   \caption{In \autoref{fig:artist:union:k}, the input object $\sheaf_{\dtotal}$ encodes a continuous function over spaces $\dtotal_a$, $\dtotal_b$ 
   and overlapping space $\dtotal_c$. In this figure, the visual transformation is to a point on the line on screen. An artist that preserves the continuity of the function must generate graphics such that functions evaluated  $\dbasepoint \in \dbase_a \cap \dbase_b$}
 \end{figure}
@@ -590,8 +591,6 @@ The concept that shared data fields should be encoded visually in a consistent i
   \label{eq:math:artist:nu}
   \{\vchannel_{0}, \ldots, \vchannel_{n}\}: \{\dsection_{0}, \ldots, \dsection_{n}\} \mapsto \{\vsection_{0}, \ldots, \vsection_{n}\}
 \end{equation}
-
-
 
 We enforce the equivariance constraint specified in \autoref{eq:artist:construction:multi_nu} by constructing artists that apply \vchannel\ encoders such that 
 \begin{equation}
