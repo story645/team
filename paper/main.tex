@@ -315,8 +315,8 @@ it is by definition a natural transformation\cite{SheafMathematics2021,bradleyWh
 \begin{equation}
   \label{eq:artist:equivariance}
   \begin{tikzcd}
-    \mathcal{\dtotal} \arrow[r, "\vartist"] \arrow[d, "\varphi \in {Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)}"'] & Im_{\vartist} \arrow[d, "\vartist_{\varphi}"] \\
-    \mathcal{\dtotal} \arrow[r, "\vartist"] & Im_{\vartist}                                                 
+    \sheaf_{\dtotal} \arrow[r, "\vartist"] \arrow[d, "\varphi{\dtotal}"'] & \sheaf_{\vartist} \arrow[d, "\varphi_{\vartist}"] \\
+    \sheaf_{\dtotal} \arrow[r, "\vartist"] & \sheaf_{\vartist}                                              
   \end{tikzcd}
 \end{equation}
 which states that transforms on the data side $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ have an approximately equivalent transform in the data side $\vartist_{\varphi \in Hom_{\mathcal{\dfiber}}}$. This commutativity property states that visualization library components must be implemented such that changes in data induce equivalent changes in the output, which is how visualization libraries can produce visualizations that satisfy Kindlmann and Scheidegger's correspondence principal that data and visual structure must match. 
