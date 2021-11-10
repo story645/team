@@ -145,3 +145,6 @@ Many times though, graphics are generated from subsets of a larger data set, suc
 \end{equation}
 
 The sections $\dsection$ on each component bundle $\dtotal_i$ over a point $\dbasepoint \in \dbase$ are the elements of the data associated with that point. We use this property to establish which of these elements are the same, because they come from the same fiber, and therefore should share transformation functions to visual elements. This bookkeeping yields graphics with consistent visual encoding of data elements, as shown in \autoref{fig:artist:union:continuity}. 
+
+
+

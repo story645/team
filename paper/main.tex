@@ -218,7 +218,7 @@ The map from the open set to the set of sections is called a presheaf $\sheaf: U
   \begin{tikzcd}[column sep=small]
     {\Gamma(U_1, \dtotalc)}                                       & {}                                                    & {\Gamma(U_2, \dtotalc)} \arrow[ll, "\iota^*"', hook'] \\
                                                                   &                                                       &                                                       \\
-    U_1 \arrow[uu, "\sheaf_{\dtotal}"] \arrow[rr, "\iota"', hook] & {} \arrow[uu, "\sheaf_{\dtotal}" description, dotted] & U_2 \arrow[uu, "\sheaf_\dtotal"']                    
+    U_1 \arrow[uu, "\sheafc_{\dtotal}"] \arrow[rr, "\iota"', hook] & {} \arrow[uu, "\sheafc_{\dtotal}" description, dotted] & U_2 \arrow[uu, "\sheafc_\dtotal"']                    
     \end{tikzcd}
 \end{equation}
 
@@ -245,7 +245,7 @@ For more information on category theory, see Barr and Wells\cite{barrCategoryThe
 In this section, we use category theory to formally express the implicit assumptions that visualization library components make in transforming data into graphical representations. We propose that the visualization transformation can be modeled as a functor, which we call the \textcolor{artist}{Artist} $\mathcal{\vartist}$\footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts data, which we model as the sheaf $\sheaf_{\dtotal}$ to graphics, which we model as the sheaf $\sheaf_{\vartist}$. We formulate this association as 
 
 \begin{equation}
-  \vartist: \sheaf_{\dtotal} \rightarrow \sheaf_{\vartist}
+  \vartistc: \sheafc_{\dtotalc} \rightarrow \sheafc_{\vartistc}
   \label{eq:artist:artist}
 \end{equation}
 
@@ -294,7 +294,7 @@ Arbitrary morphisms on sheafs are natural transforms \cite{SheafMathematics2021,
   \begin{tikzcd}
     & \mathcal{\dtotalc} & \\
 {} \arrow[rr, "\dfuncc", Rightarrow, shift right, shorten=3em] & & {} \\
-    & \mathcal{\dbasec}^{op} \arrow[uu, "\sheaf_{\dtotalc}", bend left] \arrow[uu, "\sheaf_{\dtotalc}"', bend right] &   
+    & \mathcal{\dbasec}^{op} \arrow[uu, "\sheafc_{\dtotalc}", bend left] \arrow[uu, "\sheafc_{\dtotalc}"', bend right] &   
 \end{tikzcd}
 \end{equation}
 
@@ -306,17 +306,15 @@ The graphic category $\mathcal{\gtotalc}$ consists of the functor object $\sheaf
 \begin{definition} The sheaf $Im_{\vartist}$ is a map between the category of open sets $\gtotal^{op}$ and a subcategory of \textbf{Set}. This subcategory is the set of subsets of sections $\{\gsection^{k}:U_i \rightarrow \gfiber_{U_{i}}\} \subset \Gamma(U_i, \gtotal)$ over the space of all open sets in $\mathcal{\gbase}$. 
 \end{definition}
 
-A set $\Gamma(U_i, \gtotal)$ contains functions to generate arbitrary graphics with a shared continuity and display space, while the artist $\vartist$ is constructed such that it generates a single type of graphic, as described in \autoref{sec:artist:construction}. Therefore, the range of the the artist functor, which we denote $Im_{\vartist}$, is a sheaf map $Im_{\vartist}$. Since the artist is a morphism of sheafs
-\begin{equation}
-  \vartist: \mathcal{\dtotal} \rightarrow Im_{\vartist}
-\end{equation}
-it is by definition a natural transformation\cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. This means that all morphisms $\varphi$ on $\mathcal{\dtotal}$ are expected to commute \cite{spanier1989algebraic,fongInvitationAppliedCategory2019}. This is the basis of the equivariance condition illustrated in \autoref{eq:artist:equivariance}
+A set $\Gamma(U_i, \gtotal)$ contains functions to generate arbitrary graphics with a shared continuity and display space, while the artist $\vartist$ is constructed such that it generates a single type of graphic, as described in \autoref{sec:artist:construction}. Therefore, the range of the the artist functor, which we denote $Im_{\vartist}$, is a sheaf map $Im_{\vartist}$. 
+
+Since the artist is a morphism of sheafs it is by definition a natural transformation\cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. This means that all morphisms $\varphi$ on $\mathcal{\dtotal}$ are expected to commute \cite{spanier1989algebraic,fongInvitationAppliedCategory2019}. This is the basis of the equivariance condition illustrated in \autoref{eq:artist:equivariance}
 
 \begin{equation}
   \label{eq:artist:equivariance}
   \begin{tikzcd}
-    \sheaf_{\dtotal} \arrow[r, "\vartist"] \arrow[d, "\varphi{\dtotal}"'] & \sheaf_{\vartist} \arrow[d, "\varphi_{\vartist}"] \\
-    \sheaf_{\dtotal} \arrow[r, "\vartist"] & \sheaf_{\vartist}                                              
+    \sheafc_{\dtotalc} \arrow[r, "\vartistc"] \arrow[d, "\dfuncc_{\dtotalc}"'] & \sheafc_{\vartistc} \arrow[d, "\dfuncc_{\vartistc}"] \\
+    \sheafc_{\dtotalc} \arrow[r, "\vartistc"] & \sheafc_{\vartistc}                                              
   \end{tikzcd}
 \end{equation}
 which states that transforms on the data side $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ have an approximately equivalent transform in the data side $\vartist_{\varphi \in Hom_{\mathcal{\dfiber}}}$. This commutativity property states that visualization library components must be implemented such that changes in data induce equivalent changes in the output, which is how visualization libraries can produce visualizations that satisfy Kindlmann and Scheidegger's correspondence principal that data and visual structure must match. 
