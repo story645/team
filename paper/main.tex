@@ -182,12 +182,12 @@ Formally, a fiber bundle is a mathematical structure $(\dtotalc, \dbasec, \pi, \
 \begin{equation}
   \label{eq:fiber_bundle}
   \begin{tikzcd}
-      \dfiber \arrow[r, hook] & \dtotal \arrow[r, "\pi"] & \dbase
+      \dfiberc \arrow[r, hook] & \dtotalc \arrow[r, "\pi"] & \dbasec
   \end{tikzcd}
 \end{equation}
 
 \begin{definition}
-The \textcolor{base}{base space} \dbasec\ is a topological space, which means it is a a set $\dbase$ with a collection of open sets surrounding each element in the set. For each point $\dbasepoint in \dbase$, there is a collection of subsets $\{U\} \subset \dbase$ such that $x \in U \subseteq \dbase$ \cite{spanier1989algebraic, bradleyTopologyCategoricalApproach2020}  
+The \textcolor{base}{base space} \dbasec\ is a topological space, which means it is a set $\dbase$ with a collection of open sets \cite{TopologyVsTopology} surrounding each element in the set. Open sets are a collection of subsets in a set $X$, including the empty set, the whole set $X$, and every union and intersection of its member subsets. For each point $\dbasepoint in \dbase$, there is a collection of subsets $\{U\} \subset \dbase$ such that $x \in U \subseteq \dbase$ \cite{spanier1989algebraic, bradleyTopologyCategoricalApproach2020}  
 \end{definition}
 \note{intuition about base space}
 
@@ -198,20 +198,17 @@ The \textcolor{base}{base space} \dbasec\ is a topological space, which means it
 \begin{definition} The \textcolor{total}{total space} \dtotalc\ is the space reachable via the projection map $\pi$. The total space is always locally trivial, meaning $\dtotal = \dbase \times \dfiber$ over any open neighborhood $U_{k}$. The bundle is trivial when $\dtotal = \dbase \times \dfiber$ is true globally; a non-trivial bundle can be thought of as  the twisted product. \cite{hatcherAlgebraicTopology2002,nlab:twisting_function}  
 \end{definition}
 
-How these spaces fit together is illustrated in \autoref{fig:related-work:fiber-bundle}, wherein values lives in the fiber $\dfiber\subseteq\dtotal$. In this example, the fiber \dfiber\ is the cartesian product of two sets $F_{0}\times F_{1}$ where each fiber $F_{i}$ is ....
-\begin{equation}
-  formal equation of the fiber?
-  \label{eq:related-work:fiber}
-\end{equation}
-
 
 \begin{equation}
   \begin{tikzcd}
-      \dfiber \arrow[r, hook] & \dtotal \arrow[d, "\pi"'] \\
-                        & \dbase \arrow[u, "\dsection"', bend right]
+      \dfiberc \arrow[r, hook] & \dtotalc \arrow[d, "\pi"'] \\
+                        & \dbasec \arrow[u, "\dsectionc"', bend right]
   \end{tikzcd}
 \end{equation}
 
+How these spaces fit together is illustrated in \autoref{fig:related-work:fiber-bundle}, wherein values lives in the fiber $\dfiber\subseteq\dtotal$. In this example, the fiber \dfiber\ is the cartesian product of two sets $F_{0}\times F_{1}$ where each fiber $F_{i}$ is ....
+
+\subsubsection{Sheaves}
 The set of all sections sections $\{\dsection^{i}: \U_{j}\rightarrow \dtotal\}|_{i\in I}$ over an arbitrary open set $U_{j}$ is denoted $\Gamma(U_{\dbasepoint}, \dtotal)$. The set of all sections over the total space \dbase\ is denoted $\Gamma(\dbase, \dtotal)$.  
 
 The map from the open set to the set of sections is called a presheaf $\sheaf: U_j \rightarrow \Gamma(U_j, \dtotal)$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps between the open sets and the sets of sections 
@@ -245,30 +242,30 @@ In this work, we propose that equivariance constraints can be expressed using ca
 For more information on category theory, see Barr and Wells\cite{barrCategoryTheoryComputing}, Fong and Spivak \cite{fongInvitationAppliedCategory2019}, Riehl\cite{riehlCategoryTheoryContext} and Bradley et. al. \cite{bradleyTopologyCategoricalApproach2020}.
 
 \section{Artist} 
-In this section, we use category theory to formally express the implicit assumptions that visualization library components make in transforming data into graphical representations. We propose that the visualization transformation can be modeled as a functor, which we call the \textcolor{artist}{Artist} $\mathcal{\vartist}$\footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts data, which we model as the catgory $\mathcal{\dtotal}$ to graphics, which we model as the category $\mathcal{\gtotal}$. We formulate this association as 
+In this section, we use category theory to formally express the implicit assumptions that visualization library components make in transforming data into graphical representations. We propose that the visualization transformation can be modeled as a functor, which we call the \textcolor{artist}{Artist} $\mathcal{\vartist}$\footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts data, which we model as the sheaf $\sheaf_{\dtotal}$ to graphics, which we model as the sheaf $\sheaf_{\vartist}$. We formulate this association as 
 
 \begin{equation}
-  \vartist: \mathcal{\dtotal} \rightarrow \mathcal{\gtotal}
+  \vartist: \sheaf_{\dtotal} \rightarrow \sheaf_{\vartist}
   \label{eq:artist:artist}
 \end{equation}
+
 In this section we describe the structure of the data and graphic spaces, which we formulate as objects in categories and the morphisms between those objects. We then use these definitions to express the structure that an artist must preserve. Finally, we propose that artists can be composed by manufacturing new artists based on various types of input data. 
 
 \subsection{Categorical Artist}
 \label{sec:artist:category}
-We define the categories $\mathcal{\dtotal}$ and $\mathcal{\gtotal}$ as sheaves of sections\cite{SheafMathematics2021,spanier1989algebraic}, of fiberbundles, as introduced in \autoref{sec:related-work:fiber-bundles}. Sheaves are mathematical abstractions of how data over different parts of a continuous base space are glued together \cite{ghristElementaryAppliedTopology2014, ghri}, whether the data is distributed, streaming, or in disk; therefore sheaves are a way to express the continuity that the artist preserves. 
-We assume that $\mathcal{E}$ is defined in terms of a fixed base and fiber space, for example a class of images or tables with the same schema. The graphic category $\mathcal{\gtotal}$ consists of the set of graphics that an artist \vartist\ is allowed to generate from a given $\mathcal{E}$, which is discussed further in \autoref{sec:artist:construction}.
 
 As introduced in \autoref{sec:related-work:fiber-bundles}, sets of open sets form the basis of topological spaces. We propose that we can express how the elements in our data are connected to each other by modeling the data continuity as a topological space \dbase. We express subsets of the continuity, which can be mapped into subsets of the data, as open sets $U_{i}$ in \dbase. We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the continuity and the inclusion maps that glue them together. 
 
 \begin{definition} The category of open sets $\mathcal{\dbase}$ consists of
   \label{def:category:K} 
   \begin{itemize}
-    \item \textit{objects} all open sets $U_{i} \in \{U\}$ in the topological space $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
-    \item \textit{morphisms} inclusion maps from a subspace to a larger space $\iota: U_{i} \hookrightarrow U_{j}$, which is equivalent to $U_{i} \subseteq U_{j}$ and  
+    \item \textit{objects} all open sets $U_{j} \in \{U\}$ in the topological space $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
+    \item \textit{morphisms} inclusion maps from a subspace to a larger space $\iota: U_{j} \hookrightarrow U_{j}$, which is equivalent to $U_{j} \subseteq U_{j}$ and  
   \end{itemize} 
 \end{definition}
 
-The inclusion maps $\iota$ can be used to piece together the subsets $U_{i}$, particularly individual points $\dbasepoint \in \dbase$. This is how we provide knowledge of continuity to the artist \vartist\ in a way where the artist does not need all the data at once. This is what allows the artist to generate graphics where the subset of data on view is dynamically updated, such as pan and zoom navigation\cite{NekrasovskiEvaluationPanZoom2006} and sliding windows on streaming data\cite{crouchDynamicGraphsSlidingwindow2013,chuTimeSeriesSegmentation1995}. \note{does this actually go down in the composition section?}
+The inclusion maps $\iota$ can be used to piece together the subsets $U_{i}$, particularly individual points $\dbasepoint \in \dbase$. This is how we provide knowledge of continuity to the artist \vartist\ in a way where the artist does not need all the data at once. This is what allows the artist to generate graphics where the subset of data on view is dynamically updated, such as pan and zoom navigation\cite{NekrasovskiEvaluationPanZoom2006} and sliding windows on streaming data\cite{crouchDynamicGraphsSlidingwindow2013,chuTimeSeriesSegmentation1995}. 
+
 
 Besides expressing continuities, fiber bundles also provide us a way to richly express the structure of the fields in the data. Specifically, we do this by adopting Spivak's formulation of the fiber as a (column name, data domain) simple schema \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak formally maps column names and field types to the set of values associated with the field type, for example $\mathbb{R}$ for a \texttt{float} column named \textit{temperature}. We define $\dfiber$ as  the cartesian cross product of the fibers $\dfiber_c$ for each field, where $c$ is the field name.  
 
@@ -283,21 +280,14 @@ The morphisms $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ are functions from the
 
 We encode individual datasets in the fiberbundle as sections of the bundle. We follow the convention that $\Gamma(U_i, \dtotal)$ denotes the set of sections $\{\dsection^{j}:U_i \rightarrow \dfiber_{U_{i}}\}_{j\in I}$ of the fiber bundle \dtotal\ over an open set $U_{i}\subseteq \dbase$.  
 
-\begin{definition} The category of sets of sections $\Gamma(U_i,\dtotal)$, where $U_i$ are objects in $\mathcal{\dfiber}$, form a subcatagory of the category of sets \textbf{Set}. The morphisms between objects of this subcategory are restriction maps $\iota: \Gamma(U_j, \dtotal) \rightarrow \Gamma(U_i, \dtotal)$ where $U_{i} \subseteq U_{j}$.
+\begin{definition} The category \mathcal{\dtotalc} is the set of sets of sections $\{\Gamma(U_j,\dtotal)\}|U_j \in \mathcal{dbase}$. The category \mathcal{\dtotal} is a subcatagory of the category of sets \textbf{Set}. The morphisms between objects of $\mathcal{\dtotal}$ are restriction maps $\iota: \Gamma(U_j, \dtotal) \rightarrow \Gamma(U_i, \dtotal)$ where $U_{i} \subseteq U_{j}$.
 \end{definition}
 
-As mentioned in \autoref{sec:related-work:fiber-bundles}, the fiber space is embedded in the total space $\dfiber \hookrightarrow \dtotal$. The sections $\Gamma(\dbase, \dtotal)$ are called the global sections of $\dtotal$ \cite{SheafMathematics2021,spanier1989algebraic}. Each section is how we represent a unique dataset, where the sets of sections $\Gamma$ is the space of all datasets that have the same data fields in the \dfiber\ and continuity as encoded in\dbase\. For example, Spivak describes tables that have the same schema and discrete index as sections of the same fiber bundle\cite{spivakSIMPLICIALDATABASES}.
 
-\begin{definition} The category $\mathcal{\dtotal}$ consists of 
-  \begin{itemize}
-    \item\textit{object} the sheaf\cite{SheafMathematics2021,ghristElementaryAppliedTopology2014} $\sheaf_{\dtotal}: \mathcal{K}^{op} \rightarrow \Gamma(\mathcal{K}, \dtotal)$
-    \item \textit{morphisms} arbitrary endomorphic\cite{fongInvitationAppliedCategory2019} bundle maps $\varphi: \dtotal\rightarrow \dtotal$. When the sheaf is restricted to the stalk\cite{StalkSheaf2019} $\mathscr{F}_{k}$ over a point $\dbasepoint\in \dbase$, then allowable morphisms are $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. 
-  \end{itemize}
-\end{definition}
-
+Each section is how we represent a unique dataset, where the sets of sections $\Gamma$ is the space of all datasets that have the same data fields in the \dfiber\ and continuity as encoded in\dbase\. For example, Spivak describes tables that have the same schema and discrete index as sections of the same fiber bundle\cite{spivakSIMPLICIALDATABASES}.
  
 
-Arbitrary morphisms on sheafs $\varphi:\mathcal{\dtotal} \rightarrow \mathcal{\dtotal}$ are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}, meaning that the morphisms $\varphi$ compose with the inclusion maps $\iota$ \cite{fongInvitationAppliedCategory2019}. As defined in \autoref{def:category:Tau}, the sets of sections $\Gamma(U_{i},\dtotal)$ are objects of the category $\mathcal{T}$. 
+Arbitrary morphisms on sheafs are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}, meaning that the morphisms $\varphi$ compose with the inclusion maps $\iota$ \cite{fongInvitationAppliedCategory2019}. As defined in \autoref{def:category:Tau}, the sets of sections $\Gamma(U_{i},\dtotal)$ are objects of the category $\mathcal{T}$. 
 
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
@@ -499,7 +489,7 @@ The functor $\vindex$ is a deformation retract, which means....\cite{hatcherAlge
 
 \begin{figure}[!h]
   \centering
-  \subfloat[\dbasec_a \sqcup_{\dbasec_c} \dase_b]{\includegraphics[width=1.2in]{union_k.png}%
+  \subfloat[\dbasec_a \sqcup_{\dbasec_c} \dbase_b]{\includegraphics[width=1.2in]{union_k.png}%
   \label{fig_first_case}}
   %\hfil
   \subfloat[\dbasec_c=\varnothing]{\includegraphics[width=1.2in]{disjoint_k.png}%
