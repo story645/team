@@ -197,19 +197,13 @@ The \textcolor{base}{base space} \dbasec\ is a topological space, which means it
 
 \begin{definition} The \textcolor{total}{total space} \dtotalc\ is the space reachable via the projection map $\pi$. The total space is always locally trivial, meaning $\dtotal = \dbase \times \dfiber$ over any open neighborhood $U_{k}$. The bundle is trivial when $\dtotal = \dbase \times \dfiber$ is true globally; a non-trivial bundle can be thought of as  the twisted product. \cite{hatcherAlgebraicTopology2002,nlab:twisting_function}  
 \end{definition}
- 
 
-This is illustrated in \autoref{fig:related-work:fiber-bundle}, wherein values lives in the fiber $\dfiber\subseteq\dtotal$. In this example, the fiber \dfiber\ is the cartesian product of two sets $F_{0}\times F_{1}$ where each fiber $F_{i}$ is ....
+How these spaces fit together is illustrated in \autoref{fig:related-work:fiber-bundle}, wherein values lives in the fiber $\dfiber\subseteq\dtotal$. In this example, the fiber \dfiber\ is the cartesian product of two sets $F_{0}\times F_{1}$ where each fiber $F_{i}$ is ....
 \begin{equation}
   formal equation of the fiber?
   \label{eq:related-work:fiber}
 \end{equation}
 
-While the values are embedded in \dfiber, the continuity of the data is modeled as the base space \dbase, which is the quotient space \cite{QuotientSpaceTopology2020}
-\begin{equation}
-formal math of the base space as equivalence class for F_[k]
-\end{equation}
-which means that every point in $\dfiber_{k}$ maps to a point $k \subset K$. 
 
 \begin{equation}
   \begin{tikzcd}
@@ -217,6 +211,21 @@ which means that every point in $\dfiber_{k}$ maps to a point $k \subset K$.
                         & \dbase \arrow[u, "\dsection"', bend right]
   \end{tikzcd}
 \end{equation}
+
+The set of all sections sections $\{\dsection^{i}: \U_{j}\rightarrow \dtotal\}|_{i\in I}$ over an arbitrary open set $U_{j}$ is denoted $\Gamma(U_{\dbasepoint}, \dtotal)$. The set of all sections over the total space \dbase\ is denoted $\Gamma(\dbase, \dtotal)$.  
+
+The map from the open set to the set of sections is called a presheaf $\sheaf: U_j \rightarrow \Gamma(U_j, \dtotal)$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps between the open sets and the sets of sections 
+
+\begin{equation}
+  \label{eq:artist:presheaf}
+  \begin{tikzcd}[column sep=small]
+    {\Gamma(U_1, \dtotalc)}                                       & {}                                                    & {\Gamma(U_2, \dtotalc)} \arrow[ll, "\iota^*"', hook'] \\
+                                                                  &                                                       &                                                       \\
+    U_1 \arrow[uu, "\sheaf_{\dtotal}"] \arrow[rr, "\iota"', hook] & {} \arrow[uu, "\sheaf_{\dtotal}" description, dotted] & U_2 \arrow[uu, "\sheaf_\dtotal"']                    
+    \end{tikzcd}
+\end{equation}
+
+meaning that the presheaf ensures that given an inclusion map between open sets $\iota$, there is a corresponding map $\iota^*$ between the sets of sections. This means that a smaller space $U_1$ is included in a larger space $U_2$ and a function that is continuous over a larger space $U_2$ is continuous over a subspace $U_1 \subspace U_2$. Sheaves are presheafs where sets of sections $\Gamma$ are defined over unions of open sets $U \cup_{U\in \mathscr{U}}$ \cite{spanier1989algebraic, nlab:sheaf}. Because they preserve inclusion maps, sheaves are often used as an abstraction for keeping track of how data over topological spaces is glued together \cite{ghristElementaryAppliedTopology2014}.
 
 Here we present a very brief summary of fiber bundles and sheaves, for more information see Hatcher\cite{hatcherAlgebraicTopology2002}, Munkres\cite{munkresElementsAlgebraicTopology1984}, Spanier \cite{spanier1989algebraic} and Ghrist\cite{ghristElementaryAppliedTopology2014,ghristHomologicalAlgebraData2018}. 
 
@@ -286,18 +295,7 @@ As mentioned in \autoref{sec:related-work:fiber-bundles}, the fiber space is emb
   \end{itemize}
 \end{definition}
 
- The artist takes as input the sheaf object $\sheaf_{\dtotal}$ because the sheaf is a way of keeping track of how data over topological spaces is glued together \cite{ghristElementaryAppliedTopology2014}. This bookkeeping is  illustrated in \autoref{eq:artist:presheaf} as the preservation of inclusion maps $\iota, \iota^{*}$ in presheaf maps between open sets $U_i$ and their corresponding set of sections $\Gamma(U_i, \dtotal)$. A presheaf is a contravariant functor from an arbitrary category $\mathcal{C}$ to \textbf{Set} \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf} and sheafs are presheafs where sets of sections $\Gamma$ are defined over unions of open sets $U \cup_{U\in \mathscr{U}}$ \cite{spanier1989algebraic, nlab:sheaf}. 
-
-\begin{equation}
-  \label{eq:artist:presheaf}
-  \begin{tikzcd}[column sep=small]
-    {\Gamma(U_1, \dtotalc)}                                       & {}                                                    & {\Gamma(U_2, \dtotalc)} \arrow[ll, "\iota^*"', hook'] \\
-                                                                  &                                                       &                                                       \\
-    U_1 \arrow[uu, "\sheaf_{\dtotal}"] \arrow[rr, "\iota"', hook] & {} \arrow[uu, "\sheaf_{\dtotal}" description, dotted] & U_2 \arrow[uu, "\sheaf_\dtotal"']                    
-    \end{tikzcd}
-\end{equation}
-
- The functor $\sheaf_{\dtotal}$ is contravariant because the inclusion map $\iota$ between open sets $U_i \in \mathcal{K}$ goes in the opposite direction from the map $\iota^*$ between the sections in $\Gamma(U_{i}, \dtotal)$ \cite{riehlCategoryTheoryContext}. The open set $U_1$ is a subset of $U_2$, therefore $\iota: U_1 \rightarrow U_2$. On the other hand, a set of functions defined on a space $U_2$ must be defined on the subspace $\iota: \Gamma(U_2, \dbase) \rightarrow \Gamma(U_1, \dbase)$ but the reverse does not need to be true. For example, a continuous function defined over the interval $\left[.25,.5\right]$ need not be defined over $\left[0, 1\right]$ but must exist over  $\left[.3, .45\right]$. We use the notation $\mathcal{K}^{op}$ to signify that the functor $\sheaf$ is contravariant and $\sheaf$ to denote that it is a sheaf. We also denote the sheaf over the total space \dbase\ of the fiber bundle \dtotal\ as $\sheaf(\dtotal)$. 
+ 
 
 Arbitrary morphisms on sheafs $\varphi:\mathcal{\dtotal} \rightarrow \mathcal{\dtotal}$ are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}, meaning that the morphisms $\varphi$ compose with the inclusion maps $\iota$ \cite{fongInvitationAppliedCategory2019}. As defined in \autoref{def:category:Tau}, the sets of sections $\Gamma(U_{i},\dtotal)$ are objects of the category $\mathcal{T}$. 
 
