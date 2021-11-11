@@ -187,17 +187,17 @@ Formally, a fiber bundle is a mathematical structure $(\dtotalc, \dbasec, \pi, \
 \end{equation}
 
 \begin{definition}
-The \textcolor{base}{base space} \dbasec\ is a topological space, which means it is a set $\dbase$ with a collection of open sets \cite{TopologyVsTopology} surrounding each element in the set. Open sets are a collection of subsets in a set $X$, including the empty set, the whole set $X$, and every union and intersection of its member subsets. For each point $\dbasepoint in \dbase$, there is a collection of subsets $\{U\} \subset \dbase$ such that $x \in U \subseteq \dbase$ \cite{spanier1989algebraic, bradleyTopologyCategoricalApproach2020}  
+The \textcolor{base}{base space} \dbasec\ is a topological space, which means it is a set $\dbase$ with a collection of open sets \cite{TopologyVsTopology} surrounding each element in the set. Open sets are a collection of subsets $\{\opensetc\}$ in a set \dbase, including the empty set, the whole set \dbase, and every union and intersection of its member subsets. For each point $\dbasepoint in \dbase$, there is a collection of subsets $\\{\openset\} \subset \dbase$ such that $\dbasepoint \in \openset \subseteq \dbase$ \cite{spanier1989algebraic, bradleyTopologyCategoricalApproach2020}  
 \end{definition}
 \note{intuition about base space}
 
-\begin{definition} The \textcolor{fiber}{fiber space} \dfiberc\ is a topological space such that for every $\dbasepoint \in \dbase$, the fiber over that point is isomorphic to the preimage of that point $\dfiber_{\dbasepoint} \cong \pi^{-1}(\{k\})$. All fibers $\dfiber_{\dbasepoint}$ are homemorphic to each other.  \cite{spanier1989algebraic, hatcherAlgebraicTopology2002}
+\begin{definition} The \textcolor{fiber}{fiber space} \dfiberc\ is a topological space such that for every $\dbasepoint \in \dbase$, the fiber over that point is isomorphic to the preimage of that point $\dfiber_{\dbasepoint} \cong \pi^{-1}(\{\dbasepoint\})$. All fibers $\dfiber_{\dbasepoint}$ are homeomorphic to each other \cite{spanier1989algebraic, hatcherAlgebraicTopology2002}
 \end{definition}
 \note{intuition about fiber} 
 
-\begin{definition} The \textcolor{total}{total space} \dtotalc\ is the space reachable via the projection map $\pi$. The total space is always locally trivial, meaning $\dtotal = \dbase \times \dfiber$ over any open neighborhood $U_{k}$. The bundle is trivial when $\dtotal = \dbase \times \dfiber$ is true globally; a non-trivial bundle can be thought of as  the twisted product. \cite{hatcherAlgebraicTopology2002,nlab:twisting_function}  
+\begin{definition} The \textcolor{total}{total space} \dtotalc\ is the space reachable via the projection map $\pi$. The total space is always locally trivial, meaning $\dtotal = \dbase \times \dfiber$ over any open neighborhood $\openset_{\dbasepoint}$. 
 \end{definition}
-
+The fiber bundle is trivial when $\dtotal = \dbase \times \dfiber$ is true globally; a non-trivial bundle can be thought of as the twisted fiber product $\dtotal=\dbase times_{T} \dfiber$\cite{hatcherAlgebraicTopology2002,nlab:twisting_function}. The twisting refers to the fiber \dfiber\ not aligning in the same direction over all $\dopenspace \subseteq \dbase$. 
 
 \begin{equation}
   \begin{tikzcd}
@@ -209,22 +209,23 @@ The \textcolor{base}{base space} \dbasec\ is a topological space, which means it
 How these spaces fit together is illustrated in \autoref{fig:related-work:fiber-bundle}, wherein values lives in the fiber $\dfiber\subseteq\dtotal$. In this example, the fiber \dfiber\ is the cartesian product of two sets $F_{0}\times F_{1}$ where each fiber $F_{i}$ is ....
 
 \subsubsection{Sheaves}
-The set of all sections sections $\{\dsection^{i}: \U_{j}\rightarrow \dtotal\}|_{i\in I}$ over an arbitrary open set $U_{j}$ is denoted $\Gamma(U_{\dbasepoint}, \dtotal)$. The set of all sections over the total space \dbase\ is denoted $\Gamma(\dbase, \dtotal)$.  
+The set of all sections sections $\{\dsection^{i}: \openset_{j}\rightarrow \dtotal\}|_{i\in I}$ over an arbitrary open set $U_{j}$ is denoted $\Gamma(\openset_{\dbasepoint}, \dtotal)$. The set of all sections over the total space \dbase\ is denoted $\Gamma(\dbase, \dtotal)$.  
 
-The map from the open set to the set of sections is called a presheaf $\sheaf: U_j \rightarrow \Gamma(U_j, \dtotal)$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps between the open sets and the sets of sections 
+The map from the open set to the set of sections is called a presheaf $\sheaf: U_j \rightarrow \Gamma(\openset_j, \dtotal)$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps between the open sets open sets $\iota$ and the inclusion map $\iota^*$ between the sets of sections.
 
 \begin{equation}
   \label{eq:artist:presheaf}
   \begin{tikzcd}[column sep=small]
-    {\Gamma(U_1, \dtotalc)}                                       & {}                                                    & {\Gamma(U_2, \dtotalc)} \arrow[ll, "\iota^*"', hook'] \\
+    {\Gamma(\opensetc_1, \dtotalc)}                                       & {}                                                    & {\Gamma(\opensetc_2, \dtotalc)} \arrow[ll, "\iota^*"', hook'] \\
                                                                   &                                                       &                                                       \\
-    U_1 \arrow[uu, "\sheafc_{\dtotal}"] \arrow[rr, "\iota"', hook] & {} \arrow[uu, "\sheafc_{\dtotal}" description, dotted] & U_2 \arrow[uu, "\sheafc_\dtotal"']                    
+    \opensetc_1 \arrow[uu, "\sheafc_{\dtotal}"] \arrow[rr, "\iota"', hook] & {} \arrow[uu, "\sheafc_{\dtotal}" description, dotted] & \opensetc_2 \arrow[uu, "\sheafc_\dtotal"']                    
     \end{tikzcd}
 \end{equation}
 
-meaning that the presheaf ensures that given an inclusion map between open sets $\iota$, there is a corresponding map $\iota^*$ between the sets of sections. This means that a smaller space $U_1$ is included in a larger space $U_2$ and a function that is continuous over a larger space $U_2$ is continuous over a subspace $U_1 \subspace U_2$. Sheaves are presheafs where sets of sections $\Gamma$ are defined over unions of open sets $U \cup_{U\in \mathscr{U}}$ \cite{spanier1989algebraic, nlab:sheaf}. Because they preserve inclusion maps, sheaves are often used as an abstraction for keeping track of how data over topological spaces is glued together \cite{ghristElementaryAppliedTopology2014}.
+This means that a smaller space $\openset_1$ is included in a larger space $\openset_2$ and a function that is continuous over a larger space $\openset_2$ is continuous over a subspace $\openset_1 \subspace \openset_2$. Sheaves are presheafs where sets of sections $\Gamma$ are defined over unions of open sets over a topology $\bigcup_{j \in I} \openset)_j \in \dtotal$ \cite{spanier1989algebraic, nlab:sheaf}. Sheaves are often used as an abstraction for keeping track of how data over topological spaces is glued together \cite{ghristElementaryAppliedTopology2014} because they model the data as sets of sections, continuity of the data in the base, and how subsets fit together through inclusion maps.  
 
-Here we present a very brief summary of fiber bundles and sheaves, for more information see Hatcher\cite{hatcherAlgebraicTopology2002}, Munkres\cite{munkresElementsAlgebraicTopology1984}, Spanier \cite{spanier1989algebraic} and Ghrist\cite{ghristElementaryAppliedTopology2014,ghristHomologicalAlgebraData2018}. 
+\note{I've seen this convention before, but I also cite all these people above}
+For more information on fiber bundles and sheaves, see Hatcher\cite{hatcherAlgebraicTopology2002}, Munkres\cite{munkresElementsAlgebraicTopology1984}, Spanier \cite{spanier1989algebraic} and Ghrist\cite{ghristElementaryAppliedTopology2014,ghristHomologicalAlgebraData2018}. 
 
 \subsection{Equivariance}
 \label{sec:related-work:equivariance}
@@ -237,7 +238,12 @@ When introducing the retinal variables, Bertin informally specifies that continu
 
 \subsubsection{Category Theory}
 \label{sec:related-work:equivariance:category}
-In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al provide a brief introduction to category theory for visualization practitioners \cite{vickersUnderstandingVisualizationFormal2013}, but their work focuses on data, representation, and evocation, while this paper is aims to provide guidance on how the map from data to representation should be implemented. 
+In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al provide a brief introduction to category theory for visualization practitioners \cite{vickersUnderstandingVisualizationFormal2013}, but their work focuses on visualization deisgn, while this paper aims to provide guidance on designing visualization library components. 
+\begin{definition} A category is a 
+\end{definition}
+
+
+
 
 For more information on category theory, see Barr and Wells\cite{barrCategoryTheoryComputing}, Fong and Spivak \cite{fongInvitationAppliedCategory2019}, Riehl\cite{riehlCategoryTheoryContext} and Bradley et. al. \cite{bradleyTopologyCategoricalApproach2020}.
 
