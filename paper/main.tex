@@ -428,9 +428,7 @@ that we construct to preserve continuity and equivariance.
     \item $\vindexc: \gbasec \rightarrow \dbasec$ is a surjective map from the graphic topological base to the data topological base
   \end{enumerate}
 \end{definition}
-and $\mathcal{\dtotalc}$, $\mathcal{\vtotalc}$, and $\mathcal{\gtotalc}$ are the categorical representations of fiber bundles that model the data, visual variable, and graphic space of the data to visual transformation. 
-
-\note{figure out how to format notes} Usage of the bundle directly in an equation or diagram - $\dotal, \vtotal, \gtotal$ - denotes that the function can be evaluated pointwise over $\dbasepoint \in \dbase$. Use of the categorical form -- $\mathcal{\dtotalc}, \mathcal{\vtotalc}, \mathcal{\gtotalc}$ -- denotes that the function is evaluated over an openset object, meaning that the function needs knowledge of both a value over a point and some information about neighboring values. 
+and $\mathcal{\dtotalc}$, $\mathcal{\vtotalc}$, and $\mathcal{\gtotalc}$ are the categorical representations of fiber bundles that model the data, visual variable, and graphic space of the data to visual transformation.  We construct the artist to have two stages
 
 \begin{equation}
   \label{eq:artist:construction:all}
@@ -440,6 +438,8 @@ and $\mathcal{\dtotalc}$, $\mathcal{\vtotalc}$, and $\mathcal{\gtotalc}$ are the
    & \dbasec &                             & \mathcal{\dbasec} \arrow[uu, "\sheaf_{\vtotalc}"] \arrow[r, "\vindexc^*"] & \mathcal{\gbasec} \arrow[uu, "\sheaf_{\vmarkc}"']
   \end{tikzcd}
 \end{equation}
+which are the data to visual variable map $\vchannel$ at the bundle level and the visual variable to graphic map $\vmark$ at the sheaf level. Usage of the bundle directly in an equation or diagram - $\dotal, \vtotal, \gtotal$ - denotes that the function can be evaluated pointwise over $\dbasepoint \in \dbase$. Use of the categorical form -- $\mathcal{\dtotalc}, \mathcal{\vtotalc}, \mathcal{\gtotalc}$ -- denotes that the function is evaluated over an openset object, meaning that the function needs knowledge of both a value over a point and some information about neighboring values. 
+
 
 \subsection{Data Domain}
 We model data as sections of a fiber bundle $(\dtotal, \pi, \dbase, \dfiber)$. We encode the continuity of the data as the \textcolor{base}{base space} $\dbase$. \note{does this go in intro?} The \textcolor{fiber}{fiber space} \dfiber\ is the space of all possible values of the data \autoref{eq:related-work:fiber}. We model the data as the section \dsection because, as described in \autoref{sec:related-work:fiber-bundles}, the section is the map from the indexing space \dbase to the space of possible data values \dfiber. Spivak's notation, as discussed in \autoref{sec:related-work:equivariance}, also allows for associating elements in a section with the field it comes from. This allows for field based selection of values, while inclusion allows for continuity (index) based selections. 
@@ -485,7 +485,7 @@ with a fiber space \gfiber\ embedded in the total space \gtotal\ and a section m
 \item [\textcolor{section}{section} \gsection] graphic generating function
 \end{LaTeXdescription}.
 
-We represent the graphic output as a fiber bundle because it is an abstraction that is generalizable to various output mediums (screens, 3D prints) and types of graphics. In this work, \gtotal\ assumes the the display is an idealized 2D screen and \gsection\ is an abstraction of rendering. For example, \gsection\ can be a specification such as PDF\cite{bienz1993portable}, SVG\cite{quintScalable2003} or an OpenGL scene graph\cite{CarsonOpenGL1997}, or a rendering engine such as Cairo\cite{CairographicsOrg} or AGG\cite{shemanarevAntiGrainGeometry}.
+We represent the graphic output as a fiber bundle because it is an abstraction that is generalizable to various output mediums (screens, 3D prints) and types of graphics.
 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{render.png}
@@ -493,9 +493,7 @@ We represent the graphic output as a fiber bundle because it is an abstraction t
   \label{fig:artist:graphic}
 \end{figure}
 
-\begin{example}
-As illustrated in \autoref{fig:artist:graphic}, 
-\end{example}
+As illustrated in \autoref{fig:artist:graphic}, in this work, \gtotal\ assumes the the display is an idealized 2D screen. \note{include some more about the figure} The graphic section \gsection\ is an abstraction of rendering. For example, \gsection\ can be a specification such as PDF\cite{bienz1993portable}, SVG\cite{quintScalable2003} or an OpenGL scene graph\cite{CarsonOpenGL1997}, or a rendering engine such as Cairo\cite{CairographicsOrg} or AGG\cite{shemanarevAntiGrainGeometry}.
 
 \subsection{Visualization Library Components}
 
