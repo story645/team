@@ -52,7 +52,6 @@
 \usepackage{tikz}
 \usetikzlibrary{cd} % commutative diagrams
 \newtheorem{prop}{Proposition} %math?
-\usepackage[switch]{lineno}
 \usepackage{minted}
 \setminted[python]{fontsize=\scriptsize, 
                    linenos,
@@ -88,6 +87,9 @@
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
+
+\usepackage[switch]{lineno}
+\linenumbers
 
 \begin{document}
 %
@@ -331,12 +333,15 @@ where the map \dfunc\ is any arbitrary function between sheafs. The sheaf $\shea
     \item \textit{objects} ordered pairs $(x,y)$,  $x$ is an object of $\mathcal{X}$ and  $y$ is an object of $\mathcal{Y}$
     \item \textit{morphisms} ordered pairs $(f:x\rightarrow x^{\prime}, g:y\rightarrow y^{\prime})$
     \end{itemize}
-The coomposition of morphisms is defined component wise by composition in $\mathcal{X}$ and $\mathcal{Y}$.ss
+The composition of morphisms is defined component wise by composition in $\mathcal{X}$ and $\mathcal{Y}$.ss
 \end{definition}
+The fiber category $\mathcal{\dfiber}$ can encode a large variety of collections of data fields because it is a product category of arbitrary categories. For example, a lists of strings is an instance of an object in \textbf{Set}, networks are an instance of \textbf{Graph}, and images are vector spaces which are a specific type of topological space \textbf{Top}.  The morphisms $Hom_{\mathcal{\dfiber}}$ are functions from the data to itself, for example the binary operations, group actions, and measurement scales discussed in \autoref{sec:related-work:equivariance}. These functions could also be monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}.
+
+\note{note sure this note applies anymore: We note that a one object category is a monoid \cite{nlab:monoid,barrCategoryTheoryComputing}, which is an algebraic structure that lends itself to computer library design because they are an abstraction of function composition \cite{yorgeyMonoidsThemeVariations}.}
 
 The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
-The domain of the artist function is the space of all possible graphics. As with the domain $\sheaf_{E}$, the grapic space is modeled with fiber bundle equivalent categories:
+The domain of the artist function is the space of all possible graphics. As with the domain $\sheaf_{E}$, the graphic space is modeled with fiber bundle equivalent categories:
 \begin{table}[!h]
   \centering
   \label{tab:artist:graphic}
@@ -433,16 +438,16 @@ and $\mathcal{\dtotalc}$, $\mathcal{\vtotalc}$, and $\mathcal{\gtotalc}$ are the
 \begin{equation}
   \label{eq:artist:construction:all}
   \begin{tikzcd}
-    \dtotalc \arrow[rr, "\vchannel"] \arrow[rdd, "\pi"'] &         & \dtotalc \arrow[ldd, "\pi"] & \mathcal{\vtotalc}                                                        & Im_{\vmarkc} \subset \gtotalc                     \\
-  &         &                             & {} \arrow[r, "\vmarkc"]                                                   & {}                                \\
-   & \dbasec &                             & \mathcal{\dbasec} \arrow[uu, "\sheaf_{\vtotalc}"] \arrow[r, "\vindexc^*"] & \mathcal{\gbasec} \arrow[uu, "\sheaf_{\vmarkc}"']
-  \end{tikzcd}
+    \dtotalc \arrow[r, "\vindexc"] \arrow[dd, "\pi"'] & \vtotalc \arrow[ldd, "\pi"] & \mathcal{\vtotalc}                                                        & \gtotalc                                           \\
+    &                             & {} \arrow[r, "\vmarkc"]                                                   & {}                                                 \\
+    \dbasec                                           &                             & \mathcal{\dbasec} \arrow[uu, "\sheaf_{\vtotalc}"] \arrow[r, "\vindexc^*"] & \mathcal{\gbasec} \arrow[uu, "\sheaf_{\vartist}"']
+    \end{tikzcd}
 \end{equation}
 which are the data to visual variable map $\vchannel$ at the bundle level and the visual variable to graphic map $\vmark$ at the sheaf level. Usage of the bundle directly in an equation or diagram - $\dotal, \vtotal, \gtotal$ - denotes that the function can be evaluated pointwise over $\dbasepoint \in \dbase$. Use of the categorical form -- $\mathcal{\dtotalc}, \mathcal{\vtotalc}, \mathcal{\gtotalc}$ -- denotes that the function is evaluated over an openset object, meaning that the function needs knowledge of both a value over a point and some information about neighboring values. 
 
 
 \subsection{Data Domain}
-We model data as sections of a fiber bundle $(\dtotal, \pi, \dbase, \dfiber)$. We encode the continuity of the data as the \textcolor{base}{base space} $\dbase$. \note{does this go in intro?} The \textcolor{fiber}{fiber space} \dfiber\ is the space of all possible values of the data \autoref{eq:related-work:fiber}. We model the data as the section \dsection because, as described in \autoref{sec:related-work:fiber-bundles}, the section is the map from the indexing space \dbase to the space of possible data values \dfiber. Spivak's notation, as discussed in \autoref{sec:related-work:equivariance}, also allows for associating elements in a section with the field it comes from. This allows for field based selection of values, while inclusion allows for continuity (index) based selections. 
+We model data as sections of a fiber bundle $(\dtotal, \pi, \dbase, \dfiber)$. We encode the continuity of the data as the \textcolor{base}{base space} $\dbase$. We model the data as the section \dsection\ because, as described in \autoref{sec:related-work:fiber-bundles}, the section is the map from the indexing space \dbase\ to the space of possible data values \dfiber. We adopt Spivak's formulation of the fiber as a (column name, data domain) simple schema \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak formally maps column names and field types to the set of values associated with the field type, for example $\mathbb{R}$ for a \texttt{float} column named \textit{temperature}. This allows for field based selection of values, while inclusion allows for continuity (index) based selections. 
 
 
 \begin{figure}[h!]
@@ -501,93 +506,52 @@ As illustrated in \autoref{fig:artist:graphic}, in this work, \gtotal\ assumes t
 \subsubsection{Visual Bundle \vtotal}
 \begin{equation}
   \begin{tikzcd}[ampersand replacement=\&]
-      \vfiber \arrow[r, hook] \& \vtotal \arrow[d, "\pi"'] \\
-                        \& \dbase \arrow[u, "\vsection"', bend right]
+      \vfiberc \arrow[r, hook] \& \vtotalc \arrow[d, "\pi"'] \\
+                        \& \dbasec \arrow[u, "\vsectionc"', bend right]
   \end{tikzcd}
 \end{equation}
 
-\subsubsection{Graphic to Data: \vindex}
-\begin{equation}
-  \label{eq:artist:construction:xi}
-  \begin{tikzcd}
-      \dtotal \arrow[d, "\pi"'] & \gtotal \arrow[d, "\pi"'] \\
-      \dbase                   & \gbase \arrow[l, "\vindex"']
-  \end{tikzcd}
-\end{equation}
-
-The functor $\vindex$ is a deformation retract, which means....\cite{hatcherAlgebraicTopology2002,spanier1989algebraic}
-
-
-\begin{figure}[!h]
-  \centering
-  \subfloat[\dbasec_a \sqcup_{\dbasec_c} \dbase_b]{\includegraphics[width=1.2in]{union_k.png}%
-  \label{fig_first_case}}
-  %\hfil
-  \subfloat[\dbasec_c=\varnothing]{\includegraphics[width=1.2in]{disjoint_k.png}%
-  \label{fig_second_case}}
-  \caption{\note{probably doesn't need the k=0}}
-  \label{fig_sim}
-\end{figure}
-
-\begin{equation}
-  \label{eq:artist:construction:xi:multi_base}
-  \begin{tikzcd}
-    \dbase_{c} \arrow[d, hook] \arrow[r, hook] & \dbase_{b}                 & \gbase_b \arrow[l, "\vindex"]                                                \\
-    \dbase_{a}                                 & \gbase_a \arrow[l, "\vindex"'] & \gbase_c \arrow[l, hook'] \arrow[u, hook] \arrow[llu, "\vindex" description]
-  \end{tikzcd}
-\end{equation}
-
-Can be implemented in V
-
-\begin{equation}
-  \label{eq:artist:construction:xi:v}
-  \begin{tikzcd}
-  \textcolor{color=gray!50}{\dtotal}\arrow[rd, "\pi"', color=gray!50] & \vtotal \arrow[d, "\pi"] & \vindex^*\vtotal \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"', dashed] & \textcolor{color=gray!50}{\gtotal} \arrow[ld, "\pi", color=gray!50] \\
-    & \dbase                   & \gbase \arrow[l, "\vindex"']                                                &                          
-    \end{tikzcd}
-\end{equation}
 
 \subsubsection{Data to Visual Encodings: \vchannel} 
+\note{maybe figure out how to put these side by side nicely}
+
 \begin{equation}
   \label{eq:artist:construction:nu}
-\begin{tikzcd}
-  \dtotal \arrow[rd, "\pi"'] \arrow[r, "\vchannel"] & \vtotal \arrow[d, "\pi"] & \textcolor{fade}{\vindex^*\vtotal} \arrow[d, "\vindex^*\pi"', color=fade] \arrow[l, "\vindex^*", color=fade] & \textcolor{fade}{\gtotal} \arrow[ld, "\pi", color=fade] \\
-& \dbase                   & \textcolor{gray!50}{\gbase} \arrow[l, "\vindex"', color=gray!50]                                       &                          
-  \end{tikzcd}
+  \begin{tikzcd}
+    \dtotalc \arrow[d, "\pi"'] \arrow[r, "\vchannelc"] & \vtotalc \arrow[ld, "\pi"] &  & \dfiberc \arrow[r, "\vchannelc"]                          & \vfiberc \\
+    \dbasec                                            &                            &  & \dbasec \arrow[u, "\dsectionc"] \arrow[ru, "\vsectionc"'] &         
+    \end{tikzcd}
 \end{equation}
-
-Visual encoding functions \vindex\ are functors because they are expected to preserve structure on the data and visual side, as discussed in \autoref{sec:related-work:equivariance}. 
-
- This constraint is expressed in our construction of \vchannel
-
-\begin{figure}[!h]
-  \centering
-  \subfloat[Artists with shared $\mu_i$ renderered correctly]{\includegraphics[width=1.2in]{partial_fixed.png}%
-  \label{fig_first_case}}
-  %\hfil
-  \subfloat[Artists without shared $\mu_i$]{\includegraphics[width=1.2in]{partial_invalid.png}%
-  \label{fig_second_case}}
-  \caption{Simulation results for the network.}
-  \label{fig_sim}
-  \end{figure}
-
-
-\begin{equation}
-\label{eq:artist:construction:nu:fiber_map}
-\begin{tikzcd}[column sep=.5em]
-  \dfiber \arrow[rr, "\vchannel"] &                                                         & \vfiber \\
-                                  & \dbase \arrow[lu, "\dsection"] \arrow[ru, "\vsection"'] &        
-  \end{tikzcd}
-\end{equation}
+Since the functor \vindex\ is bundle wise, it can be evaluated at the bundle at a point, which is the fiber space; therefore \vindex\ is a functors from the product category $\mathcal{\dfiber}$ to the product categrory $\mathcal{\vfiber}$. This constraint is expressed in our construction of \vchannel
 
 which means equivariance of 
 \begin{equation}
 \label{eq:artist:construction:nu:equivariance}
 \begin{tikzcd}
-  \dsection \arrow[d, "\varphi"'] \arrow[r, "\vchannel"] & \vsection \arrow[d, "\vchannel_{\varphi}"] \\
-  \dsection^{\prime} \arrow[r, "\vchannel"]                       & \vsection^{\prime}                                 
+  \dsectionc \arrow[d, "\dfuncc"'] \arrow[r, "\vchannelc"] & \vsectionc \arrow[d, "\vchannelc_{\dfuncc}"] \\
+  \dsectionc^{\prime} \arrow[r, "\vchannelc"]                       & \vsectionc^{\prime}                                 
   \end{tikzcd}
 \end{equation}
+
+Since the functor $\nu$ acts on product categories, it can be decomposed into $nu_i$ component functors that act on corresponding sections $\dsection_i$ of the fiber $\dfiber_i$. 
+
+\begin{equation}
+  \label{eq:math:artist:nu}
+  \{\vchannelc_{0}, \ldots, \vchannelc_{n}\}: \{\dsectionc_{0}, \ldots, \dsectionc_{n}\} \mapsto \{\vsectionc_{0}, \ldots, \vsectionc_{n}\}
+\end{equation}
+
+One example of this is 
+
+\begin{figure}[!h]
+  \centering
+  \subfloat[\note{insert title}]{\includegraphics[width=1.2in]{partial_fixed.png}%
+  \label{fig_first_case}}
+  %\hfill
+  \subfloat[\note{insert title}]{\includegraphics[width=1.2in]{partial_invalid.png}%
+  \label{fig_second_case}}
+  \caption{is a weird nu, colors are a but much}
+  \label{fig_sim}
+\end{figure}
 
 \paragraph{Multiview Constraints}
 \begin{figure}[!h]
@@ -606,11 +570,6 @@ The concept that shared data fields should be encoded visually in a consistent i
 
 
 
-\begin{equation}
-  \label{eq:math:artist:nu}
-  \{\vchannel_{0}, \ldots, \vchannel_{n}\}: \{\dsection_{0}, \ldots, \dsection_{n}\} \mapsto \{\vsection_{0}, \ldots, \vsection_{n}\}
-\end{equation}
-
 We enforce the equivariance constraint specified in \autoref{eq:artist:construction:multi_nu} by constructing artists that apply \vchannel\ encoders such that 
 \begin{equation}
   \label{eq:artist:construction:multi_nu}
@@ -622,36 +581,14 @@ We enforce the equivariance constraint specified in \autoref{eq:artist:construct
 \end{equation}
 
 \subsubsection{Visual to Graphic: \vmark} 
+
+
 \begin{equation}
   \label{eq:artist:construction:q}
   \begin{tikzcd}
-    \textcolor{fade}{\dtotal} \arrow[rd, "\pi"', color=fade] \arrow[r, "\vchannel", color=fade] & \textcolor{gray!50}{\vtotal} \arrow[d, "\pi", color=fade] & \vindex^*\vtotal \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"', color=fade] \arrow[r, "\vmark"] & \gtotal \arrow[ld, "\pi"] \\
-    & \textcolor{fade}{\dbase} & \gbase \arrow[l, "\vindex"', color=fade]                                            &                          
-    \end{tikzcd}
-\end{equation}
-
-\begin{equation}
-  \label{eq:artist:construction:q:xi}
-  \begin{tikzcd}
-    \vtotalc \arrow[rr, "\vmarkdc", bend left] & \vtotalpullc \arrow[l, "\vindexc^*"] \arrow[r, "\vmarkc"'] & \gtotalc
-  \end{tikzcd}
-\end{equation}
-
-\begin{equation}
-  \label{eq:artist:construction:q:fiber}
-  \begin{tikzcd}[column sep=.5em]
-    \vfiber \arrow[rr, "\vmark"] &                                                         & \gfiber \\
-    & \gbase \arrow[ru, "\gsection"'] \arrow[lu, "\vsection"] &        
-    \end{tikzcd}
-\end{equation}
-Visual encodings to something like marks 
-
-
-\begin{equation}
-  \label{eq:artist:construction:q:equivariance}
-  \begin{tikzcd}
-    \vsection \arrow[d, "\vchannel_\varphi"'] \arrow[r, "\vmark"] & \gsection \arrow[d, "\vmark_\varphi"] \\
-    \vsection^{\prime} \arrow[r, "\vmark"]                                 & \gsection^{\prime}                            
+    \mathcal{\vtotalc}                                & \gtotalc                                           \\
+    {} \arrow[r, "\vmarkc"]                           & {}                                                 \\
+    \mathcal{\dbasec} \arrow[uu, "\sheaf_{\vtotalc}"] & \mathcal{\gbasec} \arrow[uu, "\sheaf_{\vartist}"']
     \end{tikzcd}
 \end{equation}
 
@@ -660,20 +597,63 @@ Visual encodings to something like marks
   \caption{rework this as a commutative box w/ the r in E row associated w/ this qhat(k)}
 \end{figure}
 
-\begin{equation}
-  \label{eq:artist:construction:q:multifiber}
+\begin{equation} 
+  \label{eq:artist:construction:latent_vars}
 \begin{tikzcd}
-  \dfiberc_a \arrow[rr, "\vchannelc"] \arrow[rd, "proj_a" description]          &            & \vfiberc_a \arrow[rr, "\vmarkd"]         &  & Im_{\vmarkdc} \subset \gtotalc \arrow[llld, "g_a" description, dashed]                  \\
- & \dfiberc_c &                                          &  &\\
-  \dfiberc_b \arrow[rr, "\vchannelc^{\prime}"] \arrow[ru, "proj_b" description] &            & \vfiberc_b \arrow[rr, "\vmarkd^{\prime}"] &  & Im_{\vmarkdc^{\prime}}\subset \gtotalc^{\prime} \arrow[lllu, "g_b" description, dashed]
+  \mathcal{\vfiberc_a} \arrow[rrr, "\vmarkc_a"] \arrow[rd, "p_c"]          &                      &  & \sheafc_{\vartist} \arrow[lld, "l_c", dashed]                     \\
+                                                                           & \mathcal{\vfiberc_c} &  &                                                                   \\
+  \mathcal{\vfiberc_b} \arrow[rrr, "\vmarkc_b"] \arrow[ru, "p^{\prime}_c"] &                      &  & \sheafc_{\vartistc^{\prime}} \arrow[llu, "l^{\prime}_c"', dashed]
+\end{tikzcd}
+\end{equation}
+
+\subsubsection{Graphic to Data: \vindex}
+\begin{equation}
+  \label{eq:artist:construction:xi}
+  \begin{tikzcd}
+    \textcolor{fade}{\dtotal} \arrow[rd, "\pi"', color=fade] &         & \textcolor{fade}{\vtotal} \arrow[ld, "\pi", color=fade] &  & \textcolor{fade}{\gtotal} \arrow[d, "\pi", color=fade] \\
+  & \dbasec &                                             &  & \gbasec \arrow[lll, "\vindexc"']          
+    \end{tikzcd}
+\end{equation}
+
+The functor $\vindex$ is a deformation retract, which means....\cite{hatcherAlgebraicTopology2002,spanier1989algebraic}
+
+By \note{homotopy lifting?}
+\begin{equation}
+  \label{eq:artist:construction:xi:lifted}
+  \begin{tikzcd}
+    & \opensetc_j \arrow[d, "\iota", hook] \\
+\dbasec \arrow[ru, "\xi^*", dashed] & \gbasec \arrow[l, "\xi"]            
+\end{tikzcd}
+\end{equation}
+
+\begin{figure}[!h]
+  \centering
+  \subfloat[\dbasec_a \sqcup_{\dbasec_c} \dbase_b]{\includegraphics[width=1.2in]{union_k.png}%
+  \label{fig_first_case}}
+  %\hfil
+  \subfloat[\dbasec_c=\varnothing]{\includegraphics[width=1.2in]{disjoint_k.png}%
+  \label{fig_second_case}}
+  \caption{\note{probably doesn't need the k=0}}
+  \label{fig_sim}
+\end{figure}
+
+\begin{equation}
+  \label{eq:artist:construction:xi:multi_base}
+  \begin{tikzcd}
+    \dbasec_{c} \arrow[d, hook] \arrow[r, hook] & \dbasec_{b}                 & \gbasec_b \arrow[l, "\vindexc"]                                                \\
+    \dbasec_{a}                                 & \gbasec_a \arrow[l, "\vindexc"'] & \gbasec_c \arrow[l, hook'] \arrow[u, hook] \arrow[llu, "\vindexc" description]
   \end{tikzcd}
 \end{equation}
+
+\note{talk about xi even though is not explicitely implemented}
+The mapping between graphic and data space expresses how...
+This is what allows the artist to generate graphics where the subset of data on view is dynamically updated, such as pan and zoom navigation\cite{NekrasovskiEvaluationPanZoom2006} and sliding windows on streaming data\cite{crouchDynamicGraphsSlidingwindow2013,chuTimeSeriesSegmentation1995}. 
 
 \section{Case Study}
 \label{sec:case-study}
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{path_of_q.png}
-    \caption{\note{add in xi!}}
+    \caption{\vchannel \& \mark are what we're implementing}
   \label{fig:api}
 \end{figure}
 We implement the \textbf{arrows} in \autoref{fig:api}. \mintinline{python}{axesArtist} is a parent artist that acts as a screen. This allows for the composition described in                                           \autoref{sec:artist:union}
