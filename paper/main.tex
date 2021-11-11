@@ -238,7 +238,8 @@ When introducing the retinal variables, Bertin informally specifies that continu
 
 \subsubsection{Category Theory}
 \label{sec:related-work:equivariance:category}
-In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al provide a brief introduction to category theory for visualization practitioners \cite{vickersUnderstandingVisualizationFormal2013}, but their work focuses on reasoning about visualization design, while this paper aims to provide guidance on designing visualization library components. 
+In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al \cite{vickersUnderstandingVisualizationFormal2013} provide a brief introduction to category theory for visualization practitioners, but their work focuses on reasoning about visualization design, while this paper aims to provide guidance on designing visualization library components. Briefly we introduce concepts in category theory that we use to describe our model in \autoref{sec:artist:category} and \autoref{sec:artist:construction}. 
+
 \begin{definition} A category \mathcal{C} consists of a collection of objects $C$ with identity $id_c: C\rightarrow C$ and the set of morphisms between every two objects $f:C_1 \rightarrow C_2$, \cite{fongInvitationAppliedCategory2019,maclaneCategoriesWorkingMathematician2013}. 
 \end{definition}
 The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_1, C_2)$. The morphisms on the category  compose
@@ -260,7 +261,7 @@ The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_
  \begin{definition} A functor is a morphism between categories $F: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
 A functor preserves the structure of the category, namely morphisms and the source and target objects of those morphisms, composition of morphisms, and identity morphisms \cite{riehlCategoryTheoryContext}. Contravariant functors are functors where the morphisms in $\mathcal{C}$ go in the opposite direction from the morphisms in $\mathcal{D}$.  
 
- \begin{definition} A presheaf \sheafc\, as introduced in \autoref{eq:related-work:continuity:presheaf}, is generally a functor $\sheaf: \mathcal{C}^{op} \rightarrow \textbf{Set}$.\cite{nlab:presheaf} \end{definition}
+ \begin{definition} A presheaf \sheafc\, as introduced in \autoref{eq:related-work:continuity:presheaf}, is a functor $\sheaf: \mathcal{C}^{op} \rightarrow \textbf{Set}$.\cite{nlab:presheaf} \end{definition}
 
  \begin{definition} A natural transformation is a morphism of functors $\alpha: F \rightarrow G$ where $F, G$ are functors from $\mathcal{C}$ to $\mathcal{D}$. \cite{riehlCategoryTheoryContext, bradleyWhatNaturalTransformation}
  \end{definition}
@@ -268,12 +269,12 @@ The natural transformation acts as a wrapper of sorts
 \begin{equation}
   \label{eq:related-work:equivariance:natural-transform}
 \begin{tikzcd}
-  & {} \arrow[dd, "\alpha", Rightarrow] &             \\
+  & {} \arrow[dd, "\alpha", Rightarrow, shorten=1.5em] &             \\
 \mathcal{C} \arrow[rr, "F", bend left] \arrow[rr, "G"', bend right] &                                     & \mathcal{D} \\
   & {}                                  &            
 \end{tikzcd}
 \end{equation}
-such that $\alpha(F: C \rightarrow D) = G: C \rightarrow D$ commutes for any morphism $f:c\rightarrow c^{\prime}$ \cite{fongInvitationAppliedCategory2019}. Arbitrary morphisms on sheaves are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. 
+such that $\alpha(F: \mathcal{C} \rightarrow \mathcal{D}) = G: \mathcal{C} \rightarrow \mathcal{D}$ commutes for any morphism $f:c\rightarrow c^{\prime}$ \cite{fongInvitationAppliedCategory2019}. Arbitrary morphisms on sheaves are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. 
 
 For more information on category theory, see Barr and Wells\cite{barrCategoryTheoryComputing}, Fong and Spivak \cite{fongInvitationAppliedCategory2019}, Riehl\cite{riehlCategoryTheoryContext} and Bradley et. al. \cite{bradleyTopologyCategoricalApproach2020}.
 
@@ -290,43 +291,26 @@ In this section we describe the structure of the data and graphic spaces, which 
 \subsection{Categorical Artist}
 \label{sec:artist:category}
 
-As introduced in \autoref{sec:related-work:fiber-bundles}, sets of open sets form the basis of topological spaces. We propose that we can express how the elements in our data are connected to each other by modeling the data continuity as a topological space \dbase. We express subsets of the continuity, which can be mapped into subsets of the data, as open sets $U_{i}$ in \dbase. We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the continuity and the inclusion maps that glue them together. 
+Fiber bundles, as introduced in \autoref{sec:related-work:fiber-bundles}, serve as the model of data and graphic spaces in out model. In this section, we introduce categorical formulations of the topological spaces that make up a fiber bundle. 
 
-\begin{definition} The category of open sets $\mathcal{\dbase}$ consists of
-  \label{def:category:K} 
+We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the continuity and the inclusion maps that glue them together. 
+
+\begin{definition} \label{def:category:K} The category of open sets $\mathcal{\dbasec}$ consists of
   \begin{itemize}
-    \item \textit{objects} all open sets $U_{j} \in \{U\}$ in the topological space $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
-    \item \textit{morphisms} inclusion maps from a subspace to a larger space $\iota: U_{j} \hookrightarrow U_{j}$, which is equivalent to $U_{j} \subseteq U_{j}$ and  
+    \item \textit{objects} open sets $\openset_{j} \in \{openset\}$ in the topological space $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
+    \item \textit{morphisms} $\iota: U_{j} \hookrightarrow U_{k}$ for all  $U_j, U_k \subset \dtotal$
   \end{itemize} 
 \end{definition}
 
-The inclusion maps $\iota$ can be used to piece together the subsets $U_{i}$, particularly individual points $\dbasepoint \in \dbase$. This is how we provide knowledge of continuity to the artist \vartist\ in a way where the artist does not need all the data at once. This is what allows the artist to generate graphics where the subset of data on view is dynamically updated, such as pan and zoom navigation\cite{NekrasovskiEvaluationPanZoom2006} and sliding windows on streaming data\cite{crouchDynamicGraphsSlidingwindow2013,chuTimeSeriesSegmentation1995}. 
-
-
-Besides expressing continuities, fiber bundles also provide us a way to richly express the structure of the fields in the data. Specifically, we do this by adopting Spivak's formulation of the fiber as a (column name, data domain) simple schema \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak formally maps column names and field types to the set of values associated with the field type, for example $\mathbb{R}$ for a \texttt{float} column named \textit{temperature}. We define $\dfiber$ as  the cartesian cross product of the fibers $\dfiber_c$ for each field, where $c$ is the field name.  
-
-\begin{definition} 
-  \label{def:category:F} 
-  The category $\mathcal{\dfiber}$ consists of a single object $\dfiber$ and the morphisms between the object and itself $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$, which is the hom-set \cite{maclaneCategoriesWorkingMathematician2013,milewskiCategoryTheoryProgrammers}.
-\end{definition}
-
-The object $\texttt{\dfiber}$ can be an object of any category $\mathcal{C}$, allowing $\texttt{\dfiber}$ to encode most data fields. For example, a lists of strings is an instance of an object in \textbf{Set}, networks are an instance of \textbf{Graph}, and images are vector spaces which are a specific type of topological space \textbf{Top}. We note that a one object category is a monoid \cite{nlab:monoid,barrCategoryTheoryComputing}, which is an algebraic structure that lends itself to computer library design because they are an abstraction of function composition \cite{yorgeyMonoidsThemeVariations}. 
-
-The morphisms $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ are functions from the data to itself, for example the binary operations, group actions, and measurement scales discussed in \autoref{sec:related-work:equivariance}. These functions could also be monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}
-
-We encode individual datasets in the fiberbundle as sections of the bundle. We follow the convention that $\Gamma(U_i, \dtotal)$ denotes the set of sections $\{\dsection^{j}:U_i \rightarrow \dfiber_{U_{i}}\}_{j\in I}$ of the fiber bundle \dtotal\ over an open set $U_{i}\subseteq \dbase$.  
-
-\begin{definition} The category \mathcal{\dtotalc} is the set of sets of sections $\{\Gamma(U_j,\dtotal)\}|U_j \in \mathcal{dbase}$. The category \mathcal{\dtotal} is a subcatagory of the category of sets \textbf{Set}. The morphisms between objects of $\mathcal{\dtotal}$ are restriction maps $\iota: \Gamma(U_j, \dtotal) \rightarrow \Gamma(U_i, \dtotal)$ where $U_{i} \subseteq U_{j}$.
+\begin{definition} \label{def:category:E} The category \mathcal{\dtotalc} is a subcategory of \textbf{Set} and consists of 
+  \begin{itemize}
+    \item \textit{objects} sets of sections $\Gamma(\openset_{j}, \dtotal)$ for all $U_j \subset \dtotal$
+    \item \textit{morphisms}  $\iota^*: \Gamma(\openset_{k}, \dtotal) \hookrightarrow \Gamma(\openset_{j}, \dtotal)$ for all  $\openset_j, \openset_k \subset \dtotal$
+  \end{itemize} 
 \end{definition}
 
 
-Each section is how we represent a unique dataset, where the sets of sections $\Gamma$ is the space of all datasets that have the same data fields in the \dfiber\ and continuity as encoded in\dbase\. For example, Spivak describes tables that have the same schema and discrete index as sections of the same fiber bundle\cite{spivakSIMPLICIALDATABASES}.
- 
-
-
-
-.meaning that the morphisms $\varphi$ compose with the inclusion maps $\iota$ \cite{fongInvitationAppliedCategory2019}. As defined in \autoref{def:category:Tau}, the sets of sections $\Gamma(U_{i},\dtotal)$ are objects of the category $\mathcal{T}$. 
-
+We model data as the sheaf $\sheaf_{\dtotal}: \mathcal{\dbase}^{op}\rightarrow \mathcal{\dtotal}$
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
   \begin{tikzcd}
@@ -335,8 +319,17 @@ Each section is how we represent a unique dataset, where the sets of sections $\
     & \mathcal{\dbasec}^{op} \arrow[uu, "\sheafc_{\dtotalc}", bend left] \arrow[uu, "\sheafc_{\dtotalc}"', bend right] &   
 \end{tikzcd}
 \end{equation}
+where the map \dfunc\ is any arbitrary function between sheafs. The sheaf $\sheaf_{\dtotal}$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf_{\mathcal{\dtotal}}|_{k}\coloneqq \lim\limits_{U\ni k} \Gamma(U, \dtotal)$ \cite{StalkSheaf2019}. 
 
-The sheaf $\sheaf_{\dtotal}$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf_{\mathcal{\dtotal}}|_{k}\coloneqq \lim\limits_{U\ni k} \Gamma(U, \dtotal)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{k}\hookrightarrow \mathscr{F}_{k}$. Our criteria for equivariance is that bundle maps $f$ that are in the set of fiber to fiber maps $Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ are preserved. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, meaning $\dtotal=\dbase \times \dfiber$, then we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{k}, \dfiber_{k})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
+\begin{definition} 
+  \label{def:category:F} 
+  The fiber category $\mathcal{\dfiber}$ consists of 
+  \begin{itemize}
+    \item \textit{object} a single object \dtotal, where \dtotal\ can be an object of any arbitrary category $\mathcal{C}$ 
+    \item \textit{morphisms} $\dfunc \in hom_{\mathcal{F}}(F,F)$
+\end{definition}
+
+The fiber space over a point is embedded in the stalk over that point $\dfiber_{k}\hookrightarrow \mathscr{F}_{k}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{F}}(F,F)$. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{k}, \dfiber_{k})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
 \note{rewrite paragraph}
 The graphic category $\mathcal{\gtotalc}$ consists of the functor object $\sheaf_{\gtotalc}: \mathcal{\gbasec}^{op} \rightarrow \Gamma(\mathcal{\gbasec}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{\gbasec}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{\gbase}, \gtotal)$ is a subcatagory of \textbf{Set}.
