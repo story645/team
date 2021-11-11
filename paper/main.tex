@@ -187,7 +187,7 @@ Formally, a fiber bundle is a mathematical structure $(\dtotalc, \dbasec, \pi, \
 \end{equation}
 
 \begin{definition}
-The \textcolor{base}{base space} \dbasec\ is a topological space, which means it is a set $\dbase$ with a collection of open sets \cite{TopologyVsTopology} surrounding each element in the set. Open sets are a collection of subsets $\{\opensetc\}$ in a set \dbase, including the empty set, the whole set \dbase, and every union and intersection of its member subsets. For each point $\dbasepoint in \dbase$, there is a collection of subsets $\\{\openset\} \subset \dbase$ such that $\dbasepoint \in \openset \subseteq \dbase$ \cite{spanier1989algebraic, bradleyTopologyCategoricalApproach2020}  
+The \textcolor{base}{base space} \dbasec\ is a topological space, which means it is a set $\dbase$ with a collection of open sets \cite{TopologyVsTopology} surrounding each element in the set. Open sets are a collection of subsets $\{\opensetc\}$ in a set \dbase, including the empty set, the whole set \dbase, and every union and intersection of its member subsets. For each point $\dbasepoint \in \dbase$, there is a collection of subsets $\\{\openset\} \subset \dbase$ such that $\dbasepoint \in \openset \subseteq \dbase$ \cite{spanier1989algebraic, bradleyTopologyCategoricalApproach2020}  
 \end{definition}
 \note{intuition about base space}
 
@@ -241,6 +241,8 @@ When introducing the retinal variables, Bertin informally specifies that continu
 \label{sec:related-work:equivariance:category}
 In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al \cite{vickersUnderstandingVisualizationFormal2013} provide a brief introduction to category theory for visualization practitioners, but their work focuses on reasoning about visualization design, while this paper aims to provide guidance on designing visualization library components. Briefly we introduce concepts in category theory that we use to describe our model in \autoref{sec:artist:category} and \autoref{sec:artist:construction}. 
 
+\note{the notation here may need to be X and Y}
+
 \begin{definition} A category \mathcal{C} consists of a collection of objects $C$ with identity $id_c: C\rightarrow C$ and the set of morphisms between every two objects $f:C_1 \rightarrow C_2$, \cite{fongInvitationAppliedCategory2019,maclaneCategoriesWorkingMathematician2013}. 
 \end{definition}
 The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_1, C_2)$. The morphisms on the category  compose
@@ -259,7 +261,7 @@ The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_
  \begin{definition} An opposite category $\mathcal{C}^{op}$ is a category with all the same objects of category $\mathcal{C}$ and but the morphisms are reversed. For example $f:C_1 \rightarrow C_2$ in $\mathcal{C}$ is $f:C_2 \rightarrow C_1$ in $\mathcal{C}^{op}$.   
  \end{definition}
 
- \begin{definition} A functor is a morphism between categories $F: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
+ \begin{definition} A functor is a morphism between categories $\mathfrak{F}: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
 A functor preserves the structure of the category, namely morphisms and the source and target objects of those morphisms, composition of morphisms, and identity morphisms \cite{riehlCategoryTheoryContext}. Contravariant functors are functors where the morphisms in $\mathcal{C}$ go in the opposite direction from the morphisms in $\mathcal{D}$.  
 
  \begin{definition} A presheaf \sheafc\, as introduced in \autoref{eq:related-work:continuity:presheaf}, is a functor $\sheaf: \mathcal{C}^{op} \rightarrow \textbf{Set}$.\cite{nlab:presheaf} \end{definition}
@@ -280,11 +282,11 @@ such that $\alpha(F: \mathcal{C} \rightarrow \mathcal{D}) = G: \mathcal{C} \righ
 For more information on category theory, see Barr and Wells\cite{barrCategoryTheoryComputing}, Fong and Spivak \cite{fongInvitationAppliedCategory2019}, Riehl\cite{riehlCategoryTheoryContext} and Bradley et. al. \cite{bradleyTopologyCategoricalApproach2020}.
 
 \section{Artist} 
-In this section, we use category theory to formally express the implicit assumptions that visualization library components make in transforming data into graphical representations. We propose that the visualization transformation can be modeled as a functor, which we call the \textcolor{artist}{Artist} \vartist \footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts data, which we model as the sheaf $\sheaf_{\dtotal}$ to graphics in the sheaf $\sheaf_{\gtotal}$. We formulate this association as 
+In this section, we use category theory to formally express the implicit assumptions that visualization library components make in transforming data into graphical representations. We propose that the visualization transformation can be modeled as a functor, which we call the \textcolor{artist}{Artist} \vartist \footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts data, which we model as the sheaf $\sheafc_{\dtotalc}$ to graphics in the sheaf $\sheafc_{\gtotalc}$. We formulate this association as 
 
 \begin{equation}
-  \vartistc: \sheafc_{\dtotalc} \rightarrow \sheafc_{\vartistc}
   \label{eq:artist:artist}
+  \vartistc: \sheafc_{\dtotalc} \rightarrow \sheafc_{\gtotal}
 \end{equation}
 
 In this section we describe the structure of the data and graphic spaces, which we formulate as objects in categories and the morphisms between those objects. We then use these definitions to express the structure that an artist must preserve. Finally, we propose that artists can be composed by manufacturing new artists based on various types of input data. 
@@ -355,8 +357,7 @@ The category $\mathcal{H}$ has as objects the sets of functions that generate ev
     \sheafc_{\dtotalc} \arrow[r, "\vartistc"] & \sheafc_{\vartistc}                                              
   \end{tikzcd}
 \end{equation}
-The equivariance condition expressed in \label{eq:artist:equivariance} is that a graphic generated by  transforming and then visualizing data $\vartist(\dfunc_{\dtotal}(\sheaf_{\mathcal{dtotal}}))$ can equivalently be generated by visualizing the data and then transforming the graphic $\dfunc_{\vartist}(\vartist(\sheaf_{\mathcal{\dtotal}}))$. This expectation of equivariance is illustrated in \autoref{fig:related-work:equivariance}
-
+The equivariance condition expressed in \autoref{eq:artist:equivariance} is that a graphic generated by  transforming and then visualizing data $\vartist(\dfunc_{\dtotal}(\sheaf_{\mathcal{dtotal}}))$ can equivalently be generated by visualizing the data and then transforming the graphic $\dfunc_{\vartist}(\vartist(\sheaf_{\mathcal{\dtotal}}))$. This is a formal statement of the equivariance illustrated in \autoref{fig:related-work:equivariance}
 
 In \autoref{sec:artist:construction}, we show a method of constructing the artist such that the constraints of \autoref{eq:artist:morphism-of-sheaf} and \autoref{eq:artist:equivariance} can be satisfied, thereby ensuring equivariance and the preservation of continuity. We then use this formulation to guide the development of visualization library components in \autoref{sec:case-study}.
 
@@ -402,8 +403,8 @@ where the projection functions $i_{\dbase_a},i_{\dbase_b}$ behave such that $i_{
     \end{tikzcd}
 \end{equation}
 
-
-We can compose these diagrams together to generate an \vartist\ to handle any of the things. 
+\autoref{eq:artist:intersection:basespace} and \autoref{eq:artist:intersection:fiber} can be composed to specify how different aspects of the structure of a multivariate nested dimensional dataset, such as a spatio-temporal weather dataset, should be preserved in a visualization. 
+\note{this is probably the power of this model and should maybe get a figure?}
 
 
 \section{Construction and formal properties of Artists}
@@ -414,38 +415,33 @@ We can compose these diagrams together to generate an \vartist\ to handle any of
   \label{fig:constraints:q-overall}
 \end{figure*}
 
-
-\begin{definition} Following from \label{def:artist:} the artist \vartist is a special case of  natural transformations
-
-  %% this equation is actually on sheafs and is not a map 
+Following from \autoref{eq:artist:equivariance}, the artist \vartistc\ is a natural transformation
   \begin{equation}
-    \vartist: \Gamma(\dtotal, \dbase)\nrightarrow \Gamma(\gtotal, \gbase)
+    \vartist: \sheaf_{\mathcal{\dtotal}}
   \end{equation}
-  between the profunctor objects $\Gamma(E),\Gamma(H)$ that preserves continuity and equivariance.
-\end{definition}
-  Natural transformations are functions that map functions between categories (functors) to other functors in a structure preserving way \cite{riehlCategoryTheoryContext, spanier1989algebraic, fongInvitationAppliedCategory2019}.
+that we construct to preserve continuity and equivariance.
 
-\begin{definition} We define the natural transformation \textcolor{artist}{Artist}  \vartist\ as the tuple $(\vindex, \vchannel, \vmark, \mathcal{\dtotal},\mathcal{\vtotal}, \mathcal{\gtotal})$ where
+\begin{definition} We define the natural transformation \textcolor{artist}{Artist}  \vartist\ as the tuple $(\vindexc, \vchannelc, \vmarkc, \mathcal{\dtotalc},\mathcal{\vtotalc}, \mathcal{\gtotalc})$ where
   \begin{enumerate}
-    \item \vindex\ is a continuity preserving functor
-    \item \vchannel\ and \vmark\ are equivariance preserving functors
-    \item $\mathcal{\dtotal}$, $\mathcal{\vtotal}$, and $\mathcal{\gtotal}$ are profunctor categories of sheafs
-    \item 
+    \item $\vchannelc: \dtotalc \rightarrow \vtotalc$ is a bundle map from data values to the visual variables they are mapped to
+    \item $\vmarkc: \sheafc_{\mathcal{\vtotalc} \rightarrow \sheafc_{\mathcal{\vartistc}}$ is a sheaf map that builds a graphic generating function parameterized by the visual variables 
+    \item $\vindexc: \gbasec \rightarrow \dbasec$ is a surjective map from the graphic topological base to the data topological base
   \end{enumerate}
 \end{definition}
+and $\mathcal{\dtotalc}$, $\mathcal{\vtotalc}$, and $\mathcal{\gtotalc}$ are the categorical representations of fiber bundles that model the data, visual variable, and graphic space of the data to visual transformation. 
 
-%%% no arrow V->H
-%%% Q is defined at the level of Gamma\begin{equation}
+\note{figure out how to format notes} Usage of the bundle directly in an equation or diagram - $\dotal, \vtotal, \gtotal$ - denotes that the function can be evaluated pointwise over $\dbasepoint \in \dbase$. Use of the categorical form -- $\mathcal{\dtotalc}, \mathcal{\vtotalc}, \mathcal{\gtotalc}$ -- denotes that the function is evaluated over an openset object, meaning that the function needs knowledge of both a value over a point and some information about neighboring values. 
+
 \begin{equation}
   \label{eq:artist:construction:all}
   \begin{tikzcd}
-    \dtotalc \arrow[rr, "\vchannel"] \arrow[rdd, "\pi"] &         & \dtotalc \arrow[ldd, "\pi"'] & \mathcal{\vtotalc}                                                        & Im_{\vmarkc} \subset \gtotalc                     \\
-    &         &                              & {} \arrow[r, "\vmarkc"]                                                   & {}                                                \\
-    & \dbasec &                              & \mathcal{\dbasec} \arrow[uu, "\sheaf_{\vtotalc}"] \arrow[r, "\vindexc^*"] & \mathcal{\gbasec} \arrow[uu, "\sheaf_{\vmarkc}"']
-    \end{tikzcd}
+    \dtotalc \arrow[rr, "\vchannel"] \arrow[rdd, "\pi"'] &         & \dtotalc \arrow[ldd, "\pi"] & \mathcal{\vtotalc}                                                        & Im_{\vmarkc} \subset \gtotalc                     \\
+  &         &                             & {} \arrow[r, "\vmarkc"]                                                   & {}                                \\
+   & \dbasec &                             & \mathcal{\dbasec} \arrow[uu, "\sheaf_{\vtotalc}"] \arrow[r, "\vindexc^*"] & \mathcal{\gbasec} \arrow[uu, "\sheaf_{\vmarkc}"']
+  \end{tikzcd}
 \end{equation}
 
-\subsection{Data}
+\subsection{Data Domain}
 We model data as sections of a fiber bundle $(\dtotal, \pi, \dbase, \dfiber)$. We encode the continuity of the data as the \textcolor{base}{base space} $\dbase$. \note{does this go in intro?} The \textcolor{fiber}{fiber space} \dfiber\ is the space of all possible values of the data \autoref{eq:related-work:fiber}. We model the data as the section \dsection because, as described in \autoref{sec:related-work:fiber-bundles}, the section is the map from the indexing space \dbase to the space of possible data values \dfiber. Spivak's notation, as discussed in \autoref{sec:related-work:equivariance}, also allows for associating elements in a section with the field it comes from. This allows for field based selection of values, while inclusion allows for continuity (index) based selections. 
 
 
@@ -472,7 +468,7 @@ The section \dsection\ is the abstraction of the data being visualized. The sect
 \end{equation*}
 
 
-\subsection{Graphic} 
+\subsection{Graphic Codomain} 
 The object of the graphic category $\mathcal{\gtotal}$ is the fiber bundle \gtotal. The bundle \gtotal\ has the same structure as the data bundle \dtotal
 
 \begin{equation}
