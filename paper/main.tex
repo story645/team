@@ -214,7 +214,7 @@ The set of all sections sections $\{\dsection^{i}: \openset_{j}\rightarrow \dtot
 The map from the open set to the set of sections is called a presheaf $\sheaf: U_j \rightarrow \Gamma(\openset_j, \dtotal)$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps between the open sets open sets $\iota$ and the inclusion map $\iota^*$ between the sets of sections.
 
 \begin{equation}
-  \label{eq:artist:presheaf}
+  \label{eq:related-work:continuity:presheaf}
   \begin{tikzcd}[column sep=small]
     {\Gamma(\opensetc_1, \dtotalc)}                                       & {}                                                    & {\Gamma(\opensetc_2, \dtotalc)} \arrow[ll, "\iota^*"', hook'] \\
                                                                   &                                                       &                                                       \\
@@ -238,17 +238,47 @@ When introducing the retinal variables, Bertin informally specifies that continu
 
 \subsubsection{Category Theory}
 \label{sec:related-work:equivariance:category}
-In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al provide a brief introduction to category theory for visualization practitioners \cite{vickersUnderstandingVisualizationFormal2013}, but their work focuses on visualization deisgn, while this paper aims to provide guidance on designing visualization library components. 
-\begin{definition} A category is a 
+In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al provide a brief introduction to category theory for visualization practitioners \cite{vickersUnderstandingVisualizationFormal2013}, but their work focuses on reasoning about visualization design, while this paper aims to provide guidance on designing visualization library components. 
+\begin{definition} A category \mathcal{C} consists of a collection of objects $C$ with identity $id_c: C\rightarrow C$ and the set of morphisms between every two objects $f:C_1 \rightarrow C_2$, \cite{fongInvitationAppliedCategory2019,maclaneCategoriesWorkingMathematician2013}. 
 \end{definition}
+The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_1, C_2)$. The morphisms on the category  compose
+\begin{equation*}
+  \begin{tikzcd}
+    C_1 \arrow[r, "f"] \arrow[rd, "g\circ f"'] \arrow["id_{C_1}"', loop, distance=2em, in=215, out=145] & C_2 \arrow[d, "g"] \arrow["id_{C_2}"', loop, distance=2em, in=125, out=55] \\
+  & C_3 \arrow["id_{C_3}"', loop, distance=2em, in=305, out=235]              
+  \end{tikzcd}
+\end{equation*}
+ and are constructed such that the following axioms hold \cite{riehlCategoryTheoryContext}:
+ \begin{LaTeXdescription}
+   \item[associativity] if $f: C_1 \rightarrow C_2$, $g: C_2 \rightarrow C_3$ and $h: C_3 \rightarrow C_4$ then $h\circ (g \circ f) = (h \circ g) \circ f$
+   \item[identity] for every $f: C_1 \rightarrow C_2$ there exists identity morphisms $f \circ id_{C_1} = f = id_{C_2} \circ f$
+ \end{LaTeXdescription}
 
+ \begin{definition} An opposite category $\mathcal{C}^{op}$ is a category with all the same objects of category $\mathcal{C}$ and but the morphisms are reversed. For example $f:C_1 \rightarrow C_2$ in $\mathcal{C}$ is $f:C_2 \rightarrow C_1$ in $\mathcal{C}^{op}$.   
+ \end{definition}
 
+ \begin{definition} A functor is a morphism between categories $F: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
+A functor preserves the structure of the category, namely morphisms and the source and target objects of those morphisms, composition of morphisms, and identity morphisms \cite{riehlCategoryTheoryContext}. Contravariant functors are functors where the morphisms in $\mathcal{C}$ go in the opposite direction from the morphisms in $\mathcal{D}$.  
 
+ \begin{definition} A presheaf \sheafc\, as introduced in \autoref{eq:related-work:continuity:presheaf}, is generally a functor $\sheaf: \mathcal{C}^{op} \rightarrow \textbf{Set}$.\cite{nlab:presheaf} \end{definition}
+
+ \begin{definition} A natural transformation is a morphism of functors $\alpha: F \rightarrow G$ where $F, G$ are functors from $\mathcal{C}$ to $\mathcal{D}$. \cite{riehlCategoryTheoryContext, bradleyWhatNaturalTransformation}
+ \end{definition}
+The natural transformation acts as a wrapper of sorts
+\begin{equation}
+  \label{eq:related-work:equivariance:natural-transform}
+\begin{tikzcd}
+  & {} \arrow[dd, "\alpha", Rightarrow] &             \\
+\mathcal{C} \arrow[rr, "F", bend left] \arrow[rr, "G"', bend right] &                                     & \mathcal{D} \\
+  & {}                                  &            
+\end{tikzcd}
+\end{equation}
+such that $\alpha(F: C \rightarrow D) = G: C \rightarrow D$ commutes for any morphism $f:c\rightarrow c^{\prime}$ \cite{fongInvitationAppliedCategory2019}. Arbitrary morphisms on sheaves are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. 
 
 For more information on category theory, see Barr and Wells\cite{barrCategoryTheoryComputing}, Fong and Spivak \cite{fongInvitationAppliedCategory2019}, Riehl\cite{riehlCategoryTheoryContext} and Bradley et. al. \cite{bradleyTopologyCategoricalApproach2020}.
 
 \section{Artist} 
-In this section, we use category theory to formally express the implicit assumptions that visualization library components make in transforming data into graphical representations. We propose that the visualization transformation can be modeled as a functor, which we call the \textcolor{artist}{Artist} $\mathcal{\vartist}$\footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts data, which we model as the sheaf $\sheaf_{\dtotal}$ to graphics, which we model as the sheaf $\sheaf_{\vartist}$. We formulate this association as 
+In this section, we use category theory to formally express the implicit assumptions that visualization library components make in transforming data into graphical representations. We propose that the visualization transformation can be modeled as a functor, which we call the \textcolor{artist}{Artist} \vartist \footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts data, which we model as the sheaf $\sheaf_{\dtotal}$ to graphics in the sheaf $\sheaf_{\gtotal}$. We formulate this association as 
 
 \begin{equation}
   \vartistc: \sheafc_{\dtotalc} \rightarrow \sheafc_{\vartistc}
@@ -293,7 +323,9 @@ We encode individual datasets in the fiberbundle as sections of the bundle. We f
 Each section is how we represent a unique dataset, where the sets of sections $\Gamma$ is the space of all datasets that have the same data fields in the \dfiber\ and continuity as encoded in\dbase\. For example, Spivak describes tables that have the same schema and discrete index as sections of the same fiber bundle\cite{spivakSIMPLICIALDATABASES}.
  
 
-Arbitrary morphisms on sheafs are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}, meaning that the morphisms $\varphi$ compose with the inclusion maps $\iota$ \cite{fongInvitationAppliedCategory2019}. As defined in \autoref{def:category:Tau}, the sets of sections $\Gamma(U_{i},\dtotal)$ are objects of the category $\mathcal{T}$. 
+
+
+.meaning that the morphisms $\varphi$ compose with the inclusion maps $\iota$ \cite{fongInvitationAppliedCategory2019}. As defined in \autoref{def:category:Tau}, the sets of sections $\Gamma(U_{i},\dtotal)$ are objects of the category $\mathcal{T}$. 
 
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
