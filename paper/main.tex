@@ -232,6 +232,7 @@ For more information on fiber bundles and sheaves, see Hatcher\cite{hatcherAlgeb
 When introducing the retinal variables, Bertin informally specifies that continuity is preserved in the mark and defines equivariance constraints in terms of data and visual variables being selective, associative, ordered, or quantitative\cite{bertinSemiologyGraphicsDiagrams2011a}. In the \textit{A Presentation Tool}(APT) model, Mackinlay embeds the continuity constraint in the choice of visualization type and generalizes the equivariance constraint to preserving a binary operator from one domain to another. The algebraic model of visualization\cite{kindlmannAlgebraicProcessVisualization2014}, proposed by Kindlmann and Scheidegger, restricts equivariance to invertible transformations.
 
 \begin{figure}[!h]
+  \label{fig:related-work:equivariance}
   \includegraphics[width=\columnwidth]{equiv.png}
   \caption{Equivariance is that a transformation on the data has a corresponding transformation in the graphical representation. For example, in this figure the data is scaled by a factor 10. Equivalently the line plot is scaled by factor of 10, resulting in a shrunken line plot. Either a transformation on the data side can induce a transformation on the visual side, or a transformation on the visual side indicates that there is also a transformation on the data side. }
 \end{figure}
@@ -333,25 +334,20 @@ The coomposition of morphisms is defined component wise by composition in $\math
 
 The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
-\note{rewrite paragraph}
+The domain of the artist function is the space of all possible graphics. As with the domain $\sheaf_{E}$, the grapic space is modeled with fiber bundle equivalent categories:
+\begin{table}[!h]
+  \centering
+  \label{tab:artist:graphic}
+  \begin{tabular}{l l l}
+    fiber bundle & data & graphic \\
+    \textcolor{base}{base space} & \mathcal{\dbasec} & \mathcal{\gbasec}\\
+    \textcolor{total}{total space} & \mathcal{\dtotalc} & \mathcal{\gtotalc}\\
+    \textcolor{fiber}{fiber space} & \mathcal{\dfiberc} & \mathcal{\gfiberc}\\
+    \pi^{-1} & \sheaf_{\mathcal{\dtotalc}} & \sheaf_{\mathcal{\gtotalc}}\\
+  \end{tabular}
+\end{table}
 
-The domain of the artist function is the space of all possible graphics. We model this space using categories that are analogous to the data categories
-
-
-We model the space of all possible graphics as a sheaf $\sheafc_{\mathcal{H}}:\mathcal{S} \rightarrow \mathcal{H}$
-
-
-The graphic category $\mathcal{\gtotalc}$ is analogous to the $\
-
-consists of the functor object $\sheaf_{\gtotalc}: \mathcal{\gbasec}^{op} \rightarrow \Gamma(\mathcal{\gbasec}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{\gbasec}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{\gbase}, \gtotal)$ is a subcatagory of \textbf{Set}.
-
-\begin{definition} The sheaf $Im_{\vartist}$ is a map between the category of open sets $\gtotal^{op}$ and a subcategory of \textbf{Set}. This subcategory is the set of subsets of sections $\{\gsection^{k}:U_i \rightarrow \gfiber_{U_{i}}\} \subset \Gamma(U_i, \gtotal)$ over the space of all open sets in $\mathcal{\gbase}$. 
-\end{definition}
-
-A set $\Gamma(U_i, \gtotal)$ contains functions to generate arbitrary graphics with a shared continuity and display space, while the artist $\vartist$ is constructed such that it generates a single type of graphic, as described in \autoref{sec:artist:construction}. Therefore, the range of the the artist functor, which we denote $Im_{\vartist}$, is a sheaf map $Im_{\vartist}$. 
-
-Since the artist is a morphism of sheafs it is by definition a natural transformation\cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. This means that all morphisms $\varphi$ on $\mathcal{\dtotal}$ are expected to commute \cite{spanier1989algebraic,fongInvitationAppliedCategory2019}. This is the basis of the equivariance condition illustrated in \autoref{eq:artist:equivariance}
-
+The category $\mathcal{H}$ has as objects the sets of functions that generate every arbitrary graphic over the open sets in $\mathcal{\gtotal}$. While $\mathcal{H}$ is the domain of the artist \vartist, the range of \vartist\ is the subset of graphics $\sheaf_{\vartist} \subset \sheaf_{\mathcal{\dtotal}}$ such that structure imposed by $\dfunc_{\dtotal}$ commutes 
 \begin{equation}
   \label{eq:artist:equivariance}
   \begin{tikzcd}
@@ -359,7 +355,8 @@ Since the artist is a morphism of sheafs it is by definition a natural transform
     \sheafc_{\dtotalc} \arrow[r, "\vartistc"] & \sheafc_{\vartistc}                                              
   \end{tikzcd}
 \end{equation}
-which states that transforms on the data side $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ have an approximately equivalent transform in the data side $\vartist_{\varphi \in Hom_{\mathcal{\dfiber}}}$. This commutativity property states that visualization library components must be implemented such that changes in data induce equivalent changes in the output, which is how visualization libraries can produce visualizations that satisfy Kindlmann and Scheidegger's correspondence principal that data and visual structure must match. 
+The equivariance condition expressed in \label{eq:artist:equivariance} is that a graphic generated by  transforming and then visualizing data $\vartist(\dfunc_{\dtotal}(\sheaf_{\mathcal{dtotal}}))$ can equivalently be generated by visualizing the data and then transforming the graphic $\dfunc_{\vartist}(\vartist(\sheaf_{\mathcal{\dtotal}}))$. This expectation of equivariance is illustrated in \autoref{fig:related-work:equivariance}
+
 
 In \autoref{sec:artist:construction}, we show a method of constructing the artist such that the constraints of \autoref{eq:artist:morphism-of-sheaf} and \autoref{eq:artist:equivariance} can be satisfied, thereby ensuring equivariance and the preservation of continuity. We then use this formulation to guide the development of visualization library components in \autoref{sec:case-study}.
 
