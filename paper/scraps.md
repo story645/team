@@ -148,3 +148,19 @@ The sections $\dsection$ on each component bundle $\dtotal_i$ over a point $\dba
 
 
 
+
+%% move to construction fiber bundle K
+This is what allows the artist to generate graphics where the subset of data on view is dynamically updated, such as pan and zoom navigation\cite{NekrasovskiEvaluationPanZoom2006} and sliding windows on streaming data\cite{crouchDynamicGraphsSlidingwindow2013,chuTimeSeriesSegmentation1995}. 
+
+
+%% move to construction fiber bundle F
+Specifically, we do this by adopting Spivak's formulation of the fiber as a (column name, data domain) simple schema \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak formally maps column names and field types to the set of values associated with the field type, for example $\mathbb{R}$ for a \texttt{float} column named \textit{temperature}. We define $\dfiber$ as  the cartesian cross product of the fibers $\dfiber_c$ for each field, where $c$ is the field name.  
+
+\begin{definition} 
+  \label{def:category:F} 
+  The category $\mathcal{\dfiber}$ consists of a single object $\dfiber$ and the morphisms between the object and itself $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$, which is the hom-set \cite{maclaneCategoriesWorkingMathematician2013,milewskiCategoryTheoryProgrammers}.
+\end{definition}
+
+The object $\texttt{\dfiber}$ can be an object of any category $\mathcal{C}$, allowing $\texttt{\dfiber}$ to encode most data fields. For example, a lists of strings is an instance of an object in \textbf{Set}, networks are an instance of \textbf{Graph}, and images are vector spaces which are a specific type of topological space \textbf{Top}. We note that a one object category is a monoid \cite{nlab:monoid,barrCategoryTheoryComputing}, which is an algebraic structure that lends itself to computer library design because they are an abstraction of function composition \cite{yorgeyMonoidsThemeVariations}. 
+
+The morphisms $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ are functions from the data to itself, for example the binary operations, group actions, and measurement scales discussed in \autoref{sec:related-work:equivariance}. These functions could also be monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}
