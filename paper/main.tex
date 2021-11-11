@@ -310,7 +310,7 @@ We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the c
 \end{definition}
 
 
-We model data as the sheaf $\sheaf_{\dtotal}: \mathcal{\dbase}^{op}\rightarrow \mathcal{\dtotal}$
+We model data as the sheaf $\sheafc_{\dtotalc}: \mathcal{\dbasec}^{op}\rightarrow \mathcal{\dtotalc}$
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
   \begin{tikzcd}
@@ -323,16 +323,27 @@ where the map \dfunc\ is any arbitrary function between sheafs. The sheaf $\shea
 
 \begin{definition} 
   \label{def:category:F} 
-  The fiber category $\mathcal{\dfiber}$ consists of 
+  The fiber category $\mathcal{\dfiberc}$ is a product category\cite{maclaneCategoriesWorkingMathematician2013,nlab:product_category} of zero or more arbitrary categories. In the two category case, the category $\mathcal{\dfiberc}$ consists of 
   \begin{itemize}
-    \item \textit{object} a single object \dtotal, where \dtotal\ can be an object of any arbitrary category $\mathcal{C}$ 
-    \item \textit{morphisms} $\dfunc \in hom_{\mathcal{F}}(F,F)$
+    \item \textit{objects} ordered pairs $(x,y)$,  $x$ is an object of $\mathcal{X}$ and  $y$ is an object of $\mathcal{Y}$
+    \item \textit{morphisms} ordered pairs $(f:x\rightarrow x^{\prime}, g:y\rightarrow y^{\prime})$
+    \end{itemize}
+The coomposition of morphisms is defined component wise by composition in $\mathcal{X}$ and $\mathcal{Y}$.ss
 \end{definition}
 
-The fiber space over a point is embedded in the stalk over that point $\dfiber_{k}\hookrightarrow \mathscr{F}_{k}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{F}}(F,F)$. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{k}, \dfiber_{k})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
+The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
 \note{rewrite paragraph}
-The graphic category $\mathcal{\gtotalc}$ consists of the functor object $\sheaf_{\gtotalc}: \mathcal{\gbasec}^{op} \rightarrow \Gamma(\mathcal{\gbasec}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{\gbasec}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{\gbase}, \gtotal)$ is a subcatagory of \textbf{Set}.
+
+The domain of the artist function is the space of all possible graphics. We model this space using categories that are analogous to the data categories
+
+
+We model the space of all possible graphics as a sheaf $\sheafc_{\mathcal{H}}:\mathcal{S} \rightarrow \mathcal{H}$
+
+
+The graphic category $\mathcal{\gtotalc}$ is analogous to the $\
+
+consists of the functor object $\sheaf_{\gtotalc}: \mathcal{\gbasec}^{op} \rightarrow \Gamma(\mathcal{\gbasec}, \gtotal)$ and morphisms between sheaves. The category $\mathcal{\gbasec}$ is the category of open sets $\{U\}$ over the graphic base space \gbase. The set of sets of sections $\Gamma(\mathcal{\gbase}, \gtotal)$ is a subcatagory of \textbf{Set}.
 
 \begin{definition} The sheaf $Im_{\vartist}$ is a map between the category of open sets $\gtotal^{op}$ and a subcategory of \textbf{Set}. This subcategory is the set of subsets of sections $\{\gsection^{k}:U_i \rightarrow \gfiber_{U_{i}}\} \subset \Gamma(U_i, \gtotal)$ over the space of all open sets in $\mathcal{\gbase}$. 
 \end{definition}
