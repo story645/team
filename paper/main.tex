@@ -327,17 +327,15 @@ We model data as the sheaf $\sheafc_{\dtotalc}: \mathcal{\dbasec}^{op}\rightarro
 where the map \dfunc\ is any arbitrary function between sheafs. The sheaf $\sheaf_{\dtotal}$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf_{\mathcal{\dtotal}}|_{k}\coloneqq \lim\limits_{U\ni k} \Gamma(U, \dtotal)$ \cite{StalkSheaf2019}. 
 
 \begin{definition} 
-  \label{def:category:F} 
-  The fiber category $\mathcal{\dfiberc}$ is a product category\cite{maclaneCategoriesWorkingMathematician2013,nlab:product_category} of zero or more arbitrary categories. In the two category case, the category $\mathcal{\dfiberc}$ consists of 
+  \label{def:category:F} The fiber category $\mathcal{\dfiber}$ is a monoidal category\cite{milewskiCategoryTheoryProgrammers}, which means it is a category equipped with a bifunctur $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$
   \begin{itemize}
-    \item \textit{objects} ordered pairs $(x,y)$,  $x$ is an object of $\mathcal{X}$ and  $y$ is an object of $\mathcal{Y}$
-    \item \textit{morphisms} ordered pairs $(f:x\rightarrow x^{\prime}, g:y\rightarrow y^{\prime})$
-    \end{itemize}
-The composition of morphisms is defined component wise by composition in $\mathcal{X}$ and $\mathcal{Y}$.ss
+    \item \textit{object} a monoid object \dfiber. A monoid is a set with a binary operator that is associative, closed, and for which the set contains an identity element $i$ \cite{nlan:monoid}.
+    \item \textit{morphisms} $\dfiber \otimes \dfiber \rightarrow \dfiber$ and unit $i \rightarrow \dfiber$
+  \end{itemize}
 \end{definition}
-The fiber category $\mathcal{\dfiber}$ can encode a large variety of collections of data fields because it is a product category of arbitrary categories. For example, a lists of strings is an instance of an object in \textbf{Set}, networks are an instance of \textbf{Graph}, and images are vector spaces which are a specific type of topological space \textbf{Top}.  The morphisms $Hom_{\mathcal{\dfiber}}$ are functions from the data to itself, for example the binary operations, group actions, and measurement scales discussed in \autoref{sec:related-work:equivariance}. These functions could also be monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}.
+The bifunctor $\otimes$ preserves identity and composition {fongInvitationAppliedCategory2019} for fibers that consist of many fields. Given a pair of objects $X, Y$, the functor yeilds a set of pairs $\{(x,y) | x \in X, y \in Y\}$. For the associated morphisms $f: X\rightarrow X$ and $g: Y\rightarrow Y$, the function $(f\times g): (X\times Y) \rightarrow (X \times Y)$ is pointwise $(f\times g)(x, y)\coloneqq (f(x), g(y))$.  This bookkeeping means that the fiber category $\mathcal{\dfiber}$ can encode a large variety of collections of data fields because it is a product category of arbitrary categories. 
 
-\note{note sure this note applies anymore: We note that a one object category is a monoid \cite{nlab:monoid,barrCategoryTheoryComputing}, which is an algebraic structure that lends itself to computer library design because they are an abstraction of function composition \cite{yorgeyMonoidsThemeVariations}.}
+For example, a lists of strings is an instance of an object in \textbf{Set}, networks are an instance of \textbf{Graph}, and images are vector spaces which are a specific type of topological space \textbf{Top}.  The morphisms $Hom_{\mathcal{\dfiber}}$ are functions from the data to itself, for example the binary operations, group actions, and measurement scales discussed in \autoref{sec:related-work:equivariance}. These functions could also be monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}.
 
 The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
@@ -407,7 +405,7 @@ where the projection functions $i_{\dbase_a},i_{\dbase_b}$ behave such that $i_{
     \dfiberc_{b} \arrow[rr, "proj_b"]                                                  &  & \dfiberc_{c}                    
     \end{tikzcd}
 \end{equation}
-
+%%% the fiber objects need to be composable into product categories, coproduct? -> OR on return values 
 \autoref{eq:artist:intersection:basespace} and \autoref{eq:artist:intersection:fiber} can be composed to specify how different aspects of the structure of a multivariate nested dimensional dataset, such as a spatio-temporal weather dataset, should be preserved in a visualization. 
 \note{this is probably the power of this model and should maybe get a figure?}
 
