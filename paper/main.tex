@@ -245,7 +245,7 @@ In this work, we propose that equivariance constraints can be expressed using ca
 
 \note{the notation here may need to be X and Y}
 
-\begin{definition} A category \mathcal{C} consists of a collection of objects $C$ with identity $id_c: C\rightarrow C$ and the set of morphisms between every two objects $f:C_1 \rightarrow C_2$, \cite{fongInvitationAppliedCategory2019,maclaneCategoriesWorkingMathematician2013}. 
+\begin{definition} A category \mathcal{C} consists of a collection of objects $c$ with identity $id_c: C\rightarrow C$ and the set of morphisms between every two objects $f:C_1 \rightarrow C_2$, \cite{fongInvitationAppliedCategory2019,maclaneCategoriesWorkingMathematician2013}. 
 \end{definition}
 The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_1, C_2)$. The morphisms on the category  compose
 \begin{equation*}
@@ -263,7 +263,7 @@ The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_
  \begin{definition} An opposite category $\mathcal{C}^{op}$ is a category with all the same objects of category $\mathcal{C}$ and but the morphisms are reversed. For example $f:C_1 \rightarrow C_2$ in $\mathcal{C}$ is $f:C_2 \rightarrow C_1$ in $\mathcal{C}^{op}$.   
  \end{definition}
 
- \begin{definition} A functor is a morphism between categories $\mathfrak{F}: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
+ \begin{definition} A functor is a morphism between any two  categories $\mathfrak{F}: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
 A functor preserves the structure of the category, namely morphisms and the source and target objects of those morphisms, composition of morphisms, and identity morphisms \cite{riehlCategoryTheoryContext}. Contravariant functors are functors where the morphisms in $\mathcal{C}$ go in the opposite direction from the morphisms in $\mathcal{D}$.  
 
  \begin{definition} A presheaf \sheafc\, as introduced in \autoref{eq:related-work:continuity:presheaf}, is a functor $\sheaf: \mathcal{C}^{op} \rightarrow \textbf{Set}$.\cite{nlab:presheaf} \end{definition}
@@ -302,10 +302,24 @@ We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the c
 
 \begin{definition} \label{def:category:K} The category of open sets $\mathcal{\dbasec}$ consists of
   \begin{itemize}
-    \item \textit{objects} open sets $\openset_{j} \in \{openset\}$ in the topological space $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
-    \item \textit{morphisms} $\iota: U_{j} \hookrightarrow U_{k}$ for all  $U_j, U_k \subset \dtotal$
+    \item \textit{objects} open sets $\openset_{i} \in \{openset\}$ in the topological space $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
+    \item \textit{morphisms} $\iota: \openset_{i} \hookrightarrow \openset_{j}$ for all  $\openset_i, \openset_j \subset \dtotal$
   \end{itemize} 
 \end{definition}
+
+We also introduce a category of open sets called $\mathcal{\gbase}$ that encapsulates the topology of the graphic display space. The category $\mathcal{\gtotal}$ has  inclusion morphisms $\iota: {\openset_{i}}^{\prime} \hookrightarrow {\openset_{j}}^{\prime}$, including into the total set \gtotal. We introduce a surject map $\vindex: \gtotal \rightarrow \dtotal$ from the the graphic base space to the data base space. Given the morphism $\iota$
+\begin{equation}
+  \label{eq:artist:vindex}
+  \begin{tikzcd}
+    & \opensetc^{\prime}_i \arrow[d, "\iota"] \\
+  \dbasec \arrow[ru, "\vindexc^*", dashed] & \gbasec \arrow[l, "\vindexc"]   
+\end{tikzcd}
+\end{equation}
+we propose that the map \vindex\ can be pulled back to a map between open sets in \dbase and open sets in \gbase. This map is the functor
+\begin{equation}
+  \vindex^{*}:\mathcal{\dtotal} \rightarrow \mathcal{\gtotal}
+\end{equation}
+that maps from the data base space to the graphic base space. The map $\vindex^{*}$ is a lookup map between where a point is located in the data and where it is located on screen. 
 
 \begin{definition} \label{def:category:E} The category \mathcal{\dtotalc} is a subcategory of \textbf{Set} and consists of 
   \begin{itemize}
