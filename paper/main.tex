@@ -39,6 +39,7 @@
 %% with other math-related packages, you may want to disable it.
 \usepackage{amsmath, amsthm, amsfonts,amssymb,eulervm,xspace, mathtools}
 \usepackage{mathrsfs} % math script fonts
+\usepackage{bm}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
 \theoremstyle{remark}
@@ -261,14 +262,16 @@ The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_
  \begin{definition} An opposite category $\mathcal{C}^{op}$ is a category with all the same objects of category $\mathcal{C}$ and but the morphisms are reversed. For example $f:C_1 \rightarrow C_2$ in $\mathcal{C}$ is $f:C_2 \rightarrow C_1$ in $\mathcal{C}^{op}$.   
  \end{definition}
 
- \begin{definition} A functor is a morphism between any two  categories $\mathfrak{F}: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
-A functor preserves the structure of the category, namely morphisms and the source and target objects of those morphisms, composition of morphisms, and identity morphisms \cite{riehlCategoryTheoryContext}. Contravariant functors are functors where the morphisms in $\mathcal{C}$ go in the opposite direction from the morphisms in $\mathcal{D}$.  
+ \begin{definition} A functor is a morphism between any two  categories $\bm{F}: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
+
+A functor preserves the structure of the category, namely morphisms and the source and target objects of those morphisms, composition of morphisms, and identity morphisms \cite{riehlCategoryTheoryContext}. Functors $\bm{F}: \mathcal{C}^{op} \rightarrow \mathcal{D}$ are called contravariant functors.
 
  \begin{definition} A presheaf \sheafc\, as introduced in \autoref{eq:related-work:continuity:presheaf}, is a functor $\sheaf: \mathcal{C}^{op} \rightarrow \textbf{Set}$.\cite{nlab:presheaf} \end{definition}
 
  \begin{definition} A natural transformation is a morphism of functors $\alpha: F \rightarrow G$ where $F, G$ are functors from $\mathcal{C}$ to $\mathcal{D}$. \cite{riehlCategoryTheoryContext, bradleyWhatNaturalTransformation}
  \end{definition}
-The natural transformation acts as a wrapper of sorts
+
+The natural transformation composes with a functor such that the output is a compatible functor between the same categories 
 \begin{equation}
   \label{eq:related-work:equivariance:natural-transform}
 \begin{tikzcd}
@@ -277,12 +280,12 @@ The natural transformation acts as a wrapper of sorts
   & {}                                  &            
 \end{tikzcd}
 \end{equation}
-such that $\alpha(F: \mathcal{C} \rightarrow \mathcal{D}) = G: \mathcal{C} \rightarrow \mathcal{D}$ commutes for any morphism $f:c\rightarrow c^{\prime}$ \cite{fongInvitationAppliedCategory2019}. Arbitrary morphisms on sheaves are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. 
+This means that $\alpha(F: \mathcal{C} \rightarrow \mathcal{D}) = G: \mathcal{C} \rightarrow \mathcal{D}$ commutes for any morphism $f:c\rightarrow c^{\prime}$ \cite{fongInvitationAppliedCategory2019}. A natural transform is a way to specify which functors between categories preserve the structure of the categories in the same manner. Arbitrary morphisms on sheaves are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. 
 
 \section{Artist} 
 In this section we describe the properties a data to visualization transform must satisfy to be considered equivariant and continuity preserving. We propose that by explicitly defining these properties, we can better incorporate them into visualization library design. 
 
-We formulate the visualization transformation as a functor, which we call the \textcolor{artist}{Artist} \vartist \footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts\textcolor{total}{data}, which we denote $\mathcal{\dtotalc}$ to \textcolor{total}{graphics} $\mathcal{\gtotalc}$. We formulate this association as 
+We formulate the visualization transformation as a functor, which we call the \textcolor{artist}{Artist} \vartist \footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts \textcolor{total}{data}, which we denote $\mathcal{\dtotalc}$ to \textcolor{total}{graphics} $\mathcal{\gtotalc}$. We formulate this association as 
 
 \begin{equation}
   \label{eq:artist:artist}
