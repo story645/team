@@ -88,11 +88,11 @@
 \hyphenation{op-tical net-works semi-conduc-tor}
 
 
-\usepackage[switch]{lineno}
-\linenumbers
+\usepackage[switch,columnwise]{lineno}
 
 \begin{document}
-%
+\linenumbers
+
 \title{Topological Equivariant Artist Model for Visualization Library Architecture}
 % author names and IEEE memberships
 \author{Hannah~Aizenman, Thomas~Caswell, and~Michael~Grossberg,~\IEEEmembership{Member,~IEEE,}% <-this % stops a space
@@ -226,8 +226,6 @@ The map from the open set to the set of sections is called a presheaf $\sheaf: U
 
 This means that a smaller space $\openset_1$ is included in a larger space $\openset_2$ and a function that is continuous over a larger space $\openset_2$ is continuous over a subspace $\openset_1 \subspace \openset_2$. Sheaves are presheafs where sets of sections $\Gamma$ are defined over unions of open sets over a topology $\bigcup_{j \in I} \openset)_j \in \dtotal$ \cite{spanier1989algebraic, nlab:sheaf}. Sheaves are often used as an abstraction for keeping track of how data over topological spaces is glued together \cite{ghristElementaryAppliedTopology2014} because they model the data as sets of sections, continuity of the data in the base, and how subsets fit together through inclusion maps.  
 
-\note{I've seen this convention before, but I also cite all these people above}
-For more information on fiber bundles and sheaves, see Hatcher\cite{hatcherAlgebraicTopology2002}, Munkres\cite{munkresElementsAlgebraicTopology1984}, Spanier \cite{spanier1989algebraic} and Ghrist\cite{ghristElementaryAppliedTopology2014,ghristHomologicalAlgebraData2018}. 
 
 \subsection{Equivariance}
 \label{sec:related-work:equivariance}
@@ -281,17 +279,18 @@ The natural transformation acts as a wrapper of sorts
 \end{equation}
 such that $\alpha(F: \mathcal{C} \rightarrow \mathcal{D}) = G: \mathcal{C} \rightarrow \mathcal{D}$ commutes for any morphism $f:c\rightarrow c^{\prime}$ \cite{fongInvitationAppliedCategory2019}. Arbitrary morphisms on sheaves are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. 
 
-For more information on category theory, see Barr and Wells\cite{barrCategoryTheoryComputing}, Fong and Spivak \cite{fongInvitationAppliedCategory2019}, Riehl\cite{riehlCategoryTheoryContext} and Bradley et. al. \cite{bradleyTopologyCategoricalApproach2020}.
-
 \section{Artist} 
-In this section, we use category theory to formally express the implicit assumptions that visualization library components make in transforming data into graphical representations. We propose that the visualization transformation can be modeled as a functor, which we call the \textcolor{artist}{Artist} \vartist \footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts data, which we model as the sheaf $\sheafc_{\dtotalc}$ to graphics in the sheaf $\sheafc_{\gtotalc}$. We formulate this association as 
+In this section we describe the properties a data to visualization transform must satisfy to be considered equivariant and continuity preserving. We propose that by explicitly defining these properties, we can better incorporate them into visualization library design. 
+
+We formulate the visualization transformation as a functor, which we call the \textcolor{artist}{Artist} \vartist \footnote{We call this transformation the artist because the \mintinline{python}{Artist} object in Matplotlib\cite{hunterMatplotlib2DGraphics2007}}. The artist \vartist\ converts\textcolor{total}{data}, which we denote $\mathcal{\dtotalc}$ to \textcolor{total}{graphics} $\mathcal{\gtotalc}$. We formulate this association as 
 
 \begin{equation}
   \label{eq:artist:artist}
-  \vartistc: \sheafc_{\dtotalc} \rightarrow \sheafc_{\gtotal}
+  \vartistc: \mathcal{\dtotalc} \rightarrow \mathcal{\gtotalc}
 \end{equation}
 
-In this section we describe the structure of the data and graphic spaces, which we formulate as objects in categories and the morphisms between those objects. We then use these definitions to express the structure that an artist must preserve. Finally, we propose that artists can be composed by manufacturing new artists based on various types of input data. 
+In this section we encapsulate the structure of the data and graphic spaces as categories. We then use these definitions to express the structure that an artist preserves. Finally, we introduce rules for composing artists in a way where the structure between the inputs to the individual artists is preserved. 
+
 
 \subsection{Categorical Artist}
 \label{sec:artist:category}
