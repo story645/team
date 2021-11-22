@@ -196,7 +196,8 @@ The \textcolor{base}{base space} \dbasec\ is a topological space, which means it
 
 \begin{definition} The \textcolor{fiber}{fiber space} \dfiberc\ is a topological space such that for every $\dbasepoint \in \dbase$, the fiber over that point is isomorphic to the preimage of that point $\dfiber_{\dbasepoint} \cong \pi^{-1}(\{\dbasepoint\})$. All fibers $\dfiber_{\dbasepoint}$ are homeomorphic to each other \cite{spanier1989algebraic, hatcherAlgebraicTopology2002}
 \end{definition}
-\note{intuition about fiber + spivak} 
+
+The fibers can be thought of as encapsulating data types according to Spivak, who proposes that databases can be represented as fiber bundles \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak formulates the fiber as a (field name, data domain) simple schema where field names and field types can be formally mapped to the set of values associated with the field type, for example $\mathbb{R}$ for a \texttt{float} column named \textit{temperature}. 
 
 \begin{definition} The \textcolor{total}{total space} \dtotalc\ is the space reachable via the projection map $\pi$. The total space is always locally trivial, meaning $\dtotal = \dbase \times \dfiber$ over any open neighborhood $\openset_{\dbasepoint}$. 
 \end{definition}
@@ -469,8 +470,7 @@ which are the data to visual variable map $\vchannel$ at the bundle level and th
 
 
 \subsection{Data Domain}
-We model data as sections of a fiber bundle $(\dtotal, \pi, \dbase, \dfiber)$. We encode the continuity of the data as the \textcolor{base}{base space} $\dbase$. We model the data as the section \dsection\ because, as described in \autoref{sec:related-work:fiber-bundles}, the section is the map from the indexing space \dbase\ to the space of possible data values \dfiber. We adopt Spivak's formulation of the fiber as a (column name, data domain) simple schema \cite{spivakSIMPLICIALDATABASES,spivakDatabasesAreCategories2010}. Spivak formally maps column names and field types to the set of values associated with the field type, for example $\mathbb{R}$ for a \texttt{float} column named \textit{temperature}. This allows for field based selection of values, while inclusion allows for continuity (index) based selections. 
-
+We model data as sections of a fiber bundle $(\dtotal, \pi, \dbase, \dfiber)$. We encode the continuity of the data as the \textcolor{base}{base space} $\dbase$. We model the data as the section \dsection\ because, as described in \autoref{sec:related-work:fiber-bundles}, the section is the map from the indexing space \dbase\ to the space of possible data values \dfiber. 
 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{fiberbundle.png}
