@@ -251,8 +251,6 @@ When introducing the retinal variables, Bertin informally specifies that continu
 \label{sec:related-work:equivariance:category}
 In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al \cite{vickersUnderstandingVisualizationFormal2013} provide a brief introduction to category theory for visualization practitioners, but their work focuses on reasoning about visualization design, while this paper aims to provide guidance on designing visualization library components. Briefly we introduce concepts in category theory that we use to describe our model in \autoref{sec:artist:category} and \autoref{sec:artist:construction}. 
 
-\note{the notation here may need to be X and Y}
-
 \begin{definition} A category \mathcal{C} consists of a collection of objects $c$ with identity $id_c: C\rightarrow C$ and the set of morphisms between every two objects $f:C_1 \rightarrow C_2$, \cite{fongInvitationAppliedCategory2019,maclaneCategoriesWorkingMathematician2013}. 
 \end{definition}
 The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_1, C_2)$. The morphisms on the category  compose
@@ -271,7 +269,7 @@ The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_
  \begin{definition} An opposite category $\mathcal{C}^{op}$ is a category with all the same objects of category $\mathcal{C}$ and but the morphisms are reversed. For example $f:C_1 \rightarrow C_2$ in $\mathcal{C}$ is $f:C_2 \rightarrow C_1$ in $\mathcal{C}^{op}$.   
  \end{definition}
 
- \begin{definition} A functor is a morphism between any two  categories $\bm{F}: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
+ \begin{definition} A functor is a morphism between objects of any two  categories $\bm{F}: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
 
 A functor preserves the structure of the category, namely morphisms and the source and target objects of those morphisms, composition of morphisms, and identity morphisms \cite{riehlCategoryTheoryContext}. Functors $\bm{F}: \mathcal{C}^{op} \rightarrow \mathcal{D}$ are called contravariant functors.
 
@@ -318,27 +316,16 @@ We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the c
   \end{itemize} 
 \end{definition}
 
-Over these open sets $\openset_i$ are sets of local sections 
-
-
-
-\begin{definition} \label{def:category:E} The category \mathcal{\dtotalc} is a subcategory of \textbf{Set} and consists of 
-  \begin{itemize}
-    \item \textit{objects} sets of sections $\Gamma(\openset_{j}, \dtotal)$ for all $U_j \subset \dtotal$
-    \item \textit{morphisms}  $\iota^*: \Gamma(\openset_{k}, \dtotal) \hookrightarrow \Gamma(\openset_{j}, \dtotal)$ for all  $\openset_j, \openset_k \subset \dtotal$
-  \end{itemize} 
-\end{definition}
-
-We model data as the sheaf $\sheafc_{\dtotalc}: \mathcal{\dbasec}^{op}\rightarrow \mathcal{\dtotalc}$
+We model data as the sheaf $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op}\rightarrow \bm{Set}$. The objects of \textbf{Set} in this sheaf are the sets of sections introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps in \autoref{eq:related-work:continuity:presheaf}. 
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
   \begin{tikzcd}
-    & \mathcal{\dtotalc} & \\
-{} \arrow[rr, "\dfuncc", Rightarrow, shift right, shorten=3em] & & {} \\
-    & \mathcal{\dbasec}^{op} \arrow[uu, "\sheafc_{\dtotalc}", bend left] \arrow[uu, "\sheafc_{\dtotalc}"', bend right] &   
+    & \Gamma(\opensetc_i, \dtotalc) \in Ob(\bm{Set}) & \\
+{} \arrow[rr, "\dfuncc", Rightarrow, pos=.3, shorten <=3.5em, shorten >=8.85em] & & {} \\
+    & \opensetc_i \in Ob(\mathcal{\dbasec}^{op}) \arrow[uu, "\sheafc(\dtotalc)", bend left, shift left = 10.5] \arrow[uu, "\sheafc(\dtotalc)"', bend right, shift left=10.5] &   
 \end{tikzcd}
 \end{equation}
-where the map \dfunc\ is any arbitrary function between sheafs. The sheaf $\sheaf_{\dtotal}$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf_{\mathcal{\dtotal}}|_{k}\coloneqq \lim\limits_{U\ni k} \Gamma(U, \dtotal)$ \cite{StalkSheaf2019}. 
+ The map $\dfunc: \sheaf(\dtotal) \rightarrow \sheaf(\dtotal)$ is any arbitrary function between sheafs. The sheaf $\sheaf(\dtotal)$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf(\dtotal)|_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal)$ \cite{StalkSheaf2019}. 
 
 \begin{definition} 
   \label{def:category:F} The fiber category $\mathcal{\dfiber}$ is a monoidal category\cite{milewskiCategoryTheoryProgrammers}, which means it is a category equipped with a bifunctur $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$
