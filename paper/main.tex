@@ -392,11 +392,17 @@ Following from \autoref{eq:artist:data_pushforward_sheaf} and the construction o
 \begin{equation}
   \begin{tikzcd}
     & {} \arrow[dd, "\vartistc", Rightarrow, shorten=1.25em] & \\
-\mathcal{\gbasec}^{op} \arrow[rr, "\sheafc(\dtotalc)", bend left] \arrow[rr, "\sheafc_{\vartistc}(\gtotalc)"', bend right] &  & \textcolor{section}{\bm{Set}}\\
+\mathcal{\gbasec}^{op} \arrow[rr, "\sheafc_{\vindex_*}(\dtotalc)", bend left] \arrow[rr, "\sheafc_{\vartistc}(\gtotalc)"', bend right] &  & \bm{Set}\\
     & {} &                            
 \end{tikzcd}
 \end{equation}
 
+of sheaf functors 
+\begin{equation}
+  \label{eq:artist:sheaf_map}
+  \vartist: \sheafc_{vindex_*}(\dtotal) \rightarrow \sheafc_{\vartist}(\gtotal)
+\end{equation}
+from the graphic base space category $\mathcal{\gbase}^{op}$ to different objects in \bm{Set}. This means that the following diagram commutes
 
 
 
