@@ -196,24 +196,32 @@ The \textcolor{base}{base space} \dbasec\ is a topological space, which means it
 
 \begin{definition} The \textcolor{fiber}{fiber space} \dfiberc\ is a topological space such that for every $\dbasepoint \in \dbase$, the fiber over that point is isomorphic to the preimage of that point $\dfiber_{\dbasepoint} \cong \pi^{-1}(\{\dbasepoint\})$. All fibers $\dfiber_{\dbasepoint}$ are homeomorphic to each other \cite{spanier1989algebraic, hatcherAlgebraicTopology2002}
 \end{definition}
-\note{intuition about fiber} 
+\note{intuition about fiber + spivak} 
 
 \begin{definition} The \textcolor{total}{total space} \dtotalc\ is the space reachable via the projection map $\pi$. The total space is always locally trivial, meaning $\dtotal = \dbase \times \dfiber$ over any open neighborhood $\openset_{\dbasepoint}$. 
 \end{definition}
 The fiber bundle is trivial when $\dtotal = \dbase \times \dfiber$ is true globally; a non-trivial bundle can be thought of as the twisted fiber product $\dtotal=\dbase times_{T} \dfiber$\cite{hatcherAlgebraicTopology2002,nlab:twisting_function}. The twisting refers to the fiber \dfiber\ not aligning in the same direction over all $\dopenspace \subseteq \dbase$. 
 
 \begin{equation}
+  \label{eq:related-work:continuity:fiber-bundle}
   \begin{tikzcd}
       \dfiberc \arrow[r, hook] & \dtotalc \arrow[d, "\pi"'] \\
                         & \dbasec \arrow[u, "\dsectionc"', bend right]
   \end{tikzcd}
 \end{equation}
 
+\note{this needs to be reworked into a coherent sentence}
 How these spaces fit together is illustrated in \autoref{fig:related-work:fiber-bundle}, wherein values lives in the fiber $\dfiber\subseteq\dtotal$. In this example, the fiber \dfiber\ is the cartesian product of two sets $F_{0}\times F_{1}$ where each fiber $F_{i}$ is ....
 
-\subsubsection{Sheaves}
-The set of all sections sections $\{\dsection^{i}: \openset_{j}\rightarrow \dtotal\}|_{i\in I}$ over an arbitrary open set $U_{j}$ is denoted $\Gamma(\openset_{\dbasepoint}, \dtotal)$. The set of all sections over the total space \dbase\ is denoted $\Gamma(\dbase, \dtotal)$.  
 
+As proposed by Butler et al, data can be represented as a map from the base space \dbase\ to the fiber space \dfiber. This map is called a section $\dsection: \dbase \rightarrow \dtotal$ of the fiber bundle. A fiber bundle has many sections, and the set of all sections
+\begin{equation}
+\label{eq:related-work:continuity:sections}
+\{\dsection^{i}: \openset_{j}\rightarrow \dtotal\}|_{i\in I} = \Gamma(\openset_{j}, \dtotal)
+\end{equation}
+over a subset \openset\ is the set of all data sets with a shared fiber \dfiber\ and continuity \dbase. The set of all sections defined over the total base space is denoted $\Gamma(\dbase, \dtotal)$.  
+
+\subsubsection{Sheaves}
 The map from the open set to the set of sections is called a presheaf $\sheaf: U_j \rightarrow \Gamma(\openset_j, \dtotal)$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps between the open sets open sets $\iota$ and the inclusion map $\iota^*$ between the sets of sections.
 
 \begin{equation}
@@ -295,7 +303,7 @@ We formulate the visualization transformation as a functor, which we call the \t
 In this section we encapsulate the structure of the data and graphic spaces as categories. We then use these definitions to express the structure that an artist preserves. Finally, we introduce rules for composing artists in a way where the structure between the inputs to the individual artists is preserved. 
 
 
-\subsection{Categorical Artist}
+\subsection{Natural Transformation of Data to Graphic}
 \label{sec:artist:category}
 
 Fiber bundles, as introduced in \autoref{sec:related-work:fiber-bundles}, serve as the model of data and graphic spaces in out model. In this section, we introduce categorical formulations of the topological spaces that make up a fiber bundle. 
@@ -309,19 +317,9 @@ We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the c
   \end{itemize} 
 \end{definition}
 
-We also introduce a category of open sets called $\mathcal{\gbase}$ that encapsulates the topology of the graphic display space. The category $\mathcal{\gtotal}$ has  inclusion morphisms $\iota: {\openset_{i}}^{\prime} \hookrightarrow {\openset_{j}}^{\prime}$, including into the total set \gtotal. We introduce a surject map $\vindex: \gtotal \rightarrow \dtotal$ from the the graphic base space to the data base space. Given the morphism $\iota$
-\begin{equation}
-  \label{eq:artist:vindex}
-  \begin{tikzcd}
-    & \opensetc^{\prime}_i \arrow[d, "\iota"] \\
-  \dbasec \arrow[ru, "\vindexc^*", dashed] & \gbasec \arrow[l, "\vindexc"]   
-\end{tikzcd}
-\end{equation}
-we propose that the map \vindex\ can be pulled back to a map between open sets in \dbase and open sets in \gbase. This map is the functor
-\begin{equation}
-  \vindex^{*}:\mathcal{\dtotal} \rightarrow \mathcal{\gtotal}
-\end{equation}
-that maps from the data base space to the graphic base space. The map $\vindex^{*}$ is a lookup map between where a point is located in the data and where it is located on screen. 
+Over these open sets $\openset_i$ are sets of local sections 
+
+
 
 \begin{definition} \label{def:category:E} The category \mathcal{\dtotalc} is a subcategory of \textbf{Set} and consists of 
   \begin{itemize}
@@ -367,17 +365,28 @@ The domain of the artist function is the space of all possible graphics. As with
   \end{tabular}
 \end{table}
 
-The category $\mathcal{H}$ has as objects the sets of functions that generate every arbitrary graphic over the open sets in $\mathcal{\gtotal}$. While $\mathcal{H}$ is the domain of the artist \vartist, the range of \vartist\ is the subset of graphics $\sheaf_{\vartist} \subset \sheaf_{\mathcal{\dtotal}}$ such that structure imposed by $\dfunc_{\dtotal}$ commutes 
+We introduce a surjective map $\vindex: \gtotal \rightarrow \dtotal$ from the the graphic base space to the data base space. Given the morphism $\iota$
 \begin{equation}
-  \label{eq:artist:equivariance}
+  \label{eq:artist:vindex}
   \begin{tikzcd}
-    \sheafc_{\dtotalc} \arrow[r, "\vartistc"] \arrow[d, "\dfuncc_{\dtotalc}"'] & \sheafc_{\vartistc} \arrow[d, "\dfuncc_{\vartistc}"] \\
-    \sheafc_{\dtotalc} \arrow[r, "\vartistc"] & \sheafc_{\vartistc}                                              
-  \end{tikzcd}
+    & \opensetc^{\prime}_i \arrow[d, "\iota"] \\
+  \dbasec \arrow[ru, "\vindexc^*", dashed] & \gbasec \arrow[l, "\vindexc"]   
+\end{tikzcd}
 \end{equation}
-The equivariance condition expressed in \autoref{eq:artist:equivariance} is that a graphic generated by  transforming and then visualizing data $\vartist(\dfunc_{\dtotal}(\sheaf_{\mathcal{dtotal}}))$ can equivalently be generated by visualizing the data and then transforming the graphic $\dfunc_{\vartist}(\vartist(\sheaf_{\mathcal{\dtotal}}))$. This is a formal statement of the equivariance illustrated in \autoref{fig:related-work:equivariance}
+we propose that the map \vindex\ can be pushed forward to a map between open sets in \dbase and open sets in \gbase. This map is the functor
+\begin{equation}
+  \vindex_{*}:\mathcal{\dtotal} \rightarrow \mathcal{\gtotal}
+\end{equation}
+that maps from open sets $\openset_i \subset \dbase$ in data space to the open sets in visual space $\openset^{\prime}_i \subset \gbase$. The graphic space is 
 
-In \autoref{sec:artist:construction}, we show a method of constructing the artist such that the constraints of \autoref{eq:artist:morphism-of-sheaf} and \autoref{eq:artist:equivariance} can be satisfied, thereby ensuring equivariance and the preservation of continuity. We then use this formulation to guide the development of visualization library components in \autoref{sec:case-study}.
+\begin{figure}[h!]
+  \includegraphics[width=\columnwidth]{pushforward.png}
+  \label{artist:pushforward_xi}
+  \caption{The pushforward map $\vindex_*$ repeats the 1D fiber over every point $\dbasepoint \in \dbase$ in data space, turning the fiber into a 2D plane of repeating values over the corresponding region $\dbasepoint = \vindex(\gbasepoint)$ in the graphic space \gbase. }
+\end{figure}
+
+
+
 
 \subsection{Composition of Artists}
 \label{sec:artist:union}
