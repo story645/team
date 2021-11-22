@@ -328,51 +328,56 @@ We model data as the sheaf $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op}\rightarr
  The map $\dfunc: \sheaf(\dtotal) \rightarrow \sheaf(\dtotal)$ is any arbitrary function between sheafs. The sheaf $\sheaf(\dtotal)$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf(\dtotal)|_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal)$ \cite{StalkSheaf2019}. 
 
 \begin{definition} 
-  \label{def:category:F} The fiber category $\mathcal{\dfiber}$ is a monoidal category\cite{milewskiCategoryTheoryProgrammers}, which means it is a category equipped with a bifunctur $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$
+  \label{def:category:F} The fiber category $\mathcal{\dfiberc}$ is a monoidal category\cite{milewskiCategoryTheoryProgrammers}, which means it is a category equipped with a bifunctur $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$
   \begin{itemize}
     \item \textit{object} a monoid object \dfiber. A monoid is a set with a binary operator that is associative, closed, and for which the set contains an identity element $i$ \cite{nlan:monoid}.
     \item \textit{morphisms} $\dfiber \otimes \dfiber \rightarrow \dfiber$ and unit $i \rightarrow \dfiber$
   \end{itemize}
 \end{definition}
-The bifunctor $\otimes$ preserves identity and composition {fongInvitationAppliedCategory2019} for fibers that consist of many fields. Given a pair of objects $X, Y$, the functor yeilds a set of pairs $\{(x,y) | x \in X, y \in Y\}$. For the associated morphisms $f: X\rightarrow X$ and $g: Y\rightarrow Y$, the function $(f\times g): (X\times Y) \rightarrow (X \times Y)$ is pointwise $(f\times g)(x, y)\coloneqq (f(x), g(y))$.  This bookkeeping means that the fiber category $\mathcal{\dfiber}$ can encode a large variety of collections of data fields because it is a product category of arbitrary categories. 
+The bifunctor $\otimes$ combines categories in a way that  preserves identity and composition \cite{\fongInvitationAppliedCategory2019}. For example, given a pair of categories $\mathcal{\dfiber_a},\mathcal{\dfiber_b}$, the bifunctor yields a set of pairs $\{(\dfiber_a, \dfiber_b) | \dfiber_a \in \mathcal{\dfiber_a}, \dfiber_b \in \mathcal{\dfiber_b}\}$. For the associated morphisms $g: \mathcal{\dfiber_a}\rightarrow \mathcal{\dfiber_a}$ and $h: \mathcal{\dfiber_b}\rightarrow \mathcal{\dfiber_b}$, the function $(g\times h): (\mathcal{\dfiber_a}\times \mathcal{\dfiber_b}) \rightarrow (\mathcal{\dfiber_a}\times \mathcal{\dfiber_b})$ is pointwise $(g\times h)(\dfiber_a, \dfiber_b)\coloneqq (g(\dfiber_a), h(\dfiber_b))$. Because of the bifunctor, objects of the category $\mathcal{\dfiber}$ can be the product of any arbitrary number and types of categories, including \textbf{Set}, \textbf{Graph}, and topological spaces \textbf{Top}.
 
-For example, a lists of strings is an instance of an object in \textbf{Set}, networks are an instance of \textbf{Graph}, and images are vector spaces which are a specific type of topological space \textbf{Top}.  The morphisms $Hom_{\mathcal{\dfiber}}$ are functions from the data to itself, for example the binary operations, group actions, and measurement scales discussed in \autoref{sec:related-work:equivariance}. These functions could also be monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}.
+The set of all morphism of the fiber category $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ are all possible morphisms in a given category. This includes any of the functions that serve as the basis of equivariance, such as the binary operations, group actions, and measurement scale discussed in  \autoref{sec:related-work:equivariance}. The generalization to $Hom_\mathcal{\dfiber}$ also allows for the inclusion of structures such as monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}.
 
-The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\varphi \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
+The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\dfunc \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
-The domain of the artist function is the space of all possible graphics. As with the domain $\sheaf_{E}$, the graphic space is modeled with fiber bundle equivalent categories:
-\begin{table}[!h]
-  \centering
-  \label{tab:artist:graphic}
-  \begin{tabular}{l l l}
-    fiber bundle & data & graphic \\
-    \textcolor{base}{base space} & \mathcal{\dbasec} & \mathcal{\gbasec}\\
-    \textcolor{total}{total space} & \mathcal{\dtotalc} & \mathcal{\gtotalc}\\
-    \textcolor{fiber}{fiber space} & \mathcal{\dfiberc} & \mathcal{\gfiberc}\\
-    \pi^{-1} & \sheaf_{\mathcal{\dtotalc}} & \sheaf_{\mathcal{\gtotalc}}\\
-  \end{tabular}
-\end{table}
 
-We introduce a surjective map $\vindex: \gtotal \rightarrow \dtotal$ from the the graphic base space to the data base space. Given the morphism $\iota$
+The continuity of the graphic is encapsulated as a category $\mathcal{\mathcal{\gbase}}$ containing open set objects $\opensetg$, the complete set of opensets $\gbase$ that is the full space of the graphic, and the empty set. As with $\mathcal{\dbase}$, the morphisms between the open sets  $\opensetg$ are inclusion morphisms $\iota$. Over the graphic space $\opensetg \subseteq \gbase$ are a set of sections 
+\begin{equation}
+  \label{eq:artist:graphic_sections}
+  \{\gsectionc^{i}:\opensetgc_i\rightarrow \gtotalc\}|_{i\in I}
+\end{equation}
+which are the set of all graphics with a shared base space and fiber and are a subcategory of \textbf{Set}. This allows us to represent the full space of graphics as a sheaf $\sheaf(\gtotal)$
+\begin{equation}
+  \label{eq:artist:artist_sheaf}
+  \begin{tikzcd}
+    {Ob(\bm{Set}) \ni \Gamma(\opensetgc_i, \gtotalc)}                                                                                                  &  & \{\gsectionc^{j}:\opensetgc_i\rightarrow \gtotalc\}|_{j\in J} \arrow[ll, "\iota"', hook'] \\ &  & \\
+    \opensetgc_i \arrow[uu, "\sheafc(\gtotalc)"] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheaf_{\vartist}(\dtotalc)" description, dashed] &  & 
+    \end{tikzcd}
+\end{equation}
+The set of graphics reachable through an artist function is a subset $\{\gsection^{j}\}|_{j\in J}$ of the full set of graphics. These sets of reachable graphics over opensets \opensetg\ are also objects of \textbf{Set}. This allows us to formulate the graphic output by the artist as a sheaf $\sheaf_{\vartist}$ from the graphic base space to the set of reachable graphics. 
+
+
+To establish a mapping between graphic and data base spaces, we introduce the surjective map $\vindex: \gtotal \rightarrow \dtotal$. Given the morphism $\iota$
 \begin{equation}
   \label{eq:artist:vindex}
   \begin{tikzcd}
-    & \opensetc^{\prime}_i \arrow[d, "\iota"] \\
+    & \opensetgc_i \arrow[d, "\iota"] \\
   \dbasec \arrow[ru, "\vindexc^*", dashed] & \gbasec \arrow[l, "\vindexc"]   
 \end{tikzcd}
 \end{equation}
-we propose that the map \vindex\ can be pushed forward to a map between open sets in \dbase and open sets in \gbase. This map is the functor
+we propose that a pushforward functor $\vindex_*$ 
 \begin{equation}
-  \vindex_{*}:\mathcal{\dtotal} \rightarrow \mathcal{\gtotal}
+  \vindexc_{*}:\mathcal{\dbasec} \rightarrow \mathcal{\gbasec}
 \end{equation}
-that maps from open sets $\openset_i \subset \dbase$ in data space to the open sets in visual space $\openset^{\prime}_i \subset \gbase$. The graphic space is 
+can be used to map between open sets $\openset_i \subset \dbase$ in data space and the open sets in visual space $\opensetg_i \subset \gbase$. 
 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{pushforward.png}
-  \label{artist:pushforward_xi}
+  \label{fig:artist:pushforward_xi}
   \caption{The pushforward map $\vindex_*$ repeats the 1D fiber over every point $\dbasepoint \in \dbase$ in data space, turning the fiber into a 2D plane of repeating values over the corresponding region $\dbasepoint = \vindex(\gbasepoint)$ in the graphic space \gbase. }
 \end{figure}
 
+We compose the functor $\vindex_*$ with the sheaf $\sheaf$ to move the sets of sections from $\Gamma(\openset, \dtotal)$ to $\Gamma(\opensetg, \vindex_* \dtotal)$. As illustrated in \autoref{fig:artist:pushforward_xi}, this operation copies a section and a fiber over one point $\dbasepoint \in \dbase$ such that it repeats over the corresponding region $\gbasepoint \subset \gbase$ in the graphic space. 
 
 
 
