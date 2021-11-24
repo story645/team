@@ -229,8 +229,7 @@ Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementar
 \begin{equation}
   \label{eq:related-work:continuity:presheaf}
   \begin{tikzcd}[column sep=small]
-    {\cgamma{\opensetc_1}{\dtotalc}} & {} & {\cgamma{\opensetc_2}{\dtotalc}} \arrow[ll, "\iota^*"', hook'] \\
-                                                                  &                                                       &                                                       \\
+    {\cgamma{\opensetc_1}{\dtotalc}} & {} & {\cgamma{\opensetc_2}{\dtotalc}} \arrow[ll, "\iota^*"', hook'] \\& &\\
     \opensetc_1 \arrow[uu, "\sheafc_{\dtotal}"] \arrow[rr, "\iota"', hook] & {} \arrow[uu, "\sheafc_{\dtotal}" description, dotted] & \opensetc_2 \arrow[uu, "\sheafc_\dtotal"']                    
     \end{tikzcd}
 \end{equation}
@@ -357,42 +356,38 @@ which are the set of all graphics with a shared base space and fiber and are a s
 The set of graphics reachable through an artist function is a subset $\{\gsection^{j}\}|_{j\in J}$ of the full set of graphics. These sets of reachable graphics over open sets \opensetg\ are also objects of \textbf{Set}. This allows us to formulate the graphic output by the artist as a sheaf $\sheaf_{\vartist}$ from the graphic base space to the set of reachable graphics. 
 
 
-To establish a mapping between graphic and data base spaces, we introduce the surjective map $\vindex: \gtotal \rightarrow \dtotal$. Given the morphism $\iota$
+To establish a mapping between graphic and data base spaces, we introduce the surjective map $\vindex: \gbase \rightarrow \dbase$. 
 \begin{equation}
   \label{eq:artist:vindex}
   \begin{tikzcd}
-    & \opensetgc_i \arrow[d, "\iota"] \\
-  \dbasec \arrow[ru, "\vindexc^*", dashed] & \gbasec \arrow[l, "\vindexc"]   
-\end{tikzcd}
+    \dtotalc                        & \vindexc^*\dtotal \arrow[l, "\vindexc^*"', dashed]                                                                           \\
+    \dbasec \arrow[u, "\dsectionc"] & \gbasec \arrow[l, "\vindexc"] \arrow[lu, "\dsectionc \circ \vindexc" description] \arrow[u, "\vindexc^*\dsectionc"', dashed]
+    \end{tikzcd}
 \end{equation}
-we propose that a pushforward functor $\vindex_*$ 
-\begin{equation}
-  \vindexc_{*}:\mathcal{\dbasec} \rightarrow \mathcal{\gbasec}
-\end{equation}
-can be used to map between open sets $\openset_i \subset \dbase$ in data space and the open sets in visual space $\opensetg_i \subset \gbase$. We can then compose the functor $\vindex_*$ with the sheaf $\sheaf(\dtotal)$ 
-\begin{equation*}
-\vindex_*(\openset) \rightarrow \Gamma(\vindex_*(\openset), \vindex_* \dtotal) \coloneqq \opensetg \rightarrow \gamma(\opensetg, \vindex_*(\dtotal) 
-\end{equation*}
-which allows for moving the sets of sections from $\Gamma(\openset, \dtotal)$ to $\Gamma(\opensetg, \vindex_* \dtotal)$. We denote the pulled forward sheaf as $\sheaf_{\vindex_*}(\dtotal)$. 
+As shown in \autoref{eq:artist:vindex}, the map between spaces $\vindex$ can be composed with section map $\dsection$ such that there is a map from the graphic base space $\gbase$ to the fiber bundle in which the data lives $\dtotal$.
 
 \begin{figure}[h!]
-  \includegraphics[width=\columnwidth]{pushforward.png}
+  \includegraphics[width=\columnwidth]{pullback.png}
   \label{fig:artist:pushforward_xi}
-  \caption{The pushforward map $\vindex_*$ repeats the 1D fiber over every point $\dbasepoint \in \dbase$ in data space, turning the fiber into a 2D plane of repeating values over the corresponding region $\dbasepoint = \vindex(\gbasepoint)$ in the graphic space \gbase. }
+  \caption{The map $\vindex^*$ is a map from a repeation of the 1D fiber over every point $\dbasepoint \in \dbase$ in data space, turning the fiber into a 2D plane of repeating values over the corresponding region $\dbasepoint = \vindex(\gbasepoint)$ in the graphic space \gbase. }
 \end{figure}
-
-As illustrated in \autoref{fig:artist:pushforward_xi}, this operation copies a section and a fiber over one point $\dbasepoint \in \dbase$ such that it repeats over the corresponding region $\gbasepoint \subset \gbase$ in the graphic space. The pull forward functor allows us to formulate the data sheaf as 
+Since there is a mapping from the graphic space to the total bundle $\dsection \circ \vindex: \gbase \rightarrow \dtotal$, the mapping $\vindex$ can be pulled through the composition such that there is a map $\vindex^*$ between a total space over graphics $\vindex^*\dtotal$ and its equivalent space over data $\dtotal$.  As illustrated in the example given in \autoref{fig:artist:pushforward_xi}, a bundle $\dtotal$ over a point $\dbasepoint \in \dbase$ is pulled back through \vindex\ such that it is copied over every point in the corresponding region in graphic space $\vindex(\gbasepoint) = \dbasepoint, \gbasepoint \subset \gbase$. The pullback $\vindex^*$ can then be composed with the elements of the set of sections 
 \begin{equation}
-  \label{eq:artist:data_pushforward_sheaf}
-  \sheaf_{\vindex_*}: \mathcal{\gbase^{op}} \rightarrow \bm{Set}
+  \label{eq:artist:data_gamma_pullback}
+ \Gamma(\dbase, \dtotal) \xrightarrow{\vindex^*} \Gamma(\gbase, \vindex^*\dtotal)
+\end{equation}
+to generate a set of equivalent sections over the graphic $\Gamma(\gtotal, \vindex^*{\dtotal})$. As a consequence of \autoref{eq:artist:data_gamma_pullback}, there exists a data sheaf over graphic space $\sheaf: \mathcal{\gbase^{op}} \rightarrow \Gamma(\gtotal, \vindex^*{\dtotal})$ which is equivalent to 
+\begin{equation}
+  \label{eq:artist:data_pullback_sheaf}
+  \sheafc_{\vindexc^*}: \mathcal{\gbasec^{op}} \rightarrow \textcolor{section}{\bm{Set}}
 \end{equation}
 
-Following from \autoref{eq:artist:data_pushforward_sheaf} and the construction of the artist sheaf in \autoref{eq:artist:artist_sheaf}, we propose that the artist function $\vartist$ is a natural transformation
+Following from \autoref{eq:artist:data_pullback_sheaf} and the construction of the artist sheaf in \autoref{eq:artist:artist_sheaf}, we propose that the artist function $\vartist$ is a natural transformation
 
 \begin{equation}
   \begin{tikzcd}
     & {} \arrow[dd, "\vartistc", Rightarrow, shorten=1.25em] & \\
-\mathcal{\gbasec}^{op} \arrow[rr, "\sheafc_{\vindex_*}(\dtotalc)", bend left] \arrow[rr, "\sheafc_{\vartistc}(\gtotalc)"', bend right] &  & \bm{Set}\\
+\mathcal{\gbasec}^{op} \arrow[rr, "\sheafc_{\vindex_*}(\dtotalc)", bend left] \arrow[rr, "\sheafc_{\vartistc}(\gtotalc)"', bend right] &  & \textcolor{section}{\bm{Set}}\\
     & {} &                            
 \end{tikzcd}
 \end{equation}
@@ -400,7 +395,7 @@ Following from \autoref{eq:artist:data_pushforward_sheaf} and the construction o
 of sheaf functors 
 \begin{equation}
   \label{eq:artist:sheaf_map}
-  \vartist: \sheafc_{vindex_*}(\dtotal) \rightarrow \sheafc_{\vartist}(\gtotal)
+  \vartist: \sheafc_{\vindex^*}(\dtotal) \rightarrow \sheafc_{\vartist}(\gtotal)
 \end{equation}
 where each sheaf is a map from an open set in the graphic base space $\opensetg \subset \gbase$ into a set of sections of a fiber bundle over that open set.
 
