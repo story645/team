@@ -15,15 +15,20 @@
 \definecolor{sheaf}{HTML}{E65331}
 \definecolor{fade}{gray}{0.5}
 
+% colored Gamma({open set}, bundle )
+\newcommand\cgamma[2]{%
+    \ensuremath{\textcolor{section}{\Gamma(}#1 \textcolor{section}{,}\; #2 \textcolor{section}{)}}}
+
+
 %% sheaf
 \cdef{sheaf}{\mathcal{O}}
 \cdef{sheafc}{\textcolor{sheaf}{\sheaf}}
+
 \cdef{openset}{U}
 \cdef{opensetc}{\textcolor{base}{\openset}}
+\cdef{opensetg}{\openset^{\prime}}
+\cdef{opensetgc}{\textcolor{base}{\opensetg}}
 
-%% sets
-\cdef{reals}{\mathbb{R}}
-\cdef{realsp}{\mathbb{R}^+}
 
 %% databundle
 \cdef{dtotal}{E}
@@ -126,5 +131,5 @@
 
 \cdef{vsectionpull}{\vindex^{*}\vsection}
 \cdef{vsectionpullc}{\textcolor{section}{\vsectionpull}}
-
 \cdef{vpreimg}{\vindex^{-1}(\dbasepoint)}
+
