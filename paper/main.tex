@@ -216,15 +216,15 @@ As proposed by Butler et al \cite{butlerVisualizationModelBased1989,butlerVector
 \end{equation}
 
 
-A fiber bundle has many sections, and the set of all sections
+A fiber bundle has many sections, and the set of all sections over an open set $openset \subseteq \dtotal$
 \begin{equation}
 \label{eq:related-work:continuity:sections}
-\{\dsectionc^{i}: \opensetc\rightarrow \dtotalc\}|_{i\in I} = \cgamma{\opensetc}{\dtotalc}
+\cgamma{\opensetc}{\dtotalc} \coloneqq \{\dsectionc^{i}: \opensetc\rightarrow \dtotalc\}|_{i\in I}
 \end{equation}
-over an open set $openset \subseteq \dtotal$ is the set of all data sets with a shared fiber \dfiber\ and continuity \dbase. The set of all sections defined over the total base space is denoted $\Gamma(\dbase, \dtotal)$.  
+ is the set of all data sets with a shared fiber \dfiber\ and continuity \dbase. The set of all sections defined over the total base space is denoted $\Gamma(\dbase, \dtotal)$.  
 
 \subsubsection{Sheaves}
-Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementaryAppliedTopology2014} for data that lives over topological spaces. A presheaf $\sheafc$ is a map from the open set to the set of sections $\sheafc: \opensetc \rightarrow \gammac{\openset}{ \dtotal}$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps $\iota$ between open sets and the inclusion map $\iota^*$ between the sets of sections.
+Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementaryAppliedTopology2014} for data that lives over topological spaces. A presheaf $\sheafc$ is a map from the open set to the set of sections $\sheafc: \opensetc \rightarrow \cgamma{\openset}{ \dtotal}$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps $\iota$ between open sets and the inclusion map $\iota^*$ between the sets of sections.
 
 \begin{equation}
   \label{eq:related-work:continuity:presheaf}
@@ -234,7 +234,7 @@ Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementar
     \end{tikzcd}
 \end{equation}
 
-This means that a smaller space $\openset_1$ is included in a larger space $\openset_2$ and a function that is continuous over a larger space $\openset_2$ is continuous over a subspace $\openset_1 \subset\openset_2$. Sheaves are presheafs where sets of sections $\Gamma$ are defined over unions of open sets over a topology $\bigcup_{j \in I} \openset)_j \in \dtotal$ \cite{spanier1989algebraic, nlab:sheaf}. Sheaves provide a mathematical abstraction of data, the space it lives over, and relationships between subsets. 
+This means that a smaller space $\openset_1$ is included in a larger space $\openset_2$ and a function that is continuous over a larger space $\openset_2$ is continuous over a subspace $\openset_1 \subset\openset_2$. Sheaves are presheafs where sets of sections are defined over unions of open sets over a topology $\bigcup_{j \in I} \openset)_j \in \dtotal$ \cite{spanier1989algebraic, nlab:sheaf}. Sheaves provide a mathematical abstraction of data, the space it lives over, and relationships between subsets. 
 
 \subsection{Equivariance}
 \label{sec:related-work:equivariance}
@@ -250,7 +250,7 @@ When introducing the retinal variables, Bertin informally specifies that continu
 \label{sec:related-work:equivariance:category}
 In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al \cite{vickersUnderstandingVisualizationFormal2013} provide a brief introduction to category theory for visualization practitioners, but their work focuses on reasoning about visualization design, while this paper aims to provide guidance on designing visualization library components. Briefly we introduce concepts in category theory that we use to describe our model in \autoref{sec:artist:category} and \autoref{sec:artist:construction}. 
 
-\begin{definition} A category \mathcal{C} consists of a collection of objects $c$ with identity $id_c: C\rightarrow C$ and the set of morphisms between every two objects $f:C_1 \rightarrow C_2$, \cite{fongInvitationAppliedCategory2019,maclaneCategoriesWorkingMathematician2013}. 
+\begin{definition} A category $\mathcal{C}$ consists of a collection of objects $c$ with identity $id_c: C\rightarrow C$ and the set of morphisms between every two objects $f:C_1 \rightarrow C_2$, \cite{fongInvitationAppliedCategory2019,maclaneCategoriesWorkingMathematician2013}. 
 \end{definition}
 The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_1, C_2)$. The morphisms on the category  compose
 \begin{equation*}
@@ -265,7 +265,7 @@ The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_
    \item[identity] for every $f: C_1 \rightarrow C_2$ there exists identity morphisms $f \circ id_{C_1} = f = id_{C_2} \circ f$
  \end{LaTeXdescription}
 
- \begin{definition} An opposite category $\mathcal{C}^{op}$ is a category with all the same objects of category $\mathcal{C}$ and but the morphisms are reversed. For example $f:C_1 \rightarrow C_2$ in $\mathcal{C}$ is $f:C_2 \rightarrow C_1$ in $\mathcal{C}^{op}$.   
+ \begin{definition} An opposite category $\mathcal{C}^{op}$ is a category with all the same objects of category $\mathcal{C}$ and morphisms that are reversed. For example $f:C_1 \rightarrow C_2$ in $\mathcal{C}$ is $f:C_2 \rightarrow C_1$ in $\mathcal{C}^{op}$.   
  \end{definition}
 
  \begin{definition} A functor is a morphism between objects of any two  categories $\bm{F}: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
@@ -315,16 +315,16 @@ We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the c
   \end{itemize} 
 \end{definition}
 
-We model data as the sheaf $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op}\rightarrow \bm{Set}$. The objects of \textbf{Set} in this sheaf are the sets of sections introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps in \autoref{eq:related-work:continuity:presheaf}. 
+We model data as the sheaf $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op}\rightarrow \textcolor{section}{\bm{Set}}$. The objects of \textbf{Set} in this sheaf are the sets of sections introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps in \autoref{eq:related-work:continuity:presheaf}. 
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
   \begin{tikzcd}
-    & \Gamma(\opensetc_i, \dtotalc) \in Ob(\bm{Set}) & \\
+    & \cgamma{\opensetc_i}{\dtotalc} \in Ob(\textcolor{section}{\bm{Set}}) & \\
 {} \arrow[rr, "\dfuncc", Rightarrow, pos=.3, shorten <=3.5em, shorten >=8.85em] & & {} \\
     & \opensetc_i \in Ob(\mathcal{\dbasec}^{op}) \arrow[uu, "\sheafc(\dtotalc)", bend left, shift left = 10.5] \arrow[uu, "\sheafc(\dtotalc)"', bend right, shift left=10.5] &   
 \end{tikzcd}
 \end{equation}
- The map $\dfunc: \sheaf(\dtotal) \rightarrow \sheaf(\dtotal)$ is any arbitrary function between sheafs. The sheaf $\sheaf(\dtotal)$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf(\dtotal)|_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal)$ \cite{StalkSheaf2019}. 
+The map $\dfunc: \sheaf(\dtotal) \rightarrow \sheaf(\dtotal)$ is any arbitrary morphism between sheaf functors $\sheaf(\dtotal)$. Following from \autoref{eq:related-work:equivariance:natural-transform}, \dfunc\ is a natural transform, which means all inclusions $\iota, \iota^*$ are preserved as part of any $\dfunc$ transformation.  
 
 \begin{definition} 
   \label{def:category:F} The fiber category $\mathcal{\dfiberc}$ is a monoidal category\cite{milewskiCategoryTheoryProgrammers}, which means it is a category equipped with a bifunctur $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$
@@ -337,19 +337,20 @@ The bifunctor $\otimes$ combines categories in a way that  preserves identity an
 
 The set of all morphism of the fiber category $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ are all possible morphisms in a given category. This includes any of the functions that serve as the basis of equivariance, such as the binary operations, group actions, and measurement scale discussed in  \autoref{sec:related-work:equivariance}. The generalization to $Hom_\mathcal{\dfiber}$ also allows for the inclusion of structures such as monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}.
 
-The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\dfunc \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}. When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint. In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
+
+When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint\ as the basis of our equivariance. This is because a sheaf $\sheaf(\dtotal)$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf(\dtotal)|_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\dfunc \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
 
 The continuity of the graphic is encapsulated as a category $\mathcal{\mathcal{\gbase}}$ containing open set objects $\opensetg$, the complete set of opensets $\gbase$ that is the full space of the graphic, and the empty set. As with $\mathcal{\dbase}$, the morphisms between the open sets  $\opensetg$ are inclusion morphisms $\iota$. Over the graphic space $\opensetg \subseteq \gbase$ are a set of sections 
 \begin{equation}
   \label{eq:artist:graphic_sections}
-  \{\gsectionc^{i}:\opensetgc_i\rightarrow \gtotalc\}|_{i\in I}
+  \cgamma{\opensetgc}{\gtotalc} \coloneqq \{\gsectionc^{i}:\opensetgc\rightarrow \gtotalc\}|_{i\in I}
 \end{equation}
 which are the set of all graphics with a shared base space and fiber and are a subcategory of \textbf{Set}. This allows us to represent the full space of graphics as a sheaf $\sheaf(\gtotal)$
 \begin{equation}
   \label{eq:artist:artist_sheaf}
-  \begin{tikzcd}
-    {Ob(\bm{Set}) \ni \Gamma(\opensetgc_i, \gtotalc)}                                                                                                  &  & \{\gsectionc^{j}:\opensetgc_i\rightarrow \gtotalc\}|_{j\in J} \arrow[ll, "\iota"', hook'] \\ &  & \\
+  \begin{tikzcd}[row sep=huge]
+    {Ob(\textcolor{section}{\bm{Set}}) \ni \cgamma{\opensetgc_i}{\gtotalc}}                                                                                                  &  & \{\gsectionc^{j}:\opensetgc_i\rightarrow \gtotalc\}|_{j\in J} \arrow[ll, "\iota"', hook'] \\ &  & \\
     \opensetgc_i \arrow[uu, "\sheafc(\gtotalc)"] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheaf_{\vartist}(\gtotalc)" description, dashed] &  & 
     \end{tikzcd}
 \end{equation}
@@ -395,7 +396,7 @@ Following from \autoref{eq:artist:data_pullback_sheaf} and the construction of t
 of sheaf functors 
 \begin{equation}
   \label{eq:artist:sheaf_map}
-  \vartist: \sheafc_{\vindex^*}(\dtotal) \rightarrow \sheafc_{\vartist}(\gtotal)
+  \vartistc: \sheafc_{\vindexc^*}(\dtotalc) \rightarrow \sheafc_{\vartistc}(\gtotalc)
 \end{equation}
 where each sheaf is a map from an open set in the graphic base space $\opensetg \subset \gbase$ into a set of sections of a fiber bundle over that open set.
 
