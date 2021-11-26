@@ -270,7 +270,15 @@ The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_
 
  \begin{definition} A functor is a morphism between objects of any two  categories $\bm{F}: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
 
-A functor preserves the structure of the category, namely morphisms and the source and target objects of those morphisms, composition of morphisms, and identity morphisms \cite{riehlCategoryTheoryContext}. Functors $\bm{F}: \mathcal{C}^{op} \rightarrow \mathcal{D}$ are called contravariant functors.
+A functor preserves the structure of the category, namely morphisms and the source and target objects of those morphisms, composition of morphisms, and identity morphisms \cite{riehlCategoryTheoryContext}. For example, the functor $F:\mathcal{C} \rightarrow \mathcal{D}$ maps an object in $\mathcal{C}$ into an object in $\mathcal{D}$
+\begin{equation}
+\label{eq:related-work:equivariance:functor_diagram}
+\begin{tikzcd}
+  c \in Ob(\mathcal{C}) \arrow[d, "f"'] \arrow[r, "F"] & F(c) \in Ob(\mathcal{D}) \arrow[d, "F(f)"] \\
+  c^{\prime} \in Ob(\mathcal{C}) \arrow[r, "F"]        & F(c^{\prime}) \in Ob(\mathcal{D})         
+  \end{tikzcd} 
+\end{equation}
+ such that every morphism $f \in Hom(\mathcal{C})$ there is a compatible morphism $F(f) in Hom(\mathcal{D})$. Functors $\bm{F}: \mathcal{C}^{op} \rightarrow \mathcal{D}$ are called contravariant functors.
 
  \begin{definition} A presheaf \sheafc\, as introduced in \autoref{eq:related-work:continuity:presheaf}, is a functor $\sheaf: \mathcal{C}^{op} \rightarrow \textbf{Set}$.\cite{nlab:presheaf} \end{definition}
 
@@ -286,7 +294,27 @@ The natural transformation composes with a functor such that the output is a com
   & {}                                  &            
 \end{tikzcd}
 \end{equation}
-This means that $\alpha(F: \mathcal{C} \rightarrow \mathcal{D}) = G: \mathcal{C} \rightarrow \mathcal{D}$ commutes for any morphism $f:c\rightarrow c^{\prime}$ \cite{fongInvitationAppliedCategory2019}. A natural transform is a way to specify which functors between categories preserve the structure of the categories in the same manner. Arbitrary morphisms on sheaves are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. 
+This means that $\alpha(F: \mathcal{C} \rightarrow \mathcal{D}) = G: \mathcal{C} \rightarrow \mathcal{D}$ commutes for any morphism $f:c\rightarrow c^{\prime}$ \cite{fongInvitationAppliedCategory2019}.Given a morphism $f: c\rightarrow c^{\prime}$ for $c, c^{\prime} \in Ob(\mathcal{C})$, the natural transformation decomposes into the components of the morphism $\alpha_{c}, \alpha_{c^{\prime}}$, which yields the naturality condition \cite{milewskiCategoryTheoryProgrammers} 
+\begin{equation}
+  \label{eq:related-work:equivariance:naturality-condition}
+  G(f) \circ \alpha_{c} = \alpha_{c^\prime} \circ F(f)
+\end{equation}
+
+which can be expressed as the diagram commuting
+
+\begin{equation}
+  \label{eq:related-work:equivariance:natural-transform-components}
+  \begin{tikzcd}
+    c \arrow[dd, "f"'] &  & F(c) \arrow[dd, "F(f)"'] \arrow[rr, "\alpha_{c}"] &  & G(c) \arrow[dd, "G(f)"] \\
+    {} \arrow[rr, shorten > = 5]      &  & {}                                                &  &                         \\
+    c^{\prime}         &  & F(c^{\prime}) \arrow[rr, "\alpha_{c^{\prime}}"]   &  & G(c^{\prime})          
+    \end{tikzcd}
+\end{equation}
+
+
+
+
+A natural transform is a way to specify which functors between categories preserve the structure of the categories in the same manner. Arbitrary morphisms on sheaves are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. 
 
 \section{Artist} 
 In this section we describe the properties a data to visualization transform must satisfy to be considered equivariant and continuity preserving. We propose that by explicitly defining these properties, we can better incorporate them into visualization library design. 
@@ -355,7 +383,6 @@ which are the set of all graphics with a shared base space and fiber and are a s
 \end{equation}
 The set of graphics reachable through an artist function is a subset $\{\gsection^{j}\}|_{j\in J}$ of the full set of graphics. These sets of reachable graphics over open sets \opensetg\ are also objects of \textbf{Set}. This allows us to formulate the graphic output by the artist as a sheaf $\sheaf_{\vartist}$ from the graphic base space to the set of reachable graphics. 
 
-
 To establish a mapping between graphic and data base spaces, we introduce the surjective map $\vindex: \gbase \rightarrow \dbase$. 
 \begin{equation}
   \label{eq:artist:vindex}
@@ -397,9 +424,15 @@ of sheaf functors
   \label{eq:artist:sheaf_map}
   \vartistc: \sheafc_{\vindexc^*}(\dtotalc) \rightarrow \sheafc_{\vartistc}(\gtotalc)
 \end{equation}
-where each sheaf is a map from an open set in the graphic base space $\opensetg \subset \gbase$ into a set of sections of a fiber bundle over that open set.
+where each sheaf is a map from an open set in the graphic base space $\opensetg \subset \gbase$ into a set of sections of a fiber bundle over that open set. As defined in \autoref{eq:related-work:equivariance:natural-transform}, the artist is a natural transformation. The artist has two components, a sheaf morphism $\vartist_{\openset}$ and a morphism $\vartist_{\Gamma}$ between sets of sections.
 
-Because the artist is a natural transform, it also transforms morphisms between functors\cite{bradleyWhatNaturalTransformation, maclaneCategoriesWorkingMathematician2013}. As illustrated in \autoref{eq:artist:morphism-of-sheaf-data}, the morphism between data sheaves is $\dfunc$. By definition of a natural transform, the following diagram commutes
+
+\begin{equation}
+  \label{eq:artist:artist_gamma}
+\end{equation}
+
+
+As illustrated in \autoref{eq:artist:morphism-of-sheaf-data}, the morphism between data sheaves is $\dfunc$. By definition of a natural transform, the following diagram commutes
 
 
 \subsection{Composition of Artists}
