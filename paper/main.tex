@@ -274,18 +274,17 @@ A functor preserves the structure of the category, namely morphisms and the sour
 \begin{equation}
 \label{eq:related-work:equivariance:functor_diagram}
 \begin{tikzcd}
-  c \in Ob(\mathcal{C}) \arrow[d, "f"'] \arrow[r, "F"] & F(c) \in Ob(\mathcal{D}) \arrow[d, "F(f)"] \\
-  c^{\prime} \in Ob(\mathcal{C}) \arrow[r, "F"]        & F(c^{\prime}) \in Ob(\mathcal{D})         
-  \end{tikzcd} 
+  c \in Ob(\mathcal{C}) \arrow[d, "f"', shift right=8] \arrow[r, "F"] & F(c) \in Ob(\mathcal{D}) \arrow[d, "F(f)", shift right=8] \\
+  c^{\prime} \in Ob(\mathcal{C}) \arrow[r, "F"']                       & F(c^{\prime}) \in Ob(\mathcal{D})                        
+  \end{tikzcd}
 \end{equation}
- such that every morphism $f \in Hom(\mathcal{C})$ there is a compatible morphism $F(f) in Hom(\mathcal{D})$. Functors $\bm{F}: \mathcal{C}^{op} \rightarrow \mathcal{D}$ are called contravariant functors.
+ such that for every morphism $f: c \rightarrow c^{\prime} \in Hom(\mathcal{C})$ there is a compatible morphism $F(f): F(c) \rightarrow F(c^{\prime}) \in Hom(\mathcal{D})$. Functors $\bm{F}: \mathcal{C}^{op} \rightarrow \mathcal{D}$ are called contravariant functors.
 
  \begin{definition} A presheaf \sheafc\, as introduced in \autoref{eq:related-work:continuity:presheaf}, is a functor $\sheaf: \mathcal{C}^{op} \rightarrow \textbf{Set}$.\cite{nlab:presheaf} \end{definition}
 
  \begin{definition} A natural transformation is a morphism of functors $\alpha: F \rightarrow G$ where $F, G$ are functors from $\mathcal{C}$ to $\mathcal{D}$. \cite{riehlCategoryTheoryContext, bradleyWhatNaturalTransformation}
  \end{definition}
 
-The natural transformation composes with a functor such that the output is a compatible functor between the same categories 
 \begin{equation}
   \label{eq:related-work:equivariance:natural-transform}
 \begin{tikzcd}
@@ -294,27 +293,17 @@ The natural transformation composes with a functor such that the output is a com
   & {}                                  &            
 \end{tikzcd}
 \end{equation}
-This means that $\alpha(F: \mathcal{C} \rightarrow \mathcal{D}) = G: \mathcal{C} \rightarrow \mathcal{D}$ commutes for any morphism $f:c\rightarrow c^{\prime}$ \cite{fongInvitationAppliedCategory2019}.Given a morphism $f: c\rightarrow c^{\prime}$ for $c, c^{\prime} \in Ob(\mathcal{C})$, the natural transformation decomposes into the components of the morphism $\alpha_{c}, \alpha_{c^{\prime}}$, which yields the naturality condition \cite{milewskiCategoryTheoryProgrammers} 
+The natural transformation composes with a functor such that the output is a compatible functor between the same categories. This means that for every morphism $f: c \rightarrow c^{\prime}$ between objects in $\mathcal{C}$, there is a commutating naturality square for the corresponding objects in $\mathcal{D}$ \cite{milewskiCategoryTheoryProgrammers}. 
 \begin{equation}
-  \label{eq:related-work:equivariance:naturality-condition}
-  G(f) \circ \alpha_{c} = \alpha_{c^\prime} \circ F(f)
-\end{equation}
-
-which can be expressed as the diagram commuting
-
-\begin{equation}
-  \label{eq:related-work:equivariance:natural-transform-components}
+  \label{eq:related-work:equivariance:natural_transform_commute}
   \begin{tikzcd}
-    c \arrow[dd, "f"'] &  & F(c) \arrow[dd, "F(f)"'] \arrow[rr, "\alpha_{c}"] &  & G(c) \arrow[dd, "G(f)"] \\
-    {} \arrow[rr, shorten > = 5]      &  & {}                                                &  &                         \\
-    c^{\prime}         &  & F(c^{\prime}) \arrow[rr, "\alpha_{c^{\prime}}"]   &  & G(c^{\prime})          
+    c \arrow[rr, "F"] \arrow[rrrr, "G", bend left] \arrow[dd, "f"'] &  & F(c) \arrow[dd, "F(f)"'] \arrow[rr, "\alpha_{c}"] &  & G(c) \arrow[dd, "G(f)"] \\
+                                                                    &  & {} \arrow[rr, "\alpha" description, dashed]       &  & {}                      \\
+    c^{\prime} \arrow[rr, "F"] \arrow[rrrr, "G", bend right]        &  & F(c^{\prime}) \arrow[rr, "\alpha_{c^{\prime}}"]   &  & G(c^{\prime})          
     \end{tikzcd}
 \end{equation}
+\note{unpack this a drop more} 
 
-
-
-
-A natural transform is a way to specify which functors between categories preserve the structure of the categories in the same manner. Arbitrary morphisms on sheaves are natural transforms \cite{SheafMathematics2021,bradleyWhatNaturalTransformation}. 
 
 \section{Artist} 
 In this section we describe the properties a data to visualization transform must satisfy to be considered equivariant and continuity preserving. We propose that by explicitly defining these properties, we can better incorporate them into visualization library design. 
