@@ -250,13 +250,13 @@ When introducing the retinal variables, Bertin informally specifies that continu
 \label{sec:related-work:equivariance:category}
 In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al \cite{vickersUnderstandingVisualizationFormal2013} provide a brief introduction to category theory for visualization practitioners, but their work focuses on reasoning about visualization design, while this paper aims to provide guidance on designing visualization library components. Briefly we introduce concepts in category theory that we use to describe our model in \autoref{sec:artist:category} and \autoref{sec:artist:construction}. 
 
-\begin{definition} A category $\mathcal{C}$ consists of a collection of objects $c$ with identity $id_c: C\rightarrow C$ and the set of morphisms between every two objects $f:C_1 \rightarrow C_2$, \cite{fongInvitationAppliedCategory2019,maclaneCategoriesWorkingMathematician2013}. 
+\begin{definition} A \textcolor{source}{category} $\textcolor{source}{\mathcal{C}}$ consists of a collection of objects $c$ with identity $id_c: C\rightarrow C$ and the set of morphisms between every two objects $f:C_1 \rightarrow C_2$, \cite{fongInvitationAppliedCategory2019,maclaneCategoriesWorkingMathematician2013}. 
 \end{definition}
 The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_1, C_2)$. The morphisms on the category  compose
 \begin{equation*}
   \begin{tikzcd}
-    C_1 \arrow[r, "f"] \arrow[rd, "g\circ f"'] \arrow["id_{C_1}"', loop, distance=2em, in=215, out=145] & C_2 \arrow[d, "g"] \arrow["id_{C_2}"', loop, distance=2em, in=125, out=55] \\
-  & C_3 \arrow["id_{C_3}"', loop, distance=2em, in=305, out=235]              
+    \textcolor{source}{C_1} \arrow[r, "f", color=source] \arrow[rd, "g\circ f"', color=source] \arrow["id_{C_1}"', loop, distance=2em, in=215, out=145, color=source] & \textcolor{source}{C_2} \arrow[d, "g", color=source] \arrow["id_{C_2}"', loop, distance=2em, in=125, out=55, color=source] \\
+  & \textcolor{source}{C_3} \arrow["id_{C_3}"', loop, distance=2em, in=305, out=235, color=source]              
   \end{tikzcd}
 \end{equation*}
  and are constructed such that the following axioms hold \cite{riehlCategoryTheoryContext}:
@@ -268,28 +268,28 @@ The set of morphisms between objects is termed the hom set $hom_{\mathcal{C}}(C_
  \begin{definition} An opposite category $\mathcal{C}^{op}$ is a category with all the same objects of category $\mathcal{C}$ and morphisms that are reversed. For example $f:C_1 \rightarrow C_2$ in $\mathcal{C}$ is $f:C_2 \rightarrow C_1$ in $\mathcal{C}^{op}$.   
  \end{definition}
 
- \begin{definition} A functor is a morphism between objects of any two  categories $\bm{F}: \mathcal{C} \rightarrow \mathcal{D}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
+ \begin{definition} A functor is a morphism between objects of any two  categories $\textcolor{sheaf}{\bm{F}}: \textcolor{source}{\mathcal{C}} \rightarrow \textcolor{target}{\mathcal{D}}$. A functor has the properties of identity and composition \cite{riehlCategoryTheoryContext}\end{definition}
 
-A functor preserves the structure of the category, namely morphisms and the source and target objects of those morphisms, composition of morphisms, and identity morphisms \cite{riehlCategoryTheoryContext}. For example, the functor $F:\mathcal{C} \rightarrow \mathcal{D}$ maps an object in $\mathcal{C}$ into an object in $\mathcal{D}$
+A functor preserves the structure of the category, namely morphisms and the source and target objects of those morphisms, composition of morphisms, and identity morphisms \cite{riehlCategoryTheoryContext}. For example, the functor $\textcolor{functor}{F}:\mathcal{C} \textcolor{functor}{\rightarrow} \mathcal{D}$ maps an object in $\textcolor{source}{\mathcal{C}}$ into an object in $\textcolor{target}{\mathcal{D}}$
 \begin{equation}
 \label{eq:related-work:equivariance:functor_diagram}
 \begin{tikzcd}
-  c \in Ob(\mathcal{C}) \arrow[d, "f"', shift right=8] \arrow[r, "F"] & F(c) \in Ob(\mathcal{D}) \arrow[d, "F(f)", shift right=8] \\
-  c^{\prime} \in Ob(\mathcal{C}) \arrow[r, "F"']                       & F(c^{\prime}) \in Ob(\mathcal{D})                        
+  \textcolor{source}{c} \arrow[d, "f"', shift right=0, color=source] \arrow[r, "F", color=functor] & \textcolor{target}{F(c)} \arrow[d, "F(f)", shift right=0, color=target] \\
+  \textcolor{source}{c^{\prime}} \arrow[r, "F"', color=functor]                       & \textcolor{target}{F(c^{\prime})}                      
   \end{tikzcd}
 \end{equation}
  such that for every morphism $f: c \rightarrow c^{\prime} \in Hom(\mathcal{C})$ there is a compatible morphism $F(f): F(c) \rightarrow F(c^{\prime}) \in Hom(\mathcal{D})$. Functors $\bm{F}: \mathcal{C}^{op} \rightarrow \mathcal{D}$ are called contravariant functors.
 
  \begin{definition} A presheaf \sheafc\, as introduced in \autoref{eq:related-work:continuity:presheaf}, is a functor $\sheaf: \mathcal{C}^{op} \rightarrow \textbf{Set}$.\cite{nlab:presheaf} \end{definition}
 
- \begin{definition} A natural transformation is a morphism of functors $\alpha: F \rightarrow G$ where $F, G$ are functors from $\mathcal{C}$ to $\mathcal{D}$. \cite{riehlCategoryTheoryContext, bradleyWhatNaturalTransformation}
+ \begin{definition} A \textcolor{nattran}{natural transformation} is a morphism of functors $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$ where $F, G$ are functors from $\mathcal{C}$ to $\mathcal{D}$. \cite{riehlCategoryTheoryContext, bradleyWhatNaturalTransformation}
  \end{definition}
 
 \begin{equation}
   \label{eq:related-work:equivariance:natural-transform}
 \begin{tikzcd}
-  & {} \arrow[dd, "\alpha", Rightarrow, shorten=1.5em] &             \\
-\mathcal{C} \arrow[rr, "F", bend left] \arrow[rr, "G"', bend right] &                                     & \mathcal{D} \\
+  & {} \arrow[dd, "\alpha", Rightarrow, shorten=1.5em, color=nattran] &             \\
+\textcolor{source}{\mathcal{C}} \arrow[rr, "F", bend left, color=functor] \arrow[rr, "G"', bend right, color=functor] &                                     & \textcolor{target}{\mathcal{D}} \\
   & {}                                  &            
 \end{tikzcd}
 \end{equation}
@@ -297,9 +297,9 @@ The natural transformation composes with a functor such that the output is a com
 \begin{equation}
   \label{eq:related-work:equivariance:natural_transform_commute}
   \begin{tikzcd}
-    c \arrow[rr, "F"] \arrow[rrrr, "G", bend left] \arrow[dd, "f"'] &  & F(c) \arrow[dd, "F(f)"'] \arrow[rr, "\alpha_{c}"] &  & G(c) \arrow[dd, "G(f)"] \\
-                                                                    &  & {} \arrow[rr, "\alpha" description, dashed]       &  & {}                      \\
-    c^{\prime} \arrow[rr, "F"] \arrow[rrrr, "G", bend right]        &  & F(c^{\prime}) \arrow[rr, "\alpha_{c^{\prime}}"]   &  & G(c^{\prime})          
+    \textcolor{source}{c} \arrow[rr, "F", color=functor, alpha=.5] \arrow[rrrr, "G", bend left, color=functor, alpha=.5] \arrow[dd, "f"', color=source] &  & \textcolor{target}{F(c)} \arrow[dd, "F(f)"', color=target] \arrow[rr, "\alpha_{c}", color=artist] &  & \textcolor{target}{G(c)}\arrow[dd, "G(f)", color=target] \\
+                                                                    &  & {} \arrow[rr, "\alpha" description, dashed, color=artist]       &  & {}                      \\
+    \textcolor{source}{c^{\prime}} \arrow[rr, "F", color=functor, alpha=.5] \arrow[rrrr, "G", bend right, color=functor, alpha=.5]        &  & \textcolor{target}{F(c^{\prime})} \arrow[rr, "\alpha_{c^{\prime}}", color=artist]   &  & \textcolor{target}{G(c^{\prime})}          
     \end{tikzcd}
 \end{equation}
 \note{unpack this a drop more} 
