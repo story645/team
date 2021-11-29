@@ -297,9 +297,9 @@ The natural transformation composes with a functor such that the output is a com
 \begin{equation}
   \label{eq:related-work:equivariance:natural_transform_commute}
   \begin{tikzcd}
-    \textcolor{source}{c} \arrow[rr, "F", color=functor, alpha=.5] \arrow[rrrr, "G", bend left, color=functor, alpha=.5] \arrow[dd, "f"', color=source] &  & \textcolor{target}{F(c)} \arrow[dd, "F(f)"', color=target] \arrow[rr, "\alpha_{c}", color=artist] &  & \textcolor{target}{G(c)}\arrow[dd, "G(f)", color=target] \\
-                                                                    &  & {} \arrow[rr, "\alpha" description, dashed, color=artist]       &  & {}                      \\
-    \textcolor{source}{c^{\prime}} \arrow[rr, "F", color=functor, alpha=.5] \arrow[rrrr, "G", bend right, color=functor, alpha=.5]        &  & \textcolor{target}{F(c^{\prime})} \arrow[rr, "\alpha_{c^{\prime}}", color=artist]   &  & \textcolor{target}{G(c^{\prime})}          
+    \textcolor{source}{c} \arrow[rr, "F", color=functor, alpha=.5] \arrow[rrrr, "G", bend left, color=functor, alpha=.5] \arrow[dd, "f"', color=source] &  & \textcolor{target}{F(c)} \arrow[dd, "F(f)"', color=target] \arrow[rr, "\alpha_{c}", color=nattran] &  & \textcolor{target}{G(c)}\arrow[dd, "G(f)", color=target] \\
+                                                                    &  & {} \arrow[rr, "\alpha" description, dashed, color=nattran]       &  & {}                      \\
+    \textcolor{source}{c^{\prime}} \arrow[rr, "F", color=functor, alpha=.5] \arrow[rrrr, "G", bend right, color=functor, alpha=.5]        &  & \textcolor{target}{F(c^{\prime})} \arrow[rr, "\alpha_{c^{\prime}}", color=nattran]   &  & \textcolor{target}{G(c^{\prime})}          
     \end{tikzcd}
 \end{equation}
 \note{unpack this a drop more} 
@@ -332,13 +332,13 @@ We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the c
   \end{itemize} 
 \end{definition}
 
-We model data as the sheaf $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op}\rightarrow \textcolor{section}{\bm{Set}}$. The objects of \textbf{Set} in this sheaf are the sets of sections introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps in \autoref{eq:related-work:continuity:presheaf}. 
+We model data as the sheaf $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op} \textcolor{sheaf}{\rightarrow} \setc$. The objects of \textbf{Set} in this sheaf are the sets of sections introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps in \autoref{eq:related-work:continuity:presheaf}. 
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
   \begin{tikzcd}
-    & \cgamma{\opensetc_i}{\dtotalc} \in Ob(\textcolor{section}{\bm{Set}}) & \\
-{} \arrow[rr, "\dfuncc", Rightarrow, pos=.3, shorten <=3.5em, shorten >=8.85em] & & {} \\
-    & \opensetc_i \in Ob(\mathcal{\dbasec}^{op}) \arrow[uu, "\sheafc(\dtotalc)", bend left, shift left = 10.5] \arrow[uu, "\sheafc(\dtotalc)"', bend right, shift left=10.5] &   
+    & \cgamma{\opensetc_i}{\dtotalc} \in Ob(\setc) & \\
+{} \arrow[rr, "\dfuncc", Rightarrow, pos=.3, shorten <=3.5em, shorten >=8.85em, color=action] & & {} \\
+    & \opensetc_i \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}}) \arrow[uu, "\sheafc(\dtotalc)", bend left, shift left = 10.5, color=sheaf] \arrow[uu, "\sheafc(\dtotalc)"', bend right, shift left=10.5, color=sheaf] &   
 \end{tikzcd}
 \end{equation}
 The map $\dfunc: \sheaf(\dtotal) \rightarrow \sheaf(\dtotal)$ is any arbitrary morphism between sheaf functors $\sheaf(\dtotal)$. Following from \autoref{eq:related-work:equivariance:natural-transform}, \dfunc\ is a natural transform, which means all inclusions $\iota, \iota^*$ are preserved as part of any $\dfunc$ transformation.  
@@ -360,14 +360,14 @@ When a fiber bundle is trivial, we can dispense with localization and directly c
 The continuity of the graphic is encapsulated as a category $\mathcal{\mathcal{\gbase}}$ containing open set objects $\opensetg$, the complete set of opensets $\gbase$ that is the full space of the graphic, and the empty set. As with $\mathcal{\dbase}$, the morphisms between the open sets  $\opensetg$ are inclusion morphisms $\iota$. Over the graphic space $\opensetg \subseteq \gbase$ are a set of sections 
 \begin{equation}
   \label{eq:artist:graphic_sections}
-  \cgamma{\opensetgc}{\gtotalc} \coloneqq \{\gsectionc^{i}:\opensetgc\rightarrow \gtotalc\}|_{i\in I}
+  \cgamma{\opensetgc}{\gtotalc} \coloneqq \textcolor{set}{\{}\gsectionc^{i}:\opensetgc\rightarrow \gtotalc\textcolor{set}{\}}|_{i\in I}
 \end{equation}
 which are the set of all graphics with a shared base space and fiber and are a subcategory of \textbf{Set}. This allows us to represent the full space of graphics as a sheaf $\sheaf(\gtotal)$
 \begin{equation}
   \label{eq:artist:artist_sheaf}
   \begin{tikzcd}[row sep=huge]
-    {Ob(\textcolor{section}{\bm{Set}}) \ni \cgamma{\opensetgc_i}{\gtotalc}}                                                                                                  &  & \{\gsectionc^{j}:\opensetgc_i\rightarrow \gtotalc\}|_{j\in J} \arrow[ll, "\iota"', hook'] \\ &  & \\
-    \opensetgc_i \arrow[uu, "\sheafc(\gtotalc)"] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheaf_{\vartist}(\gtotalc)" description, dashed] &  & 
+    {\cgamma{\opensetgc_i}{\gtotalc}}                                                                                                  &  & \textcolor{set}{\{}\gsectionc^{j}:\opensetgc_i\rightarrow \gtotalc\textcolor{set}{\}}|_{j\in J} \arrow[ll, "\iota"', hook', color=set] \\ &  & \\
+    \opensetgc_i \arrow[uu, "\sheafc(\gtotalc)", color=sheaf] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheaf_{\vartist}(\gtotalc)" description, dashed, color=sheaf] &  & 
     \end{tikzcd}
 \end{equation}
 The set of graphics reachable through an artist function is a subset $\{\gsection^{j}\}|_{j\in J}$ of the full set of graphics. These sets of reachable graphics over open sets \opensetg\ are also objects of \textbf{Set}. This allows us to formulate the graphic output by the artist as a sheaf $\sheaf_{\vartist}$ from the graphic base space to the set of reachable graphics. 
@@ -376,8 +376,8 @@ To establish a mapping between graphic and data base spaces, we introduce the su
 \begin{equation}
   \label{eq:artist:vindex}
   \begin{tikzcd}
-    \dtotalc                        & \vindexc^*\dtotal \arrow[l, "\vindexc^*"', dashed]                                                                           \\
-    \dbasec \arrow[u, "\dsectionc"] & \gbasec \arrow[l, "\vindexc"] \arrow[lu, "\dsectionc \circ \vindexc" description] \arrow[u, "\vindexc^*\dsectionc"', dashed]
+    \dtotalc                        & \vindexc^*\dtotalc \arrow[l, "\vindexc^*"', dashed, color=artist]                                                                           \\
+    \dbasec \arrow[u, "\dsectionc", color=section] & \gbasec \arrow[l, "\vindexc", color=artist] \arrow[lu, "\dsectionc \circ \vindexc" description] \arrow[u, "\vindexc^*\dsectionc"', dashed, color=section]
     \end{tikzcd}
 \end{equation}
 As shown in \autoref{eq:artist:vindex}, the map between spaces $\vindex$ can be composed with section map $\dsection$ such that there is a map from the graphic base space $\gbase$ to the fiber bundle in which the data lives $\dtotal$.
@@ -390,20 +390,25 @@ As shown in \autoref{eq:artist:vindex}, the map between spaces $\vindex$ can be 
 Since there is a mapping from the graphic space to the total bundle $\dsection \circ \vindex: \gbase \rightarrow \dtotal$, the mapping $\vindex$ can be pulled through the composition such that there is a map $\vindex^*$ between a total space over graphics $\vindex^*\dtotal$ and its equivalent space over data $\dtotal$.  As illustrated in the example given in \autoref{fig:artist:pushforward_xi}, a bundle $\dtotal$ over a point $\dbasepoint \in \dbase$ is pulled back through \vindex\ \cite{nlab:pullback_bundle} such that it is copied over every point in the corresponding region in graphic space $\vindex(\gbasepoint) = \dbasepoint, \gbasepoint \subset \gbase$. The pullback $\vindex^*$ can then be composed with the elements of the set of sections 
 \begin{equation}
   \label{eq:artist:data_gamma_pullback}
- \Gamma(\dbase, \dtotal) \xrightarrow{\vindex^*} \Gamma(\gbase, \vindex^*\dtotal)
+ \cgamma{\dbasec}{\dtotalc} \textcolor{artist}{\xrightarrow{\vindex^*}} \cgamma{\gbasec}{\vindexc^*\dtotalc}
 \end{equation}
-to generate a set of equivalent sections over the graphic $\Gamma(\gtotal, \vindex^*{\dtotal})$. As a consequence of \autoref{eq:artist:data_gamma_pullback}, there exists a data sheaf over graphic space $\sheaf: \mathcal{\gbase^{op}} \rightarrow \Gamma(\gtotal, \vindex^*{\dtotal})$ which is equivalent to 
+to generate a set of equivalent sections over the graphic $\Gamma(\gtotal, \vindex^*{\dtotal})$. As a consequence of \autoref{eq:artist:data_gamma_pullback}, there exists a data sheaf over graphic space 
+\begin{equation}
+  \label{eq:artist:data_pullback_sheaf_gamma}
+\sheafc: \mathcal{\gbasec^{\textcolor{base}{op}}} \textcolor{sheaf}{\rightarrow} \cgamma{\gtotalc}{\vindexc^*{\dtotalc}}
+\end{equation}
+which is equivalent to 
 \begin{equation}
   \label{eq:artist:data_pullback_sheaf}
-  \sheafc_{\vindexc^*}: \mathcal{\gbasec^{op}} \rightarrow \textcolor{section}{\bm{Set}}
+  \sheafc_{\vindexc^*}: \mathcal{\gbasec^{\textcolor{base}{op}}} \textcolor{sheaf}{\rightarrow} \setc
 \end{equation}
 
 Following from \autoref{eq:artist:data_pullback_sheaf} and the construction of the artist sheaf in \autoref{eq:artist:artist_sheaf}, we propose that the artist function $\vartist$ is a natural transformation
 
 \begin{equation}
   \begin{tikzcd}
-    & {} \arrow[dd, "\vartistc", Rightarrow, shorten=1.25em] & \\
-\mathcal{\gbasec}^{op} \arrow[rr, "\sheafc_{\vindex_*}(\dtotalc)", bend left] \arrow[rr, "\sheafc_{\vartistc}(\gtotalc)"', bend right] &  & \textcolor{section}{\bm{Set}}\\
+    & {} \arrow[dd, "\vartistc", Rightarrow, shorten=1.25em, color=artist] & \\
+\mathcal{\gbasec}^{\textcolor{base}{op}} \arrow[rr, "\sheafc_{\vindexc_*}(\dtotalc)", bend left, color=sheaf] \arrow[rr, "\sheafc_{\vartistc}(\gtotalc)"', bend right, color=sheaf] &  & {\setc}\\
     & {} &                            
 \end{tikzcd}
 \end{equation}
@@ -411,26 +416,42 @@ Following from \autoref{eq:artist:data_pullback_sheaf} and the construction of t
 of sheaf functors 
 \begin{equation}
   \label{eq:artist:sheaf_map}
-  \vartistc: \sheafc_{\vindexc^*}(\dtotalc) \rightarrow \sheafc_{\vartistc}(\gtotalc)
+  \vartistc: \sheafc_{\vindexc^*}(\dtotalc) \textcolor{artist}{\rightarrow} \sheafc_{\vartistc}(\gtotalc)
 \end{equation}
 where each sheaf is a map from an open set in the graphic base space $\opensetg \subset \gbase$ into a set of sections of a fiber bundle over that open set. As defined in \autoref{eq:related-work:equivariance:natural-transform}, the artist is a natural transformation. Following from \autoref{eq:related-work:equivariance:natural_transform_commute}, the artist specifies that there are compatible inclusion maps in the data and graphic spaces 
 \begin{equation}
   \label{eq:artist:inclusion_morphisms}
-  \begin{tikzcd}
-    {\Gamma(\opensetc_1, \dtotalc)} \arrow[dd, "\vartistc_{\opensetc_1}"'] &                                                                                                                                   &  &                                                                                                         & {\Gamma(\opensetc_2,\dtotal)} \arrow[dd, "\vartistc_{\opensetc_2}"] \arrow[llll, "\iota^*"', hook'] \\
-                                                                           & \opensetc_1 \arrow[lu, "\sheafc_{\vindex^*}" description] \arrow[ld, "\sheafc_{\vartistc}" description] \arrow[rr, "\iota", hook] &  & \opensetc_2 \arrow[ru, "\sheafc_{\vindex^*}" description] \arrow[rd, "\sheafc_{\vartistc}" description] & \\
-    {\Gamma(\opensetc_1,\gtotalc)} & &  && {\Gamma(\opensetc_2,\gtotalc)} \arrow[llll, "\iota^*", hook']                                       
+  \begin{tikzcd}[row sep=huge]
+    {\cgamma{\opensetgc_1}{\dtotalc}}\arrow[dd, "\vartistc_{\opensetgc_1}"', color=artist] &                                                                                                                                   &  & & {\cgamma{\opensetgc_2}{\dtotalc}} \arrow[dd, "\vartistc_{\opensetgc_2}", color=artist] \arrow[llll, "\iota^*"', hook', color=set] \\
+    & \opensetgc_1 \arrow[lu, "\sheafc_{\vindexc^*}" description, color=sheaf] \arrow[ld, "\sheafc_{\vartistc}" description, color=sheaf] \arrow[rr, "\iota", hook, color=base] &  & \opensetgc_2 \arrow[ru, "\sheafc_{\vindexc^*}" description, color=sheaf] \arrow[rd, "\sheafc_{\vartistc}" description, color=sheaf] & \\
+    {\cgamma{\opensetgc_1}{\gtotalc}} & &  && {\cgamma{\opensetgc_2}{\gtotalc}} \arrow[llll, "\iota^*", hook', color=set]                                       
     \end{tikzcd}
+\end{equation}
+Given that $\opensetg \subseteqq \gbasec$, \autoref{eq:artist:inclusion_morphisms} can be generalized to sections over $\gbase$. This fact can be combined with \autoref{eq:artist:data_gamma_pullback} to describe the path from data sections over data space to graphic sections over graphic space
+\begin{equation}
+  \label{eq:artist:gamma_map}
+  \cgamma{\dbasec}{\dtotalc} \textcolor{artist}{\xrightarrow{\vindexc^*}} \cgamma{\gbasec}{\dtotalc} \textcolor{artist}{\xrightarrow{\vartist}} \cgamma{\gbasec}{\gtotalc}
 \end{equation}
 
-In \autoref{eq:artist:morphism-of-sheaf-data}, $\dfuncc$ was introduced as a morphism between sheaf functors $\sheafc^{\vindex^*}$. Since the artist is a functor $\vartist: \sheaf^{\vindex^*} \rightarrow \sheaf_{\vartist}$, it follows from \autoref{eq:related-work:equivariance:functor_diagram} that 
+which means that the artist, pulled back through $\vindex^*$ is a map of sections 
 \begin{equation}
+  \label{eq:artist:section_map}
+  \vartistc_{\vindexc^*}: \dsectionc \textcolor{artist}{\mapsto}\gsectionc
+\end{equation}
+such that for every dataset, the artists constructs a corresponding graphic generating function. Besides preserving inclusions, as described in \autoref{eq:artist:inclusion_morphisms}, the artist function is constructed such that transformations on $\dsection$ and $\gsection$ are equivariant with respect to the morphism between data sheaf functors $\dfunc$ which was introduced in \autoref{eq:artist:morphism-of-sheaf-data}.  
+
+
+\note{is artist functor by virtue of being natural transform or do we define artist as functor between functors}
+ 
+$\vartist: \sheaf^{\vindex^*} \rightarrow \sheaf_{\vartist}$, it follows from \autoref{eq:related-work:equivariance:functor_diagram} that an arbitrary morphism $\dfunc$ on the data sheaf has a compatible morphism $\dfunc^{\prime}$ on the graphic sheaf. 
+\begin{equation}
+  \label{eq:artist:morphism_of_functors}
   \begin{tikzcd}
-    \sheafc_{\vindex^{*}} \arrow[d, "\dfuncc"'] \arrow[r, "\vartistc"] & \sheafc_{\vartist} \arrow[d, "\dfuncc^{\prime} \coloneqq\vartist(\dfuncc)"] \\
-    \sheafc_{\vindex^{*}} \arrow[r, "\vartistc"']                      & \sheafc_{\vartist}                                                         
+    \sheafc_{\vindexc^{*}} \arrow[d, "\dfuncc"', color=action] \arrow[r, "\vartistc", color=artist] & \sheafc_{\vartistc} \arrow[d, "\dfuncpc \coloneqq\vartistc(\dfuncc)", color=action] \\
+    \sheafc_{\vindexc^{*}} \arrow[r, "\vartistc"', color=artist]                      & \sheafc_{\vartistc}     
     \end{tikzcd}
 \end{equation}
-an arbitrary morphism $\dfunc$ on the data sheaf has a compatible morphism $\dfunc^{\prime}$ on the graphic sheaf. 
+As a consequence of \autoref{eq:artist:morphism_of_functors}, 
 
 \subsection{Composition of Artists}
 \label{sec:artist:union}
