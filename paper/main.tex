@@ -420,12 +420,12 @@ of sheaf functors
   \vartistc: \sheafc_{\vindexc^*}(\dtotalc) \textcolor{artist}{\rightarrow} \sheafc_{\vartistc}(\gtotalc)
 \end{equation}
 where each sheaf is a map from an open set in the graphic base space $\opensetg \subset \gbase$ into a set of sections of a fiber bundle over that open set. As defined in \autoref{eq:related-work:equivariance:natural-transform}, the artist is a natural transformation. Following from \autoref{eq:related-work:equivariance:natural_transform_commute}, the artist specifies that there are compatible inclusion maps in the data and graphic spaces 
+
 \begin{equation}
-  \label{eq:artist:inclusion_morphisms}
-  \begin{tikzcd}[row sep=huge]
-    {\cgamma{\opensetgc_1}{\dtotalc}}\arrow[dd, "\vartistc_{\opensetgc_1}"', color=artist] &                                                                                                                                   &  & & {\cgamma{\opensetgc_2}{\dtotalc}} \arrow[dd, "\vartistc_{\opensetgc_2}", color=artist] \arrow[llll, "\iota^*"', hook', color=set] \\
-    & \opensetgc_1 \arrow[lu, "\sheafc_{\vindexc^*}" description, color=sheaf] \arrow[ld, "\sheafc_{\vartistc}" description, color=sheaf] \arrow[rr, "\iota", hook, color=base] &  & \opensetgc_2 \arrow[ru, "\sheafc_{\vindexc^*}" description, color=sheaf] \arrow[rd, "\sheafc_{\vartistc}" description, color=sheaf] & \\
-    {\cgamma{\opensetgc_1}{\gtotalc}} & &  && {\cgamma{\opensetgc_2}{\gtotalc}} \arrow[llll, "\iota^*", hook', color=set]                                       
+  \begin{tikzcd}
+    \cgamma{\opensetgc_1}{\dtotalc} \arrow[dd, "\iota^*"', hook, color=set] \arrow[rrrr, "\vartistc_{\opensetgc_1}", bend left, color=artist] &  & \opensetgc_1 \arrow[ll, "\sheafc_{\vindexc^*}", color=sheaf] \arrow[rr, "\sheafc_{\vartistc}"', color=sheaf] &  & \cgamma{\opensetgc_1}{\gtotalc} \arrow[dd, "\iota^*", hook', color=set] \\
+    {} \arrow[rrrr, dotted, color=artist] &&&& {} \\
+    \cgamma{\opensetgc_2}{\dtotalc} \arrow[rrrr, "\vartistc_{\opensetgc_2}"', bend right, color=artist]                            &  & \opensetgc_2 \arrow[ll, "\sheafc_{\vindexc^*}"', color=sheaf] \arrow[rr, "\sheafc_{\vartistc}", color=sheaf] \arrow[uu, "\iota" description, hook, color=base] &  & \cgamma{\opensetgc_2}{\gtotalc}                             
     \end{tikzcd}
 \end{equation}
 Given that $\opensetg \subseteqq \gbasec$, \autoref{eq:artist:inclusion_morphisms} can be generalized to sections over $\gbase$. This fact can be combined with \autoref{eq:artist:data_gamma_pullback} to describe the path from data sections over data space to graphic sections over graphic space
