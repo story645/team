@@ -246,7 +246,7 @@ and the set of all sections over \dbase\ is denoted $\Gamma(\dbase, \dtotal)$. S
  is the set of all data sets with a shared fiber \dfiber\ and continuity \dbase. The set of all sections defined over the total base space is denoted $\Gamma(\dbase, \dtotal)$.  
 
 \subsection{Sheaves}
-Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementaryAppliedTopology2014} for data that lives over topological spaces. A presheaf $\sheafc$ is a map from the open set to the set of sections $\sheafc: \opensetc \rightarrow \cgamma{\openset}{ \dtotal}$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps $\iota$ between open sets and the inclusion map $\iota^*$ between the sets of sections.
+Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementaryAppliedTopology2014} for data that lives over topological spaces. A presheaf $\sheafc$ is a map from the open set to the set of sections $\sheafc: \opensetc \rightarrow \cgamma{\opensetc}{ \dtotalc|_{\opensetc}}$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps $\iota$ between open sets and the inclusion map $\iota^*$ between the sets of sections.
 
 \begin{equation}
   \label{eq:related-work:continuity:presheaf}
@@ -256,7 +256,7 @@ Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementar
     \end{tikzcd}
 \end{equation}
 
-This means that a smaller space $\openset_1$ is included in a larger space $\openset_2$ and a function that is continuous over a larger space $\openset_2$ is continuous over a subspace $\openset_1 \subset\openset_2$. Sheaves are presheafs where sets of sections are defined over unions of open sets over a topology $\bigcup_{j \in I} \openset)_j \in \dtotal$ \cite{spanier1989algebraic, nlab:sheaf}. Sheaves provide a mathematical abstraction of data, the space it lives over, and relationships between subsets. 
+This means that a smaller space $\openset_1$ is included in a larger space $\openset_2$ and a function $\dsection \in \Gamma(\openset, \dtotal|_{\openset})$ that is continuous over a larger space $\openset_2$ is continuous over a subspace $\openset_1 \subset\openset_2$. Sheaves are presheafs where sets of sections are defined over unions of open sets over a topology $\bigcup_{j \in I} \openset)_j \in \dbase$ \cite{spanier1989algebraic, nlab:sheaf}. Sheaves provide a mathematical abstraction of data, the space it lives over, and relationships between subsets. 
 
 \subsection{Category Theory}
 \label{sec:related-work:equivariance:category}
