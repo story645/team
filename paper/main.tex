@@ -318,7 +318,7 @@ We formulate the visualization transformation as a functor, which we call the \t
 In this section we encapsulate the structure of the data and graphic spaces as categories. We then use these definitions to express the structure that an artist preserves. Finally, we introduce rules for composing artists in a way where the structure between the inputs to the individual artists is preserved. 
 
 
-\subsection{Natural Transformation of Data to Graphic}
+\subsection{Continuity}
 \label{sec:artist:category}
 
 Fiber bundles, as introduced in \autoref{sec:related-work:fiber-bundles}, serve as the model of data and graphic spaces in out model. In this section, we introduce categorical formulations of the topological spaces that make up a fiber bundle. 
@@ -341,35 +341,7 @@ We model data as the sheaf  $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op} \textco
     & \opensetc_i \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}}) \arrow[uu, "\sheafc(\dtotalc)", shift left = 10.5, color=sheaf] &   
 \end{tikzcd}
 \end{equation}
-
 The objects of \textbf{Set} in this sheaf are the sets of sections $\Gamma(\dbase, \dtotal)$ introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps $(\iota, \iota^*)$ introduced in \autoref{eq:related-work:continuity:presheaf}. 
-
-
-\begin{equation}
-  \label{eq:artist:morphism-of-sheaf-data}
-  \begin{tikzcd}
-    & \cgamma{\opensetc_i}{\dtotalc} \in Ob(\setc) & \\
-{} \arrow[rr, "\dfuncc", Rightarrow, pos=.3, shorten <=3.5em, shorten >=8.85em, color=action] & & {} \\
-    & \opensetc_i \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}}) \arrow[uu, "\sheafc(\dtotalc)", bend left, shift left = 10.5, color=sheaf] \arrow[uu, "\sheafc(\dtotalc)"', bend right, shift left=10.5, color=sheaf] &   
-\end{tikzcd}
-\end{equation}
-
-The map $\dfunc: \sheaf(\dtotal) \rightarrow \sheaf(\dtotal)$ is any arbitrary morphism between sheaf functors $\sheaf(\dtotal)$. Following from \autoref{eq:related-work:equivariance:natural-transform}, \dfunc\ is a natural transform, which means all inclusions $\iota, \iota^*$ are preserved as part of any $\dfunc$ transformation.  
-
-\note{Should this move to down where we describe equivariance? It's not used at all currently in this section}
-\begin{definition} 
-  \label{def:category:F} The fiber category $\mathcal{\dfiberc}$ is a monoidal category\cite{milewskiCategoryTheoryProgrammers}, which means it is a category equipped with a bifunctur $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$
-  \begin{itemize}
-    \item \textit{object} a monoid object \dfiber. A monoid is a set with a binary operator that is associative, closed, and for which the set contains an identity element $i$ \cite{nlan:monoid}.
-    \item \textit{morphisms} $\dfiber \otimes \dfiber \rightarrow \dfiber$ and unit $i \rightarrow \dfiber$
-  \end{itemize}
-\end{definition}
-The bifunctor $\otimes$ combines categories in a way that  preserves identity and composition \cite{fongInvitationAppliedCategory2019}. For example, given a pair of categories $\mathcal{\dfiber_a},\mathcal{\dfiber_b}$, the bifunctor yields a set of pairs $\{(\dfiber_a, \dfiber_b) | \dfiber_a \in \mathcal{\dfiber_a}, \dfiber_b \in \mathcal{\dfiber_b}\}$. For the associated morphisms $g: \mathcal{\dfiber_a}\rightarrow \mathcal{\dfiber_a}$ and $h: \mathcal{\dfiber_b}\rightarrow \mathcal{\dfiber_b}$, the function $(g\times h): (\mathcal{\dfiber_a}\times \mathcal{\dfiber_b}) \rightarrow (\mathcal{\dfiber_a}\times \mathcal{\dfiber_b})$ is pointwise $(g\times h)(\dfiber_a, \dfiber_b)\coloneqq (g(\dfiber_a), h(\dfiber_b))$. Because of the bifunctor, objects of the category $\mathcal{\dfiber}$ can be the product of any arbitrary number and types of categories, including \textbf{Set}, \textbf{Graph}, and topological spaces \textbf{Top}.
-
-The set of all morphism of the fiber category $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ are all possible morphisms in a given category. This includes any of the functions that serve as the basis of equivariance, such as the binary operations, group actions, and measurement scale discussed in  \autoref{sec:related-work:equivariance}. The generalization to $Hom_\mathcal{\dfiber}$ also allows for the inclusion of structures such as monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}.
-
-
-When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint\ as the basis of our equivariance. This is because a sheaf $\sheaf(\dtotal)$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf(\dtotal)|_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\dfunc \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
 The continuity of the graphic is encapsulated as a category $\mathcal{\mathcal{\gbase}}$ containing open set objects $\opensetg$, the complete set of opensets $\gbase$ that is the full space of the graphic, and the empty set. As with $\mathcal{\dbase}$, the morphisms between the open sets  $\opensetg$ are inclusion morphisms $\iota$. Over the graphic space $\opensetg \subseteq \gbase$ are a set of sections 
 \begin{equation}
@@ -454,8 +426,35 @@ which means that the artist, pulled back through $\vindex^*$ is a map of section
 \end{equation}
 such that for every dataset, the artists constructs a corresponding graphic generating function. Besides preserving inclusions, as described in \autoref{eq:artist:inclusion_morphisms}, the artist function is constructed such that transformations on $\dsection$ and $\gsection$ are equivariant with respect to the morphism between data sheaf functors $\dfunc$ which was introduced in \autoref{eq:artist:morphism-of-sheaf-data}.  
 
+\subsection{Equivariance}
 
-\note{is artist functor by virtue of being natural transform or do we define artist as functor between functors}
+
+\begin{equation}
+  \label{eq:artist:morphism-of-sheaf-data}
+  \begin{tikzcd}
+    & \cgamma{\opensetc_i}{\dtotalc} \in Ob(\setc) & \\
+{} \arrow[rr, "\dfuncc", Rightarrow, pos=.3, shorten <=3.5em, shorten >=8.85em, color=action] & & {} \\
+    & \opensetc_i \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}}) \arrow[uu, "\sheafc(\dtotalc)", bend left, shift left = 10.5, color=sheaf] \arrow[uu, "\sheafc(\dtotalc)"', bend right, shift left=10.5, color=sheaf] &   
+\end{tikzcd}
+\end{equation}
+
+The map $\dfunc: \sheaf(\dtotal) \rightarrow \sheaf(\dtotal)$ is any arbitrary morphism between sheaf functors $\sheaf(\dtotal)$. Following from \autoref{eq:related-work:equivariance:natural-transform}, \dfunc\ is a natural transform, which means all inclusions $\iota, \iota^*$ are preserved as part of any $\dfunc$ transformation.  
+
+\begin{definition} 
+  \label{def:category:F} The fiber category $\mathcal{\dfiberc}$ is a monoidal category\cite{milewskiCategoryTheoryProgrammers}, which means it is a category equipped with a bifunctur $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$
+  \begin{itemize}
+    \item \textit{object} a monoid object \dfiber. A monoid is a set with a binary operator that is associative, closed, and for which the set contains an identity element $i$ \cite{nlan:monoid}.
+    \item \textit{morphisms} $\dfiber \otimes \dfiber \rightarrow \dfiber$ and unit $i \rightarrow \dfiber$
+  \end{itemize}
+\end{definition}
+The bifunctor $\otimes$ combines categories in a way that  preserves identity and composition \cite{fongInvitationAppliedCategory2019}. For example, given a pair of categories $\mathcal{\dfiber_a},\mathcal{\dfiber_b}$, the bifunctor yields a set of pairs $\{(\dfiber_a, \dfiber_b) | \dfiber_a \in \mathcal{\dfiber_a}, \dfiber_b \in \mathcal{\dfiber_b}\}$. For the associated morphisms $g: \mathcal{\dfiber_a}\rightarrow \mathcal{\dfiber_a}$ and $h: \mathcal{\dfiber_b}\rightarrow \mathcal{\dfiber_b}$, the function $(g\times h): (\mathcal{\dfiber_a}\times \mathcal{\dfiber_b}) \rightarrow (\mathcal{\dfiber_a}\times \mathcal{\dfiber_b})$ is pointwise $(g\times h)(\dfiber_a, \dfiber_b)\coloneqq (g(\dfiber_a), h(\dfiber_b))$. Because of the bifunctor, objects of the category $\mathcal{\dfiber}$ can be the product of any arbitrary number and types of categories, including \textbf{Set}, \textbf{Graph}, and topological spaces \textbf{Top}.
+
+The set of all morphism of the fiber category $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ are all possible morphisms in a given category. This includes any of the functions that serve as the basis of equivariance, such as the binary operations, group actions, and measurement scale discussed in  \autoref{sec:related-work:equivariance}. The generalization to $Hom_\mathcal{\dfiber}$ also allows for the inclusion of structures such as monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}.
+
+
+When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint\ as the basis of our equivariance. This is because a sheaf $\sheaf(\dtotal)$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf(\dtotal)|_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\dfunc \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
+
+\note{}
  
 $\vartist: \sheaf^{\vindex^*} \rightarrow \sheaf_{\vartist}$, it follows from \autoref{eq:related-work:equivariance:functor_diagram} that an arbitrary morphism $\dfunc$ on the data sheaf has a compatible morphism $\dfunc^{\prime}$ on the graphic sheaf. 
 \begin{equation}
