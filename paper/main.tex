@@ -399,7 +399,7 @@ Since there is a mapping from the graphic space to the total bundle $\dsection \
 to generate a set of equivalent sections over the graphic $\Gamma(\gtotal, \vindex^*{\dtotal})$. As a consequence of \autoref{eq:artist:data_gamma_pullback}, there exists a data sheaf over graphic space 
 \begin{equation}
   \label{eq:artist:data_pullback_sheaf_gamma}
-\sheafc: \mathcal{\gbasec^{\textcolor{base}{op}}} \textcolor{sheaf}{\rightarrow} \cgamma{\gtotalc}{\vindexc^*{\dtotalc}}
+\sheafc_{\vindexc^*}(\dtotalc): \mathcal{\gbasec^{\textcolor{base}{op}}} \textcolor{sheaf}{\rightarrow} \cgamma{\gbasec}{\vindexc^*{\dtotalc}}
 \end{equation}
 which is equivalent to 
 \begin{equation}
@@ -410,8 +410,9 @@ which is equivalent to
 Following from \autoref{eq:artist:data_pullback_sheaf} and the construction of the artist sheaf in \autoref{eq:artist:artist_sheaf}, we propose that the artist function $\vartist$ is a natural transformation
 
 \begin{equation}
+  \label{eq:artist:natural-transform-diagram}
   \begin{tikzcd}
-    & {} \arrow[dd, "\vartistc", Rightarrow, shorten=1.25em, color=artist] & \\
+    & {} \arrow[dd, "\vartistc", Rightarrow, shorten <=1.35em,  shorten >=1.25em, color=artist] & \\
 \mathcal{\gbasec}^{\textcolor{base}{op}} \arrow[rr, "\sheafc_{\vindexc_*}(\dtotalc)", bend left, color=sheaf] \arrow[rr, "\sheafc_{\vartistc}(\gtotalc)"', bend right, color=sheaf] &  & {\setc}\\
     & {} &                            
 \end{tikzcd}
@@ -437,15 +438,34 @@ Given that $\opensetg \subseteqq \gbasec$, \autoref{eq:artist:inclusion_morphism
   \cgamma{\dbasec}{\dtotalc} \textcolor{artist}{\xrightarrow{\vindexc^*}} \cgamma{\gbasec}{\dtotalc} \textcolor{artist}{\xrightarrow{\vartist}} \cgamma{\gbasec}{\gtotalc}
 \end{equation}
 
-which means that the artist, pulled back through $\vindex^*$ is a map of sections 
+which means that the artist can be pulled back through $\vindex^*$\footnote{Defintion 3.68 in Seven Sketches in Compositionality by Fong and Spivak}
+\begin{equation}
+  \begin{tikzcd}
+    &                                                                                                                                                         & {} \arrow[dd, "\vartistc" description, Rightarrow, shorten <=1.35em,  shorten >=1.25em, color=artist] &       \\
+\mathcal{\dbasec}^{\textcolor{base}{op}} \arrow[r, "\vindexc^*", color=artist] & \mathcal{\gbasec}^{\textcolor{base}{op}} \arrow[rr, "\sheafc_{\vindex^*}(\dtotalc)", bend left, color=sheaf] \arrow[rr, "\sheaf_{\vartistc}(\gtotalc)"', bend right, color=sheaf] &                                                    & \setc \\
+    &                                                                                                                                                         & {}                                                 &      
+\end{tikzcd}
+\end{equation}
+such that the artist can be constructed over data space 
+\begin{equation}
+  \begin{tikzcd}
+    & {} \arrow[dd, "\vartistc_{\vindexc^*}" description, Rightarrow, shorten <=1.35em,  shorten >=1.25em,, color=artist] &       \\
+\mathcal{\dbasec}^{\textcolor{base}{op}} \arrow[rr, "\sheafc_{\vindexc^*}(\dtotalc)\circ\vindexc^* = \sheafc(\dtotalc)", bend left, color=sheaf] \arrow[rr, "\sheafc_{\vartistc}(\gtotalc)"', bend right, color=sheaf] &                                                                 & \setc \\
+    & {}                                                              &      
+\end{tikzcd}
+\end{equation}
+
+which in turn provides a way to construct the artist as a map from data section in data space to corresponding graphic section
 \begin{equation}
   \label{eq:artist:section_map}
   \vartistc_{\vindexc^*}: \dsectionc \textcolor{artist}{\mapsto}\gsectionc
 \end{equation}
-such that for every dataset, the artists constructs a corresponding graphic generating function. Besides preserving inclusions, as described in \autoref{eq:artist:inclusion_morphisms}, the artist function is constructed such that transformations on $\dsection$ and $\gsection$ are equivariant with respect to the morphism between data sheaf functors $\dfunc$ which was introduced in \autoref{eq:artist:morphism-of-sheaf-data}.  
+such that for every dataset, the artists constructs a corresponding graphic generating function. 
+\note{maybe mention here Munzner, Zeminsky, and the other dude on glyphs map back to data}
+\note{possibly more here as this is the type signature of the thing we implement}
 
 \subsection{Equivariance}
-
+Besides preserving inclusions, as described in \autoref{eq:artist:inclusion_morphisms}, the artist function is constructed such that transformations on $\dsection$ and $\gsection$ are equivariant with respect to the morphism between data sheaf functors $\dfunc$ which was introduced in \autoref{eq:artist:morphism-of-sheaf-data}.  
 
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
