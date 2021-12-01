@@ -53,6 +53,8 @@
 \usepackage{tikz}
 \usetikzlibrary{cd} % commutative diagrams
 \newtheorem{prop}{Proposition} %math?
+\usepackage[switch]{lineno}
+\renewcommand{\linenumberfont}{\normalfont\bfseries\small\color{lightgray}}
 \usepackage{minted}
 \setminted[python]{fontsize=\scriptsize, 
                    linenos,
@@ -89,7 +91,6 @@
 \hyphenation{op-tical net-works semi-conduc-tor}
 
 
-\usepackage[]{lineno}
 
 \begin{document}
 \linenumbers
@@ -181,10 +182,12 @@ When introducing the retinal variables, Bertin informally specifies that continu
   \caption{Equivariance is that a transformation on the data has a corresponding transformation in the graphical representation. For example, in this figure the data is scaled by a factor 10. Equivalently the line plot is scaled by factor of 10, resulting in a shrunken line plot. Either a transformation on the data side can induce a transformation on the visual side, or a transformation on the visual side indicates that there is also a transformation on the data side. }
 \end{figure}
 
-\section{Algebraic Topology And Category Theory}
+\section{Algebraic Topology \& Category Theory}
+\note{potentially move this to appendix, if so push Butler & Vickers up to RW}
+
 Category theory can be used to express software specifications because it provides a method of expressing structure and how that structure can be composed \cite{wielsManagementEvolvingSpecifications1998} algebraic topology provides a rich language for expressing data continuity. In this section, we introduce concepts from algebraic topology and category theory that we will use in \autoref{sec:artist:category} to develop a formal model of specifying visualization component.
 
-\subsubsection{Fiber Bundles}
+\subsection{Fiber Bundles}
 \label{sec:related-work:fiber-bundles}
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{fiberbundle.png}
@@ -221,7 +224,7 @@ The fibers can be thought of as encapsulating data types according to Spivak, wh
 The fiber bundle is trivial when $\dtotal = \dbase \times \dfiber$ is true globally; a non-trivial bundle can be thought of as the twisted fiber product $\dtotal=\dbase times_{T} \dfiber$\cite{hatcherAlgebraicTopology2002,nlab:twisting_function}. The twisting refers to the fiber \dfiber\ not aligning in the same direction over all $\openset \subseteq \dbase$. 
 
 
-As proposed by Butler et al \cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992}, data can be represented as a map from the base space \dbase\ to the fiber space \dfiber. This map is called a section $\dsection: \dbase \rightarrow \dtotal$ of the fiber bundle.
+As proposed by Butler et al \cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992}, data can be represented as a map from the base space \dbase\ to the fiber space \dfiber. This map is called a section $\dsection: \dbase \rightarrow \dtotal$ of the fiber bundle
 
 \begin{equation}
   \label{eq:related-work:continuity:fiber-bundle}
@@ -231,18 +234,18 @@ As proposed by Butler et al \cite{butlerVisualizationModelBased1989,butlerVector
   \end{tikzcd}
 \end{equation}
 
+and the set of all sections over \dbase\ is denoted $\Gamma(\dbase, \dtotal)$. Sections can also be defined locally, meaning over an open set $\openset \subseteq \dtotal$, and the set of all sections over an arbitrary open set is 
 
-A fiber bundle has many sections, and the set of all sections over an open set $\openset \subseteq \dtotal$
 \begin{equation}
   \label{eq:related-work:continuity:sections}
   \begin{split}
-  \cgamma{\opensetc}{\dtotalc} \coloneqq & \{\dsectionc^{0} \cdots \dsectionc^{i} \cdots \dsectionc^{n}\} 
-  & \dsectionc: \opensetc\rightarrow \dtotalc
+  \cgamma{\opensetc}{\dtotalc|_{\opensetc}} \coloneqq \{&\dsectionc^{0}, \cdots, \dsectionc^{i}, \cdots, \dsectionc^{n}\} \\
+   &\dsectionc: \opensetc\rightarrow \dtotalc|_{\openset}
   \end{split}
 \end{equation}
  is the set of all data sets with a shared fiber \dfiber\ and continuity \dbase. The set of all sections defined over the total base space is denoted $\Gamma(\dbase, \dtotal)$.  
 
-\subsubsection{Sheaves}
+\subsection{Sheaves}
 Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementaryAppliedTopology2014} for data that lives over topological spaces. A presheaf $\sheafc$ is a map from the open set to the set of sections $\sheafc: \opensetc \rightarrow \cgamma{\openset}{ \dtotal}$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps $\iota$ between open sets and the inclusion map $\iota^*$ between the sets of sections.
 
 \begin{equation}
@@ -255,7 +258,7 @@ Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementar
 
 This means that a smaller space $\openset_1$ is included in a larger space $\openset_2$ and a function that is continuous over a larger space $\openset_2$ is continuous over a subspace $\openset_1 \subset\openset_2$. Sheaves are presheafs where sets of sections are defined over unions of open sets over a topology $\bigcup_{j \in I} \openset)_j \in \dtotal$ \cite{spanier1989algebraic, nlab:sheaf}. Sheaves provide a mathematical abstraction of data, the space it lives over, and relationships between subsets. 
 
-\subsubsection{Category Theory}
+\subsection{Category Theory}
 \label{sec:related-work:equivariance:category}
 In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al \cite{vickersUnderstandingVisualizationFormal2013} provide a brief introduction to category theory for visualization practitioners, but their work focuses on reasoning about visualization design, while this paper aims to provide guidance on designing visualization library components. Briefly we introduce concepts in category theory that we use to describe our model in \autoref{sec:artist:category} and \autoref{sec:artist:construction}. 
 
