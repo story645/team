@@ -358,17 +358,23 @@ The objects of \textbf{Set} in this sheaf are the sets of sections $\Gamma(\dbas
 The continuity of the graphic is encapsulated as a category $\mathcal{\mathcal{\gbase}}$ containing open set objects $\opensetg$, the complete set of opensets $\gbase$ that is the full space of the graphic, and the empty set. As with $\mathcal{\dbase}$, the morphisms between the open sets  $\opensetg$ are inclusion morphisms $\iota$. Over the graphic space $\opensetg \subseteq \gbase$ are a set of sections 
 \begin{equation}
   \label{eq:artist:graphic_sections}
-  \cgamma{\opensetgc}{\gtotalc} \coloneqq \textcolor{set}{\{}\gsectionc^{i}:\opensetgc\rightarrow \gtotalc\textcolor{set}{\}}|_{i\in I}
+    \begin{split}
+    \cgamma{\opensetgc}{\gtotalc|_{\opensetgc}} \coloneqq \{&\gsectionc^{0}, \cdots, \gsectionc^{i}, \cdots, \gsectionc^{n}\} \\
+     &\gsectionc: \opensetgc\rightarrow \gtotalc|_{\opensetgc}
+    \end{split}
+  \end{equation}
 \end{equation}
 which are the set of all graphics with a shared base space and fiber and are a subcategory of \textbf{Set}. This allows us to represent the full space of graphics as a sheaf $\sheaf(\gtotal)$
 \begin{equation}
   \label{eq:artist:artist_sheaf}
   \begin{tikzcd}[row sep=huge]
-    {\cgamma{\opensetgc_i}{\gtotalc}}&  & \textcolor{set}{\{}\gsectionc^{j}:\opensetgc_i\rightarrow \gtotalc\textcolor{set}{\}}|_{j\in J} \arrow[ll, "\iota"', hook', color=set] \\ &  & \\
-    \opensetgc_i \arrow[uu, "\sheafc(\gtotalc)", color=sheaf] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheaf_{\vartist}(\gtotalc)" description, dashed, color=sheaf] &  & 
+    {\cgamma{\opensetgc}{\gtotalc|_{\opensetgc}}}&  & 
+    \textcolor{set}{\{}\gsectionc:\opensetgc\rightarrow \gtotalc\textcolor{set}{\}}
+    \arrow[ll, "\iota"', hook', color=set] \\ &  & \\
+    \opensetgc \arrow[uu, "\sheafc(\gtotalc)", color=sheaf] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheafc_{\vartistc}(\gtotalc)" description, dashed, color=sheaf] &  & 
     \end{tikzcd}
 \end{equation}
-The set of graphics reachable through an artist function is a subset $\{\gsection^{j}\}|_{j\in J}$ of the full set of graphics. These sets of reachable graphics over open sets \opensetg\ are also objects of \textbf{Set}. This allows us to formulate the graphic output by the artist as a sheaf $\sheaf_{\vartist}$ from the graphic base space to the set of reachable graphics. 
+The set of graphics reachable through an artist function is a subset of sections of the full set of graphics $\{\gsection\} \subset \Gamma(\opensetg, \gtotal|_{\opensetg})$. These sets of reachable graphics over open sets \opensetg\ are also objects of \textbf{Set}. This allows us to formulate the graphic output by the artist as a sheaf $\sheaf_{\vartist}$ from the graphic base space to the set of reachable graphics. 
 
 To establish a mapping between graphic and data base spaces, we introduce the surjective map $\vindex: \gbase \rightarrow \dbase$. 
 \begin{equation}
