@@ -141,14 +141,17 @@ The abstract goes here.
 
 
 \section{Related Work}
-This work aims to develop a model for describing visualization transformations that can serve as guidance for how to architecture a general purpose visualization library. We define a general purpose visualization library as one that provides non domain specific building block components\cite{wongsuphasawatNavigatingWideWorld2021} for building visualizations, for example functions for converting data to color or encoding data as dots. In this section, we describe how visualization libraries attempt this goal and discuss work that formally describes what properties of data should be preserved in a visualization. We restrict the properties of data that should be preserved to 
+This work aims to develop a model for describing visualization transformations that can serve as guidance for how to architecture a general purpose visualization library. We define a general purpose visualization library as one that provides non domain specific building block components\cite{wongsuphasawatNavigatingWideWorld2021} for building visualizations, for example functions for converting data to color or encoding data as dots. We propose that visualization library components should preserve continuity and equivariance, which we define as 
 
 \begin{LaTeXdescription}
   \item [continuity] how elements in a dataset are organized, e.g. discrete rows in a table, networked nodes, pixels in an image, points on a line
-  \item [equivariance] functions on data that have an equivalent effect on the graphical representation, e.g. rotating a matrix has a matching rotation of the image, translating the points on a line has a matching visual shift in the line plot
+  \item [equivariance] data transformations that have an equivalent effect on the graphical representation, e.g. rotating a matrix has a matching rotation of the image, translating the points on a line has a matching visual shift in the line plot
 \end{LaTeXdescription}
 
+In \autoref{sec:related-work:continuity} we discuss how data continuity influences visualization library architecture and in \autoref{sec:related-work:equivariance} we summarize how visualization researchers have approached equivariance. 
+
 \subsection{Continuity}
+\label{sec:related-work:continuity}
 \begin{figure}[!h]
   \includegraphics[width=\columnwidth]{k_different_types.png}
   \caption{Continuity is how elements in a data set are connected to each other, which is distinct from how the data is structured. The rows in (a) are discrete, therefore they have discrete continuity as illustrated by the discrete dots. The gaussian in (b) is a 1D continuous function, therefore the continuity of the elements of the gaussian can be represented as a line on an interval (0,1). In (c), every element of the globe is connected to its nearest neighbors, which yields a 2D continuous continuity as illustrated by the square.}
@@ -168,6 +171,18 @@ For example, in \autoref{fig:related-work:visual-algorithm} the same table can b
 
 Domain specific libraries can often guarantee consistency because they have a single model of the data in their software design, as discussed in Heer and Agarwal \cite{HeerSoftware2006}'s survey of visualization software design patterns. For example, the relational database is core to tools influenced by APT, such as Tableau\cite{StoltePolaris2002,hanrahanVizQL2006,MackinlayShowme2007} and the Grammar of Graphics\cite{wilkinsonGrammarGraphics2005} inspired ggplot\cite{wickhamGgplot2ElegantGraphics2016a}, Vega\cite{satyanarayanDeclarativeInteractionDesign2014} and Altair\cite{vanderplasAltairInteractiveStatistical2018}. Images underpin scientific visualization tools such as Napari\cite{nicholas_sofroniew_2021_4533308} and ImageJ\cite{schneiderNIHImageImageJ2012} and the digital humanities oriented ImagePlot\cite{studiesCulturevisImageplot2021} macro; the need to visualize and manipulate graphs has spawned tools like Gephi\cite{bastianGephiOpenSource2009}, Graphviz\cite{ellsonGraphvizOpenSource2002}, and Networkx\cite{HagbergExploringNetwork2008}. 
  
+\subsection{Equivariance}
+\label{sec:related-work:equivariance}
+When introducing the retinal variables, Bertin informally specifies that continuity is preserved in the mark and defines equivariance constraints in terms of data and visual variables being selective, associative, ordered, or quantitative\cite{bertinSemiologyGraphicsDiagrams2011a}. In the \textit{A Presentation Tool}(APT) model, Mackinlay embeds the continuity constraint in the choice of visualization type and generalizes the equivariance constraint to preserving a binary operator from one domain to another. The algebraic model of visualization\cite{kindlmannAlgebraicProcessVisualization2014}, proposed by Kindlmann and Scheidegger, restricts equivariance to invertible transformations.
+
+\begin{figure}[!h]
+  \label{fig:related-work:equivariance}
+  \includegraphics[width=\columnwidth]{equiv.png}
+  \caption{Equivariance is that a transformation on the data has a corresponding transformation in the graphical representation. For example, in this figure the data is scaled by a factor 10. Equivalently the line plot is scaled by factor of 10, resulting in a shrunken line plot. Either a transformation on the data side can induce a transformation on the visual side, or a transformation on the visual side indicates that there is also a transformation on the data side. }
+\end{figure}
+
+\section{Algebraic Topology And Category Theory}
+
 \subsubsection{Fiber Bundles}
 \label{sec:related-work:fiber-bundles}
 \begin{figure}[h!]
@@ -216,10 +231,13 @@ As proposed by Butler et al \cite{butlerVisualizationModelBased1989,butlerVector
 \end{equation}
 
 
-A fiber bundle has many sections, and the set of all sections over an open set $openset \subseteq \dtotal$
+A fiber bundle has many sections, and the set of all sections over an open set $\openset \subseteq \dtotal$
 \begin{equation}
-\label{eq:related-work:continuity:sections}
-\cgamma{\opensetc}{\dtotalc} \coloneqq \{\dsectionc^{i}: \opensetc\rightarrow \dtotalc\}|_{i\in I}
+  \label{eq:related-work:continuity:sections}
+  \begin{split}
+  \cgamma{\opensetc}{\dtotalc} \coloneqq & \{\dsectionc^{0} \cdots \dsectionc^{i} \cdots \dsectionc^{n}\} 
+  & \dsectionc: \opensetc\rightarrow \dtotalc
+  \end{split}
 \end{equation}
  is the set of all data sets with a shared fiber \dfiber\ and continuity \dbase. The set of all sections defined over the total base space is denoted $\Gamma(\dbase, \dtotal)$.  
 
@@ -235,16 +253,6 @@ Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementar
 \end{equation}
 
 This means that a smaller space $\openset_1$ is included in a larger space $\openset_2$ and a function that is continuous over a larger space $\openset_2$ is continuous over a subspace $\openset_1 \subset\openset_2$. Sheaves are presheafs where sets of sections are defined over unions of open sets over a topology $\bigcup_{j \in I} \openset)_j \in \dtotal$ \cite{spanier1989algebraic, nlab:sheaf}. Sheaves provide a mathematical abstraction of data, the space it lives over, and relationships between subsets. 
-
-\subsection{Equivariance}
-\label{sec:related-work:equivariance}
-When introducing the retinal variables, Bertin informally specifies that continuity is preserved in the mark and defines equivariance constraints in terms of data and visual variables being selective, associative, ordered, or quantitative\cite{bertinSemiologyGraphicsDiagrams2011a}. In the \textit{A Presentation Tool}(APT) model, Mackinlay embeds the continuity constraint in the choice of visualization type and generalizes the equivariance constraint to preserving a binary operator from one domain to another. The algebraic model of visualization\cite{kindlmannAlgebraicProcessVisualization2014}, proposed by Kindlmann and Scheidegger, restricts equivariance to invertible transformations.
-
-\begin{figure}[!h]
-  \label{fig:related-work:equivariance}
-  \includegraphics[width=\columnwidth]{equiv.png}
-  \caption{Equivariance is that a transformation on the data has a corresponding transformation in the graphical representation. For example, in this figure the data is scaled by a factor 10. Equivalently the line plot is scaled by factor of 10, resulting in a shrunken line plot. Either a transformation on the data side can induce a transformation on the visual side, or a transformation on the visual side indicates that there is also a transformation on the data side. }
-\end{figure}
 
 \subsubsection{Category Theory}
 \label{sec:related-work:equivariance:category}
