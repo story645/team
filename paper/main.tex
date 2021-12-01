@@ -332,7 +332,19 @@ We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the c
   \end{itemize} 
 \end{definition}
 
-We model data as the sheaf $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op} \textcolor{sheaf}{\rightarrow} \setc$. The objects of \textbf{Set} in this sheaf are the sets of sections introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps in \autoref{eq:related-work:continuity:presheaf}. 
+We model data as the sheaf  $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op} \textcolor{sheaf}{\rightarrow} \setc$.
+\begin{equation}
+  \label{eq:artist:morphism-of-sheaf-data}
+  \begin{tikzcd}
+    & \cgamma{\opensetc_i}{\dtotalc} \in Ob(\setc) & \\
+    {} & & {} \\
+    & \opensetc_i \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}}) \arrow[uu, "\sheafc(\dtotalc)", shift left = 10.5, color=sheaf] &   
+\end{tikzcd}
+\end{equation}
+
+The objects of \textbf{Set} in this sheaf are the sets of sections $\Gamma(\dbase, \dtotal)$ introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps $(\iota, \iota^*)$ introduced in \autoref{eq:related-work:continuity:presheaf}. 
+
+
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
   \begin{tikzcd}
@@ -341,6 +353,7 @@ We model data as the sheaf $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op} \textcol
     & \opensetc_i \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}}) \arrow[uu, "\sheafc(\dtotalc)", bend left, shift left = 10.5, color=sheaf] \arrow[uu, "\sheafc(\dtotalc)"', bend right, shift left=10.5, color=sheaf] &   
 \end{tikzcd}
 \end{equation}
+
 The map $\dfunc: \sheaf(\dtotal) \rightarrow \sheaf(\dtotal)$ is any arbitrary morphism between sheaf functors $\sheaf(\dtotal)$. Following from \autoref{eq:related-work:equivariance:natural-transform}, \dfunc\ is a natural transform, which means all inclusions $\iota, \iota^*$ are preserved as part of any $\dfunc$ transformation.  
 
 \note{Should this move to down where we describe equivariance? It's not used at all currently in this section}
