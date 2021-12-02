@@ -223,8 +223,7 @@ The fibers can be thought of as encapsulating data types according to Spivak, wh
 
 The fiber bundle is trivial when $\dtotal = \dbase \times \dfiber$ is true globally; a non-trivial bundle can be thought of as the twisted fiber product $\dtotal=\dbase times_{T} \dfiber$\cite{hatcherAlgebraicTopology2002,nlab:twisting_function}. The twisting refers to the fiber \dfiber\ not aligning in the same direction over all $\openset \subseteq \dbase$. 
 
-
-As proposed by Butler et al \cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992}, data can be represented as a map from the base space \dbase\ to the fiber space \dfiber. This map is called a section $\dsection: \dbase \rightarrow \dtotal$ of the fiber bundle
+ There is a map from a point on the base space \dbase\ which returns values in the fiber space \dfiber. This map is called a section $\dsection: \dbase \rightarrow \dtotal$ of the fiber bundle
 
 \begin{equation}
   \label{eq:related-work:continuity:fiber-bundle}
@@ -234,8 +233,7 @@ As proposed by Butler et al \cite{butlerVisualizationModelBased1989,butlerVector
   \end{tikzcd}
 \end{equation}
 
-and the set of all sections over \dbase\ is denoted $\Gamma(\dbase, \dtotal)$. Sections can also be defined locally, meaning over an open set $\openset \subseteq \dtotal$, and the set of all sections over an arbitrary open set is 
-
+and the set of all sections over \dbase\ is denoted $\Gamma(\dbase, \dtotal)$ . Sections can also be defined locally, meaning over an open set $\openset \subseteq \dtotal$ and the set of all sections over an arbitrary open set is $\Gamma(\openset, \dtotal)$. 
 \begin{equation}
   \label{eq:related-work:continuity:sections}
   \begin{split}
@@ -243,7 +241,7 @@ and the set of all sections over \dbase\ is denoted $\Gamma(\dbase, \dtotal)$. S
    &\dsectionc: \opensetc\rightarrow \dtotalc|_{\openset}
   \end{split}
 \end{equation}
- is the set of all data sets with a shared fiber \dfiber\ and continuity \dbase. The set of all sections defined over the total base space is denoted $\Gamma(\dbase, \dtotal)$.  
+Butler et al proposed that \cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992} sections could be used to model data sets since they are maps from a point on the continuity to a point in the fiber, and therefore they encapsulate both. The set of sections is the space of all data sets with the same continuity and fields.   
 
 \subsection{Sheaves}
 Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementaryAppliedTopology2014} for data that lives over topological spaces. A presheaf $\sheafc$ is a map from the open set to the set of sections $\sheafc: \opensetc \rightarrow \cgamma{\opensetc}{ \dtotalc|_{\opensetc}}$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps $\iota$ between open sets and the inclusion map $\iota^*$ between the sets of sections.
@@ -339,12 +337,12 @@ We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the c
 
 \begin{definition} \label{def:category:K} The category of open sets $\mathcal{\dbasec}$ consists of
   \begin{itemize}
-    \item \textit{objects} open sets $\openset_{i} \in \{openset\}$ in the topological space $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
+    \item \textit{objects} open sets $\openset_{i} \in \{\openset\}$ in the topological space $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
     \item \textit{morphisms} $\iota: \openset_{i} \hookrightarrow \openset_{j}$ for all  $\openset_i, \openset_j \subset \dtotal$
   \end{itemize} 
 \end{definition}
 
-We model data as the sheaf  $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op} \textcolor{sheaf}{\rightarrow} \setc$.
+We model a space of data sets with the same continuity and fields as the sheaf  $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op} \textcolor{sheaf}{\rightarrow} \setc$.
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
   \begin{tikzcd}
@@ -353,28 +351,16 @@ We model data as the sheaf  $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op} \textco
     & \opensetc \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}}) \arrow[uu, "\sheafc(\dtotalc)"', shift left = 10, color=sheaf] &   
 \end{tikzcd}
 \end{equation}
-The objects of \textbf{Set} in this sheaf are the sets of sections $\Gamma(\dbase, \dtotal)$ introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps $(\iota, \iota^*)$ introduced in \autoref{eq:related-work:continuity:presheaf}. 
+The objects of \textbf{Set} in this sheaf are the sets of sections $\Gamma(\dbase, \dtotal)$ introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps $(\iota, \iota^*)$ introduced in \autoref{eq:related-work:continuity:presheaf}. As mentioned in \autoref{re} sections $\dsection$ are 
 
-The continuity of the graphic is encapsulated as a category $\mathcal{\mathcal{\gbase}}$ containing open set objects $\opensetg$, the complete set of opensets $\gbase$ that is the full space of the graphic, and the empty set. As with $\mathcal{\dbase}$, the morphisms between the open sets  $\opensetg$ are inclusion morphisms $\iota$. Over the graphic space $\opensetg \subseteq \gbase$ are a set of sections 
-\begin{equation}
-  \label{eq:artist:graphic_sections}
-    \begin{split}
-    \cgamma{\opensetgc}{\gtotalc|_{\opensetgc}} \coloneqq \{&\gsectionc^{0}, \cdots, \gsectionc^{i}, \cdots, \gsectionc^{n}\} \\
-     &\gsectionc: \opensetgc\rightarrow \gtotalc|_{\opensetgc}
-    \end{split}
-  \end{equation}
-\end{equation}
-which are the set of all graphics with a shared base space and fiber and are a subcategory of \textbf{Set}. This allows us to represent the full space of graphics as a sheaf $\sheaf(\gtotal)$
-\begin{equation}
-  \label{eq:artist:artist_sheaf}
-  \begin{tikzcd}[row sep=huge]
-    {\cgamma{\opensetgc}{\gtotalc|_{\opensetgc}}}&  & 
-    \textcolor{set}{\{}\gsectionc:\opensetgc\rightarrow \gtotalc\textcolor{set}{\}}
-    \arrow[ll, "\iota"', hook', color=set] \\ &  & \\
-    \opensetgc \arrow[uu, "\sheafc(\gtotalc)", color=sheaf] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheafc_{\vartistc}(\gtotalc)" description, dashed, color=sheaf] &  & 
-    \end{tikzcd}
-\end{equation}
-The set of graphics reachable through an artist function is a subset of sections of the full set of graphics $\{\gsection\} \subset \Gamma(\opensetg, \gtotal|_{\opensetg})$. These sets of reachable graphics over open sets \opensetg\ are also objects of \textbf{Set}. This allows us to formulate the graphic output by the artist as a sheaf $\sheaf_{\vartist}$ from the graphic base space to the set of reachable graphics. 
+
+\note{add transition sentence about artist }
+
+The continuity of the graphic is encapsulated as a category $\mathcal{\gbase}}$ 
+
+
+\begin{definition} The category of open sets $\mathcal{\gbase}$ in the topological space $(\dbase, \mathscr{T})$). This category consists of open set \textit{objects} $\opensetg \in \{\opensetg\}$, including the empty set \varnothing\ and the total set $\gtotal$, and inclusion \textmorphisms $\iota: \opensetg_i \rightarrow \opensetg_j$.  
+\end{definition}
 
 To establish a mapping between graphic and data base spaces, we introduce the surjective map $\vindex: \gbase \rightarrow \dbase$. 
 \begin{equation}
@@ -404,11 +390,37 @@ to generate a set of equivalent sections over the graphic $\Gamma(\gtotal, \vind
 which is equivalent to 
 \begin{equation}
   \label{eq:artist:data_pullback_sheaf}
-  \sheafc_{\vindexc^*}: \mathcal{\gbasec^{\textcolor{base}{op}}} \textcolor{sheaf}{\rightarrow} \setc
+  \sheafc_{\vindexc^*}(\dtotalc): \mathcal{\gbasec^{\textcolor{base}{op}}} \textcolor{sheaf}{\rightarrow} \setc
 \end{equation}
 
-Following from \autoref{eq:artist:data_pullback_sheaf} and the construction of the artist sheaf in \autoref{eq:artist:artist_sheaf}, we propose that the artist function $\vartist$ is a natural transformation
+As with $\mathcal{\dbase}$, the morphisms between the open sets  $\opensetg$ are inclusion morphisms $\iota$. Over the graphic space $\opensetg \subseteq \gbase$ are a set of sections 
+\begin{equation}
+  \label{eq:artist:graphic_sections}
+    \begin{split}
+    \cgamma{\opensetgc}{\gtotalc|_{\opensetgc}} \coloneqq \{&\gsectionc^{0}, \cdots, \gsectionc^{i}, \cdots, \gsectionc^{n}\} \\
+     &\gsectionc: \opensetgc\rightarrow \gtotalc|_{\opensetgc}
+    \end{split}
+  \end{equation}
+\end{equation}
+which are the set of all graphics with a shared base space and fiber and are a subcategory of \textbf{Set}. This allows us to represent the full space of graphics as a sheaf $\sheaf(\gtotal)$
+\begin{equation}
+  \label{eq:artist:artist_sheaf}
+  \begin{tikzcd}[row sep=huge]
+    {\cgamma{\opensetgc}{\gtotalc|_{\opensetgc}}}&  & 
+    \textcolor{set}{\{}\gsectionc:\opensetgc\rightarrow \gtotalc\textcolor{set}{\}}
+    \arrow[ll, "\iota"', hook', color=set] \\ &  & \\
+    \opensetgc \arrow[uu, "\sheafc(\gtotalc)", color=sheaf] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheafc_{\vartistc}(\gtotalc)" description, dashed, color=sheaf] &  & 
+    \end{tikzcd}
+\end{equation}
+The set of graphics reachable through an artist function is a subset of sections of the full set of graphics $\{\gsection\} \subset \Gamma(\opensetg, \gtotal|_{\opensetg})$. These sets of reachable graphics over open sets \opensetg\ are also objects of \textbf{Set}. This allows us to formulate the graphic output by the artist as a sheaf 
+\begin{equation}
+  \label{eq:artist:artist_sheaf}
+  \sheafc_{\vartist}(\gtotalc): \gbasec^{\textcolor{base}{op}} \textcolor{sheaf}{\rightarrow} \setc
+\end{equation}
+from the graphic base space to the set of reachable graphics. 
 
+
+Following from \autoref{eq:artist:data_pullback_sheaf} and \autoref{eq:artist:artist_sheaf},  we propose that the artist function $\vartist$ is a natural transformation
 \begin{equation}
   \label{eq:artist:natural-transform-diagram}
   \begin{tikzcd}
