@@ -39,6 +39,7 @@
 %% with other math-related packages, you may want to disable it.
 \usepackage{amsmath, amsthm, amsfonts,amssymb,eulervm,xspace, mathtools}
 \usepackage{mathrsfs} % math script fonts
+\usepackage{relsize} %bigger
 \usepackage{bm}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
@@ -244,6 +245,7 @@ and the set of all sections over \dbase\ is denoted $\Gamma(\dbase, \dtotal)$ . 
 Butler et al proposed that \cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992} sections could be used to model data sets since they are maps from a point on the continuity to a point in the fiber, and therefore they encapsulate both. The set of sections is the space of all data sets with the same continuity and fields.   
 
 \subsection{Sheaves}
+\label{sec:related-work:continuity:sheaves}
 Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementaryAppliedTopology2014} for data that lives over topological spaces. A presheaf $\sheafc$ is a map from the open set to the set of sections $\sheafc: \opensetc \rightarrow \cgamma{\opensetc}{ \dtotalc|_{\opensetc}}$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps $\iota$ between open sets and the inclusion map $\iota^*$ between the sets of sections.
 
 \begin{equation}
@@ -333,8 +335,7 @@ In this section we encapsulate the structure of the data and graphic spaces as c
 
 Fiber bundles, as introduced in \autoref{sec:related-work:fiber-bundles}, serve as the model of data and graphic spaces in out model. In this section, we introduce categorical formulations of the topological spaces that make up a fiber bundle. 
 
-We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the continuity and the inclusion maps that glue them together. 
-
+We introduce the category $\mathcal{\dbase}$ to encapsulate the continuity of the data, for example if the data are discrete points, continuous lines, images, or networks. 
 \begin{definition} \label{def:category:K} The category of open sets $\mathcal{\dbasec}$ consists of
   \begin{itemize}
     \item \textit{objects} open sets $\openset_{i} \in \{\openset\}$ in the topological space $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
@@ -342,7 +343,29 @@ We introduce the category $\mathcal{\dbase}$ to encapsulate the subsets of the c
   \end{itemize} 
 \end{definition}
 
-We model a space of data sets with the same continuity and fields as the sheaf  $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op} \textcolor{sheaf}{\rightarrow} \setc$.
+We also introduce an analogous category $\mathcal{\gbase}$ that encapsulates the topology of the space in which the graphic is displayed, for example whether it is a 2D screen or a 3D printer. 
+
+\begin{definition} The category of open sets $\mathcal{\gbasec}$ in the topological space $(\dbase, \mathscr{T})$ consists of open set \textit{objects} $\opensetg \in \{\opensetg\}$, including the empty set $\varnothing$ and the maximum set $\gtotal$ and \textit{morphisms} $\iota: \opensetg_i \rightarrow \opensetg_j$.  
+\end{definition}
+
+The data space \dbase\ is a deformation retract of the graphic topology \gbase\
+\begin{equation}
+  \label{eq:artist:gbase}
+  \gbase = \dbase \times I^{\text{dim}(display)-\text{dim}(\dbase)} 
+\end{equation}
+meaning that regions in \gbase\ collapse to points in \dbase\ such that the relative positions of the points are preserved \cite{nlab:deformation_retract}. The dimensionality of the data \dbase\ is expanded to match the dimensionality of the graphic display space by multiplying the data base space \dbase\ by intervals I. 
+
+\begin{figure}[h!]
+  \label{fig:artist:gbase}
+  \includegraphics[width=\columnwidth]{deform_retract.png}
+  \caption{Given a 2D screen display, the graphic space \gbase\ must be 2D. It is constructed by multiplying the line \dbase\ by the interval [0,1] such that every vertical band in \gbase\ corresponds to a unique point $\dbasepoint \in \dbase$.}
+\end{figure}
+
+For example, as illustrated in \autoref{fig:artist:gbase}, the display space is a 2D screen and the data space is a 1D line \dbase. For that line to have any thickness, it must be rendered as a band. This means the region $(\dbasepoint, \alpha)|_{\alpha \in I} \subset \gbase$ maps to the corresponding point $\dbasepoint \in \dbase$.  
+
+\subsubsection{Data}
+\note{clean up why sheaf}
+As mentioned in \autoref{sec:related-work:continuity:sheaves}, sheaves are a powerful tool for keeping track of data that lies over topological spaces. Therefore, we model the type of data an artist expects as a sheaf $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op} \textcolor{sheaf}{\rightarrow} \setc$.
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
   \begin{tikzcd}
@@ -353,21 +376,6 @@ We model a space of data sets with the same continuity and fields as the sheaf  
 \end{equation}
 The objects of \textbf{Set} in this sheaf are the sets of sections $\Gamma(\dbase, \dtotal)$ introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps $(\iota, \iota^*)$ introduced in \autoref{eq:related-work:continuity:presheaf}. 
 
-An element of the sheaf, which is a section \dsection, is converted into a graphic. The topology of the graphic \gbase\ is determined both by the data continuity \dbase\ and the dimensionality of the display space 
-\begin{equation}
-  \gbase = \dbase \times I^{\text{dim}(display)-\text{dim}(\dbase)} 
-\end{equation}
-where $I$ is an arbitrary 1 dimensional interval. 
-\begin{figure}[h!]
-  \label{fig:artist:gbase}
-  \includegraphics{scatter_s.png}
-  \caption{The topology of the data, which is a 0 dimensional point, is expanded to a region in the 2D screen display space. It is expanded via the intervals $I_1, I_2$ such that all coordinates on the disk map back to the same K \note{maybe also include line example,or just use line example}}
-\end{figure}
-As illustrated in \autoref{fig:artist:gbase}, the interval $I$ is used to increase the dimensionality of the data topology \dbase, by padding it with intervals, such that it is compatible with the display space.  
-
-\begin{definition} The category of open sets $\mathcal{\gbase}$ in the topological space $(\dbase, \mathscr{T})$). This category consists of open set \textit{objects} $\opensetg \in \{\opensetg\}$, including the empty set \varnothing\ and the total set $\gtotal$, and inclusion \textmorphisms $\iota: \opensetg_i \rightarrow \opensetg_j$.  
-\end{definition}
-
 To establish a mapping between graphic and data base spaces, we introduce the surjective map $\vindex: \gbase \rightarrow \dbase$. 
 \begin{equation}
   \label{eq:artist:vindex}
@@ -376,8 +384,9 @@ To establish a mapping between graphic and data base spaces, we introduce the su
     \dbasec \arrow[u, "\dsectionc", color=section] & \gbasec \arrow[l, "\vindexc", color=artist] \arrow[lu, "\dsectionc \circ \vindexc" description, color=section] \arrow[u, "\vindexc^*\dsectionc"', dashed, color=section]
     \end{tikzcd}
 \end{equation}
-As shown in \autoref{eq:artist:vindex}, the map between spaces $\vindex$ can be composed with section map $\dsection$ such that there is a map from the graphic base space $\gbase$ to the fiber bundle in which the data lives $\dtotal$.
+such that the data continuity $\dbase$ is a deformation retract of $\gbase$, as expressed in \autoref{eq:artist:gbase}.
 
+As shown in \autoref{eq:artist:vindex}, the map between spaces $\vindex$ can be composed with section map $\dsection$ such that there is a map from the graphic base space $\gbase$ to the fiber bundle in which the data lives $\dtotal$.
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{pullback.png}
   \label{fig:artist:pushforward_xi}
@@ -388,7 +397,7 @@ Since there is a mapping from the graphic space to the total bundle $\dsection \
   \label{eq:artist:data_gamma_pullback}
  \cgamma{\dbasec}{\dtotalc} \textcolor{artist}{\xrightarrow{\vindex^*}} \cgamma{\gbasec}{\vindexc^*\dtotalc}
 \end{equation}
-to generate a set of equivalent sections over the graphic $\Gamma(\gtotal, \vindex^*{\dtotal})$. As a consequence of \autoref{eq:artist:data_gamma_pullback}, there exists a data sheaf over graphic space 
+to generate a set of equivalent sections over the graphic space $\Gamma(\gbase, \vindex^*{\dtotal})$. As a consequence of \autoref{eq:artist:data_gamma_pullback}, there exists a data sheaf over graphic space 
 \begin{equation}
   \label{eq:artist:data_pullback_sheaf_gamma}
 \sheafc_{\vindexc^*}(\dtotalc): \mathcal{\gbasec^{\textcolor{base}{op}}} \textcolor{sheaf}{\rightarrow} \cgamma{\gbasec}{\vindexc^*{\dtotalc}}
@@ -399,7 +408,8 @@ which is equivalent to
   \sheafc_{\vindexc^*}(\dtotalc): \mathcal{\gbasec^{\textcolor{base}{op}}} \textcolor{sheaf}{\rightarrow} \setc
 \end{equation}
 
-As with $\mathcal{\dbase}$, the morphisms between the open sets  $\opensetg$ are inclusion morphisms $\iota$. Over the graphic space $\opensetg \subseteq \gbase$ are a set of sections 
+\subsubsection{Graphic}
+We model the space of all graphic generating functions over a specific graphic topology $\opensetg \subseteq \gbase$ and targeting a specific display as a set of sections 
 \begin{equation}
   \label{eq:artist:graphic_sections}
     \begin{split}
@@ -408,24 +418,35 @@ As with $\mathcal{\dbase}$, the morphisms between the open sets  $\opensetg$ are
     \end{split}
   \end{equation}
 \end{equation}
-which are the set of all graphics with a shared base space and fiber and are a subcategory of \textbf{Set}. This allows us to represent the full space of graphics as a sheaf $\sheaf(\gtotal)$
+The set of sets of sections $\{\Gamma(\opensetg, \gtotal)\}|_{\opensetg \in gbase}$ is subcategory of \textbf{Set}; therefore the full space of graphics is a sheaf $\sheaf(\gtotal)$
 \begin{equation}
   \label{eq:artist:artist_sheaf}
   \begin{tikzcd}[row sep=huge]
     {\cgamma{\opensetgc}{\gtotalc|_{\opensetgc}}}&  & 
-    \textcolor{set}{\{}\gsectionc:\opensetgc\rightarrow \gtotalc\textcolor{set}{\}}
+    \textcolor{set}{\{}\gsectionc:\opensetgc\rightarrow \gtotalc|_{\opensetgc}\textcolor{set}{\}}
     \arrow[ll, "\iota"', hook', color=set] \\ &  & \\
     \opensetgc \arrow[uu, "\sheafc(\gtotalc)", color=sheaf] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheafc_{\vartistc}(\gtotalc)" description, dashed, color=sheaf] &  & 
     \end{tikzcd}
 \end{equation}
+
+\begin{equation}
+  \label{eq:artist:artist_sheaf}
+  \begin{tikzcd}[column sep=tiny, row sep=huge]
+    {\cgamma{\opensetgc}{\gtotalc|_{\opensetgc}}}&  & 
+    \textcolor{set}{\{}\gsectionc:\opensetgc\rightarrow \gtotalc|_{\opensetgc}\textcolor{set}{\}}
+    \arrow[ll, "\textcolor{set}{\mathlarger{\mathlarger{\mathlarger{\supset}}}}" description, hook', color=white] \\ &  & \\
+    \opensetgc \arrow[uu, "\sheafc(\gtotalc)", color=sheaf] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheafc_{\vartistc}(\gtotalc)" description, dashed, color=sheaf] &  & 
+    \end{tikzcd}
+\end{equation}
+
 The set of graphics reachable through an artist function is a subset of sections of the full set of graphics $\{\gsection\} \subset \Gamma(\opensetg, \gtotal|_{\opensetg})$. These sets of reachable graphics over open sets \opensetg\ are also objects of \textbf{Set}. This allows us to formulate the graphic output by the artist as a sheaf 
 \begin{equation}
   \label{eq:artist:artist_sheaf}
   \sheafc_{\vartist}(\gtotalc): \gbasec^{\textcolor{base}{op}} \textcolor{sheaf}{\rightarrow} \setc
 \end{equation}
-from the graphic base space to the set of reachable graphics. 
+from the graphic base space to the set of reachable graphics.
 
-
+\subsubsection{Data to Graphic}
 Following from \autoref{eq:artist:data_pullback_sheaf} and \autoref{eq:artist:artist_sheaf},  we propose that the artist function $\vartist$ is a natural transformation
 \begin{equation}
   \label{eq:artist:natural-transform-diagram}
@@ -456,7 +477,7 @@ Given that $\opensetg \subseteqq \gbasec$, \autoref{eq:artist:inclusion_morphism
   \cgamma{\dbasec}{\dtotalc} \textcolor{artist}{\xrightarrow{\vindexc^*}} \cgamma{\gbasec}{\dtotalc} \textcolor{artist}{\xrightarrow{\vartist}} \cgamma{\gbasec}{\gtotalc}
 \end{equation}
 
-which means that the artist can be pulled back through $\vindex^*$\footnote{Defintion 3.68 in Seven Sketches in Compositionality by Fong and Spivak}
+which means that the artist can be pulled back through $\vindex^*$\footnote{Definition 3.68 in Seven Sketches in Compositionality by Fong and Spivak}
 \begin{equation}
   \begin{tikzcd}
     &                                                                                                                                                         & {} \arrow[dd, "\vartistc" description, Rightarrow, shorten <=1.35em,  shorten >=1.25em, color=artist] &       \\
