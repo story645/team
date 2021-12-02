@@ -8,18 +8,26 @@
 
 \definecolor{total}{HTML}{248EA6}
 \definecolor{fiber}{HTML}{E30B5C}
-\definecolor{base}{HTML}{021859}
+\definecolor{base}{HTML}{41135C}
 \definecolor{section}{HTML}{03C04A}
 \definecolor{artist}{HTML}{A020F0}
-\definecolor{action}{HTML}{F0741F}
+\definecolor{action}{HTML}{B2AAFA}
 \definecolor{sheaf}{HTML}{E65331}
 \definecolor{fade}{gray}{0.5}
+\definecolor{source}{HTML}{696913}
+\definecolor{target}{HTML}{1f77b4}
+\definecolor{functor}{HTML}{E65331}
+\definecolor{nattran}{HTML}{B2AAFA}
+\definecolor{set}{HTML}{4C8A6E}
 
 % colored Gamma({open set}, bundle )
 \newcommand\cgamma[2]{%
-    \ensuremath{\textcolor{section}{\Gamma(}#1 \textcolor{section}{,}\; #2 \textcolor{section}{)}}}
+    \ensuremath{\textcolor{set}{\Gamma(}#1 \textcolor{set}{,}\; #2 \textcolor{set}{)}}}
 
 
+%% set
+\cdef{setb}{\bm{Set}}
+\cdef{setc}{\textcolor{set}{\setb}}
 %% sheaf
 \cdef{sheaf}{\mathcal{O}}
 \cdef{sheafc}{\textcolor{sheaf}{\sheaf}}
@@ -63,7 +71,9 @@
 
 %monoid 
 \cdef{dfunc}{\varphi}
+\cdef{dfuncp}{\varphi^{\prime}}
 \cdef{dfuncc}{\textcolor{action}{\dfunc}}
+\cdef{dfuncpc}{\textcolor{action}{\dfuncp}}
 \cdef{monoid}{\textcolor{action}{M}}
 
 %graphic bundle
