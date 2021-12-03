@@ -38,6 +38,7 @@
 % *** MATH PACKAGES ***
 %% with other math-related packages, you may want to disable it.
 \usepackage{amsmath, amsthm, amsfonts,amssymb,eulervm,xspace, mathtools}
+\renewcommand{\restriction}{\mathord{\upharpoonright}} %restriction w/p space
 \usepackage{mathrsfs} % math script fonts
 \usepackage{relsize} %bigger
 \usepackage{bm}
@@ -237,26 +238,23 @@ The fiber bundle is trivial when $\dtotal = \dbase \times \dfiber$ is true globa
 and the set of all sections over \dbase\ is denoted $\Gamma(\dbase, \dtotal)$ . Sections can also be defined locally, meaning over an open set $\openset \subseteq \dtotal$ and the set of all sections over an arbitrary open set is $\Gamma(\openset, \dtotal)$. 
 \begin{equation}
   \label{eq:related-work:continuity:sections}
-  \begin{split}
-  \cgamma{\opensetc}{\dtotalc|_{\opensetc}} \coloneqq \{&\dsectionc^{0}, \cdots, \dsectionc^{i}, \cdots, \dsectionc^{n}\} \\
-   &\dsectionc: \opensetc\rightarrow \dtotalc|_{\openset}
-  \end{split}
+  \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\openset} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;\forall \dbasepointc \in \opensetc \big\}
 \end{equation}
 Butler et al proposed that \cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992} sections could be used to model data sets since they are maps from a point on the continuity to a point in the fiber, and therefore they encapsulate both. The set of sections is the space of all data sets with the same continuity and fields.   
 
 \subsection{Sheaves}
 \label{sec:related-work:continuity:sheaves}
-Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementaryAppliedTopology2014} for data that lives over topological spaces. A presheaf $\sheafc$ is a map from the open set to the set of sections $\sheafc: \opensetc \rightarrow \cgamma{\opensetc}{ \dtotalc|_{\opensetc}}$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps $\iota$ between open sets and the inclusion map $\iota^*$ between the sets of sections.
+Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementaryAppliedTopology2014} for data that lives over topological spaces. A presheaf $\sheafc$ is a map from the open set to the set of sections $\sheafc: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps $\iota$ between open sets and the inclusion map $\iota^*$ between the sets of sections.
 
 \begin{equation}
   \label{eq:related-work:continuity:presheaf}
   \begin{tikzcd}[column sep=small]
-    {\cgamma{\opensetc_1}{\dtotalc|_{\opensetc_1}}} & {} & {\cgamma{\opensetc_2}{\dtotalc|_{\opensetc_2}}} \arrow[ll, "\iota^*"', hook'] \\& &\\
+    {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} & {} & {\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}} \arrow[ll, "\iota^*"', hook'] \\& &\\
     \opensetc_1 \arrow[uu, "\sheafc_{\dtotal}"] \arrow[rr, "\iota"', hook] & {} \arrow[uu, "\sheafc_{\dtotal}" description, dotted] & \opensetc_2 \arrow[uu, "\sheafc_\dtotal"']                    
     \end{tikzcd}
 \end{equation}
 
-This means that a smaller space $\openset_1$ is included in a larger space $\openset_2$ and a function $\dsection \in \Gamma(\openset, \dtotal|_{\openset})$ that is continuous over a larger space $\openset_2$ is continuous over a subspace $\openset_1 \subset\openset_2$. Sheaves are presheafs where sets of sections are defined over unions of open sets over a topology $\bigcup_{j \in I} \openset)_j \in \dbase$ \cite{spanier1989algebraic, nlab:sheaf}. Sheaves provide a mathematical abstraction of data, the space it lives over, and relationships between subsets. 
+This means that a smaller space $\openset_1$ is included in a larger space $\openset_2$ and a function $\dsection \in \Gamma(\openset, \dtotal\restriction_{\openset})$ that is continuous over a larger space $\openset_2$ is continuous over a subspace $\openset_1 \subset\openset_2$. Sheaves are presheafs where sets of sections are defined over unions of open sets over a topology $\bigcup_{j \in I} \openset)_j \in \dbase$ \cite{spanier1989algebraic, nlab:sheaf}. Sheaves provide a mathematical abstraction of data, the space it lives over, and relationships between subsets. 
 
 \subsection{Category Theory}
 \label{sec:related-work:equivariance:category}
@@ -361,7 +359,7 @@ meaning that regions in \gbase\ collapse to points in \dbase\ such that the rela
   \caption{Given a 2D screen display, the graphic space \gbase\ must be 2D. It is constructed by multiplying the line \dbase\ by the interval [0,1] such that every vertical band in \gbase\ corresponds to a unique point $\dbasepoint \in \dbase$.}
 \end{figure}
 
-For example, as illustrated in \autoref{fig:artist:gbase}, the display space is a 2D screen and the data space is a 1D line \dbase. For that line to have any thickness, it must be rendered as a band. This means the region $(\dbasepoint, \alpha)|_{\alpha \in I} \subset \gbase$ maps to the corresponding point $\dbasepoint \in \dbase$.  
+For example, as illustrated in \autoref{fig:artist:gbase}, the display space is a 2D screen and the data space is a 1D line \dbase. For that line to have any thickness, it must be rendered as a band. This means the region $(\dbasepoint, \alpha)\vert_{\alpha \in I} \subset \gbase$ maps to the corresponding point $\dbasepoint \in \dbase$.  
 
 \subsubsection{Data}
 \note{clean up why sheaf}
@@ -369,7 +367,7 @@ As mentioned in \autoref{sec:related-work:continuity:sheaves}, sheaves are a pow
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
   \begin{tikzcd}
-    & \cgamma{\opensetc}{\dtotalc|_{\opensetc}} \in Ob(\setc) & \\
+    & \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \in Ob(\setc) & \\
     {} & & {} \\
     & \opensetc \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}}) \arrow[uu, "\sheafc(\dtotalc)"', shift left = 10, color=sheaf] &   
 \end{tikzcd}
@@ -411,35 +409,25 @@ which is equivalent to
 \subsubsection{Graphic}
 We model the space of all graphic generating functions over a specific graphic topology $\opensetg \subseteq \gbase$ and targeting a specific display as a set of sections 
 \begin{equation}
-  \label{eq:artist:graphic_sections}
-    \begin{split}
-    \cgamma{\opensetgc}{\gtotalc|_{\opensetgc}} \coloneqq \{&\gsectionc^{0}, \cdots, \gsectionc^{i}, \cdots, \gsectionc^{n}\} \\
-     &\gsectionc: \opensetgc\rightarrow \gtotalc|_{\opensetgc}
-    \end{split}
-  \end{equation}
+  \label{eq:artist:graphic_sections}}
+    \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \big\{\gsectionc: \opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} \bigm{\vert} \pi(\gsectionc(\gbasepointc)) = \gbasepointc \; \forall \gbasepointc \in \opensetgc \big\}
 \end{equation}
-The set of sets of sections $\{\Gamma(\opensetg, \gtotal)\}|_{\opensetg \in gbase}$ is subcategory of \textbf{Set}; therefore the full space of graphics is a sheaf $\sheaf(\gtotal)$
-\begin{equation}
-  \label{eq:artist:artist_sheaf}
-  \begin{tikzcd}[row sep=huge]
-    {\cgamma{\opensetgc}{\gtotalc|_{\opensetgc}}}&  & 
-    \textcolor{set}{\{}\gsectionc:\opensetgc\rightarrow \gtotalc|_{\opensetgc}\textcolor{set}{\}}
-    \arrow[ll, "\iota"', hook', color=set] \\ &  & \\
-    \opensetgc \arrow[uu, "\sheafc(\gtotalc)", color=sheaf] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheafc_{\vartistc}(\gtotalc)" description, dashed, color=sheaf] &  & 
-    \end{tikzcd}
-\end{equation}
+
+
+The set of sets of sections $\{\Gamma(\opensetg, \gtotal)\}\vert_{{\opensetg \in gbase}}$ is subcategory of \textbf{Set}; therefore the full space of graphics is a sheaf $\sheaf(\gtotal)$
 
 \begin{equation}
   \label{eq:artist:artist_sheaf}
   \begin{tikzcd}[column sep=tiny, row sep=huge]
-    {\cgamma{\opensetgc}{\gtotalc|_{\opensetgc}}}&  & 
-    \textcolor{set}{\{}\gsectionc:\opensetgc\rightarrow \gtotalc|_{\opensetgc}\textcolor{set}{\}}
-    \arrow[ll, "\textcolor{set}{\mathlarger{\mathlarger{\mathlarger{\supset}}}}" description, hook', color=white] \\ &  & \\
+    {\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}}&  & 
+    \textcolor{set}{\big\{}\gsectionc:\opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} 
+    \bigm{\vert} \vartist(\dsectionc) = \gsectionc \textcolor{set} \;, \dsectionc \in \sheafc(\dtotalc){\big\}} 
+    \arrow[ll, "\textcolor{set}{\mathlarger{\mathlarger{\supset}}}" description, hook', color=white] \\ &  & \\
     \opensetgc \arrow[uu, "\sheafc(\gtotalc)", color=sheaf] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheafc_{\vartistc}(\gtotalc)" description, dashed, color=sheaf] &  & 
     \end{tikzcd}
 \end{equation}
 
-The set of graphics reachable through an artist function is a subset of sections of the full set of graphics $\{\gsection\} \subset \Gamma(\opensetg, \gtotal|_{\opensetg})$. These sets of reachable graphics over open sets \opensetg\ are also objects of \textbf{Set}. This allows us to formulate the graphic output by the artist as a sheaf 
+The set of graphics reachable through an artist function is a subset of sections of the full set of graphics $\{\gsection\} \subset \Gamma(\opensetg, \gtotal\restriction_{\opensetg})$. These sets of reachable graphics over open sets \opensetg\ are also objects of \textbf{Set}. This allows us to formulate the graphic output by the artist as a sheaf 
 \begin{equation}
   \label{eq:artist:artist_sheaf}
   \sheafc_{\vartist}(\gtotalc): \gbasec^{\textcolor{base}{op}} \textcolor{sheaf}{\rightarrow} \setc
@@ -524,12 +512,12 @@ The map $\dfunc: \sheaf(\dtotal) \rightarrow \sheaf(\dtotal)$ is any arbitrary m
     \item \textit{morphisms} $\dfiber \otimes \dfiber \rightarrow \dfiber$ and unit $i \rightarrow \dfiber$
   \end{itemize}
 \end{definition}
-The bifunctor $\otimes$ combines categories in a way that  preserves identity and composition \cite{fongInvitationAppliedCategory2019}. For example, given a pair of categories $\mathcal{\dfiber_a},\mathcal{\dfiber_b}$, the bifunctor yields a set of pairs $\{(\dfiber_a, \dfiber_b) | \dfiber_a \in \mathcal{\dfiber_a}, \dfiber_b \in \mathcal{\dfiber_b}\}$. For the associated morphisms $g: \mathcal{\dfiber_a}\rightarrow \mathcal{\dfiber_a}$ and $h: \mathcal{\dfiber_b}\rightarrow \mathcal{\dfiber_b}$, the function $(g\times h): (\mathcal{\dfiber_a}\times \mathcal{\dfiber_b}) \rightarrow (\mathcal{\dfiber_a}\times \mathcal{\dfiber_b})$ is pointwise $(g\times h)(\dfiber_a, \dfiber_b)\coloneqq (g(\dfiber_a), h(\dfiber_b))$. Because of the bifunctor, objects of the category $\mathcal{\dfiber}$ can be the product of any arbitrary number and types of categories, including \textbf{Set}, \textbf{Graph}, and topological spaces \textbf{Top}.
+The bifunctor $\otimes$ combines categories in a way that  preserves identity and composition \cite{fongInvitationAppliedCategory2019}. For example, given a pair of categories $\mathcal{\dfiber_a},\mathcal{\dfiber_b}$, the bifunctor yields a set of pairs $\{(\dfiber_a, \dfiber_b) \big{\mvert} \dfiber_a \in \mathcal{\dfiber_a}, \dfiber_b \in \mathcal{\dfiber_b}\}$. For the associated morphisms $g: \mathcal{\dfiber_a}\rightarrow \mathcal{\dfiber_a}$ and $h: \mathcal{\dfiber_b}\rightarrow \mathcal{\dfiber_b}$, the function $(g\times h): (\mathcal{\dfiber_a}\times \mathcal{\dfiber_b}) \rightarrow (\mathcal{\dfiber_a}\times \mathcal{\dfiber_b})$ is pointwise $(g\times h)(\dfiber_a, \dfiber_b)\coloneqq (g(\dfiber_a), h(\dfiber_b))$. Because of the bifunctor, objects of the category $\mathcal{\dfiber}$ can be the product of any arbitrary number and types of categories, including \textbf{Set}, \textbf{Graph}, and topological spaces \textbf{Top}.
 
 The set of all morphism of the fiber category $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ are all possible morphisms in a given category. This includes any of the functions that serve as the basis of equivariance, such as the binary operations, group actions, and measurement scale discussed in  \autoref{sec:related-work:equivariance}. The generalization to $Hom_\mathcal{\dfiber}$ also allows for the inclusion of structures such as monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}.
 
 
-When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint\ as the basis of our equivariance. This is because a sheaf $\sheaf(\dtotal)$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf(\dtotal)|_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\dfunc \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
+When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint\ as the basis of our equivariance. This is because a sheaf $\sheaf(\dtotal)$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf(\dtotal)\restriction_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\dfunc \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
 \note{}
  
@@ -567,7 +555,7 @@ An example of overlapping indexing is a parallelized version of a sliding window
   \end{tikzcd}
 \end{equation}
 
-where the projection functions $i_{\dbase_a},i_{\dbase_b}$ behave such that $i_{\dbase_a}(\dbasepoint)|_{\dbasepoint \in \dbase_b} = \left[\dbasepoint\right]$, $i_{\dbase_b}(\dbasepoint)|_{\dbasepoint \in \dbase_b} = \left[\dbasepoint\right]$, meaning the projection functions yield equivalent points in the disjoint union $\dbase_a \bigsqcup_{\dbase_c} \dbase_b$. Data that is completely disjoint in the index, as shown in \autoref{fig:artist:union:disjoint_k}, is a special case where $\dbase_c=\varnothing$ and therefore there is no constraint on the artist with regards to how this data is rendered. 
+where the projection functions $i_{\dbase_a},i_{\dbase_b}$ behave such that $i_{\dbase_a}(\dbasepoint)\vert_{\dbasepoint \in \dbase_b} = \left[\dbasepoint\right]$, $i_{\dbase_b}(\dbasepoint)\vert_{\dbasepoint \in \dbase_b} = \left[\dbasepoint\right]$, meaning the projection functions yield equivalent points in the disjoint union $\dbase_a \bigsqcup_{\dbase_c} \dbase_b$. Data that is completely disjoint in the index, as shown in \autoref{fig:artist:union:disjoint_k}, is a special case where $\dbase_c=\varnothing$ and therefore there is no constraint on the artist with regards to how this data is rendered. 
 
 \subsubsection{Shared Fields}
 
