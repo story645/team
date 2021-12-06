@@ -341,17 +341,13 @@ We introduce the category $\mathcal{\dbase}$ to encapsulate the continuity of th
   \end{itemize} 
 \end{definition}
 
-We also introduce an analogous category $\mathcal{\gbase}$ that encapsulates the topology of the space in which the graphic is displayed, for example whether it is a 2D screen or a 3D printer. 
+We also introduce an analogous category $\mathcal{\gbase}$ that encapsulates the topology of the graphic, which is the topology of the rendering in the display space; for example, this rendering can be a 2D or volumetric image or a 3D print. 
 
 \begin{definition} The category of open sets $\mathcal{\gbasec}$ in the topological space $(\dbase, \mathscr{T})$ consists of open set \textit{objects} $\opensetg \in \{\opensetg\}$, including the empty set $\varnothing$ and the maximum set $\gtotal$ and \textit{morphisms} $\iota: \opensetg_i \rightarrow \opensetg_j$.  
 \end{definition}
 
-The data space \dbase\ is a deformation retract of the graphic topology \gbase\
-\begin{equation}
-  \label{eq:artist:gbase}
-  \gbase = \dbase \times I^{\text{dim}(display)-\text{dim}(\dbase)} 
-\end{equation}
-meaning that regions in \gbase\ collapse to points in \dbase\ such that the relative positions of the points are preserved \cite{nlab:deformation_retract}. The dimensionality of the data \dbase\ is expanded to match the dimensionality of the graphic display space by multiplying the data base space \dbase\ by intervals I. 
+The data space \dbase\ is a deformation retract of the graphic topology \gbase\meaning that regions in \gbase\ collapse to points in \dbase\ such that the relative positions of the points are preserved \cite{nlab:deformation_retract}. One method of constructing the graphic space is by expanding the dimensionality of the data \dbase\ to match the spatial dimensionality of the rendering by multiplying the data space by  intervals $I$. 
+
 
 \begin{figure}[h!]
   \label{fig:artist:gbase}
@@ -359,7 +355,7 @@ meaning that regions in \gbase\ collapse to points in \dbase\ such that the rela
   \caption{Given a 2D screen display, the graphic space \gbase\ must be 2D. It is constructed by multiplying the line \dbase\ by the interval [0,1] such that every vertical band in \gbase\ corresponds to a unique point $\dbasepoint \in \dbase$.}
 \end{figure}
 
-For example, as illustrated in \autoref{fig:artist:gbase}, the display space is a 2D screen and the data space is a 1D line \dbase. For that line to have any thickness, it must be rendered as a band. This means the region $(\dbasepoint, \alpha)\vert_{\alpha \in I} \subset \gbase$ maps to the corresponding point $\dbasepoint \in \dbase$.  
+For example, as illustrated in \autoref{fig:artist:gbase}, the display space is a 2D screen and the data space is a 1D line \dbase. For that line to have any thickness, it must be rendered as a ban. One method of obtaining this graphic continuity while preserving the constraint that it is a deformation retract is by multiplying the base space \dbase\ by an interval $I=\[0,1\]$ such that $\gbase = \dbase \times I^{1}$. This construction ensures that every region $(\dbasepoint, \alpha)\vert_{\alpha \in I} \subset \gbase$ maps to a  corresponding point $\dbasepoint \in \dbase$.  
 
 \subsubsection{Data}
 \note{clean up why sheaf}
@@ -421,7 +417,7 @@ The set of sets of sections $\{\Gamma(\opensetg, \gtotal)\}\vert_{{\opensetg \in
   \begin{tikzcd}[column sep=tiny, row sep=huge]
     {\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}}&  & 
     \textcolor{set}{\big\{}\gsectionc:\opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} 
-    \bigm{\vert} \vartist(\dsectionc) = \gsectionc \textcolor{set} \;, \dsectionc \in \sheafc(\dtotalc){\big\}} 
+    \bigm{\vert} \vartist(\dsectionc) = \gsectionc \;, \dsectionc \in \sheafc(\dtotalc)\textcolor{set}{\big\}} 
     \arrow[ll, "\textcolor{set}{\mathlarger{\mathlarger{\supset}}}" description, hook', color=white] \\ &  & \\
     \opensetgc \arrow[uu, "\sheafc(\gtotalc)", color=sheaf] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheafc_{\vartistc}(\gtotalc)" description, dashed, color=sheaf] &  & 
     \end{tikzcd}
