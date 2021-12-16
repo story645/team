@@ -359,13 +359,13 @@ For example, as illustrated in \autoref{fig:artist:gbase}, the display space is 
 
 \subsubsection{Data}
 \note{clean up why sheaf}
-As mentioned in \autoref{sec:related-work:continuity:sheaves}, sheaves are a powerful tool for keeping track of data that lies over topological spaces. Therefore, we model the type of data an artist expects as a sheaf $\sheafc({\dtotalc}): \mathcal{\dbasec}^{op} \textcolor{sheaf}{\rightarrow} \setc$.
+As mentioned in \autoref{sec:related-work:continuity:sheaves}, sheaves are a powerful tool for keeping track of data that lies over topological spaces. Therefore, we model the type of data an artist expects as a sheaf $\sheafc_{\dtotalc}: \mathcal{\dbasec}^{op} \textcolor{sheaf}{\rightarrow} \setc$.
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
   \begin{tikzcd}
     & \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \in Ob(\setc) & \\
     {} & & {} \\
-    & \opensetc \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}}) \arrow[uu, "\sheafc(\dtotalc)"', shift left = 10, color=sheaf] &   
+    & \opensetc \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}}) \arrow[uu, "\sheafc_{\dtotalc}"', shift left = 10, color=sheaf] &   
 \end{tikzcd}
 \end{equation}
 The objects of \textbf{Set} in this sheaf are the sets of sections $\Gamma(\dbase, \dtotal)$ introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps $(\iota, \iota^*)$ introduced in \autoref{eq:related-work:continuity:presheaf}. 
@@ -374,8 +374,8 @@ To establish a mapping between graphic and data base spaces, we introduce the su
 \begin{equation}
   \label{eq:artist:vindex}
   \begin{tikzcd}
-    \dtotalc                        & \vindexc^*\dtotalc \arrow[l, "\vindexc^*"', dashed, color=artist]                                                                           \\
-    \dbasec \arrow[u, "\dsectionc", color=section] & \gbasec \arrow[l, "\vindexc", color=artist] \arrow[lu, "\dsectionc \circ \vindexc" description, color=section] \arrow[u, "\vindexc^*\dsectionc"', dashed, color=section]
+    \dtotalc& \dtotalpullc \arrow[l, "\vindexpullc"', dashed, color=artist]                                                                           \\
+    \dbasec \arrow[u, "\dsectionc", color=section] & \gbasec \arrow[l, "\vindexc", color=artist] \arrow[lu, "\dsectionc \circ \vindexc" description, color=section] \arrow[u, "\dsectionpullc"', dashed, color=section]
     \end{tikzcd}
 \end{equation}
 such that the data continuity $\dbase$ is a deformation retract of $\gbase$, as expressed in \autoref{eq:artist:gbase}.
@@ -384,22 +384,22 @@ As shown in \autoref{eq:artist:vindex}, the map between spaces $\vindex$ can be 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{pullback.png}
   \label{fig:artist:pushforward_xi}
-  \caption{The map $\vindex^*$ is a map from a repetition of the 1D fiber over every point $\dbasepoint \in \dbase$ in data space, turning the fiber into a 2D plane of repeating values over the corresponding region $\dbasepoint = \vindex(\gbasepoint)$ in the graphic space \gbase. }
+  \caption{The map $\vindexpull$ is a map from a repetition of the 1D fiber over every point $\dbasepoint \in \dbase$ in data space, turning the fiber into a 2D plane of repeating values over the corresponding region $\dbasepoint = \vindex(\gbasepoint)$ in the graphic space \gbase. }
 \end{figure}
-Since there is a mapping from the graphic space to the total bundle $\dsection \circ \vindex: \gbase \rightarrow \dtotal$, the mapping $\vindex$ can be pulled through the composition such that there is a map $\vindex^*$ between a total space over graphics $\vindex^*\dtotal$ and its equivalent space over data $\dtotal$.  As illustrated in the example given in \autoref{fig:artist:pushforward_xi}, a bundle $\dtotal$ over a point $\dbasepoint \in \dbase$ is pulled back through \vindex\ \cite{nlab:pullback_bundle} such that it is copied over every point in the corresponding region in graphic space $\vindex(\gbasepoint) = \dbasepoint, \gbasepoint \subset \gbase$. The pullback $\vindex^*$ can then be composed with the elements of the set of sections 
+Since there is a mapping from the graphic space to the total bundle $\dsection \circ \vindex: \gbase \rightarrow \dtotal$, the mapping $\vindex$ can be pulled through the composition such that there is a map $\vindexpull$ between a total space over graphics $\dtotalpull$ and its equivalent space over data $\dtotal$.  As illustrated in the example given in \autoref{fig:artist:pushforward_xi}, a bundle $\dtotal$ over a point $\dbasepoint \in \dbase$ is pulled back through \vindex\ \cite{nlab:pullback_bundle} such that it is copied over every point in the corresponding region in graphic space $\vindex(\gbasepoint) = \dbasepoint, \gbasepoint \subset \gbase$. The pullback $\vindexpull$ can then be composed with the elements of the set of sections 
 \begin{equation}
   \label{eq:artist:data_gamma_pullback}
- \cgamma{\dbasec}{\dtotalc} \textcolor{artist}{\xrightarrow{\vindex^*}} \cgamma{\gbasec}{\vindexc^*\dtotalc}
+  \vindexpullc: \cgamma{\dbasec}{\dtotalc} \textcolor{artist}{\rightarrow} \cgamma{\gbasec}{\dtotalpullc}
 \end{equation}
-to generate a set of equivalent sections over the graphic space $\Gamma(\gbase, \vindex^*{\dtotal})$. As a consequence of \autoref{eq:artist:data_gamma_pullback}, there exists a data sheaf over graphic space 
+to generate a set of equivalent sections over the graphic space $\Gamma(\gbase, \dtotalpull)$. As a consequence of \autoref{eq:artist:data_gamma_pullback}, there exists a data sheaf over graphic space 
 \begin{equation}
   \label{eq:artist:data_pullback_sheaf_gamma}
-\sheafc_{\vindexc^*}(\dtotalc): \mathcal{\gbasec}^{\textcolor{base}{op}} \textcolor{sheaf}{\rightarrow} \cgamma{\gbasec}{\vindexc^*{\dtotalc}}
+\sheafc_{\dtotalpullc}: \mathcal{\gbasec}^{\textcolor{base}{op}} \textcolor{sheaf}{\rightarrow} \cgamma{\gbasec}{\dtotalpullc}}
 \end{equation}
 which is equivalent to 
 \begin{equation}
   \label{eq:artist:data_pullback_sheaf}
-  \sheafc_{\vindexc^*}(\dtotalc): \mathcal{\gbasec}^{\textcolor{base}{op}} \textcolor{sheaf}{\rightarrow} \setc
+  \sheafc_{\dtotalpullc}: \mathcal{\gbasec}^{\textcolor{base}{op}} \textcolor{sheaf}{\rightarrow} \setc
 \end{equation}
 
 \subsubsection{Graphic}
@@ -410,23 +410,25 @@ We model the space of all graphic generating functions over a specific graphic t
 \end{equation}
 
 
-The set of sets of sections $\{\Gamma(\opensetg, \gtotal)\}\vert_{{\opensetg \in gbase}}$ is subcategory of \textbf{Set}; therefore the full space of graphics is a sheaf $\sheaf(\gtotal)$
+The set of sets of sections $\{\Gamma(\opensetg, \gtotal)\}\vert_{{\opensetg \in gbase}}$ is subcategory of \textbf{Set}; therefore the full space of graphics is a sheaf $\sheaf_{\gtotal}$
 
+\note{valid $\rho$ is determined by equivariance, which we haven't introduced yet, but we can introduce equivariance w/ just $\sheaf_{\gtotal}$}
 \begin{equation}
   \label{eq:artist:artist_sheaf}
   \begin{tikzcd}[column sep=tiny, row sep=huge]
     {\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}}&  & 
     \textcolor{set}{\big\{}\gsectionc:\opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} 
-    \bigm{\vert} \vartist(\dsectionc) = \gsectionc \;, \dsectionc \in \sheafc(\dtotalc)\textcolor{set}{\big\}} 
+    \bigm{\vert} \vartistc\circ\dfuncc \circ \vartistc^{-1}[\gsectionc] = \dfuncc^{\prime} \circ \gsectionc, \dsectionc \in \sheafc_{\dtotal}
+    \textcolor{set}{\big\}} 
     \arrow[ll, "\textcolor{set}{\mathlarger{\mathlarger{\supset}}}" description, hook', color=white] \\ &  & \\
-    \opensetgc \arrow[uu, "\sheafc(\gtotalc)", color=sheaf] \arrow[rruu, "\vartistc(\sheafc(\dtotalc))\coloneqq \sheafc_{\vartistc}(\gtotalc)" description, dashed, color=sheaf] &  & 
+    \opensetgc \arrow[uu, "\sheafc_{\gtotalc}", color=sheaf] \arrow[rruu, "\vartistc(\sheafc_{\dtotalc})\coloneqq \sheafc_{\vartistc}" description, dashed, color=sheaf] &  & 
     \end{tikzcd}
 \end{equation}
 
 The set of graphics reachable through an artist function is a subset of sections of the full set of graphics $\{\gsection\} \subset \Gamma(\opensetg, \gtotal\restriction_{\opensetg})$. These sets of reachable graphics over open sets \opensetg\ are also objects of \textbf{Set}. This allows us to formulate the graphic output by the artist as a sheaf 
 \begin{equation}
   \label{eq:artist:artist_sheaf}
-  \sheafc_{\vartist}(\gtotalc): \gbasec^{\textcolor{base}{op}} \textcolor{sheaf}{\rightarrow} \setc
+  \sheafc_{\vartist}: \gbasec^{\textcolor{base}{op}} \textcolor{sheaf}{\rightarrow} \setc
 \end{equation}
 from the graphic base space to the set of reachable graphics.
 
@@ -436,7 +438,7 @@ Following from \autoref{eq:artist:data_pullback_sheaf} and \autoref{eq:artist:ar
   \label{eq:artist:natural-transform-diagram}
   \begin{tikzcd}
     & {} \arrow[dd, "\vartistc", Rightarrow, shorten <=1.35em,  shorten >=1.25em, color=artist] & \\
-\mathcal{\gbasec}^{\textcolor{base}{op}} \arrow[rr, "\sheafc_{\vindexc_*}(\dtotalc)", bend left, color=sheaf] \arrow[rr, "\sheafc_{\vartistc}(\gtotalc)"', bend right, color=sheaf] &  & {\setc}\\
+\mathcal{\gbasec}^{\textcolor{base}{op}} \arrow[rr, "\sheafc_{\vindexc_*}(\dtotalpullc)", bend left, color=sheaf] \arrow[rr, "\sheafc_{\vartistc}(\gtotalc)"', bend right, color=sheaf] &  & {\setc}\\
     & {} &                            
 \end{tikzcd}
 \end{equation}
@@ -444,28 +446,28 @@ Following from \autoref{eq:artist:data_pullback_sheaf} and \autoref{eq:artist:ar
 of sheaf functors 
 \begin{equation}
   \label{eq:artist:sheaf_map}
-  \vartistc: \sheafc_{\vindexc^*}(\dtotalc) \textcolor{artist}{\rightarrow} \sheafc_{\vartistc}(\gtotalc)
+  \vartistc: \sheafc_{\vindexc^*}(\dtotalpullc) \textcolor{artist}{\rightarrow} \sheafc_{\vartistc}(\gtotalc)
 \end{equation}
 where each sheaf is a map from an open set in the graphic base space $\opensetg \subset \gbase$ into a set of sections of a fiber bundle over that open set. As defined in \autoref{eq:related-work:equivariance:natural-transform}, the artist is a natural transformation. Following from \autoref{eq:related-work:equivariance:natural_transform_commute}, the artist specifies that there are compatible inclusion maps in the data and graphic spaces 
 
 \begin{equation}
   \begin{tikzcd}
-    \cgamma{\opensetgc_1}{\dtotalc} \arrow[dd, "\iota^*"', hook, color=set] \arrow[rrrr, "\vartistc_{\opensetgc_1}", bend left, color=artist] &  & \opensetgc_1 \arrow[ll, "\sheafc_{\vindexc^*}", color=sheaf] \arrow[rr, "\sheafc_{\vartistc}"', color=sheaf] &  & \cgamma{\opensetgc_1}{\gtotalc} \arrow[dd, "\iota^*", hook', color=set] \\
+    \cgamma{\opensetgc_1}{\dtotalpullc} \arrow[dd, "\iota^*"', hook, color=set] \arrow[rrrr, "\vartistc_{\opensetgc_1}", bend left, color=artist] &  & \opensetgc_1 \arrow[ll, "\sheafc_{\dtotalpullc}", color=sheaf] \arrow[rr, "\sheafc_{\vartistc}"', color=sheaf] &  & \cgamma{\opensetgc_1}{\gtotalc} \arrow[dd, "\iota^*", hook', color=set] \\
     {} \arrow[rrrr, dotted, color=artist] &&&& {} \\
-    \cgamma{\opensetgc_2}{\dtotalc} \arrow[rrrr, "\vartistc_{\opensetgc_2}"', bend right, color=artist]                            &  & \opensetgc_2 \arrow[ll, "\sheafc_{\vindexc^*}"', color=sheaf] \arrow[rr, "\sheafc_{\vartistc}", color=sheaf] \arrow[uu, "\iota" description, hook, color=base] &  & \cgamma{\opensetgc_2}{\gtotalc}                             
+    \cgamma{\opensetgc_2}{\dtotalpullc} \arrow[rrrr, "\vartistc_{\opensetgc_2}"', bend right, color=artist]                            &  & \opensetgc_2 \arrow[ll, "\sheafc_{\dtotalpullc}"', color=sheaf] \arrow[rr, "\sheafc_{\vartistc}", color=sheaf] \arrow[uu, "\iota" description, hook, color=base] &  & \cgamma{\opensetgc_2}{\gtotalc}                             
     \end{tikzcd}
 \end{equation}
 Given that $\opensetg \subseteqq \gbasec$, \autoref{eq:artist:inclusion_morphisms} can be generalized to sections over $\gbase$. This fact can be combined with \autoref{eq:artist:data_gamma_pullback} to describe the path from data sections over data space to graphic sections over graphic space
 \begin{equation}
   \label{eq:artist:gamma_map}
-  \cgamma{\dbasec}{\dtotalc} \textcolor{artist}{\xrightarrow{\vindexc^*}} \cgamma{\gbasec}{\dtotalc} \textcolor{artist}{\xrightarrow{\vartist}} \cgamma{\gbasec}{\gtotalc}
+  \cgamma{\dbasec}{\dtotalc} \textcolor{artist}{\xrightarrow{\vindexc^*}} \cgamma{\gbasec}{\dtotalpullc} \textcolor{artist}{\xrightarrow{\vartist}} \cgamma{\gbasec}{\gtotalc}
 \end{equation}
 
 which means that the artist can be pulled back through $\vindex^*$\footnote{Definition 3.68 in Seven Sketches in Compositionality by Fong and Spivak}
 \begin{equation}
   \begin{tikzcd}
-    &                                                                                                                                                         & {} \arrow[dd, "\vartistc" description, Rightarrow, shorten <=1.35em,  shorten >=1.25em, color=artist] &       \\
-\mathcal{\dbasec}^{\textcolor{base}{op}} \arrow[r, "\vindexc^*", color=artist] & \mathcal{\gbasec}^{\textcolor{base}{op}} \arrow[rr, "\sheafc_{\vindex^*}(\dtotalc)", bend left, color=sheaf] \arrow[rr, "\sheaf_{\vartistc}(\gtotalc)"', bend right, color=sheaf] &                                                    & \setc \\
+    & & {} \arrow[dd, "\vartistc" description, Rightarrow, shorten <=1.35em,  shorten >=1.25em, color=artist] &       \\
+\mathcal{\dbasec}^{\textcolor{base}{op}} \arrow[r, "\vindexc^*", color=artist] & \mathcal{\gbasec}^{\textcolor{base}{op}} \arrow[rr, "\sheafc_{\dtotalpullc}", bend left, color=sheaf] \arrow[rr, "\sheaf_{\vartistc}"', bend right, color=sheaf] &                                                    & \setc \\
     &                                                                                                                                                         & {}                                                 &      
 \end{tikzcd}
 \end{equation}
@@ -473,17 +475,22 @@ such that the artist can be constructed over data space
 \begin{equation}
   \begin{tikzcd}
     & {} \arrow[dd, "\vartistc_{\vindexc^*}" description, Rightarrow, shorten <=1.35em,  shorten >=1.25em,, color=artist] &       \\
-\mathcal{\dbasec}^{\textcolor{base}{op}} \arrow[rr, "\sheafc_{\vindexc^*}(\dtotalc)\circ\vindexc^* = \sheafc(\dtotalc)", bend left, color=sheaf] \arrow[rr, "\sheafc_{\vartistc}(\gtotalc)"', bend right, color=sheaf] &                                                                 & \setc \\
+\mathcal{\dbasec}^{\textcolor{base}{op}} \arrow[rr, "\sheafc_{\vindexpullc} \circ\vindexc^* = \sheafc_{\dtotalc}", bend left, color=sheaf] \arrow[rr, "\sheafc_{\vartistc}"', bend right, color=sheaf] &                                                                 & \setc \\
     & {}                                                              &      
 \end{tikzcd}
 \end{equation}
 
-which in turn provides a way to construct the artist as a map from data section in data space to corresponding graphic section
-\begin{equation}
+which in turn provides a way to construct the artist as a map from data section in data space to corresponding graphic section 
+
+\note{have I said anything about stalks and fibers yet? this may need to be moved down...}
+
+\begin{align}
   \label{eq:artist:section_map}
-  \vartistc_{\vindexc^*}: \dsectionc \textcolor{artist}{\mapsto}\gsectionc
-\end{equation}
-such that for every dataset, the artists constructs a corresponding graphic generating function. 
+  \vartistc_{\vindexpullc}:\{\dsectionc: \dbasepointc \rightarrow \dfiberc_{\dbasepointc} \mid \dbasepointc \in \opensetc \subseteq \dbasec\} &\rightarrow \{\gsectionc: \gbasepointc \rightarrow \gfiberc\restriction_{\gbasepointc} \mid \gbasepointc = \opensetgc \subseteq \gbasec \}
+\end{align}
+where, as defined in \autoref{eq:artist:construction:xi}, $\vindex(\gbasepoint) = \dbasepoint$ and \gsection\ is in the set of reachable sections $\gsection \in \sheaf_{\vartist}(\gbase)$
+
+the artists constructs a corresponding graphic generating function. 
 \note{maybe mention here Munzner, Zeminsky, and the other dude on glyphs map back to data}
 \note{possibly more here as this is the type signature of the thing we implement}
 
@@ -508,6 +515,7 @@ The map $\dfunc: \sheaf(\dtotal) \rightarrow \sheaf(\dtotal)$ is any arbitrary m
     \item \textit{morphisms} $\dfiber \otimes \dfiber \rightarrow \dfiber$ and unit $i \rightarrow \dfiber$
   \end{itemize}
 \end{definition}
+
 The bifunctor $\otimes$ combines categories in a way that  preserves identity and composition \cite{fongInvitationAppliedCategory2019}. For example, given a pair of categories $\mathcal{\dfiber_a},\mathcal{\dfiber_b}$, the bifunctor yields a set of pairs $\{(\dfiber_a, \dfiber_b) \big{\mvert} \dfiber_a \in \mathcal{\dfiber_a}, \dfiber_b \in \mathcal{\dfiber_b}\}$. For the associated morphisms $g: \mathcal{\dfiber_a}\rightarrow \mathcal{\dfiber_a}$ and $h: \mathcal{\dfiber_b}\rightarrow \mathcal{\dfiber_b}$, the function $(g\times h): (\mathcal{\dfiber_a}\times \mathcal{\dfiber_b}) \rightarrow (\mathcal{\dfiber_a}\times \mathcal{\dfiber_b})$ is pointwise $(g\times h)(\dfiber_a, \dfiber_b)\coloneqq (g(\dfiber_a), h(\dfiber_b))$. Because of the bifunctor, objects of the category $\mathcal{\dfiber}$ can be the product of any arbitrary number and types of categories, including \textbf{Set}, \textbf{Graph}, and topological spaces \textbf{Top}.
 
 The set of all morphism of the fiber category $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ are all possible morphisms in a given category. This includes any of the functions that serve as the basis of equivariance, such as the binary operations, group actions, and measurement scale discussed in  \autoref{sec:related-work:equivariance}. The generalization to $Hom_\mathcal{\dfiber}$ also allows for the inclusion of structures such as monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}.
