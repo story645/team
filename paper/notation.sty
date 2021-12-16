@@ -130,17 +130,23 @@
 \cdef{vindex}{\xi}
 \cdef{vindexc}{\textcolor{artist}{\vindex}}
 
+\cdef{vindexpull}{\vindex^{*}}
+\cdef{vindexpull}{\textcolor{artist}{\vindexpull}}
+
+%data pullbacks
+\cdef{dtotalpull}{\vindexpull\dtotal}
+\cdef{dtotalpullc}{\textcolor{total}{\dtotalpull}}
 
 %visual pullbacks
 
-\cdef{vtotalpull}{\vindex^{*}\vtotal}
+\cdef{vtotalpull}{\vindexpull\vtotal}
 \cdef{vtotalpullc}{\textcolor{total}{\vtotalpull}}
 
 
 \cdef{vfiberpull}{\textcolor{fiber}{\vfiber^{*}\vsection}}
 \cdef{vfiberpullc}{\textcolor{fiber}{\vfiberpull}}
 
-\cdef{vsectionpull}{\vindex^{*}\vsection}
+\cdef{vsectionpull}{\vindexpull\vsection}
 \cdef{vsectionpullc}{\textcolor{section}{\vsectionpull}}
 \cdef{vpreimg}{\vindex^{-1}(\dbasepoint)}
 
