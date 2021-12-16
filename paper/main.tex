@@ -497,12 +497,12 @@ When a fiber bundle is trivial, we can dispense with localization and directly c
 
 \note{}
  
-$\vartist: \sheaf^{\vindex^*} \rightarrow \sheaf_{\vartist}$, it follows from \autoref{eq:related-work:equivariance:functor_diagram} that an arbitrary morphism $\dfunc$ on the data sheaf has a compatible morphism $\dfunc^{\prime}$ on the graphic sheaf. 
+It follows from \autoref{eq:related-work:equivariance:functor_diagram} that an arbitrary morphism $\dfunc$ on the data sheaf has a compatible morphism $\dfunc^{\prime}$ on the graphic sheaf. 
 \begin{equation}
   \label{eq:artist:morphism_of_functors}
   \begin{tikzcd}
-    \sheafc_{\vindexc^{*}} \arrow[d, "\dfuncc"', color=action] \arrow[r, "\vartistc", color=artist] & \sheafc_{\vartistc} \arrow[d, "\dfuncpc \coloneqq\vartistc(\dfuncc)", color=action] \\
-    \sheafc_{\vindexc^{*}} \arrow[r, "\vartistc"', color=artist]                      & \sheafc_{\vartistc}     
+    \sheafc_{\dtotalc} \arrow[d, "\dfuncc"', color=action] \arrow[r, "\vartistc_{\vindexpullc}", color=artist] & \sheafc_{\gtotalc} \arrow[d, "\dfuncpc \coloneqq\vartistc_{\vindexpullc}(\dfuncc)", color=action] \\
+    \sheafc_{\dtotalc} \arrow[r, "\vartistc_{\vindexpullc}"', color=artist]                      & \sheafc_{\gtotalc}     
     \end{tikzcd}
 \end{equation}
 As a consequence of \autoref{eq:artist:morphism_of_functors}, 
@@ -516,8 +516,7 @@ As a consequence of \autoref{eq:artist:morphism_of_functors},
   \begin{tikzcd}[column sep=tiny, row sep=huge]
     {\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}}&  & 
     \textcolor{set}{\big\{}\gsectionc:\opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} 
-    \bigm{\vert} \vartistc\circ\dfuncc \circ \vartistc^{-1}[\gsectionc] = \dfuncc^{\prime} \circ \gsectionc, \dsectionc \in \sheafc_{\dtotal}
-    \textcolor{set}{\big\}} 
+    \bigm{\vert} \vartistc\circ (\dfuncc \circ \vartistc^{-1}[\gsectionc]) = \dfuncc^{\prime} \circ \gsectionc \textcolor{set}{\big\}} 
     \arrow[ll, "\textcolor{set}{\mathlarger{\mathlarger{\supset}}}" description, hook', color=white] \\ &  & \\
     \opensetgc \arrow[uu, "\sheafc_{\gtotalc}", color=sheaf] \arrow[rruu, "\vartistc(\sheafc_{\dtotalc})\coloneqq \sheafc_{\vartistc}" description, dashed, color=sheaf] &  & 
     \end{tikzcd}
