@@ -1,3 +1,6 @@
+## reorder:
+# inclusion & equiv can be done as O_E->O_H 
+# equiv can then be used to introduce O_A which is the constraint on O_H
 # bundles: 
 ## data: 
 * $(E, K, \pi, F)$
