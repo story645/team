@@ -345,8 +345,17 @@ Given a map $\textcolor{functor}{f}:\textcolor{source}{X} \textcolor{functor}{\r
     (\textcolor{functor}{f^*}\sheafc_{\textcolor{target}{Y}})(\textcolor{source}{X}) \arrow[rr, "\textcolor{functor}{f^*}", color=functor]  &  & \sheafc_{\textcolor{target}{Y}}(\textcolor{target}{Y})                             
   \end{tikzcd}
 \end{equation}
-As shown in \autoref{eq:atct:pullback-pushforward}, the composition $f_*\sheaf_{X}$ modifies the functor $\sheaf_{X}$ such that sections $\dsection \in \sheaf_{X}
-
+As shown in \autoref{eq:atct:pullback-pushforward}, the pushforward $f_*\sheaf_{X}$ modifies the sheaf $\sheaf_{X}$ such that sections $s \in \sheaf_{X}(X)$ can be evaluated over points in $y$
+\begin{equation}
+  \label{eq:atct:pushforward-section}
+  (s: x \rightarrow \setb) \xrightarrow{f_*} (s_*: y \rightarrow \setb)
+\end{equation}
+while the pullback functor $f^*$ modifies the sheaf  $\sheaf_{Y}$ such that sections $\t \in \sheaf_{Y}(Y)$ can be evaluated over points in $x$
+\begin{equation}
+  \label{eq:atct:pullback-section}
+  (t^*: x \rightarrow \setb) \xrightarrow{f^*} (t: y \rightarrow \setb)
+\end{equation}
+As shown in \autoref{eq:atct:pushforward-section}, the pushforward modifies the signature of the functions returned by the functor , while in \autoref{eq:atct:pullback-section} the pullback modifies the signature of the argument to the functor. 
 
 \note{possibly add in from Hader lecture notes}
 
