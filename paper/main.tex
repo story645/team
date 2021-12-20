@@ -188,7 +188,7 @@ General purpose visualization libraries-such as Matplotlib\cite{hunterMatplotlib
 Domain specific libraries can often guarantee consistency because they have a single model of the data in their software design, as discussed in Heer and Agarwal \cite{HeerSoftware2006}'s survey of visualization software design patterns. For example, the relational database is core to tools influenced by APT, such as Tableau\cite{StoltePolaris2002,hanrahanVizQL2006,MackinlayShowme2007} and the Grammar of Graphics\cite{wilkinsonGrammarGraphics2005} inspired ggplot\cite{wickhamGgplot2ElegantGraphics2016a}, Vega\cite{satyanarayanDeclarativeInteractionDesign2014} and Altair\cite{vanderplasAltairInteractiveStatistical2018}. Images underpin scientific visualization tools such as Napari\cite{nicholas_sofroniew_2021_4533308} and ImageJ\cite{schneiderNIHImageImageJ2012} and the digital humanities oriented ImagePlot\cite{studiesCulturevisImageplot2021} macro; the need to visualize and manipulate graphs has spawned tools like Gephi\cite{bastianGephiOpenSource2009}, Graphviz\cite{ellsonGraphvizOpenSource2002}, and Networkx\cite{HagbergExploringNetwork2008}. 
  
 \section{Algebraic Topology \& Category Theory}
-\note{potentially move this to appendix, if so push Butler & Vickers up to RW}
+\note{potentially move this to appendix, push Butler \& Vickers up to RW}
 
 Category theory can be used to express software specifications because it provides a method of expressing structure and how that structure can be composed \cite{wielsManagementEvolvingSpecifications1998} algebraic topology provides a rich language for expressing data continuity. In this section, we introduce concepts from algebraic topology and category theory that we will use in \autoref{sec:artist:category} to develop a formal model of specifying visualization component.
 
@@ -202,6 +202,8 @@ Category theory can be used to express software specifications because it provid
 \end{figure}
 
 The model described in this work provides a model for expressing data sets with different topological properties. 
+
+\subsection{Fiber Bundles}
 We obtain this generality by using a mathematical structure called a fiber bundles as the basis of our abstraction, as proposed by Butler, Bryson, and Pendley\cite{butlerVisualizationModelBased1989,
 butlerVectorBundleClassesForm1992}. As described by them, a fiber bundle is a formal model of the mapping between data points and the underlying topological space they lie in. For example, nodes on a network and the graph of the network, an image and the underlying grid at which the image is sampled, or table columns and the table index.
 
@@ -245,20 +247,7 @@ and the set of all sections over \dbase\ is denoted $\Gamma(\dbase, \dtotal)$ . 
 \end{equation}
 Butler et al proposed that \cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992} sections could be used to model data sets since they are maps from a point on the continuity to a point in the fiber, and therefore they encapsulate both. The set of sections is the space of all data sets with the same continuity and fields.   
 
-\subsection{Sheaves}
-\label{sec:related-work:continuity:sheaves}
-Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementaryAppliedTopology2014} for data that lives over topological spaces. A presheaf $\sheafc$ is a map from the open set to the set of sections $\sheafc: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$ \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves inclusion maps $\iota$ between open sets and the inclusion map $\iota^*$ between the sets of sections.
-
-\begin{equation}
-  \label{eq:related-work:continuity:presheaf}
-  \begin{tikzcd}[column sep=small]
-    {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} & {} & {\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}} \arrow[ll, "\iota^*"', hook'] \\& &\\
-    \opensetc_1 \arrow[uu, "\sheafc_{\dtotal}"] \arrow[rr, "\iota"', hook] & {} \arrow[uu, "\sheafc_{\dtotal}" description, dotted] & \opensetc_2 \arrow[uu, "\sheafc_\dtotal"']                    
-    \end{tikzcd}
-\end{equation}
-
-This means that a smaller space $\openset_1$ is included in a larger space $\openset_2$ and a function $\dsection \in \Gamma(\openset, \dtotal\restriction_{\openset})$ that is continuous over a larger space $\openset_2$ is continuous over a subspace $\openset_1 \subset\openset_2$. Sheaves are presheafs where sets of sections are defined over unions of open sets over a topology $\bigcup_{j \in I} \openset)_j \in \dbase$ \cite{spanier1989algebraic, nlab:sheaf}. Sheaves provide a mathematical abstraction of data, the space it lives over, and relationships between subsets. 
-
+ 
 \subsection{Category Theory}
 \label{sec:related-work:equivariance:category}
 In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al \cite{vickersUnderstandingVisualizationFormal2013} provide a brief introduction to category theory for visualization practitioners, but their work focuses on reasoning about visualization design, while this paper aims to provide guidance on designing visualization library components. Briefly we introduce concepts in category theory that we use to describe our model in \autoref{sec:artist:category} and \autoref{sec:artist:construction}. 
@@ -293,8 +282,6 @@ A functor preserves the structure of the category, namely morphisms and the sour
 \end{equation}
  such that for every morphism $f: c \rightarrow c^{\prime} \in Hom(\mathcal{C})$ there is a compatible morphism $F(f): F(c) \rightarrow F(c^{\prime}) \in Hom(\mathcal{D})$. Functors $\bm{F}: \mathcal{C}^{op} \rightarrow \mathcal{D}$ are called contravariant functors.
 
- \begin{definition} A presheaf \sheafc\, as introduced in \autoref{eq:related-work:continuity:presheaf}, is a functor $\sheaf: \mathcal{C}^{op} \rightarrow \textbf{Set}$.\cite{nlab:presheaf } \end{definition} \note{possibly add in from Hader lecture notes}
-
  \begin{definition} A \textcolor{nattran}{natural transformation} is a morphism of functors $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$ where $F, G$ are functors from $\mathcal{C}$ to $\mathcal{D}$. \cite{riehlCategoryTheoryContext, bradleyWhatNaturalTransformation}
  \end{definition}
 
@@ -316,6 +303,49 @@ The natural transformation composes with a functor such that the output is a com
     \end{tikzcd}
 \end{equation}
 \note{unpack this a drop more} 
+
+\subsection{Sheaves}
+\label{sec:related-work:continuity:sheaves}
+Sheaves provide a mathematical abstraction of data, the space it lives over, and relationships between subsets. Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementaryAppliedTopology2014} for data that lives over topological spaces. A presheaf  $\sheaf$ applied to fiber bundles is a map from an open set in a topological space, such $\openset \subset \dbase$, to the set of sections 
+\begin{equation}
+  \label{eq:atct:presheaf}
+  \sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
+\end{equation}
+over that openset \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}. The presheaf preserves the inclusion maps $\iota$ between open sets and the restriction maps $\iota^*$ between the sets of sections over that open sets. 
+\begin{equation}
+  \label{eq:related-work:continuity:presheaf}
+  \begin{tikzcd}[column sep=small]
+    {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} & {} & {\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}} \arrow[ll, "\iota^*"', hook', color=set] \\& &\\
+    \opensetc_1 \arrow[uu, "\sheafc_{\dtotalc}", color=sheaf] \arrow[rr, "\iota"', hook, color=base] & {} \arrow[uu, "\sheafc_{\dtotalc}" description, dotted, color=sheaf] & \opensetc_2 \arrow[uu, "\sheafc_{\dtotalc}"', color=sheaf]                    
+    \end{tikzcd}
+\end{equation}
+
+This means that a smaller space $\openset_1$ is included in a larger space $\openset_2$ and a function $\dsection \in \Gamma(\openset, \dtotal\restriction_{\openset})$ that is continuous over a larger space $\openset_2$ is continuous over a subspace $\openset_1 \subset\openset_2$.
+
+A presheaf \sheafc\, as introduced in \autoref{eq:related-work:continuity:presheaf}, is a contravariant functor\cite{nlab:presheaf} from a category to a set. 
+\begin{equation}
+  \label{eq:actc:sheaf}
+ \sheafc: \textcolor{source}{\mathcal{C}^{op}} \rightarrow \textcolor{target}{\textbf{Set}}
+\end{equation}
+
+A presheaf $\sheaf(\dtotal)$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk\cite{StalkSheaf2019} 
+\begin{equation}
+  \label{eq:atct:stalk}
+  \sheafc(\dbasec)\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc}) 
+\end{equation}
+
+Sheaves are presheafs where sections are continuous over all unions of open sets in $\dbase$\cite{harder2008lectures, spanier1989algebraic, nlab:sheaf}. This means that a section which is defined over a stalk $\dsection \in \sheaf(\dbase)\vert_{\dbasepoint_i}$ and evaluated at a point $\dbasepoint_j$ is equal to a section in the stalk over that point $\dsection_{dbasepoint_i}\vert_{dbasepoint_j} = \dsection_{\dbasepoint_j}$
+
+We can define natural transforms, introduced in \autoref{eq:related-work:equivariance:natural-transform}, between sheaves over different spaces, for example spaces representing the topology of the data and the graphic, because sheaves can be moved over different topological spaces if there is a map between those spaces. 
+Given a map $\textcolor{functor}{f}:\textcolor{source}{X} \textcolor{functor}{\rightarrow} \textcolor{target}{Y}$ between topological spaces $\textcolor{source}{X}, \textcolor{target}{Y}$ and sheaves on each space $\sheafc_{\textcolor{source}{X}}, \sheafc_{\textcolor{target}{Y}}$, we can construct the pullback functor $f^*$ and pushforward functor $f_*$ \cite{harder2008lectures} such that the following diagram commutes
+\begin{equation}
+  \label{eq:atct:pullback-pushforward}
+  abc
+\end{equation}
+
+
+
+\note{possibly add in from Hader lecture notes}
 
 
 \section{Artist} 
@@ -358,7 +388,8 @@ The data space \dbase\ is a deformation retract of the graphic topology \gbase\m
   \caption{Given a 2D screen display, the graphic space \gbase\ must be 2D. It is constructed by multiplying the line \dbase\ by the interval [0,1] such that every vertical band in \gbase\ corresponds to a unique point $\dbasepoint \in \dbase$.}
 \end{figure}
 
-For example, as illustrated in \autoref{fig:artist:gbase}, the display space is a 2D screen and the data space is a 1D line \dbase. For that line to have any thickness, it must be rendered as a ban. One method of obtaining this graphic continuity while preserving the constraint that it is a deformation retract is by multiplying the base space \dbase\ by an interval $I=\[0,1\]$ such that $\gbase = \dbase \times I^{1}$. This construction ensures that every region $(\dbasepoint, \alpha)\vert_{\alpha \in I} \subset \gbase$ maps to a  corresponding point $\dbasepoint \in \dbase$.  
+For example, as illustrated in \autoref{fig:artist:gbase}, the display space is a 2D screen and the data space is a 1D line \dbase. For that line to have any thickness, it must be rendered as a ban. One method of obtaining this graphic continuity while preserving the constraint that it is a deformation retract is by multiplying the base space \dbase\ by an interval $I=\[0,1\]$ such that $\gbase = \dbase \times I$. This construction ensures that every region $(\dbasepoint, \alpha)\vert_{\alpha \in I} \subset \gbase$ maps to a  corresponding point $\dbasepoint \in \dbase$.  
+
 
 \subsubsection{Data}
 \note{clean up why sheaf}
@@ -496,7 +527,9 @@ The bifunctor $\otimes$ combines categories in a way that  preserves identity an
 The set of all morphism of the fiber category $Hom_{\mathcal{\dfiber}}(\dfiber, \dfiber)$ are all possible morphisms in a given category. This includes any of the functions that serve as the basis of equivariance, such as the binary operations, group actions, and measurement scale discussed in  \autoref{sec:related-work:equivariance}. The generalization to $Hom_\mathcal{\dfiber}$ also allows for the inclusion of structures such as monoid actions\cite{barrCategoryTheoryComputing}, which provide a way of applying partial order relations to data\cite{fongInvitationAppliedCategory2019}, such as to build multi-ranked indicators\cite{bruggemannRankingPrioritizationMultiindicator2011}.
 
 
-When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint\ as the basis of our equivariance. This is because a sheaf $\sheaf(\dtotal)$ over a limit of open sets that contain a point $\dbasepoint \in \dbase$ is approximately the same as a sheaf over a point \dbasepoint\ and is called the stalk $\sheaf(\dtotal)\restriction_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal)$ \cite{StalkSheaf2019}. The fiber space over a point is embedded in the stalk over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\dfunc \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
+When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint\ as the basis of our equivariance. The fiber space over a point is embedded in the stalk, introduced in 
+
+over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\dfunc \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
 
 \note{}
  
