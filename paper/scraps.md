@@ -37,3 +37,9 @@
     $\{\tau: \xi(s) \rightarrow r \mid \xi(s) \in K, r \in F\}\xrightarrow{\xi^*}\{\tau: \xi \rightarrow r \mid k \in K, r \in F\}$
 
     ![](figures/pushpull.png)
+
+### $\varphi$
+- seperate constraint->diagram must commute, not a fall out of construction
+- consistency condition eg 21 in paper
+  - if A(\tau) = A(\tau^prime), then A(\varphi \tau) = A(\varphi \tau^{\prime})
+  - 
