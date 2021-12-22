@@ -172,6 +172,9 @@ Continuity describes elements in a data set are organized; this concept is terme
 
 For example, in \autoref{fig:related-work:visual-algorithm} the same table can be interpreted as a set of 1D continuous curves when visualized as a collection of line plots or as a 2D surface when visualized as an image.  This means that often there is no way to express data continuity independent of visualization type, meaning most visualization libraries will allow, for example, visualizing discrete data as a line plot or an image.
 
+\note{Munzer describes continuiity as,  We obtain this generality by using a mathematical structure called a fiber bundles as the basis of our abstraction, as proposed by Butler, Bryson, and Pendley\cite{butlerVisualizationModelBased1989,
+butlerVectorBundleClassesForm1992}}
+
 \subsection{Equivariance}
 \label{sec:related-work:equivariance}
 When introducing the retinal variables, Bertin informally specifies that continuity is preserved in the mark and defines equivariance constraints in terms of data and visual variables being selective, associative, ordered, or quantitative\cite{bertinSemiologyGraphicsDiagrams2011a}. In the \textit{A Presentation Tool}(APT) model, Mackinlay embeds the continuity constraint in the choice of visualization type and generalizes the equivariance constraint to preserving a binary operator from one domain to another. The algebraic model of visualization\cite{kindlmannAlgebraicProcessVisualization2014}, proposed by Kindlmann and Scheidegger, restricts equivariance to invertible transformations.
@@ -181,6 +184,8 @@ When introducing the retinal variables, Bertin informally specifies that continu
   \includegraphics[width=\columnwidth]{equiv.png}
   \caption{Equivariance is that a transformation on the data has a corresponding transformation in the graphical representation. For example, in this figure the data is scaled by a factor 10. Equivalently the line plot is scaled by factor of 10, resulting in a shrunken line plot. Either a transformation on the data side can induce a transformation on the visual side, or a transformation on the visual side indicates that there is also a transformation on the data side. }
 \end{figure}
+
+\note{fig and K&S model, vickers}
 
 \subsection{Visualization Library Architecture}
 General purpose visualization libraries-such as Matplotlib\cite{hunterMatplotlib2DGraphics2007}, Vtk\cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012}, and D3 \cite{bostockDataDrivenDocuments2011}-carry distinct data models as part of the implementation of each visual algorithm. The lack of unified data model means that each plot in a linked\cite{beckerBrushingScatterplots1987,bujaInteractiveData1991} visualization is treated as independent, as are the transforms converting each field in the data to a visual equivalent.
@@ -201,10 +206,7 @@ Category theory can be used to express software specifications because it provid
   \label{fig:related-work:fiber-bundle}
 \end{figure}
 
-The model described in this work provides a model for expressing data sets with different topological properties. 
-
-\subsection{Fiber Bundles}
-We obtain this generality by using a mathematical structure called a fiber bundles as the basis of our abstraction, as proposed by Butler, Bryson, and Pendley\cite{butlerVisualizationModelBased1989,
+The model described in this work provides a model for expressing data sets with different topological properties. We obtain this generality by using a mathematical structure called a fiber bundles as the basis of our abstraction, as proposed by Butler, Bryson, and Pendley\cite{butlerVisualizationModelBased1989,
 butlerVectorBundleClassesForm1992}. As described by them, a fiber bundle is a formal model of the mapping between data points and the underlying topological space they lie in. For example, nodes on a network and the graph of the network, an image and the underlying grid at which the image is sampled, or table columns and the table index.
 
 Formally, a fiber bundle is a mathematical structure $(\dtotalc, \dbasec, \pi, \dfiberc)$
@@ -380,11 +382,10 @@ such that the diagram is commutative
   \begin{tikzcd}
     \sheafc_{\textcolor{source}{X}}(\textcolor{source}{X}) \arrow[rr, "\textcolor{functor}{f_*}", color=functor]  &  & (\textcolor{functor}{f_*}\sheafc_{\textcolor{source}{X}})(\textcolor{target}{Y}) \\
     && \\
-    (\textcolor{functor}{f^*}\sheafc_{\textcolor{target}{Y}})(\textcolor{source}{X}) \arrow[rr, "\textcolor{functor}{f^*}", color=functor] \arrow[uu, "\textcolor{homset}{Hom_{\sheaf_X}}", color=homset] &  & \sheafc_{\textcolor{target}{Y}}(\textcolor{target}{Y}) \arrow[uu, "\textcolor{homset}{Hom_{\sheaf_Y}}"', color=homset] \arrow[lluu, "\textcolor{homset}{Hom_{XY}}"' description, dashed, color=homset]
+    (\textcolor{functor}{f^*}\sheafc_{\textcolor{target}{Y}})(\textcolor{source}{X}) \arrow[rr, "\textcolor{functor}{f^*}", color=functor] \arrow[uu, "\textcolor{homset}{hom_{\sheaf_X}}", color=homset] &  & \sheafc_{\textcolor{target}{Y}}(\textcolor{target}{Y}) \arrow[uu, "\textcolor{homset}{hom_{\sheaf_Y}}"', color=homset] \arrow[lluu, "\textcolor{homset}{hom_{XY}}"' description, dashed, color=homset]
     \end{tikzcd}
 \end{equation}
-meaning that transformations of sections of one sheaf to sections of another are equivalent regardless of the space the sheaf is over. 
-
+meaning that morphisms between sections over different topological spaces are equivalent when composed with the pullback and pushforward functor.
 
 \section{Artist} 
 In this section we describe the properties a data to visualization transform must satisfy to be considered equivariant and continuity preserving. We propose that by explicitly defining these properties, we can better incorporate them into visualization library design. 
