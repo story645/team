@@ -193,12 +193,13 @@ General purpose visualization libraries-such as Matplotlib\cite{hunterMatplotlib
 Domain specific libraries can often guarantee consistency because they have a single model of the data in their software design, as discussed in Heer and Agarwal \cite{HeerSoftware2006}'s survey of visualization software design patterns. For example, the relational database is core to tools influenced by APT, such as Tableau\cite{StoltePolaris2002,hanrahanVizQL2006,MackinlayShowme2007} and the Grammar of Graphics\cite{wilkinsonGrammarGraphics2005} inspired ggplot\cite{wickhamGgplot2ElegantGraphics2016a}, Vega\cite{satyanarayanDeclarativeInteractionDesign2014} and Altair\cite{vanderplasAltairInteractiveStatistical2018}. Images underpin scientific visualization tools such as Napari\cite{nicholas_sofroniew_2021_4533308} and ImageJ\cite{schneiderNIHImageImageJ2012} and the digital humanities oriented ImagePlot\cite{studiesCulturevisImageplot2021} macro; the need to visualize and manipulate graphs has spawned tools like Gephi\cite{bastianGephiOpenSource2009}, Graphviz\cite{ellsonGraphvizOpenSource2002}, and Networkx\cite{HagbergExploringNetwork2008}. 
  
 \section{Algebraic Topology \& Category Theory}
+\label{sec:atct}
 \note{potentially move this to appendix, push Butler \& Vickers up to RW}
 
 Category theory can be used to express software specifications because it provides a method of expressing structure and how that structure can be composed \cite{wielsManagementEvolvingSpecifications1998} algebraic topology provides a rich language for expressing data continuity. In this section, we introduce concepts from algebraic topology and category theory that we will use in \autoref{sec:artist:category} to develop a formal model of specifying visualization component.
 
 \subsection{Fiber Bundles}
-\label{sec:related-work:fiber-bundles}
+\label{sec:atct:fiber-bundles}
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{fiberbundle.png}
   \caption{A fiber bundle is mathematical construct that allows us to express the relationship between data and continuity. The \textcolor{total}{total} space \dtotal is the topological space in which the data is embedded. The \textcolor{fiber}{fiber} space \dfiber\ is embedded in \dtotal\ and is the set of all possible values that any
@@ -251,7 +252,7 @@ Butler et al proposed that \cite{butlerVisualizationModelBased1989,butlerVectorB
 
  
 \subsection{Category Theory}
-\label{sec:related-work:equivariance:category}
+\label{sec:atct:equivariance:category}
 In this work, we propose that equivariance constraints can be expressed using category theory. Vickers et. al \cite{vickersUnderstandingVisualizationFormal2013} provide a brief introduction to category theory for visualization practitioners, but their work focuses on reasoning about visualization design, while this paper aims to provide guidance on designing visualization library components. Briefly we introduce concepts in category theory that we use to describe our model in \autoref{sec:artist:category} and \autoref{sec:artist:construction}. 
 
 \begin{definition} A \textcolor{source}{category} $\textcolor{source}{\mathcal{C}}$ consists of a collection of objects $c$ with identity $id_c: C\rightarrow C$ and the set of morphisms between every two objects $f:C_1 \rightarrow C_2$, \cite{fongInvitationAppliedCategory2019,maclaneCategoriesWorkingMathematician2013}. 
@@ -307,7 +308,7 @@ The natural transformation composes with a functor such that the output is a com
 \note{unpack this a drop more} 
 
 \subsection{Sheaves}
-\label{sec:related-work:continuity:sheaves}
+\label{sec:atct:continuity:sheaves}
 Sheaves provide a mathematical abstraction of data, the space it lives over, and relationships between subsets. Sheaves can be thought of as an "algebraic data structure" \cite{ghristElementaryAppliedTopology2014} for data that lives over topological spaces. A presheaf  $\sheaf$ applied to fiber bundles is a map from an open set in a topological space, such as $\openset \subset \dbase$ where $(\mathcal{T}, \dbase)$ is a topological space, to the set of sections of a bundle $\dtotal$ over that openset \cite{spanier1989algebraic,SheafMathematics2021,nlab:presheaf}.
 \begin{equation}
   \label{eq:atct:presheaf}
@@ -394,7 +395,7 @@ We formulate the visualization transformation as a functor, which we call the \t
 
 \begin{equation}
   \label{eq:artist:artist}
-  \vartistc: \mathcal{\dtotalc} \rightarrow \mathcal{\gtotalc}
+  \mathcal{\dtotalc} \textcolor{artist}{\xrightarrow{\vartist}} \mathcal{\gtotalc}
 \end{equation}
 
 In this section we encapsulate the structure of the data and graphic spaces as categories. We then use these definitions to express the structure that an artist preserves. Finally, we introduce rules for composing artists in a way where the structure between the inputs to the individual artists is preserved. 
@@ -408,18 +409,22 @@ Fiber bundles, as introduced in \autoref{sec:related-work:fiber-bundles}, serve 
 We introduce the category $\mathcal{\dbase}$ to encapsulate the continuity of the data, for example if the data are discrete points, continuous lines, images, or networks. 
 \begin{definition} \label{def:category:K} The category of open sets $\mathcal{\dbasec}$ consists of
   \begin{itemize}
-    \item \textit{objects} open sets $\openset_{i} \in \{\openset\}$ in the topological space $(\dbase, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
-    \item \textit{morphisms} $\iota: \openset_{i} \hookrightarrow \openset_{j}$ for all  $\openset_i, \openset_j \subset \dtotal$
+    \item \textit{objects} open sets $\opensetc_{i} \in \{\opensetc\}$ in the topological space $(\dbasec, \mathscr{T})$), including the empty set $\varnothing$ and the maximum set \dbase. 
+    \item \textit{morphisms} $\iota: \opensetc_{i} \hookrightarrow \openset_{j}$ for all  $\opensetc_i, \opensetc_j \subset \dtotalc$
   \end{itemize} 
 \end{definition}
 
 We also introduce an analogous category $\mathcal{\gbase}$ that encapsulates the topology of the graphic, which is the topology of the rendering in the display space; for example, this rendering can be a 2D or volumetric image or a 3D print. 
 
-\begin{definition} The category of open sets $\mathcal{\gbasec}$ in the topological space $(\dbase, \mathscr{T})$ consists of open set \textit{objects} $\opensetg \in \{\opensetg\}$, including the empty set $\varnothing$ and the maximum set $\gtotal$ and \textit{morphisms} $\iota: \opensetg_i \rightarrow \opensetg_j$.  
+\begin{definition} The category of open sets $\mathcal{\gbasec}$ in the topological space $(\gbasec, \mathscr{T})$ consists of open set \textit{objects} $\opensetgc \in \{\opensetgc\}$, including the empty set $\varnothing$ and the maximum set $\gtotalc$ and \textit{morphisms} $\iota: \opensetgc_i \rightarrow \opensetgc_j$.  
 \end{definition}
 
-The data space \dbase\ is a deformation retract of the graphic topology \gbase\meaning that regions in \gbase\ collapse to points in \dbase\ such that the relative positions of the points are preserved \cite{nlab:deformation_retract}. One method of constructing the graphic space is by expanding the dimensionality of the data \dbase\ to match the spatial dimensionality of the rendering by multiplying the data space by  intervals $I$. 
-
+The data space \dbase\ is defined via the surjective function $\vindex$ such that regions in \gbase\ collapse to points in \dbase\
+\begin{equation}
+  \label{eq:artist:vindex}
+  \vindexc: \gtotalc \textcolor{artist}{\rightarrow} \dtotalc
+\end{equation}
+Since \dbase\ is defined as a deformation retract of the graphic topology \gbase, the continuity of the points in data space and graphic space are equivalent \cite{nlab:deformation_retract}. One method of constructing the graphic space is by expanding the dimensionality of the data \dbase\ to match the spatial dimensionality of the rendering by multiplying the data space by  intervals $I$. 
 
 \begin{figure}[h!]
   \label{fig:artist:gbase}
@@ -431,8 +436,8 @@ For example, as illustrated in \autoref{fig:artist:gbase}, the display space is 
 
 
 \subsubsection{Data}
-\note{clean up why sheaf}
-As mentioned in \autoref{sec:related-work:continuity:sheaves}, sheaves are a powerful tool for keeping track of data that lies over topological spaces. Therefore, we model the type of data an artist expects as a sheaf $\sheafc_{\dtotalc}: \mathcal{\dbasec}^{op} \textcolor{sheaf}{\rightarrow} \setc$.
+As mentioned in \autoref{sec:atct:sheaves} sheaves are a powerful tool for keeping track of data that lies over topological spaces; therefore, we model the type of data an artist expects as a sheaf on a fiber bundle with total space \dtotalc and basespace \dbase.  
+
 \begin{equation}
   \label{eq:artist:morphism-of-sheaf-data}
   \begin{tikzcd}
@@ -443,58 +448,27 @@ As mentioned in \autoref{sec:related-work:continuity:sheaves}, sheaves are a pow
 \end{equation}
 The objects of \textbf{Set} in this sheaf are the sets of sections $\Gamma(\dbase, \dtotal)$ introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps $(\iota, \iota^*)$ introduced in \autoref{eq:related-work:continuity:presheaf}. 
 
-To establish a mapping between graphic and data base spaces, we introduce the surjective map $\vindex: \gbase \rightarrow \dbase$. 
-\begin{equation}
-  \label{eq:artist:vindex}
-  \begin{tikzcd}
-    \dtotalc& \dtotalpullc \arrow[l, "\vindexpullc"', dashed, color=artist]                                                                           \\
-    \dbasec \arrow[u, "\dsectionc", color=section] & \gbasec \arrow[l, "\vindexc", color=artist] \arrow[lu, "\dsectionc \circ \vindexc" description, color=section] \arrow[u, "\dsectionpullc"', dashed, color=section]
-    \end{tikzcd}
-\end{equation}
-such that the data continuity $\dbase$ is a deformation retract of $\gbase$, as expressed in \autoref{eq:artist:gbase}.
-
-As shown in \autoref{eq:artist:vindex}, the map between spaces $\vindex$ can be composed with section map $\dsection$ such that there is a map from the graphic base space $\gbase$ to the fiber bundle in which the data lives $\dtotal$.
-\begin{figure}[h!]
-  \includegraphics[width=\columnwidth]{pullback.png}
-  \label{fig:artist:pushforward_xi}
-  \caption{The map $\vindexpull$ is a map from a repetition of the 1D fiber over every point $\dbasepoint \in \dbase$ in data space, turning the fiber into a 2D plane of repeating values over the corresponding region $\dbasepoint = \vindex(\gbasepoint)$ in the graphic space \gbase. }
-\end{figure}
-Since there is a mapping from the graphic space to the total bundle $\dsection \circ \vindex: \gbase \rightarrow \dtotal$, the mapping $\vindex$ can be pulled through the composition such that there is a map $\vindexpull$ between a total space over graphics $\dtotalpull$ and its equivalent space over data $\dtotal$.  As illustrated in the example given in \autoref{fig:artist:pushforward_xi}, a bundle $\dtotal$ over a point $\dbasepoint \in \dbase$ is pulled back through \vindex\ \cite{nlab:pullback_bundle} such that it is copied over every point in the corresponding region in graphic space $\vindex(\gbasepoint) = \dbasepoint, \gbasepoint \subset \gbase$. The pullback $\vindexpull$ can then be composed with the elements of the set of sections 
-\begin{equation}
-  \label{eq:artist:data_gamma_pullback}
-  \vindexpullc: \cgamma{\dbasec}{\dtotalc} \textcolor{artist}{\rightarrow} \cgamma{\gbasec}{\dtotalpullc}
-\end{equation}
-to generate a set of equivalent sections over the graphic space $\Gamma(\gbase, \dtotalpull)$. As a consequence of \autoref{eq:artist:data_gamma_pullback}, there exists a data sheaf over graphic space 
-\begin{equation}
-  \label{eq:artist:data_pullback_sheaf_gamma}
-\sheafc_{\dtotalpullc}: \opensetgc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetgc}{\dtotalpullc}}
-\end{equation}
-which is equivalent to 
-\begin{equation}
-  \label{eq:artist:data_pullback_sheaf}
-  \sheafc_{\dtotalpullc}: \mathcal{\gbasec}^{\textcolor{base}{op}} \textcolor{sheaf}{\rightarrow} \setc
-\end{equation}
 
 \subsubsection{Graphic}
-We model the space of all graphic generating functions over a specific graphic topology $\opensetg \subseteq \gbase$ and targeting a specific display as a set of sections 
+We model graphics as a sheaf from an open set in the graphic base space to sets of sections of graphic generating functions
+\begin{equation}
+  \label{eq:artist:graphic_sheaf_gamma}
+  \sheafc_{\gbasec}: \opensetgc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetgc}{\gtotalc}
+\end{equation}
+and we define the set of sections such that 
 \begin{equation}
   \label{eq:artist:graphic_sections}}
     \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \big\{\gsectionc: \opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} \bigm{\vert} \pi(\gsectionc(\gbasepointc)) = \gbasepointc \; \forall \gbasepointc \in \opensetgc \big\}
 \end{equation}
 
-
-The set of sets of sections $\{\Gamma(\opensetg, \gtotal)\}\vert_{{\opensetg \in gbase}}$ is subcategory of \textbf{Set}; therefore the full space of graphics is a sheaf 
-\begin{equation}
-  \label{eq:artist:graphic_sheaf_gamma}
-  \sheafc_{\gtotalc}: \opensetgc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetgc}{\gtotalc}
-\end{equation}
-which means it is 
-\begin{equation}
-  \label{eq:artist:graphic_sheaf_set}
-  \sheafc_{\gtotalc}: \gbasec^{\textcolor{base}{op}} \textcolor{sheaf}{\rightarrow} \setc
-\end{equation}
-
 \subsubsection{Data to Graphic}
+Given the data sheaf $\sheaf_{\dbase}$, graphic sheaf $sheaf_{gbase}$, functor $\vindex$ between $\gbase$ and $\dbase$, we can define the artist as a morphism between sections of sheaves
+\begin{equation}
+  \begin{tikzcd}[row sep=huge]
+    \{\gsectionc: \opensetgc \textcolor{section}{\rightarrow} \gtotalc\restriction_{\opensetgc}\} \arrow[rr, "\vindexpushc", color=functor]                                                     &  & \{\gsectionc: \vindexprec(\opensetc) \textcolor{section}{\rightarrow} \gtotalc\restriction_{\vindexprec(\opensetc)}\}\\&  &\\
+    \{\dsectionc: \vindexc(\opensetgc) \textcolor{section}{\rightarrow} \dtotalc\restriction_{\vindexc(\opensetgc)}\} \arrow[uu, "\vartistc_{\vindexpullc}: \vindexpullc \dsectionc \textcolor{artist}{\rightarrow} \gsectionc", color=homset] \arrow[rr, "\vindexpullc", color=functor] &  & \{\dsectionc: \opensetc \textcolor{section}{\rightarrow} \dtotalc\restriction_{\opensetc}\} \arrow[uu, "\vartistc_{\vindexpushc}: \dsectionc \textcolor{artist}{\rightarrow} \vindexpushc \gsectionc"', color=homset] \arrow[lluu, "\vartistc" description, dashed, color=artist]
+    \end{tikzcd}
+\end{equation}
 Following from \autoref{eq:artist:data_pullback_sheaf} and \autoref{eq:artist:artist_sheaf},  we propose that the artist function $\vartist$ is a natural transformation of sheaf functors 
 \begin{equation}
   \label{eq:artist:natural-transform-diagram}
@@ -569,8 +543,6 @@ The set of all morphism of the fiber category $Hom_{\mathcal{\dfiber}}(\dfiber, 
 When a fiber bundle is trivial, we can dispense with localization and directly consider the fiber maps $Hom(\dfiber_{\dbasepoint}, \dfiber_{\dbasepoint})$ over a point \dbasepoint\ as the basis of our equivariance. The fiber space over a point is embedded in the stalk, introduced in 
 
 over that point $\dfiber_{\dbasepoint}\hookrightarrow \mathscr{\dfiber}_{\dbasepoint}$. The sheaf maps \dfunc\ restricted to the stalk are members of $hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$. The maps $\dfunc \in Hom_{\mathcal{\dfiber}}(\dfiber,\dfiber)$ include the types of data transformations described in \autoref{sec:related-work:equivariance}In \autoref{sec:artist:construction}, we assume that the fiber bundles are trivial.
-
-\note{}
  
 It follows from \autoref{eq:related-work:equivariance:functor_diagram} that an arbitrary morphism $\dfunc$ on the data sheaf has a compatible morphism $\dfunc^{\prime}$ on the graphic sheaf. 
 \begin{equation}
@@ -620,6 +592,7 @@ the artists constructs a corresponding graphic generating function.
 \subsection{Composition of Artists}
 \label{sec:artist:union}
 Visualizations generally consist of more than one visual element, for example line plots, a legend, axis ticks, spines, and labels.  We propose that we can express expected consistency between these elements as a preservation of morphisms between objects of different data categories $\mathcal{\dtotal}$. 
+\note{We can define a monoid on the set of artists w/ + such that artists are composoble. doing so lets us}
 
 
 \subsubsection{Shared Index}
@@ -722,6 +695,28 @@ The section \dsection\ is the abstraction of the data being visualized. The sect
   \tau(k) = ((time, t_k); (precipitation, p_k); (station\;name, n_k))
 \end{equation*}
 
+\subsubsection{Pulled Back Data}
+
+We model the type of data we have as fiberbundles, building on the work of Butler et al. \cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992}. Specifically we denote our data as the bundle \dtotal\ over the base space \dbase. We pull this bundle over the graphic space \gbase\, establishing an association between regions in the graphic and corresponding data. 
+
+Given the map \vindex\ (\autoref{eq:artist:vindex}) between data and graphic basespaces, we can introduce a pullback function that copies sections of the data bundle over the data base space to the graphic base space. 
+. 
+\begin{equation}
+  \label{eq:artist:vindex}
+  \begin{tikzcd}
+    \dtotalpullc \arrow[rr, "\vindexpullc", color=artist]                                                   &  & \dtotalc                          \\
+                                                                                                                                    &  &                                   \\
+    \gbasec \arrow[rr, "\vindexc", color=artist] \arrow[uu, "\dsectionpullc", dashed, color=section] \arrow[rruu, "\vindexc\circ\dsectionc" description, dashed, color=section] &  & \dbasec \arrow[uu, "\dsectionc"', color=section]
+    \end{tikzcd}
+\end{equation}
+
+As shown in \autoref{eq:artist:vindex}, the map between spaces $\vindex$ can be composed with section map $\dsection$ such that there is a map from the graphic base space $\gbase$ to the fiber bundle in which the data lives $\dtotal$.
+\begin{figure}[h!]
+  \includegraphics[width=\columnwidth]{pullback.png}
+  \label{fig:artist:pushforward_xi}
+  \caption{The map $\vindexpull$ is a map from a repetition of the 1D fiber over every point $\dbasepoint \in \dbase$ in data space, turning the fiber into a 2D plane of repeating values over the corresponding region $\dbasepoint = \vindex(\gbasepoint)$ in the graphic space \gbase. }
+\end{figure}
+Since there is a mapping from the graphic space to the total bundle $\dsection \circ \vindex: \gbase \rightarrow \dtotal$, the mapping $\vindex$ can be pulled through the composition such that there is a map $\vindexpull$ between a total space over graphics $\dtotalpull$ and its equivalent space over data $\dtotal$.  As illustrated in the example given in \autoref{fig:artist:pushforward_xi}, a bundle $\dtotal$ over a point $\dbasepoint \in \dbase$ is pulled back through \vindex\ \cite{nlab:pullback_bundle} such that it is copied over every point in the corresponding region in graphic space $\vindex(\gbasepoint) = \dbasepoint, \gbasepoint \subset \gbase$.
 
 \subsection{Graphic Codomain} 
 The object of the graphic category $\mathcal{\gtotal}$ is the fiber bundle \gtotal. The bundle \gtotal\ has the same structure as the data bundle \dtotal
