@@ -333,10 +333,10 @@ Sheaves are presheafs where sections are continuous over all unions of open sets
 In category theory, a presheaf \sheafc\, is generalized to be a contravariant functor\cite{nlab:presheaf} from a category to a set. 
 \begin{equation}
   \label{eq:actc:sheaf}
- \sheafc: \textcolor{source}{\mathcal{C}^{op}} \rightarrow \setc
+ \sheafc: \textcolor{source}{\mathcal{C}^{op}} \textcolor{sheaf}{\rightarrow} \setc
 \end{equation}
-We can define natural transforms, introduced in \autoref{eq:related-work:equivariance:natural-transform}, between sheaves over different spaces, for example spaces representing the topology of the data and the graphic, because sheaves can be moved over different topological spaces if there is a map between those spaces. 
-Given a map $\textcolor{functor}{f}:\textcolor{source}{X} \textcolor{functor}{\rightarrow} \textcolor{target}{Y}$ between topological spaces $\textcolor{source}{X}, \textcolor{target}{Y}$ and sheaves on each space $\sheafc_{\textcolor{source}{X}}, \sheafc_{\textcolor{target}{Y}}$, we can construct a pullback functor $f^*$ and pushforward functor $f_*$ \cite{harder2008lectures} that can be composed with the sheaf functors. 
+
+Sheaves can be moved over different topological spaces if there is a map between those spaces, which we can use to describe how sections of a sheaf over one space behave when moved over to a different space and the maps between these spaces. Given a map $\textcolor{functor}{f}:\textcolor{source}{X} \textcolor{functor}{\rightarrow} \textcolor{target}{Y}$ between topological spaces $\textcolor{source}{X}, \textcolor{target}{Y}$ and sheaves on each space $\sheafc_{\textcolor{source}{X}}, \sheafc_{\textcolor{target}{Y}}$, we can construct a pullback functor $f^*$ and pushforward functor $f_*$ \cite{harder2008lectures} that can be composed with the sheaf functors. 
 \begin{equation}
   \label{eq:atct:pullback-pushforward}
   \begin{tikzcd}[row sep=huge]
@@ -345,19 +345,45 @@ Given a map $\textcolor{functor}{f}:\textcolor{source}{X} \textcolor{functor}{\r
     (\textcolor{functor}{f^*}\sheafc_{\textcolor{target}{Y}})(\textcolor{source}{X}) \arrow[rr, "\textcolor{functor}{f^*}", color=functor]  &  & \sheafc_{\textcolor{target}{Y}}(\textcolor{target}{Y})                             
   \end{tikzcd}
 \end{equation}
-As shown in \autoref{eq:atct:pullback-pushforward}, the pushforward $f_*\sheaf_{X}$ modifies the sheaf $\sheaf_{X}$ such that sections $s \in \sheaf_{X}(X)$ can be evaluated over points in $y$
+As shown in \autoref{eq:atct:pullback-pushforward}, the pushforward $f_*\sheaf_{X}$ modifies the sheaf $\sheaf_{X}$ such that sections $s \in \sheaf_{X}$ can be evaluated over points in $y$
 \begin{equation}
   \label{eq:atct:pushforward-section}
-  (s: x \rightarrow \setb) \xrightarrow{f_*} (s_*: y \rightarrow \setb)
+  (\textcolor{section}{s}: \textcolor{source}{x} \textcolor{section}{\rightarrow} \setc) \textcolor{functor}{\xrightarrow{\mathmakebox[3em]{f_*}}} (\textcolor{functor}{f_*}\textcolor{section}{s}: \textcolor{target}{y} \textcolor{section}{\rightarrow} \setc)
 \end{equation}
-while the pullback functor $f^*$ modifies the sheaf  $\sheaf_{Y}$ such that sections $\t \in \sheaf_{Y}(Y)$ can be evaluated over points in $x$
+which means it decorates the section function $s$ so that it can take as input values in $Y$ and return the corresponding section in $X$ 
+\begin{equation}
+  \label{eq:atct:pushforward-f}
+  \textcolor{section}{s}(\textcolor{source}{x}) 
+  = \textcolor{section}{s}\textcolor{functor}{_*}(\textcolor{target}{y}) =\textcolor{section}{s}(\textcolor{functor}{f^{-1}}(\textcolor{target}{y}))
+\end{equation}
+The pullback functor $f^*$ modifies the sheaf  $\sheaf_{Y}$ such that sections $t \in \sheaf_{Y}$ can be evaluated over points in $x$
 \begin{equation}
   \label{eq:atct:pullback-section}
-  (t^*: x \rightarrow \setb) \xrightarrow{f^*} (t: y \rightarrow \setb)
+  (\textcolor{functor}{f^*}\textcolor{section}{t}: \textcolor{source}{x} \textcolor{section}{\rightarrow} \setc) \textcolor{functor}{\xrightarrow{\mathmakebox[3em]{f^*}}} (\textcolor{section}{t}: \textcolor{target}{y} \textcolor{section}{\rightarrow} \setc)
 \end{equation}
-As shown in \autoref{eq:atct:pushforward-section}, the pushforward modifies the signature of the functions returned by the functor , while in \autoref{eq:atct:pullback-section} the pullback modifies the signature of the argument to the functor. 
-
-\note{possibly add in from Hader lecture notes}
+which means it decorates the section function $t$ so that it can take as input values in $X$ and return the corresponding section in $Y$ 
+\begin{equation}
+  \label{eq:atct:pullback-f}
+  \textcolor{section}{t}\textcolor{functor}{^*}(\textcolor{source}{x})
+  =\textcolor{section}{t}(\textcolor{functor}{f}(\textcolor{source}{x}))
+  =\textcolor{section}{t}(\textcolor{target}{y}) 
+\end{equation}
+The pushforward and pullback functors are isomorphic \cite{harder2008lectures}
+\begin{equation}
+  \label{eq:atct:pullback-pushforward-isomorphic}
+  \textcolor{homset}{hom}_{\sheafc_{\textcolor{source}{X}}}(\textcolor{functor}{f*}\sheafc_{\textcolor{target}{Y}}, \sheafc_{\textcolor{source}{X}}) = 
+  \textcolor{homset}{hom}_{\sheafc_{\textcolor{target}{Y}}}(\sheafc_{\textcolor{target}{Y}}, \textcolor{functor}{f_*}\sheafc_{\textcolor{source}{X}})
+\end{equation}
+such that the diagram is commutative
+\begin{equation}
+  \label{eq:pullback-pushforward-homset}
+  \begin{tikzcd}
+    \sheafc_{\textcolor{source}{X}}(\textcolor{source}{X}) \arrow[rr, "\textcolor{functor}{f_*}", color=functor]  &  & (\textcolor{functor}{f_*}\sheafc_{\textcolor{source}{X}})(\textcolor{target}{Y}) \\
+    && \\
+    (\textcolor{functor}{f^*}\sheafc_{\textcolor{target}{Y}})(\textcolor{source}{X}) \arrow[rr, "\textcolor{functor}{f^*}", color=functor] \arrow[uu, "\textcolor{homset}{Hom_{\sheaf_X}}", color=homset] &  & \sheafc_{\textcolor{target}{Y}}(\textcolor{target}{Y}) \arrow[uu, "\textcolor{homset}{Hom_{\sheaf_Y}}"', color=homset] \arrow[lluu, "\textcolor{homset}{Hom_{XY}}"' description, dashed, color=homset]
+    \end{tikzcd}
+\end{equation}
+meaning that transformations of sections of one sheaf to sections of another are equivalent regardless of the space the sheaf is over. 
 
 
 \section{Artist} 
