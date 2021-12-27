@@ -18,6 +18,7 @@
 \usepackage{array}
 
 \usepackage{graphicx}
+\usepackage{adjustbox}%scale tikz-cd
 
 \usepackage{appendixnumberbeamer} 
 \usepackage{comment}
@@ -113,21 +114,42 @@
 
 \begin{frame}{Equivariance}
     \begin{description}
-        \item[Retinal Variables \& Marks] visual encodings match properties of the data \cite{bertinSemiologyGraphicsDiagrams2011a}
-        \pause
-        \item[Expressiveness] structure preserving mappings\cite{mackinlayAutomatingDesignGraphical1986}
+        \item[Retinal Variables \& Marks] visual encodings should match properties of the data \cite{bertinSemiologyGraphicsDiagrams2011a}
         \pause
         \item[Graphical Integrity] graphs show \textbf{only} the data\cite{tufteVisualDisplayQuantitative2001}
         \pause 
         \item[Naturalness] easier to understand when properties match\cite{norman_things_smart}
+        \pause
+        \item[Expressiveness] which structure preserving mappings can a tool implement\cite{mackinlayAutomatingDesignGraphical1986}] 
     \end{description}
 \end{frame}
 
-\begin{frame}{Equivariance}
-    
+\begin{frame}{Frameworks for Expressing Visual Equivariance}
+    \begin{description}
+        \item[linguistically] visualization has syntax, semantics, grammar expresses how to design structure preserving visualizations
+        \cite{mackinlayAutomatingDesignGraphical1986,mackinlayAUTOMATICDESIGNGRAPHICAL1987,wilkinsonGrammarGraphics2005}
+
+        \item[algebraically] transformations on data and graphics are equivalent symmetric \cite{kindlmannAlgebraicProcessVisualization2014}
+        \begin{columns}
+            \column{.5\textwidth}
+            \begin{description}
+                \item[D] data 
+                \item[R] data representation 
+                \item[V] visualization
+            \end{description}
+            \column{.5\textwidth}
+            \begin{equation*}
+                \begin{tikzcd}[ampersand replacement=\&]
+                    D \arrow[d, "\alpha"'] \arrow[r, "r_1"] \& R \arrow[r, "\nu"]  \& V \arrow[d, "\omega"] \\
+                    D \arrow[r, "r_2"']                     \& R \arrow[r, "\nu"'] \& V                    
+                \end{tikzcd}
+                \end{equation*}
+        \end{columns} 
+    \item[categorically] \textit{understanding} = \textit{read} $\circ$ \textit{render} \cite{vickersUnderstandingVisualizationFormal2013}    
+    \end{description}
 \end{frame}
 
-\begin{frame}{Domain specific libraries assume data structure\cite{HeerSoftware2006}}
+\begin{frame}{Domain specific libraries know their structure\cite{HeerSoftware2006}}
     \begin{table}
         %\renewcommand{\arraystretch}{2}
         %
@@ -143,10 +165,9 @@
     \end{table}
 \end{frame}
 
-\begin{frame}{General purpose libraries can't\cite{toryRethinkingVisualizationHighlevel2004}}
+\begin{frame}{General purpose libraries generally can't\cite{toryRethinkingVisualizationHighlevel2004}}
     \begin{figure}
-        \includegraphics[height=.5\textheight]{figures/intro/dataset_diagram.png}
-        \caption{Data Representation, MayaVi 4.7.2 docs\cite{DataRepresentationMayavi}}
+        \includegraphics[height=.3\textheight]{../paper/figures/k_different_types.png}
     \end{figure}
     \begin{enumerate}
         \item Matplotlib\cite{hunterMatplotlib2DGraphics2007} $\rightarrow$Seaborn\cite{waskom2020seaborn}, xarray \cite{hoyer2017xarray} 
@@ -168,29 +189,132 @@
 
 \begin{frame}{Fiber Bundles}
     \begin{columns}
-        \column{0.49\columnwidth}
+        \column{0.39\textwidth}
             \begin{equation*}
                 %\label{eq:related-work:continuity:fiber-bundle}
-                \begin{tikzcd}[ampersand replacement=\&]
+                \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
                   \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
                    \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
                 \end{tikzcd}
             \end{equation*}
-     \column{0.49\columnwidth}
+     \column{0.59\textwidth}
         \begin{description}
-            \item[\textcolor{base}{Base Space}] $( \dbasec, \mathcal{T})$
+            \item[\textcolor{base}{Base Space}] $( \dbasec, \mathcal{T})$ with
+                \begin{itemize}
+                   \item open sets $\opensetc \subset \dbasec$
+                   \item points $\dbasepointc \in \opensetc \in \dbasec$
+                 \end{itemize}  
             \item[\textcolor{fiber}{Fiber Space}] $\dfiberc_{\dbasepointc} = \pi^{-1}(\dbasepointc)$
-            \item[\textcolor{total}{Total Space}]  $\dtotalc = \dbasec \times \dfiberc$
+            \item[\textcolor{total}{Total Space}]  $\dtotalc\restriction_{\opensetc} = \dbasec\restriction_{\opensetc} \times \dfiberc\restriction_{\opensetc}$ \\ for all $\opensetc \subset K$ 
         \end{description}
     \end{columns}
     \pause
-    \begin{block}{Sections of the bundle}
-        \begin{equation*}
-            \label{eq:related-work:continuity:sections}
-            \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\openset} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;\forall \dbasepointc \in \opensetc \subset \dbasec \big\}
-        \end{equation*}
-    \end{block}
+    \begin{alertblock}{Sections}
+    $\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\openset} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$
+    \end{alertblock}
 \end{frame}
+
+\begin{frame}{Category $\textcolor{source}{\mathcal{C}}$}
+\begin{columns}
+    \column{0.39\textwidth}
+\begin{equation*}
+    \begin{tikzcd}[ampersand replacement=\&]
+        \textcolor{source}{C_1} \arrow[r, "f", color=source] \arrow[rd, "g\circ f"', color=source] \arrow["id_{C_1}"', loop, distance=2em, in=215, out=145, color=source] \& \textcolor{source}{C_2} \arrow[d, "g", color=source] \arrow["id_{C_2}"', loop, distance=2em, in=125, out=55, color=source] \\
+    \& \textcolor{source}{C_3} \arrow["id_{C_3}"', loop, distance=2em, in=305, out=235, color=source]              
+    \end{tikzcd}
+    \end{equation*}
+    \column{0.59\textwidth}
+    \begin{alertblock}{associativity} 
+        if $f: C_1 \rightarrow C_2$, $g: C_2 \rightarrow C_3$ and $h: C_3 \rightarrow C_4$ then $h\circ (g \circ f) = (h \circ g) \circ f$
+    \end{alertblock}
+    \begin{alertblock}{identity} 
+        for every $f: C_1 \rightarrow C_2$ there exists identity morphisms $f \circ id_{C_1} = f = id_{C_2} \circ f$
+    \end{alertblock}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Opposite Category $\textcolor{source}{\mathcal{C}^{op}}$}
+    \begin{columns}
+        \column{0.49\textwidth}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement=\&]
+            \textcolor{fade}{C_1} \arrow[r, "f", color=fade] \arrow[rd, "g\circ f"', color=fade] \arrow["id_{C_1}"', loop, distance=2em, in=215, out=145, color=fade] \& \textcolor{fade}{C_2} \arrow[d, "g", color=fade] \arrow["id_{C_2}"', loop, distance=2em, in=125, out=55, color=fade] \\
+        \& \textcolor{fade}{C_3} \arrow["id_{C_3}"', loop, distance=2em, in=305, out=235, color=fade]              
+        \end{tikzcd}
+        \end{equation*}
+        \column{0.49\textwidth}
+        \begin{equation*}
+        \begin{tikzcd}[ampersand replacement = \&]
+            \textcolor{source}{C_1} \arrow["id_{C_1}"', loop, distance=2em, in=215, out=145, color=source] \& \textcolor{source}{C_2} \arrow[l, "f"',color=source] \arrow["id_{C_2}"', loop, distance=2em, in=125, out=55, color=source]\\
+            \& \textcolor{source}{C_3} \arrow[u, "g"', color=source] \arrow[lu, "f \circ g", color=source] \arrow["id_{C_3}"', loop, distance=2em, in=305, out=235, color=source]
+            \end{tikzcd}
+        \end{equation*}
+        \end{columns}
+\end{frame}
+
+\begin{frame}{Functor $\textcolor{sheaf}{\bm{F}}: \textcolor{source}{\mathcal{C}} \rightarrow \textcolor{target}{\mathcal{D}}$}
+\begin{columns}
+    \column{.39\textwidth}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement = \&, ]
+            \textcolor{source}{c} \arrow[d, "f"', shift right=0, color=source] \arrow[r, "F", color=functor] \& \textcolor{target}{F(c)} \arrow[d, "F(f)", shift right=0, color=target] \\
+            \textcolor{source}{c^{\prime}} \arrow[r, "F"', color=functor]                       \& \textcolor{target}{F(c^{\prime})}                      
+        \end{tikzcd}
+    \end{equation*}
+    \column{.59\textwidth}
+    \begin{alertblock}{composition}
+    $\textcolor{functor}{F}(\textcolor{source}{g}) \circ  \textcolor{functor}{F}(\textcolor{source}{f}) = \textcolor{functor}{F} (\textcolor{source}{g}\circ \textcolor{source}{f})$
+    \end{alertblock}
+    \begin{alertblock}{identity}
+    $\textcolor{functor}{F}(\textcolor{source}{id_c}) = \textcolor{target}{id}_{\textcolor{functor}{F}(\textcolor{source}{c})}$
+    \end{alertblock}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$}
+
+\adjustbox{scale=3, center}{
+    \begin{tikzcd}[ampersand replacement=\&]
+        \& {} \arrow[dd, "\alpha", Rightarrow, shorten=1.5em, color=nattran] \&             \\
+      \textcolor{source}{\mathcal{C}} \arrow[rr, "F", bend left, color=functor] \arrow[rr, "G"', bend right, color=functor] \& \& \textcolor{target}{\mathcal{D}} \\
+        \& {} \&            
+      \end{tikzcd}}
+\end{frame}
+
+\begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$}
+\begin{equation*}
+    \begin{tikzcd}[column sep=huge, ampersand replacement = \&]
+        \textcolor{target}{F(c)} \arrow[dd, "F(f)"', color=target] \arrow[rr, "\alpha_{c}", bend left, color=nattran] \& \textcolor{source}{c} \arrow[dd, "f" description, color=source] \arrow[r, "G"', color=functor] \arrow[l, "F", color=functor] \& \textcolor{target}{G(c)} \arrow[dd, "G(f)", color=target] \\
+        {} \arrow[rr, dotted, color=nattran] \& \& {}                      \\
+        \textcolor{target}{F(c^{\prime})} \arrow[rr, "\alpha_{c^{\prime}}"', bend right, color=nattran] \& \textcolor{source}{c^{\prime}} \arrow[l, "F"', color=functor] \arrow[r, "G", color=functor] \& \textcolor{target}{G(c^{\prime})}          
+    \end{tikzcd}
+\end{equation*}    
+\end{frame}
+
+\begin{frame}{Presheaf: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
+\begin{equation*}
+    \begin{tikzcd}[ampersand replacement = \&, column sep=small]
+        {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} \& {} \& {\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}} \arrow[ll, "\iota^*"', hook', color=set] \\\& \&\\
+        \opensetc_1 \arrow[uu, "\sheafc_{\dbasec}", color=sheaf] \arrow[rr, "\iota"', hook, color=base] \& {} \arrow[uu, "\sheafc_{\dbasec}" description, dotted, color=sheaf] \& \opensetc_2 \arrow[uu, "\sheafc_{\dbasec}"', color=sheaf]                    
+        \end{tikzcd}
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Sheaf}
+    
+\end{frame}
+\begin{frame}{Stalk \& Germ}
+
+\adjustbox{scale=1}{
+    \begin{description}
+    \item[Stalk] $\sheafc(\dbasec)\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc})$
+    \item[Germ] $\dsectionc(\dbasepointc) \in \sheafc(\dbasec)$
+\end{description}
+}
+\end{frame}
+
+\begin{comment}
 \subsection{Contributions}
 \begin{frame}{Contributions}
     \begin{description}
@@ -200,7 +324,6 @@
         \item [Model] 
     \end{description}
 \end{frame}
-
 
 \section{Math}
 
@@ -577,22 +700,13 @@ LineData(FB, edge_table, vertex_table, num_samples=2, connect=False)
 \end{frame}
 \appendix 
 
-\begin{frame}{Mathematical Models of Vizualization}
-    \begin{description}
-        \item[algebraic process] data and viz transforms are symmetric \cite{kindlmannAlgebraicProcessVisualization2014}
-        \begin{equation*}
-            \begin{tikzcd}[ampersand replacement=\&]
-                \dtotal \arrow[d, "m"'] \arrow[r, "\nu"] \& \vtotal \arrow[r, "Q"]  \& \gtotal \arrow[d, "\varphi(m)"] \\
-                \dtotal \arrow[r, "\nu"']                     \& \vtotal \arrow[r, "Q"'] \& \gtotal                  
-            \end{tikzcd}
-        \end{equation*}
-      
-        \item[language] APT and GoG: syntax, semantics, and grammar\\ 
-        \cite{mackinlayAutomatingDesignGraphical1986,mackinlayAUTOMATICDESIGNGRAPHICAL1987,wilkinsonGrammarGraphics2005}
-        \item[functional dependencies] relationship between components \cite{sugibuchiFramwork2009}
-        \item[category theory]  \textit{understanding} = \textit{read} $\circ$ \textit{render} \cite{vickersUnderstandingVisualizationFormal2013}    
-    \end{description}
+\begin{frame}{Bertin Retinal Variables}
+    \begin{figure}
+        \includegraphics[width=.7\textwidth]{figures/intro/retinal_variables.png}
+        \caption{This tabular form of Bertin's retinal variables is from Understanding Graphics \cite{malamedInformationDisplayTips2010} who reproduced it from Krygier and Wood's \textit{Making Maps: A Visual Guide to Map Design for GIS}\cite{krygierMakingMapsVisual2005}}
+    \end{figure}
 \end{frame}
+
 
 \begin{frame}{Fiber is all possible values a variable can be \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}}
     Given a space of all possible values \ftotal\
@@ -863,5 +977,7 @@ class GraphLine:
 \end{minted}
 \end{frame}
 %\end{comment}
+
+\end{comment}
 \end{document}
 
