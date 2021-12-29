@@ -320,8 +320,8 @@
     \begin{columns}
     \column{0.29\textwidth}
     \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-        \onslide*<8-|handout:8->{\dfiberc}
-        \onslide*<8-|handout:8->{\arrow[r, hook]} \& 
+        \onslide*<9-|handout:9->{\dfiberc}
+        \onslide*<9-|handout:9->{\arrow[r, hook]} \& 
         \onslide*<1-|handout:1->{\dtotalc}
         \onslide*<1-|handout:1->{\arrow[d, "\pi"']} \\
            \& 
@@ -330,22 +330,25 @@
         \end{tikzcd}
     \column{0.69\textwidth}
         \begin{tikzcd}[ampersand replacement = \&, column sep=small]
-            \onslide*<3-|handout:3->{{\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}} \& 
+            \onslide*<3,6-|handout:3,6->{{\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}} 
+            \onslide*<4-5|handout:4-5>{{\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}\in \setc} 
+            \&  
             {} \& 
-            \onslide*<5-|handout:5->{{\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}}} 
-            \onslide*<6-|handout:6->{\arrow[ll, "\iota^*"', hook', color=set]} \\\& \&\\
-            \onslide*<2|handout:2>{\opensetc_1 \subset \dbasec}
-            \onslide*<3-|handout:3->{\opensetc_1} 
-            \onslide*<4-|handout:4->{\arrow[uu, "\sheafc_{\dbasec}", color=sheaf]} 
-            \onslide*<6-|handout:6->{\arrow[rr, "\iota"', hook, color=base]} \&   
-            \onslide*<7-|handout:7->{\arrow[uu, "\sheafc_{\dbasec}" description, dotted, color=sheaf]} \& 
-            \onslide*<5-|handout:5->{\opensetc_2} 
-            \onslide*<5-|handout:5->{\arrow[uu, "\sheafc_{\dbasec}"', color=sheaf]}                   
+            \onslide*<6-|handout:6->{{\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}}} 
+            \onslide*<7-|handout:7->{\arrow[ll, "\iota^*"', hook', color=set]} \\\& \&\\
+            \onslide*<3|handout:3>{\opensetc_1 \subset \dbasec}
+            \onslide*<4-5|handout:4-5>{\opensetc_1 \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}})}
+            \onslide*<6-|handout:6->{\opensetc_1} 
+            \onslide*<5-|handout:5->{\arrow[uu, "\sheafc_{\dbasec}", color=sheaf]} 
+            \onslide*<7-|handout:7->{\arrow[rr, "\iota"', hook, color=base]} \&   
+            \onslide*<8-|handout:8->{\arrow[uu, "\sheafc_{\dbasec}" description, color=sheaf]} \& 
+            \onslide*<6-|handout:6->{\opensetc_2} 
+            \onslide*<6-|handout:6->{\arrow[uu, "\sheafc_{\dbasec}"', color=sheaf]}                   
             \end{tikzcd}
     \end{columns}
     \begin{description}
-        \item<8-|handout:8->[stalk]$\sheafc(\dbasec)\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc}) \approx \dfiberc_{\dbasepointc}$
-        \item<9-|handout:9>[germ]   $\dsectionc(\dbasepointc) \in \sheafc_{\dbasec}$
+        \item<8-|handout:9->[stalk]$\sheafc(\dbasec)\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc}) \approx \dfiberc_{\dbasepointc}$
+        \item<9-|handout:10>[germ]   $\dsectionc(\dbasepointc) \in \sheafc_{\dbasec}$
     \end{description}
 \end{frame}
 
@@ -494,9 +497,57 @@
     \end{equation*}    
 \end{frame}
 
-\begin{frame}{$\vartist_{\vindexpullc}: \vindexpullc\sheafc_{\dbasec} \rightarrow \sheafc_{\gbasec}$}
-    
+
+
+\begin{frame}{$\vartist_{\vindexpushc}: \sheafc_{\dbasec} \rightarrow \vindexpushc\sheafc_{\gbasec}$}
+    \begin{equation}
+      \begin{tikzcd}[ampersand replacement =\&]
+        \cgamma{\opensetc_1}{\dtotalc} 
+        \arrow[dd, "\iota^*"', hook, color=set] 
+        \arrow[rrrr, "\vartistc_{\opensetc_1}", bend left, color=artist] \&  \& 
+        \opensetc_1 
+        \arrow[ll, "\sheafc_{\dtotalc}", color=sheaf] 
+        \arrow[rr, "\sheafc_{\gtotalpushc}"', color=sheaf] \&  \& 
+        \cgamma{\opensetc_1}{\gtotalpushc} 
+        \arrow[dd, "\iota^*", hook', color=set] \\
+        {} 
+        \arrow[rrrr, dotted, color=artist] &&&& {} \\
+        \cgamma{\opensetc_2}{\dtotalc} 
+        \arrow[rrrr, "\vartistc_{\opensetc_2}"', bend right, color=artist] \&  \& 
+        \opensetc_2 
+        \arrow[ll, "\sheafc_{\dtotalc}"', color=sheaf] 
+        \arrow[rr, "\sheafc_{\gtotalpushc}", color=sheaf] 
+        \arrow[uu, "\iota" description, hook, color=base] \& \& 
+        \cgamma{\opensetc_2}{\gtotalpushc}               
+    \end{tikzcd}
+    \end{equation}
 \end{frame}
+
+\begin{frame}{$\vartist_{\vindexpullc}: \vindexpullc\sheafc_{\dbasec} \rightarrow \sheafc_{\gbasec}$}
+    \begin{equation}
+  \begin{tikzcd}[ampersand replacement =\&]
+    \cgamma{\opensetgc_1}{\dtotalpullc} 
+    \arrow[dd, "\iota^*"', hook, color=set] 
+    \arrow[rrrr, "\vartistc_{\opensetgc_1}", bend left, color=artist] \&  \& 
+    \opensetgc_1 
+    \arrow[ll, "\sheafc_{\dtotalpullc}", color=sheaf] 
+    \arrow[rr, "\sheafc_{\gtotalc}"', color=sheaf] \&  \& 
+    \cgamma{\opensetgc_1}{\gtotalc} 
+    \arrow[dd, "\iota^*", hook', color=set] \\
+    {} 
+    \arrow[rrrr, dotted, color=artist] &&&& {} \\
+    \cgamma{\opensetgc_2}{\dtotalpullc} 
+    \arrow[rrrr, "\vartistc_{\opensetgc_2}"', bend right, color=artist] \&  \& 
+    \opensetgc_2 
+    \arrow[ll, "\sheafc_{\dtotalpullc}"', color=sheaf] 
+    \arrow[rr, "\sheafc_{\gtotalc}", color=sheaf] 
+    \arrow[uu, "\iota" description, hook, color=base] \& \& 
+    \cgamma{\opensetgc_2}{\gtotalc}                                                        
+\end{tikzcd}
+\end{equation}
+\end{frame}
+
+
 \begin{comment}
 
 \subsection{Contributions}
