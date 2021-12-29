@@ -189,33 +189,31 @@
     \end{description}
 \end{frame}
 
+\subsubsection{Fiber Bundles}
 \begin{frame}{Fiber Bundles}
     \begin{columns}
         \column{0.39\textwidth}
             \begin{equation*}
                 %\label{eq:related-work:continuity:fiber-bundle}
                 \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-                  \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
-                   \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
+                  \onslide*<2-|handout:2->{\dfiberc} \onslide*<4-|handout:4->{\arrow[r, hook]} \& \onslide*<3|handout:3->{\dtotalc} \onslide*<4-|handout:4->{\arrow[d, "\pi"']} \\
+                   \& \onslide*<1-|handout:1->{\dbasec} \onslide*<5-|handout:5->{\arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]}
                 \end{tikzcd}
             \end{equation*}
      \column{0.59\textwidth}
         \begin{description}
-            \item[\textcolor{base}{Base Space}] $( \dbasec, \mathcal{T})$ with
-                \begin{itemize}
-                   \item open sets $\opensetc \subset \dbasec$
-                   \item points $\dbasepointc \in \opensetc \in \dbasec$
-                 \end{itemize}  
-            \item[\textcolor{fiber}{Fiber Space}] $\dfiberc_{\dbasepointc} = \pi^{-1}(\dbasepointc)$
-            \item[\textcolor{total}{Total Space}]  $\dtotalc\restriction_{\opensetc} = \dbasec\restriction_{\opensetc} \times \dfiberc\restriction_{\opensetc}$ \\ for all $\opensetc \subset K$ 
+            \item<1-|handout:1->[\textcolor{base}{Base Space}] $( \dbasec, \mathcal{T})$, $\dbasepointc \in \opensetc \subset \dbasec$
+            \item<2-|handout:2->[\textcolor{fiber}{Fiber Space}] $\dfiberc_{\dbasepointc} = \pi^{-1}(\dbasepointc)$
+            \item<3-|handout:3->[\textcolor{total}{Total Space}]  $\dtotalc\restriction_{\opensetc} = \dbasec\restriction_{\opensetc} \times \dfiberc\restriction_{\opensetc}$ \\ for all $\opensetc \subset K$ 
         \end{description}
     \end{columns}
     \pause
-    \begin{alertblock}{Sections}
+    \begin{alertblock}<5-|handout:5->{Sections}
     $\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\openset} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$
     \end{alertblock}
 \end{frame}
 
+\subsection{Category Theory}
 \begin{frame}{Category $\textcolor{source}{\mathcal{C}}$}
 \begin{columns}
     \column{0.39\textwidth}
@@ -294,6 +292,7 @@
 \end{equation*}    
 \end{frame}
 
+\subsubsection{Sheaves}
 \begin{frame}{Subsets?}
     \begin{columns}
     \column{0.29\textwidth}
@@ -308,7 +307,6 @@
             \end{tikzcd}
     \end{columns}
 \end{frame}
-
 \begin{frame}{Subsets?}
     \begin{columns}
     \column{0.29\textwidth}
