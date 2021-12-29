@@ -269,7 +269,7 @@
         \end{columns}
 \end{frame}
 
-\begin{frame}{$\mathcal{C}^{op}$ with Objects of \setc}
+\begin{frame}{$\mathcal{C}^{op}$}
     \begin{columns}
         \column{0.29\textwidth}
         \begin{tikzcd}[ampersand replacement=\&]
@@ -316,7 +316,7 @@
 \end{columns}
 \end{frame}
 
-\begin{frame}{Presheaf on Bundle: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
+\begin{frame}{Presheaf: $\sheafc: \mathcal{C}^{op} \textcolor{sheaf}{\rightarrow} \setc $}
     \begin{columns}
     \column{0.29\textwidth}
     \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
@@ -365,17 +365,17 @@
 \only<-8|handout:-8>{Morphism of sheaves:}
 \only<5-6|handout:5-6>{pullback}
 \only<7|handout:7>{pushforward} 
-\only<8|handout:8>{pullback \& pushforward}
+\only<8,11-|handout:8,11->{pullback \& pushforward}
 \only<9|handout:9>{pullback sections}
 \only<10|handout:10>{pushforward sections}
 }
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
             \onslide*<7-8|handout:7-8>{\sheafc_{\gbasec}(\gbasec)} 
-            \onslide*<10-|handout:10->{\{\gsectionc: \gbasepointc \textcolor{section}{\rightarrow} \setc \}}
+            \onslide*<10-|handout:10->{\{\gsectionc: \gbasepointc \scarr \setc \}}
             \onslide*<7-8,10-|handout:7-8,10->{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]} \& \& 
             \onslide*<7-8|handout:7-8>{(\textcolor{functor}{\vindexpush}\sheafc_{\gbasec})(\dbasec)}  
-            \onslide*<10-|handout:10->{(\textcolor{functor}{\vindexpush}\gsectionc:\dbasepointc \textcolor{section}{\rightarrow} \setc)}
+            \onslide*<10-|handout:10->{(\textcolor{functor}{\vindexpush}\gsectionc:\dbasepointc \scarr \setc)}
             \\
             \onslide*<2-8|handout:2-8>{\gbasec}
             \onslide*<9-|handout:9->{\gbasepointc}
@@ -387,10 +387,10 @@
             \onslide*<4-6,8-9,11-|handout:4-6,8-9,11->{\arrow[d, "\sheaf_{\dbasec}", color=sheaf]}
             \onslide*<7-8,10-|handout:7-8,10->{\arrow[u, dashed, color=sheaf]} \\
             \onslide*<5-6,8|handout:5-6,8>{(\textcolor{functor}{\vindexpull}\sheafc_{\dbasec})(\gbasec)} 
-            \onslide*<9,11-|handout:9,11->{\{\textcolor{functor}{\vindexpull}\dsectionc:\gbasepointc\textcolor{section}{\rightarrow}\setc\}}
+            \onslide*<9,11-|handout:9,11->{\{\textcolor{functor}{\vindexpull}\dsectionc:\gbasepointc\scarr\setc\}}
             \onslide*<5-6,8-9,11-|handout:5-6,8-9,11->{\arrow[rr, "\textcolor{functor}{\vindexpull}", color=functor]}  \& \& 
             \onslide*<4-6,8|handout:4-6,8>{\sheafc_{\dbasec}(\dbasec)}                      
-            \onslide*<9,11-|handout:9,11->{\{\dsectionc: \dbasepointc \textcolor{section}{\rightarrow} \setc \}}
+            \onslide*<9,11-|handout:9,11->{\{\dsectionc: \dbasepointc \scarr \setc \}}
         \end{tikzcd}
     \end{equation*}
     \onslide<9,11-|handout:9,11->{
@@ -406,22 +406,31 @@
 \end{frame}
 
 
-\begin{frame}{\only<1-3:handout:1-3>{Pullback \& Pushforward are Isomorphic}\only<4-|handout:4>{Data to Graphic is a Sheaf Morphism}}
+\begin{frame}{
+    \only<1-3|handout:1-3>{Pullback \& Pushforward are Isomorphic}
+    \only<4|handout:4>{$\vartistc:\sheafc_{\dbasec}\rightarrow \sheafc_{\gbasec}$}
+    \only<5-|handout:5->{$\vartistc: \dsectionc \mapsto \gsectionc$}
+    }
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&]
-          \onslide*<1-|handout:1->{\sheafc_{\gbasec}(\gbasec)} 
+          \onslide*<1-4|handout:1-4>{\sheafc_{\gbasec}(\gbasec)} 
+          \onslide*<5-|handout:5->{\{\gsectionc:\gbasepointc \scarr \setc\}}
           \onslide*<1-3|handout:1-3>{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]}  
           \onslide*<4-|handout:4->{\arrow[rr, "\vindexpushc", color=artist]} 
           \& \& 
-          \onslide*<1-|handout:1->{(\textcolor{functor}{\vindexpush}\sheafc_{\gbasec})(\dbase)} \\
+          \onslide*<1-4|handout:1-4>{(\textcolor{functor}{\vindexpush}\sheafc_{\gbasec})(\dbase)}
+          \onslide*<5-|handout:5>{\{\vindexpushc \gsectionc: \dbasepointc \scarr\setc\}}
+          \\
           \& \& \\
-          \onslide*<1-|handout:1->{(\textcolor{functor}{\vindexpull}\sheafc_{\dbase})(\gbasec)}
+          \onslide*<1-4|handout:1-4>{(\textcolor{functor}{\vindexpull}\sheafc_{\dbase})(\gbasec)}
+          \onslide*<5-|handout:5>{\{ \vindexpullc\dsectionc:\gbasepointc\scarr \setc\}}
           \onslide*<1-3|handout:1-3>{\arrow[rr, "\textcolor{functor}{\vindexpull}", color=functor]}
           \onslide*<4-|handout:4->{\arrow[rr, "\vindexpullc", color=artist]}
           \onslide*<2-3|handout:2-3>{\arrow[uu, "\textcolor{homset}{hom_{\gbasec}}", color=homset]} 
           \onslide*<4-|handout:4->{\arrow[uu, "\vartistc_{\vindexpushc}", color=artist]}
           \&  \& 
-          \onslide*<1-|handout:1->{\sheafc_{\dbase}(\dbase)} 
+          \onslide*<1-4|handout:1-4>{\sheafc_{\dbase}(\dbase)} 
+          \onslide*<5-|handout:5->{\{\dsectionc:\dbasepointc \scarr \setc\}}
           \onslide*<2-3|handout:2-3>{\arrow[uu, "\textcolor{homset}{hom_{\dbasec}}"', color=homset]}
           \onslide*<4-|handout:4->{\arrow[uu, "\vartistc_{\vindexpullc}"', color=artist]}
           \onslide*<3|handout:3>{\arrow[lluu, "\textcolor{homset}{hom_{\dbasec,\gbasec}}"' description, dashed, color=homset]}
