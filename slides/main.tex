@@ -38,7 +38,7 @@
 \bibliographystyle{plain}
 \bibliography{../paper/bibliography.bib}
 
-\usetheme{ccnycrest}
+%\usetheme{ccnycrest}
 
 \newenvironment{changemargin}[2]{%
 \begin{list}{}{%
@@ -54,7 +54,7 @@
 \begin{document}
 
 \title{Topological Equivariant Artist Model}
-
+\begin{comment}
 \begin{frame}
 	\titlepage
     Hannah Aizenman, Tom Caswell, Michael Grossberg\\
@@ -71,6 +71,7 @@
     \end{itemize}
 \end{frame}
 
+%% maybe pull out the middle for now? move the 3 stages down to construction? 
 \begin{frame}{What do visualization libraries do?}
     \begin{figure}
         \begin{overprint}
@@ -124,6 +125,7 @@
     \end{description}
 \end{frame}
 
+%flip columns
 \begin{frame}{Frameworks for Expressing Visual Equivariance}
     \begin{description}
         \item[linguistically] visualization has syntax, semantics, grammar expresses how to design structure preserving visualizations
@@ -175,7 +177,7 @@
         \item VTK \cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012}(MayaVi\cite{RamachandranMayaVI2011})$\rightarrow$ Titan\cite{brianwylieUnifiedToolkitInformation2009}, ParaView\cite{ahrens2005paraview}
     \end{enumerate}
 \end{frame}
-
+\end{comment}
 \subsection{Algebraic Topology & Category Theory}
 
 \begin{frame}{Mathematical Data Abstraction}
@@ -292,27 +294,107 @@
 \end{equation*}    
 \end{frame}
 
-\begin{frame}{Presheaf: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
-\begin{equation*}
-    \begin{tikzcd}[ampersand replacement = \&, column sep=small]
-        {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} \& {} \& {\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}} \arrow[ll, "\iota^*"', hook', color=set] \\\& \&\\
-        \opensetc_1 \arrow[uu, "\sheafc_{\dbasec}", color=sheaf] \arrow[rr, "\iota"', hook, color=base] \& {} \arrow[uu, "\sheafc_{\dbasec}" description, dotted, color=sheaf] \& \opensetc_2 \arrow[uu, "\sheafc_{\dbasec}"', color=sheaf]                    
+\begin{frame}{Subsets?}
+    \begin{columns}
+    \column{0.29\textwidth}
+    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+          \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
+           \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
         \end{tikzcd}
-\end{equation*}
+    \column{0.69\textwidth}
+        \begin{tikzcd}[ampersand replacement = \&, column sep=small]
+            {} \& {} \& \\\& \&\\
+            \opensetc_1 \subset \dbasec \arrow[uu, "", color=white] \& {}  \&                    
+            \end{tikzcd}
+    \end{columns}
 \end{frame}
+
+\begin{frame}{Subsets?}
+    \begin{columns}
+    \column{0.29\textwidth}
+    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+          \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
+           \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
+        \end{tikzcd}
+    \column{0.69\textwidth}
+        \begin{tikzcd}[ampersand replacement = \&, column sep=small]
+            {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} \& {} \& \\\& \&\\
+            \opensetc_1 \subset \dbasec \arrow[uu, "", color=white] \& {}  \&                    
+            \end{tikzcd}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Presheaf on Bundle: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
+    \begin{columns}
+    \column{0.29\textwidth}
+    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+          \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
+           \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
+        \end{tikzcd}
+    \column{0.69\textwidth}
+        \begin{tikzcd}[ampersand replacement = \&, column sep=small]
+            {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} \& {} \& \\\& \&\\
+            \opensetc_1 \subset \dbasec \arrow[uu, "\sheafc_{\dbasec}", color=sheaf] \& {}  \&                    
+            \end{tikzcd}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Presheaf on Bundle: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
+    \begin{columns}
+    \column{0.29\textwidth}
+    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+          \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
+           \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
+        \end{tikzcd}
+    \column{0.69\textwidth}
+        \begin{tikzcd}[ampersand replacement = \&, column sep=small]
+            {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} \& {} \& {\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}}  \\\& \&\\
+            \opensetc_1 \arrow[uu, "\sheafc_{\dbasec}", color=sheaf]  \& {}  \& \opensetc_2 \arrow[uu, "\sheafc_{\dbasec}"', color=sheaf]                    
+            \end{tikzcd}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Presheaf on Bundle: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
+    \begin{columns}
+    \column{0.29\textwidth}
+    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+          \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
+           \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
+        \end{tikzcd}
+    \column{0.69\textwidth}
+        \begin{tikzcd}[ampersand replacement = \&, column sep=small]
+            {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} \& {} \& {\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}} \arrow[ll, "\iota^*"', hook', color=set] \\\& \&\\
+            \opensetc_1 \arrow[uu, "\sheafc_{\dbasec}", color=sheaf] \arrow[rr, "\iota"', hook, color=base] \& {}  \& \opensetc_2 \arrow[uu, "\sheafc_{\dbasec}"', color=sheaf]                    
+            \end{tikzcd}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Presheaf on Bundle: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
+    \begin{columns}
+    \column{0.29\textwidth}
+    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+          \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
+           \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
+        \end{tikzcd}
+    \column{0.69\textwidth}
+        \begin{tikzcd}[ampersand replacement = \&, column sep=small]
+            {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} \& {} \& {\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}} \arrow[ll, "\iota^*"', hook', color=set] \\\& \&\\
+            \opensetc_1 \arrow[uu, "\sheafc_{\dbasec}", color=sheaf] \arrow[rr, "\iota"', hook, color=base] \& {}  \arrow[uu, "\sheafc_{\dbasec}" description, dotted, color=sheaf]  \& \opensetc_2 \arrow[uu, "\sheafc_{\dbasec}"', color=sheaf]                    
+            \end{tikzcd}
+    \end{columns}
+
+    \begin{description}
+        \item<2-|handout:2->[stalk]$\sheafc(\dbasec)\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc}) \approx \dfiberc_{\dbasepointc}$
+        \item<3-|handout:3>[germ]   $\dsectionc(\dbasepointc) \in \sheafc_{\dbasec}$
+    \end{description}
+\end{frame}
+
+
 
 \begin{frame}{Sheaf}
     
 \end{frame}
-\begin{frame}{Stalk \& Germ}
 
-\adjustbox{scale=1}{
-    \begin{description}
-    \item[Stalk] $\sheafc(\dbasec)\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc})$
-    \item[Germ] $\dsectionc(\dbasepointc) \in \sheafc(\dbasec)$
-\end{description}
-}
-\end{frame}
 
 \begin{comment}
 \subsection{Contributions}
