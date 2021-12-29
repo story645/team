@@ -373,24 +373,36 @@
         \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
             \onslide*<7-8|handout:7-8>{\sheafc_{\gbasec}(\gbasec)} 
             \onslide*<10-|handout:10->{\{\gsectionc: \gbasepointc \textcolor{section}{\rightarrow} \setc \}}
-            \onslide*<7-8|handout:7-8>{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]} \& \& 
-            \onslide*<7-8|handout:7-8>{(\textcolor{functor}{\vindexpush}\sheafc_{\gbasec})(\dbasec)}  \\
+            \onslide*<7-8,10-|handout:7-8,10->{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]} \& \& 
+            \onslide*<7-8|handout:7-8>{(\textcolor{functor}{\vindexpush}\sheafc_{\gbasec})(\dbasec)}  
+            \onslide*<10-|handout:10->{(\textcolor{functor}{\vindexpush}\gsectionc:\dbasepointc \textcolor{section}{\rightarrow} \setc)}
+            \\
             \onslide*<2-8|handout:2-8>{\gbasec}
             \onslide*<9-|handout:9->{\gbasepointc}
             \onslide*<3-|handout:3->{\arrow[rr, "\vindex", color=functor]}
-            \onslide*<7-8|handout:7-8>{\arrow[u, "\sheaf_{\gbasec}", color=sheaf]}
-            \onslide*<6,8-|handout:6,8->{\arrow[d, dashed, color=sheaf]} \&  \& 
+            \onslide*<7-8,10-|handout:7-8,10->{\arrow[u, "\sheaf_{\gbasec}", color=sheaf]}
+            \onslide*<6,8-9,11-|handout:6,8-9,11->{\arrow[d, dashed, color=sheaf]} \&  \& 
             \onslide*<1-8|handout:1-8>{\dbasec}
-            \onslide*<9-|handout:9>{\dbasepointc}
-            \onslide*<4-6,8-|handout:4-6,8->{\arrow[d, "\sheaf_{\dbasec}", color=sheaf]}
-            \onslide*<7-8|handout:7-8>{\arrow[u, dashed, color=sheaf]} \\
+            \onslide*<9-|handout:9->{\dbasepointc}
+            \onslide*<4-6,8-9,11-|handout:4-6,8-9,11->{\arrow[d, "\sheaf_{\dbasec}", color=sheaf]}
+            \onslide*<7-8,10-|handout:7-8,10->{\arrow[u, dashed, color=sheaf]} \\
             \onslide*<5-6,8|handout:5-6,8>{(\textcolor{functor}{\vindexpull}\sheafc_{\dbasec})(\gbasec)} 
             \onslide*<9,11-|handout:9,11->{\{\textcolor{functor}{\vindexpull}\dsectionc:\gbasepointc\textcolor{section}{\rightarrow}\setc\}}
-            \onslide*<5-6,8-|handout:5-6,8->{\arrow[rr, "\textcolor{functor}{\vindexpull}", color=functor]}  \& \& 
+            \onslide*<5-6,8-9,11-|handout:5-6,8-9,11->{\arrow[rr, "\textcolor{functor}{\vindexpull}", color=functor]}  \& \& 
             \onslide*<4-6,8|handout:4-6,8>{\sheafc_{\dbasec}(\dbasec)}                      
             \onslide*<9,11-|handout:9,11->{\{\dsectionc: \dbasepointc \textcolor{section}{\rightarrow} \setc \}}
         \end{tikzcd}
     \end{equation*}
+    \onslide<9,11-|handout:9,11->{
+        \begin{equation*}
+            \dsectionc^{\textcolor{functor}{*}}(\gbasepointc) = \dsectionc(\textcolor{functor}{\vindex}(\gbasepointc)) = \dsectionc(\dbasepointc)
+        \end{equation*}
+    }
+    \onslide<10-|handout:10,11->{
+        \begin{equation*}
+            \gsectionc(\gbasepointc) = \gsectionc_{\textcolor{functor}{*}}(\dbasepointc) = \gsectionc(\textcolor{functor}{\vindexpre}(\dbasepointc))
+        \end{equation*}
+    }
 \end{frame}
 
 
