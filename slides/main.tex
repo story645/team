@@ -467,16 +467,36 @@
           \end{tikzcd}}
     \end{frame}
     
-    \begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$}
+\begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$}
     \begin{equation*}
         \begin{tikzcd}[column sep=huge, ampersand replacement = \&]
-            \textcolor{target}{F(c)} \arrow[dd, "F(f)"', color=target] \arrow[rr, "\alpha_{c}", bend left, color=nattran] \& \textcolor{source}{c} \arrow[dd, "f" description, color=source] \arrow[r, "G"', color=functor] \arrow[l, "F", color=functor] \& \textcolor{target}{G(c)} \arrow[dd, "G(f)", color=target] \\
-            {} \arrow[rr, dotted, color=nattran] \& \& {}                      \\
-            \textcolor{target}{F(c^{\prime})} \arrow[rr, "\alpha_{c^{\prime}}"', bend right, color=nattran] \& \textcolor{source}{c^{\prime}} \arrow[l, "F"', color=functor] \arrow[r, "G", color=functor] \& \textcolor{target}{G(c^{\prime})}          
+            \onslide*<2-|handout:2->{\textcolor{target}{F(c)}}
+            \onslide*<2-|handout:2->{\arrow[dd, "F(f)"', color=target]}
+            \onslide*<4-5|handout:4-5>{\arrow[rr, "\alpha_{c}", bend left, color=nattran]}  
+            \onslide*<6|handout:6>{\arrow[rr, "\alpha_{c}", color=nattran]} \& 
+            \onslide*<1-4|handout:1-4>{\textcolor{source}{c}} 
+            \onslide*<1-4|handout:1-4>{\arrow[dd, "f" description, color=source]}
+            \onslide*<3-4|handout:3-4>{\arrow[r, "G"', color=functor]}
+            \onslide*<2-4|handout:2-4>{\arrow[l, "F", color=functor]} \& 
+            \onslide*<3-|handout:3->{\textcolor{target}{G(c)}} 
+            \onslide*<3-|handout:3->{\arrow[dd, "G(f)", color=target]} \\
+            {} 
+            \onslide*<4|handout:4>{\arrow[rr, dotted, color=nattran]}
+            \onslide*<5|handout:5>{\arrow[rr, color=nattran]} \& \& {}                      \\
+            \onslide*<2-|handout:2->{\textcolor{target}{F(c^{\prime})}} 
+            \onslide*<4-5|handout:4-5>{\arrow[rr, "\alpha_{c^{\prime}}"', bend right, color=nattran]} 
+            \onslide*<4-5|handout:6>{\arrow[rr, "\alpha_{c^{\prime}}"', color=nattran]}\& 
+            \onslide*<1-4|handout:1-4>{\textcolor{source}{c^{\prime}}}
+            \onslide*<2-4|handout:2-4>{\arrow[l, "F"', color=functor]} 
+            \onslide*<3-4|handout:3-4>{\arrow[r, "G", color=functor]} \& 
+            \onslide*<3-|handout:3->{\textcolor{target}{G(c^{\prime})}}          
         \end{tikzcd}
     \end{equation*}    
-    \end{frame}
+\end{frame}
 
+\begin{frame}{$\vartist_{\vindexpullc}: \vindexpullc\sheafc_{\dbasec} \rightarrow \sheafc_{\gbasec}$}
+    
+\end{frame}
 \begin{comment}
 
 \subsection{Contributions}
