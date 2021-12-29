@@ -390,9 +390,17 @@
 \end{frame}
 
 
-
-\begin{frame}{Sheaf}
+\begin{frame}{Sheaves}
+    A sheaf is a presheaf that satisfies the following two axioms
     
+    \onslide<2-|handout:2->{Given open cover $\mathcal{\opensetc} = \{\opensetc_i\}_{i\in I}$ of $\opensetc$:}
+    \begin{block}<3-|handout:3->{locality}
+    $\dsectionc^{1}, \dsectionc^{2} \in \sheafc(\opensetc_i)\\ \dsectionc^{1}\restriction_{\opensetc_i} = \dsectionc^{2}\restriction_{\opensetc_i} \implies \dsectionc^{1} = \dsectionc^{2}$
+    \end{block} 
+    \begin{block}<4-|handout:4>{gluing}
+    $\dsectionc_{i} \in \sheafc(\opensetc_i), \dsectionc_{j} \in \sheafc(\opensetc_j), \opensetc_i, \opensetc_j \in \mathcal{U}\\ \dsectionc_{i}\restriction_{\opensetc_i\cap \opensetc_j} = \dsectionc_{j}\restriction_{\opensetc_i \cap \opensetc_j} \implies \dsectionc\restriction_{\opensetc_i} = \dsectionc_i$ 
+    \end{block}    
+\end{description}    
 \end{frame}
 
 
