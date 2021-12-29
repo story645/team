@@ -189,7 +189,6 @@
     \end{description}
 \end{frame}
 
-\subsubsection{Fiber Bundles}
 \begin{frame}{Fiber Bundles}
     \begin{columns}
         \column{0.39\textwidth}
@@ -232,6 +231,24 @@
     \end{alertblock}
     \end{columns}
 \end{frame}
+\begin{frame}{Category $\mathcal{\dbasec}$}
+\begin{columns}
+    \column{0.49\textwidth}
+\begin{equation*}
+    \begin{tikzcd}[ampersand replacement=\&]
+        \textcolor{source}{C_1} \arrow[r, "f", color=source] \arrow[rd, "g\circ f"', color=source] \arrow["id_{C_1}"', loop, distance=2em, in=215, out=145, color=source] \& \textcolor{source}{C_2} \arrow[d, "g", color=source] \arrow["id_{C_2}"', loop, distance=2em, in=125, out=55, color=source] \\
+    \& \textcolor{source}{C_3} \arrow["id_{C_3}"', loop, distance=2em, in=305, out=235, color=source]              
+    \end{tikzcd}
+    \end{equation*}
+    \column{0.49\textwidth}
+    \onslide<2-|handout:2->{
+    \begin{tikzcd}[ampersand replacement=\&]
+            \opensetc_1 \arrow[r, "\iota_{1,2}", color=base] \arrow[rd, "\iota_{1,2}\circ \iota_{2,3}"', color=base] \arrow["id_{\opensetc_1}"', loop, distance=2em, in=215, out=145, color=base] \& \opensetc_2 \arrow[d, "\iota_{2,3}", color=base] \arrow["id_{\opensetc_2}"', loop, distance=2em, in=125, out=55, color=base] \\
+        \& \opensetc_3 \arrow["id_{\opensetc_3}"', loop, distance=2em, in=305, out=235, color=base]              
+    \end{tikzcd}
+    }
+    \end{columns}
+\end{frame}
 
 \begin{frame}{Opposite Category $\textcolor{source}{\mathcal{C}^{op}}$}
     \begin{columns}
@@ -252,48 +269,54 @@
         \end{columns}
 \end{frame}
 
-\begin{frame}{Functor $\textcolor{sheaf}{\bm{F}}: \textcolor{source}{\mathcal{C}} \rightarrow \textcolor{target}{\mathcal{D}}$}
+\begin{frame}{$\mathcal{C}^{op}$ with Objects of \setc}
+    \begin{columns}
+        \column{0.29\textwidth}
+        \begin{tikzcd}[ampersand replacement=\&]
+            \opensetc_1 \arrow[r, "\iota_{1,2}", color=base] \arrow[rd, "\iota_{1,2}\circ \iota_{2,3}"', color=base] \arrow["id_{\opensetc_1}"', loop, distance=2em, in=215, out=145, color=base] \& \opensetc_2 \arrow[d, "\iota_{2,3}", color=base] \arrow["id_{\opensetc_2}"', loop, distance=2em, in=125, out=55, color=base] \\
+        \& \opensetc_3 \arrow["id_{\opensetc_3}"', loop, distance=2em, in=305, out=235, color=base]              
+    \end{tikzcd}
+        \column{0.69\textwidth}
+        \onslide<2-|handout:2->{
+            \begin{tikzcd}[ampersand replacement=\&]
+            \cgamma{\opensetc_1}{\dtotalc\restriction_{\opensetc_1}} \&  \& \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} \arrow[ll, "\iota^*\restriction_{\opensetc_1}"', color=set]\\
+            \&\&\\\&  \& \cgamma{\opensetc_3}{\dtotalc\restriction_{\opensetc_3}} \arrow[uu, "\iota^*\restriction_{\opensetc_2}"', color=set] \arrow[lluu, "\iota^*\restriction_{\opensetc_2} \circ \iota^*\restriction_{\opensetc_1}", color=set]
+            \end{tikzcd}
+
+
+        }
+
+        \end{columns}
+\end{frame}
+
+\begin{frame}{Functor $\textcolor{functor}{\bm{F}}: \textcolor{source}{\mathcal{C}} \rightarrow \textcolor{target}{\mathcal{D}}$}
 \begin{columns}
     \column{.39\textwidth}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement = \&, ]
-            \textcolor{source}{c} \arrow[d, "f"', shift right=0, color=source] \arrow[r, "F", color=functor] \& \textcolor{target}{F(c)} \arrow[d, "F(f)", shift right=0, color=target] \\
-            \textcolor{source}{c^{\prime}} \arrow[r, "F"', color=functor]                       \& \textcolor{target}{F(c^{\prime})}                      
+            \onslide*<1-|handout:1->{\textcolor{source}{c}} 
+            \onslide*<1-|handout:1->{\arrow[d, "f"', shift right=0, color=source]} \onslide*<3-|handout:3->{\arrow[r, "F", color=functor]} \& 
+            \onslide*<2|handout:2>{\textcolor{target}{d}}
+            \onslide*<3-|handout:3->{\textcolor{target}{F(c)}} 
+            \onslide*<2|handout:2>{\arrow[d, shift right=0, color=target]}
+            \onslide*<3-|handout:3->{\arrow[d, "F(f)", shift right=0, color=target]} \\
+            \onslide*<1-|handout:1->{\textcolor{source}{c^{\prime}}} 
+            \onslide*<3-|handout:3->{\arrow[r, "F"', color=functor]}\& 
+            \onslide*<2|handout:2>{\textcolor{target}{d^{\prime}}}
+            \onslide*<3-|handout:3->{\textcolor{target}{F(c^{\prime})}}                      
         \end{tikzcd}
     \end{equation*}
     \column{.59\textwidth}
-    \begin{alertblock}{composition}
+    \begin{alertblock}<4-|handout:4->{composition}
     $\textcolor{functor}{F}(\textcolor{source}{g}) \circ  \textcolor{functor}{F}(\textcolor{source}{f}) = \textcolor{functor}{F} (\textcolor{source}{g}\circ \textcolor{source}{f})$
     \end{alertblock}
-    \begin{alertblock}{identity}
+    \begin{alertblock}<5-|handout:5->{identity}
     $\textcolor{functor}{F}(\textcolor{source}{id_c}) = \textcolor{target}{id}_{\textcolor{functor}{F}(\textcolor{source}{c})}$
     \end{alertblock}
 \end{columns}
 \end{frame}
 
-
-\begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$}
-
-\adjustbox{scale=3, center}{
-    \begin{tikzcd}[ampersand replacement=\&]
-        \& {} \arrow[dd, "\alpha", Rightarrow, shorten=1.5em, color=nattran] \&             \\
-      \textcolor{source}{\mathcal{C}} \arrow[rr, "F", bend left, color=functor] \arrow[rr, "G"', bend right, color=functor] \& \& \textcolor{target}{\mathcal{D}} \\
-        \& {} \&            
-      \end{tikzcd}}
-\end{frame}
-
-\begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$}
-\begin{equation*}
-    \begin{tikzcd}[column sep=huge, ampersand replacement = \&]
-        \textcolor{target}{F(c)} \arrow[dd, "F(f)"', color=target] \arrow[rr, "\alpha_{c}", bend left, color=nattran] \& \textcolor{source}{c} \arrow[dd, "f" description, color=source] \arrow[r, "G"', color=functor] \arrow[l, "F", color=functor] \& \textcolor{target}{G(c)} \arrow[dd, "G(f)", color=target] \\
-        {} \arrow[rr, dotted, color=nattran] \& \& {}                      \\
-        \textcolor{target}{F(c^{\prime})} \arrow[rr, "\alpha_{c^{\prime}}"', bend right, color=nattran] \& \textcolor{source}{c^{\prime}} \arrow[l, "F"', color=functor] \arrow[r, "G", color=functor] \& \textcolor{target}{G(c^{\prime})}          
-    \end{tikzcd}
-\end{equation*}    
-\end{frame}
-
-\subsubsection{Sheaves}
-\begin{frame}{Subsets?}
+\begin{frame}{Presheaf on Bundle: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
     \begin{columns}
     \column{0.29\textwidth}
     \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
@@ -307,7 +330,8 @@
             \end{tikzcd}
     \end{columns}
 \end{frame}
-\begin{frame}{Subsets?}
+
+\begin{frame}{Presheaf on Bundle: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
     \begin{columns}
     \column{0.29\textwidth}
     \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
@@ -401,8 +425,29 @@
 \end{description}    
 \end{frame}
 
+\subsubsection{Sheaves}
+\begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$}
+
+    \adjustbox{scale=3, center}{
+        \begin{tikzcd}[ampersand replacement=\&]
+            \& {} \arrow[dd, "\alpha", Rightarrow, shorten=1.5em, color=nattran] \&             \\
+          \textcolor{source}{\mathcal{C}} \arrow[rr, "F", bend left, color=functor] \arrow[rr, "G"', bend right, color=functor] \& \& \textcolor{target}{\mathcal{D}} \\
+            \& {} \&            
+          \end{tikzcd}}
+    \end{frame}
+    
+    \begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$}
+    \begin{equation*}
+        \begin{tikzcd}[column sep=huge, ampersand replacement = \&]
+            \textcolor{target}{F(c)} \arrow[dd, "F(f)"', color=target] \arrow[rr, "\alpha_{c}", bend left, color=nattran] \& \textcolor{source}{c} \arrow[dd, "f" description, color=source] \arrow[r, "G"', color=functor] \arrow[l, "F", color=functor] \& \textcolor{target}{G(c)} \arrow[dd, "G(f)", color=target] \\
+            {} \arrow[rr, dotted, color=nattran] \& \& {}                      \\
+            \textcolor{target}{F(c^{\prime})} \arrow[rr, "\alpha_{c^{\prime}}"', bend right, color=nattran] \& \textcolor{source}{c^{\prime}} \arrow[l, "F"', color=functor] \arrow[r, "G", color=functor] \& \textcolor{target}{G(c^{\prime})}          
+        \end{tikzcd}
+    \end{equation*}    
+    \end{frame}
 
 \begin{comment}
+
 \subsection{Contributions}
 \begin{frame}{Contributions}
     \begin{description}
