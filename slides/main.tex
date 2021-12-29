@@ -320,97 +320,34 @@
     \begin{columns}
     \column{0.29\textwidth}
     \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-          \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
-           \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
+        \onslide*<8-|handout:8->{\dfiberc}
+        \onslide*<8-|handout:8->{\arrow[r, hook]} \& 
+        \onslide*<1-|handout:1->{\dtotalc}
+        \onslide*<1-|handout:1->{\arrow[d, "\pi"']} \\
+           \& 
+        \onslide*<1-|handout:1->{\dbasec}
+        \onslide*<3-|handout:3->{\arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]}
         \end{tikzcd}
     \column{0.69\textwidth}
         \begin{tikzcd}[ampersand replacement = \&, column sep=small]
-            {} \& {} \& \\\& \&\\
-            \opensetc_1 \subset \dbasec \arrow[uu, "", color=white] \& {}  \&                    
+            \onslide*<3-|handout:3->{{\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}} \& 
+            {} \& 
+            \onslide*<5-|handout:5->{{\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}}} 
+            \onslide*<6-|handout:6->{\arrow[ll, "\iota^*"', hook', color=set]} \\\& \&\\
+            \onslide*<2|handout:2>{\opensetc_1 \subset \dbasec}
+            \onslide*<3-|handout:3->{\opensetc_1} 
+            \onslide*<4-|handout:4->{\arrow[uu, "\sheafc_{\dbasec}", color=sheaf]} 
+            \onslide*<6-|handout:6->{\arrow[rr, "\iota"', hook, color=base]} \&   
+            \onslide*<7-|handout:7->{\arrow[uu, "\sheafc_{\dbasec}" description, dotted, color=sheaf]} \& 
+            \onslide*<5-|handout:5->{\opensetc_2} 
+            \onslide*<5-|handout:5->{\arrow[uu, "\sheafc_{\dbasec}"', color=sheaf]}                   
             \end{tikzcd}
     \end{columns}
-\end{frame}
-
-\begin{frame}{Presheaf on Bundle: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
-    \begin{columns}
-    \column{0.29\textwidth}
-    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-          \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
-           \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
-        \end{tikzcd}
-    \column{0.69\textwidth}
-        \begin{tikzcd}[ampersand replacement = \&, column sep=small]
-            {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} \& {} \& \\\& \&\\
-            \opensetc_1 \subset \dbasec \arrow[uu, "", color=white] \& {}  \&                    
-            \end{tikzcd}
-    \end{columns}
-\end{frame}
-
-\begin{frame}{Presheaf on Bundle: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
-    \begin{columns}
-    \column{0.29\textwidth}
-    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-          \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
-           \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
-        \end{tikzcd}
-    \column{0.69\textwidth}
-        \begin{tikzcd}[ampersand replacement = \&, column sep=small]
-            {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} \& {} \& \\\& \&\\
-            \opensetc_1 \subset \dbasec \arrow[uu, "\sheafc_{\dbasec}", color=sheaf] \& {}  \&                    
-            \end{tikzcd}
-    \end{columns}
-\end{frame}
-
-\begin{frame}{Presheaf on Bundle: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
-    \begin{columns}
-    \column{0.29\textwidth}
-    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-          \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
-           \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
-        \end{tikzcd}
-    \column{0.69\textwidth}
-        \begin{tikzcd}[ampersand replacement = \&, column sep=small]
-            {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} \& {} \& {\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}}  \\\& \&\\
-            \opensetc_1 \arrow[uu, "\sheafc_{\dbasec}", color=sheaf]  \& {}  \& \opensetc_2 \arrow[uu, "\sheafc_{\dbasec}"', color=sheaf]                    
-            \end{tikzcd}
-    \end{columns}
-\end{frame}
-
-\begin{frame}{Presheaf on Bundle: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
-    \begin{columns}
-    \column{0.29\textwidth}
-    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-          \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
-           \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
-        \end{tikzcd}
-    \column{0.69\textwidth}
-        \begin{tikzcd}[ampersand replacement = \&, column sep=small]
-            {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} \& {} \& {\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}} \arrow[ll, "\iota^*"', hook', color=set] \\\& \&\\
-            \opensetc_1 \arrow[uu, "\sheafc_{\dbasec}", color=sheaf] \arrow[rr, "\iota"', hook, color=base] \& {}  \& \opensetc_2 \arrow[uu, "\sheafc_{\dbasec}"', color=sheaf]                    
-            \end{tikzcd}
-    \end{columns}
-\end{frame}
-
-\begin{frame}{Presheaf on Bundle: $\sheafc: \opensetc \textcolor{sheaf}{\rightarrow} \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$}
-    \begin{columns}
-    \column{0.29\textwidth}
-    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-          \dfiberc \arrow[r, hook] \& \dtotalc \arrow[d, "\pi"'] \\
-           \& \dbasec \arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]
-        \end{tikzcd}
-    \column{0.69\textwidth}
-        \begin{tikzcd}[ampersand replacement = \&, column sep=small]
-            {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}} \& {} \& {\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}} \arrow[ll, "\iota^*"', hook', color=set] \\\& \&\\
-            \opensetc_1 \arrow[uu, "\sheafc_{\dbasec}", color=sheaf] \arrow[rr, "\iota"', hook, color=base] \& {}  \arrow[uu, "\sheafc_{\dbasec}" description, dotted, color=sheaf]  \& \opensetc_2 \arrow[uu, "\sheafc_{\dbasec}"', color=sheaf]                    
-            \end{tikzcd}
-    \end{columns}
-
     \begin{description}
-        \item<2-|handout:2->[stalk]$\sheafc(\dbasec)\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc}) \approx \dfiberc_{\dbasepointc}$
-        \item<3-|handout:3>[germ]   $\dsectionc(\dbasepointc) \in \sheafc_{\dbasec}$
+        \item<8-|handout:8->[stalk]$\sheafc(\dbasec)\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc}) \approx \dfiberc_{\dbasepointc}$
+        \item<9-|handout:9>[germ]   $\dsectionc(\dbasepointc) \in \sheafc_{\dbasec}$
     \end{description}
 \end{frame}
-
 
 \begin{frame}{Sheaves}
     A sheaf is a presheaf that satisfies the following two axioms
@@ -421,11 +358,31 @@
     \end{block} 
     \begin{block}<4-|handout:4>{gluing}
     $\dsectionc_{i} \in \sheafc(\opensetc_i), \dsectionc_{j} \in \sheafc(\opensetc_j), \opensetc_i, \opensetc_j \in \mathcal{U}\\ \dsectionc_{i}\restriction_{\opensetc_i\cap \opensetc_j} = \dsectionc_{j}\restriction_{\opensetc_i \cap \opensetc_j} \implies \dsectionc\restriction_{\opensetc_i} = \dsectionc_i$ 
-    \end{block}    
-\end{description}    
+    \end{block}      
 \end{frame}
 
-\subsubsection{Sheaves}
+\begin{frame}{Morphism on Sheaves:\onslide<5-6,8-|handout:5-6,8->{ pullback}\onslide<8-|handout:8->{ and }\onslide<7-|handout:7->{pushforward}}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+            \onslide*<7-|handout:7->{\sheafc_{\gbasec}(\gbasec)} 
+            \onslide*<7-|handout:7->{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]} \& \& 
+            \onslide*<7-|handout:7->{(\textcolor{functor}{\vindexpush}\sheafc_{\gbasec})(\dbasec)}  \\
+            \onslide*<2-|handout:2->{\gbasec}
+            \onslide*<3-|handout:3->{\arrow[rr, "\vindex", color=functor]}
+            \onslide*<7-|handout:7->{\arrow[u, "\sheaf_{\gbasec}", color=sheaf]}
+            \onslide*<6,8-|handout:6,8->{\arrow[d, dashed, color=sheaf]} \&  \& 
+            \onslide*<1-|handout:1->{\dbasec}
+            \onslide*<4-6,8-|handout:4-6,8->{\arrow[d, "\sheaf_{\dbasec}", color=sheaf]}
+            \onslide*<7-|handout:7->{\arrow[u, dashed, color=sheaf]} \\
+            \onslide*<5-6,8-|handout:5-6,8->{(\textcolor{functor}{\vindexpull}\sheafc_{\dbasec})(\gbasec)} 
+            \onslide*<5-6,8-|handout:5-6,8->{\arrow[rr, "\textcolor{functor}{\vindexpull}", color=functor]}  \& \& 
+            \onslide*<4-6,8-|handout:4-6,8->{\sheafc_{\dbasec}(\dbasec)}                             
+        \end{tikzcd}
+    \end{equation*}
+\end{frame}
+
+
+
 \begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$}
 
     \adjustbox{scale=3, center}{
