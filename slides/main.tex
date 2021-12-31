@@ -1,5 +1,6 @@
 \documentclass[xcolor={dvipsnames}, handout]{beamer}
 %\documentclass[xcolor={dvipsnames}]{beamer}
+\setbeamertemplate{footline}[frame number]
 %\usepackage{amsmath,amsfonts,amssymb,pxfonts,eulervm,xspace}
 \usepackage{amsmath, amsfonts, amssymb, mathtools, eulervm, xspace}
 \renewcommand{\restriction}{\mathord{\upharpoonright}} %restriction w/p space
@@ -195,19 +196,23 @@
             \begin{equation*}
                 %\label{eq:related-work:continuity:fiber-bundle}
                 \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-                  \onslide*<2-|handout:2->{\dfiberc} \onslide*<4-|handout:4->{\arrow[r, hook]} \& \onslide*<3|handout:3->{\dtotalc} \onslide*<4-|handout:4->{\arrow[d, "\pi"']} \\
-                   \& \onslide*<1-|handout:1->{\dbasec} \onslide*<5-|handout:5->{\arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]}
+                  \onslide*<2-|handout:1>{\dfiberc} 
+                  \onslide*<4-|handout:1>{\arrow[r, hook]} \& 
+                  \onslide*<3|handout:1>{\dtotalc} 
+                  \onslide*<4-|handout:1>{\arrow[d, "\pi"']} \\
+                   \& \onslide*<1-|handout:1>{\dbasec} 
+                   \onslide*<5-|handout:1>{\arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]}
                 \end{tikzcd}
             \end{equation*}
      \column{0.59\textwidth}
         \begin{description}
-            \item<1-|handout:1->[\textcolor{base}{Base Space}] $( \dbasec, \mathcal{T})$, $\dbasepointc \in \opensetc \subset \dbasec$
-            \item<2-|handout:2->[\textcolor{fiber}{Fiber Space}] $\dfiberc_{\dbasepointc} = \pi^{-1}(\dbasepointc)$
-            \item<3-|handout:3->[\textcolor{total}{Total Space}]  $\dtotalc\restriction_{\opensetc} = \dbasec\restriction_{\opensetc} \times \dfiberc\restriction_{\opensetc}$ \\ for all $\opensetc \subset K$ 
+            \item<1-|handout:1>[\textcolor{base}{Base Space}] $( \dbasec, \mathcal{T})$, $\dbasepointc \in \opensetc \subset \dbasec$
+            \item<2-|handout:1>[\textcolor{fiber}{Fiber Space}] $\dfiberc_{\dbasepointc} = \pi^{-1}(\dbasepointc)$
+            \item<3-|handout:1>[\textcolor{total}{Total Space}]  $\dtotalc\restriction_{\opensetc} = \dbasec\restriction_{\opensetc} \times \dfiberc\restriction_{\opensetc}$ \\ for all $\opensetc \subset K$ 
         \end{description}
     \end{columns}
     \pause
-    \begin{alertblock}<5-|handout:5->{Sections}
+    \begin{alertblock}<5-|handout:1>{Sections}
     $\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\openset} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$
     \end{alertblock}
 \end{frame}
