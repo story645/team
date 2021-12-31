@@ -296,8 +296,6 @@
             \cgamma{\opensetc_1}{\dtotalc\restriction_{\opensetc_1}} \&  \& \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} \arrow[ll, "\iota^*\restriction_{\opensetc_1}"', color=set]\\
             \&\&\\\&  \& \cgamma{\opensetc_3}{\dtotalc\restriction_{\opensetc_3}} \arrow[uu, "\iota^*\restriction_{\opensetc_2}"', color=set] \arrow[lluu, "\iota^*\restriction_{\opensetc_2} \circ \iota^*\restriction_{\opensetc_1}", color=set]
             \end{tikzcd}
-
-
         }
 
         \end{columns}
@@ -314,8 +312,9 @@
             \onslide*<2-3|handout:0>{\textcolor{target}{d}}
             \onslide*<4|handout:0>{\textcolor{target}{F(c)}} 
             \onslide*<0|handout:1>{\textcolor{target}{F(c)=d}} 
-            \onslide*<2|handout:1>{\arrow[d, shift right=0, color=target]}
-            \onslide*<3-|handout:1>{\arrow[d, "F(f)", shift right=0, color=target]} \\
+            \onslide*<2|handout:0>{\arrow[d, shift right=0, color=target]}
+            \onslide*<3-|handout:0>{\arrow[d, "F(f)", shift right=0, color=target]}
+            \onslide*<0|handout:1>{\arrow[d, "F(f)", shift right=3, color=target]} \\
             \onslide*<1-|handout:1>{\textcolor{source}{c^{\prime}}} 
             \onslide*<3-|handout:1>{\arrow[r, "F"', color=functor, maps to]}\& 
             \onslide*<2-3|handout:0>{\textcolor{target}{d^{\prime}}}
@@ -337,35 +336,38 @@
     \begin{columns}
     \column{0.29\textwidth}
     \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-        \onslide*<9-|handout:9->{\dfiberc}
-        \onslide*<9-|handout:9->{\arrow[r, hook]} \& 
+        \onslide*<9-|handout:1->{\dfiberc}
+        \onslide*<9-|handout:1->{\arrow[r, hook]} \& 
         \onslide*<1-|handout:1->{\dtotalc}
         \onslide*<1-|handout:1->{\arrow[d, "\pi"']} \\
            \& 
         \onslide*<1-|handout:1->{\dbasec}
-        \onslide*<3-|handout:3->{\arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]}
+        \onslide*<3-|handout:1->{\arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]}
         \end{tikzcd}
     \column{0.69\textwidth}
         \begin{tikzcd}[ampersand replacement = \&, column sep=small]
-            \onslide*<3,6-|handout:3,6->{{\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}} 
-            \onslide*<4-5|handout:4-5>{{\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}\in \setc} 
+            \onslide*<3,6-|handout:0>{{\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}} 
+            \onslide*<4-5|handout:0>{{\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}\in \setc}
+            \onslide*<0|handout:1>{\setc \ni {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}}
             \&  
             {} \& 
-            \onslide*<6-|handout:6->{{\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}}} 
-            \onslide*<7-|handout:7->{\arrow[ll, "\iota^*"', hook', color=set]} \\\& \&\\
-            \onslide*<3|handout:3>{\opensetc_1 \subset \dbasec}
-            \onslide*<4-5|handout:4-5>{\opensetc_1 \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}})}
-            \onslide*<6-|handout:6->{\opensetc_1} 
-            \onslide*<5-|handout:5->{\arrow[uu, "\sheafc_{\dbasec}", color=sheaf]} 
-            \onslide*<7-|handout:7->{\arrow[rr, "\iota"', hook, color=base]} \&   
-            \onslide*<8-|handout:8->{\arrow[uu, "\sheafc_{\dbasec}" description, color=sheaf]} \& 
-            \onslide*<6-|handout:6->{\opensetc_2} 
-            \onslide*<6-|handout:6->{\arrow[uu, "\sheafc_{\dbasec}"', color=sheaf]}                   
+            \onslide*<6-|handout:1>{{\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}}} 
+            \onslide*<7-|handout:1>{\arrow[ll, "\iota^*"', hook', color=set]} \\\& \&\\
+            \onslide*<3|handout:0>{\opensetc_1 \subset \dbasec}
+            \onslide*<4-5|handout:0>{\opensetc_1 \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}})}
+            \onslide*<6-|handout:0>{\opensetc_1}
+            \onslide*<0|handout:1>{Ob(\mathcal{\dbasec}^{\textcolor{base}{op}}) \ni \opensetc_1} 
+            \onslide*<5-|handout:0>{\arrow[uu, "\sheafc_{\dbasec}", maps to, color=sheaf]}
+            \onslide*<0|handout:1>{\arrow[uu, "\sheafc_{\dbasec}", maps to, color=sheaf, shift right = 10]}
+            \onslide*<7-|handout:1>{\arrow[rr, "\iota"', hook, color=base]} \&   
+            \onslide*<8-|handout:1>{\arrow[uu, "\sheafc_{\dbasec}" description, maps to, color=sheaf]} \& 
+            \onslide*<6-|handout:1>{\opensetc_2} 
+            \onslide*<6-|handout:1>{\arrow[uu, "\sheafc_{\dbasec}"', maps to, color=sheaf]}                   
             \end{tikzcd}
     \end{columns}
     \begin{description}
-        \item<8-|handout:9->[stalk]$\sheafc(\dbasec)\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc}) \approx \dfiberc_{\dbasepointc}$
-        \item<9-|handout:10>[germ]   $\dsectionc(\dbasepointc) \in \sheafc_{\dbasec}$
+        \item<8-|handout:1>[stalk]$\sheafc(\dbasec)\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc}) \approx \dfiberc_{\dbasepointc}$
+        \item<9-|handout:1>[germ]   $\dsectionc(\dbasepointc) \in \sheafc_{\dbasec}$
     \end{description}
 \end{frame}
 
