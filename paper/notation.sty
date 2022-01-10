@@ -33,10 +33,14 @@
 \cdef{sheaf}{\mathcal{O}}
 \cdef{sheafc}{\textcolor{sheaf}{\sheaf}}
 
+%%open sets
 \cdef{openset}{U}
 \cdef{opensetc}{\textcolor{base}{\openset}}
 \cdef{opensetg}{W}
 \cdef{opensetgc}{\textcolor{base}{\opensetg}}
+
+%% section arrow
+\cdef{scarr}{\textcolor{section}{\rightarrow}}
 
 
 %% databundle
@@ -47,10 +51,10 @@
 \cdef{dfiberc}{\textcolor{fiber}{\dfiber}}
 
 \cdef{delement}{r}
+\cdef{delementc}{\textcolor{set}{\delement}}
 
 \cdef{dbase}{K}
 \cdef{dbasec}{\textcolor{base}{\dbase}}
-\cdef{dbasecop}{\textcolor{base}}{\mathcal{dbase}^{op}}
 
 \cdef{dbasepoint}{\MakeLowercase{\dbase}}
 \cdef{dbasepointc}{\textcolor{base}{\dbasepoint}}
@@ -159,3 +163,9 @@
 \cdef{vsectionpullc}{\textcolor{section}{\vsectionpull}}
 \cdef{vpreimg}{\vindex^{-1}(\dbasepoint)}
 
+%graphic push forwards
+\cdef{gtotalpush}{\vindexpush\gtotal}
+\cdef{gtotalpushc}{\textcolor{total}{\gtotalpush}}
+
+\cdef{gsectionpush}{\vindexpush\gsection}
+\cdef{gsectionpushc}{\textcolor{section}{\gsectionpush}}
