@@ -185,7 +185,7 @@ When introducing the retinal variables, Bertin informally specifies that continu
   \caption{Equivariance is that a transformation on the data has a corresponding transformation in the graphical representation. For example, in this figure the data is scaled by a factor 10. Equivalently the line plot is scaled by factor of 10, resulting in a shrunken line plot. Either a transformation on the data side can induce a transformation on the visual side, or a transformation on the visual side indicates that there is also a transformation on the data side. }
 \end{figure}
 
-\note{fig and K&S model, vickers}
+\note{fig and K\& S model, vickers}
 
 \subsection{Visualization Library Architecture}
 General purpose visualization libraries-such as Matplotlib\cite{hunterMatplotlib2DGraphics2007}, Vtk\cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012}, and D3 \cite{bostockDataDrivenDocuments2011}-carry distinct data models as part of the implementation of each visual algorithm. The lack of unified data model means that each plot in a linked\cite{beckerBrushingScatterplots1987,bujaInteractiveData1991} visualization is treated as independent, as are the transforms converting each field in the data to a visual equivalent.
@@ -444,7 +444,7 @@ As mentioned in \autoref{sec:atct:sheaves} sheaves are a powerful tool for keepi
     & \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \in Ob(\setc) & \\
     {} & & {} \\
     & \opensetc \in Ob(\mathcal{\dbasec}^{\textcolor{base}{op}}) \arrow[uu, "\sheafc_{\dtotalc}"', shift left = 10, color=sheaf] &   
-\end{tikzcd}
+  \end{tikzcd}
 \end{equation}
 The objects of \textbf{Set} in this sheaf are the sets of sections $\Gamma(\dbase, \dtotal)$ introduced in \autoref{eq:related-work:continuity:sections} and the morphisms are the inclusion maps $(\iota, \iota^*)$ introduced in \autoref{eq:related-work:continuity:presheaf}. 
 
@@ -457,7 +457,7 @@ We model graphics as a sheaf from an open set in the graphic base space to sets 
 \end{equation}
 and we define the set of sections such that 
 \begin{equation}
-  \label{eq:artist:graphic_sections}}
+  \label{eq:artist:graphic_sections}
     \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \big\{\gsectionc: \opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} \bigm{\vert} \pi(\gsectionc(\gbasepointc)) = \gbasepointc \; \forall \gbasepointc \in \opensetgc \big\}
 \end{equation}
 

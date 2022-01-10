@@ -179,12 +179,13 @@
         \item VTK \cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012}(MayaVi\cite{RamachandranMayaVI2011})$\rightarrow$ Titan\cite{brianwylieUnifiedToolkitInformation2009}, ParaView\cite{ahrens2005paraview}
     \end{enumerate}
 \end{frame}
-\end{comment}
+
 \subsection{Algebraic Topology & Category Theory}
 
 \begin{frame}{Mathematical Data Abstraction}
     \begin{description}
         \item[Fiber Bundles] "unified, dimension-independent framework" that expresses data as the mapping between continuity and fields \cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989}
+        %% change SD to Category Theory Langauge - Express structure and constraints [software papers]
         \item[Simplicial Databases] systemic way to apply a schema to a fiber, i.e. provides a way to name fields and bind them to types system (e.g. \texttt{int}, \texttt{float}) 
          \cite{spivakSIMPLICIALDATABASES, spivakDatabasesAreCategories2010} 
         \item[Sheaves on Bundles] "algebraic data structure" for representing data over topological spaces \cite{ghristElementaryAppliedTopology2014}
@@ -296,6 +297,8 @@
     \end{columns}
 \end{frame}
 
+
+%drop category K and \gamma op slides
 \begin{frame}{Category $\mathcal{\dbasec}$}
 \begin{columns}
     \column{0.49\textwidth}
@@ -387,6 +390,7 @@
 \end{columns}
 \end{frame}
 
+%pull back in keys, values 
 \begin{frame}{Presheaf: $\sheafc: \mathcal{C}^{op} \textcolor{sheaf}{\rightarrow} \setc $}
     \begin{columns}
     \column{0.29\textwidth}
@@ -422,12 +426,15 @@
     \end{columns}
     \begin{center}
         \begin{alertblock}<8-|handout:1>{stalk}
+            % F_k is subset of O_{K,E} is 
+            % O_{K,E} is the Jet
             \begin{aligned*}
-                \sheafc_{\dbasec, \dtotalc}\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc}) \approx \dfiberc_{\dbasepointc}
+                \sheafc_{\dbasec, \dtotalc}\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc}) \ \dfiberc_{\dbasepointc}
             \end{aligned*}
         \end{alertblock}
 
         \begin{alertblock}<9-|handout:1>{germ}
+            %germ  is tau at limit, \tau(k) \in germ
             \begin{aligned*}
                 \dsectionc(\dbasepointc) \in \sheafc_{\dbasec, \dtotalc}\restriction_{\dbasepointc}
             \end{aligned*}
@@ -435,7 +442,8 @@
     \end{center}
 \end{frame}
 
-\begin{frame}{Sheaves}
+\begin{frame}{Sheaves} %why we care, either drop out or define what an open covering is
+    %%% footnote on open covering
     A sheaf is a presheaf that satisfies the following two axioms\cite{bakerMathsSheaf}\\
     \begin{block}<2-|handout:1>{locality}
         if $\mathcal{\opensetc} = \{\opensetc_i\}_{i\in I}$ is an open covering of \opensetc
@@ -443,13 +451,14 @@
         and if $\dsectionc^{a}, \dsectionc^{b} \in \sheafc(\opensetc_i)$ have the property $\dsectionc^{a}\restriction_{\opensetc_i} = \dsectionc^{b}\restriction_{\opensetc_i}$ for each $\opensetc_i \in \mathcal{\opensetc}$,}
         \onslide<4|handout:1>{ then $\dsectionc^{a} = \dsectionc^{b}$}
     \end{block} 
-    \begin{block}<5-|handout:1>{gluing}
+    \begin{block}<5-|handout:1>{gluing} %gluing w/o open covering rule
         if $\mathcal{\opensetc} = \{\opensetc_i\}_{i\in I}$ is an open covering of \opensetc\ and if $\dsectionc^{i} \in \sheafc(\opensetc_i)$ is given for each $i \in I$
         \onslide<6-|handout:1>{such that ${\dsectionc^{i}}\restriction_{\opensetc_i\cap \opensetc_j} = {\dsectionc^{j}}\restriction_{\opensetc_i \cap \opensetc_j}$ for each pair $\opensetc_i, \opensetc_j \in \mathcal{\opensetc}$,}
         \onslide<7-|handout:1>{ then there exists $\dsectionc \in \sheafc(\opensetc)$ such that $\dsectionc\restriction_{\opensetc_i} = {\dsectionc^{i}}$ for each $i \in I$} 
     \end{block}      
 \end{frame}
 
+%flip the ordering: K, then G, then functor 
 \begin{frame}
     \frametitle<0|handout:1>{Functor: \vindexc: \mathcal{\gbasec} \rightarrow \mathcal{\dbasec}}
     \frametitle<0|handout:2>{Data}
@@ -510,8 +519,9 @@
 \end{frame}
 .
 
+%add transition slide
 
-
+%move other side to when I introduce Q 
 \begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$}
 
     \adjustbox{scale=3, center}{
@@ -549,6 +559,7 @@
     \end{equation*}    
 \end{frame}
 
+% pull up artist^*, artist_*
 \begin{frame}{
     \only<1-3|handout:1-3>{Natural Transforms Between Sheaves}
     \only<4|handout:4>{$\vartistc:\sheafc_{(\dbasec, \dtotalc)}\rightarrow \sheafc_{(\gbasec, \gtotalc)}$}
@@ -556,7 +567,7 @@
     }
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&]
-          \onslide*<1-4|handout:1>{\sheafc_{(\gbasec, \gtotalc)}(\gbasec)} 
+          \onslide*<1-4|handout:1>{\sheafc_{\gbasec, \gtotalc}\gbasec} 
           \onslide*<1-3|handout:1>{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]}  
           \onslide*<4-|handout:2->{\arrow[rr, "\vindexpushc", color=artist]} 
           \& \& 
@@ -638,10 +649,108 @@
 \end{tikzcd}
 \end{equation}
 \end{frame}
+\end{comment}
 
+\section{Equivariant Artist}
+\begin{frame}{"Valid" viz?}
+    \begin{equation*}
+        \label{eq:artist:artist_sheaf}
+        \begin{tikzcd}[ampersand replacement = \&, column sep=tiny, row sep=huge]
+            \onslide*<1-|handout:1>{\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}} 
+            \&  \& 
+            \onslide*<2-|handout:1>{\textcolor{set}{\big\{}\gsectionc:\opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} 
+              \bigm{\vert} \vartistc\circ (\dfuncc \circ \vartistc^{-1}[\gsectionc]) = \dfuncc^{\prime} \circ \gsectionc \textcolor{set}{\big\}}} 
+            \onslide*<2-|handout:1>{\arrow[ll, "\textcolor{set}{\mathlarger{\mathlarger{\supset}}}" description, hook', color=white]} \\ 
+            \&  \& \\
+            \onslide*<1-|handout:1>{\opensetgc} 
+            \onslide*<1-|handout:1>{\arrow[uu, "\sheafc_{\gtotalc}", color=sheaf]} 
+            \onslide*<2-|handout:1>{\arrow[rruu, "\vartistc(\sheafc_{\dtotalc})\coloneqq \sheafc_{\vartistc}" description, dashed, color=sheaf]} 
+            \&  \& 
+        \end{tikzcd}
+    \end{equation*}
+\end{frame}
+
+\begin{frame}{$\dfuncc = (\hat\dfuncc, \hat\dfuncc_*, \tilde\dfuncc)$?}
+\begin{equation*}
+    \begin{tikzcd}[ampersand replacement = \&, row sep=large]
+        {\Gamma(U, E)} 
+        \arrow[r, "\hat\varphi_*"]                             
+        \& 
+        {\Gamma(U^{\prime}, \hat{\varphi_*}E)} 
+        \arrow[r, "\tilde{\varphi}"]                                                                                                             
+        \& {\Gamma(U^{\prime}, \tilde{\varphi}\hat{\varphi_*}E)} \\
+        {U \subset K} 
+        \arrow[r, "\hat\varphi"] 
+        \arrow[u, "{\mathcal{O}_{K,E}}"] 
+        \& 
+        {U^{\prime}\subset K^{\prime}}
+        \arrow[u, "{\mathcal{O}_{K^{\prime}, \hat\varphi_*E}}", dashed] 
+        \arrow[ru, "{\mathcal{O}_{\hat\varphi K, \tilde\varphi\hat\varphi_*E}}"', dotted] 
+        \&                                                                                                          
+    \end{tikzcd}                                   
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Continuty Equivariance $\vindexpullc\hat\dfuncc = \dfuncc|_{\vindexprec}$}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement =\&]
+            S 
+            \arrow[r, "\xi"] 
+            \arrow[d, "\xi^*\hat\varphi"'] 
+            \& 
+            K 
+            \arrow[d, "\hat\varphi"] \\
+            S^{\prime} 
+            \arrow[r, "\xi"]
+            \& 
+            K^{\prime}
+            \end{tikzcd}
+    \end{equation*}
+\end{frame}
+\begin{frame}{Field Equivariance $\tilde\dfuncc \cong \tilde\dfuncc_\gtotalc$}
+    \begin{equation*}
+    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+        {\Gamma(U, E)} 
+        \arrow[r, "A"] 
+        \arrow[d, "\tilde\varphi\circ\hat\varphi_*"'] 
+        \& 
+        {\Gamma(W, H)} 
+        \arrow[d, "\tilde\varphi_H\circ\xi_*\hat{\varphi}_*"] \\
+        {\Gamma(\hat\varphi U, \tilde\varphi\hat\varphi_*E)} 
+        \arrow[r, "A"] 
+        \& 
+        {\Gamma(\xi^*\hat\varphi W, \tilde\varphi_H\xi^*\hat\varphi_*H)}    
+    \end{tikzcd}
+    \end{equation*}
+\end{frame}
+
+\begin{frame}{Equivariant Artist}
+    \begin{equation*}
+    \begin{tikzcd}[ampersand replacement=\&]
+        {\mathcal{O}_{K, E}} 
+        \arrow[r, "A"] 
+        \arrow[d, "\varphi"'] \& 
+        {\mathcal{O}_{S,H}} 
+        \arrow[d, "\varphi_H"] \\
+        {\mathcal{O}_{K^{\prime}, E^{\prime}}} 
+        \arrow[r, "A"]    \& 
+        {\mathcal{O}_{S^{\prime}, H^{\prime}}}    
+        \end{tikzcd} 
+    \end{equation*}
+\begin{block}
+    \vartistc\ is equivariant when there exists a $\dfuncc_H$ s.t the diagram commutes. 
+    \begin{equation}
+        
+    \end{equation}
+\end{block}
+    \end{frame}
+
+
+\begin{frame}{More than one field?}
+    %cartestian categories
+\end{frame}
 
 \begin{comment}
-
 \subsection{Contributions}
 \begin{frame}{Contributions}
     \begin{description}
