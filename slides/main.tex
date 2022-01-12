@@ -477,133 +477,126 @@
 \end{frame}
 
 
-%add transition slide
+%add transition slide->possibly call back 
+\begin{frame}
+    {\huge
+        \begin{equation*}
+            \sheafc_{\dbasec,\dtotalc} \textcolor{artist}{\xrightarrow{\vartistc}} \sheafc_{\gbasec, \gtotalc}
+        \end{equation*}
+    }
+\end{frame}
 
-%move other side to when I introduce Q 
-\begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$}
+\begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\mapsto} \textcolor{functor}{G}$}
 
     \adjustbox{scale=3, center}{
         \begin{tikzcd}[ampersand replacement=\&]
-            \& {} \arrow[dd, "\alpha", Rightarrow, shorten=1.5em, color=nattran] \&             \\
-          \textcolor{source}{\mathcal{C}} \arrow[rr, "F", bend left, color=functor] \arrow[rr, "G"', bend right, color=functor] \& \& \textcolor{target}{\mathcal{D}} \\
+            \& {} \arrow[dd, "\alpha" , maps to, shorten=1.5em, color=nattran] \&             \\
+          \textcolor{source}{\mathcal{C}} \arrow[rr, "F", bend left, color=functor, maps to] \arrow[rr, "G"', bend right, color=functor, maps to] \& \& \textcolor{target}{\mathcal{D}} \\
             \& {} \&            
           \end{tikzcd}}
-    \end{frame}
+\end{frame}
     
 \begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\rightarrow} \textcolor{functor}{G}$}
     \begin{equation*}
         \begin{tikzcd}[column sep=huge, ampersand replacement = \&]
-            \onslide*<2-|handout:2->{\textcolor{target}{F(c)}}
-            \onslide*<2-|handout:2->{\arrow[dd, "F(f)"', color=target]}
-            \onslide*<4-5|handout:4-5>{\arrow[rr, "\alpha_{c}", bend left, color=nattran]}  
-            \onslide*<6|handout:6>{\arrow[rr, "\alpha_{c}", color=nattran]} \& 
-            \onslide*<1-4|handout:1-4>{\textcolor{source}{c}} 
-            \onslide*<1-4|handout:1-4>{\arrow[dd, "f" description, color=source]}
-            \onslide*<3-4|handout:3-4>{\arrow[r, "G"', color=functor]}
-            \onslide*<2-4|handout:2-4>{\arrow[l, "F", color=functor]} \& 
-            \onslide*<3-|handout:3->{\textcolor{target}{G(c)}} 
-            \onslide*<3-|handout:3->{\arrow[dd, "G(f)", color=target]} \\
+            \onslide*<2-|handout:1>{\textcolor{target}{F(c)}}
+            \onslide*<2-|handout:1>{\arrow[dd, "F(f)"', color=target]}
+            \onslide*<4-5|handout:1>{\arrow[rr, "\alpha_{c}", bend left, color=nattran, maps to]}  
+            \onslide*<6|handout:0>{\arrow[rr, "\alpha_{c}", color=nattran, maps to]} \& 
+            \onslide*<1-4|handout:1>{\textcolor{source}{c}} 
+            \onslide*<1-4|handout:1>{\arrow[dd, "f" description, color=source]}
+            \onslide*<3-4|handout:1>{\arrow[r, "G"', color=functor,maps to ]}
+            \onslide*<2-4|handout:1>{\arrow[l, "F", color=functor, maps to]} \& 
+            \onslide*<3-|handout:1>{\textcolor{target}{G(c)}} 
+            \onslide*<3-|handout:1>{\arrow[dd, "G(f)", color=target, maps to]} \\
             {} 
-            \onslide*<4|handout:4>{\arrow[rr, dotted, color=nattran]}
-            \onslide*<5|handout:5>{\arrow[rr, color=nattran]} \& \& {}                      \\
-            \onslide*<2-|handout:2->{\textcolor{target}{F(c^{\prime})}} 
-            \onslide*<4-5|handout:4-5>{\arrow[rr, "\alpha_{c^{\prime}}"', bend right, color=nattran]} 
-            \onslide*<4-5|handout:6>{\arrow[rr, "\alpha_{c^{\prime}}"', color=nattran]}\& 
-            \onslide*<1-4|handout:1-4>{\textcolor{source}{c^{\prime}}}
-            \onslide*<2-4|handout:2-4>{\arrow[l, "F"', color=functor]} 
-            \onslide*<3-4|handout:3-4>{\arrow[r, "G", color=functor]} \& 
-            \onslide*<3-|handout:3->{\textcolor{target}{G(c^{\prime})}}          
+            \onslide*<4|handout:1>{\arrow[rr, dotted, color=nattran, maps to]}
+            \onslide*<5|handout:0>{\arrow[rr, color=nattran, maps to]} \& \& {}                      \\
+            \onslide*<2-|handout:1>{\textcolor{target}{F(c^{\prime})}} 
+            \onslide*<4-5|handout:1>{\arrow[rr, "\alpha_{c^{\prime}}"', bend right, color=nattran, maps to]} 
+            \onslide*<4-5|handout:0>{\arrow[rr, "\alpha_{c^{\prime}}"', color=nattran, maps to]}\& 
+            \onslide*<1-4|handout:1>{\textcolor{source}{c^{\prime}}}
+            \onslide*<2-4|handout:1>{\arrow[l, "F"', color=functor, maps to]} 
+            \onslide*<3-4|handout:1>{\arrow[r, "G", color=functor, maps to]} \& 
+            \onslide*<3-|handout:1>{\textcolor{target}{G(c^{\prime})}}          
         \end{tikzcd}
     \end{equation*}    
 \end{frame}
 
 
-\begin{frame}{$\vartist_{\vindexpushc}: \sheafc_{(\dbasec, \dtotalc)} \rightarrow \vindexpushc\sheafc_{(\gbasec, \gtotalc)}$}
-    \begin{equation}
+\begin{frame}
+    \frametitle<1-2|handout:1>{Data Space: $\vartistc_{\vindexpushc}: \sheafc_{\dbasec, \dtotalc} \textcolor{artist}{\mapsto} \vindexpushc\sheafc_{\gbasec, \gtotalc}$}
+    \frametitle<3-4|handout:2>{Display Space: $\vartist_{\vindexpullc}: \vindexpullc\sheafc_{\dbasec, \dtotalc} \rightarrow \sheafc_{\gbasec, \gtotalc}$}
+    \frametitle<5|handout:3->{\textcolor{artist}{Artist} \vartistc}
+
+    \onslide*<1|handout:1>{
+        \begin{equation*}
       \begin{tikzcd}[ampersand replacement =\&]
         \cgamma{\opensetc_1}{\dtotalc} 
         \arrow[dd, "\iota^*"', hook, color=set] 
-        \arrow[rrrr, "\vartistc_{\opensetc_1}", bend left, color=artist] \&  \& 
+        \arrow[rrrr, "\vartistc_{\opensetc_1}", bend left, color=artist, maps to] \&  \& 
         \opensetc_1 
-        \arrow[ll, "\sheafc_{\dtotalc}", color=sheaf] 
-        \arrow[rr, "\sheafc_{\gtotalpushc}"', color=sheaf] \&  \& 
+        \arrow[ll, "\sheafc_{\dtotalc}", color=sheaf, maps to] 
+        \arrow[rr, "\sheafc_{\gtotalpushc}"', color=sheaf, maps to] \&  \& 
         \cgamma{\opensetc_1}{\gtotalpushc} 
         \arrow[dd, "\iota^*", hook', color=set] \\
         {} 
-        \arrow[rrrr, dotted, color=artist] &&&& {} \\
+        \arrow[rrrr, dotted, color=artist, maps to] \&\&\&\& {} \\
         \cgamma{\opensetc_2}{\dtotalc} 
-        \arrow[rrrr, "\vartistc_{\opensetc_2}"', bend right, color=artist] \&  \& 
+        \arrow[rrrr, "\vartistc_{\opensetc_2}"', bend right, color=artist, maps to] \&  \& 
         \opensetc_2 
-        \arrow[ll, "\sheafc_{\dtotalc}"', color=sheaf] 
-        \arrow[rr, "\sheafc_{\gtotalpushc}", color=sheaf] 
+        \arrow[ll, "\sheafc_{\dtotalc}"', color=sheaf, maps to] 
+        \arrow[rr, "\sheafc_{\gtotalpushc}", color=sheaf, maps to] 
         \arrow[uu, "\iota" description, hook, color=base] \& \& 
         \cgamma{\opensetc_2}{\gtotalpushc}               
     \end{tikzcd}
-    \end{equation}
-\end{frame}
+        \end{equation*}}
 
-\begin{frame}{$\vartist_{\vindexpullc}: \vindexpullc\sheafc_{(\dbasec, \dtotalc)} \rightarrow \sheafc_{(\gbasec, \gtotalc)}$}
-    \begin{equation}
+    \onslide*<0|handout:2>{
+        \begin{equation*}
   \begin{tikzcd}[ampersand replacement =\&]
     \cgamma{\opensetgc_1}{\dtotalpullc} 
     \arrow[dd, "\iota^*"', hook, color=set] 
-    \arrow[rrrr, "\vartistc_{\opensetgc_1}", bend left, color=artist] \&  \& 
+    \arrow[rrrr, "\vartistc_{\opensetgc_1}", bend left, color=artist, maps to] \&  \& 
     \opensetgc_1 
-    \arrow[ll, "\sheafc_{\dtotalpullc}", color=sheaf] 
-    \arrow[rr, "\sheafc_{\gtotalc}"', color=sheaf] \&  \& 
+    \arrow[ll, "\sheafc_{\dtotalpullc}", color=sheaf, maps to] 
+    \arrow[rr, "\sheafc_{\gtotalc}"', color=sheaf, maps to] \&  \& 
     \cgamma{\opensetgc_1}{\gtotalc} 
     \arrow[dd, "\iota^*", hook', color=set] \\
     {} 
-    \arrow[rrrr, dotted, color=artist] &&&& {} \\
+    \arrow[rrrr, dotted, color=artist, maps to] \&\&\&\& {} \\
     \cgamma{\opensetgc_2}{\dtotalpullc} 
-    \arrow[rrrr, "\vartistc_{\opensetgc_2}"', bend right, color=artist] \&  \& 
+    \arrow[rrrr, "\vartistc_{\opensetgc_2}"', bend right, color=artist, maps to] \&  \& 
     \opensetgc_2 
-    \arrow[ll, "\sheafc_{\dtotalpullc}"', color=sheaf] 
-    \arrow[rr, "\sheafc_{\gtotalc}", color=sheaf] 
+    \arrow[ll, "\sheafc_{\dtotalpullc}"', color=sheaf, maps to] 
+    \arrow[rr, "\sheafc_{\gtotalc}", color=sheaf, maps to] 
     \arrow[uu, "\iota" description, hook, color=base] \& \& 
-    \cgamma{\opensetgc_2}{\gtotalc}                                                        
+    \cgamma{\opensetgc_2}{\gtotalc}   
 \end{tikzcd}
-\end{equation}
-\end{frame}
-
-
-\begin{frame}{
-    \only<1-3|handout:1-3>{Natural Transforms Between Sheaves}
-    \only<4|handout:4>{$\vartistc:\sheafc_{(\dbasec, \dtotalc)}\rightarrow \sheafc_{(\gbasec, \gtotalc)}$}
-    \only<5-|handout:5->{$\vartistc: \dsectionc \mapsto \gsectionc$}
-    }
+    \end{equation*}}    
+    
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&]
-          \onslide*<1-4|handout:1>{\sheafc_{\gbasec, \gtotalc}\gbasec} 
-          \onslide*<1-3|handout:1>{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]}  
-          \onslide*<4-|handout:2->{\arrow[rr, "\vindexpushc", color=artist]} 
+          \onslide*<0|handout:3>{\sheafc_{\gbasec, \gtotalc}} 
+          \onslide*<0|handout:3>{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]}  
           \& \& 
-          \onslide*<1-4|handout:1>{(\textcolor{functor}{\vindexpush}\sheafc_{(\gbasec, \gtotalc)})(\dbase)}
+          \onslide*<0|handout:3>{\textcolor{functor}{\vindexpush}\sheafc_{\gbasec, \gtotalc}}
           \\
           \& \& \\
-          \onslide*<1-4|handout:1>{(\textcolor{functor}{\vindexpull}\sheafc_{(\dbasec, \dtotalc)})(\gbasec)}
-          \onslide*<1-3|handout:1>{\arrow[rr, "\textcolor{functor}{\vindexpull}", color=functor]}
-          \onslide*<4-|handout:2->{\arrow[rr, "\vindexpullc", color=artist]}
-          \onslide*<2-3|handout:1>{\arrow[uu, "\textcolor{nattran}{Nat_{\gbasec}}", color=nattran]} 
-          \onslide*<4-|handout:2->{\arrow[uu, "\vartistc_{\vindexpushc}", color=artist]}
+          \onslide*<0|handout:3>{\textcolor{functor}{\vindexpull}\sheafc_{\dbasec, \dtotalc}}
+          \onslide*<0|handout:3>{\arrow[uu, "\vartistc_{\vindexpushc}", color=artist, maps to]}
           \&  \& 
-          \onslide*<1-4|handout:1->{\sheafc_{\dbasec, \dtotalc}} 
-          \onslide*<2-3|handout:1>{\arrow[uu, "\textcolor{nattran}{Nat_{\dbasec}}"', color=nattran]}
-          \onslide*<4-|handout:2->{\arrow[uu, "\vartistc_{\vindexpullc}"', color=artist]}
-          \onslide*<3|handout:1>{\arrow[lluu, " "' description, dashed, color=nattran]}
-          \onslide*<4-|handout:2->{\arrow[lluu, "\vartistc"' description, dashed, color=artist]}
+          \onslide*<0|handout:3>{\sheafc_{\dbasec, \dtotalc}}
+          \onslide*<0|handout:3>{\arrow[ll, "\textcolor{functor}{\vindexpull}", color=functor]} 
+          \onslide*<0|handout:3>{\arrow[uu, "\vartistc_{\vindexpullc}"', color=artist, maps to]}
+          \onslide*<4-|handout:3>{\arrow[lluu, "\vartistc"' description, dashed, color=artist, maps to]}
         \end{tikzcd}
       \end{equation*}
       
-    \onslide<3|handout:3>{
+    \onslide<0|handout:3>{
         \begin{equation*}
         \textcolor{nattran}{Nat}_{\gbasec}(\textcolor{functor}{\vindexpull}\sheafc_{(\dbasec, \dtotalc)}, \sheafc_{(\gbasec, \gtotalc)}) = 
     \textcolor{nattran}{Nat}_{\dbase}(\sheafc_{(\dbasec, \dtotalc)}, \textcolor{functor}{\vindexpush}\sheafc_{(\gbasec, \gtotalc)})
-        \end{equation*}
-    }
-    \onslide<4|handout:4>{
-        \begin{equation*}
-            \vartistc_{\vindexpull} = \vartistc_{\vindexpush}
         \end{equation*}
     }
 \end{frame}
