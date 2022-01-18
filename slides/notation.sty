@@ -13,6 +13,7 @@
 \definecolor{artist}{HTML}{A020F0}
 \definecolor{homset}{HTML}{85003B}
 \definecolor{action}{HTML}{A02035}
+\definecolor{monoid}{HTML}{C40A4E}
 \definecolor{sheaf}{HTML}{ECAA15}
 \definecolor{fade}{gray}{0.5}
 \definecolor{source}{HTML}{749DC4}%4585E6%6CB3E6
@@ -81,8 +82,15 @@
 \cdef{dfuncp}{\varphi^{\prime}}
 \cdef{dfuncc}{\textcolor{action}{\dfunc}}
 \cdef{dfuncpc}{\textcolor{action}{\dfuncp}}
-\cdef{monoid}{\textcolor{action}{M}}
+\cdef{dfunch}{\hat\dfunc}
+\cdef{dfunchc}{\textcolor{action}{\dfunch}}
+\cdef{dfuncpull}{\dfunch^*}
+\cdef{dfuncpullc}{\textcolor{action}{\dfuncpull}}
+\cdef{dfunct}{\tilde\dfunc}
+\cdef{dfunctc}{\textcolor{action}{\dfunct}}
 
+\cdef{monoid}{M}
+\cdef{monoidc}{\textcolor{monoid}{\monoid}}
 %graphic bundle
 \cdef{gtotal}{H}
 \cdef{gtotalc}{\textcolor{total}{\gtotal}}
@@ -134,15 +142,15 @@
 
 
 \cdef{vindex}{\xi}
-\cdef{vindexc}{\textcolor{artist}{\vindex}}
+\cdef{vindexc}{\textcolor{functor}{\vindex}}
 
 \cdef{vindexpull}{\vindex^{*}}
-\cdef{vindexpullc}{\textcolor{artist}{\vindexpull}}
+\cdef{vindexpullc}{\textcolor{functor}{\vindexpull}}
 
 \cdef{vindexpush}{\vindex_{*}}
-\cdef{vindexpushc}{\textcolor{artist}{\vindexpush}}
+\cdef{vindexpushc}{\textcolor{functor}{\vindexpush}}
 \cdef{vindexpre}{\vindex^{-1}}
-\cdef{vindexprec}{\textcolor{artist}{\vindex^{-1}}}
+\cdef{vindexprec}{\textcolor{functor}{\vindex^{-1}}}
 
 %data pullbacks
 \cdef{dtotalpull}{\vindexpull\dtotal}
