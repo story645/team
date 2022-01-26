@@ -16,6 +16,7 @@
 
 \usepackage{tabulary}
 \usepackage{tabularx}
+\usepackage{enumitem}
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{array}
@@ -198,69 +199,73 @@
     \frametitle<6|handout:2>{Data Bundle}
     \frametitle<7|handout:3>{Graphic Bundle}
     \begin{columns}
-        \column{0.39\textwidth}
-            \begin{equation*}
-                %\label{eq:related-work:continuity:fiber-bundle}
-                \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-                  \onslide*<2-6|handout:1-2>{\dfiberc}
-                  \onslide*<7|handout:3>{\gfiberc} 
-                  \onslide*<4-|handout:1->{\arrow[r, hook]} \& 
-                  \onslide*<3-6|handout:1-2>{\dtotalc} 
-                  \onslide*<7|handout:3>{\gtotalc}
-                  \onslide*<4-|handout:1->{\arrow[d, "\pi"']} \\
-                   \& 
-                   \onslide*<1-6|handout:1-2>{\dbasec}
-                   \onslide*<7|handout:3>{\gbasec} 
-                   \onslide*<5-6|handout:1-2>{\arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]}
-                   \onslide*<7|handout:3>{\arrow[u, "\gsectionc \in \cgamma{\gbasec}{\gtotalc}"', bend right, pos=.5]}
-                \end{tikzcd}
-            \end{equation*}
-     \column{0.59\textwidth}
+        \column{0.31\textwidth}
+        \begin{equation*}
+            %\label{eq:related-work:continuity:fiber-bundle}
+            \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+              \onslide*<3-6|handout:1-2>{\dfiberc}
+              \onslide*<7|handout:3>{\gfiberc} 
+              \onslide*<4-|handout:1->{\arrow[r, hook]} \& 
+              \onslide*<1-6|handout:1-2>{\dtotalc} 
+              \onslide*<7|handout:3>{\gtotalc}
+              \onslide*<4-|handout:1->{\arrow[d, "\pi"']} \\
+               \& 
+               \onslide*<2-6|handout:1-2>{\dbasec}
+               \onslide*<7|handout:3>{\gbasec} 
+               \onslide*<5-6|handout:1-2>{\arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]}
+               \onslide*<7|handout:3>{\arrow[u, "\gsectionc \in \cgamma{\gbasec}{\gtotalc}"', bend right, pos=.5]}
+            \end{tikzcd}
+        \end{equation*}
+     \column{0.69\textwidth}
      \only<1-5|handout:1>{
-        \begin{description}
-            \item<1-5|handout:1>[\textcolor{base}{Base Space}]{$( \dbasec, \mathcal{T})$, $\dbasepointc \in \opensetc \subset \dbasec$}
-            \item<2-5|handout:1>[\textcolor{fiber}{Fiber Space}]{$\dfiberc\restriction_{\dbasepointc} = \pi^{-1}(\dbasepointc)$}
-            \item<3-5|handout:1>[\textcolor{total}{Total Space}]{ $\dtotalc\restriction_{\opensetc} = \dbasec\restriction_{\opensetc} \times \dfiberc\restriction_{\opensetc}$ \\ for all $\opensetc \subset K$}
-        \end{description}}
+        \begin{description}[style=nextline]
+            \item<1-5|handout:1>[\textcolor{total}{Total Space}]{$(\dtotalc, \mathcal{T}_{\dtotalc})$}
+            \item<2-5|handout:1>[\textcolor{base}{Base Space}]{$(\dbasec, \mathcal{T}_{\dbasec}),\; \dbasepointc \in \opensetc \subseteq \dbasec$}
+            \item<3-5|handout:1>[\textcolor{fiber}{Fiber Space}]{$\dfiberc\restriction_{\dbasepointc} = \pi^{-1}(\dbasepointc), \dfiberc = \dfiberc\restriction_{\dbasepointc}\; \forall \dbasepointc \in \dbasec$}
+        \end{description}
+        }
     \only<6|handout:2>{
-        \begin{description}
-            \item[\textcolor{base}{Continuity Type \dbasec}]{how data elements are organized (topological properties) \cite{wilkinsonGrammarGraphics2005,munznerWhatDataAbstraction2014})}
-            \item[\textcolor{fiber}{Fields Type \dfiberc}] {generalization of a schema - named and typed date fields \cite{spivakSIMPLICIALDATABASES, spivakDatabasesAreCategories2010}}
-            \item[\textcolor{total}{Data Type \dtotalc}]{continuity type + field type}
+        \begin{description}[style=nextline]
+            \item[\textcolor{total}{Data \dtotalc}]{continuity + fields}
+            \item[\textcolor{base}{Continuity \dbasec}]{how data elements are organized (topological properties) \cite{wilkinsonGrammarGraphics2005}, index (key) space \cite{munznerWhatDataAbstraction2014})}
+            \item[\textcolor{fiber}{Fields \dfiberc}] {generalization of a schema - named and typed date fields \cite{spivakSIMPLICIALDATABASES, spivakDatabasesAreCategories2010}}
         \end{description}
         }
         \only<7|handout:3>{
-            \begin{description}
-                \item[\textcolor{base}{Continuity Type \gbasec}]{how pixels are organized in the display space}
-                \item[\textcolor{fiber}{Display Type \gfiberc}] {display specifications}
-                \item[\textcolor{total}{Graphic Type \gtotalc}]{continuity type + display type}
+            \begin{description}[style=nextline]
+                \item[\textcolor{total}{Graphic \gtotalc}]{virtual rendered output}
+                \item[\textcolor{base}{Continuity \gbasec}]{topology of graphic in rendered space}
+                \item[\textcolor{fiber}{Display \gfiberc}] {generalization of renderer specifications, e.g. \{xy,rgba\}, \{xy, cymk\}, \{xyz, rgba\}}
             \end{description}
             }
     \end{columns}
-    \pause
-    \only<5|handout:1>{
-        \begin{alertblock}{Sections}
-            \begin{align*}         
-        \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}
-        \end{align*}
+    \pause 
+    \only<4-5|handout:1>{
+        \begin{alertblock}{}
+            \begin{description}[style=nextline]
+                \item[\textcolor{section}{Sections}]{$\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$}
+                \item[Locally Trivial] {for every point $\dbasepointc \in \dbasec$, there exists an open neighborhood $\dbasepointc \in \opensetc \subseteq \dbasec$ s.t. there is a homeomorphism $\pi^{-1}(\opensetc)\xrightarrow{\varphi} \opensetc \times \dfiberc$}
+                \item[(Globally) Trivial]{$\dtotalc = \dbasec \times \dfiberc$}
+            \end{description}
         \end{alertblock}
     }
     \only<6|handout:2>{
-    \begin{alertblock}{Data \cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992}}
-        \begin{align*}
-        \dsectionc(\dbasepointc) = &\delementc,\; \dbasepointc\in \opensetc\subset \dbasec,\; \delement \in \dfiberc\restriction_{\dbasepointc}\\
-        &\delementc=\{field_0:value, \cdots field_i:value, \cdots field_n:value\}
-        \end{align*}
+    \begin{alertblock}{}
+        \begin{description}[style=nextline]
+            \item[\textcolor{section}{Data} \cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992}]{$
+        \dsectionc(\dbasepointc) = \;\delementc,\; \dbasepointc\in \opensetc \subseteq \dbasec,\; \delementc \in \dfiberc\restriction_{\dbasepointc}$} 
+        \item[]{$\delementc=\{field_0:value, \cdots field_i:value, \cdots field_n:value\}$}
+        \end{description}
     \end{alertblock}
     }
     \only<7|handout:3>{
-        \begin{alertblock}{Graphic}
-            \begin{align*}         
-            \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \big\{\gsectionc: \opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} \; \bigm{\vert} \pi(\gsectionc(\gbasepointc)) = \gbasepointc\;for\, all\; \gbasepointc \in \opensetgc \big\}\\
-            \vspace{5pt}\\
-            \gsectionc(\gbasepointc) = d,\; \gbasepointc\in \opensetgc\subset \gbasec,\; d \in \dfiberc\restriction_{\gbasepointc}\\
-            for\;example:\; d=\{x,\,y,\,r,\,g,\,b\}
-            \end{align*}
+        \begin{alertblock}{}
+            \begin{description}[style=nextline]
+                \item[\textcolor{section}{Graphic}]{$\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \big\{\gsectionc: \opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} \; \bigm{\vert} \pi(\gsectionc(\gbasepointc)) = \gbasepointc\;for\, all\; \gbasepointc \in \opensetgc \big\}$}
+                \item[] {$\gsectionc(\gbasepointc) = \gelementc,\; \gbasepointc\in \opensetgc\subseteq \gbasec,\; \gelementc \in \dfiberc\restriction_{\gbasepointc}$}
+                \item[] $\gelementc=\{x,\,y,\,r,\,g,\,b\}$
+           
+        \end{description}    
     \end{alertblock}
     }
 \end{frame}
@@ -636,6 +641,24 @@
     \end{equation*}
 \end{frame}
 
+
+\begin{frame}{What is \dfuncc?}
+    \begin{block}{Fiber Bundle Category}
+        \begin{description}[style=newline]
+            \item[object] $\dfiberc \hookrightarrow \dtotalc \xrightarrow{\pi} \dbasec$
+            \item[morphisms] $\dfuncc: \dtotalc \rightarrow \dtotalc$ 
+        \end{description}
+    \end{block}
+
+    \begin{block}{fiber transform equivariance}
+        The fiber $\dfiberc$ is the sole object of an arbitrary category $\mathcal{C}$. The bundle morphisms 
+        \begin{equation*}
+            \dfuncc \in Hom(\dfiberc,\dfiberc)
+        \end{equation*} 
+        are the set of morphisms that also preserve fiber structure.
+    \end{block}
+\end{frame}
+
 \begin{frame}{$\dfuncc = (\dfunchc, \dfuncpullc, \dfunctc)$}
     \begin{tikzcd}[ampersand replacement = \&]
         \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
@@ -644,7 +667,7 @@
         \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} 
         \arrow[rr, "\dfunctc", color=action] 
         \&  \& 
-        \cgamma{\opensetc^{\prime}}{\dfunctc\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} \\
+        \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} \\
         \&  \&  
         \&  \& \\
         \opensetc 
@@ -653,37 +676,18 @@
         \opensetc^{\prime} 
         \arrow[ll, "\dfunchc", color=action] 
         \arrow[uu, "{\dfuncpullc\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] 
-        \arrow[rruu, "{\dfunctc\dfuncpullc\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] 
+        \arrow[rruu, "{\dfuncpullc\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] 
         \&  \& 
     \end{tikzcd}
     \begin{itemize}
         \item Base $\dbasec$ Type stays same: $\dfunchc: \dbasec \rightarrow \dbasec$
-        \item Fiber $\dfiberc$ Type stays the same: $\dfunctc: \dfiberc \rightarrow \dfiberc$
+        \item Fiber $\dfiberc$ Type stays the same: $\dfunctc: \dfuncpullc \dtotalc \rightarrow \dfuncpullc\dtotalc$ s.t. $\pi(\dfuncpullc\dtotalc) = \pi(\dfunctc(\dfuncpullc\dtotalc))$ 
         \item Section Transform: $\dfuncc: \dsectionc^{a}\restriction_{\opensetc} \mapsto \dsectionc^{b}\restriction_{\opensetc^{\prime}}$
     \end{itemize}
 \end{frame}
+    
 
-
-\begin{frame}{\dfunctc}
-    $\dfunctc$ applies a monoid action $\monoidc$ on a fiber set $\dfiberc$
-    \begin{equation*}
-        \dfunctc: \monoidc \times \dfiberc \rightarrow \dfiberc
-    \end{equation*}
-    meaning that, by definition of a monoid, the following properties are satisfied
-    \begin{description}
-        \item[identity]: $\dfunctc(\textcolor{monoid}{e}, \delementc) = \delementc, \delementc \in \dfiberc, \textcolor{monoid}{e} \in \monoidc$
-        \item[associativity]  $\dfunctc(\textcolor{monoid}{g}, \dfunctc(\textcolor{monoid}{h}, \delementc)) = \dfunctc(\textcolor{monoid}{g}\circ \textcolor{monoid}{h}, \delementc), \textcolor{monoid}{g}, \textcolor{monoid}{h} \in \monoidc, \delementc \in \dfiberc$
-    \end{description}
-\begin{block}{Multivariate?} 
-    \label{def:category:F} The fiber category $\mathcal{\dfiberc}$ is a monoidal category\cite{milewskiCategoryTheoryProgrammers}, which means it is a category equipped with a bifunctur $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$
-    \begin{itemize}
-      \item \textit{object} set \dfiberc with actions \monoidc \cite{nlab:monoid}.
-      \item \textit{morphisms} $\dfiberc \otimes \dfiberc \rightarrow \dfiberc$, $\monoidc \otimes \monoidc \rightarrow \monoidc$ and unit
-    \end{itemize}
-\end{block}
-\end{frame}
-
-\begin{frame}{Continuity Equivariance: $\dfunchc_{\gbasec}\circ \vindexc = \vindexc \circ \dfunchc_{\dbasec}$}
+\begin{frame}{Continuity Equivariance: $\dfunchc_{\dbasec}\circ \vindexc = \vindexc \circ \dfunchc_{\gbasec}$}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&]
         \opensetgc 
@@ -744,176 +748,99 @@
             \vartistc(\dsectionc^{a})  = \vartistc(\dsectionc^{b}) &\implies \vartistc(\dfuncc_{\dsectionc}(\dsectionc^{a})) = \vartistc(\dfuncc_{\dsectionc}(\dsectionc^{b})) \
         \end{align*}
     \end{proposition}
-
 \end{frame}
 
-
-\begin{frame}
-    dummy sheet
-\end{frame}
-
-\begin{comment}
-\subsection{Contributions}
-\begin{frame}{Contributions}
-    \begin{description}
-        \item[Topological] continuity  
-        \item[Equivariant] monoid action 
-        \item[Artist] Matplotlib $\textit{artist}: \textit{data} \rightarrow \textit{graphic}$ 
-        \item [Model] 
-    \end{description}
-\end{frame}
-
-\section{Math}
-
-\begin{frame}{Topological Equivariant Artist Model}
-    \centering
-    An artist $\mathscr{\vartist}$ is an equivariant map 
-    \begingroup 
-    \Huge
+\begin{frame}{Multiple Fields: $\dfuncc = (\dfunchc, \dfuncpullc, \prod\limits_{i=0}^{n}\dfunctc_i)$} 
     \begin{equation*}
-        \mathscr{\vartist}: \mathscr{\dtotal} \rightarrow \mathscr{\gtotal}
+        \begin{tikzcd}[ampersand replacement = \&, column sep=2ex]
+                \dfunctc_0 \circ \dfuncpullc \dtotalc_0 
+                \arrow[rdd, "\pi" description] 
+                \arrow[r, "\cdots \otimes \cdots", phantom] \& 
+                \dfunctc_i \circ \dfuncpullc \dtotalc_i 
+                \arrow[dd, "\pi" description] 
+                \arrow[r, "\cdots \otimes \cdots", phantom] \& 
+                \dfunctc_n \circ \dfuncpullc \dtotalc_n 
+                \arrow[ldd, "\pi" description] \& = \& 
+                \prod\limits_{i=0}^{n} 
+                \dfunctc_i \circ \dfuncpullc \dtotalc 
+                \arrow[dd, "\pi" description] \\    
+                \&\&\&\&\\    
+                \& 
+                {(\dfunchc=\dfunchc_{i \in [0,n]}) \circ \dbasec }                                             \& \& = \& 
+                \dfunchc \circ \dbasec                                                        
+                \end{tikzcd}                                              
     \end{equation*}
-    \endgroup
-    from data $\mathscr{\dtotal}$ space to graphic $\mathscr{\gtotal}$ space. 
+
+    \begin{block}{Add New Field to E}
+        \begin{description}[style=newline]
+            \item[construct] {$\odot:\dfiberc_{field} \times \dbasec \rightarrow \dtotalc_{field}$}
+            \item[concatenate]{$\otimes: \dtotalc_{field} \times \dtotalc \mapsto \dtotalc$ s.t. $\pi(\dtotalc_{field}) = \pi(\dtotalc)$}
+        \end{description}
+    \end{block}
+
 \end{frame}
 
+\begin{frame}{Field Equivariance}
 
-\subsection{Data}
-\begin{frame}{Model data as a fiber bundle \cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989}}
-    A fiber bundle is a tuple $(\dtotal,\,\dbase,\,\pi ,\,\dfiber)$ defined by the map $\pi$
     \begin{equation*}
-        \label{eq:fiber_bundle}
-        \begin{tikzcd}[ampersand replacement=\&]
-            \dfiber \arrow[r, hook] \& \dtotal \arrow[r, "\pi"] \& \dbase
-        \end{tikzcd}
+        \oslash: \vartistc \times \dfiberc \rightarrow visual\; encoding
     \end{equation*}
-    \begin{description}
-        \pause
-        \item[total space \dtotal] topology
-        \pause
-        \item[fiber space \dfiber] schema
-        \pause
-        \item[base space \dbase] continuity
-    \end{description}
-\end{frame}
-
-\begin{frame}{Encode variable types in a schema like fiber \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\textwidth]{figures/math/fiber.png}
-    \label{fig:data_fiber_example}
-    \end{figure}
-\end{frame}
-
-\begin{frame}{Monoids are the structure of the components of \dfiber}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[height=.3\textheight]{figures/math/fiber.png}
-    \label{fig:data_fiber_example}
-    \end{figure}
-        \begin{equation*}
-            \dfiber = \dfiber_0 \times \ldots \times \dfiber_i \times \ldots \times \dfiber_n
-        \end{equation*}
-        \pause
-        Monoid actions $\monoid_{i}$ (e.g. rotation, partial ordering) define the structure on $\dfiber_i$
-        \begin{equation*}
-            \bullet: \monoid_i\times \dfiber_i \rightarrow \dfiber_i
-        \end{equation*}
-        where $\bullet$ is associative and has an identity action. 
-\end{frame}
 
 
-\begin{frame}{\dbase\ is an indexing space}
-    \begin{figure}[H]
-        \includegraphics[width=1\textwidth]{figures/math/base.png}
-    \label{fig:base_example}
-    \end{figure}
-\end{frame}
-
-
-
-\begin{frame}{Data are sections \dsection\ on \dtotal}
-    For any fiber bundle, there exists a map
-    \begin{equation*}
-        \begin{tikzcd}[ampersand replacement=\&]
-            \dfiber \arrow[r, hook] \& \dtotal \arrow[d, "\pi"'] \\
-                              \& \dbase \arrow[u, "\dsection"', bend right]
-        \end{tikzcd}
-    \end{equation*}
-     s.t. $\pi(\dsection(\dbasepoint)) = \dbasepoint$. $\Gamma(\dtotal)$ is the set of all global sections.
-     \begin{figure}[H]
-        \includegraphics[width=1\linewidth]{figures/math/fiberbundle.png}
-        \label{fig:data_sections}
-    \end{figure}
-\end{frame}
-
-
-\subsection{Graphic}
-\begin{frame}{Graphic Bundle $(\gtotal,\,\gbase,\,\pi ,\,\gfiber)$} % watch dr explaination
-    \only<2->{Continuity is preserved via the many \gbasepoint\ to one \dbasepoint\ map $\vindex: \gbase\rightarrow\dbase$}
-
-    \only<1>{
-        \begin{equation*} 
-            \begin{tikzcd}[ampersand replacement=\&]
-                F \arrow[r, hook] \& E \arrow[d, "\pi"']              \& D \arrow[r, hook] \& H \arrow[d, "\pi"']              \\
-                                  \& K \arrow[u, "\tau"', bend right] \&                   \& S \arrow[u, "\rho"', bend right]
-                \end{tikzcd}
-            \end{equation*}}
-    \only<2->{
-    \begin{equation*} 
-        \begin{tikzcd}[ampersand replacement=\&]
-            F \arrow[r, hook] \& E \arrow[d, "\pi"']              \& D \arrow[r, hook] \& H \arrow[d, "\pi"']                                 \\
-                              \& K \arrow[u, "\tau"', bend right] \&                   \& S \arrow[ll, "\xi"'] \arrow[u, "\rho"', bend right]
-            \end{tikzcd}
-        \end{equation*}}
-    \only<3->{   
-    \gfiber\ is a proxy for the target display, for example $(x,\, y,\, r,\, g,\, b) \in \gfiber$}
-    \pause
-    \begin{figure}[H] %%%bring up one at a time
-        \begin{overprint}
-            \onslide<4|handout:0>\includegraphics[width=1\linewidth]{figures/math/scatter_s.png}
-            \onslide<5|handout:0>\includegraphics[width=1\linewidth]{figures/math/line_s.png}
-            \onslide<6>\includegraphics[width=1\linewidth]{figures/math/image_s.png}
-        \end{overprint}
-    \end{figure}
-\end{frame}
-
-\subsection{Artist}
-\begin{frame}{Visual bundle $(\vtotal,\,\dbase,\,\pi ,\,\vfiber)$}
-    \begin{equation*}
-        \mathcal{A}:\mathcal{E}\rightarrow\mathcal{H}
-    \end{equation*}
-\pause
 \begin{equation*}
-    \label{eq:artist_diagram}
-    \begin{tikzcd}[ampersand replacement=\&]
-        \dtotal^{\prime} \arrow[r, "\vchannel"] \arrow[rd, "\pi"'] \& \vtotal \arrow[d, "\pi"] \& \vindex^*\vtotal \arrow[r, "\vmark"] \arrow[d, "\vindex^*\pi"'] \arrow[l, "\vindex^*"'] \& \gtotal \arrow[ld, "\pi"] \\
-                                              \& \dbase                  \& \gbase \arrow[l, "\vindex"']                                              \&                    
-        \end{tikzcd}
+    \begin{tikzcd}[ampersand replacement = \&]
+            \& 
+            {\sheafc_{\dbasec, \dtotalc}}
+            \arrow[rr, "\vartistc"]                   
+            \&  \& 
+            \sheafc_{\vartist} 
+            \arrow[rd, "\oslash_{\dfiber_{field}}"]           \&                        \\
+            \dfiberc_{field} 
+            \arrow[ru, "\otimes_{\dtotalc} \circ \odot_{\dbasec}"] 
+            \arrow[rd, "\otimes_{\dtotalc^{\prime}} \circ \odot_{\dbasec^{\prime}}"'] 
+            \& \& \& \& 
+            visual\;encoding \\
+            \& 
+            {\sheafc_{\dbasec^{\prime}, \dtotalc^{\prime}}} 
+            \arrow[rr, "\vartistc"'] 
+            \& \& 
+            \sheafc_{\vartist}^{\prime} 
+            \arrow[ru, "\oslash_{\dfiber_{field}}"'] 
+            \&                       
+    \end{tikzcd}
 \end{equation*}
-\pause
-\begin{equation*}
-    \vartist: \mathcal{O}(\dtotal) \rightarrow \mathcal{O}(\gtotal)
-\end{equation*}
+
 \end{frame}
 
-\begin{frame}{Visualization Assembly Function}
+
+\section{Construction}
+\begin{frame}{What's in the $\vartist$ black box?}
+    \note{Add box around figure & lable it artist}
     \begin{figure}
-        \includegraphics[width=\textwidth]{figures/math/path_of_q.png}
+        \includegraphics[width=1\textwidth]{../paper/figures/path_of_q.png}
     \end{figure}
-    \pause
-    \begin{equation*}
-        \label{eq:nu_expanded}
-        \{\vchannel_{0}, \ldots, \vchannel_{n}\}: \{\dsection_{0}, \ldots, \dsection_{n}\} \mapsto \{\vsection_{0}, \ldots, \vsection_{n}\}
-    \end{equation*}
-    \pause
-    \begin{equation*}
-        Q = \nu \circ \tau
-    \end{equation*}
 \end{frame}
 
+\begin{frame}{Encoding + Assembly Stages}
+    %E-V and Q diagram    
+\end{frame}
+\begin{frame}{Encoding + Assembly}
+    \begin{figure}
+        \includegraphics{../paper/figures/q_hat.p}
+    \end{figure}
+\end{frame}
+\begin{frame}{Domain and Range}
+    \begin{figure}
+        \begin{subfigure}{.5\textwidth}
+            \includegraphics[.5\textwidth]{../paper/figures/fiberbundle.png}
+        \end{subfigure}
+        \begin{subfigure}{.5\textwidth}
+            \includegraphics[.5\textwidth]{../paper/figures/render.png}
+        \end{subfigure}
+    \end{figure}
+\end{frame}
 
-\begin{frame}{Group Equivariance: Stevens' Scales \cite{stevensTheoryScalesMeasurement1946}}
+\begin{frame}{Example $\dfunctc$: Stevens' Scales \cite{stevensTheoryScalesMeasurement1946}}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{|l|l|X|}\toprule
         \textbf{scale} & \textbf{group} & \textbf{constraint} \\\midrule
@@ -925,27 +852,9 @@
 \end{table}
 \end{frame}
 
-\begin{frame}{Monoid Equivariance: Partial Orders}
-    \begin{figure} 
-        \begin{overprint}
-            \onslide<1|handout:0>\includegraphics[width=1\linewidth]{figures/math/partial.png}
-            \onslide<2|handout:0>\includegraphics[width=1\linewidth]{figures/math/partial_invalid.png}
-            \onslide<3>\includegraphics[width=1\linewidth]{figures/math/partial_fixed.png}
-        \end{overprint}
-    \end{figure}
-\end{frame}
 
 
-\begin{frame}{Visualization Equivariance}
-    \begin{figure}[H]
-        \includegraphics[width=\textwidth]{figures/math/diff_type_q.png}
-    \end{figure}
-    \begin{equation*}
-        \vmark(\vsection) = \vmark(\vsection^{\prime})\implies \vmark(m\circ\vsection) = \vmark(m\circ\vsection^{\prime})
-    \end{equation*}
-  
-\end{frame}
-
+\begin{comment}
 \begin{frame}{Scatter: $\vmark(xpos, ypos)(\alpha, \beta)$}
     \begin{figure}[H]
         \begin{overprint}
