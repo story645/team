@@ -426,27 +426,27 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle<3|handout:3>{Functor: $\vindexc: \mathcal{\gbasec} \rightarrow \mathcal{\dbasec}$}
+    \frametitle<3|handout:3>{Functor: $\vindexc: \opensetgc \rightarrow \opensetc$}
     \frametitle<1|handout:1>{Data}
     \frametitle<4-6|handout:4>{Pullback: data to region of the visualization} 
     \frametitle<2|handout:2>{Graphic}
     \frametitle<7-|handout:5>{Pushforward: visualization to index of data}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-            \onslide*<0|handout:2,3,5>{\sheafc_{\gbasec, \gtotalc}} 
+            \onslide*<0|handout:2,3,5>{\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}} 
             \onslide*<0|handout:5>{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]} \& \& 
-            \onslide*<0|handout:5>{\textcolor{functor}{\vindexpush}\sheafc_{\gbasec, \gtotalc}}  
+            \onslide*<0|handout:5>{\cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}}  
             \\
-            \onslide*<0|handout:2->{\gbasec}
+            \onslide*<0|handout:2->{\opensetgc}
             \onslide*<0|handout:3->{\arrow[rr, "\vindex", color=functor]}
             \onslide*<0|handout:2,3,5>{\arrow[u, "\sheaf_{\gbasec, \gtotalc}", maps to, color=sheaf]}
-            \onslide*<0|handout:4>{\arrow[d, dashed, maps to, color=sheaf]} \&  \& 
-            \onslide*<0|handout:1,3->{\dbasec}
+            \onslide*<0|handout:4>{\arrow[d, dashed, maps to, "\sheaf_{\gbasec, \vindexpullc\dtotalc}"',color=sheaf]} \&  \& 
+            \onslide*<0|handout:1,3->{\opensetc}
             \onslide*<0|handout:1,3-4>{\arrow[d, "\sheaf_{\dbasec, \dtotalc}", maps to, color=sheaf]}
-            \onslide*<0|handout:5>{\arrow[u, dashed, maps to, color=sheaf]} \\
-            \onslide*<0|handout:4>{\textcolor{functor}{\vindexpull}\sheafc_{\dbasec, \dtotalc}} 
+            \onslide*<0|handout:5>{\arrow[u, dashed, maps to, "\sheaf_{\dbasec, \vindexpushc\gtotalc}"', color=sheaf]} \\
+            \onslide*<0|handout:4>{\cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}} 
              \& \& 
-            \onslide*<0|handout:1,3-4>{\sheafc_{\dbasec, \dtotalc}}
+            \onslide*<0|handout:1,3-4>{\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}}
             \onslide*<0|handout:4>{\arrow[ll, "\textcolor{functor}{\vindexpull}", color=functor]} 
         \end{tikzcd}
     \end{equation*}
