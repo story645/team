@@ -412,15 +412,16 @@
 \begin{frame}{Sheaves} 
     A sheaf is a presheaf that satisfies the following two axioms\cite{bakerMathsSheaf}\\
     \begin{block}<2-|handout:1>{locality}
-        if there exists the open covering $\mathcal{\opensetc} = \{\opensetc_i\}_{i\in I}$ of \opensetc
         \onslide<3-|handout:1>{
-        and if $\dsectionc^{a}, \dsectionc^{b} \in \sheafc(\opensetc_i)$ have the property $\dsectionc^{a}\restriction_{\opensetc_i} = \dsectionc^{b}\restriction_{\opensetc_i}$ for each $\opensetc_i \in \mathcal{\opensetc}$,}
-        \onslide<4|handout:1>{ then $\dsectionc^{a} = \dsectionc^{b}$}
+        given $\opensetc = \bigcup\limits_{i\in I} \opensetc_i$ and $\dsectionc^{a}, \dsectionc^{b} \in \sheafc(\opensetc)$,}
+        \onslide<4|handout:1>{\\
+        if $\dsectionc^{a}\restriction_{\opensetc_i} = \dsectionc^{b}\restriction_{\opensetc_i}$ for each $\opensetc_i \in \opensetc$}
+        \onslide<4|handout:1>{then $\dsectionc^{a} = \dsectionc^{b}$}
     \end{block} 
     \begin{block}<5-|handout:1>{gluing} 
-        if there exists the open covering $\mathcal{\opensetc} = \{\opensetc_i\}_{i\in I}$ of \opensetc\ and if $\dsectionc^{i} \in \sheafc(\opensetc_i)$ is given for each $i \in I$
-        \onslide<6-|handout:1>{such that ${\dsectionc^{i}}\restriction_{\opensetc_i\cap \opensetc_j} = {\dsectionc^{j}}\restriction_{\opensetc_i \cap \opensetc_j}$ for each pair $\opensetc_i, \opensetc_j \in \mathcal{\opensetc}$,}
-        \onslide<7-|handout:1>{ then there exists $\dsectionc \in \sheafc(\opensetc)$ such that $\dsectionc\restriction_{\opensetc_i} = {\dsectionc^{i}}$ for each $i \in I$} 
+         given $\dsectionc^{i} \in \sheafc(\opensetc_i)$
+        \onslide<6-|handout:1>{s.t. ${\dsectionc^{i}}\restriction_{\opensetc_i\cap \opensetc_j} = {\dsectionc^{j}}\restriction_{\opensetc_i \cap \opensetc_j}$ for $\opensetc_i, \opensetc_j \in \opensetc$,}
+        \onslide<7-|handout:1>{\\there exists $\dsectionc \in \sheafc(\opensetc)$ such that $\dsectionc\restriction_{\opensetc_i} = {\dsectionc^{i}}$} 
     \end{block}      
 \end{frame}
 
