@@ -644,7 +644,7 @@
     \end{block} 
 \end{frame}
 
-\begin{frame}{$\dfuncc = (\dfunchc, \dfuncpullc, \dfunctc)$}
+\begin{frame}{$\dfuncc = (\dfunchc, \dfunctc)$}
     \begin{tikzcd}[ampersand replacement = \&]
         \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
         \arrow[rr, "\dfuncpullc", color=action] 
@@ -672,6 +672,29 @@
 \end{frame}
     
 
+
+\begin{frame}{Field Equivariance: $\vartist \circ (\dfunctc_{\dtotalc}\circ \dfuncpullc_{\dbasec}) =  (\dfunctc_{\gtotalc} \circ \dfuncpullc_{\gbasec}) \circ \vartist$}
+    \begin{equation*}
+    \begin{tikzcd}[ampersand replacement=\&]
+            \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+            \arrow[rr, "\vartistc", Rightarrow] 
+            \arrow[dd, "\dfuncc_{\dtotalc}"'] 
+            \arrow[rrrr, "\equivc", bend left] \&  \& 
+            \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+            \arrow[rr, "L"]                               \&  \& 
+            M 
+            \arrow[dd, "\dfuncc_{M}", dashed] \\
+            \& \& \& \& \\
+            \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} 
+            \arrow[rr, "\vartistc"', Rightarrow] 
+            \arrow[rrrr, "\equivc"', bend right]   \&  \& 
+            \cgamma{\opensetgc^{\prime}}{\dfuncpullc\gtotalc\restriction_{\opensetgc^{\prime}}} 
+            \arrow[rr, "L"'] \&  \& 
+            M^{\prime}                            
+    \end{tikzcd}
+    \end{equation*}
+\end{frame}
+
 \begin{frame}{Continuity Equivariance: $\dfunchc_{\dbasec}\circ \vindexc = \vindexc \circ \dfunchc_{\gbasec}$}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&]
@@ -689,29 +712,7 @@
         \underbrace{\dbasec \times {[0,1]}^{m}}_{\gbasec} \arrow[rr,"\vindex", maps to, color=functor] \& \& \dbasec
         \end{tikzcd}
     \end{equation*}
-
-
 \end{frame}
-
-\begin{frame}{Field Equivariance: $\vartist \circ (\dfunctc_{\dtotalc}\circ \dfuncpullc_{\dbasec}) =  (\dfunctc_{\gtotalc} \circ \dfuncpullc_{\gbasec}) \circ \vartist$}
-    \begin{equation*}
-    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-            \cgamma{\opensetc^{\prime}}{\dfuncpullc_{\dbasec}\dtotalc\restriction_{\opensetc^{\prime}}} 
-            \arrow[rr, "\vartistc", color=artist, Rightarrow] 
-            \arrow[dd, "\dfunctc_{\dtotalc}\circ \dfuncpullc_{\dbasec}"', color=action] 
-            \&  \& 
-            \vartistc[\dfuncpullc\sheafc_{\dbasec,\dtotalc}] \subset \cgamma{\opensetgc^{\prime}}{\dfuncpullc_{\gbasec}\gtotalc\restriction_{\opensetgc^{\prime}}} 
-            \arrow[dd, "\dfunctc_{\gtotalc}\circ \dfuncpullc_{\gbasec}", dashed, color=action, shift right=5em] \\
-            \&  \&
-            \\
-            \cgamma{\opensetc^{\prime}}{\dfunctc_{\dtotalc}\dfuncpullc_{\dbasec}\dtotalc\restriction_{\opensetc^{\prime}}} 
-            \arrow[rr, "\vartistc", color=artist, Rightarrow]
-            \&  \& 
-            \vartistc[\dfunctc\dfuncpullc\sheafc_{\dbasec,\dtotalc}] \subset \cgamma{\opensetgc^{\prime}}{\dfunctc_{\gtotalc}\dfuncpullc_{\gbasec}\gtotalc\restriction_{\opensetgc^{\prime}}}                                                  
-    \end{tikzcd}
-    \end{equation*}
-\end{frame}
-
 
 \begin{frame}{Equivariant Artist}
     \begin{equation*}
@@ -735,7 +736,7 @@
     \end{proposition}
 \end{frame}
 
-\begin{frame}{Multiple Fields: $\dfuncc = (\dfunchc, \dfuncpullc, \prod\limits_{i=0}^{n}\dfunctc_i)$} 
+\begin{frame}{Multiple Fields: $\dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)$} 
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement = \&, column sep=2ex]
                 \dfunctc_0 \circ \dfuncpullc \dtotalc_0 
