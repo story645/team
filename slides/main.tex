@@ -624,26 +624,9 @@
 \end{frame}
 
 \section{Equivariant Artist}
-\begin{frame}{"Valid" viz?}
-    \begin{equation*}
-        \label{eq:artist:artist_sheaf}
-        \begin{tikzcd}[ampersand replacement = \&, column sep=tiny, row sep=huge]
-            \onslide*<1-|handout:1>{\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}} 
-            \&  \& 
-            \onslide*<2-|handout:1>{\textcolor{set}{\big\{}\gsectionc:\opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} 
-              \bigm{\vert} \vartistc \circ \dfuncc_{\dsectionc} \circ \dsectionc = \dfuncc_{\gsectionc} \circ \gsectionc \textcolor{set}{\big\}}} 
-            \onslide*<2-|handout:1>{\arrow[ll, "\textcolor{set}{\mathlarger{\mathlarger{\supset}}}" description, hook', color=white]} \\ 
-            \&  \& \\
-            \onslide*<1-|handout:1>{\opensetgc} 
-            \onslide*<1-|handout:1>{\arrow[uu, "\sheafc_{\gtotalc}", color=sheaf, maps to]} 
-            \onslide*<2-|handout:1>{\arrow[rruu, "\vartistc(\sheafc_{\dtotalc})\coloneqq \sheafc_{\vartistc}" description, dashed, color=sheaf, maps to]} 
-            \&  \& 
-        \end{tikzcd}
-    \end{equation*}
-\end{frame}
 
 
-\begin{frame}{What is \dfuncc?}
+\begin{frame}{Bundle Map \dfuncc?}
     \begin{block}{Fiber Bundle Category}
         \begin{description}[style=newline]
             \item[object] $\dfiberc \hookrightarrow \dtotalc \xrightarrow{\pi} \dbasec$
@@ -651,13 +634,14 @@
         \end{description}
     \end{block}
 
-    \begin{block}{fiber transform equivariance}
-        The fiber $\dfiberc$ is the sole object of an arbitrary category $\mathcal{C}$. The bundle morphisms 
-        \begin{equation*}
-            \dfuncc \in Hom(\dfiberc,\dfiberc)
-        \end{equation*} 
-        are the set of morphisms that also preserve fiber structure.
+    \begin{block}{Fiber Category}
+        The fiber $\dfiberc$ is the sole object of an arbitrary category $\mathcal{C}$.
+        The morphisms on the fiber are $Hom(\dfiberc, \dfiberc)$
     \end{block}
+
+    \begin{block}{Data Transformations}
+    $\dfuncc:\dtotalc\restriction_{\dbasepointc} \rightarrow \dtotalc\restriction_{\dbasepointc} \in Hom(\dfiberc\restriction_{\dbasepointc},\dfiberc\restriction_{\dbasepointc})$ 
+    \end{block} 
 \end{frame}
 
 \begin{frame}{$\dfuncc = (\dfunchc, \dfuncpullc, \dfunctc)$}
@@ -811,6 +795,24 @@
     \end{tikzcd}
 \end{equation*}
 
+\end{frame}
+
+\begin{frame}{"Valid" viz?}
+    \begin{equation*}
+        \label{eq:artist:artist_sheaf}
+        \begin{tikzcd}[ampersand replacement = \&, column sep=tiny, row sep=huge]
+            \onslide*<1-|handout:1>{\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}} 
+            \&  \& 
+            \onslide*<2-|handout:1>{\textcolor{set}{\big\{}\gsectionc:\opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} 
+              \bigm{\vert} \vartistc \circ \dfuncc_{\dsectionc} \circ \dsectionc = \dfuncc_{\gsectionc} \circ \gsectionc \textcolor{set}{\big\}}} 
+            \onslide*<2-|handout:1>{\arrow[ll, "\textcolor{set}{\mathlarger{\mathlarger{\supset}}}" description, hook', color=white]} \\ 
+            \&  \& \\
+            \onslide*<1-|handout:1>{\opensetgc} 
+            \onslide*<1-|handout:1>{\arrow[uu, "\sheafc_{\gtotalc}", color=sheaf, maps to]} 
+            \onslide*<2-|handout:1>{\arrow[rruu, "\vartistc(\sheafc_{\dtotalc})\coloneqq \sheafc_{\vartistc}" description, dashed, color=sheaf, maps to]} 
+            \&  \& 
+        \end{tikzcd}
+    \end{equation*}
 \end{frame}
 
 
