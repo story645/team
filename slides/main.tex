@@ -234,7 +234,7 @@
         \only<7|handout:3>{
             \begin{description}[style=nextline]
                 \item[\textcolor{total}{Graphic \gtotalc}]{continuity + renderer fields}
-                \item[\textcolor{base}{Continuity \gbasec}]{parameterization of the graphic's geometry}
+                \item[\textcolor{base}{Continuity \gbasec}]{parameterization of graphic area (e.g. "inked" bounding box\cite{CairographicsOrg})}
                 \item[\textcolor{fiber}{Display \gfiberc}] {renderer fields, e.g. \{xy,rgba\}, \{xy, cymk\}, \{xyz, rgba\}}
             \end{description}
             }
@@ -426,7 +426,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle<3|handout:3>{Functor: $\vindexc: \opensetgc \rightarrow \opensetc$}
+    \frametitle<3|handout:3>{Function: $\vindexc: \gbasec \rightarrow \dbasec$}
     \frametitle<1|handout:1>{Data}
     \frametitle<4-6|handout:4>{Pullback: data to region of the visualization} 
     \frametitle<2|handout:2>{Graphic}
@@ -623,8 +623,6 @@
         }
 \end{frame}
 
-\section{Equivariant Artist}
-
 \begin{frame}{Output}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
@@ -640,7 +638,8 @@
 \end{frame}
 
 
-\begin{frame}{Data Transformation \dfuncc?}
+\section{Equivariant Artist}
+\begin{frame}{Transform Data}
     \begin{block}{Fiber Bundle Category}
         \begin{description}[style=newline]
             \item[object] $\dfiberc \hookrightarrow \dtotalc \xrightarrow{\pi} \dbasec$
@@ -684,70 +683,75 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Field Equivariance}
-    \begin{equation*}
-    \begin{tikzcd}[ampersand replacement=\&]
-            \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
-            \arrow[rr, "\vartistc", Rightarrow, color=artist] 
-            \arrow[dd, "\dfuncc_{\dtotalc}"', color=action] 
-            \arrow[rrrr, "\equivc", bend left, color=monoid] \&  \& 
-            \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
-            \arrow[rr, "L", ]                               \&  \& 
-            M 
-            \arrow[dd, "\dfuncc_{M}", dashed, color=action] \\
-            \& \& \& \& \\
-            \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} 
-            \arrow[rr, "\vartistc"', Rightarrow, color=artist] 
-            \arrow[rrrr, "\equivc"', bend right, color=monoid]   \&  \& 
-            \cgamma{\opensetgc^{\prime}}{\dfuncpullc\gtotalc\restriction_{\opensetgc^{\prime}}} 
-            \arrow[rr, "L"'] \&  \& 
-            M^{\prime}                            
-    \end{tikzcd}
-    \end{equation*}
-\end{frame}
-
-\begin{frame}{Continuity Equivariance: $\dfunchc_{\dbasec}\circ \vindexc = \vindexc \circ \dfunchc_{\gbasec}$}
-    \begin{equation*}
-        \begin{tikzcd}[ampersand replacement=\&]
-        \opensetgc 
-        \arrow[rr, "\vindexc", color=functor] 
-        \arrow[dd, "\dfunchc_{\gbasec}"', dashed, color=action] 
-        \&  \& 
-        \opensetc 
-        \arrow[dd, "\dfunchc_{\dbasec}", color=action] \\
-        \&  \& \\
-        \opensetgc^{\prime} 
-        \arrow[rr, "\vindexc"', color=functor]
-        \&  \& 
-        \opensetc^{\prime}\\
-        \underbrace{\dbasec \times {[0,1]}^{m}}_{\gbasec} \arrow[rr,"\vindex", maps to, color=functor] \& \& \dbasec
-        \end{tikzcd}
-    \end{equation*}
-\end{frame}
-
 \begin{frame}{Equivariant Artist}
     \begin{equation*}
     \begin{tikzcd}[ampersand replacement=\&]
         \sheafc_{\dbasec, \dtotalc} 
         \arrow[r, "\vartistc", Rightarrow, color=artist] 
-        \arrow[d, "\dfuncc_{\dsectionc}"', color=action] \& 
-        \sheafc_{\vartistc} 
-        \arrow[d, "\dfuncc_{\gsectionc}", color=action, dashed] \\
-        \dfuncc_{\dsectionc}\sheafc_{\dbasec, \dtotalc} 
+        \arrow[d, "\dfuncc_{\dtotalc}"', color=action] \& 
+        \sheafc_{\gbasec, \gtotalc} 
+        \arrow[d, "\dfuncc_{\gtotalc}", color=action, dashed] \\
+        \sheafc_{\dbasec^{\prime}, \dfuncpullc\dtotalc} 
         \arrow[r, "\vartistc", Rightarrow, color=artist]    \& 
-        \dfuncc_{\gsectionc}\sheafc_{\vartistc}    
+        \sheafc_{\gbasec^{\prime},\dfuncpullc{\gbasec}\gtotalc}    
         \end{tikzcd} 
     \end{equation*}
     
     \begin{proposition}{}
         \begin{align*}
             \vartistc(\dsectionc^{a}) = \vartistc(\dsectionc^{b}) &\centernot\implies \dsectionc^a = \dsectionc^b \\
-            \vartistc(\dsectionc^{a})  = \vartistc(\dsectionc^{b}) &\implies \vartistc(\dfuncc_{\dsectionc}(\dsectionc^{a})) = \vartistc(\dfuncc_{\dsectionc}(\dsectionc^{b})) \
+            \vartistc(\dsectionc^{a})  = \vartistc(\dsectionc^{b}) &\implies \vartistc(\dfuncc_{\dtotalc}(\dsectionc^{a})) = \vartistc(\dfuncc_{\dtotalc}(\dsectionc^{b})) \
         \end{align*}
     \end{proposition}
 \end{frame}
 
-\begin{frame}{Multiple Fields: $\dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)$} 
+
+\begin{frame}{Equivariant $\dfunchc$}
+    \note{Maybe move to implementation section}
+        \begin{equation*}
+            \begin{tikzcd}[ampersand replacement=\&]
+            \opensetgc 
+            \arrow[rr, "\vindexc", color=functor] 
+            \arrow[dd, "\dfunchc_{\gbasec}"', dashed, color=action] 
+            \&  \& 
+            \opensetc 
+            \arrow[dd, "\dfunchc_{\dbasec}", color=action] \\
+            \&  \& \\
+            \opensetgc^{\prime} 
+            \arrow[rr, "\vindexc"', color=functor]
+            \&  \& 
+            \opensetc^{\prime}\\
+            \underbrace{\dbasec \times {[0,1]}^{m}}_{\gbasec} \arrow[rr,"\vindex", maps to, color=functor] \& \& \dbasec
+            \end{tikzcd}
+        \end{equation*}
+\end{frame}
+    
+\begin{frame}{Checking if \vartistc\ is equivariant}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement=\&]
+            \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+            \arrow[rr, "\vartistc"', Rightarrow, color=artist] 
+            \arrow[d, "\dfuncc_{\dtotalc}"', color=action] 
+            \arrow[rrr, "\equivc", bend left, color=monoid, dashed] \&  \& 
+            \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+            \arrow[r, "\delta"']\& M 
+            \arrow[d, "\dfuncc_{M}", color=action] \\
+            \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} 
+            \arrow[rr, "\vartistc", Rightarrow, color=artist] 
+            \arrow[rrr, "\equivc"', bend right, color=monoid, dashed] \&  \& 
+            \cgamma{\opensetgc^{\prime}}{\dfuncpullc\gtotalc\restriction_{\opensetgc^{\prime}}} 
+            \arrow[r, "\delta"] \& M^{\prime}                        
+        \end{tikzcd}
+    \end{equation*}
+        there exists a monoid homomorphism $\equivc: \dfuncc_{\dtotalc} \rightarrow \dfuncc_{M}$ such that 
+        \begin{description}
+            \item[equivariance] $\equivc(\dfuncc_{\dtotalc}(\dsectionc(\dbasepointc))) = \dfuncc_{M}(\equivc(\dsectionc(\dbasepointc)))$, for all $\dbasepointc \in \dbasec$ 
+            \item[continuity] $\lim\limits_{x\to \dbasepointc}(\equivc(\dsectionc(x))) = \equivc(\dsectionc(\dbasepointc))$ for all $\dbasepointc \in \dbasec$ 
+        \end{description} 
+\end{frame}
+
+\section{Complex Structure}
+\begin{frame}{Multiple Bundles: $\dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)$} 
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement = \&, column sep=2ex]
                 \dfunctc_0 \circ \dfuncpullc \dtotalc_0 
@@ -768,45 +772,27 @@
                 \end{tikzcd}                                              
     \end{equation*}
 
-    \begin{block}{Add New Field to E}
-        \begin{description}[style=newline]
-            \item[construct] {$\odot:\dfiberc_{field} \times \dbasec \rightarrow \dtotalc_{field}$}
-            \item[concatenate]{$\otimes: \dtotalc_{field} \times \dtotalc \mapsto \dtotalc$ s.t. $\pi(\dtotalc_{field}) = \pi(\dtotalc)$}
-        \end{description}
-    \end{block}
-
 \end{frame}
 
-\begin{frame}{Field Equivariance}
 
-    \begin{equation*}
-        \oslash: \vartistc \times \dfiberc \rightarrow visual\; encoding
-    \end{equation*}
-
-
-\begin{equation*}
-    \begin{tikzcd}[ampersand replacement = \&]
-            \& 
-            {\sheafc_{\dbasec, \dtotalc}}
-            \arrow[rr, "\vartistc"]                   
-            \&  \& 
-            \sheafc_{\vartist} 
-            \arrow[rd, "\oslash_{\dfiber_{field}}"]           \&                        \\
-            \dfiberc_{field} 
-            \arrow[ru, "\otimes_{\dtotalc} \circ \odot_{\dbasec}"] 
-            \arrow[rd, "\otimes_{\dtotalc^{\prime}} \circ \odot_{\dbasec^{\prime}}"'] 
-            \& \& \& \& 
-            visual\;encoding \\
-            \& 
-            {\sheafc_{\dbasec^{\prime}, \dtotalc^{\prime}}} 
-            \arrow[rr, "\vartistc"'] 
-            \& \& 
-            \sheafc_{\vartist}^{\prime} 
-            \arrow[ru, "\oslash_{\dfiber_{field}}"'] 
-            \&                       
-    \end{tikzcd}
-\end{equation*}
-
+\begin{frame}{complex data}
+    \begin{description}[style=newline]
+        \item[combining continuities]{given $\dbasepointc_{a} \in \dbasec_{c} \subset \dbasec_{a}$ and $\dbasepointc_{b} \in \dbasec_{c} \subset \dbasec_{b}$, if $\dbasepointc_{a} = \dbasepointc_{b}$ then $\equivc(\dsectionc(\dbasepointc_{a})) = \equivc(\dsectionc(\dbasepointc_{b}))$ for all $\dbasepointc_{a}, \dbasepointc_{b} \in \dbasec_{a}\bigsqcup\limits_{\dbasec_{c}} \dbasec_{b}$}
+        \item[shared fibers]{
+            if $p = p^{\prime}$ then $\equivc \circ q$ = $\equivc^{\prime} \circ q^{\prime}$
+        \begin{equation*}
+        \begin{tikzcd}[ampersand replacement = \&]
+        \& \dfiberc^a \times \dfiberc^b 
+        \arrow[ld, "p"', color=fiber] 
+        \arrow[rd, "q \circ \equivc"] \&     \\
+        \dfiberc^a \& \& M^a \\
+        \& \dfiberc^a \times \dfiberc^c 
+        \arrow[lu, "p^{\prime}", color=fiber] 
+        \arrow[ru, " q^{\prime} \circ\equivc^{\prime}"'] \&    
+      \end{tikzcd}
+    \end{equation*}}         
+        \item[both]{given $\dsectionc^{a} \in \sheafc_{\dbasec_a, \dtotalc_a}, \dsectionc^{b} \in \sheafc_{\dbasec_b, \dtotalc_b}$ and $\dbasepointc \in \dbasec_{a}\bigsqcup\limits_{\dbasec_{c}} \dbasec_{b}$ then $q(\equivc(\dsection^a(\dbasepointc))) = q^{\prime}(\equivc(\dsectionc^b(\dbasepointc)))$ when $p(\dfiberc^{a}\restriction_{\dbasepointc}) = p^{\prime}(\dfiberc^{b}\restriction_{\dbasepointc})$}
+    \end{description}
 \end{frame}
 
 \begin{frame}{"Valid" viz?}
