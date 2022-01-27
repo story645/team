@@ -625,15 +625,28 @@
 
 \section{Equivariant Artist}
 
+\begin{frame}{Output}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+            \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+            \arrow[rr, "\vartistc", Rightarrow, color=artist] \&  \& 
+            \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+            \arrow[rrd, "\delta"'] 
+            \arrow[rr, "render"] \&  \& visualization 
+            \arrow[d, "measure" description] \\ 
+            \&  \&  \&  \& M
+            \end{tikzcd}
+    \end{equation*}
+\end{frame}
 
-\begin{frame}{Bundle Map \dfuncc?}
+
+\begin{frame}{Data Transformation \dfuncc?}
     \begin{block}{Fiber Bundle Category}
         \begin{description}[style=newline]
             \item[object] $\dfiberc \hookrightarrow \dtotalc \xrightarrow{\pi} \dbasec$
             \item[morphisms] $\dfuncc: \dtotalc \rightarrow \dtotalc$ 
         \end{description}
     \end{block}
-
     \begin{block}{Fiber Category}
         The fiber $\dfiberc$ is the sole object of an arbitrary category $\mathcal{C}$.
         The morphisms on the fiber are $Hom(\dfiberc, \dfiberc)$
@@ -670,24 +683,22 @@
         \item Section Transform: $\dfuncc: \dsectionc^{a}\restriction_{\opensetc} \mapsto \dsectionc^{b}\restriction_{\opensetc^{\prime}}$
     \end{itemize}
 \end{frame}
-    
 
-
-\begin{frame}{Field Equivariance: $\vartist \circ (\dfunctc_{\dtotalc}\circ \dfuncpullc_{\dbasec}) =  (\dfunctc_{\gtotalc} \circ \dfuncpullc_{\gbasec}) \circ \vartist$}
+\begin{frame}{Field Equivariance}
     \begin{equation*}
     \begin{tikzcd}[ampersand replacement=\&]
             \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
-            \arrow[rr, "\vartistc", Rightarrow] 
-            \arrow[dd, "\dfuncc_{\dtotalc}"'] 
-            \arrow[rrrr, "\equivc", bend left] \&  \& 
+            \arrow[rr, "\vartistc", Rightarrow, color=artist] 
+            \arrow[dd, "\dfuncc_{\dtotalc}"', color=action] 
+            \arrow[rrrr, "\equivc", bend left, color=monoid] \&  \& 
             \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
-            \arrow[rr, "L"]                               \&  \& 
+            \arrow[rr, "L", ]                               \&  \& 
             M 
-            \arrow[dd, "\dfuncc_{M}", dashed] \\
+            \arrow[dd, "\dfuncc_{M}", dashed, color=action] \\
             \& \& \& \& \\
             \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} 
-            \arrow[rr, "\vartistc"', Rightarrow] 
-            \arrow[rrrr, "\equivc"', bend right]   \&  \& 
+            \arrow[rr, "\vartistc"', Rightarrow, color=artist] 
+            \arrow[rrrr, "\equivc"', bend right, color=monoid]   \&  \& 
             \cgamma{\opensetgc^{\prime}}{\dfuncpullc\gtotalc\restriction_{\opensetgc^{\prime}}} 
             \arrow[rr, "L"'] \&  \& 
             M^{\prime}                            
