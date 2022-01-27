@@ -212,8 +212,8 @@
                \& 
                \onslide*<2-6|handout:1-2>{\dbasec}
                \onslide*<7|handout:3>{\gbasec} 
-               \onslide*<5-6|handout:1-2>{\arrow[u, "\dsectionc \in \cgamma{\dbasec}{\dtotalc}"', bend right, pos=.5]}
-               \onslide*<7|handout:3>{\arrow[u, "\gsectionc \in \cgamma{\gbasec}{\gtotalc}"', bend right, pos=.5]}
+               \onslide*<5-6|handout:1-2>{\arrow[u, "\dsectionc \in \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}"', bend right, pos=.5]}
+               \onslide*<7|handout:3>{\arrow[u, "\gsectionc \in \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}"', bend right, pos=.5]}
             \end{tikzcd}
         \end{equation*}
      \column{0.69\textwidth}
@@ -269,6 +269,21 @@
     \end{alertblock}
     }
 \end{frame}
+
+\begin{comment}
+    \note{move this to top where I introduce data/graphics}
+\begin{frame}{Domain and Range}
+    \begin{figure}
+        \begin{subfigure}{.5\textwidth}
+            \includegraphics[.5\textwidth]{../paper/figures/fiberbundle.png}
+        \end{subfigure}
+        \begin{subfigure}{.5\textwidth}
+            \includegraphics[.5\textwidth]{../paper/figures/render.png}
+        \end{subfigure}
+    \end{figure}
+\end{frame}
+\end{comment}
+
 
 \subsection{Category Theory}
 \begin{frame}[fragile]{}
@@ -822,36 +837,94 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Encoding + Assembly Stages}
-    %E-V and Q diagram    
+\begin{frame}{Measurable Visual Components}
+    \begin{columns}
+        \column{0.31\textwidth}
+        \begin{equation*}
+            \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+                \onslide*<1|handout:1>{\vfiberc}
+                \onslide*<1|handout:1>{\arrow[r, hook]} \& 
+                \onslide*<1|handout:1>{\vtotalc} 
+                \onslide*<1|handout:1>{\arrow[d, "\pi"']} \\
+                \& 
+                \onslide*<1|handout:1>{\dbasec} 
+                \onslide*<1|handout:1>{\arrow[u, "\vsectionc \in \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}}"', bend right, pos=.5]}
+            \end{tikzcd}
+        \end{equation*}
+        \column{0.69\textwidth}
+    \only<1|handout:1>{
+        \begin{description}[style=nextline]
+            \item[\textcolor{total}{Data \vtotalc}]{continuity + visual fields}
+            \item[\textcolor{base}{Continuity \dbasec}]{data continuity}
+            \item[\textcolor{fiber}{components \vfiberc}] {visual components \cite{bertinIIPropertiesGraphic2011} of a graphic, e.g. x and y position, area, color, line thickness}
+        \end{description}
+        }
+    \end{columns}
+    \pause 
+    \only<1|handout:1>{
+        \begin{alertblock}{}
+            \begin{description}[style=nextline]
+                \item[\textcolor{section}{visual Components}]{$\cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \coloneqq \big\{\vsectionc: \opensetc\rightarrow \vtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\vsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$}
+            \end{description}
+        \end{alertblock}
+    }
 \end{frame}
-\begin{frame}{Encoding + Assembly}
+
+\begin{frame}{Equivariant Data to Components: $\vchannel: \sheaf_{\dbasec,\dtotalc} \rightarrow \sheaf_{\dbasec, \vtotalc}$}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+            \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \arrow[rr, "\vchannelc"] \& \& 
+            \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \\
+             \& \opensetc 
+             \arrow[lu, "{\sheafc_{\dbasec,\dtotalc}}" description, maps to] 
+             \arrow[ru, "{\sheafc_{\dbasec, \vtotalc}}" description, maps to] \& 
+            \end{tikzcd}
+    \end{equation*}
+    
+    \begin{alertblock}{Build in Equivariance}
+    implement $\vchannelc: \dsectionc \mapsto \vsectionc$ as a monoid homomorphism $\vchannelc: \dfuncc_{\dtotalc} \rightarrow \dfuncc_{\vtotalc}$ such that 
+        \begin{description}
+            \item[equivariance] $\vchannelc(\dfuncc_{\dtotalc}(\dsectionc(\dbasepointc))) = \dfuncc_{\vtotalc}(\vchannelc(\dsectionc(\dbasepointc)))$, for all $\dbasepointc \in \dbasec$ 
+            \item[continuity] $\lim\limits_{x\to \dbasepointc}(\vchannelc(\dsectionc(x))) = \vchannelc(\dsectionc(\dbasepointc))$ for all $\dbasepointc \in \dbasec$ 
+    \end{description} 
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Sample $\dfuncc$: Stevens' Scales \cite{stevensTheoryScalesMeasurement1946}}
+    \begin{table}[H]
+        \begin{tabularx}{\textwidth}{|l|l|X|}\toprule
+            \textbf{scale} & \textbf{group} & \textbf{constraint} \\\midrule
+            nominal & permutation &  $\text{if } \delement_1 \neq \delement_2 \text{ then } \vchannel (\delement_1) \neq\vchannel(\delement_2)$\\
+            ordinal &  monotonic & $\text{if } \delement_1 \leq \delement_2 \text{ then } \vchannel (\delement_1) \leq \vchannel(\delement_2)$\\
+            interval &  translation &  $\vchannel (\delement + c) = \vchannel(\delement) + c$ \\
+            ratio &  scaling &  $\vchannel(\delement* c) = \vchannel(\delement)*c $\\ \bottomrule
+        \end{tabularx}
+    \end{table}
+\end{frame}
+
+\begin{frame}{Shared Components: $\vchannelc = \prod\limits_{i=0}^{n}\vchannelc_i$}
+    \begin{equation}
+        \begin{tikzcd}[ampersand replacement=\&]
+            \dfiberc_a\times \dfiberc_b 
+            \arrow[rr, "\vchannelc"] 
+            \arrow[rd, "p_{\dfiberc}"] \& \& \vfiberc_a\times \vfiberc_b 
+            \arrow[rd, "p_{\vfiberc}"] \& \\    \& \dfiberc_{a} \arrow[rr, "\vchannelc_{a}", dashed] \& \& \vfiberc_a \\
+            \dfiberc_a\times \dfiberc_c 
+            \arrow[rr, "\vchannelc^{\prime}"] \arrow[ru, "p_{\dfiberc^{\prime}}"'] \& \& {\vfiberc_a}^{\prime}\times {\vfiberc_c}^{prime} \arrow[ru, "p_{\vfiberc^{\prime}}"'] \&           
+            \end{tikzcd}
+    \end{equation}
+    \begin{alertblock}{Consistent Transformations \cite{hullmanKeeping2018}}
+        if $p_{\dfiberc} = p_{\dfiberc^{\prime}}$ then $p_{\vfiberc}(\vchannelc(\dsectionc)) = p_{\vfiberc^{\prime}}(\vchannelc^{\prime}(\dsectionc^{\prime}))$ s.t. there exists a transformation $\vchannelc_a: \dfiberc_{a}\rightarrow \vfiberc_{a}$
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Components to Graphic}
     \begin{figure}
         \includegraphics{../paper/figures/q_hat.p}
     \end{figure}
 \end{frame}
-\begin{frame}{Domain and Range}
-    \begin{figure}
-        \begin{subfigure}{.5\textwidth}
-            \includegraphics[.5\textwidth]{../paper/figures/fiberbundle.png}
-        \end{subfigure}
-        \begin{subfigure}{.5\textwidth}
-            \includegraphics[.5\textwidth]{../paper/figures/render.png}
-        \end{subfigure}
-    \end{figure}
-\end{frame}
 
-\begin{frame}{Example $\dfunctc$: Stevens' Scales \cite{stevensTheoryScalesMeasurement1946}}
-\begin{table}[H]
-    \begin{tabularx}{\textwidth}{|l|l|X|}\toprule
-        \textbf{scale} & \textbf{group} & \textbf{constraint} \\\midrule
-        nominal & permutation &  $\text{if } \delement_1 \neq \delement_2 \text{ then } \vchannel (\delement_1) \neq\vchannel(\delement_2)$\\
-        ordinal &  monotonic & $\text{if } \delement_1 \leq \delement_2 \text{ then } \vchannel (\delement_1) \leq \vchannel(\delement_2)$\\
-        interval &  translation &  $\vchannel (x + c) = \vchannel(x) + c$ \\
-        ratio &  scaling &  $\vchannel(xc) = \vchannel(x)*c $\\ \bottomrule
-    \end{tabularx}
-\end{table}
-\end{frame}
+
 
 
 
