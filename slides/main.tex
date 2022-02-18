@@ -667,7 +667,7 @@
     \end{block}
 
     \begin{block}{Data Transformations}
-    $\dfuncc:\dtotalc\restriction_{\dbasepointc} \rightarrow \dtotalc\restriction_{\dbasepointc} \in Hom(\dfiberc\restriction_{\dbasepointc},\dfiberc\restriction_{\dbasepointc})$ 
+    $\dfuncc:\dtotalc\restriction_{\dbasepointc} \rightarrow \dtotalc\restriction_{\dbasepointc^{\prime}} \in Hom(\dfiberc\restriction_{\dbasepointc},\dfiberc\restriction_{\dbasepointc^{\prime}})$ 
     \end{block} 
 \end{frame}
 
@@ -790,7 +790,7 @@
 \end{frame}
 
 
-\begin{frame}{complex data}
+\begin{frame}{Complex data}
     \begin{description}[style=newline]
         \item[combining continuities]{given $\dbasepointc_{a} \in \dbasec_{c} \subset \dbasec_{a}$ and $\dbasepointc_{b} \in \dbasec_{c} \subset \dbasec_{b}$, if $\dbasepointc_{a} = \dbasepointc_{b}$ then $\equivc(\dsectionc(\dbasepointc_{a})) = \equivc(\dsectionc(\dbasepointc_{b}))$ for all $\dbasepointc_{a}, \dbasepointc_{b} \in \dbasec_{a}\bigsqcup\limits_{\dbasec_{c}} \dbasec_{b}$}
         \item[shared fibers]{
@@ -882,10 +882,10 @@
     \end{equation*}
     
     \begin{alertblock}{Build in Equivariance}
-    implement $\vchannelc: \dsectionc \mapsto \vsectionc$ as a monoid homomorphism $\vchannelc: \dfuncc_{\dtotalc} \rightarrow \dfuncc_{\vtotalc}$ such that 
+    implement $\vchannelc$ as a functor such that 
         \begin{description}
             \item[equivariance] $\vchannelc(\dfuncc_{\dtotalc}(\dsectionc(\dbasepointc))) = \dfuncc_{\vtotalc}(\vchannelc(\dsectionc(\dbasepointc)))$, for all $\dbasepointc \in \dbasec$ 
-            \item[continuity] $\lim\limits_{x\to \dbasepointc}(\vchannelc(\dsectionc(x))) = \vchannelc(\dsectionc(\dbasepointc))$ for all $\dbasepointc \in \dbasec$ 
+            \item[continuity] $\lim\limits_{x\to \dbasepointc}(\vchannelc(\dsectionc(x))) = \vchannelc(\dsectionc(\dbasepointc))$ for all $\dbasepointc \in \dbasec$ \note{for all sections} 
     \end{description} 
 \end{alertblock}
 \end{frame}
@@ -896,8 +896,8 @@
             \textbf{scale} & \textbf{group} & \textbf{constraint} \\\midrule
             nominal & permutation &  $\text{if } \delement_1 \neq \delement_2 \text{ then } \vchannel (\delement_1) \neq\vchannel(\delement_2)$\\
             ordinal &  monotonic & $\text{if } \delement_1 \leq \delement_2 \text{ then } \vchannel (\delement_1) \leq \vchannel(\delement_2)$\\
-            interval &  translation &  $\vchannel (\delement + c) = \vchannel(\delement) + c$ \\
-            ratio &  scaling &  $\vchannel(\delement* c) = \vchannel(\delement)*c $\\ \bottomrule
+            interval &  translation &  $\vchannel (\delement + c) = \vchannel(\delement) + \vchannel(c)$ \\
+            ratio &  scaling &  $\vchannel(\delement* c) = \vchannel(\delement)*\vchannel(c) $\\ \bottomrule
         \end{tabularx}
     \end{table}
 \end{frame}
@@ -910,12 +910,31 @@
             \arrow[rd, "p_{\dfiberc}"] \& \& \vfiberc_a\times \vfiberc_b 
             \arrow[rd, "p_{\vfiberc}"] \& \\    \& \dfiberc_{a} \arrow[rr, "\vchannelc_{a}", dashed] \& \& \vfiberc_a \\
             \dfiberc_a\times \dfiberc_c 
-            \arrow[rr, "\vchannelc^{\prime}"] \arrow[ru, "p_{\dfiberc^{\prime}}"'] \& \& {\vfiberc_a}^{\prime}\times {\vfiberc_c}^{prime} \arrow[ru, "p_{\vfiberc^{\prime}}"'] \&           
+            \arrow[rr, "\vchannelc^{\prime}"] \arrow[ru, "p_{\dfiberc^{\prime}}"'] \& \& {\vfiberc_a}^{\prime}\times {\vfiberc_c}^{\prime} \arrow[ru, "p_{\vfiberc^{\prime}}"'] \&           
             \end{tikzcd}
     \end{equation}
     \begin{alertblock}{Consistent Transformations \cite{hullmanKeeping2018}}
         if $p_{\dfiberc} = p_{\dfiberc^{\prime}}$ then $p_{\vfiberc}(\vchannelc(\dsectionc)) = p_{\vfiberc^{\prime}}(\vchannelc^{\prime}(\dsectionc^{\prime}))$ s.t. there exists a transformation $\vchannelc_a: \dfiberc_{a}\rightarrow \vfiberc_{a}$
     \end{alertblock}
+\end{frame}
+
+\begin{frame}{Remapping Components}
+    \begin{block}<>{Functor $\vchannel$}
+        $\vchannelc$ is a functor from on fiber categories $\vchannel: \mathcal{\dfiberc} \rightarrow \mathcal{\vfiberc}$  
+
+    \end{block}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement=\&]
+            \dfiberc 
+            \arrow[rr, "\vchannelc_{\dfiberc}"] 
+            \arrow[rrdd, "{\vchannelc_{\dfiberc}}^{\prime}"', dotted] 
+            \&  \& 
+            \vfiberc \coloneqq \dfiberc^{\prime}  
+            \arrow[dd, "\vchannelc_{\vfiberc}"] \\
+            \&  \& \\
+            \&  \& \vfiberc^{\prime}                           
+        \end{tikzcd}
+    \end{equation*}
 \end{frame}
 
 \begin{frame}{Components to Graphic}
@@ -925,7 +944,26 @@
 \end{frame}
 
 
-
+\begin{frame}{implement}
+    \begin{tikzcd}[ampersand replacement = \&]
+    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+    \arrow[r, "\vchannelc"] \& 
+    \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} 
+    \arrow[r, "\vmarkc_*"] 
+    \arrow[rr, "\vmarkc", bend left] \& 
+    \cgamma{\opensetc}{\gtotalc\restriction_{\opensetc}} \& 
+    \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+    \arrow[l, "\vindexcpush"]\\ 
+    \& \\ \& 
+    \opensetc 
+    \arrow[luu, "{\sheafc_{\dbasec, \dtotalc}}" description, maps to] 
+    \arrow[uu, "{\sheafc_{\dbasec, \vtotalc}}" description, maps to] 
+    \arrow[ruu, "{\sheafc_{\dbasec, \gtotalc}}" description, maps to] 
+    \& \& 
+    \opensetgc \arrow[uu, "{\sheafc_{\gbasec, \gtotalc}}" description, maps to] 
+    \arrow[ll, "\vindexc"', dashed]
+    \end{tikzcd}
+\end{frame}
 
 
 \begin{comment}
