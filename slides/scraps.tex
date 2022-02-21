@@ -112,3 +112,18 @@ begin{frame}{Monoid Actions: Permutation}
         \caption{Data Representation, MayaVi 4.7.2 docs\cite{DataRepresentationMayavi}}
     \end{figure}
 \end{frame}
+
+\begin{equation}
+    \begin{equation*}
+        \sheafc_{\dbasec, \dtotalc} \textcolor{artist}{\xrightarrow{\vartistc}} \sheafc_{\gbasec, \gtotalc}
+    \end{equation*}
+    \begin{equation*}
+         (\sheafc_{\dbasec,\dtotalc} \textcolor{functor}{\xmapsto{\vindexpullc}} \vindexpullc \sheafc_{\dbasec,\dtotalc}) \textcolor{artist}{\xRightarrow{\vartistc_{\opensetgc}}} \sheafc_{\gbasec, \gtotalc} \tag{$\vartistc_{\opensetgc} \circ \vindexpullc = \vartistc$}
+    \end{equation*}
+    \begin{equation*}
+        (\sheafc_{\dbasec,\dtotalc} \textcolor{artist}{\xRightarrow{\vartistc}} \sheafc_{\gbasec, \gtotalc}) \textcolor{functor}{\xmapsto{\vindexpushc}} \vindexpushc \sheafc_{\gbasec, \gtotalc} \tag{$\vindexpushc \circ \vartistc = \vartistc_{\opensetc}$}      
+    \end{equation*}
+    \begin{equation*}
+        ((\sheafc_{\dbasec,\dtotalc} \textcolor{functor}{\xmapsto{\vindexpullc}} \vindexpullc \sheafc_{\dbasec,\dtotalc}) \textcolor{artist}{\xRightarrow{\vartistc_{\opensetgc}}} \sheafc_{\gbasec, \gtotalc})\textcolor{functor}{\xmapsto{\vindexpushc}} \vindexpushc \sheafc_{\gbasec, \gtotalc} \tag{$\vindexpushc \circ \vartistc_{\opensetgc} \circ \vindexpullc = \vartistc_{\opensetc}$}
+    \end{equation*}
+\end{equation}
