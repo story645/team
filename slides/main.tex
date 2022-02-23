@@ -872,7 +872,7 @@
     \end{equation*}
 \end{frame}
 
-\begin{comment}
+
 
 \section{Construction}
 \begin{frame}{What's in the $\vartist$ black box?}
@@ -881,6 +881,9 @@
         \includegraphics[width=1\textwidth]{../paper/figures/path_of_q.png}
     \end{figure}
 \end{frame}
+
+
+\subsection{Measurable Visual Components $M$}
 
 \begin{frame}{Measurable Visual Components}
     \begin{columns}
@@ -909,54 +912,51 @@
     \only<1|handout:1>{
         \begin{alertblock}{}
             \begin{description}[style=nextline]
-                \item[\textcolor{section}{visual Components}]{$\cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \coloneqq \big\{\vsectionc: \opensetc\rightarrow \vtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\vsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$}
+                \item[\textcolor{section}{visual components}]{$\cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \coloneqq \big\{\vsectionc: \opensetc\rightarrow \vtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\vsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$}
             \end{description}
         \end{alertblock}
     }
 \end{frame}
 
-\begin{frame}{Functor $\vchannelc: \dfiberc \rightarrow \vfiberc$}
-    \begin{equation*}
-        \begin{tikzcd}[ampersand replacement=\&]
-            \dfiberc 
-            \arrow[rr, "\vchannelc_{\dfiberc,\vfiber}"] 
-            \arrow[rrdd, "{\vchannelc_{\dfiberc,{\vfiberc}^{\prime}}"', dotted] 
-            \&  \& 
-            \vfiberc \coloneqq \dfiberc^{\prime}  
-            \arrow[dd, "\vchannelc_{{\dfiberc}^{\prime}, {\vfiberc}^{\prime}}"] \\
-            \&  \& \\
-            \&  \& \vfiberc^{\prime}                           
-        \end{tikzcd}
-    \end{equation*}
-    \begin{alertblock}
-        $\vchannelc$ is a functor s.t. if there exists a map ${\vchannelc}_{\dfiber, \vfiber}: \dfiber \mapsto \vfiber$ and 
-        ${\vchannelc}_{{\dfiber}^{\prime}, {\vfiber}^{\prime}}: {\dfiber}^{\prime} \mapsto {\vfiber}^{\prime}$ then by composition there exists a map ${\vchannelc}_{\dfiberc, {\vfiberc}^{\prime}}: \dfiberc \rightarrow {\vfiberc}^{\prime}$
-    \end{alertblock}
-\end{frame}
-
-\begin{frame}{Equivariant Data to Components: $\vchannel: \sheaf_{\dbasec,\dtotalc} \rightarrow \sheaf_{\dbasec, \vtotalc}$}
+\begin{frame}{Data to Visual Transformation: $\vchannelc: \dsectionc \mapsto \vsectionc$}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-            \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \arrow[rr, "\vchannelc"] \& \& 
+            \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+            \arrow[rr, "\vchannelc", color=artist, maps to] \& \& 
             \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \\
              \& \opensetc 
-             \arrow[lu, "{\sheafc_{\dbasec,\dtotalc}}" description, maps to] 
-             \arrow[ru, "{\sheafc_{\dbasec, \vtotalc}}" description, maps to] \& 
+             \arrow[lu, "{\sheafc_{\dbasec,\dtotalc}}" description, maps to, color=sheaf] 
+             \arrow[ru, "{\sheafc_{\dbasec, \vtotalc}}" description, maps to, color=sheaf] \& 
             \end{tikzcd}
     \end{equation*}
     
-    \begin{alertblock}{Build in Equivariance}
-    implement $\vchannelc$ as a functor such that 
+    \begin{alertblock}{constraints} 
         \begin{description}
             \item[equivariance] $\vchannelc(\dfuncc_{\dtotalc}(\dsectionc(\dbasepointc))) = \dfuncc_{\vtotalc}(\vchannelc(\dsectionc(\dbasepointc)))$, for all $\dbasepointc \in \dbasec$ 
-            \item[continuity] $\lim\limits_{x\to \dbasepointc}(\vchannelc(\dsectionc(x))) = \vchannelc(\dsectionc(\dbasepointc))$ for all $\dbasepointc \in \dbasec$ \note{for all sections} 
+            \item[continuity] $\lim\limits_{x\to \dbasepointc}(\vchannelc(\dsectionc(x))) = \vchannelc(\dsectionc(\dbasepointc))$ for all $\dbasepointc \in \dbasec$
+            \item[pointwise] $\vchannelc: \dsectionc(\dbasepointc) \mapsto \vsectionc(\dbasepointc) = \vchannelc: \vindexpullc\dsectionc(\gbasepointc) \mapsto \vindexpullc\vsectionc(\gbasepointc)$ when $\vindexc(\gbasepointc) = \dbasepointc$ 
     \end{description} 
 \end{alertblock}
 \end{frame}
 
 
+\begin{frame}{Functor $\vchannelc: \dsectionc \mapsto \vsectionc$}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+            \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
+            \arrow[rr, "\vchannelc_{\dfiberc,\vfiberc}", maps to, color=artist] 
+            \arrow[rrdd, "{\vchannelc_{\dfiberc,{\vfiberc}^{\prime}}}"', dotted, maps to, color=artist] 
+            \&  \& 
+            \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \coloneqq \cgamma{\opensetc}{\dtotalc^{\prime}\restriction_{\opensetc}} 
+            \arrow[dd, "\vchannelc_{{\dfiberc}^{\prime}, {\vfiberc}^{\prime}}", maps to, color=artist] \\
+            \&  \& \\
+            \&  \& \cgamma{\opensetgc}{\vtotalc^{\prime}}                           
+        \end{tikzcd}
+    \end{equation*}
+\end{frame}
 
-\begin{frame}{Sample $\dfuncc$: Stevens' Scales \cite{stevensTheoryScalesMeasurement1946}}
+
+\begin{frame}{$\vchannelc:\dfuncc_{\dtotalc} \mapsto \dfuncc_{\vtotalc}$: Stevens' Scales \cite{stevensTheoryScalesMeasurement1946}}
     \begin{table}[H]
         \begin{tabularx}{\textwidth}{|l|l|X|}\toprule
             \textbf{scale} & \textbf{group} & \textbf{constraint} \\\midrule
@@ -968,15 +968,21 @@
     \end{table}
 \end{frame}
 
+
 \begin{frame}{Shared Components: $\vchannelc = \prod\limits_{i=0}^{n}\vchannelc_i$}
     \begin{equation}
         \begin{tikzcd}[ampersand replacement=\&]
             \dfiberc_a\times \dfiberc_b 
-            \arrow[rr, "\vchannelc"] 
-            \arrow[rd, "p_{\dfiberc}"] \& \& \vfiberc_a\times \vfiberc_b 
-            \arrow[rd, "p_{\vfiberc}"] \& \\    \& \dfiberc_{a} \arrow[rr, "\vchannelc_{a}", dashed] \& \& \vfiberc_a \\
+            \arrow[rr, "\vchannelc", color=artist, maps to] 
+            \arrow[rd, "p_{\dfiberc}", color=fiber] \& \& \vfiberc_a\times \vfiberc_b 
+            \arrow[rd, "p_{\vfiberc}", color=fiber] \& \\    \& 
+            \dfiberc_{a} 
+            \arrow[rr, "\vchannelc_{a}", dashed, maps to, color=artist] \& \& \vfiberc_a \\
             \dfiberc_a\times \dfiberc_c 
-            \arrow[rr, "\vchannelc^{\prime}"] \arrow[ru, "p_{\dfiberc^{\prime}}"'] \& \& {\vfiberc_a}^{\prime}\times {\vfiberc_c}^{\prime} \arrow[ru, "p_{\vfiberc^{\prime}}"'] \&           
+            \arrow[rr, "\vchannelc^{\prime}", color=artist, maps to] 
+            \arrow[ru, "p_{\dfiberc^{\prime}}"', color=fiber] \& \& 
+            {\vfiberc_a}^{\prime}\times {\vfiberc_c}^{\prime} 
+            \arrow[ru, "p_{\vfiberc^{\prime}}"', color=fiber] \&           
             \end{tikzcd}
     \end{equation}
     \begin{alertblock}{Consistent Transformations \cite{hullmanKeeping2018}}
@@ -985,37 +991,74 @@
 \end{frame}
 
 
-\begin{frame}{Combining Components}
-    \begin{tikzcd}[ampersand replacement = \&]
-    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
-    \arrow[r, "\vchannelc", color=artist] \& 
-    \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} 
-    \arrow[r, "\vmarkc_*", color=artist] 
-    \arrow[rr, "\vmarkc", bend left, color=artist] \& 
-    \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} \& 
-    \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
-    \arrow[l, "\vindexpushc"', color=functor, dashed]\\ 
-    \& \\ \& 
-    \opensetc 
-    \arrow[luu, "{\sheafc_{\dbasec, \dtotalc}}" description, maps to, color=sheaf] 
-    \arrow[uu, "{\sheafc_{\dbasec, \vtotalc}}" description, maps to, color=sheaf] 
-    \arrow[ruu, "{\sheafc_{\dbasec, \gtotalc}}" description, maps to, color=sheaf] 
-    \& \& 
-    \opensetgc 
-    \arrow[uu, "{\sheafc_{\gbasec, \gtotalc}}" description, maps to, color=sheaf] 
-    \arrow[ll, "\vindexc"', dashed, color=functor]
-    \end{tikzcd}
+\subsection{Visual Representations of Data}
 
-    \begin{alertblock}{Equivariance}
+\begin{frame}{Building a Visual Representation}
+    \begin{equation*}
+    \begin{tikzcd}[ampersand replacement = \&, column sep=small]
+        \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
+        \arrow[rr, "\vchannelc", color=artist, mapsto] 
+        \& \& 
+        \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \& 
+        \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} 
+        \arrow[rr, "\vmarkc", color=artist] 
+        \& \& 
+        \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}\\
+        \& \& \& \&  \& \\
+        \& \opensetc 
+        \arrow[luu, "{\sheafc_{\dbasec, \dtotalc}}" description, maps to, color=sheaf] 
+        \arrow[ruu, "{\sheafc_{\dbasec, \vtotalc}}" description, maps to, color=sheaf] 
+        \& \& 
+        \opensetc 
+        \arrow[uu, "{\sheafc_{\dbasec, \vtotalc}}" description, maps to, color=sheaf]  
+        \& \& 
+        \opensetgc 
+        \arrow[uu, "{\sheafc_{\gbasec, \gtotalc}}" description, maps to, color=sheaf] 
+        \arrow[ll, "\vindexc"', color=functor]
+        \end{tikzcd}
+    \end{equation*}
+    \begin{alertblock}{}
+        \begin{description}[style=newline]
         \item[equivariance] $\delta(\vmarkc(\vchannelc\dfuncc_{\dtotalc}(\dsectionc))) = \dfuncc_{M}(\delta(\dsectionc))$ 
         \item[continuity] the assembly function $\vmarkc$ is defined as  
         \begin{equation}
         \vmarkc_*(\vsection(\dbasepointc))(\gbasepointc) = \vmarkc(\vsectionc(\vindex(\gbasepointc)))   
         \end{equation}
         such that there must exist a deformation retract $\vindexc:\gbasec \rightarrow \dbasec$ for all points $\gbasepointc \in \gbase$. 
+        \end{description}
     \end{alertblock}
 \end{frame}
 
+\begin{frame}{Implementation Choices: $\vartistc_{\opensetc} = \vartistc_{\opensetgc}$}
+    \begin{equation*}
+    \begin{tikzcd}[ampersand replacement = \&, column sep=small]
+        \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}  
+        \arrow[r, "\vchannelc", maps to, color=artist] 
+        \arrow[rrrr, "\vartistc_{\opensetgc}", Rightarrow, bend left, color=artist] \& 
+        \cgamma{\opensetgc}{\vindexpullc\vtotalc\restriction_{\opensetgc}} \& 
+        \cgamma{\opensetgc}{\vindexpullc\vtotalc\restriction_{\opensetgc}}  
+        \arrow[rr, "\vmarkc^*", no head, Rightarrow, color=artist] \&  \& 
+        \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}  
+        \arrow[dd, "\vindexpushc", color=functor] \\
+        \& \& \& \& \\
+        \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}  
+        \arrow[uu, "\vindexpullc", color=functor] 
+        \arrow[r, "\vchannelc", maps to, color=artist] 
+        \arrow[rrrr, "\vartistc_{\opensetc}", Rightarrow, bend right, color=artist] 
+        \& 
+        \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}}  
+        \arrow[uu, "\vindexpullc"', color=functor] \& 
+        \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}}
+        \arrow[rr, "\vmarkc_*", Rightarrow, color=artist] 
+        \arrow[uu, "\vindexpullc", color=functor] 
+        \arrow[rruu, "\vmarkc", Rightarrow, color=artist] 
+        \&  \& 
+        \cgamma{\opensetgc}{\vindexpushc\gtotalc\restriction_{\opensetc}}
+    \end{tikzcd}
+    \end{equation*}
+\end{frame}
+
+\begin{comment}
 \begin{frame}{Components to Graphic}
     \begin{figure}
         \includegraphics[scale=.15]{../paper/figures/qhat.png}
