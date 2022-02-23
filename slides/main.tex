@@ -537,13 +537,16 @@
 \end{frame}
 
 
+
 %add transition slide->possibly call back 
-\subsection{Artist}
+\section{Artist}
+
 \begin{frame}
-    \frametitle<0|handout:1>{Artist: \vartistc: \sheafc_{\dbasec, \dtotalc} \rightarrow \sheafc_{\gbasec, \gotalc}}
+    \frametitle<0|handout:1>{Artist: $\vartistc: \sheafc_{\dbasec, \dtotalc} \rightarrow \sheafc_{\gbasec, \gtotalc}$}
     \frametitle<0|handout:2>{Data Space: $\vartistc_{\opensetc}: \sheafc_{\dbasec, \dtotalc} \textcolor{artist}{\Rightarrow} \vindexpushc\sheafc_{\gbasec, \gtotalc}$}
     \frametitle<0|handout:3>{Display Space: $\vartist_{\opensetgc}: \vindexpullc\sheafc_{\dbasec, \dtotalc} \textcolor{artist}{\Rightarrow} \sheafc_{\gbasec, \gtotalc}$}
-    \frametitle<0|handout:4>{Artist: \vartistc: \cgamma{\opensetc}{\dtotalc} \rightarrow \cgamma{\opensetgc}{\gtotalc}}
+    \frametitle<0|handout:4>{Artist: $\vartistc: \cgamma{\opensetc}{\dtotalc} \rightarrow \cgamma{\opensetgc}{\gtotalc}$}
+    
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&]
           \onslide*<0|handout:1>{\sheafc_{\gbasec, \gtotalc}} 
@@ -564,7 +567,7 @@
           \onslide*<0|handout:1,4>{\arrow[uu, "\vartistc_{\opensetc}"', color=artist, Rightarrow]}
           \onslide*<4-|handout:1,4>{\arrow[lluu, "\vartistc"' description, dashed, color=artist, Rightarrow]}
         \end{tikzcd}
-      \end{equation*}
+    \end{equation*}
     
       \onslide*<1|handout:2>{
         \begin{equation*}
@@ -592,23 +595,23 @@
     \onslide*<0|handout:3>{
         \begin{equation*}
     \begin{tikzcd}[ampersand replacement =\&]
-    \cgamma{\opensetgc_1}{\dtotalpullc} 
+    \cgamma{\opensetgc_1}{\dtotalpullc\restriction_{\opensetgc_1}} 
     \arrow[dd, "\iota^*"', hook, color=set] 
     \arrow[rrrr, "\vartistc_{\opensetgc_1}", bend left, color=artist, Rightarrow] \&  \& 
     \opensetgc_1 
     \arrow[ll, "\sheafc_{\gbasec, \dtotalpullc}", color=sheaf, maps to] 
     \arrow[rr, "\sheafc_{\gbasec,\gtotalc}"', color=sheaf, maps to] \&  \& 
-    \cgamma{\opensetgc_1}{\gtotalc} 
+    \cgamma{\opensetgc_1}{\gtotalc\restriction_{\opensetgc_1}} 
     \arrow[dd, "\iota^*", hook', color=set] \\
     {} 
     \arrow[rrrr, dotted, color=artist, Rightarrow] \&\&\&\& {} \\
-    \cgamma{\opensetgc_2}{\dtotalpullc} 
+    \cgamma{\opensetgc_2}{\dtotalpullc\restriction_{\opensetgc_2}} 
     \arrow[rrrr, "\vartistc_{\opensetgc_2}"', bend right, color=artist, Rightarrow] \&  \& 
     \opensetgc_2 
     \arrow[ll, "\sheafc_{\gbasec,\dtotalpullc}"', color=sheaf, maps to] 
     \arrow[rr, "\sheafc_{\gbasec, \gtotalc}", color=sheaf, maps to] 
     \arrow[uu, "\iota" description, hook, color=base] \& \& 
-    \cgamma{\opensetgc_2}{\gtotalc}   
+    \cgamma{\opensetgc_2}{\gtotalc\restriction_{\opensetgc_2}}   
     \end{tikzcd}
     \end{equation*}}    
     \onslide<0|handout:1>{
@@ -619,10 +622,14 @@
     }
     \onslide<0|handout:4>{
         \begin{alertblock}{pull data section \dsectionc\ over graphic space $\gbasepointc \in \gbasec$}
-            $\vindexpullc\dsectionc(\gbasepointc) = \dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)$
+            \begin{equation*}
+                \vindexpullc\dsectionc(\gbasepointc) = \dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)
+            \end{equation*}
         \end{alertblock}
         \begin{alertblock}{push graphic \gsectionc\ section over data space $\dbasepointc \in \dbasec$}
-            $\vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexpre(\dbasepointc)} = \gsectionc(\gbasepointc) \forall \gbasepointc \in \vindexpre(\dbasepointc)$ 
+            \begin{equation*}
+                \vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexpre(\dbasepointc)} = \gsectionc(\gbasepointc) \forall \gbasepointc \in \vindexpre(\dbasepointc)
+            \end{equation*}
         \end{alertblock}
         }
 \end{frame}
@@ -643,7 +650,8 @@
         \end{tikzcd}
 \end{frame}
 
-\section{Equivariant Artist}
+\subsection{Equivariance}
+
 \begin{frame}{Transform Data}
     \begin{block}{Fiber Bundle Category}
         \begin{description}[style=newline]
@@ -660,6 +668,8 @@
     $\dfuncc:\dtotalc\restriction_{\dbasepointc} \rightarrow \dtotalc\restriction_{\dbasepointc^{\prime}} \in Hom(\dfiberc\restriction_{\dbasepointc},\dfiberc\restriction_{\dbasepointc^{\prime}})$ 
     \end{block} 
 \end{frame}
+
+
 
 \begin{frame}{$\dfuncc = (\dfunchc, \dfunctc)$}
     \begin{tikzcd}[ampersand replacement = \&]
@@ -690,27 +700,27 @@
 
 \begin{frame}{Equivariant Artist}
     \begin{equation*}
-    \begin{tikzcd}[ampersand replacement=\&]
-        \sheafc_{\dbasec, \dtotalc} 
-        \arrow[r, "\vartistc", Rightarrow, color=artist] 
-        \arrow[d, "\dfuncc_{\dtotalc}"', color=action] \& 
-        \sheafc_{\gbasec, \gtotalc} 
-        \arrow[d, "\dfuncc_{\gtotalc}", color=action, dashed] \\
-        \sheafc_{\dbasec^{\prime}, \dfuncpullc\dtotalc} 
-        \arrow[r, "\vartistc", Rightarrow, color=artist]    \& 
-        \sheafc_{\gbasec^{\prime},\dfuncpullc{\gbasec}\gtotalc}    
+        \begin{tikzcd}[ampersand replacement=\&]
+            \sheafc_{\dbasec, \dtotalc} 
+            \arrow[r, "\vartistc", Rightarrow, color=artist] 
+            \arrow[d, "\dfuncc_{\dtotalc}"', color=action] \& 
+            \sheafc_{\gbasec, \gtotalc} 
+            \arrow[d, "\dfuncc_{\gtotalc}", color=action, dashed] \\
+            \sheafc_{\dbasec^{\prime}, \dfuncpullc\dtotalc} 
+            \arrow[r, "\vartistc", Rightarrow, color=artist]\& 
+            \sheafc_{\gbasec^{\prime},\dfuncpullc\gtotalc}
         \end{tikzcd} 
-    \end{equation*}
-    
-    \begin{proposition}{}
+        \end{equation*}
+
+    \begin{alertblock}{}
         \begin{align*}
             \vartistc(\dsectionc^{a}) = \vartistc(\dsectionc^{b}) &\centernot\implies \dsectionc^a = \dsectionc^b \\
-            \vartistc(\dsectionc^{a})  = \vartistc(\dsectionc^{b}) &\implies \vartistc(\dfuncc_{\dtotalc}(\dsectionc^{a})) = \vartistc(\dfuncc_{\dtotalc}(\dsectionc^{b})) \
+            \vartistc(\dsectionc^{a})  = \vartistc(\dsectionc^{b}) &\implies \vartistc(\dfuncc_{\dtotalc}(\dsectionc^{a})) = \vartistc(\dfuncc_{\dtotalc}(\dsectionc^{b}))
         \end{align*}
-    \end{proposition}
+    \end{alertblock}
 \end{frame}
 
-
+\begin{comment}
 \begin{frame}{Equivariant $\dfunchc$}
     \note{Maybe move to implementation section}
         \begin{equation*}
@@ -769,7 +779,6 @@
         \end{description} 
 \end{frame}
 
-\section{Complex Structure}
 \begin{frame}{Multiple Bundles: $\dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)$} 
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement = \&, column sep=2ex]
@@ -833,6 +842,7 @@
 \end{frame}
 
 
+
 \section{Construction}
 \begin{frame}{What's in the $\vartist$ black box?}
     \note{Add box around figure & lable it artist}
@@ -874,6 +884,25 @@
     }
 \end{frame}
 
+\begin{frame}{Functor $\vchannelc: \dfiberc \rightarrow \vfiberc$}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement=\&]
+            \dfiberc 
+            \arrow[rr, "\vchannelc_{\dfiberc,\vfiber}"] 
+            \arrow[rrdd, "{\vchannelc_{\dfiberc,{\vfiberc}^{\prime}}"', dotted] 
+            \&  \& 
+            \vfiberc \coloneqq \dfiberc^{\prime}  
+            \arrow[dd, "\vchannelc_{{\dfiberc}^{\prime}, {\vfiberc}^{\prime}}"] \\
+            \&  \& \\
+            \&  \& \vfiberc^{\prime}                           
+        \end{tikzcd}
+    \end{equation*}
+    \begin{alertblock}
+        $\vchannelc$ is a functor s.t. if there exists a map ${\vchannelc}_{\dfiber, \vfiber}: \dfiber \mapsto \vfiber$ and 
+        ${\vchannelc}_{{\dfiber}^{\prime}, {\vfiber}^{\prime}}: {\dfiber}^{\prime} \mapsto {\vfiber}^{\prime}$ then by composition there exists a map ${\vchannelc}_{\dfiberc, {\vfiberc}^{\prime}}: \dfiberc \rightarrow {\vfiberc}^{\prime}$
+    \end{alertblock}
+\end{frame}
+
 \begin{frame}{Equivariant Data to Components: $\vchannel: \sheaf_{\dbasec,\dtotalc} \rightarrow \sheaf_{\dbasec, \vtotalc}$}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
@@ -893,24 +922,7 @@
     \end{description} 
 \end{alertblock}
 \end{frame}
-\begin{frame}{Remapping Components}
-    \begin{block}<>{Functor $\vchannel$}
-        $\vchannelc$ is a functor from on fiber categories $\vchannelc: \mathcal{\dfiberc} \rightarrow \mathcal{\vfiberc}$  
 
-    \end{block}
-    \begin{equation*}
-        \begin{tikzcd}[ampersand replacement=\&]
-            \dfiberc 
-            \arrow[rr, "\vchannelc_{\dfiberc}"] 
-            \arrow[rrdd, "{\vchannelc_{\dfiberc}}^{\prime}"', dotted] 
-            \&  \& 
-            \vfiberc \coloneqq \dfiberc^{\prime}  
-            \arrow[dd, "\vchannelc_{\vfiberc}"] \\
-            \&  \& \\
-            \&  \& \vfiberc^{\prime}                           
-        \end{tikzcd}
-    \end{equation*}
-\end{frame}
 
 
 \begin{frame}{Sample $\dfuncc$: Stevens' Scales \cite{stevensTheoryScalesMeasurement1946}}
@@ -979,6 +991,7 @@
     \end{figure}
 \end{frame}
 
+
 \begin{comment}
 \begin{frame}{Scatter: $\vmark(xpos, ypos)(\alpha, \beta)$}
     \begin{figure}[H]
@@ -1018,7 +1031,6 @@
         \includegraphics[width=1\textwidth]{figures/math/exploding_artist.png}
     \end{figure}
 \end{frame}
-
 
 \section{Code}
 \begin{frame}{TEAM driven rearchitecture of Matplotlib}
