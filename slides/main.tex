@@ -245,7 +245,7 @@
         \begin{alertblock}{}
             \begin{description}[style=nextline]
                 \item[\textcolor{section}{Sections}]{$\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$}
-                \item[Locally Trivial] {for every point $\dbasepointc \in \dbasec$, there exists an open neighborhood $\dbasepointc \in \opensetc \subseteq \dbasec$ s.t. there is a homeomorphism $\pi^{-1}(\opensetc)\xrightarrow{\varphi} \opensetc \times \dfiberc$}
+                \item[Locally Trivial] {for every point $\dbasepointc \in \dbasec$, there exists an open neighborhood $\dbasepointc \in \opensetc \subseteq \dbasec$ s.t. there is a homeomorphism $\pi^{-1}(\opensetc)\xrightarrow{\equivc} \opensetc \times \dfiberc$}
                 \item[(Globally) Trivial]{$\dtotalc = \dbasec \times \dfiberc$}
             \end{description}
         \end{alertblock}
@@ -658,7 +658,7 @@
         \end{alertblock}
         \begin{alertblock}{push graphic \gsectionc\ section over data space $\dbasepointc \in \dbasec$}
             \begin{equation*}
-                \vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexpre(\dbasepointc)} = \gsectionc(\gbasepointc) \forall \gbasepointc \in \vindexpre(\dbasepointc)
+                \vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexprec(\dbasepointc)} = \gsectionc(\gbasepointc) \forall \gbasepointc \in \vindexprec(\dbasepointc)
             \end{equation*}
         \end{alertblock}
         }
@@ -682,6 +682,7 @@
 \end{frame}
 
 \subsection{Equivariance}
+
 \begin{frame}{Transform Data}
     \begin{block}{Fiber Bundle Category}
         \begin{description}[style=newline]
@@ -782,6 +783,12 @@
             \&  \&  \&  \& M
             \end{tikzcd}
     \end{equation*}
+    \begin{alertblock}{Visual Measurement $\delta$}
+        \begin{equation}
+            \delta: \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \rightarrow M
+        \end{equation}
+        $M$ is a measurable component of the rendered visual element, e.g. color, position, shape, texture
+    \end{alertblock}
 \end{frame}
 
 
@@ -918,45 +925,54 @@
     }
 \end{frame}
 
-\begin{frame}{Data to Visual Transformation: $\vchannelc: \dsectionc \mapsto \vsectionc$}
+\begin{frame}{Data to Visual Transformation: $\vchannelc: \dfiberc_{\dbasepointc} \mapsto \vfiberc_{\dbasepointc}$}
+    \begin{columns}
+    \column{.5\textwidth}
     \begin{equation*}
-        \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-            \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
-            \arrow[rr, "\vchannelc", color=artist, maps to] \& \& 
-            \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \\
-             \& \opensetc 
-             \arrow[lu, "{\sheafc_{\dbasec,\dtotalc}}" description, maps to, color=sheaf] 
-             \arrow[ru, "{\sheafc_{\dbasec, \vtotalc}}" description, maps to, color=sheaf] \& 
-            \end{tikzcd}
-    \end{equation*}
-    
-    \begin{alertblock}{constraints} 
-        \begin{description}
-            \item[equivariance] $\vchannelc(\dfuncc_{\dtotalc}(\dsectionc(\dbasepointc))) = \dfuncc_{\vtotalc}(\vchannelc(\dsectionc(\dbasepointc)))$, for all $\dbasepointc \in \dbasec$ 
-            \item[continuity] $\lim\limits_{x\to \dbasepointc}(\vchannelc(\dsectionc(x))) = \vchannelc(\dsectionc(\dbasepointc))$ for all $\dbasepointc \in \dbasec$
-            \item[pointwise] $\vchannelc: \dsectionc(\dbasepointc) \mapsto \vsectionc(\dbasepointc) = \vchannelc: \vindexpullc\dsectionc(\gbasepointc) \mapsto \vindexpullc\vsectionc(\gbasepointc)$ when $\vindexc(\gbasepointc) = \dbasepointc$ 
-    \end{description} 
-\end{alertblock}
-\end{frame}
-
-
-\begin{frame}{Functor $\vchannelc: \dsectionc \mapsto \vsectionc$}
-    \begin{equation*}
-        \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-            \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
-            \arrow[rr, "\vchannelc_{\dfiberc,\vfiberc}", maps to, color=artist] 
-            \arrow[rrdd, "{\vchannelc_{\dfiberc,{\vfiberc}^{\prime}}}"', dotted, maps to, color=artist] 
-            \&  \& 
-            \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \coloneqq \cgamma{\opensetc}{\dtotalc^{\prime}\restriction_{\opensetc}} 
-            \arrow[dd, "\vchannelc_{{\dfiberc}^{\prime}, {\vfiberc}^{\prime}}", maps to, color=artist] \\
-            \&  \& \\
-            \&  \& \cgamma{\opensetgc}{\vtotalc^{\prime}}                           
+        \begin{tikzcd}[ampersand replacement=\&]
+        \dtotalc 
+        \arrow[rr, "\vchannelc_{\dbasec}", color=artist] 
+        \arrow[rd, "\pi" description, dotted] 
+        \arrow[ddd, "\dfuncc_{\dtotalc}"', color=action] 
+        \& \& 
+        \vtotalc 
+        \arrow[ld, "\pi" description, dotted] 
+        \arrow[ddd, "\dfuncc_{\vtotalc}", color=action] \\
+        \& \dbasec \&  \\
+        \& \dbasec^{\prime} 
+        \arrow[u, "\dfunchc" description, color=action] \& \\
+        \dfuncpullc\dtotalc 
+        \arrow[ru, "\pi" description, dotted] 
+        \arrow[rr, "\vchannel_{\dbasec}"', color=artist] 
+        \& \& 
+        \dfuncpullc\dtotalc 
+        \arrow[lu, "\pi" description, dotted]
         \end{tikzcd}
     \end{equation*}
-\end{frame}
+    \column{.5\textwidth} 
+    \begin{equation}
+    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+        \dfiberc_{\dbasepointc} 
+        \arrow[rr, "\vchannelc_{\dtotalc} ", maps to, color=artist] 
+        \arrow[rrdd, "{\vchannelc_{\dtotalc,\vtotalc}}" description, dashed, maps to, color=artist] 
+        \&  \& 
+        \vfiberc_{\dbasepointc}\coloneqq {\dfiberc_{\dbasepointc}}^{\vtotalc} \arrow[dd, "\vchannelc_{\vtotalc}", maps to, color=artist] \\
+        \& \& \\
+        \&  \& {\vfiberc_{\dbasepointc}}^{\vtotalc}
+        \end{tikzcd}
+    \end{equation}
+    \end{columns}
+    \begin{alertblock}{equivariance} 
+       $\vchannelc: \dfuncc_{\dtotalc} \rightarrow \dfuncc_{\vtotalc}$ is a functor such that 
+       \begin{description}
+           \item[equivariance] {$\vchannelc(\dfuncc(\dsectionc(\dfunchc_{\dtotalc}^{-1}(\dbasepointc)))) = \dfuncc_{\vtotalc}(\vchannelc(\dsectionc(\dfunchc_{\vtotalc}^{-1}(\dbasepointc))))$\\$\dfunchc_{\dtotalc}(\dbasepointc^{\prime}) = \dfunchc_{\vtotalc}(\dbasepointc^{\prime})$}
+           \item[continuity] $\lim\limits_{x\to \dbasepointc}(\vchannelc(\dsectionc(x))) = \vchannelc(\dsectionc(\dbasepointc))$ for all $\dbasepointc \in \dbasec$ 
+       \end{description}
+\end{alertblock}
+\end{frame}  
 
 
-\begin{frame}{$\vchannelc:\dfuncc_{\dtotalc} \mapsto \dfuncc_{\vtotalc}$: Stevens' Scales \cite{stevensTheoryScalesMeasurement1946}}
+\begin{frame}{$\vchannelc:\dfuncc_{\dtotalc} \rightarrow \dfuncc_{\vtotalc}$: Stevens' Scales \cite{stevensTheoryScalesMeasurement1946}}
     \begin{table}[H]
         \begin{tabularx}{\textwidth}{|l|l|X|}\toprule
             \textbf{scale} & \textbf{group} & \textbf{constraint} \\\midrule
