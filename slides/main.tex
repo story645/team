@@ -497,7 +497,7 @@
             \onslide*<0|handout:5>{\cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}}  
             \\
             \onslide*<0|handout:2,4->{\opensetgc}
-            \onslide*<0|handout:3>{\underbrace{\opensetc\times[0,1]^{m}}_{\opensetgc}}
+            \onslide*<0|handout:3>{\overbrace{\opensetc\times[0,1]^{m}}^{\opensetgc}}
             \onslide*<0|handout:3->{\arrow[rr, "\vindex", color=functor]}
             \onslide*<0|handout:2,3,5>{\arrow[u, "\sheaf_{\gbasec, \gtotalc}", maps to, color=sheaf]}
             \onslide*<0|handout:4>{\arrow[d, dashed, maps to, "\sheaf_{\gbasec, \vindexpullc\dtotalc}"',color=sheaf]} \&  \& 
@@ -673,7 +673,6 @@
 
 
 \subsection{Equivariance}
-
 \begin{frame}<presentation:1|handout:1>{Transform Data}
     \begin{block}{Fiber Bundle Category}
         \begin{description}[style=newline]
@@ -721,43 +720,50 @@
 \begin{frame}<presentation:1|handout:1>{Equivariant Artist}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&]
-            \sheafc_{\dbasec, \dtotalc} 
-            \arrow[r, "\vartistc", Rightarrow, color=artist] 
-            \arrow[d, "\dfuncc_{\dtotalc}"', color=action] \& 
-            \sheafc_{\gbasec, \gtotalc} 
-            \arrow[d, "\dfuncc_{\gtotalc}", color=action, dashed] \\
-            \sheafc_{\dbasec^{\prime}, \dfuncpullc\dtotalc} 
-            \arrow[r, "\vartistc", Rightarrow, color=artist]\& 
-            \sheafc_{\gbasec^{\prime},\dfuncpullc\gtotalc}
-        \end{tikzcd} 
+        \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+        \arrow[rrr, "\vartistc", Rightarrow, color=artist] 
+        \arrow[d, "\dfuncpullc_{\dtotalc}"', color=action] 
+        \& \& \& 
+        \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+        \arrow[d, "\dfuncpullc_{\gtotalc}", dotted] \\
+        \cgamma{\opensetc^{\prime}}{\dfuncpullc_{\dtotalc}\dtotalc\restriction_{\opensetc^{\prime}}} 
+        \arrow[dd, "\dfunctc_{\dtotalc}"', color=action] \& 
+        \opensetc 
+        \arrow[lu, dashed, maps to, color=sheaf] \& 
+        \opensetgc 
+        \arrow[l, "\vindexc"', color=functor] 
+        \arrow[ru, dashed, maps to, color=sheaf] \& 
+        \cgamma{\opensetgc^{\prime}}{\dfuncpullc_{\gtotalc}\gtotalc\restriction_{\opensetgc^{\prime}}} 
+        \arrow[dd, "\dfunctc_{\gtotalc}", dotted, color=action] \\
+        \& 
+        \opensetc^{\prime} 
+        \arrow[u, "\dfunchc_{\dtotalc}", color=action] 
+        \arrow[ld, dashed, maps to, color=sheaf] 
+        \arrow[lu, dashed, maps to, color=sheaf] \& 
+        \opensetgc^{\prime} 
+        \arrow[l, "\vindexc"', color=functor] 
+        \arrow[u, "\dfunchc_{\gtotalc}"', dotted, color=action] 
+        \arrow[rd, dashed, maps to, color=sheaf] 
+        \arrow[ru, dashed, maps to, color=sheaf] \& \\
+        \cgamma{\opensetc^{\prime}}{\dtotalc^{\prime}\restriction_{\opensetc^{\prime}}} 
+        \arrow[rrr, "\vartistc^{\prime}", Rightarrow, color=artist]  
+        \& \& \& 
+        \cgamma{\opensetgc^{\prime}}{\gtotalc^{\prime}\restriction_{\opensetgc^{\prime}}}
+        \end{tikzcd}
+    \end{equation*}
+        $(\vartistc, \vartistc^{\prime})$ are equivariant with respect to $\dfuncc_{\dtotalc}$ if a compatible transform  $\dfuncc_{\dtotalc}$ can be defined such that 
+        \begin{equation*}
+            \vartistc^{\prime}(\dfunctc_{\dtotalc}(\dsectionc(\dfunchc_{\dtotalc}(\vindexc(\gbasepointc^{\prime}))))) = \dfunctc_{\gtotalc}(\vartistc(\dsectionc(\vindexc(\dfunchc_{\gtotalc}(\gbasepointc^{\prime})))))
         \end{equation*}
-
-    \begin{alertblock}{Artist Constraints}
-        \begin{align*}
-            \vartistc(\dsectionc^{a}) = \vartistc(\dsectionc^{b}) &\centernot\implies \dsectionc^a = \dsectionc^b \\
-            \vartistc(\dsectionc^{a})  = \vartistc(\dsectionc^{b}) &\implies \vartistc(\dfuncc_{\dtotalc}(\dsectionc^{a})) = \vartistc(\dfuncc_{\dtotalc}(\dsectionc^{b}))
-        \end{align*}
-    \end{alertblock}
+        for all points$
+        \gbasepointc^{\prime}\in \gbasec^{\prime$
 \end{frame}
 
-\begin{frame}<presentation:1|handout:1>{Equivariant $\dfunchc$}
-    \note{Maybe move to implementation section}
-        \begin{equation*}
-            \begin{tikzcd}[ampersand replacement=\&]
-            \opensetgc 
-            \arrow[rr, "\vindexc", color=functor] 
-            \arrow[dd, "\dfunchc_{\gbasec}"', dashed, color=action] 
-            \&  \& 
-            \opensetc 
-            \arrow[dd, "\dfunchc_{\dbasec}", color=action] \\
-            \&  \& \\
-            \opensetgc^{\prime} 
-            \arrow[rr, "\vindexc"', color=functor]
-            \&  \& 
-            \opensetc^{\prime}\\
-            \underbrace{\dbasec \times {[0,1]}^{m}}_{\gbasec} \arrow[rr,"\vindex", maps to, color=functor] \& \& \dbasec
-            \end{tikzcd}
-        \end{equation*}
+\begin{frame}<presentation:0|handout:0>{$\vartistc= \vartistc^{\prime}$}
+    \begin{align*}
+        \vartistc(\dsectionc^{a}) = \vartistc(\dsectionc^{b}) &\centernot\implies \dsectionc^a = \dsectionc^b \\
+        \vartistc(\dsectionc^{a})  = \vartistc(\dsectionc^{b}) &\implies \vartistc(\dfuncc_{\dtotalc}(\dsectionc^{a})) = \vartistc(\dfuncc_{\dtotalc}(\dsectionc^{b}))
+    \end{align*}
 \end{frame}
 
 \begin{frame}<presentation:1|handout:1>{Checking if \vartistc\ is equivariant}
