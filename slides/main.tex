@@ -1,10 +1,12 @@
 \documentclass[xcolor={dvipsnames}, handout]{beamer}
 %\documentclass[xcolor={dvipsnames}]{beamer}
 \setbeamertemplate{footline}[frame number]
+\setbeamersize{description width=-\labelsep}
+
 %\usepackage{amsmath,amsfonts,amssymb,pxfonts,eulervm,xspace}
 \usepackage{amsmath, amsfonts, amssymb, mathtools, eulervm, xspace}
 \renewcommand{\restriction}{\mathord{\upharpoonright}} %restriction w/p space
-\usepackage{relsize}%mathlarger
+\usepackage{relsize} %mathlarger
 \usepackage{bm}
 \usepackage{centernot}
 \usepackage{mathrsfs} % math script fonts
@@ -16,7 +18,7 @@
 
 \usepackage{tabulary}
 \usepackage{tabularx}
-\usepackage{enumitem}
+%\usepackage{enumitem} $ won't work with beamer
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{array}
@@ -59,8 +61,8 @@
 \begin{document}
 
 \title{Topological Equivariant Artist Model}
-\begin{comment}
-\begin{frame}
+
+\begin{frame}<presentation:1|handout:1>
 	\titlepage
     Hannah Aizenman, Tom Caswell, Michael Grossberg\\
     %Committee: Dr. Robert Haralick, Dr. Lev Manovich, Dr. Huy Vo\\
@@ -68,7 +70,7 @@
 \end{frame}
 
 \section{Introduction}
-\begin{frame}{What are we doing?}
+\begin{frame}<presentation:1|handout:0>{What are we doing?}
     \begin{itemize}
         \item develop a model for describing data to graphic transformations
         \item specify a visualization library architecture based on this model
@@ -76,8 +78,9 @@
     \end{itemize}
 \end{frame}
 
+
 %% maybe pull out the middle for now? move the 3 stages down to construction? 
-\begin{frame}{What do visualization libraries do?}
+\begin{frame}<presentation:1|handout:0>{What do visualization libraries do?}
     \begin{figure}
         \begin{overprint}
             \onslide<1|handout:1>\includegraphics[width=\linewidth]{figures/flow/s2.png}
@@ -88,37 +91,38 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Case Study: Matplotlib}
+
+\begin{frame}<presentation:1|handout:0>{Case Study: Matplotlib}
     \begin{figure}
        \includegraphics[width=\linewidth]{figures/flow/artists.png}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Visualizations Preserve Structure}
+\begin{frame}<presentation:1|handout:0>{Visualizations Preserve Structure}
     \begin{description}
         \item [continuity] topological properties \cite{wilkinsonGrammarGraphics2005}, i.e. how elements in a dataset are organized, e.g. discrete rows in a table, networked nodes, pixels in an image, points on a line
         \item [equivariance] data and visual encodings are matched such that transformations have an equivalent effect on data and graphical representations, e.g. rotating a matrix and image, shifting  points on a line and a line graphic
       \end{description}
 \end{frame}
 
-\begin{frame}{Continuity}
+\begin{frame}<presentation:1|handout:0>{Continuity}
     \begin{figure}
         \includegraphics[width=\linewidth]{../paper/figures/k_different_types.png}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Expressed in container}    
+\begin{frame}<presentation:1|handout:0>{Expressed in container} 
     \begin{figure}
         \includegraphics[width=1\textwidth]{figures/intro/munzner_datatypes.png}
         \caption{Figure 2.8 in Munzner's Visualization Analysis and Design\cite{munznerVisualizationAnalysisDesign2014}}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Why is container type not enough?}
+\begin{frame}<presentation:1|handout:0>{Why is container type not enough?}
     \includegraphics[width=1\linewidth]{../paper/figures/whycontinuity.png}
 \end{frame}
 
-\begin{frame}{Equivariance}
+\begin{frame}<presentation:1|handout:0>{Equivariance}
     \begin{description}
         \item[Retinal Variables \& Marks] visual encodings should match properties of the data \cite{bertinSemiologyGraphicsDiagrams2011a}
         \pause
@@ -131,7 +135,7 @@
 \end{frame}
 
 %flip columns
-\begin{frame}{Frameworks for Expressing Visual Equivariance}
+\begin{frame}<presentation:1|handout:0>{Frameworks for Expressing Visual Equivariance}
     \begin{description}
         \item[linguistically] visualization has syntax, semantics, grammar expresses how to design structure preserving visualizations
         \cite{mackinlayAutomatingDesignGraphical1986,mackinlayAUTOMATICDESIGNGRAPHICAL1987,wilkinsonGrammarGraphics2005}
@@ -156,7 +160,8 @@
     \end{description}
 \end{frame}
 
-\begin{frame}{Domain specific libraries know their structure\cite{HeerSoftware2006}}
+\begin{frame}<presentation:1|handout:0>
+    \frametitle{Domain specific libraries know their structure\cite{HeerSoftware2006}}
     \begin{table}
         %\renewcommand{\arraystretch}{2}
         %
@@ -166,27 +171,26 @@
             Vega\cite{satyanarayanDeclarativeInteractionDesign2014} & ImagePlot\cite{studiesCulturevisImageplot2021} & Graphviz\cite{ellsonGraphvizOpenSource2002}\\
             Altair\cite{vanderplasAltairInteractiveStatistical2018}& Napari\cite{nicholas_sofroniew_2021_4533308} & Networkx\cite{HagbergExploringNetwork2008}\\
              Tableau \cite{StoltePolaris2002}& &\\
-            \cite{hanrahanVizQL2006,MackinlayShowme2007}&&\\
-           
+            \cite{hanrahanVizQL2006,MackinlayShowme2007}&&\\        
         \end{tabular}
     \end{table}
 \end{frame}
 
-\begin{frame}{General purpose libraries generally can't\cite{toryRethinkingVisualizationHighlevel2004}}
+\begin{frame}<presentation:1|handout:0>
+    \frametitle{General purpose libraries generally can't\cite{toryRethinkingVisualizationHighlevel2004}}
     \begin{figure}
         \includegraphics[height=.3\textheight]{../paper/figures/k_different_types.png}
     \end{figure}
+
     \begin{enumerate}
-        \item Matplotlib\cite{hunterMatplotlib2DGraphics2007} $\rightarrow$Seaborn\cite{waskom2020seaborn}, xarray \cite{hoyer2017xarray} 
+        \item Matplotlib\cite{hunterMatplotlib2DGraphics2007} $\rightarrow$ Seaborn\cite{waskom2020seaborn}, xarray \cite{hoyer2017xarray} 
         \item D3 \cite{bostockDataDrivenDocuments2011}
-        \item VTK \cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012}(MayaVi\cite{RamachandranMayaVI2011})$\rightarrow$ Titan\cite{brianwylieUnifiedToolkitInformation2009}, ParaView\cite{ahrens2005paraview}
+        \item VTK \cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012},MayaVi\cite{RamachandranMayaVI2011}$\rightarrow$ Titan\cite{brianwylieUnifiedToolkitInformation2009}, ParaView\cite{ahrens2005paraview}
     \end{enumerate}
 \end{frame}
-\end{comment}
 
 \section{Algebraic Topology & Category Theory}
-
-\begin{frame}{Mathematical Data Abstraction}
+\begin{frame}<presentation:1|handout:0>{Mathematical Data Abstraction}
     \begin{description}
         \item[Fiber Bundles] "unified, dimension-independent framework" that expresses data as the mapping between continuity and fields \cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989}
         \item[Category Theory Language] express constraints in specifications \cite{wielsManagementEvolvingSpecifications1998}   
@@ -195,7 +199,7 @@
 \end{frame}
 
 \subsection{Fiber Bundles}
-\begin{frame}
+\begin{frame}<presentation:1|handout:0>
     \frametitle<1|handout:1>{Fiber Bundle}
     \frametitle<6|handout:2-3>{Data Bundle}
     \frametitle<7|handout:4-5>{Graphic Bundle}
@@ -219,21 +223,21 @@
         \end{equation*}
      \column{0.69\textwidth}
      \only<1-5|handout:1>{
-        \begin{description}[style=nextline]
+        \begin{description}
             \item<1-5|handout:1>[\textcolor{total}{Total Space}]{$(\dtotalc, \mathcal{T}_{\dtotalc})$}
             \item<2-5|handout:1>[\textcolor{base}{Base Space}]{$(\dbasec, \mathcal{T}_{\dbasec}),\; \dbasepointc \in \opensetc \subseteq \dbasec$}
             \item<3-5|handout:1>[\textcolor{fiber}{Fiber Space}]{$\dfiberc\restriction_{\dbasepointc} = \pi^{-1}(\dbasepointc), \dfiberc = \dfiberc\restriction_{\dbasepointc}\; \forall \dbasepointc \in \dbasec$}
         \end{description}
         }
     \only<6|handout:2>{
-        \begin{description}[style=nextline]
+        \begin{description}
             \item[\textcolor{total}{Data \dtotalc}]{continuity + fields}
             \item[\textcolor{base}{Continuity \dbasec}]{how data elements are organized (topological properties) \cite{wilkinsonGrammarGraphics2005}, index (key) space \cite{munznerWhatDataAbstraction2014})}
             \item[\textcolor{fiber}{Fields \dfiberc}] {generalization of a schema - named and typed date fields \cite{spivakSIMPLICIALDATABASES, spivakDatabasesAreCategories2010}}
         \end{description}
         }
         \only<7|handout:4>{
-            \begin{description}[style=nextline]
+            \begin{description}
                 \item[\textcolor{total}{Graphic \gtotalc}]{continuity + renderer fields}
                 \item[\textcolor{base}{Continuity \gbasec}]{parameterization of graphic area (e.g. "inked" bounding box\cite{CairographicsOrg})}
                 \item[\textcolor{fiber}{Display \gfiberc}] {renderer fields, e.g. \{xy,rgba\}, \{xy, cymk\}, \{xyz, rgba\}}
@@ -243,7 +247,7 @@
     \pause 
     \only<4-5|handout:1>{
         \begin{alertblock}{}
-            \begin{description}[style=nextline]
+            \begin{description}
                 \item[\textcolor{section}{Sections}]{$\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$}
                 \item[Locally Trivial] {for every point $\dbasepointc \in \dbasec$, there exists an open neighborhood $\dbasepointc \in \opensetc \subseteq \dbasec$ s.t. there is a homeomorphism $\pi^{-1}(\opensetc)\xrightarrow{\equivc} \opensetc \times \dfiberc$}
                 \item[(Globally) Trivial]{$\dtotalc = \dbasec \times \dfiberc$}
@@ -252,7 +256,7 @@
     }
     \only<6|handout:2>{
     \begin{alertblock}{}
-        \begin{description}[style=nextline]
+        \begin{description}
             \item[\textcolor{section}{Data} \cite{butlerVisualizationModelBased1989,butlerVectorBundleClassesForm1992}]{$
         \dsectionc(\dbasepointc) = \;\delementc,\; \dbasepointc\in \opensetc \subseteq \dbasec,\; \delementc \in \dfiberc\restriction_{\dbasepointc}$} 
         \item[]{$\delementc=\{field_0:value, \cdots field_i:value, \cdots field_n:value\}$}
@@ -261,7 +265,7 @@
     }
     \only<7|handout:4>{
         \begin{alertblock}{}
-            \begin{description}[style=nextline]
+            \begin{description}
                 \item[\textcolor{section}{Graphic}]{$\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \big\{\gsectionc: \opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} \; \bigm{\vert} \pi(\gsectionc(\gbasepointc)) = \gbasepointc\;for\, all\; \gbasepointc \in \opensetgc \big\}$}
                 \item[] {$\gsectionc(\gbasepointc) = \gelementc,\; \gbasepointc\in \opensetgc\subseteq \gbasec,\; \gelementc \in \dfiberc\restriction_{\gbasepointc}$}
                 \item[] $\gelementc=\{x,\,y,\,r,\,g,\,b\}$
@@ -281,16 +285,14 @@
     }
 \end{frame}
 
-
-
 \subsection{Category Theory Language}
-\begin{frame}[fragile]{}
+\begin{frame}<presentation:1|handout:0>[fragile]{}
     \begin{minted}{python}
         Artist(data:Data) -> Graphic
     \end{minted}
 \end{frame}
 
-\begin{frame}{Category $\textcolor{source}{\mathcal{C}}$}
+\begin{frame}<presentation:1|handout:0>{Category $\textcolor{source}{\mathcal{C}}$}
 \begin{columns}
     \column{0.39\textwidth}
     \begin{equation*}
@@ -317,7 +319,7 @@
 \end{frame}
 
 
-\begin{frame}{Opposite Category $\textcolor{source}{\mathcal{C}^{op}}$}
+\begin{frame}<presentation:1|handout:0>{Opposite Category $\textcolor{source}{\mathcal{C}^{op}}$}
     \begin{columns}
         \column{0.49\textwidth}
     \begin{equation*}
@@ -336,7 +338,8 @@
         \end{columns}
 \end{frame}
 
-\begin{frame}{Functor $\textcolor{functor}{\bm{F}}: \textcolor{source}{\mathcal{C}} \rightarrow \textcolor{target}{\mathcal{D}}$}
+\begin{frame}<presentation:1|handout:0>
+    \frametitle{Functor $\textcolor{functor}{\bm{F}}: \textcolor{source}{\mathcal{C}} \rightarrow \textcolor{target}{\mathcal{D}}$}
 \begin{columns}
     \column{.39\textwidth}
     \begin{equation*}
@@ -372,7 +375,8 @@
 \end{frame}
 
 \subsubsection{Natural Transforms}
-\begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\Rightarrow} \textcolor{functor}{G}$}
+\begin{frame}<presentation:1|handout:0>
+    \frametitle{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\Rightarrow} \textcolor{functor}{G}$}
     \onslide<|handout:1>{
     \adjustbox{scale=3, center}{
         \begin{tikzcd}[ampersand replacement=\&]
@@ -382,7 +386,8 @@
           \end{tikzcd}}}
 \end{frame}
 
-\begin{frame}{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\Rightarrow} \textcolor{functor}{G}$}
+\begin{frame}<presentation:1|handout:0>
+    \frametitle{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\Rightarrow} \textcolor{functor}{G}$}
     \begin{equation*}
         \begin{tikzcd}[column sep=huge, ampersand replacement = \&]
             \onslide*<2-|handout:1>{\textcolor{target}{F(c)}}
@@ -411,7 +416,8 @@
 
 \subsection{Sheaves}
 
-\begin{frame}{Presheaf: $\sheafc: \mathcal{C}^{op} \textcolor{sheaf}{\rightarrow} \setc $}
+\begin{frame}<presentation:1|handout:0>
+    \frametitle{Presheaf: $\sheafc: \mathcal{C}^{op} \textcolor{sheaf}{\rightarrow} \setc $}
     \begin{columns}
     \column{0.29\textwidth}
     \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
@@ -461,8 +467,7 @@
     \end{center}
 \end{frame}
 
-
-\begin{frame}{Sheaves on Bundles}
+\begin{frame}<presentation:1|handout:0>{Sheaves on Bundles}
     A sheaf is a presheaf that satisfies the following two axioms\cite{bakerMathsSheaf}\\
     \begin{block}<2-|handout:1>{locality}
         \onslide<3-|handout:1>{
@@ -479,7 +484,7 @@
 \end{frame}
 
 \subsubsection{Pullback and Pushforward}
-\begin{frame}{}
+\begin{frame}<presentation:1|handout:1->{}
     \frametitle<3|handout:3>{Function: $\vindexc: \gbasec \rightarrow \dbasec$}
     \frametitle<1|handout:1>{Data}
     \frametitle<4-6|handout:4>{Pullback: data to region of the visualization} 
@@ -491,7 +496,8 @@
             \onslide*<0|handout:5>{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]} \& \& 
             \onslide*<0|handout:5>{\cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}}  
             \\
-            \onslide*<0|handout:2->{\opensetgc}
+            \onslide*<0|handout:2,4->{\opensetgc}
+            \onslide*<0|handout:3>{\underbrace{\opensetc\times[0,1]^{m}}_{\opensetgc}}
             \onslide*<0|handout:3->{\arrow[rr, "\vindex", color=functor]}
             \onslide*<0|handout:2,3,5>{\arrow[u, "\sheaf_{\gbasec, \gtotalc}", maps to, color=sheaf]}
             \onslide*<0|handout:4>{\arrow[d, dashed, maps to, "\sheaf_{\gbasec, \vindexpullc\dtotalc}"',color=sheaf]} \&  \& 
@@ -538,40 +544,41 @@
     }
 \end{frame}
 
-\begin{frame}{Example: Scatter Plot}
+\begin{frame}<presentation:1|handout:0>{Example: Scatter Plot}
     \begin{figure}
         \includegraphics[scale=.1]{figures/math/push_pull_scatter.png}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Example: Line Plot}
+\begin{frame}<presentation:1|handout:0>{Example: Line Plot}
     \begin{figure}
         \includegraphics[scale=.1]{figures/math/push_pull_line.png}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Example: Image}
+\begin{frame}<presentation:1|handout:0>{Example: Image}
     \begin{figure}
         \includegraphics[scale=.1]{figures/math/push_pull_image.png}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Example: Heatmap}
+\begin{frame}<presentation:1|handout:0>{Example: Heatmap}
     \begin{figure}
         \includegraphics[scale=.1]{figures/math/push_pull_heat.png}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Example: Sphere}
+\begin{frame}<presentation:1|handout:0>{Example: Sphere}
     \begin{figure}
         \includegraphics[scale=.1]{figures/math/push_pull_sphere.png}
     \end{figure}
 \end{frame}
 
 %add transition slide->possibly call back 
+
 \section{Artist}
 
-\begin{frame}
+\begin{frame}<presentation:1|handout:0>
     \frametitle<0|handout:1>{Artist: $\vartistc: \sheafc_{\dbasec, \dtotalc} \rightarrow \sheafc_{\gbasec, \gtotalc}$}
     \frametitle<0|handout:2>{Data Space: $\vartistc_{\opensetc}: \sheafc_{\dbasec, \dtotalc} \textcolor{artist}{\Rightarrow} \vindexpushc\sheafc_{\gbasec, \gtotalc}$}
     \frametitle<0|handout:3>{Display Space: $\vartist_{\opensetgc}: \vindexpullc\sheafc_{\dbasec, \dtotalc} \textcolor{artist}{\Rightarrow} \sheafc_{\gbasec, \gtotalc}$}
@@ -665,42 +672,25 @@
 \end{frame}
 
 
-\begin{frame}{Artist as Profunctor}
-    \begin{tikzcd}[ampersand replacement=\&]
-        \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
-        \arrow[rr, "\vartistc", Rightarrow, color=artist] 
-        \&  \& \
-        \cgamma{\opensetgc}{\dtotalc\restriction_{\opensetgc}}\\
-        \& \&                                                                                 \\
-        \opensetc 
-        \arrow[uu, "{\sheafc_{\dbasec, \dtotalc}}", maps to, color=sheaf] 
-        \&  \& 
-        \opensetgc 
-        \arrow[ll, "\vindexc"', color=functor] 
-        \arrow[uu, "{\sheafc_{\gbasec, \gtotalc}}"', maps to, color=sheaf]
-        \end{tikzcd}
-\end{frame}
-
 \subsection{Equivariance}
 
-\begin{frame}{Transform Data}
+\begin{frame}<presentation:1|handout:1>{Transform Data}
     \begin{block}{Fiber Bundle Category}
         \begin{description}[style=newline]
             \item[object] $\dfiberc \hookrightarrow \dtotalc \xrightarrow{\pi} \dbasec$
-            \item[morphisms] $\dfuncc: \dtotalc \rightarrow \dtotalc$ 
+            \item[morphisms] $\dfuncc: \dtotalc \rightarrow \dtotalc^{\prime}$
         \end{description}
     \end{block}
     \begin{block}{Fiber Category}
-        The fiber $\dfiberc$ is the sole object of an arbitrary category $\mathcal{C}$.
-        The morphisms on the fiber are $Hom(\dfiberc, \dfiberc)$
+        The fiber $\dfiberc$ is a  monoidal category (single object w/ bicartesian product operator on category) of an arbitrary type $\mathcal{C}$. The morphisms on the fiber are $Hom(\dfiberc, \dfiberc)$
     \end{block}
 
     \begin{block}{Data Transformations}
-    $\dfuncc:\dtotalc\restriction_{\dbasepointc} \rightarrow \dtotalc\restriction_{\dbasepointc^{\prime}} \in Hom(\dfiberc\restriction_{\dbasepointc},\dfiberc\restriction_{\dbasepointc^{\prime}})$ 
+    $\dfuncc:\dtotalc\restriction_{\dbasepointc} \rightarrow \dtotalc^{\prime}\restriction_{\dbasepointc^{\prime}} \in Hom(\dfiberc\restriction_{\dbasepointc},\dfiberc^{\prime}\restriction_{\dbasepointc^{\prime}})$ 
     \end{block} 
 \end{frame}
 
-\begin{frame}{$\dfuncc = (\dfunchc, \dfunctc)$}
+\begin{frame}<presentation:1|handout:1>{$\dfuncc = (\dfunchc, \dfunctc)$}
     \begin{tikzcd}[ampersand replacement = \&]
         \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
         \arrow[rr, "\dfuncpullc", color=action] 
@@ -708,7 +698,7 @@
         \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} 
         \arrow[rr, "\dfunctc", color=action] 
         \&  \& 
-        \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} \\
+        \cgamma{\opensetc^{\prime}}{\dtotalc^{\prime}\restriction_{\opensetc^{\prime}}} \\
         \&  \&  
         \&  \& \\
         \opensetc 
@@ -716,19 +706,19 @@
         \&  \& 
         \opensetc^{\prime} 
         \arrow[ll, "\dfunchc", color=action] 
-        \arrow[uu, "{\dfuncpullc\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] 
-        \arrow[rruu, "{\dfuncpullc\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] 
+        \arrow[uu, "{\sheafc_{\dbasec^{\prime}, \dfuncpullc\dtotalc}}"', maps to, color=sheaf] 
+        \arrow[rruu, "{\sheafc_{\dbasec^{\prime}, \dtotalc^{\prime}}}"', maps to, color=sheaf] 
         \&  \& 
     \end{tikzcd}
     \begin{itemize}
-        \item Base $\dbasec$ Type stays same: $\dfunchc: \dbasec \rightarrow \dbasec$
-        \item Fiber $\dfiberc$ Type stays the same: $\dfunctc: \dfuncpullc \dtotalc \rightarrow \dfuncpullc\dtotalc$ s.t. $\pi(\dfuncpullc\dtotalc) = \pi(\dfunctc(\dfuncpullc\dtotalc))$ 
-        \item Section Transform: $\dfuncc: \dsectionc^{a}\restriction_{\opensetc} \mapsto \dsectionc^{b}\restriction_{\opensetc^{\prime}}$
+        \item Base Transformation: $\dfunchc: \opensetc^{\prime} \rightarrow \opensetc$
+        \item Fiber Transformation: $\dfunctc: \dfuncpullc \dtotalc \rightarrow \dtotalc^{\prime}$ s.t. $\pi(\dfuncpullc\dtotalc) = \pi(\dtotalc^{\prime})$ 
+        \item Section Transform: $\dfuncc: \dsectionc\restriction_{\opensetc} \mapsto \dsectionc^{\prime}\restriction_{\opensetc^{\prime}}$
     \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Equivariant Artist}
+\begin{frame}<presentation:1|handout:1>{Equivariant Artist}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&]
             \sheafc_{\dbasec, \dtotalc} 
@@ -750,7 +740,7 @@
     \end{alertblock}
 \end{frame}
 
-\begin{frame}{Equivariant $\dfunchc$}
+\begin{frame}<presentation:1|handout:1>{Equivariant $\dfunchc$}
     \note{Maybe move to implementation section}
         \begin{equation*}
             \begin{tikzcd}[ampersand replacement=\&]
@@ -770,8 +760,7 @@
         \end{equation*}
 \end{frame}
 
-
-\begin{frame}{Checking if \vartistc\ is equivariant}
+\begin{frame}<presentation:1|handout:1>{Checking if \vartistc\ is equivariant}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
             \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
@@ -792,7 +781,7 @@
 \end{frame}
 
 
-\begin{frame}{Checking if \vartistc\ is equivariant}
+\begin{frame}<presentation:1|handout:1>{Checking if \vartistc\ is equivariant}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&]
             \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
@@ -816,7 +805,7 @@
         \end{description} 
 \end{frame}
 
-\begin{frame}{Multiple Bundles: $\dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)$} 
+\begin{frame}<presentation:1|handout:0>{Multiple Bundles: $\dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)$}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement = \&, column sep=2ex]
                 \dfunctc_0 \dfuncpullc \dtotalc_0 
@@ -839,8 +828,7 @@
 
 \end{frame}
 
-
-\begin{frame}{Complex data}
+\begin{frame}<presentation:1|handout:0>{Complex data}
     \begin{description}[style=newline]
         \item[combining continuities]{given $\dbasepointc_{a} \in \dbasec_{c} \subset \dbasec_{a}$ and $\dbasepointc_{b} \in \dbasec_{c} \subset \dbasec_{b}$, if $\dbasepointc_{a} = \dbasepointc_{b}$ then $\equivc(\dsectionc(\dbasepointc_{a})) = \equivc(\dsectionc(\dbasepointc_{b}))$ for all $\dbasepointc_{a}, \dbasepointc_{b} \in \dbasec_{a}\bigsqcup\limits_{\dbasec_{c}} \dbasec_{b}$}
         \item[shared fibers]{
@@ -860,9 +848,7 @@
     \end{description}
 \end{frame}
 
-
-
-\begin{frame}{"Valid" viz?}
+\begin{frame}<presentation:1|handout:1>{"Valid" viz?}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement = \&, column sep=tiny, row sep=huge]
             \onslide*<1-|handout:1>{\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}} 
@@ -882,7 +868,7 @@
 
 
 \section{Construction}
-\begin{frame}{What's in the $\vartist$ black box?}
+\begin{frame}<presentation:1|handout:0>{What's in the $\vartist$ black box?}
     \note{Add box around figure & lable it artist}
     \begin{figure}
         \includegraphics[width=1\textwidth]{../paper/figures/path_of_q.png}
@@ -892,7 +878,7 @@
 
 \subsection{Measurable Visual Components $M$}
 
-\begin{frame}{Measurable Visual Components}
+\begin{frame}<presentation:1|handout:0>{Measurable Visual Components}
     \begin{columns}
         \column{0.31\textwidth}
         \begin{equation*}
@@ -925,7 +911,8 @@
     }
 \end{frame}
 
-\begin{frame}{Data to Visual Transformation: $\vchannelc: \dfiberc_{\dbasepointc} \mapsto \vfiberc_{\dbasepointc}$}
+\begin{frame}<presentation:1|handout:0>
+    \frametitle{Data to Visual Transformation: $\vchannelc: \dfiberc_{\dbasepointc} \mapsto \vfiberc_{\dbasepointc}$}
     \begin{columns}
     \column{.5\textwidth}
     \begin{equation*}
@@ -962,6 +949,8 @@
         \end{tikzcd}
     \end{equation}
     \end{columns}
+    % fix corner to be V 
+    % fix \phi to be \phi 
     \begin{alertblock}{equivariance} 
        $\vchannelc: \dfuncc_{\dtotalc} \rightarrow \dfuncc_{\vtotalc}$ is a functor such that 
        \begin{description}
@@ -972,7 +961,7 @@
 \end{frame}  
 
 
-\begin{frame}{$\vchannelc:\dfuncc_{\dtotalc} \rightarrow \dfuncc_{\vtotalc}$: Stevens' Scales \cite{stevensTheoryScalesMeasurement1946}}
+\begin{frame}<presentation:1|handout:0>\frametitle{$\vchannelc:\dfuncc_{\dtotalc} \rightarrow \dfuncc_{\vtotalc}$: Stevens' Scales \cite{stevensTheoryScalesMeasurement1946}}
     \begin{table}[H]
         \begin{tabularx}{\textwidth}{|l|l|X|}\toprule
             \textbf{scale} & \textbf{group} & \textbf{constraint} \\\midrule
@@ -985,7 +974,8 @@
 \end{frame}
 
 
-\begin{frame}{Shared Components: $\vchannelc = \prod\limits_{i=0}^{n}\vchannelc_i$}
+\begin{frame}<presentation:1|handout:0>
+    \frametitle{Shared Components: $\vchannelc = \prod\limits_{i=0}^{n}\vchannelc_i$}
     \begin{equation}
         \begin{tikzcd}[ampersand replacement=\&]
             \dfiberc_a\times \dfiberc_b 
@@ -1007,45 +997,47 @@
 \end{frame}
 
 
-\subsection{Visual Representations of Data}
+\subsection{Combining Components into Visualizations}
 
-\begin{frame}{Building a Visual Representation}
+\begin{frame}<presentation:1|handout:0>{Assembly Function $\vmarkc$}
     \begin{equation*}
-    \begin{tikzcd}[ampersand replacement = \&, column sep=small]
-        \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
-        \arrow[rr, "\vchannelc", color=artist, mapsto] 
-        \& \& 
-        \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \& 
-        \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} 
-        \arrow[rr, "\vmarkc", color=artist] 
-        \& \& 
-        \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}\\
-        \& \& \& \&  \& \\
-        \& \opensetc 
-        \arrow[luu, "{\sheafc_{\dbasec, \dtotalc}}" description, maps to, color=sheaf] 
-        \arrow[ruu, "{\sheafc_{\dbasec, \vtotalc}}" description, maps to, color=sheaf] 
-        \& \& 
-        \opensetc 
-        \arrow[uu, "{\sheafc_{\dbasec, \vtotalc}}" description, maps to, color=sheaf]  
-        \& \& 
-        \opensetgc 
-        \arrow[uu, "{\sheafc_{\gbasec, \gtotalc}}" description, maps to, color=sheaf] 
-        \arrow[ll, "\vindexc"', color=functor]
-        \end{tikzcd}
-    \end{equation*}
-    \begin{alertblock}{}
-        \begin{description}[style=newline]
-        \item[equivariance] $\delta(\vmarkc(\vchannelc\dfuncc_{\dtotalc}(\dsectionc))) = \dfuncc_{M}(\delta(\dsectionc))$ 
-        \item[continuity] the assembly function $\vmarkc$ is defined as  
-        \begin{equation}
-        \vmarkc_*(\vsection(\dbasepointc))(\gbasepointc) = \vmarkc(\vsectionc(\vindex(\gbasepointc)))   
-        \end{equation}
-        such that there must exist a deformation retract $\vindexc:\gbasec \rightarrow \dbasec$ for all points $\gbasepointc \in \gbase$. 
-        \end{description}
+        \begin{tikzcd}[ampersand replacement = \&]
+            \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} 
+            \arrow[rrrr, "\vmarkc", Rightarrow, color=artist] 
+            \arrow[ddd, "\dfuncc_{\vtotalc}"', color=action] 
+            \& \& \& \& 
+            \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+            \arrow[ddd, "\dfuncc_{\gtotalc}", color=action]  \\
+            \& 
+            \opensetc 
+            \arrow[lu, maps to, color=sheaf] 
+             \&  \& 
+            \opensetgc 
+            \arrow[ll, "\vindexc"', color=functor] 
+            \arrow[ru, maps to, color=sheaf]  \& \\
+            \& 
+            \opensetc^{\prime} 
+            \arrow[u, "\dfunchc_{\dtotalc}", color=action] 
+            \arrow[ld, maps to, color=sheaf] 
+            \&  \& 
+            \opensetgc^{\prime} 
+            \arrow[ll, "\vindexc"', color=functor] 
+            \arrow[u, "\dfunchc_{\gtotalc}"', color=action] 
+            \arrow[rd, maps to, color=functor] \& \\
+            \cgamma{\opensetc^{\prime}}{\dfuncpullc_{\vtotalc}\vtotalc\restriction_{\opensetc^{\prime}}}
+            \arrow[rrrr, "\vmarkc", Rightarrow, color=artist] 
+            \& \&  \& \& 
+            \cgamma{\opensetgc^{\prime}}{\dfuncpullc_{\gtotalc}\gtotalc\restriction_{\opensetgc^{\prime}}}
+            \end{tikzcd}
+        \end{equation*}
+    \begin{alertblock}{equivariance}
+       \begin{equation*}
+        \vmarkc(\dfuncc_{\vtotalc}(\vsectionc(\dfunchc_{\vtotalc}^{-1}(\dbasepointc^{\prime})))) = \dfuncc_{\gtotalc}(\vmarkc((\vsectionc(\dfunchc_{\gtotalc}^{-1}(\vindexprec(\dbasepointc^{\prime}))))))
+       \end{equation*}
     \end{alertblock}
 \end{frame}
 
-\begin{frame}{Implementation Choices: $\vartistc_{\opensetc} = \vartistc_{\opensetgc}$}
+\begin{frame}<presentation:1|handout:0>{Implementation Choices: $\vartistc_{\opensetc} = \vartistc_{\opensetgc}$}
     \begin{equation*}
     \begin{tikzcd}[ampersand replacement = \&, column sep=small]
         \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}  
@@ -1074,12 +1066,9 @@
     \end{equation*}
 \end{frame}
 
-\begin{comment}
-\begin{frame}{Components to Graphic}
+\begin{frame}<presentation:1|handout:0>{Components to Graphic}
     \begin{figure}
         \includegraphics[scale=.15]{../paper/figures/qhat.png}
     \end{figure}
 \end{frame}
-\end{comment}
 \end{document}
-
