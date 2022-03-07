@@ -755,8 +755,7 @@
         \begin{equation*}
             \vartistc^{\prime}(\dfunctc_{\dtotalc}(\dsectionc(\dfunchc_{\dtotalc}(\vindexc(\gbasepointc^{\prime}))))) = \dfunctc_{\gtotalc}(\vartistc(\dsectionc(\vindexc(\dfunchc_{\gtotalc}(\gbasepointc^{\prime})))))
         \end{equation*}
-        for all points$
-        \gbasepointc^{\prime}\in \gbasec^{\prime$
+        for all points $\gbasepointc^{\prime}\in \gbasec^{\prime}$
 \end{frame}
 
 \begin{frame}<presentation:0|handout:0>{$\vartistc= \vartistc^{\prime}$}
@@ -766,49 +765,119 @@
     \end{align*}
 \end{frame}
 
-\begin{frame}<presentation:1|handout:1>{Checking if \vartistc\ is equivariant}
+\begin{frame}<presentation:1|handout:1>{Testing if \vartistc\ is equivariant}
+    $M$ is a (scaler, vector) measurable component (e.g. color, position, shape, texture, rotation, ) of the rendered visual element.
     \begin{equation*}
-        \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-            \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
-            \arrow[rr, "\vartistc", Rightarrow, color=artist] \&  \& 
-            \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
-            \arrow[rrd, "\delta"'] 
-            \arrow[rr, "render"] \&  \& visualization 
-            \arrow[d, "measure" description] \\ 
-            \&  \&  \&  \& M
-            \end{tikzcd}
+    \begin{tikzcd}[ampersand replacement=\&]
+    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+    \arrow[rr, "\vartistc", Rightarrow, color=artist] 
+    \arrow[dd, "\equivc"', color=monoid] \&  \& 
+    \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+    \arrow[rr, "render"] 
+    \arrow[dd, "\extractm", color=monoid] 
+    \&  \& 
+    visualization 
+    \arrow[lldd, "\measure"] \\
+    \& \& \& \&  \\
+    {Hom(\opensetc, \measure )} 
+    \&  \& 
+    {Hom(\opensetgc,\measure )} 
+    \arrow[ll, "\vindexpushc"', color=functor] 
+    \& \& 
+    \end{tikzcd}
     \end{equation*}
-    \begin{alertblock}{Visual Measurement $\delta$}
-        \begin{equation}
-            \delta: \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \rightarrow M
-        \end{equation}
-        $M$ is a measurable component of the rendered visual element, e.g. color, position, shape, texture
-    \end{alertblock}
+    \begin{description}
+        \item[input]{$\equivc: \dsectionc \mapsto (\opensetc \xrightarrow{\equivc_{\dsectionc}} \measurec)$}
+        \item[output]{$\extractmc:\gsectionc \mapsto (\opensetgc \xrightarrow{\extractmc_{\gsectionc}} \measurec)$}
+        \item[] $\equivc_{\dsectionc}(\dbasepointc) = \extractmc_{\gsectionc}(\gbasepointc)$ for all $\vindexc(\gbasepointc) = \dbasepointc, \dbasepointc \in \dbasec, \gbasepointc \in \gbasec$ 
+    \end{description}
 \end{frame}
 
+\begin{frame}<presentation:0|handout:1->{Visual Measurement}
+    \begin{columns}
+    \column{.5\textwidth}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement=\&]
+            \measurec 
+            \arrow[rr, "\dfuncc_{\measurec}", color=action] 
+            \& \& 
+            \measurec^{\prime}\\
+            \& \& \\
+            \opensetgc 
+            \arrow[uu, "\extractmc_{\gsectionc}"] 
+            \& \& 
+            \opensetgc^{\prime} 
+            \arrow[ll, "\dfunchc_{\gtotalc}", color=action] 
+            \arrow[uu, "\extractmc_{\dfunctc_{\gtotalc}\gsectionc}"'] 
+            \arrow[lluu, "\extractmc_{\dfuncpullc\gsectionc}" description]
+        \end{tikzcd}
+    \end{equation*}
+    \column{.5\textwidth}
+    \onslide*<presentation:0|handout:2>{
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement=\&]
+            \measurec 
+            \arrow[rr, "\dfuncc_{\measurec}", color=action] 
+            \& \& 
+            \measurec^{\prime}\\
+            \& \& \\
+            \opensetc 
+            \arrow[uu, "\equivc_{\dsectionc}"] 
+            \& \& 
+            \opensetc^{\prime} 
+            \arrow[ll, "\dfunchc_{\dtotalc}", color=action] 
+            \arrow[uu, "\equivc_{\dfunctc_{\dtotalc}\dsectionc}"'] 
+            \arrow[lluu, "\equivc_{\dfuncpullc\dsectionc}" description]
+        \end{tikzcd}
+    \end{equation*}
+    }
+    \end{columns}
+    \onslide*<presentation:0|handout:1>{
+    $\extractmc_{\gsectionc} \in Hom(\opensetgc, \measurec)$ is a mapping from graphic to visual measurement. $\extractmc_{\gsectionc}$ is a map from an openset $\opensetgc \subseteq \gbasec$ to a measurement $\measurec_{\opensetgc}$ that corresponds to the graphic representation at that region $\gsectionc\restriction_{\opensetgc}$ and the corresponding data $\dsectionc\restriction_{\vindexc\restriction_{\opensetgc}}$.}
+    \onslide*<presentation:0|handout:2>{
+    $\equivc_{\dsectionc} \in Hom(\opensetc, \measurec)$ is a mapping from data to visual measurement. $\equivc_{\dsectionc}:\dsectionc \mapsto$ is a map from an openset $\opensetc \subseteq \dbasec$ to a measurement $\measurec_{\opensetc}$ that corresponds to the data record at that region $\dsectionc\restriction_{\opensetc}$ and the corresponding graphic $\gsectionc\restriction_{\vindexprec\restriction_{\opensetc}}$
+    }
+\end{frame}
 
-\begin{frame}<presentation:1|handout:1>{Checking if \vartistc\ is equivariant}
+\begin{frame}<presentation:1|handout:1->
+    \frametitle<presentation:0|handout:1>{Using output $\gsectionc$ to check if $\vartistc$ is equivariant}
+    \frametitle<presentation:0|handout:2>{Using input $\dsectionc$ to check if $\vartistc$ is equivariant}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&]
             \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
-            \arrow[rr, "\vartistc"', Rightarrow, color=artist] 
-            \arrow[d, "\dfuncc_{\dtotalc}"', color=action] 
-            \arrow[rrr, "\equivc", bend left, color=monoid, dashed] \&  \& 
-            \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
-            \arrow[r, "\delta"']\& M 
-            \arrow[d, "\dfuncc_{M}", color=action] \\
-            \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} 
             \arrow[rr, "\vartistc", Rightarrow, color=artist] 
-            \arrow[rrr, "\equivc"', bend right, color=monoid, dashed] \&  \& 
-            \cgamma{\opensetgc^{\prime}}{\dfuncpullc\gtotalc\restriction_{\opensetgc^{\prime}}} 
-            \arrow[r, "\delta"] \& M^{\prime}                        
+            \arrow[d, "\dfuncc_{\dtotalc}"', color=action] 
+            \onslide*<presentation:0|handout:2>{\arrow[rrr, "\equivc", bend left, color=monoid, dashed]} \&  \& 
+            \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+            \arrow[d, "\dfuncc_{\gtotalc}"', color=action]
+            \onslide*<presentation:0|handout:1>{\arrow[r, "\delta"]}
+            \onslide*<presentation:0|handout:2>{\arrow[r,"\delta \circ \vindexprec"]}
+            \& 
+            \onslide*<presentation:0|handout:1>{Hom(\opensetgc, \measurec)}
+            \onslide*<presentation:0|handout:2>{Hom(\opensetc, \measurec)} 
+            \arrow[d, "\dfuncc_{\measurec}", color=action] \\
+            \cgamma{\opensetc^{\prime}}{\dtotalc^{\prime}\restriction_{\opensetc^{\prime}}} 
+            \arrow[rr, "\vartistc", Rightarrow, color=artist] 
+            \onslide*<presentation:0|handout:2>{\arrow[rrr, "\equivc"', bend right, color=monoid, dashed]} \&  \& 
+            \cgamma{\opensetgc^{\prime}}{\gtotalc^{\prime}\restriction_{\opensetgc^{\prime}}} 
+            \onslide*<presentation:0|handout:1>{\arrow[r, "\delta"]}
+            \onslide*<presentation:0|handout:2>{\arrow[r,"\delta \circ \vindexprec"]} \& 
+            \onslide*<presentation:0|handout:1>{Hom(\opensetgc^{\prime}, \measurec^{\prime})}
+            \onslide*<presentation:1|handout:2>{Hom(\opensetc^{\prime}, \measurec^{\prime})}                        
         \end{tikzcd}
     \end{equation*}
-        there exists a functor $\equivc: \dfuncc_{\dtotalc} \rightarrow \dfuncc_{M}$ such that 
+    \onslide*<presentation:0|handout:1>{
+        \begin{align*}
+            \vartistc^{\prime}(\dfunctc_{\dtotalc}(\dsectionc(\dfunchc_{\dtotalc}(\vindexc(\gbasepointc^{\prime}))))) &= \dfunctc_{\gtotalc}(\vartistc(\dsectionc(\vindexc(\dfunchc_{\gtotalc}(\gbasepointc^{\prime})))))\\
+            \extractmc(\dfunctc_{\gtotalc}(\gsectionc(\dfunchc_{\gtotalc})))(\gbasepointc^{\prime}) &= \dfuncc_{\measurec}(\extractmc(\gsectionc))(\gbasepointc^{\prime}) = \extractmc_{\dfunctc_{\gtotalc}\gsectionc}(\gbasepointc^{\prime})
+        \end{align*}
+    }
+    \onslide*<presentation:0|handout:2>{
         \begin{description}
-            \item[equivariance] $\equivc(\dfuncc_{\dtotalc}(\dsectionc(\dbasepointc))) = \dfuncc_{M}(\equivc(\dsectionc(\dbasepointc)))$, for all $\dbasepointc \in \dbasec$ 
-            \item[continuity] $\lim\limits_{x\to \dbasepointc}(\equivc(\dsectionc(x))) = \equivc(\dsectionc(\dbasepointc))$ for all $\dbasepointc \in \dbasec$ 
+            \item[equivariance] $\equivc(\dfunctc_{\dtotalc}(\dsectionc(\dfunchc_{\dtotalc})))(\dbasepointc^{\prime}) =\dfuncc_{\measurec}(\equivc(\dsectionc))(\dbasepointc^{\prime})= \equivc_{\dfunctc_{\dtotalc}\dsectionc}(\dbasepointc^{\prime})$ for all $\dbasepointc^{\prime} \in \dbasec^{\prime}$ 
+            \item[continuity] $\lim\limits_{x\to \dbasepointc}\equivc_{\dsectionc}(x) = \equivc_{\dsectionc}(\dbasepointc)$ for all $\dbasepointc \in \dbasec$ 
         \end{description} 
+    }
 \end{frame}
 
 \begin{frame}<presentation:1|handout:0>{Multiple Bundles: $\dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)$}
@@ -1004,7 +1073,6 @@
 
 
 \subsection{Combining Components into Visualizations}
-
 \begin{frame}<presentation:1|handout:0>{Assembly Function $\vmarkc$}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement = \&]
