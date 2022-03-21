@@ -70,12 +70,16 @@ class TopologicalArtist:
         return self.data.query(data_bounds, sampling_rate)
         # section.view, #xi seperates nicely 
 
+def rename_P(V, new_key):
+    return {(new_key[k] if k in new_key else k):v for (k, v) in V.items()}
+
 def barH(V):
     new_key = {'position': 'x', 'height':'y'}
     return Bar({(new_key[k] if k in new_key else k):v for (k, v) in V.items()})
 
 def barV(V):
     new_key = {'position': 'y', 'height':'x'}
+    # this can return Bar with nuBar & kew renaming should be a nu too maybe 
     return BarV({(new_key[k] if k in new_key else k):v for (k, v) in V.items()})
 
 class Bar(Rho): 
@@ -130,12 +134,19 @@ class Bar(Rho):
 
 class BarH(Bar):
     bounds = {'x': 'length', 'y': 'position'}
+    
+    @staticmethod
+    def bar_nu(length, width, position, floor, facecolor, edgecolor, linewidth, linestyle):
+        return {"position":floor, "width":length, 
+                "length":width, "floor":position, 
+                "facecolor":facecolor, "edgecolor":edgecolor, 
+                "linewidth":linewidth, "linestyle":linestyle}
 
     @staticmethod
     def qhat(length, width, position, floor, facecolor, edgecolor, linewidth, linestyle):
         # horizontal bar, x0 is floor, x1 is height, y is y0, width is y1
         # alternative is to do this renamin in nu calling parent nu first
-        return Bar.qhat(floor, length, width, position, facecolor, edgecolor, linewidth, linestyle)
+        return Bar.qhat(**BarH.bar_nu(length, width, position, floor, facecolor, edgecolor, linewidth, linestyle))
 
 class GenericArtist(martist.Artist):
     # start w/ working w/ an artist object then stripped down artist
