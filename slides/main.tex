@@ -390,8 +390,32 @@
 \begin{frame}<presentation:1-|handout:1>
     \frametitle{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\Rightarrow} \textcolor{functor}{G}$}
     \begin{equation*}
-        \begin{tikzcd}[ampersand replacement=\&]                      
-        \end{tikzcd}
+        \begin{tikzcd}[ampersand replacement=\&]  
+                \&  \& 
+                \textcolor{target}{d_s} \& 
+                \textcolor{source}{c} 
+                \arrow[r, "G", maps to, color=functor] 
+                \arrow[l, "F"', maps to, color=functor] \& 
+                \textcolor{target}{d_t} \\
+                \textcolor{source}{c_1} 
+                \arrow[dd, "f" description, color=source] \& \& 
+                \textcolor{target}{F(c_1)} 
+                \arrow[dd, "F(f)"', color=target] 
+                \arrow[rr, "\alpha_{c_1}", color=nattran] \& \& 
+                \textcolor{target}{G(c_1)} 
+                \arrow[dd, "G(f)", color=target] \\
+                \& \& {} 
+                \arrow[rr, "\alpha_{f}", dotted, color=nattran] \& \& {} \\
+                \textcolor{source}{c_2} \& \& 
+                \textcolor{target}{F(c_2)} 
+                \arrow[rr, "\alpha{c_2}", color=nattran] \& \& 
+                \textcolor{target}{G(c_2)} \\
+                \& \& 
+                \textcolor{target}{F} 
+                \arrow[rr, "\alpha", Rightarrow, color=nattran] \& \& 
+                \textcolor{target}{G}                        
+        \end{tikzcd}                    
+      
     \end{equation*}
 \end{frame}
 
