@@ -1,5 +1,5 @@
-\documentclass[xcolor={dvipsnames}, handout]{beamer}
-%\documentclass[xcolor={dvipsnames}]{beamer}
+%\documentclass[xcolor={dvipsnames}, handout]{beamer}
+\documentclass[xcolor={dvipsnames}]{beamer}
 \setbeamertemplate{footline}[frame number]
 \setbeamersize{description width=-\labelsep}
 
@@ -80,7 +80,7 @@
 
 
 %% maybe pull out the middle for now? move the 3 stages down to construction? 
-\begin{frame}<presentation:1|handout:0>{What do visualization libraries do?}
+\begin{frame}<presentation:1-|handout:0>{What do visualization libraries do?}
     \begin{figure}
         \begin{overprint}
             \onslide<1|handout:1>\includegraphics[width=\linewidth]{figures/flow/s2.png}
@@ -122,7 +122,7 @@
     \includegraphics[width=1\linewidth]{../paper/figures/whycontinuity.png}
 \end{frame}
 
-\begin{frame}<presentation:1|handout:0>{Equivariance}
+\begin{frame}<presentation:1-|handout:0>{Equivariance}
     \begin{description}
         \item[Retinal Variables \& Marks] visual encodings should match properties of the data \cite{bertinSemiologyGraphicsDiagrams2011a}
         \pause
@@ -135,17 +135,17 @@
 \end{frame}
 
 %flip columns
-\begin{frame}<presentation:1|handout:0>{Frameworks for Expressing Visual Equivariance}
+\begin{frame}<presentation:1-|handout:0>{Frameworks for Expressing Visual Equivariance}
     \begin{description}
         \item[linguistically] visualization has syntax, semantics, grammar expresses how to design structure preserving visualizations
         \cite{mackinlayAutomatingDesignGraphical1986,mackinlayAUTOMATICDESIGNGRAPHICAL1987,wilkinsonGrammarGraphics2005}
 
-        \item[algebraically] transformations on data and graphics are equivalent symmetric \cite{kindlmannAlgebraicProcessVisualization2014}
+        \item[algebraically] transformations on data and graphics are equivalent and symmetric \cite{kindlmannAlgebraicProcessVisualization2014}
         \begin{columns}
             \column{.5\textwidth}
             \begin{description}
-                \item[D] data 
-                \item[R] data representation 
+                \item[D] raw data 
+                \item[R] representation (data container) 
                 \item[V] visualization
             \end{description}
             \column{.5\textwidth}
@@ -199,7 +199,7 @@
 \end{frame}
 
 \subsection{Fiber Bundles}
-\begin{frame}<presentation:1|handout:1>
+\begin{frame}<presentation:1-|handout:1>
     \frametitle<1|handout:1>{Fiber Bundle}
     \frametitle<6|handout:2-3>{Data Bundle}
     \frametitle<7|handout:4-5>{Graphic Bundle}
@@ -245,7 +245,7 @@
             }
     \end{columns}
     \pause 
-    \only<4-5|handout:1>{
+    \only<5|handout:1>{
         \begin{alertblock}{}
             \begin{description}
                 \item[\textcolor{section}{Sections}]{$\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$}
@@ -286,13 +286,13 @@
 \end{frame}
 
 \subsection{Category Theory Language}
-\begin{frame}<presentation:1|handout:0>[fragile]{}
+\begin{frame}<presentation:1|handout:1>[fragile]{}
     \begin{minted}{python}
-        Artist(data:Data) -> Graphic
+        Artist(Data) -> Graphic
     \end{minted}
 \end{frame}
 
-\begin{frame}<presentation:1|handout:0>{Category $\textcolor{source}{\mathcal{C}}$}
+\begin{frame}<presentation:1-|handout:1>{Category $\textcolor{source}{\mathcal{C}}$}
 \begin{columns}
     \column{0.39\textwidth}
     \begin{equation*}
@@ -319,7 +319,7 @@
 \end{frame}
 
 
-\begin{frame}<presentation:1|handout:0>{Opposite Category $\textcolor{source}{\mathcal{C}^{op}}$}
+\begin{frame}<presentation:1-|handout:1>{Opposite Category $\textcolor{source}{\mathcal{C}^{op}}$}
     \begin{columns}
         \column{0.49\textwidth}
     \begin{equation*}
@@ -329,16 +329,18 @@
         \end{tikzcd}
         \end{equation*}
         \column{0.49\textwidth}
+        \onslide*<presentation:2|handout:1>{
         \begin{equation*}
         \begin{tikzcd}[ampersand replacement = \&]
             \textcolor{source}{C_1} \arrow["id_{C_1}"', loop, distance=2em, in=215, out=145, color=source] \& \textcolor{source}{C_2} \arrow[l, "f"',color=source] \arrow["id_{C_2}"', loop, distance=2em, in=125, out=55, color=source]\\
             \& \textcolor{source}{C_3} \arrow[u, "g"', color=source] \arrow[lu, "f \circ g", color=source] \arrow["id_{C_3}"', loop, distance=2em, in=305, out=235, color=source]
             \end{tikzcd}
         \end{equation*}
+        }
         \end{columns}
 \end{frame}
 
-\begin{frame}<presentation:1|handout:0>
+\begin{frame}<presentation:1-|handout:1>
     \frametitle{Functor $\textcolor{functor}{\bm{F}}: \textcolor{source}{\mathcal{C}} \rightarrow \textcolor{target}{\mathcal{D}}$}
 \begin{columns}
     \column{.39\textwidth}
@@ -375,48 +377,27 @@
 \end{frame}
 
 \subsubsection{Natural Transforms}
-\begin{frame}<presentation:1|handout:0>
+\begin{frame}<presentation:1-|handout:1>
     \frametitle{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\Rightarrow} \textcolor{functor}{G}$}
-    \onslide<|handout:1>{
     \adjustbox{scale=3, center}{
         \begin{tikzcd}[ampersand replacement=\&]
             \& {} \arrow[dd, "\alpha" , Rightarrow, shorten=1.5em, color=nattran] \&             \\
           \textcolor{source}{\mathcal{C}} \arrow[rr, "F", bend left, color=functor, maps to] \arrow[rr, "G"', bend right, color=functor, maps to] \& \& \textcolor{target}{\mathcal{D}} \\
             \& {} \&            
-          \end{tikzcd}}}
+          \end{tikzcd}}
 \end{frame}
 
-\begin{frame}<presentation:1|handout:0>
+\begin{frame}<presentation:1-|handout:1>
     \frametitle{Natural Transformation $\textcolor{nattran}{\alpha}: \textcolor{functor}{F} \textcolor{nattran}{\Rightarrow} \textcolor{functor}{G}$}
     \begin{equation*}
-        \begin{tikzcd}[column sep=huge, ampersand replacement = \&]
-            \onslide*<2-|handout:1>{\textcolor{target}{F(c)}}
-            \onslide*<2-|handout:1>{\arrow[dd, "F(f)"', color=target]}
-            \onslide*<4-5|handout:1>{\arrow[rr, "\alpha_{c}", bend left, color=nattran, Rightarrow]}  
-            \onslide*<6|handout:0>{\arrow[rr, "\alpha_{c}", color=nattran, Rightarrow]} \& 
-            \onslide*<1-4|handout:1>{\textcolor{source}{c}} 
-            \onslide*<1-4|handout:1>{\arrow[dd, "f" description, color=source]}
-            \onslide*<3-4|handout:1>{\arrow[r, "G"', color=functor,maps to ]}
-            \onslide*<2-4|handout:1>{\arrow[l, "F", color=functor, maps to]} \& 
-            \onslide*<3-|handout:1>{\textcolor{target}{G(c)}} 
-            \onslide*<3-|handout:1>{\arrow[dd, "G(f)", color=target, maps to]} \\
-            {} 
-            \onslide*<4|handout:1>{\arrow[rr, dotted, color=nattran, Rightarrow]}
-            \onslide*<5|handout:0>{\arrow[rr, color=nattran, Rightarrow]} \& \& {}                      \\
-            \onslide*<2-|handout:1>{\textcolor{target}{F(c^{\prime})}} 
-            \onslide*<4-5|handout:1>{\arrow[rr, "\alpha_{c^{\prime}}"', bend right, color=nattran, Rightarrow]} 
-            \onslide*<4-5|handout:0>{\arrow[rr, "\alpha_{c^{\prime}}"', color=nattran, maps to]}\& 
-            \onslide*<1-4|handout:1>{\textcolor{source}{c^{\prime}}}
-            \onslide*<2-4|handout:1>{\arrow[l, "F"', color=functor, maps to]} 
-            \onslide*<3-4|handout:1>{\arrow[r, "G", color=functor, maps to]} \& 
-            \onslide*<3-|handout:1>{\textcolor{target}{G(c^{\prime})}}          
+        \begin{tikzcd}[ampersand replacement=\&]                      
         \end{tikzcd}
     \end{equation*}
 \end{frame}
 
 \subsection{Sheaves}
 
-\begin{frame}<presentation:1|handout:1>
+\begin{frame}<presentation:1-|handout:1>
     \frametitle{Presheaf: $\sheafc: \mathcal{C}^{op} \textcolor{sheaf}{\rightarrow} \setc $}
     \begin{columns}
     \column{0.29\textwidth}
@@ -432,8 +413,8 @@
     \column{0.69\textwidth}
         \begin{tikzcd}[ampersand replacement = \&, column sep=small]
             \onslide*<3,6-|handout:0>{{\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}} 
-            \onslide*<4-5|handout:0>{{\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}\in \setc}
-            \onslide*<0|handout:1>{\setc \ni {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}}
+            \onslide*<4-5|handout:0>{{\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}\in Ob(\setc)}
+            \onslide*<0|handout:1>{\Ob(\setc) \ni {\cgamma{\opensetc_1}{\dtotalc\restriction_{{\opensetc_1}}}}}
             \&  
             {} \& 
             \onslide*<6-|handout:1>{{\cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}}}} 
@@ -484,33 +465,33 @@
 \end{frame}
 
 \subsubsection{Pullback and Pushforward}
-\begin{frame}<presentation:1|handout:1->{}
+\begin{frame}<presentation:1-|handout:1->{}
     \frametitle<3|handout:3>{Function: $\vindexc: \gbasec \rightarrow \dbasec$}
     \frametitle<1|handout:1>{Data}
-    \frametitle<4-6|handout:4>{Pullback: data to region of the visualization} 
+    \frametitle<4|handout:4>{Pullback: data to region of the visualization} 
     \frametitle<2|handout:2>{Graphic}
-    \frametitle<7-|handout:5>{Pushforward: visualization to index of data}
+    \frametitle<5|handout:5>{Pushforward: visualization to index of data}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-            \onslide*<0|handout:2,3,5>{\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}} 
-            \onslide*<0|handout:5>{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]} \& \& 
-            \onslide*<0|handout:5>{\cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}}  
+            \onslide*<2,3,5|handout:2,3,5>{\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}} 
+            \onslide*<5|handout:5>{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]} \& \& 
+            \onslide*<5|handout:5>{\cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}}  
             \\
-            \onslide*<0|handout:2,4->{\opensetgc}
-            \onslide*<0|handout:3>{\overbrace{\opensetc\times[0,1]^{m}}^{\opensetgc}}
-            \onslide*<0|handout:3->{\arrow[rr, "\vindex", color=functor]}
-            \onslide*<0|handout:2,3,5>{\arrow[u, "\sheaf_{\gbasec, \gtotalc}", maps to, color=sheaf]}
-            \onslide*<0|handout:4>{\arrow[d, dashed, maps to, "\sheaf_{\gbasec, \vindexpullc\dtotalc}"',color=sheaf]} \&  \& 
-            \onslide*<0|handout:1,3->{\opensetc}
-            \onslide*<0|handout:1,3-4>{\arrow[d, "\sheaf_{\dbasec, \dtotalc}", maps to, color=sheaf]}
-            \onslide*<0|handout:5>{\arrow[u, dashed, maps to, "\sheaf_{\dbasec, \vindexpushc\gtotalc}"', color=sheaf]} \\
-            \onslide*<0|handout:4>{\cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}} 
+            \onslide*<2,4|handout:2,4->{\opensetgc}
+            \onslide*<3|handout:3>{\overbrace{\opensetc\times[0,1]^{m}}^{\opensetgc}}
+            \onslide*<3-|handout:3->{\arrow[rr, "\vindex", color=functor]}
+            \onslide*<2,3,5|handout:2,3,5>{\arrow[u, "\sheaf_{\gbasec, \gtotalc}", maps to, color=sheaf]}
+            \onslide*<4|handout:4>{\arrow[d, dashed, maps to, "\sheaf_{\gbasec, \vindexpullc\dtotalc}"',color=sheaf]} \&  \& 
+            \onslide*<1,3-|handout:1,3->{\opensetc}
+            \onslide*<1,3-4|handout:1,3-4>{\arrow[d, "\sheaf_{\dbasec, \dtotalc}", maps to, color=sheaf]}
+            \onslide*<5|handout:5>{\arrow[u, dashed, maps to, "\sheaf_{\dbasec, \vindexpushc\gtotalc}"', color=sheaf]} \\
+            \onslide*<4|handout:4>{\cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}} 
              \& \& 
-            \onslide*<0|handout:1,3-4>{\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}}
-            \onslide*<0|handout:4>{\arrow[ll, "\textcolor{functor}{\vindexpull}", color=functor]} 
+            \onslide*<1,3-4|handout:1,3-4>{\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}}
+            \onslide*<4|handout:4>{\arrow[ll, "\textcolor{functor}{\vindexpull}", color=functor]} 
         \end{tikzcd}
     \end{equation*}
-    \only<0|handout:1>{% data sheaf
+    \only<1|handout:1>{% data sheaf
         \begin{itemize}
             \item $\dfiberc \hookrightarrow \dtotalc \xrightarrow{\pi} \dbasec$
             \item $\sheafc_{\dbasec, \dtotalc}:\opensetc \mapsto \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}, \opensetc \subseteq \dbasec$
@@ -518,7 +499,7 @@
             \item $\dsectionc(\dbasepointc) = \{f_0:v_0, \cdots,\}, \dbasepointc \in \opensetc$
         \end{itemize}
     }
-    \only<0|handout:4>{%pulled back data sheaf
+    \only<4|handout:4>{%pulled back data sheaf
         \begin{itemize}
             \item $\vindexpullc\dfiberc \hookrightarrow \vindexpullc\dtotalc \xrightarrow{\pi} \gbasec$
             \item $\vindexpullc\sheafc_{\dbasec,\dtotalc}:\opensetgc \mapsto \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}, \opensetgc \subseteq \gbasec$
@@ -526,7 +507,7 @@
             \item $\vindexpullc\dsectionc(\gbasepointc) = \dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)$
         \end{itemize}
     }
-    \only<0|handout:2>{% graphic sheaf
+    \only<2|handout:2>{% graphic sheaf
         \begin{itemize}
             \item $\gfiberc \hookrightarrow \gtotalc \xrightarrow{\pi} \gbasec$
             \item $\sheafc_{\gbasec, \gtotalc}:\opensetgc \mapsto \cgamma{\opensetgc}{\dtotalc\restriction_{\opensetgc}}, \opensetgc \subseteq \gbasec$
@@ -534,7 +515,7 @@
             \item $\gsectionc(\gbasepointc) = \{d_0, \cdots\}, \gbasepointc \in \opensetgc$
         \end{itemize}
     }
-    \only<0|handout:5>{%pushed forward sheaf
+    \only<5|handout:5>{%pushed forward sheaf
         \begin{itemize}
             \item $\vindexpushc\gfiberc \hookrightarrow \vindexpushc\gtotalc \xrightarrow{\pi} \dbasec$
             \item $\vindexpushc\sheafc_{\gbasec, \gtotalc}:\opensetc \mapsto \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}, \opensetc \subseteq \dbasec$
@@ -578,7 +559,7 @@
 
 \section{Artist}
 
-\begin{frame}<presentation:1|handout:1>
+\begin{frame}<presentation:1-|handout:1->
     \frametitle<0|handout:1>{Artist: $\vartistc: \sheafc_{\dbasec, \dtotalc} \rightarrow \sheafc_{\gbasec, \gtotalc}$}
     \frametitle<0|handout:2>{Data Space: $\vartistc_{\opensetc}: \sheafc_{\dbasec, \dtotalc} \textcolor{artist}{\Rightarrow} \vindexpushc\sheafc_{\gbasec, \gtotalc}$}
     \frametitle<0|handout:3>{Display Space: $\vartist_{\opensetgc}: \vindexpullc\sheafc_{\dbasec, \dtotalc} \textcolor{artist}{\Rightarrow} \sheafc_{\gbasec, \gtotalc}$}
@@ -586,7 +567,8 @@
     \onslide*<0|handout:1,4>{
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement=\&]
-          \onslide*<0|handout:1>{\sheafc_{\gbasec, \gtotalc}} 
+          \onslide*<0|handout:1>{\sheafc_{\gbasec, \g
+          totalc}} 
           \onslide*<0|handout:4>{\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}}
           \onslide*<0|handout:1,4>{\arrow[rr, "\textcolor{functor}{\vindexpush}", color=functor]}  
           \& \& 
@@ -671,21 +653,21 @@
         }
 \end{frame}
 
-\begin{frame}<presentation:1|handout:1>{Reachable \gsectionc?}
+\begin{frame}<presentation:1-|handout:1>{Reachable \gsectionc?}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement = \&, column sep=tiny, row sep=huge]
-            \onslide*<1-|handout:1>{\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}} 
+            \onslide*<presentation:1-|handout:1>{\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}} 
             \&  \& 
-            \onslide*<2-|handout:1>{\imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}}} 
-            \onslide*<2-|handout:1>{\arrow[ll, "\textcolor{set}{\mathlarger{\mathlarger{\supset}}}" description, hook', color=white]} \\ 
+            \onslide*<presentation:2-|handout:1>{\imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}}} 
+            \onslide*<presentation:2-|handout:1>{\arrow[ll, "\textcolor{set}{\mathlarger{\mathlarger{\supset}}}" description, hook', color=white]} \\ 
             \&  \& \\
-            \onslide*<1-|handout:1>{\opensetgc} 
-            \onslide*<1-|handout:1>{\arrow[uu, "\sheafc_{\gbasec,\gtotalc}", color=sheaf, maps to]} 
-            \onslide*<2-|handout:1>{\arrow[rruu, "\vartistc(\sheafc_{\dbasec,\dtotalc})" description, dashed, color=sheaf, maps to]} 
+            \onslide*<presentation:1-|handout:1>{\opensetgc} 
+            \onslide*<presentation:1-|handout:1>{\arrow[uu, "\sheafc_{\gbasec,\gtotalc}", color=sheaf, maps to]} 
+            \onslide*<presentation:2-|handout:1>{\arrow[rruu, "\vartistc(\sheafc_{\dbasec,\dtotalc})" description, dashed, color=sheaf, maps to]} 
             \&  \& 
         \end{tikzcd}
     \end{equation*}
-    \begin{alertblock}{Output Subtype}
+    \begin{alertblock}<presentation:2-|handout:1>{Output Subtype}
         \begin{equation*}
             \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} = \{\gsectionc\vert\;\exists\;\dsectionc \in \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}\;s.t.\; 
             \vartistc(\dsectionc) = \gsectionc,\; \vindexc(\opensetgc) = \opensetc \}
@@ -737,6 +719,65 @@
         $\dfunctc: \dfuncpullc \dsectionc\restriction_{\opensetc} \mapsto \dfuncpullc \dsectionc^{\prime}\restriction_{\opensetc}$, $\dsectionc, \dsectionc^{\prime} \in \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}}$}
         \item [Section Transform:] $\dfuncc: \dsectionc\restriction_{\opensetc} \mapsto \dfuncpullc\dsectionc^{\prime}\restriction_{\opensetc}$
     \end{description}
+\end{frame}
+
+\begin{frame}<presentation:1|handout:1->
+    \frametitle<presentation:1-|handout:1->{Combining Bundles}
+    \frametitle<presentation:2|handout:2>{Transforming Combined Bundles: $\dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)$}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement = \&, column sep=2ex]
+                \onslide*<presentation:2|handout:2>{\dfunctc_0 \dfuncpullc} \dtotalc_0 
+                \arrow[rdd, "\pi" description] 
+                \onslide*<presentation:1|handout:1>{\arrow[r, "\cdot \otimes \cdot;", phantom]}
+                \onslide*<presentation:2|handout:2>{\arrow[r, "\cdots \otimes \cdots", phantom]} 
+                \& 
+                \onslide*<presentation:2|handout:2>{\dfunctc_i \dfuncpullc} \dtotalc_i 
+                \arrow[dd, "\pi" description] 
+                \arrow[r, "\cdots \otimes \cdots", phantom] \& 
+                \onslide*<presentation:2|handout:2>{\dfunctc_n \dfuncpullc} \dtotalc_n 
+                \arrow[ldd, "\pi" description] \& = \& 
+                \prod\limits_{i=0}^{n} 
+                \onslide*<presentation:2|handout:2>{\dfunctc_i \dfuncpullc} \dtotalc_i 
+                \arrow[dd, "\pi" description] \\    
+                \&\&\&\&\\    
+                \& 
+                \onslide*<presentation:2|handout:2>{(\dfunchc=\dfunchc_{i \in [0,n]})}\dbasec 
+                \& \& = \&        
+                \onslide*<presentation:2|handout:2>{\dfunchc} \dbasec                                               
+                \end{tikzcd}                                              
+    \end{equation*}
+    \onslide*<presentation:1|handout:1>{
+        \begin{equation*}
+            \prod\limits_{i=0}^{n} \underbrace{Hom(\dbasec,\dtotalc_i)}_{\dsectionc_i} = 
+            \underbrace{Hom(\dbasec,  \prod\limits_{i=0}^{n}\dtotalc_i)}_{\dsectionc}
+        \end{equation*}}
+    \onslide*<presentation:2|handout:2>{
+    \begin{equation*}
+        \prod\limits_{i=0}^{n} \underbrace{Hom(\dfunchc\dbasec, \dfunctc_i\dfuncpullc \dtotalc_i)}_{\dfuncc_i\dsectionc_i} = 
+        \underbrace{Hom(\dfunchc\dbasec,  \prod\limits_{i=0}^{n} \dfunctc_i\dfuncpullc\dtotalc_i)}_{\dfuncc\dsectionc}
+    \end{equation*}}
+
+\end{frame}
+
+\begin{frame}<presentation:1|handout:1>{Composable $\dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)$}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement = \&]
+            \dtotalc_a 
+            \arrow[dd, "\dfunc c_a"', color=action] \& \& 
+            \dtotalc_a \times \dtotalc_b 
+            \arrow[dd, "{\dfuncc_{a,b}}" description, color=action] 
+            \arrow[ll, "\pi_a"', color=total] 
+            \arrow[rr, "\pi_b", color=total] \& \& 
+            \dtotalc_b 
+            \arrow[dd, "\dfuncc_b", color=action] \\
+            \& \& \& \& \\
+            \dtotalc_a  \& \& 
+            \dtotalc_a \times \dtotalc_b 
+            \arrow[rr, "\pi_b", color=total] 
+            \arrow[ll, "\pi_a"', color=total] \& \& 
+            \dtotalc_b
+        \end{tikzcd}
+    \end{equation*}    
 \end{frame}
 
 
@@ -901,30 +942,9 @@
     }
 \end{frame}
 
-\begin{frame}<presentation:1|handout:0>{Multiple Bundles: $\dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)$}
-    \begin{equation*}
-        \begin{tikzcd}[ampersand replacement = \&, column sep=2ex]
-                \dfunctc_0 \dfuncpullc \dtotalc_0 
-                \arrow[rdd, "\pi" description] 
-                \arrow[r, "\cdots \otimes \cdots", phantom] \& 
-                \dfunctc_i  \dfuncpullc \dtotalc_i 
-                \arrow[dd, "\pi" description] 
-                \arrow[r, "\cdots \otimes \cdots", phantom] \& 
-                \dfunctc_n \dfuncpullc \dtotalc_n 
-                \arrow[ldd, "\pi" description] \& = \& 
-                \prod\limits_{i=0}^{n} 
-                \dfunctc_i \dfuncpullc \dtotalc 
-                \arrow[dd, "\pi" description] \\    
-                \&\&\&\&\\    
-                \& 
-                {(\dfunchc=\dfunchc_{i \in [0,n]})\dbasec }                                             \& \& = \& 
-                \dfunchc \dbasec                                                        
-                \end{tikzcd}                                              
-    \end{equation*}
 
-\end{frame}
 
-\begin{frame}<presentation:1|handout:0>{Complex data}
+\begin{frame}<presentation:1|handout:1>{Complex data}
     \begin{description}[style=newline]
         \item[combining continuities]{given $\dbasepointc_{a} \in \dbasec_{c} \subset \dbasec_{a}$ and $\dbasepointc_{b} \in \dbasec_{c} \subset \dbasec_{b}$, if $\dbasepointc_{a} = \dbasepointc_{b}$ then $\equivc(\dsectionc(\dbasepointc_{a})) = \equivc(\dsectionc(\dbasepointc_{b}))$ for all $\dbasepointc_{a}, \dbasepointc_{b} \in \dbasec_{a}\bigsqcup\limits_{\dbasec_{c}} \dbasec_{b}$}
         \item[shared fibers]{
@@ -990,7 +1010,8 @@
 \end{frame}
 
 \begin{frame}<presentation:1|handout:1>
-    \frametitle{Data to Visual Transformation: $\vchannelc: \dtotalc \rightarrow \vtotalc$}
+    \frametitle{Transformations in Data $\vchannelc: \dsectionc \mapsto \vsectionc$}
+    %rewrite in gamma notation
     \begin{equation*}
     \begin{tikzcd}[ampersand replacement = \&]
         \dtotalc 
@@ -1031,6 +1052,7 @@
 \end{frame}  
 
 \begin{frame}{Data to Visual Transformation $\vchannelc: \dfiberc_{\dbasepointc} \mapsto \vfiberc_{\dbasepointc}$}
+    %remove maps to 
 $\pi(\dtotalc) = \pi(\vchannelc(\dtotalc))$ and $\vchannelc$ is composable s.t 
     \begin{columns}
         \column{.5\textwidth}
@@ -1111,8 +1133,8 @@ $\pi(\dtotalc) = \pi(\vchannelc(\dtotalc))$ and $\vchannelc$ is composable s.t
             \arrow[rrrr, "\vmarkc", Rightarrow, color=artist] 
             \arrow[ddd, "\dfunctc_{\vtotalc} \circ \dfuncpullc_{\vtotalc}"', color=action] 
             \& \& \& \& 
-            \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
-            \arrow[ddd, "\dfunctc_{\gtotalc} \circ \dfunchc_{\gtotalc}", color=action]  \\
+            \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+            \arrow[ddd, "\dfunctc_{\gtotalc} \circ \dfunchc_{\gtotalc}", dotted, color=action]  \\
             \& 
             \opensetc 
             \arrow[lu, maps to, color=sheaf] 
@@ -1127,12 +1149,12 @@ $\pi(\dtotalc) = \pi(\vchannelc(\dtotalc))$ and $\vchannelc$ is composable s.t
             \&  \& 
             \opensetgc^{\prime} 
             \arrow[ll, "\vindexc"', color=functor] 
-            \arrow[u, "\dfunchc_{\gtotalc}"', color=action] 
+            \arrow[u, "\dfunchc_{\gtotalc}"', dotted, color=action] 
             \arrow[rd, maps to, color=functor] \& \\
             \cgamma{\opensetc^{\prime}}{\vtotalc^{\prime}\restriction_{\opensetc^{\prime}}}
             \arrow[rrrr, "\vmarkc^{\prime}", Rightarrow, color=artist] 
             \& \&  \& \& 
-            \cgamma{\opensetgc^{\prime}}{\gtotalc^{\prime}\restriction_{\opensetgc^{\prime}}}
+            \imartist{\opensetgc^{\prime}}{\gtotalc^{\prime}\restriction_{\opensetgc^{\prime}}}
             \end{tikzcd}
         \end{equation*}
     \begin{alertblock}{equivariance}
@@ -1151,7 +1173,7 @@ $\pi(\dtotalc) = \pi(\vchannelc(\dtotalc))$ and $\vchannelc$ is composable s.t
         \cgamma{\opensetgc}{\vindexpullc\vtotalc\restriction_{\opensetgc}} \& 
         \cgamma{\opensetgc}{\vindexpullc\vtotalc\restriction_{\opensetgc}}  
         \arrow[rr, "\vmarkc_{\opensetgc}", no head, Rightarrow, color=artist] \&  \& 
-        \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}  
+        \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}}  
         \arrow[dd, "\vindexpushc", color=functor] \\
         \& \& \& \& \\
         \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}  
@@ -1166,7 +1188,7 @@ $\pi(\dtotalc) = \pi(\vchannelc(\dtotalc))$ and $\vchannelc$ is composable s.t
         \arrow[uu, "\vindexpullc", color=functor] 
         \arrow[rruu, "\vmarkc", Rightarrow, color=artist] 
         \&  \& 
-        \cgamma{\opensetgc}{\vindexpushc\gtotalc\restriction_{\opensetc}}
+        \imartist{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}
     \end{tikzcd}
     \end{equation*}
 \end{frame}
