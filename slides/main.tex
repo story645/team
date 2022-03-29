@@ -781,9 +781,25 @@
 \end{frame}
 
 \begin{frame}<presentation:1|handout:1>{$\dfuncc = (\dfunchc, \dfunctc)$}
-    \begin{figure}
-        \includegraphics[width=0.5\textwidth]{figures/math/dfunc.png}
-    \end{figure}
+  
+    \begin{equation*}
+            \begin{tikzcd}[ampersand replacement=\&, column sep=.3em]
+                \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+                \arrow[rr, "\dfuncpullc", color=dfuncc] \&  \& 
+                \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} \&  \& 
+                \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}}
+                \arrow[rr, "\dfunctc", color=dfuncc] 
+                \&  \& 
+                \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} \\
+                \& \& \& \&  \&  \&  \\
+                \opensetc 
+                \arrow[uu, maps to, color=sheaf] \&  \& 
+                \opensetc^{\prime} 
+                \arrow[uu, maps to, color=sheaf] 
+                \arrow[ll, "\dfunchc"', color=dfuncc] 
+                \& \& \& \&                                                                       
+            \end{tikzcd}
+    \end{equation*}
     \begin{description}
         \item[Base Transformation:] {$\dfunchc: \opensetc^{\prime} \rightarrow \opensetc$ where $\opensetc, \opensetc^{\prime} \subseteq \dbasec$, \\
         $\dfuncpullc\dsectionc\restriction_{\opensetc}: \dsectionc \mapsto \dsectionc\restriction_{\opensetc} \circ \dfunchc$}
@@ -1002,15 +1018,26 @@
 \end{frame}
 
 \section{Construction}
+\begin{frame}{How Do We Get From Data to Graphic?}
+    \begin{figure}
+        \includegraphics[width=1\textwidth]{figures/math/path_of_math.png}
+    \end{figure}
+\end{frame}
+
 \begin{frame}<presentation:1|handout:1>{Building an equivariant $\vartist$?}
-    \note{Add box around figure & lable it artist}
     \begin{figure}
         \includegraphics[width=1\textwidth]{../paper/figures/path_of_q.png}
     \end{figure}
 \end{frame}
 
 
+
 \subsection{Measurement Specification $\vtotalc$}
+\begin{frame}<presentation:1|handout:1>{Data to Measurable Components}
+    \begin{figure}
+        \includegraphics[width=1\textwidth]{figures/math/justnu.png}
+    \end{figure}
+\end{frame}
 
 \begin{frame}<presentation:1|handout:1>{Typed Measurable Visual Components: $\vtotalc$}
     \begin{columns}
@@ -1045,7 +1072,7 @@
     }
 \end{frame}
 
-\begin{frame}<presentation:1|handout:1>
+\begin{frame}<presentation:0|handout:1>
     \frametitle{Transformations in Data $\vchannelc: \dsectionc \mapsto \vsectionc$}
     %rewrite in gamma notation
     \begin{figure}
@@ -1135,6 +1162,12 @@ $\pi(\dtotalc) = \pi(\vchannelc(\dtotalc))$ and $\vchannelc$ is composable s.t
 
 
 \subsection{Combining Components into Visualizations}
+\begin{frame}<presentation:1|handout:1>{Components to Graphic}
+    \begin{figure}
+        \includegraphics[width=1\textwidth]{figures/math/justq.png}
+    \end{figure}
+\end{frame}
+
 \begin{frame}<presentation:1|handout:1>{Assembly $\vmarkc$}
     \begin{equation*}
         \begin{tikzcd}[ampersand replacement = \&]
@@ -1170,27 +1203,71 @@ $\pi(\dtotalc) = \pi(\vchannelc(\dtotalc))$ and $\vchannelc$ is composable s.t
     \end{alertblock}
 \end{frame}
 
-\begin{frame}<presentation:1|handout:1>{Components to Graphic}
-    \begin{figure}
-        \includegraphics[scale=.15]{../paper/figures/qhat.png}
-    \end{figure}
-\end{frame}
-
-\begin{frame}<presentation:1|handout:1>{Implementation Choices: $\vartistc_{\dbasec} = \vartistc_{\gbasec}$}
-    \begin{figure}
-        \includegraphics[scale=.5]{figures/math/implement_paths).png}
-    \end{figure}
-\end{frame}
-
 \begin{frame}{Combining Qs}
+    \begin{columns}
+    \column{.55\textwidth}       
     The codomain of all $\vmarkc$ targeting the same output space is the bundle $\gtotalc$ and $Hom(\gbasec_1, \gtotalc) + Hom(\gbasec_2, \gtotalc) = Hom(\gbasec_1 + \gbasec_2, \gtotalc)$; therefore 
-    $\sqcup \vmarkc_i(\cgamma{\opensetc_i}{\dtotalc_i\restriction_{\opensetc_i}}) = \cgamma{\sqcup \opensetgc_i}{\gtotalc\restriction_{\sqcup\opensetgc_i}}$
+    \begin{equation*}
+        \bigsqcup_i \vmarkc_i(\cgamma{\opensetc_i}{\dtotalc_i\restriction_{\opensetc_i}}) = \cgamma{\mathop{\sqcup}_i\opensetgc_i}{\gtotalc\restriction_{\mathop{\sqcup}_i\opensetgc_i}})
+    \end{equation*}
+    when $\vindexc(\opensetgc_i) = \opensetc_i$
+
+    \column{.45\textwidth}
     \begin{figure}
         \includegraphics[scale=.25]{figures/math/qcom.png}
     \end{figure}
+    \end{columns}
 \end{frame}
 
+
+
 \begin{frame}{Compatible Qs}
-    \includegraphics[scale=.5]{figures/math/compatiblw_q.png}
+    \begin{equation*}
+    \begin{tikzcd}[ampersand replacement=\&, column sep=small]
+        \& 
+        \cgamma{\opensetc}{\vtotalc^{a}\restriction_{\opensetc}} 
+        \arrow[dd, "\vchannelc^{a\rightarrow b}", color=artist] 
+        \arrow[rrd, "{\vmarkc_{\opensetc}}^{a}", color=artist] 
+        \arrow[rrrrd, "\vmarkc^{a}", bend left, color=artist] 
+        \&  \&  \& \&   \\
+        \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+        \arrow[ru, "\vchannelc^a", color=artist] 
+        \arrow[rd, "\vchannelc^b"', color=artist] 
+        \& \&  \& 
+        \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} 
+        \&  \& 
+        \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+        \arrow[ll, "\vindexpushc"', color=functor] \\
+        \& \cgamma{\opensetc}{\vtotalc^{b}\restriction_{\opensetc}} 
+        \arrow[rru, "{\vmarkc_{\opensetc}}^{b}"', color=artist] 
+        \arrow[rrrru, "{\vmarkc}^{b}"', bend right, color=artist] 
+         \&  \&  \&  \&  
+    \end{tikzcd}
+    \end{equation*}
+\end{frame}
+
+
+\begin{frame}<presentation:1|handout:1>{Implementation Choices: $\vartistc_{\dbasec} = \vartistc_{\gbasec}$}
+    \begin{equation*}
+        \begin{tikzcd}[ampersand replacement=\&, column sep=small]
+            \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}} 
+            \arrow[rr, "\vchannelc_{\gbasec}", color=artist] 
+            \arrow[rrrr, "\vartistc_{\gbasec}", bend left, color=artist]  
+            \&  \& 
+            \cgamma{\opensetgc}{\vindexpullc\vtotalc\restriction_{\opensetgc}} 
+            \arrow[rr, "\vmarkc_{\gbasec}", color=artist] \&  \& 
+            \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+            \arrow[dd, "\vindexpushc", color=functor] \\
+             \&  \&   \&  \& \\
+            \cgamma{\openset}{\dtotalc\restriction_{\opensetc}} 
+            \arrow[rr, "\vchannelc_{\dbasec}", color=artist] 
+            \arrow[rrrr, "\vartistc_{\dbasec}", bend right, color=artist] 
+            \arrow[uu, "\vindexpullc", color=functor] \&  \& 
+            \cgamma{\openset}{\vtotalc\restriction_{\opensetc}} 
+            \arrow[rr, "\vmarkc_{\dbasec}", color=artist ] 
+            \arrow[uu, "\vindexpullc", , color=functor] \&  \& 
+            \imartist{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}                 
+            \end{tikzcd}
+    \end{equation*}
 \end{frame}
 \end{document}
