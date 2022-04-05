@@ -54,6 +54,7 @@
 \usepackage{multicol}
 \usepackage{tikz}
 \usetikzlibrary{cd} % commutative diagrams
+\newtheorem{axiom}{Axiom}
 \newtheorem{prop}{Proposition} %math?
 \usepackage[switch]{lineno}
 \renewcommand{\linenumberfont}{\normalfont\bfseries\small\color{lightgray}}
@@ -152,16 +153,16 @@ We use concepts from algberaic topolology and category theory to formally expres
 \label{sec:atct:fiber-bundles}
 Fiber bundles, are a "unified, dimension-independent framework", as described by Butler\cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989}, that allow us to seperatly describe the topololigical properties and fields of a data source and also the mapping between topolology and data values. A fiber bundle $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and continuous surjective map $\pi: \dtotalc \rightarrow \dbasec$\cite{FiberBundle2020}. 
 
-\begin{equation}
+\begin{equation}[h]
   \label{eq:atct:fb_intro}
   \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
    \dfiberc
-    \arrow[r, hook] \& 
+    \arrow[r, hook, color=total] \& 
     \dtotalc
-    \arrow[d, "\pi"'] \\
+    \arrow[d, "\pi"',color=total] \\
      \& 
   \dbasec
-     \arrow[u, "\dsectionc"', bend right, pos=.5]
+     \arrow[u, "\dsectionc"', bend right, pos=.5, color=section]
   \end{tikzcd}
 \end{equation} 
 
@@ -174,13 +175,13 @@ The \textcolor{base}{base space} is a topological space \dbasec\ with points $\d
  
 A fiber bundle is locally trivial, which means that for every point \dbasepointc\ there exists an open neighborhood $\dbasepointc \in \opensetc \subseteq \dbasec$ such that there is a homeomorphism $\pi^{-1}(\opensetc)\xrightarrow{\equivc} \opensetc \times \dfiberc$. A bundle may be globally trivial, meaning that $\dtotalc = \dbasec \times \dfiberc$, and generally can be thought of as a twisted product of total and base spaces \cite{munkresElementsAlgebraicTopology1984}. 
 
-\begin{figure}
+\begin{figure}[h]
   \label{fig:atct:fb}
   \includegraphics[width=\columnwidth]{fiberbundle.png}
   \caption{change to concrete example}
 \end{figure}
 
-Fiber bundles can be used to model data for visualization, as proposed by Butler\cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We encode the topological properties of the data \cite{wilkinsonGrammarGraphics2005} as the base space \dbasec. The topological properties, as described by Wilkenson, are how the data is organized - for example \dbase\ could be discrete points, a line, a 2D surface, a 3D volume, or a graph. The names and data types of the data fields can be expressed as the fiber space \dfiberc, as described by Spivak \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}. For example, a temperature field could be expressed as a fiber $\dfiber_{temperature}=\mathbb{R}$, and a color field could be $\dfiber_{color}=\mathbb{R}^{3}$. Even though fibers on non-trivial spaces, such as vector fields, are different, we can simplify to one type because fibers are isomorphic.\note{unsure of this claim but I think this is why, and also I need to tell you why you care that they're isomorphic} The total bundle space \dtotalc\ acts as a way of expressing all data with the same topolology \dbasec\ and fields \dfiberc, for example a database schema. A specific dataset is represented as a section \dsectionc, and the return values of a section evaluated at a point \dbasepointc\ is the record $\{field_{0}: value_{0}, ..., field_n:value_n\}$ at that point. 
+Fiber bundles can be used to model data for visualization, as proposed by Butler\cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We describe the topological properties of the data \cite{wilkinsonGrammarGraphics2005} as the base space \dbasec. The topological properties, as described by Wilkenson, are how the data is organized - for example \dbase\ could be discrete points, a line, a 2D surface, a 3D volume, or a graph. The names and data types of the data fields can be expressed as the fiber space \dfiberc, as described by Spivak \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}. For example, a temperature field could be expressed as a fiber $\dfiber_{temperature}=\mathbb{R}$, and a color field could be $\dfiber_{color}=\mathbb{R}^{3}$. Even though fibers on non-trivial spaces, such as vector fields, are different, we can simplify to one type because fibers are isomorphic.\note{unsure of this claim but I think this is why, and also I need to tell you why you care that they're isomorphic} The total bundle space \dtotalc\ acts as a way of expressing all data with the same topolology \dbasec\ and fields \dfiberc, for example a database schema. A specific dataset is represented as a section \dsectionc, and the return values of a section evaluated at a point \dbasepointc\ is the record $\{field_{0}: value_{0}, ..., field_n:value_n\}$ at that point. 
 
 \begin{figure}
   \label{fig:atct:fb_graphic_bundle}
@@ -200,16 +201,92 @@ The base space \gbasec\ is a parameterization of the display area, for example t
 \end{equation}
 are functions that generate different graphics, for example markers for a scatter plot, bars for a bar chart, cells of a heatmap, or pixels of an image.
 
-\subsubsection{Input and Output Types}
+\subsection{Data: Base $\rightarrow$ Fiber}
+As described in \autoref{sec:atct:fiber-bundles}, we model data as a map from base space to fiber space.To encapsulate the structure carried in these maps, and provide a way to define these maps in reusable and composable manner, we define categories of base and fiber spaces. 
+
+\begin{definition}
+  The base space category $\mathcal{\opensetc}$ has open set objects $\opensetc$ and inclusion morphisms $\iota: \opensetc_1 \rightarrow \opensetc_2$ such that $\opensetc_1 \subseteq \opensetc_2$. 
+\end{definition}
+
+As with all categories, each object has an identity morphism. Morphisms are also associative and commutative \cite{barrCategoryTheoryComputing}, which is what allows for currying of functions and composition of objects. 
+
+\begin{definition}
+  The fiber category $\mathcal{\dfiberc}$ is a monoidal category, meaning the category has a single object $\dfiberc$ of an arbitrary type. The morphisms on the fiber object are $\dfuncc \in Hom(\dfiberc, \dfiberc)$. 
+\end{definition}
+
+The fiber category is equipped with a bifunctor $\otimes: \mathcal{\dfiber} \times {\dfiber}$. The bifunctor provides a method for composing fibers into more complex fibers, thereby allowing for complex fields. 
 
 \subsection{Sheaves}
-Sheaves on bundles are an "algebraic data structure", as described by Ghrist \cite{ghristElementaryAppliedTopology2014}, for expressing the bookkeeping involved in subsetting data and composing data that is distributed or streaming. 
+Sheaves on bundles are an "algebraic data structure", as described by Ghrist \cite{ghristElementaryAppliedTopology2014}, for expressing the bookkeeping involved in subsetting data and composing data that is distributed or streaming. Formally, pre-sheaves are functors, meaning they are functions from objects of one category to objects of another category \cite{WhatFunctorDefinitions}. In this work we consider the presheaf
+\begin{equation}
+  \label{eq:atct:presheaf}
+  \begin{tikzcd}
+    \cgamma{\opensetc_1}{\dtotalc\restriction_{\opensetc_1}}  &  & \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} 
+    \arrow[ll, "\iota^*"', color=set] \\
+    & & \\
+    \opensetc_1 
+    \arrow[rr, "\iota", hook, color=base] 
+    \arrow[uu, "{\sheafc_{\dbasec, \dtotalc}}", maps to, color=sheaf] &  & \opensetc_2 
+    \arrow[uu, "{\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf]              
+    \end{tikzcd}
+\end{equation}
 
-\subsection{Transforms on Sheaves}
+which associates a set of sections $\cgamma{\openset}{\dtotal\restriction_{\openset}}$ with an openset \openset. The sets of sections are objects of the category \setc\ and the morphisms of the category are restrictions $\iota^*$. The sheaf over a an open set $\openset$ surrounding a point $\dbasepoint$ is called a stalk\cite{StalkSheaf2019}
+\begin{equation}
+  \label{eq:atct:sheaf:stalk}
+    \sheaf_{\dbase, \dtotalc}\restriction_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal\restriction_{\openset}) 
+\end{equation}
+where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The germ is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$ and is the data. \note{I never use stalk and germ terminology at any point in this paper}
+ 
+A sheaf is a presheaf that satisfies the locality and gluing axioms \cite{bakerMathsSheaf}. The locality axiom is that given a union of opensets $\mathscr{\opensetc} = \bigcup\limits_{i\in I} \opensetc_i$ and $\dsectionc^{a}, \dsectionc^{b} \in \sheafc(\mathscr{\opensetc})$,  if $\dsectionc^{a}\restriction_{\opensetc_i} = \dsectionc^{b}\restriction_{\opensetc_i}$ for each $\opensetc_i \in \opensetc$ then $\dsectionc^{a} = \dsectionc^{b}$. This means that two sections in a sheaf are equal when they evaluate to the same values over all open sets in a collection. The gluing axiom is that given $\dsectionc^{i} \in \sheafc(\opensetc_i)$ such that ${\dsectionc^{i}}\restriction_{\opensetc_i\cap \opensetc_j} = {\dsectionc^{j}}\restriction_{\opensetc_i \cap \opensetc_j}$ for $\opensetc_i, \opensetc_j \in \mathscr{\opensetc}$, there exists $\dsectionc \in \sheafc(\mathscr{\opensetc})$ such that $\dsectionc\restriction_{\opensetc_i} = {\dsectionc^{i}}$. This means we can construct a section $\dsection$ on the collection of open sets that is the union of sections defined on specific open sets. This expresses an equivalency between a concatenated represetation of data and the distributed represetation of the same data. 
 
-\subsection{Transforms Between Sheaves}
+In this model, we represent data and graphics as a sheaf; doing so allows us to express that data sources are expected to have the bookkeeping that a sheaf requires, meaning inclusions, restrictions, locality, and gluing must be preserved. 
 
-\section{Preserving Structure}
+\subsubsection{Transforms on Sheaves: $\dfuncc$}
+We express transformations of data, such as scaling and rotation, as function on sheaves $\dfuncc=(\dfunchc, \dfunctc)$
+\begin{equation}
+  \label{eq:atct:sheaves:morphism}
+  \begin{tikzcd}
+    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+    \arrow[rr, "\dfuncpullc", color=action] &  & \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} & \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} 
+    \arrow[dd, "\dfunctc", color=action] \\
+     &  & &       \\
+    \opensetc 
+    \arrow[uu, maps to,color=sheaf]  &  & \opensetc^{\prime} 
+    \arrow[ll, "\dfunchc"', color=action] 
+    \arrow[uu, maps to, color=sheaf]                    & \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}}                       
+    \end{tikzcd}
+\end{equation}
+
+The base transformation $\dfunch: \openset^{\prime}\rightarrow \openset$ where both opensets are in the same basespace $\openset, \openset^{\prime} \subseteq \dbase$ induces a pullback of sections 
+\begin{equation}
+  \dfuncpull \dsection \restriction_{\openset}: \dsection\restriction_{\openset} \mapsto \dsection \restriction_{\openset} \circ \dfunch 
+\end{equation}
+An example of a base transformation is a remapping of an underlying indexing, such as a sorting of primary keys for a database of discrete values.  
+
+The fiber transformation $\dfunctc: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{prime}}$ is a morphism on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
+\begin{equation}
+  \dfunct: \dfuncpull \dsection \restriction_{\openset} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
+\end{equation}
+where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Examples of a fiber transformation are actions on fibers, such as the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946}. 
+
+The transformation 
+\begin{equation}
+  \dfunc: \dsection\restriction_{\openset} \mapsto \dsection^{\prime}\restriction_{\openset} \circ \dfunch
+\end{equation}
+is used to express transformation such as rotation that induce both a remapping of the index space and a change n the values. 
+
+\subsection{ Data Index \dbasec\ \& Visualization Region \gbasec}
+
+\begin{equation}
+  \begin{tikzcd}[row sep=huge]
+    \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \arrow[rr, "\vindexpushc"]                                                                              &  & \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}                                                                       \\
+    \opensetgc \arrow[rr, "\vindexc"] \arrow[u, "{\sheafc_{\gbasec, \gtotalc}}", maps to] \arrow[d, "{\sheafc_{\gbasec, \vindexpullc\dtotalc}}"', dashed, maps to] &  & \opensetc \arrow[d, "{\sheafc_{\dbasec,\dtotalc}}", maps to] \arrow[u, "{\sheafc_{\dbasec, \vindexpushc \gtotalc}}"', dashed, maps to] \\
+    \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}                                                                                             &  & \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \arrow[ll, "\vindexpullc"']                                                      
+    \end{tikzcd}
+\end{equation}
+
+\section{Artist: Data $\rightarrow$ Graphic}
 
 
 
