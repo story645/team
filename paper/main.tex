@@ -182,6 +182,12 @@ A fiber bundle is locally trivial, which means that for every point \dbasepointc
 
 Fiber bundles can be used to model data for visualization, as proposed by Butler\cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We encode the topological properties of the data \cite{wilkinsonGrammarGraphics2005} as the base space \dbasec. The topological properties, as described by Wilkenson, are how the data is organized - for example \dbase\ could be discrete points, a line, a 2D surface, a 3D volume, or a graph. The names and data types of the data fields can be expressed as the fiber space \dfiberc, as described by Spivak \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}. For example, a temperature field could be expressed as a fiber $\dfiber_{temperature}=\mathbb{R}$, and a color field could be $\dfiber_{color}=\mathbb{R}^{3}$. Even though fibers on non-trivial spaces, such as vector fields, are different, we can simplify to one type because fibers are isomorphic.\note{unsure of this claim but I think this is why, and also I need to tell you why you care that they're isomorphic} The total bundle space \dtotalc\ acts as a way of expressing all data with the same topolology \dbasec\ and fields \dfiberc, for example a database schema. A specific dataset is represented as a section \dsectionc, and the return values of a section evaluated at a point \dbasepointc\ is the record $\{field_{0}: value_{0}, ..., field_n:value_n\}$ at that point. 
 
+\begin{figure}
+  \label{fig:atct:fb_graphic_bundle}
+  \includegraphics[width=1\columnwidth]{render.png}
+  \caption{}
+\end{figure}
+
 We also use fiber bundles to represent the output of a visualization algorithm, which we term the graphic but generalizes to output on any display space, such as a screen or 3D print. 
 \begin{equation}
   \label{eq:atct:fb_graphic}
@@ -193,7 +199,7 @@ The base space \gbasec\ is a parameterization of the display area, for example t
   $\cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \big\{\gsectionc: \opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} \; \bigm{\vert} \pi(\gsectionc(\gbasepointc)) = \gbasepointc\;for\, all\; \gbasepointc \in \opensetgc \big\}$
 \end{equation}
 are functions that generate different graphics, for example markers for a scatter plot, bars for a bar chart, cells of a heatmap, or pixels of an image.
- 
+
 \subsubsection{Input and Output Types}
 
 \subsection{Sheaves}
