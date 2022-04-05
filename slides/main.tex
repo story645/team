@@ -1223,7 +1223,7 @@ $\pi(\dtotalc) = \pi(\vchannelc(\dtotalc))$ and $\vchannelc$ is composable s.t
 
 \begin{frame}{Compatible Qs}
     \begin{equation*}
-    \begin{tikzcd}[ampersand replacement=\&, column sep=small]
+    \begin{tikzcd}[ampersand replacement=\&, column sep=2em]
         \& 
         \cgamma{\opensetc}{\vtotalc^{a}\restriction_{\opensetc}} 
         \arrow[dd, "\vchannelc^{a\rightarrow b}", color=artist] 
@@ -1234,9 +1234,9 @@ $\pi(\dtotalc) = \pi(\vchannelc(\dtotalc))$ and $\vchannelc$ is composable s.t
         \arrow[ru, "\vchannelc^a", color=artist] 
         \arrow[rd, "\vchannelc^b"', color=artist] 
         \& \&  \& 
-        \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} 
+        \imartist{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} 
         \&  \& 
-        \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+        \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
         \arrow[ll, "\vindexpushc"', color=functor] \\
         \& \cgamma{\opensetc}{\vtotalc^{b}\restriction_{\opensetc}} 
         \arrow[rru, "{\vmarkc_{\opensetc}}^{b}"', color=artist] 
