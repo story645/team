@@ -144,7 +144,7 @@ The abstract goes here.
 
 \section{Related Work}
 
-\section{Expressing Structure}
+\section{Data And Visualizations}
 \label{sec:atct}
 \note{why why why?}
 We use concepts from algberaic topolology and category theory to formally express the structure visualization components are expected to preserve.  Fiber bundles and sheaves, which come from algebraic topolology, provide a uniform generalizable way to describe data and visualizations. Category theory is a method to describe how objects are specified, constrained, and composed \cite{wielsManagementEvolvingSpecifications1998}\; therefore in this work we propose categorical constructions of visualization components as specifications for implementable components.
@@ -242,8 +242,9 @@ A sheaf is a presheaf that satisfies the locality and gluing axioms \cite{bakerM
 
 In this model, we represent data and graphics as a sheaf; doing so allows us to express that data sources are expected to have the bookkeeping that a sheaf requires, meaning inclusions, restrictions, locality, and gluing must be preserved. 
 
-\subsubsection{Transforms on Sheaves: $\dfuncc$}
-We express transformations of data, such as scaling and rotation, as function on sheaves $\dfuncc=(\dfunchc, \dfunctc)$
+\subsubsection{Data Transformations $\dfuncc=(\dfunchc, \dfunctc)$}
+We express transformations of data, such as scaling and rotation, as function on sheaves: 
+\note{may not need the diagram here}
 \begin{equation}
   \label{eq:atct:sheaves:morphism}
   \begin{tikzcd}
@@ -258,40 +259,122 @@ We express transformations of data, such as scaling and rotation, as function on
     \end{tikzcd}
 \end{equation}
 
-The base transformation $\dfunch: \openset^{\prime}\rightarrow \openset$ where both opensets are in the same basespace $\openset, \openset^{\prime} \subseteq \dbase$ induces a pullback of sections 
+In this work, we assume that the map
+\begin{equation}
+\dfunch: \openset^{\prime}\rightarrow \openset
+\end{equation}
+is from one open set to another open set in the same base space $\openset, \openset^{\prime} \subseteq \dbase$. For example a remapping of an underlying indexing, such as a sorting of primary keys for a database of discrete values. This base space transfromation induces a pullback section 
 \begin{equation}
   \dfuncpull \dsection \restriction_{\openset}: \dsection\restriction_{\openset} \mapsto \dsection \restriction_{\openset} \circ \dfunch 
 \end{equation}
-An example of a base transformation is a remapping of an underlying indexing, such as a sorting of primary keys for a database of discrete values.  
+such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\opensetc^{prime})}$. This means that the base space transformation \dfunch\ alone does not change the data values. 
 
-The fiber transformation $\dfunctc: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{prime}}$ is a morphism on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
+The fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a morphism on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
 \begin{equation}
   \dfunct: \dfuncpull \dsection \restriction_{\openset} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
 \end{equation}
 where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Examples of a fiber transformation are actions on fibers, such as the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946}. 
 
-The transformation 
+The full transformation 
 \begin{equation}
   \dfunc: \dsection\restriction_{\openset} \mapsto \dsection^{\prime}\restriction_{\openset} \circ \dfunch
 \end{equation}
-is used to express transformation such as rotation that induce both a remapping of the index space and a change n the values. 
+is used to express actions such as rotation that induce both a remapping of the index space and a change in the data values. The data transform \dfunc\ is composable if there exists functions $\dfunc_{a,b}: \dtotal_a \times \dtotal_b \rightarrow \dtotal_a \times \dtotal_b$, $\dfunc_{a}: \dtotal_a \rightarrow \dtotal_a$ and $\dfunc_{b}: \dtotal_b \rightarrow \dtotal_b$ s.t. $\pi_a \circ \dfunc_a = \dfunc_{a,b} \circ \pi_a$ and $\pi_b \circ \dfunc_b = \dfunc_{a,b} \circ \pi_b$ then $\dfunc_{a,b} = (\dfunc_a, \dfunc_b)$. This allows us to define a data transform $\dfunc = (\dfunch, \prod\limits_{i=0}^{n}\dfunct_i)$ where each fiber transform $\dfunct_{i}$ is applied to a different fiber field $\dfiber_i$. 
 
 \subsection{ Data Index \dbasec\ \& Visualization Region \gbasec}
 
 \begin{equation}
   \begin{tikzcd}[row sep=huge]
-    \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \arrow[rr, "\vindexpushc"]                                                                              &  & \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}                                                                       \\
-    \opensetgc \arrow[rr, "\vindexc"] \arrow[u, "{\sheafc_{\gbasec, \gtotalc}}", maps to] \arrow[d, "{\sheafc_{\gbasec, \vindexpullc\dtotalc}}"', dashed, maps to] &  & \opensetc \arrow[d, "{\sheafc_{\dbasec,\dtotalc}}", maps to] \arrow[u, "{\sheafc_{\dbasec, \vindexpushc \gtotalc}}"', dashed, maps to] \\
-    \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}                                                                                             &  & \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \arrow[ll, "\vindexpullc"']                                                      
+    \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+    \arrow[rr, "\vindexpushc", color=functor]   &  & \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}\\
+    \opensetgc \arrow[rr, "\vindexc", color=functor] 
+    \arrow[u, "{\sheafc_{\gbasec, \gtotalc}}", maps to, color=sheaf] 
+    \arrow[d, "{\sheafc_{\gbasec, \vindexpullc\dtotalc}}"', dashed, maps to, color=sheaf] &  & \opensetc 
+    \arrow[d, "{\sheafc_{\dbasec,\dtotalc}}", maps to, color=sheaf] 
+    \arrow[u, "{\sheafc_{\dbasec, \vindexpushc \gtotalc}}"', dashed, maps to, color=sheaf] \\
+    \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}  &  & \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
+    \arrow[ll, "\vindexpullc"', color=functor]      
     \end{tikzcd}
 \end{equation}
 
 \section{Artist: Data $\rightarrow$ Graphic}
+Because $Hom_{\gbase}(\sheaf_{\gbase, \vindexpull\dtotal}, \sheaf_{\gbase,\gtotal}) = Hom_{\dbase}(\sheaf_{\dbase, \dtotal}, \sheaf_{\dbase, \vindexpush\gtotal})$
+
+\begin{equation}
+\begin{tikzcd}
+  {\sheafc_{\gbasec,\gtotalc}} 
+  \arrow[rr, "\vindexpushc", color=functor]  
+  &  & {\sheafc_{\dbasec,\vindexpushc\gtotalc}}   \\
+   &  &             \\
+  {\sheafc_{\gbasec,\vindexpullc\dtotalc}} 
+  \arrow[uu, "\vartistc^{\gbasec}", Rightarrow, color=artist] &  & {\sheafc_{\dbasec,\dtotalc}} 
+  \arrow[ll, "\vindexpullc"', color=functor]
+   \arrow[uu, "\vartistc^{\dbasec}"', Rightarrow, color=artist] 
+   \arrow[lluu, "\vartistc" description, color=artist]
+  \end{tikzcd}
+\end{equation}
 
 
 
+\begin{equation*}
+  \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \{\gsectionc\vert\;\exists\;\dsectionc \in \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}\;s.t.\; 
+  \vartistc(\dsectionc) = \gsectionc,\; \vindexc(\opensetgc) = \opensetc \} 
+\end{equation*}
+$\imartist{\opensetg}{\gtotal\restriction_{\opensetg}} \subset \cgamma{\opensetg}{\gtotal\restriction_{\opensetg}}$
 
+\subsection{Equivariant Artist}
+\begin{equation*}
+  \begin{tikzcd}[ampersand replacement=\&, column sep=small]
+  \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+  \arrow[rrr, "\vartistc", color=artist] 
+  \arrow[d, "\dfuncpullc_{\dtotalc}"', color=action] 
+  \& \& \& 
+  \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+  \arrow[d, "\dfuncpullc_{\gtotalc}", dotted] \\
+  \cgamma{\opensetc^{\prime}}{\dfuncpullc_{\dtotalc}\dtotalc\restriction_{\opensetc^{\prime}}} 
+  \arrow[dd, "\dfunctc_{\dtotalc}"', color=action] \& 
+  \opensetc 
+   \& 
+  \opensetgc 
+  \arrow[l, "\vindexc"', color=functor] 
+  \& 
+  \imartist{\opensetgc^{\prime}}{\dfuncpullc_{\gtotalc}\gtotalc\restriction_{\opensetgc^{\prime}}} 
+  \arrow[dd, "\dfunctc_{\gtotalc}", dotted, color=action] \\
+  \& 
+  \opensetc^{\prime} 
+  \arrow[u, "\dfunchc_{\dtotalc}", color=action] 
+  \& 
+  \opensetgc^{\prime} 
+  \arrow[l, "\vindexc"', color=functor] 
+  \arrow[u, "\dfunchc_{\gtotalc}"', dotted, color=action] 
+  \& \\
+  \cgamma{\opensetc^{\prime}}{\dtotalc^{\prime}\restriction_{\opensetc^{\prime}}} 
+  \arrow[rrr, "\vartistc^{\prime}", color=artist]  
+  \& \& \& 
+  \imartist{\opensetgc^{\prime}}{\gtotalc^{\prime}\restriction_{\opensetgc^{\prime}}}
+  \end{tikzcd}
+\end{equation*}
+For all points $\gbasepointc^{\prime}\in \gbasec^{\prime}$:
+\begin{equation*}
+  \vartistc^{\prime}(\dfunctc_{\dtotalc}(\dsectionc(\dfunchc_{\dtotalc}(\vindexc(\gbasepointc^{\prime}))))) = \dfunctc_{\gtotalc}(\vartistc(\dsectionc(\vindexc(\dfunchc_{\gtotalc}(\gbasepointc^{\prime})))))
+\end{equation*}
+\subsection*{Testing Equivariance}
+\begin{equation*}
+  \begin{tikzcd}[row sep=huge]
+    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
+    \arrow[d, "\equivc", color=monoid]
+     \arrow[rr, "\vartistc", color=artist] &  & \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+     \arrow[d, "\extractmc", color=monoid] \arrow[r, "render"] & VIZ \arrow[ld, "measure"] \\
+    {Hom(\opensetc, \measurec)} \arrow[rr, "\vindexpullc", color=functor]  &  & {Hom(\opensetgc, \measurec)}   & 
+    \end{tikzcd}
+  \end{equation*}
+  \begin{description}
+      \item[input]{$\equivc: \dsectionc \mapsto (\opensetc \xrightarrow{\equivc_{\dsectionc}} \measurec)$}
+      \item[output]{$\extractmc:\gsectionc \mapsto (\opensetgc \xrightarrow{\extractmc_{\gsectionc}} \measurec)$}
+      \item[] $\equivc_{\dsectionc}(\dbasepointc) = \extractmc_{\gsectionc}(\gbasepointc)$ for all $\vindexc(\gbasepointc) = \dbasepointc, \dbasepointc \in \dbasec, \gbasepointc \in \gbasec$ 
+  \end{description}
 
+  \note{introduce \phi_M as basis of equivariance}
 \section{Discussion}
 \subsection{Limitations}
 \subsection{future work}
