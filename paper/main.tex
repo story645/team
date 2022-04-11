@@ -170,7 +170,7 @@ Fiber bundles, are a "unified, dimension-independent framework", as described by
 The \textcolor{base}{base space} is a topological space \dbasec\ with points $\dbasepointc \in \dbasec$ and topology $\mathcal{T}_{\dbasec}$; $\mathcal_{T}_k$ is a set of opensets $ \dbasepointc \in \opensetc \subseteqq \dbasec$ \cite{munkresElementsAlgebraicTopology1984} that cover the base space \dbasec.  The \textcolor{fiber space} is a topological space \dfiberc\ that is the preimage of the projection function $\pi$ at a point in the base space $\dfiberc|_{\dbasepointc} = \pi^{-1}(\dbasepointc)$ and fibers of a bundle are isomorphic $\dfiberc \simeq \dfiberc_{\dbasepointc}\;\forall \dbasepointc \in \dbase$. The \textcolor{section}{sections} of a bundle $\dsection$ are maps from the base space to points in the bundles over that base space and $\textcolor{set}{\Gamma}$ denotes the set of all sections in a bundle over an openset. 
 \begin{equation}
   \label{eq:atct:fb_sections}
-  \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \big\{\gsectionc: \opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} \; \bigm{\vert} \pi(\gsectionc(\gbasepointc)) = \gbasepointc\;for\, all\; \gbasepointc \in \opensetgc \big\} 
+  \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\} 
 \end{equation}
  
 A fiber bundle is locally trivial, which means that for every point \dbasepointc\ there exists an open neighborhood $\dbasepointc \in \opensetc \subseteq \dbasec$ such that there is a homeomorphism $\pi^{-1}(\opensetc)\xrightarrow{\equivc} \opensetc \times \dfiberc$. A bundle may be globally trivial, meaning that $\dtotalc = \dbasec \times \dfiberc$, and generally can be thought of as a twisted product of total and base spaces \cite{munkresElementsAlgebraicTopology1984}. 
@@ -210,17 +210,17 @@ As described in \autoref{sec:atct:fiber-bundles}, we model data as a map from ba
   The base space category $\mathcal{\opensetc}$ has open set objects $\opensetc$ and inclusion morphisms $\iota: \opensetc_1 \rightarrow \opensetc_2$ such that $\opensetc_1 \subseteq \opensetc_2$. 
 \end{definition}
 
-As with all categories, each object has an identity morphism. Morphisms are also associative and commutative \cite{barrCategoryTheoryComputing}, which is what allows for currying of functions and composition of objects. 
+By definition, each object in a category has an identity morphism and morphisms are associative and commutative \cite{barrCategoryTheoryComputing}. 
 
 \begin{definition}
   \label{def:atct:io:fiber}
   The fiber category $\mathcal{\dfiberc}$ is a monoidal category, meaning the category has a single object $\dfiberc$ of an arbitrary type. The morphisms on the fiber object are $\dfunctc \in Hom(\dfiberc, \dfiberc)$. 
 \end{definition}
 
-The fiber category is equipped with a bifunctor $\otimes: \mathcal{\dfiber} \times {\dfiber}$. The bifunctor provides a method for composing fibers into more complex fibers, thereby allowing for complex fields. 
+The fiber category is equipped with a bifunctor $\otimes: \mathcal{\dfiber} \times {\dfiber}$. The bifunctor provides a method for combining fibers, thereby allowing for fields that contain multityped values. For example, RGB color can either be represented as three fiber fields $\dfiber_{red}, \dfiber_{green}, \dfiber_{blue}$ or a composite fiber field $\dfiber_{red} \otimes \dfiber_{green} \otimes \dfiber_{blue} = \dfiber_{RGB}$.
 
 \subsection{Sheaves}
-Sheaves on bundles are an "algebraic data structure", as described by Ghrist \cite{ghristElementaryAppliedTopology2014}, for expressing the bookkeeping involved in subsetting data and composing data that is distributed or streaming. Formally, pre-sheaves are functors, meaning they are functions from objects of one category to objects of another category \cite{WhatFunctorDefinitions}. Here the sheaf 
+Sheaves on bundles are an "algebraic data structure", as described by Ghrist \cite{ghristElementaryAppliedTopology2014}, for expressing the bookkeeping involved in keeping track of sections of data over opensets. Sheaves are a way of expressing that subsets, distributed data, and streaming data are local sections that can be glued together. Formally, pre-sheaves are functors, meaning they are functions from objects of one category to objects of another category \cite{WhatFunctorDefinitions}. Here the sheaf 
 \begin{equation}
   \sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
 \end{equation}
@@ -230,16 +230,16 @@ denotes a sheaf from opensets on the base space $\dbase$ to sets of sections on 
   \label{eq:atct:presheaf}
   \begin{tikzcd}
     \cgamma{\opensetc_1}{\dtotalc\restriction_{\opensetc_1}}  &  & \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} 
-    \arrow[ll, "\iota^*"', color=set] \\
+    \arrow[ll, "\iota^*"', maps to, color=set] \\
     & & \\
     \opensetc_1 
-    \arrow[rr, "\iota", hook, color=base] 
+    \arrow[rr, "\iota", maps to, color=base] 
     \arrow[uu, "{\sheafc_{\dbasec, \dtotalc}}", maps to, color=sheaf] &  & \opensetc_2 
     \arrow[uu, "{\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf]              
     \end{tikzcd}
 \end{equation}
 
-which associates a set of sections $\cgamma{\openset}{\dtotal\restriction_{\openset}}$ with an openset \openset. The sets of sections are objects of the category \setc\ and the morphisms of the category are restrictions $\iota^*$. The sheaf over a an open set $\openset$ surrounding a point $\dbasepoint$ is called a stalk\cite{StalkSheaf2019}
+which associates a set of sections $\cgamma{\openset}{\dtotal\restriction_{\openset}}$ with an openset \openset. The sets of sections are objects of the category \setc\ and the morphisms of the category are restrictions\footnote{restriction functions } $\iota^*$. The sheaf over a an open set $\openset$ surrounding a point $\dbasepoint$ is called a stalk\cite{StalkSheaf2019}
 \begin{equation}
   \label{eq:atct:sheaf:stalk}
     \sheaf_{\dbase, \dtotalc}\restriction_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal\restriction_{\openset}) 
@@ -290,21 +290,20 @@ The full transformation
 \begin{equation}
   \dfunc: \dsection\restriction_{\openset} \mapsto \dsection^{\prime}\restriction_{\openset} \circ \dfunch
 \end{equation}
-is used to express actions such as rotation that induce both a remapping of the index space and a change in the data values. The data transform \dfunc\ is composable if there exists functions $\dfunc_{a,b}: \dtotal_a \times \dtotal_b \rightarrow \dtotal_a \times \dtotal_b$, $\dfunc_{a}: \dtotal_a \rightarrow \dtotal_a$ and $\dfunc_{b}: \dtotal_b \rightarrow \dtotal_b$ s.t. $\pi_a \circ \dfunc_a = \dfunc_{a,b} \circ \pi_a$ and $\pi_b \circ \dfunc_b = \dfunc_{a,b} \circ \pi_b$ then $\dfunc_{a,b} = (\dfunc_a, \dfunc_b)$. This allows us to define a data transform $\dfunc = (\dfunch, \prod\limits_{i=0}^{n}\dfunct_i)$ where each fiber transform $\dfunct_{i}$ is applied to a different fiber field $\dfiber_i$. 
+is used to express actions such as rotation that induce both a remapping of the index space and a change in the data values. The data transform \dfunc\ is composable
+\begin{equation}
+  \dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)
+\end{equation}
+if there exists functions $\dfunc_{a,b}: \dtotal_a \times \dtotal_b \rightarrow \dtotal_a \times \dtotal_b$, $\dfunc_{a}: \dtotal_a \rightarrow \dtotal_a$ and $\dfunc_{b}: \dtotal_b \rightarrow \dtotal_b$ s.t. $\pi_a \circ \dfunc_a = \dfunc_{a,b} \circ \pi_a$ and $\pi_b \circ \dfunc_b = \dfunc_{a,b} \circ \pi_b$ then $\dfunc_{a,b} = (\dfunc_a, \dfunc_b)$. This allows us to define a data transform where each fiber transform $\dfunct_{i}$ can be applied to a different fiber field $\dfiber_i$. 
 
 \subsection{Map Between Base Spaces}
-\begin{figure}[ht]
-  \includegraphics*[width=1\columnwidth]{../../slides/figures/math/push_pull_scatter.png}
-\end{figure}
-We define a functor
+\note{add couple of sentences introducing image functors}
+We define a \textcolor{functor}{functor} between the graphic and data base spaces 
 \begin{equation}
-  \vindexc: \opensetgc \rightarrow \openset 
+  \vindexc: \opensetgc \rightarrow \opensetc 
 \end{equation}
-that expresses the constraint that every region in a visualization $\opensetg \subseteq \gbase$ must map to a corresponding set $\openset \subset \dbase$. We define the functor $\vindexc$ such that the data base space \dbasec\ is a deformation retraction\cite{nlab:deformation_retract} of the graphic space $\gbasec$. To simplify matters, in this paper, we construct the graphic space as a constant multiple of the base space such that 
-\begin{equation}
-  \vindexc: \underbrace{\opensetc\times[0,1]^{n}}_{\opensetgc} \rightarrow \opensetc 
-\end{equation}
-where $ n = dim(\dbase) - dim(\gbase)$ if $dim(\dbase)<dim(\gbase)$ and otherwise $ n = dim(\dbase)$. 
+such that every $\opensetg \subseteq \gbase$ must map to a corresponding set $\openset \subset \dbase$. In doing so, we can define the pullback \vindexpullc\  and pushforward \vindexpushc\
+
 \begin{equation}
   \label{eq:atct:morphisms:xi}
 \begin{tikzcd}[row sep=huge]
@@ -324,6 +323,15 @@ where $ n = dim(\dbase) - dim(\gbase)$ if $dim(\dbase)<dim(\gbase)$ and otherwis
   \end{tikzcd}
 \end{equation}
 
+\begin{figure}[ht]
+  \label{fig:atct:morphisms:sheaf}
+  \includegraphics*[width=1\columnwidth]{../../slides/figures/math/push_pull_scatter.png}
+  \caption{}
+\end{figure}
+
+As illustrated in \autoref{fig:atct:morphisms:sheaf}, the \note{image functors?} between sheaves are a way of expressising the bookkeeping of data in screen and graphic space and graphic in screen and graphic space. 
+
+
 \section{Artist: Data to Graphic}
 Because $Hom_{\gbase}(\sheaf_{\gbase, \vindexpull\dtotal}, \sheaf_{\gbase,\gtotal}) = Hom_{\dbase}(\sheaf_{\dbase, \dtotal}, \sheaf_{\dbase, \vindexpush\gtotal})$
 
@@ -336,7 +344,7 @@ Because $Hom_{\gbase}(\sheaf_{\gbase, \vindexpull\dtotal}, \sheaf_{\gbase,\gtota
     \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}} 
     \arrow[dd, "\vartistc^{\gbasec}", color=artist] \\
      & & \\
-    \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} &  & 
+    \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} &  & 
     \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
     \arrow[ll, "\vindexpushc"', color=functor]                  
     \end{tikzcd}
@@ -344,10 +352,10 @@ Because $Hom_{\gbase}(\sheaf_{\gbase, \vindexpull\dtotal}, \sheaf_{\gbase,\gtota
 
 
 
-\begin{equation*}
+\begin{equation}
   \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \{\gsectionc\vert\;\exists\;\dsectionc \in \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}\;s.t.\; 
   \vartistc(\dsectionc) = \gsectionc,\; \vindexc(\opensetgc) = \opensetc \} 
-\end{equation*}
+\end{equation}
 $\imartist{\opensetg}{\gtotal\restriction_{\opensetg}} \subset \cgamma{\opensetg}{\gtotal\restriction_{\opensetg}}$
 
 \subsection{Equivariant Artist}
@@ -403,6 +411,51 @@ For all points $\gbasepointc^{\prime}\in \gbasec^{\prime}$:
   \end{description}
 
   \note{introduce $\phi_M$ as basis of equivariance}
+\section{Construction}
+\subsection{Measurable Visual Components}
+
+\begin{equation}
+  \vfiberc \hookrightarrow \vtotalc \xrightarrow{\pi} \dbasec
+\end{equation}
+where
+\cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \vtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}  
+\begin{equation}
+ 
+\end{equation}
+\subsection{$\vindexc: \gbasec \rightarrow \dbasec$}
+We define the functor $\vindex$ such that the data base space \dbase\ is a deformation retraction\cite{nlab:deformation_retract} of the graphic space $\gbase$, meaning that there is a continuous surjective mapping from every point $\dbasepoint\in\dbase$ to a point $\dbasepoint \in dbase$ . To simplify matters, in this paper, we construct the graphic space as a constant multiple of the base space such that 
+\begin{equation}
+  \underbrace{\opensetc\times[0,1]^{n}}_{\opensetgc} \textcolor{functor}{\xmapsto{\hspace{1em}\vindexc\hspace{1em}}} \opensetc} 
+\end{equation}
+\begin{equation*}
+  n = \begin{cases}
+    dim(\gbase) - dim(\dbase) & dim(\dbase)<dim(\gbase)\\
+  0 & otherwise
+  \end{cases}
+\end{equation*}
+
+\subsection{$\nu: \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \rightarrow \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}}$}
+
+
+
+\subsection{$\vmarkc: \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \rightarrow \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}$}
+\subsubsection{Fabricating \vmarkc's}
+
+\begin{equation}
+  \begin{tikzcd}
+    \cgamma{\opensetc}{\vtotalc^{a}\restriction_{\opensetc}} 
+    \arrow[rr, "{{\vmarkc^{a}_1}}", color=artist] 
+    \arrow[dd, "\vchannelc"', color=artist] 
+    \arrow[rrdd, "{{\vmarkc^{a}_2}}", color=artist] &  & 
+    \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+    \arrow[dd, "\dfunctc_{\gtotalc}", dotted, color=action] \\
+   &  &  \\
+    \cgamma{\opensetc}{\vtotalc^{b}\restriction_{\opensetc}} 
+    \arrow[rr, "{{\vmarkc^{b}_2}}", color=artist]   &  & 
+    \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+  \end{tikzcd}
+\end{equation}
+
 \section{Discussion}
 \subsection{Limitations}
 \subsection{future work}
