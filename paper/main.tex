@@ -166,7 +166,7 @@ Fiber bundles, are a "unified, dimension-independent framework", as described by
   \end{tikzcd}
 \end{equation} 
 
-The \textcolor{base}{base space} is a topological space \dbasec\ with points $\dbasepointc \in \dbasec$ and topology $\mathcal{T}_{\dbasec}$; $\mathcal_{T}_k$ is a set of opensets $ \dbasepointc \in \opensetc \subseteqq \dbasec$ \cite{munkresElementsAlgebraicTopology1984} that cover the base space \dbasec.  The \textcolor{fiber space} is a topological space \dfiberc\ that is the preimage of the projection function $\pi$ at a point in the base space $\dfiberc|_{\dbasepointc} = \pi^{-1}(\dbasepointc)$ and fibers of a bundle are isomorphic $\dfiberc \simeq \dfiberc_{\dbasepointc}\;\forall \dbasepointc \in \dbase$. The \textcolor{section}{sections} of a bundle $\dsection$ are maps from the base space to points in the bundles over that base space and $\textcolor{set}{\Gamma}$ denotes the set of all sections in a bundle over an openset. 
+The \textcolor{base}{base space} is a topological space \dbasec\ with points $\dbasepointc \in \dbasec$ and topology $\mathcal{T}_{\dbasec}$; $\mathcal{T}_k$ is a set of opensets $ \dbasepointc \in \opensetc \subseteqq \dbasec$ \cite{munkresElementsAlgebraicTopology1984} that cover the base space \dbasec.  The \textcolor{fiber}{fiber space} is a topological space \dfiberc\ that is the preimage of the projection function $\pi$ at a point in the base space $\dfiber_{\dbasepointc} = \pi^{-1}(\dbasepointc)$ and fibers of a bundle are isomorphic $\dfiberc \simeq \dfiberc_{\dbasepointc}\;\forall \dbasepointc \in \dbase$. The \textcolor{section}{sections} of a bundle $\dsection$ are maps from the base space to points in the bundles over that base space and $\textcolor{set}{\Gamma}$ denotes the set of all sections in a bundle over an openset. 
 \begin{equation}
   \label{eq:atct:fb_sections}
   \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\} 
@@ -180,7 +180,7 @@ A fiber bundle is locally trivial, which means that for every point \dbasepointc
   \caption{change to concrete example}
 \end{figure}
 
-Fiber bundles can be used to model data for visualization, as proposed by Butler\cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We describe the topological properties of the data \cite{wilkinsonGrammarGraphics2005} as the base space \dbasec. The topological properties, as described by Wilkenson, are how the data is organized - for example \dbase\ could be discrete points, a line, a 2D surface, a 3D volume, or a graph. The names and data types of the data fields can be expressed as the fiber space \dfiberc, as described by Spivak \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}. For example, a temperature field could be expressed as a fiber $\dfiber_{temperature}=\mathbb{R}$, and a color field could be $\dfiber_{color}=\mathbb{R}^{3}$. Even though fibers on non-trivial spaces, such as vector fields, are different, we can simplify to one type because fibers are isomorphic.\note{unsure of this claim but I think this is why, and also I need to tell you why you care that they're isomorphic} The total bundle space \dtotalc\ acts as a way of expressing all data with the same topolology \dbasec\ and fields \dfiberc, for example a database schema. A specific dataset is represented as a section \dsectionc, and the return values of a section evaluated at a point \dbasepointc\ is the record $\{field_{0}: value_{0}, ..., field_n:value_n\}$ at that point. 
+Fiber bundles can be used to model data for visualization, as proposed by Butler\cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We describe the topological properties of the data \cite{wilkinsonGrammarGraphics2005} as the base space \dbasec. The topological properties, as described by Wilkenson, are how the data is organized - for example \dbase\ could be discrete points, a line, a 2D surface, a 3D volume, or a graph. The names and data types of the data fields can be expressed as the fiber space \dfiberc, as described by Spivak \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}. For example, a temperature field could be expressed as a fiber $\dfiber_{temperature}=\mathbb{R}$, and a color field could be $\dfiber_{color}=\mathbb{R}^{3}$. Even though fibers on non-trivial spaces, such as vector fields, are different, we can simplify to one type because fibers are isomorphic.\note{unsure of this claim but I think this is why, and also I need to tell you why you care that they're isomorphic} The total bundle space \dtotalc\ acts as a way of expressing all data with the same topology \dbasec\ and fields \dfiberc, for example a database schema. A specific dataset is represented as a section \dsectionc, and the return values of a section evaluated at a point \dbasepointc\ is the record $\{field_{0}: value_{0}, ..., field_n:value_n\}$ at that point. 
 
 \begin{figure}
   \label{fig:atct:fb_graphic_bundle}
@@ -308,7 +308,7 @@ such that every $\opensetg \subseteq \gbase$ must map to a corresponding set $\o
 \begin{tikzcd}[row sep=huge]
   \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
   \arrow[rr, "\vindexpullc", maps to, color=functor] &  & 
-  \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}                                                                                                       \\
+  \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}  \\
   \opensetc 
   \arrow[d, "{\sheafc_{\dbasec, \vindexpushc \gtotalc}}", dashed, maps to, color=sheaf] 
   \arrow[u, "{\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] &  & 
@@ -420,20 +420,27 @@ For all points $\gbasepointc^{\prime}\in \gbasec^{\prime}$:
 \end{equation*}
 
 \subsection*{Testing Equivariance}
-\begin{equation*}
+\begin{equation}
   \begin{tikzcd}[row sep=huge]
-    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
-    \arrow[d, "\equivc", color=monoid]
-     \arrow[rr, "\vartistc", color=artist] &  & \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
-     \arrow[d, "\extractmc", color=monoid] \arrow[r, "render"] & VIZ \arrow[ld, "measure"] \\
-    {Hom(\opensetc, \measurec)} \arrow[rr, "\vindexpullc", color=functor]  &  & {Hom(\opensetgc, \measurec)}   & 
+    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+    \arrow[rr, "\vartistc", color=artist] 
+    \arrow[d, "\equivc"', color=monoid] &  & 
+    \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+    \arrow[d, "render"] 
+    \arrow[lld, "\extractmc"', color=monoid, dashed] \\
+    {\textcolor{set}{Hom}(\opensetc, \measurec)}  &  & visualization 
+    \arrow[ll, "measure",]
     \end{tikzcd}
-  \end{equation*}
+  \end{equation}
   \begin{description}
-      \item[expected]{$\equivc: \dsectionc \mapsto (\opensetc \xrightarrow{\equivc_{\dsectionc}} \measurec)$}
-      \item[actual]{$\extractmc:\gsectionc \mapsto (\opensetgc \xrightarrow{\extractmc_{\gsectionc}} \measurec)$}
-      \item[] $\equivc_{\dsectionc}(\dbasepointc) = \extractmc_{\gsectionc}(\gbasepointc)$ for all $\vindexc(\gbasepointc) = \dbasepointc, \dbasepointc \in \dbasec, \gbasepointc \in \gbasec$ 
-  \end{description}
+      \item[expected]{\;$\equivc: \dsectionc \mapsto (\opensetc \xrightarrow{\equivc_{\dsectionc}} \measurec)$}
+      \item[actual]{$\extractmc:\gsectionc \mapsto (\opensetc \xrightarrow{\extractmc_{\gsectionc}} \measurec)$}
+    \end{description}
+    such that
+    \begin{equation}
+    \equivc(\dsectionc)(\dbasepointc) = \extractmc(\vartistc(\dsectionc))(\dbasepointc) = \extractmc(\gsectionc\circ\vindexprec)(\dbasepointc)
+    \end{equation}
+
 
   \note{introduce $\phi_M$ as basis of equivariance}
 
@@ -454,7 +461,7 @@ The bundle $\vtotal$ is structurally equivalent to the bundle $\dtotal$, but all
 \subsection{$\vindexc: \gbasec \rightarrow \dbasec$}
 We define the functor $\vindex$ such that the data base space \dbase\ is a deformation retraction\cite{nlab:deformation_retract} of the graphic space $\gbase$, meaning that there is a continuous surjective mapping from every point $\dbasepoint\in\dbase$ to a point $\dbasepoint \in dbase$ . To simplify matters, in this paper, we construct the graphic space as a constant multiple of the base space such that 
 \begin{equation}
-  \underbrace{\opensetc\times[0,1]^{n}}_{\opensetgc} \textcolor{functor}{\xmapsto{\hspace{1em}\vindexc\hspace{1em}}} \opensetc} 
+  \underbrace{\opensetc\times[0,1]^{n}}_{\opensetgc} \textcolor{functor}{\xmapsto{\hspace{1em}\vindexc\hspace{1em}}} \opensetc 
 \end{equation}
 \begin{equation*}
   n = \begin{cases}
@@ -474,7 +481,7 @@ which means that every point in a data fiber $\delement \in \dfiber_{\dbasepoint
   \dfunct_{\vtotal} \vchannel(\dsection(\dbasepoint)) = \vchannel^{\prime}(\dfunct_{\dtotal}(\dsection(\dbasepoint)))\; \forall \dbasepoint \in \dbase
 \end{equation}
 and a transformation $\vchannel$ is equivariant when $\vchannel = \vchannel^{\prime}$
-\subsection*{Compositing \vchannelc's}
+\subsection*{Fabricating \vchannelc's}
 
 \begin{equation}
   \begin{tikzcd}[col sep=Huge]
@@ -486,8 +493,11 @@ and a transformation $\vchannel$ is equivariant when $\vchannel = \vchannel^{\pr
     \vfiberc^{\prime}_{\dbasepointc}
   \end{tikzcd}
 \end{equation}
+\subsubsection{Combining \vchannelc's} 
+We can add visual parameters as 
 
-\subsection*{Sharing \vchannelc's}
+
+\subsection*{Validating \vchannelc's}
 \begin{equation}
   \begin{tikzcd}[column sep=4em]
     {\dfiberc_{\dbasepointc}^{a}} \times {\dfiberc_{\dbasepointc}^{b}} 
@@ -514,7 +524,16 @@ and a transformation $\vchannel$ is equivariant when $\vchannel = \vchannel^{\pr
     \end{tikzcd}
 \end{equation}
 
-\subsection{$\vmarkc: \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \rightarrow \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}$}
+\subsection{Graphic Compositing Function}
+The compositing function $\vmarkc$ transforms the sections of visual elements $\vsectionc$ into sections of graphics $\gsectionc$.
+\begin{equation}
+  \vmarkc: \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \rightarrow \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}
+\end{equation}
+
+\note{some transition about sheaf morphisms}
+Therefore an equivariant $\vmarkc$ satisfies the conditions....
+
+
 \subsubsection{Fabricating \vmarkc's}
 
 \begin{equation}
@@ -527,32 +546,69 @@ and a transformation $\vchannel$ is equivariant when $\vchannel = \vchannel^{\pr
 \end{equation}
 
 \subsubsection{Combining \vmarkc's}
-
-\subsubsection{Shared Visual Encodings}
+A set of $\vmarkc$ functions that output graphic sections, as introduced in \autoref{eq:atct:fb_graphic_section}, that go to the same space, for example to the same figure in a screen, are returning a set of functions into the same total bundle $\gtotal$;
 \begin{equation}
-  \begin{tikzcd}[row sep=2.5em, column sep=.75sem]
-    &  & \imartistsub{ab}{\opensetgc}{\gtotalc\restriction\opensetgc}
-    \arrow[rrd, "\extractmc_{bc}", color=monoid] &  &  \\
-\cgamma{\opensetc}{\vtotalc^{a}\restriction_{\opensetc}\times \vtotalc^{b}\restriction_{\opensetc}} 
-\arrow[rru, "\vmarkc_{ab}", color=artist] 
-\arrow[d, "\pi_a"', color=total] &  &  &  & 
-{{\textcolor{set}{Hom}(\opensetgc, \measurec^{ab})}} 
-\arrow[d, "\measurec^{ab}\restriction_a", color=set]  \\
-\cgamma{\opensetc}{\vtotalc^{a}\restriction_{\opensetc}} 
-\arrow[rr, "\simeq", dotted]  &  & 
-{{\textcolor{set}{Hom}(\opensetc, \measurec^{a})}} 
-\arrow[rr, "\vindexpullc", color=functor] &  & 
-{{\textcolor{set}{Hom}(\opensetgc, \measurec^{a})}} \\
-\cgamma{\opensetc}{\vtotalc^{a}\restriction_{\opensetc}\times \vtotalc^{c}\restriction_{\opensetc}} 
-\arrow[rrd, "\vmarkc_{bc}", color=artist] 
-\arrow[u, "\pi_a", color=total]  &  &  &  & 
-{{\textcolor{set}{Hom}(\opensetgc, \measurec^{ac})}} 
-\arrow[u, "\measurec^{ab}\restriction_a"', color=set] \\
- &  & \imartistsub{ac}{\opensetgc}{\gtotalc\restriction\opensetgc}
- \arrow[rru, "\extractmc_{ab}", color=monoid] &  & 
-\end{tikzcd}
+  \label{eq:construction:qc1}
+  \bigsqcup_i \vmark_i(\Gamma(\openset_i,\dtotal_i\restriction_{\openset_i})) = \bigsqcup_i \Gamma(\opensetg_i, \gtotal\restriction_{\opensetg_i})
 \end{equation}
-\note{when Q_{ab} = Q_{bc}, this says only things that change are the parameter controlled pieces}
+A property of hom-sets is that $Hom(W_i,H) + Hom(W_j,H) = Hom(W_i+W_j,H)$, which means that the union of hom-sets with the same target is equal to the hom-set of the union of sources to the target; therefore
+\begin{equation}
+  \label{eq:construction:qc2}
+  \bigsqcup_i\Gamma(\opensetg_i, \gtotal\restriction_{\opensetg_i}) = \Gamma(\mathop{\sqcup}_{i}\opensetg_i, \gtotal\restriction_{{\mathop{\sqcup}_i}\opensetg_i})
+\end{equation}
+the union of sets of functions that generate parts of an image is equal to a set of functions that can generate the whole image. This implies that we can define a $\vmarkc$ that generates the set of sections over the whole image 
+\begin{equation}
+  \label{eq:construction:qc3}
+\Gamma(\mathop{\sqcup}_i\opensetg_i, \gtotal\restriction_{\mathop{\sqcup}_{i}\opensetg_i}) \implies \vmark(\mathop{\sqcup}_{i}\Gamma(\openset_i,\vtotal_i\restriction_{\openset_i}) 
+\end{equation}
+which means that, following from \autoref{eq:constrution:qc1} and \autoref{eq:construction:qc3},
+\begin{equation}
+  \label{eq:construction:qc4}
+  \vmarkc(\mathop{\sqcup}_{i}\cgamma{\opensetc_i}{\vtotalc_i\restriction_{\opensetc_i}}) =   
+  \bigsqcup_i \vmarkc_i(\cgamma{\opensetc_i}{\vtotalc_i\restriction_{\opensetc_i}})
+\end{equation}
+we can construct a $\vmarkc = \sqcup_i\vmarkc_i$.v This allows us to . 
+
+\begin{figure}
+  \label{fig:construction:combined_q}
+  \includegraphics[width=1\colunwidth]{qsketchh.png}
+  \caption{}
+\end{figure}
+
+As illustrated in \autoref{fig:construction:combined_q}, this composition rule expresses the construction of a multipart circle-square graphic out of circles and squares produced by different $\vmarkc$. \note{rewrite:Also figures are the unions of their parts}.
+
+\subsubsection{Validating \vmarkc's}
+
+\begin{tikzcd}[column sep=.5em, row sep=1em]
+  \cgamma{\opensetc}{(\vtotalc^{a}\times \vtotalc^{b})\restriction_{\opensetc}} 
+    \arrow[rr, "\vmarkc_{ab}", color=artist] 
+    \arrow[dd, "\pi_a"', color=total]                &  & \imartistsub{ab}{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \arrow[rd, "\extractmc_{ab}",color=monoid]   &                                                                                                   \\
+                                                                                                                               &  &                                                                                                            & {{\textcolor{set}{Hom}(\opensetc, \measurec^{ab})}} \arrow[ld, "\measurec\restriction_{a}", color=set]  \\
+  \cgamma{\opensetc}{\vtotalc^{a}\restriction_{\opensetc}} \arrow[rr, "\simeq", dotted]                                        &  & {{\textcolor{set}{Hom}(\opensetc, \measurec^{a})}}                                                         &                                                                                                   \\
+                                                                                                                               &  &                                                                                                            & {{\textcolor{set}{Hom}(\opensetc, \measurec^{ac})}} \arrow[lu, "\measurec\restriction_{a}"', color=set] \\
+  \cgamma{\opensetc}{(\vtotalc^{a}\times \vtotalc^{c})\restriction_{\opensetc}} \arrow[rr, "\vmarkc_{ac}", color=artist] \arrow[uu, "\pi_a", color=total] &  & \imartistsub{ac}{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \arrow[ru, "\extractmc_{ac}"', color=monoid] &                                                                                                  
+  \end{tikzcd}
+\note{when $Q_{ab} = Q_{bc}$, this says only things that change are the parameter controlled pieces}
+
+\subsection{Implementation Options: $\vartistc=\vmarkc\circ\vchannelc$}
+As mentioned in \autoref{sec:atct:sheaves}, sheaves equipped with transport functors have isomorphic maps between the sheaves. This property allows us to specify the transformation from data to graphic space in data or graphic space or a mix of both such that the following diagram commutes:
+
+\begin{tikzcd}[row sep=2.5em, column sep=1.5em]
+  \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+  \arrow[rr, "\vchannelc", color=artist] 
+  \arrow[rrrr, "\vartistc^{\dbasec}", bend left, color=artist] 
+  \arrow[dd, "\vindexpullc"', color=functor] 
+  \arrow[rrrrdd, "\vartistc", color=artist, pos=.2] &  & 
+  \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} 
+  \arrow[rrdd, "\vmarkc", color=artist] 
+  \arrow[rr, "\vmarkc^{\dbasec}", color=artist] 
+  \arrow[dd, "\vindexpullc", color=functor, pos=.2] &  & \imartist{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}  \\
+   & & & & \\
+  \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}} \arrow[rr, "\vchannelc", color=artist] 
+  \arrow[rrrr, "\vartistc^{\gbasec}", bend right, color=artist] & & 
+  \cgamma{\opensetgc}{\vindexpullc\vtotalc\restriction_{\opensetgc}} \arrow[rr, "\vmarkc^{\gbasec}", color=artist] &  & 
+  \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \arrow[uu, "\vindexpushc"', color=functor]
+\end{tikzcd}
 
 \section{Discussion}
 \subsection{Limitations}
