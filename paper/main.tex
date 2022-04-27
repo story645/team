@@ -6,6 +6,7 @@
 \newcommand{\note}[1]{\textcolor{magenta}{#1}} 
 \usepackage[nocompress]{cite}
 \usepackage[]{footmisc}
+%\usepackage[notref, notcite]{showkeys}
 \usepackage{hyperref} % autoref
 % *** GRAPHICS RELATED PACKAGES ***
 \ifCLASSINFOpdf
@@ -48,6 +49,7 @@
 \theoremstyle{remark}
 \newtheorem{example}{Example}[section]
 % *** SPECIALIZED LIST PACKAGES ***
+
 \usepackage{xcolor}
 \usepackage{algorithmic}
 \usepackage[utf8]{inputenc}
@@ -90,9 +92,11 @@
 % (Unless specifically asked to do so by the journal or conference you plan
 % to submit to, of course. )
 
+\usepackage[inline]{showlabels}
+
 \usepackage{notation} %notation conventions
 % correct bad hyphenation here
-\hyphenation{op-tical net-works semi-conduc-tor}
+\hyphenation{}
 
 
 
@@ -155,7 +159,7 @@ We use concepts from algberaic topolology and category theory to formally expres
 Fiber bundles, are a "unified, dimension-independent framework", as described by Butler\cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989}, that allow us to seperatly describe the topological properties and fields of a data source and also the mapping between topolology and data values. A fiber bundle $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and continuous surjective map $\pi: \dtotalc \rightarrow \dbasec$\cite{FiberBundle2020}. 
 
 \begin{equation}[h]
-  \label{eq:atct:fb_intro}
+  \label{eq:atct:fb:intro}
   \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
    \dfiberc
     \arrow[r, hook, color=total] \& 
@@ -169,29 +173,29 @@ Fiber bundles, are a "unified, dimension-independent framework", as described by
 
 The \textcolor{base}{base space} is a topological space \dbasec\ with points $\dbasepointc \in \dbasec$ and topology $\mathcal{T}_{\dbasec}$; $\mathcal{T}_k$ is a set of opensets $ \dbasepointc \in \opensetc \subseteqq \dbasec$ \cite{munkresElementsAlgebraicTopology1984} that cover the base space \dbasec.  The \textcolor{fiber}{fiber space} is a topological space \dfiberc\ that is the preimage of the projection function $\pi$ at a point in the base space $\dfiber_{\dbasepointc} = \pi^{-1}(\dbasepointc)$ and fibers of a bundle are isomorphic $\dfiberc \simeq \dfiberc_{\dbasepointc}\;\forall \dbasepointc \in \dbase$. The \textcolor{section}{sections} of a bundle $\dsection$ are maps from the base space to points in the bundles over that base space and $\textcolor{set}{\Gamma}$ denotes the set of all sections in a bundle over an openset. 
 \begin{equation}
-  \label{eq:atct:fb_sections}
+  \label{eq:atct:fb:sections}
   \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\} 
 \end{equation}
  
 A fiber bundle is locally trivial, which means that for every point \dbasepointc\ there exists an open neighborhood $\dbasepointc \in \opensetc \subseteq \dbasec$ such that there is a homeomorphism $\pi^{-1}(\opensetc)\xrightarrow{\equivc} \opensetc \times \dfiberc$. A bundle may be globally trivial, meaning that $\dtotalc = \dbasec \times \dfiberc$, and generally can be thought of as a twisted product of total and base spaces \cite{munkresElementsAlgebraicTopology1984}. 
 
+
+Fiber bundles can be used to model data for visualization, as proposed by Butler\cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We describe the topological properties of the data \cite{wilkinsonGrammarGraphics2005} as the base space \dbasec. The topological properties, as described by Wilkenson, are how the data is organized - for example \dbase\ could be discrete points, a line, a 2D surface, a 3D volume, or a graph. The names and data types of the data fields can be expressed as the fiber space \dfiberc, as described by Spivak \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}. 
+
+Fiber bundles can be used to model data for visualization, as proposed by Butler\cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}.  Even though fibers on non-trivial spaces, such as vector fields, are different, we simplify and represent all fibers with the same schema because fibers are isomorphic.
+
 \begin{figure}[h]
   \label{fig:atct:fb}
   \includegraphics[width=\columnwidth]{fiberbundle.png}
   \caption{change to concrete example}
-\end{figure}
+\end{figure} 
 
-Fiber bundles can be used to model data for visualization, as proposed by Butler\cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We describe the topological properties of the data \cite{wilkinsonGrammarGraphics2005} as the base space \dbasec. The topological properties, as described by Wilkenson, are how the data is organized - for example \dbase\ could be discrete points, a line, a 2D surface, a 3D volume, or a graph. The names and data types of the data fields can be expressed as the fiber space \dfiberc, as described by Spivak \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}. For example, a temperature field could be expressed as a fiber $\dfiber_{temperature}=\mathbb{R}$, and a color field could be $\dfiber_{color}=\mathbb{R}^{3}$. Even though fibers on non-trivial spaces, such as vector fields, are different, we can simplify to one type because fibers are isomorphic.\note{unsure of this claim but I think this is why, and also I need to tell you why you care that they're isomorphic} The total bundle space \dtotalc\ acts as a way of expressing all data with the same topology \dbasec\ and fields \dfiberc, for example a database schema. A specific dataset is represented as a section \dsectionc, and the return values of a section evaluated at a point \dbasepointc\ is the record $\{field_{0}: value_{0}, ..., field_n:value_n\}$ at that point. 
+As illustrated in \autoref{fig:atct:fb}, \note{figure out what the actual data example should be}
 
-\begin{figure}
-  \label{fig:atct:fb_graphic_bundle}
-  \includegraphics[width=1\columnwidth]{render.png}
-  \caption{}
-\end{figure}
 
 We also use fiber bundles to represent the output of a visualization algorithm, which we term the graphic but generalizes to output on any display space, such as a screen or 3D print. 
 \begin{equation}
-  \label{eq:atct:fb_graphic}
+  \label{eq:atct:fb:graphic}
   \gfiberc \hookrightarrow \gtotalc \xrightarrow{\pi} \gbasec
 \end{equation}
 The base space \gbasec\ is a parameterization of the display area, for example the inked bounding box in cairo \cite{CairographicsOrg}. The fiber space \gfiberc\ is an abstraction of the renderer fields, for example $\{x,\,y,\,r,\,g,\,b,\,a\}$. The sections of the graphic 
@@ -200,6 +204,15 @@ The base space \gbasec\ is a parameterization of the display area, for example t
   \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \big\{\gsectionc: \opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} \; \bigm{\vert} \pi(\gsectionc(\gbasepointc)) = \gbasepointc\;for\, all\; \gbasepointc \in \opensetgc \big\}
 \end{equation}
 are functions that generate different graphics, for example markers for a scatter plot, bars for a bar chart, cells of a heatmap, or pixels of an image.
+
+
+\begin{figure}
+  \label{fig:atct:fb:graphic}
+  \includegraphics[width=1\columnwidth]{render.png}
+  \caption{}
+\end{figure}
+In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ encodes the drawing of the \note{pin down what's beeing drawn}.   
+The renderer subsamples the position fibers  \textit{x} and \textit{y} of the graphic fiber space \gfiber. The preimage of the section at these coordinates returns a set of coordinates ${\gsection^{-1}_{x,y}} = \{\gbasepoint | \gsection(\gbasepoint)\restriction_{x,y} = \(x,y\)\}$ at the points $\gbasepoint \in \gbase$ in the graphic base topological space. The section is then evaluated at these points $\gsection\restriction_{\gsection^{-1}_{x,y}}$ to return a set of points in the fiber. Each point has an RGB tuple and these tuples are integrated to return the color of the pixel at that $(x,y)$ point. 
 
 \subsection{Input and Output Types}
 \label{sec:atct:io}
@@ -272,22 +285,26 @@ We specify that structure on a sheaf includes the actions $\dfuncc$ on sections 
 
 In this work, we assume that the map
 \begin{equation}
+ \label{eq:atct:morphism:base}
 \dfunch: \openset^{\prime}\rightarrow \openset
 \end{equation}
 is from one open set to another open set in the same base space $\openset, \openset^{\prime} \subseteq \dbase$. For example a remapping of an underlying indexing, such as a sorting of primary keys for a database of discrete values. This base space transformation induces a pullback section 
 \begin{equation}
-  \dfuncpull \dsection \restriction_{\openset}: \dsection\restriction_{\openset} \mapsto \dsection \restriction_{\openset} \circ \dfunch 
+  \label{eq:atct:morphism:basepull}
+  \dfuncpull \dsection \restriction_{\openset^{\prime}}: \dsection\restriction_{\openset^{\prime}} \mapsto \dsection \restriction_{\openset^{\prime} \circ \dfunch} 
 \end{equation}
 such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\opensetc^{\prime})}$. This means that the base space transformation \dfunch\ alone does not change the data values. 
 
 As introduced in \autoref{def:atct:io:fiber}, the fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a morphism on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
 \begin{equation}
-  \dfunct: \dfuncpull \dsection \restriction_{\openset} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
+  \label{eq:atct:morphism:fiber}
+  \dfunct: \dfuncpull \dsection \restriction_{\openset^{\prime}} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
 \end{equation}
 where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Examples of a fiber transformation are actions on fibers, such as the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946}. 
 
 The full transformation 
 \begin{equation}
+  \label{eq:atct:morphism:all}
   \dfuncc: \dsectionc\restriction_{\opensetc} \mapsto \dsectionc^{\prime}\restriction_{\opensetc} \circ \dfunchc
 \end{equation}
 is used to express actions such as rotation that induce both a remapping of the index space and a change in the data values. The data transform \dfunc\ is composable
@@ -376,8 +393,8 @@ and the hom set is the set of all morphisms from one sheaf to the other. The fun
   \simeq & \textcolor{set}{Hom}_{\sheafc_{\dbasec},\sheafc_{\gbasec}}(\sheafc_{\dtotalc, \dbasec},\sheafc_{\gtotalc,\gbasec}) \\
 \end{split} 
 \end{equation}
-which means that the diagram of sheaf morphisms \autoref{eq:atct:sheaves:homset} is commutative; therefore the functors $\vindexpullc$ and $\vindexpushc$ can be used to adapt morphisms written over one space to another space. This provides us flexibility over which space to construct data to graphic transforms. For example, specifications such as svg\cite{quintScalable2003} and Vega\cite{satyanarayanDeclarativeInteractionDesign2014}, typically define their transformations in data space and return specifications for the render to evaluate. It may also be 
-An artist may also want to specify the transformations in a proxy of graphic space, for example for operations like dynamic resampling \note{citation:root maybe}. 
+which means that the diagram of sheaf morphisms \autoref{eq:atct:sheaves:homset} is commutative; therefore the functors $\vindexpullc$ and $\vindexpushc$ can be used to adapt morphisms written over one space to another space. 
+This provides us flexibility over which space to construct data to graphic transforms. For example, specifications such as svg\cite{quintScalable2003} and Vega\cite{satyanarayanDeclarativeInteractionDesign2014}, typically define their transformations in data space and return specifications for the render to evaluate. An artist may also want to specify the transformations in a proxy of graphic space, for example for operations like dynamic resampling \note{citation:root maybe}. 
 
 
 \section{Artist: Data to Graphic}
@@ -419,8 +436,14 @@ The output of an artist \vartist\ is a restricted subset of graphic sections
   \vartistc(\dsectionc) = \gsectionc,\; \vindexc(\opensetgc) = \opensetc \} 
 \end{equation} that are by definition only reachable through a structure preserving artist, which we describe in \autoref{sec:artist:equivariance}. We define this subset because the space of all sections $\cgamma{\opensetg}{\gtotal\restriction_{\openset}}$ includes sections that may not be structure preserving. For example, a section may go from every point in the graphic space to the same single point in the graphic fiber $\gsection(\gbasepoint_i) = d\; \forall \gbasepoint \in \gbase$ such that the visual output is a single inked pixel on a screen. 
 
+\subsection{Operators}
+\subsubsection{More Base Spaces: +}
+\subsubsection{More Fibers: \times}
 
-\subsection*{Equivariance}
+\subsection{Equivariance}
+The notion of structure preservation discussed in \autoref{sec:related-work:continuity} is that data and components of the graphic vary in equivalent ways. We describe the changes on the graphic side as changes in measurments \measure\, which are scaler or vector components of the rendered graphic that can be quantified, such as the color, position, shape, texture, or rotation angle of the graphic. The visual variables \cite{bertinIIPropertiesGraphic2011} are a subset of measurable components. For example, a measurement of a scatter marker could be its color (e.g. red) or its x position (e.g. 5). 
+
+We formalize this structure preservation as equivariance, which is that for every morphism on the data $(\dfunch_{\dtotal}, \dfunct_{\dtotal})$ there is an equivalent morphism on the graphic  $(\dfunch_{\gtotal}, \dfunct_{\gtotal})$ The artist is an equivariant map if the diagram commutes for all points $\gbasepointc^{\prime}\in \gbasec^{\prime}$
 \label{sec:artist:equivariance}
 \begin{equation*}
   \begin{tikzcd}[ampersand replacement=\&, column sep=small]
@@ -453,13 +476,16 @@ The output of an artist \vartist\ is a restricted subset of graphic sections
   \imartist{\opensetgc^{\prime}}{\gtotalc^{\prime}\restriction_{\opensetgc^{\prime}}}
   \end{tikzcd}
 \end{equation*}
-For all points $\gbasepointc^{\prime}\in \gbasec^{\prime}$:
+such that starting at an arbitrary data point $\dsectionc(\dbasepointc)$ and transforming it into a different data point and then into a graphic 
 \begin{equation*}
   \vartistc^{\prime}(\dfunctc_{\dtotalc}(\dsectionc(\dfunchc_{\dtotalc}(\vindexc(\gbasepointc^{\prime}))))) = \dfunctc_{\gtotalc}(\vartistc(\dsectionc(\vindexc(\dfunchc_{\gtotalc}(\gbasepointc^{\prime})))))
 \end{equation*}
+is equivalent to transforming the original data point into a graphic and then transforming the graphic into another graphic. The function $\dfunch_{\gtotal}$ induces a change in graphic generating function that matches the change in data. 
 
-\subsection*{Testing Equivariance}
+It is difficult to formally define or implement $\dfunch_{\gtotal}$ because the equivalent changes in the graphic, such as a scaling or rotation, would have to be evaluated solely on the basis of the fiber elements $\gsection(\dbasepoint)$ which are tuples of output space specifications. For example, in a 2D screen, evaluating that a scatter marker respects a change in scaling would mean translating a table of $\{x,y,r,g,b\}$ values into measurements \measure\ and then checking how those measurements change. This is equivalent to measuring components of the rendered image, as shown in the diagram
+
 \begin{equation}
+  \label{eq:artist:inout:diagram}
   \begin{tikzcd}[row sep=huge]
     \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
     \arrow[rr, "\vartistc", color=artist] 
@@ -470,18 +496,32 @@ For all points $\gbasepointc^{\prime}\in \gbasec^{\prime}$:
     {\textcolor{set}{Hom}(\opensetc, \measurec)}  &  & visualization 
     \arrow[ll, "measure",]
     \end{tikzcd}
-  \end{equation}
-  \begin{description}
-      \item[expected]{\;$\equivc: \dsectionc \mapsto (\opensetc \xrightarrow{\equivc_{\dsectionc}} \measurec)$}
-      \item[actual]{$\extractmc:\gsectionc \mapsto (\opensetc \xrightarrow{\extractmc_{\gsectionc}} \measurec)$}
-    \end{description}
-    such that
-    \begin{equation}
-    \equivc(\dsectionc)(\dbasepointc) = \extractmc(\vartistc(\dsectionc))(\dbasepointc) = \extractmc(\gsectionc\circ\vindexprec)(\dbasepointc)
-    \end{equation}
+\end{equation}
+so instead we introduce a measurement extraction function $\extractm = measure\circ render$ that decomposes the rendered output into measurable components and returns a map from the data index into the measurement space
+\begin{equation}
+  \label{eq:artist:actual}
+  \extractmc:\gsectionc \mapsto (\opensetc \xrightarrow{\extractmc_{\gsectionc}} \measurec)
+\end{equation}
+such that $\extractmc_{\gsectionc}(\dbasepoint)$ returns the measurements $\measurec_{\dbasepointc}$ of the visual element generated for the data at that point $\gsectionc|_{\vindexprec(\dbasepointc)}$. 
 
+We also introduce a function \equivc\ that maps data to the measurement space directly 
+\begin{equation}
+\equivc: \dsectionc \mapsto (\opensetc \xrightarrow{\equivc_{\dsectionc}} \measurec)
+\end{equation}
+such that $\equivc_{\dsection}(\dbasepointc)$ is the expected set of measurements $\measure_{\dbasepoint}$. The pair of \textcolor{monoid}{testing functions} (\equivc, \extractmc) can be used to test that the expected encoding of the data matches the actual encoding
+\begin{equation}
+    \equivc(\dsectionc)(\dbasepointc) = \extractmc(\vartistc(\dsectionc))(\dbasepointc) = \extractmc(\gsectionc\circ\vindexprec)(\dbasepointc)=\measurec_{\dbasepointc}
+\end{equation}
 
-  \note{introduce $\phi_M$ as basis of equivariance}
+An artist is equivariant when changes to expected and actual are equivariant. As introduced in \autoref{eq:atct:morphism:base}, the base space transformation \dfunch\ is invariant because $\dsection\restriction_{\openset} = \dsection\restriction_{\dfunch(\openset^{prime})}$. This means that, for all points in the data $\dbasepoint \in \dbase$, the measurement should not change if only the base space is transformed 
+\begin{equation}
+  \equivc(\vartistc(\dsectionc))(\dfunch(\dbasepointc^{\prime})) = \extractmc(\vartistc(\dsectionc))(\dbasepointc)
+\end{equation}
+On the other hand, a change in sections \autoref{eq:atct:morphism:fiber} induces an equivalent change in measurements
+\begin{equation}
+  \equivc(\dfunctc(\dsectionc))(\dbasepoint) = \dfunctc_{\measure}(\extractmc(\vartistc(\dsectionc))(\dbasepoint))
+\end{equation}
+The change in measurements $\dfunctc_{\measure}$ is defined by the developer as the symmetry between data and graphic that the artist is expected to preserve. For example a data to color transformation could be defined with the constraint that it must respect permutation since the data is categorical or with the constraint that it respect scaling if the data is quantative.
 
 \section{Construction}
 \label{sec:construction}
@@ -619,7 +659,7 @@ which means that, following from \autoref{eq:constrution:qc1} and \autoref{eq:co
   \vmarkc(\mathop{\sqcup}_{i}\cgamma{\opensetc_i}{\vtotalc_i\restriction_{\opensetc_i}}) =   
   \bigsqcup_i \vmarkc_i(\cgamma{\opensetc_i}{\vtotalc_i\restriction_{\opensetc_i}})
 \end{equation}
-we can construct a $\vmarkc = \sqcup_i\vmarkc_i$.v This allows us to . 
+we can construct a $\vmarkc = \sqcup_i\vmarkc_i$. This allows us to . 
 
 \begin{figure}
   \label{fig:construction:combined_q}
