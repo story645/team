@@ -165,6 +165,7 @@ Fiber bundles are a mathematical structure that can be use to encode the topolog
 
 \subsection{Equivariance}
 \begin{figure}[h!]
+  \label{fig:related-work:equivariance}
   \includegraphics[width=1\columnwidth]{equiviz.png}
 \end{figure}
 
@@ -203,9 +204,9 @@ Fiber bundles can be used to model data for visualization, as proposed by Butler
 
 Fiber bundles can be used to model data for visualization, as proposed by Butler\cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}.  Even though fibers on non-trivial spaces, such as vector fields, are different, we simplify and represent all fibers with the same schema because fibers are isomorphic.
 
-\begin{figure}[h]
+\begin{figure}[h!]
   \label{fig:atct:fb}
-  \includegraphics[width=\columnwidth]{fiberbundle.png}
+  \includegraphics[width=\columnwidth]{fb_tau.png}
   \caption{change to concrete example}
 \end{figure} 
 
@@ -225,9 +226,9 @@ The base space \gbasec\ is a parameterization of the display area, for example t
 are functions that generate different graphics, for example markers for a scatter plot, bars for a bar chart, cells of a heatmap, or pixels of an image.
 
 
-\begin{figure}
+\begin{figure}[h!]
   \label{fig:atct:fb:graphic}
-  \includegraphics[width=1\columnwidth]{render.png}
+  \includegraphics[width=1\columnwidth]{fb_rho.png}
   \caption{}
 \end{figure}
 In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ encodes the drawing of the \note{pin down what's beeing drawn}.   
@@ -313,26 +314,36 @@ is from one open set to another open set in the same base space $\openset, \open
   \label{eq:atct:morphism:basepull}
   \dfuncpull \dsection \restriction_{\openset^{\prime}}: \dsection\restriction_{\openset^{\prime}} \mapsto \dsection \restriction_{\openset^{\prime} \circ \dfunch} 
 \end{equation}
-such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\opensetc^{\prime})}$. This means that the base space transformation \dfunch\ alone does not change the data values. 
-
-As introduced in \autoref{def:atct:io:fiber}, the fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a morphism on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
+such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\opensetc^{\prime})}$. This means that the base space transformation \dfunch\ does not change the data values at a given point
+\begin{equation}
+  \label{eq:atct:morphism:verify_base}
+  \dsection(\dbase) = \dfuncpull\dsectionc(\dbasepoint^{\prime}) = \dsection(\dfunch(\dbase^{prime}))
+\end{equation} 
+where $\dfunch(\dbasepoint^{\prime}) = \dfunch(\dbasepoint)$. As introduced in \autoref{def:atct:io:fiber}, the fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a morphism on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
 \begin{equation}
   \label{eq:atct:morphism:fiber}
   \dfunct: \dfuncpull \dsection \restriction_{\openset^{\prime}} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
 \end{equation}
-where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Examples of a fiber transformation are actions on fibers, such as the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946}. 
+where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946}. 
 
-The full transformation 
+We define a full data transformation as one that induces both a remapping of the index space and a change in the data values
 \begin{equation}
   \label{eq:atct:morphism:all}
   \dfuncc: \dsectionc\restriction_{\opensetc} \mapsto \dsectionc^{\prime}\restriction_{\opensetc} \circ \dfunchc
 \end{equation}
-is used to express actions such as rotation that induce both a remapping of the index space and a change in the data values. The data transform \dfunc\ is composable
+which gives us an equation that can express complex transformations. For example, wind vectors on a sphere are a non-trivial bundle, meaning their fibers aren't identical at every point in the base space; therefore a rotation (change of base space) of the sphere must include an adjustment to the values that have moved closer to the pole (a change in fiber).  
+The data transform \dfunc\ is composable 
 \begin{equation}
   \dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)
 \end{equation}
-if there exists functions $\dfunc_{a,b}: \dtotal_a \times \dtotal_b \rightarrow \dtotal_a \times \dtotal_b$, $\dfunc_{a}: \dtotal_a \rightarrow \dtotal_a$ and $\dfunc_{b}: \dtotal_b \rightarrow \dtotal_b$ such that $\pi_a \circ \dfunc_a = \dfunc_{a,b} \circ \pi_a$ and $\pi_b \circ \dfunc_b = \dfunc_{a,b} \circ \pi_b$ then $\dfunc_{a,b} = (\dfunc_a, \dfunc_b)$. This allows us to define a data transform where each fiber transform $\dfunct_{i}$ can be applied to a different fiber field $\dfiber_i$. 
+if each (identical) component base space is transformed in the same way $\dfunch$ and there exists functions $\dfunc_{a,b}: \dtotal_a \times \dtotal_b \rightarrow \dtotal_a \times \dtotal_b$, $\dfunc_{a}: \dtotal_a \rightarrow \dtotal_a$ and $\dfunc_{b}: \dtotal_b \rightarrow \dtotal_b$ such that $\pi_a \circ \dfunc_a = \dfunc_{a,b} \circ \pi_a$ and $\pi_b \circ \dfunc_b = \dfunc_{a,b} \circ \pi_b$ then $\dfunc_{a,b} = (\dfunc_a, \dfunc_b)$. This allows us to define a data transform where each fiber transform $\dfunct_{i}$ can be applied to a different fiber field $\dfiber_i$. 
 
+\begin{figure}[h!]
+  \label{fig:atct:phi}
+  \includegraphics[width=\columnwidth]{phi.png}
+\end{figure}
+Transposition, as illustrated in \autoref{fig:atct:phi}, is one example of a transformation on the base space $(\dfunch, \dfuncpull)$; transposition is a continuity preserving data transformation that moves every data value to a new location such that the values are unchanged and connected in the same way. Scaling, as shown in \autoref{fig:atct:phi} is a transform $\dfunct$ that changes each data value, in this example by multiplying each value by two. As defined in \autoref{eq:atct:morphism:all}, these transformations can combine to yield a matrix that is both transposed and scaled. The matrix in \autoref{fig:atct:phi} is visualized as a heatmap \autoref{fig:related-work:equivariance} and, as discussed in \autoref{sec:related-work:equivariance}, the heatmap is illustrating equivariance. In the $(\dfunch, \dfuncpull)$ case, the data to color map has not changed, but the column bands of color have become row bands. In the $\dfunct$ case, the data has been scaled by two and the color encoding has been scaled by two, but the bands remain column ordered. When the data is transposed and scaled, then the heatmap is also transposed and the colors are scaled.   
+ 
 \subsection{Maps Between Spaces}
 The data sections defined in \autoref{eq:atct:fb} are sections of sheaves, introduced in \autoref{sec:atct:sheaves}, over open sets $\openset \subseteq \dbase$ in a base space \dbase\ that encodes the topology of the data topology. The graphic sections, defined in \autoref{eq:atct:fb_graphic_section}, are sections of sheaves over open sets $\opensetg \subseteq \gbase$ in a base space \gbase\ that encodes the topology of the graphic. We propose that there exists a continuous \textcolor{functor}{map between topological spaces} \vindexc 
 \begin{equation}
@@ -381,9 +392,9 @@ such that it provides a way to look up which graphic  corresponds with a data in
 
 Therefore, the continuous map $\vindex$ and transport functors $\vindexpull, \vindexpush$ allow us to express the correspondence between graphic section and data section. 
 
-\begin{figure}[ht]
+\begin{figure}[h!]
   \label{fig:atct:morphisms:sheaf}
-  \includegraphics*[width=1\columnwidth]{../../slides/figures/math/push_pull_scatter.png}
+  \includegraphics*[width=1\columnwidth]{xi_scatter.png}
   \caption{}
 \end{figure}
 

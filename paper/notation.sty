@@ -28,8 +28,15 @@
 \newcommand\imartist[2]{%
     \ensuremath{\textcolor{set}{{Im}_{\vartistc}(}#1 \textcolor{set}{,}\; #2 \textcolor{set}{)}}}
 
+% ImA{sub}{openset} {bundle\restriction_{openset}}
+\newcommand\imartistsub[3]{%
+    \ensuremath{\textcolor{set}{{Im}_{\underset{#1}{\vartistc}}(}#2 \textcolor{set}{,}\; #3 \textcolor{set}{)}}}
 
-%% mearsurement
+% Hom_{space}{source}{target}
+\newcommand\hombig[3]{%
+    \ensuremath{\textcolor{set}{{Hom}_{#1}(}#2 \textcolor{set}{,}\; #3 \textcolor{set}{)}}}
+
+%% measurement
 \cdef{measure}{M}
 \cdef{measurec}{\textcolor{monoid}{\measure}}
 \cdef{extractm}{\delta}
