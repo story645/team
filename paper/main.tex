@@ -150,12 +150,12 @@ The abstract goes here.
 \section{Related Work}
 
 \subsection{Topology}
-The topological properties of visualization data are ..., as described by Wilkenson\cite{wilkinsonGrammarGraphics2005}. 
+The topological properties of visualization data are , as described by Wilkenson\cite{wilkinsonGrammarGraphics2005}. 
 
 \begin{figure}[h!]
   \includegraphics[width=1\columnwidth]{continuity.png}
 \end{figure}
-Vsisualization libraries designed around continuity,  
+Visualization libraries designed around continuity,  
 Visualization library algorithms assume 
 
 \begin{figure}[h!]
@@ -164,10 +164,7 @@ Visualization library algorithms assume
 Fiber bundles are a mathematical structure that can be use to encode the topological properties of visualization data, as proposed by Butler\cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989}. Broadly, fiber bundles
 
 \subsection{Equivariance}
-\begin{figure}[h!]
-  \label{fig:related-work:equivariance}
-  \includegraphics[width=1\columnwidth]{equiviz.png}
-\end{figure}
+
 
 \section{Data And Visualizations}
 \label{sec:atct}
@@ -280,14 +277,25 @@ which associates a set of sections $\cgamma{\openset}{\dtotal\restriction_{\open
 \end{equation}
 where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The germ is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$ and is the data. \note{I never use stalk and germ terminology at any point in this paper}
  
-A sheaf is a presheaf that satisfies the locality and gluing axioms \cite{bakerMathsSheaf}. The locality axiom is that given a union of opensets $\mathscr{\opensetc} = \bigcup\limits_{i\in I} \opensetc_i$ and $\dsectionc^{a}, \dsectionc^{b} \in \sheafc(\mathscr{\opensetc})$,  if $\dsectionc^{a}\restriction_{\opensetc_i} = \dsectionc^{b}\restriction_{\opensetc_i}$ for each $\opensetc_i \in \opensetc$ then $\dsectionc^{a} = \dsectionc^{b}$. This means that two sections in a sheaf are equal when they evaluate to the same values over all open sets in a collection. The gluing axiom is that given $\dsectionc^{i} \in \sheafc(\opensetc_i)$ such that ${\dsectionc^{i}}\restriction_{\opensetc_i\cap \opensetc_j} = {\dsectionc^{j}}\restriction_{\opensetc_i \cap \opensetc_j}$ for $\opensetc_i, \opensetc_j \in \mathscr{\opensetc}$, there exists $\dsectionc \in \sheafc(\mathscr{\opensetc})$ such that $\dsectionc\restriction_{\opensetc_i} = {\dsectionc^{i}}$. This means we can construct a section $\dsection$ on the collection of open sets that is the union of sections defined on specific open sets. This expresses an equivalency between a concatenated represetation of data and the distributed representation of the same data. 
+A sheaf is a presheaf that satisfies the locality and gluing axioms \cite{bakerMathsSheaf}. 
+\begin{definition}
+\label{def:atct:sheaf:locality}
+The locality axiom is that given a union of opensets $\mathscr{\opensetc} = \bigcup\limits_{i\in I} \opensetc_i$ and $\dsectionc^{a}, \dsectionc^{b} \in \sheafc(\mathscr{\opensetc})$,  if $\dsectionc^{a}\restriction_{\opensetc_i} = \dsectionc^{b}\restriction_{\opensetc_i}$ for each $\opensetc_i \in \opensetc$ then $\dsectionc^{a} = \dsectionc^{b}$
+\end{definition}
+This means that two sections in a sheaf are equal when they evaluate to the same values over all open sets in a collection. 
+\begin{definition}
+\label{def:atct:sheaf:gluing}
+The gluing axiom is that given $\dsectionc^{i} \in \sheafc(\opensetc_i)$ such that ${\dsectionc^{i}}\restriction_{\opensetc_i\cap \opensetc_j} = {\dsectionc^{j}}\restriction_{\opensetc_i \cap \opensetc_j}$ for $\opensetc_i, \opensetc_j \in \mathscr{\opensetc}$, there exists $\dsectionc \in \sheafc(\mathscr{\opensetc})$ such that $\dsectionc\restriction_{\opensetc_i} = {\dsectionc^{i}}$. 
+\end{definition}
+This means we can construct a section $\dsection$ on the collection of open sets that is the union of sections defined on specific open sets. This expresses an equivalency between a concatenated represetation of data and the distributed representation of the same data. 
 
 In this model, we represent data and graphics as a sheaf; doing so allows us to express that data sources are expected to have the bookkeeping that a sheaf requires, meaning inclusions, restrictions, locality, and gluing must be preserved. 
 
-\subsubsection{Measurement Scales}
+\subsubsection{Structure on Data}
 \label{sec:atct:sheaves:measurments}
-We specify that structure on a sheaf includes the actions $\dfuncc$ on sections of that sheaf, which is a generalization of Steven's \cite{stevensTheoryScalesMeasurement1946} classification of measurement scales by their mathematical group structure. These sheaf actions describe which changes in the data we expect to be equivariant to changes in the visualization. 
+We define structure on data as the allowable \textcolor{action}{transformations on the bundle}, which we formalize as actions $\dfuncc$ on sections of that sheaf. Our construction of $\dfunc$ is a generalization of the classification of measurement scales by their mathematical structure \cite{stevensTheoryScalesMeasurement1946,leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}, which often serves as the basis of the equivariance described in \autoref{sec:related-work:equivariance}.
 
+We separate data transformations into two types, transformations on the base space $(\dfunchc, \dfuncpullc)$ and transformations on the fiber space $\dfunctc$. 
 \begin{equation}
   \label{eq:atct:sheaves:monoid_morphism}
   \begin{tikzcd}
@@ -303,8 +311,7 @@ We specify that structure on a sheaf includes the actions $\dfuncc$ on sections 
     \arrow[uu, maps to, color=sheaf] & \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}}                       
     \end{tikzcd}
 \end{equation}
-
-In this work, we assume that the map
+As shown in \autoref{eq:atct:sheaves:monoid_morphism}, the base space transform 
 \begin{equation}
  \label{eq:atct:morphism:base}
 \dfunch: \openset^{\prime}\rightarrow \openset
@@ -342,8 +349,10 @@ if each (identical) component base space is transformed in the same way $\dfunch
   \label{fig:atct:phi}
   \includegraphics[width=\columnwidth]{phi.png}
 \end{figure}
-Transposition, as illustrated in \autoref{fig:atct:phi}, is one example of a transformation on the base space $(\dfunch, \dfuncpull)$; transposition is a continuity preserving data transformation that moves every data value to a new location such that the values are unchanged and connected in the same way. Scaling, as shown in \autoref{fig:atct:phi} is a transform $\dfunct$ that changes each data value, in this example by multiplying each value by two. As defined in \autoref{eq:atct:morphism:all}, these transformations can combine to yield a matrix that is both transposed and scaled. The matrix in \autoref{fig:atct:phi} is visualized as a heatmap \autoref{fig:related-work:equivariance} and, as discussed in \autoref{sec:related-work:equivariance}, the heatmap is illustrating equivariance. In the $(\dfunch, \dfuncpull)$ case, the data to color map has not changed, but the column bands of color have become row bands. In the $\dfunct$ case, the data has been scaled by two and the color encoding has been scaled by two, but the bands remain column ordered. When the data is transposed and scaled, then the heatmap is also transposed and the colors are scaled.   
- 
+\autoref{fig:atct:phi} provides an example of a base space change \dfunch, a fiber space change \dfunct, and a composition of the two \dfunc\ applied to each data point $x_{\dbasepoint} \in \texttt{data}$. As defined in \autoref{eq:atct:morphism:verify_base}, 
+since transposition is a $(\dfunch, \dfuncpull)$, every data value $x_{\dbasepoint}$ must be equal to the value at the corresponding location in the transposed matrix $x_{\dbasepoint} = x_{\dbasepoint^{\prime}}, \dfunch(\dbasepoint^{\prime}) = \dbasepoint$ for all $x_{\dbasepoint^{\prime}} \in texttt{data.T}$ . In \autoref{fig:atct:phi}, this is demonstrated in the columns becoming rows such that there are no new values and each value retains the same neighboring values. As defined in \autoref{eq:atct:morphism:fiber} scaling is a transform $\dfunct$ that changes the value of each point but not its location. In \autoref{fig:atct:phi}, this means that $x_{\dbasepoint^{\prime}}= 2*x_{\dbasepoint}, \dbasepoint = \dbasepoint_{\prime}$ for all indices in \textt{data}, \textt{data.T}. As defined in \autoref{eq:atct:morphism:all} and illustrated in \autoref{fig:atct:phi}, these transformations can combine to yield a matrix that is both transposed and scaled such that $x_{\dbasepoint^{\prime}} = 2*x_{\dbasepoint}$ for all  
+$\dfunch(\dbasepoint^{\prime}) = \dbasepoint$
+
 \subsection{Maps Between Spaces}
 The data sections defined in \autoref{eq:atct:fb} are sections of sheaves, introduced in \autoref{sec:atct:sheaves}, over open sets $\openset \subseteq \dbase$ in a base space \dbase\ that encodes the topology of the data topology. The graphic sections, defined in \autoref{eq:atct:fb_graphic_section}, are sections of sheaves over open sets $\opensetg \subseteq \gbase$ in a base space \gbase\ that encodes the topology of the graphic. We propose that there exists a continuous \textcolor{functor}{map between topological spaces} \vindexc 
 \begin{equation}
@@ -472,53 +481,6 @@ The output of an artist \vartist\ is a restricted subset of graphic sections
 \end{equation} 
 that are, by definition, only reachable through a structure preserving artist, which we describe in \autoref{sec:artist:equivariance}. We define this subset because the space of all sections $\cgamma{\opensetg}{\gtotal\restriction_{\openset}}$ includes sections that may not be structure preserving. For example, a section may go from every point in the graphic space to the same single point in the graphic fiber $\gsection(\gbasepoint_i) = d\; \forall \gbasepoint \in \gbase$ such that the visual output is a single inked pixel on a screen. 
 
-\subsection{Artist Operators}
-\subsubsection{Addition: +}
-\label{sec:artist:addition}
- $\vartist \coloneqq \vartist^{a}(\dsectionc^{a}) + \vartist^{b}(\dsectionc^{b})$ &\\
-
- with input 
- \begin{equation}
-    \begin{tikzcd}[column sep=small]
-      \dtotalc^{a} \arrow[dd, "\pi"', color=total]  &  & \dtotalc^{b} \arrow[dd, "\pi"', color=total]                              \\
-      {}    &  & {}                                                           \\
-      \dbasec^{a} \arrow[uu, "\dsectionc^{a}"', dashed, bend right, color=section] &  & \dbasec^{b} \arrow[uu, "\dsectionc^{b}"', dashed, bend right, color=section]
-      \end{tikzcd}
-  \end{equation}
-such that output 
-\begin{equation}
-  \label{eq:artist:plus:output}
-  \gsectionc(\gbasepointc) = \begin{cases} \gsectionc^{a}(\dbasepointc) & \gbasepointc \in \vindexprec(\dbasec^{a}) \\
-    \gsectionc^{b}(\dbasepointc) & \gbasepointc \in \vindexprec(\dbasec^{b})
-  \end{cases}
-\end{equation}
-
-\subsubsection{Multiplication: $\times$}
-$\vartist \coloneqq \vartist^{a}(\dsectionc^{a}) \times \vartist^{b}(\dsectionc^{b})$
-with input 
-\begin{equation}
-  \begin{tikzcd}
-    \dtotalc^{a} \arrow[rdd, "\pi"', color=total] & & \dtotalc^{b} \arrow[ldd, "\pi"', color=total] \\
-       & & \\
-      & \dbasec \arrow[luu, "\dsectionc^{a}"', dashed, bend right, color=section] 
-      \arrow[ruu, "\dsectionc^{b}"', dashed, bend right, color=section] &                                 
-    \end{tikzcd}
-  \end{equation}
-  \\
- The output 
-\begin{equation}
-  \{\gsectionc^{a}(\gbasepointc), \gsectionc^{b}(\gbasepointc)\}, \gbasepointc \in \vindexprec(\dbasec)
-\end{equation} 
-which would mean s
-
-which would require returning two points in the fiber $\gbase \rightarrow \dfiber \times \dfiber$. This function is adjoint to the addition function in \autoref{sec:artist:addition} 
-\begin{equation}
-  hom(\dbase, \dfiber\times \dfiber) \simeq hom(\dbase \plus \dbase, \dfiber)
-\end{equation}
-such that the $\times$ operator can be implemented as a special case of \autoref{eq:artist:plus:output} where $\gbase^a$ is a copy of $\gbase$ associated with $\gsection^a$ and $\gbase^b$ is a copy of $\gbase$ associated with $\gsection^{b}$.
-
-
-
 \subsection{Equivariance}
 The notion of structure preservation discussed in \autoref{sec:related-work:continuity} is that data and components of the graphic vary in equivalent ways. We describe the changes on the graphic side as changes in measurments \measure\, which are scaler or vector components of the rendered graphic that can be quantified, such as the color, position, shape, texture, or rotation angle of the graphic. The visual variables \cite{bertinIIPropertiesGraphic2011} are a subset of measurable components. For example, a measurement of a scatter marker could be its color (e.g. red) or its x position (e.g. 5). 
 
@@ -596,13 +558,99 @@ such that $\equivc_{\dsection}(\dbasepointc)$ is the expected set of measurement
 
 An artist is equivariant when changes to expected and actual are equivariant. As introduced in \autoref{eq:atct:morphism:base}, the base space transformation \dfunch\ is invariant because $\dsection\restriction_{\openset} = \dsection\restriction_{\dfunch(\openset^{\prime})}$. This means that, for all points in the data $\dbasepoint \in \dbase$, the measurement should not change if only the base space is transformed 
 \begin{equation}
+  \label{eq:atct:equivarance:verify:base}
   \equivc(\vartistc(\dsectionc))(\dfunch(\dbasepointc^{\prime})) = \extractmc(\vartistc(\dsectionc))(\dbasepointc)
 \end{equation}
 On the other hand, a change in sections \autoref{eq:atct:morphism:fiber} induces an equivalent change in measurements
 \begin{equation}
+  \label{eq:atct:equivarance:verify:fiber}
   \equivc(\dfunctc(\dsectionc))(\dbasepoint) = \dfunctc_{\measure}(\extractmc(\vartistc(\dsectionc))(\dbasepoint))
 \end{equation}
-The change in measurements $\dfunctc_{\measure}$ is defined by the developer as the symmetry between data and graphic that the artist is expected to preserve. For example a data to color transformation could be defined with the constraint that it must respect permutation since the data is categorical or with the constraint that it respect scaling if the data is quantative.
+The change in measurements $\dfunctc_{\measure}$ is defined by the developer as the symmetry between data and graphic that the artist is expected to preserve. 
+
+\begin{figure}[h!]
+  \label{fig:artist:equivariance}
+  \includegraphics[width=1\columnwidth]{equivariance.png}
+  \caption{}
+\end{figure}
+For example, in \autoref{fig:artist:equivarance}, the measurable variable is color. This is a visual representation of the data shown in \autoref{fig:atct:phi}, and as such the equivariant transformations are an equivalent transposition and scaling of the colors. This visualization is equivariant with respect to base space transformations, as defined in \autoref{eq:atct:equivarance:verify:base}, because the color values at the new position at the old position $measure_\dbasepoint^{\prime} = \measure_{\dbasepoint}$. This visualization is also equivariant with respect to fiber wise transformations, as defined in \autoref{eq:atct:equivarance:verify:fiber}, because the colors are consistently scaled in the same was the data. For example, the values that have become 2 and 4 in the $\dfunctc$ and $\dfunc$ panels are colored the same as the original 2 and 4 values in the first panel. The equivariance in this visualization is composable, as shown in the colors being both transposed and scaled correctly in the $\dfunc$ panel.
+
+\subsection{Artist Operators}\label{sec:artist:operators}
+A common use of category theory in software engineering is the specification of modular components \cite{wielsManagementEvolvingSpecifications1998} such that we can build systems where the structure preserved by components is preserved in the composition of the components. We propose two types of artist composition, addition and multiplication. Artist addition is the composition of artists acting on distinct bundles, while artist multiplication is the composition of artists acting on different bundles over the same base space. 
+
+\begin{equation}
+  \label{eq:artist:operator}
+  \begin{tikzcd}[]
+      & \dfiberc^{a} \times_{\dfiberc^{c}} \dfiber^{b} 
+    \arrow[ld, "{\pi_{a\times b, a}}"', color=fiber] 
+    \arrow[rd, "{\pi_{a\times b, b}}", color=fiber] & & 
+    \dtotalc^{a} \oplus_{\dfiberc^{c}} \dtotalc^{b} 
+    \arrow[ddd, "\pi"', color=total] \\
+    \dfiberc^{a} 
+    %\arrow[d, "\pi"', color=fiber] 
+    \arrow[r, "{\pi_{a,c}}", color=fiber] 
+    & \dfiberc^{c} & \dfiberc^{b} 
+    %\arrow[d, "\pi", color=fiber] 
+    \arrow[l, "{\pi_{b,c}}"', color=fiber] & \\
+    \dbasec^{a} 
+    \arrow[rd, "{\iota_{a, a+b}}"', color=base] 
+    & \dbasec^{c} 
+    \arrow[r, "{\iota_{c,b}}", color=base] 
+    \arrow[l, "{\iota_{c,a}}"', color=base] 
+    & \dbasec^{b} 
+    \arrow[ld, "{\iota_{b, a+b}}", color=base] 
+    &  \\
+    & \dbasec^{a}\sqcup_{\dbasec^c}\dbasec^{b} & & 
+    \dbasec^{a}\sqcup_{\dbasec^c}\dbasec^{b} 
+    \arrow[uuu, "{\dsectionc^{a,b}}"', dashed, bend right, color=section]
+  \end{tikzcd}
+\end{equation}
+
+As illustrated in \autoref{eq:artist:operator}, data bundles can be combined by taking the disjoint  union of base spaces $\dbase^{a} \sqcup_{\dbase^c} \dbase^b$. In the trivial case where $\dtotal^{a} = \dtotal_b$, this operation is a concatenation that adds values without adding fields. In this case, given $\dbasepointc_{a} \in \dbasec_{c} \subset \dbasec_{a}$ and $\dbasepointc_{b} \in \dbasec_{c} \subset \dbasec_{b}$, if $\dbasepointc_{a} = \dbasepointc_{b}$ \note{map to same thing on overlap for same measurments}
+
+\begin{equation}
+  \equivc(\dsectionc(\dbasepointc_{a})) = \equivc(\dsectionc(\dbasepointc_{b}))
+\end{equation}
+for all $\dbasepointc_{a}, \dbasepointc_{b} \in \dbasec_{a}\bigsqcup\limits_{\dbasec_{c}} \dbasec_{b}$
+
+
+The fibers can be combined by taking the cartesian product of the fibers $\dfiber^{a} \times_{\dfiber^c} \dfiber^{b}$. An artist acting on a cartesian product of fibers is a
+
+
+The expectation that the same fiber be mapped consistently is a generalization of the expectation that the same field in different views should be encoded in the same manner\cite{hullmanKeeping2018}.
+
+
+
+\subsubsection{Addition: +}
+\label{sec:artist:addition}
+ $\vartist \coloneqq \vartist^{a}(\dsectionc^{a}) + \vartist^{b}(\dsectionc^{b})$ &\\
+
+is defined to have output 
+\begin{equation}
+  \label{eq:artist:plus:output}
+  \gsectionc(\gbasepointc) = \begin{cases} \gsectionc^{a}(\dbasepointc) & \gbasepointc \in \vindexprec(\dbasec^{a}) \\
+    \gsectionc^{b}(\dbasepointc) & \gbasepointc \in \vindexprec(\dbasec^{b})
+  \end{cases}
+\end{equation}
+
+\subsubsection{Multiplication: $\times$}
+$\vartist \coloneqq \vartist^{a}(\dsectionc^{a}) \times \vartist^{b}(\dsectionc^{b})$
+where  where $\dbase_a = \dbase_b$
+ 
+Given that $\vindex(\gbase) = \dbase$
+\begin{equation}
+  \{\gsectionc^{a}(\gbasepointc), \gsectionc^{b}(\gbasepointc)\}, \gbasepointc \in \vindexprec(\dbasec)
+\end{equation} 
+
+
+which would require returning two points in the fiber $\gbase \rightarrow \dfiber \times \dfiber$. This function is adjoint to the addition function in \autoref{sec:artist:addition} 
+\begin{equation}
+  hom(\gbase, \gfiber\times \gfiber) \simeq hom(\gbase + \gbase, \gfiber)
+\end{equation}
+such that the $\times$ operator can be implemented as a special case of \autoref{eq:artist:plus:output} where $\gbase^a$ is a copy of $\gbase$ associated with $\gsection^a$ and $\gbase^b$ is a copy of $\gbase$ associated with $\gsection^{b}$.
+
+For example, a box plot \cite{wickham40YearsBoxplots2011} typically consists of a rectangle, multiple lines, and scatter points. 
+
 
 \section{Construction}
 \label{sec:construction}
