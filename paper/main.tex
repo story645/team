@@ -188,27 +188,23 @@ Fiber bundles, are a "unified, dimension-independent framework", as described by
   \end{tikzcd}
 \end{equation} 
 
-The \textcolor{base}{base space} is a topological space \dbasec\ with points $\dbasepointc \in \dbasec$ and topology $\mathcal{T}_{\dbasec}$; $\mathcal{T}_k$ is a set of opensets $ \dbasepointc \in \opensetc \subseteqq \dbasec$ \cite{munkresElementsAlgebraicTopology1984} that cover the base space \dbasec.  The \textcolor{fiber}{fiber space} is a topological space \dfiberc\ that is the preimage of the projection function $\pi$ at a point in the base space $\dfiber_{\dbasepointc} = \pi^{-1}(\dbasepointc)$ and fibers of a bundle are isomorphic $\dfiberc \simeq \dfiberc_{\dbasepointc}\;\forall \dbasepointc \in \dbase$. The \textcolor{section}{sections} of a bundle $\dsection$ are maps from the base space to points in the bundles over that base space and $\textcolor{set}{\Gamma}$ denotes the set of all sections in a bundle over an openset. 
+The \textcolor{base}{base space} is a topological space \dbasec\ with points $\dbasepointc \in \dbasec$ and topology $\mathcal{T}_{\dbasec}$; $\mathcal{T}_k$ is a set of opensets $ \dbasepointc \in \opensetc \subseteqq \dbasec$ \cite{munkresElementsAlgebraicTopology1984} that cover the base space \dbasec.  The \textcolor{fiber}{fiber space} is a topological space \dfiberc\ that is the preimage of the projection function $\pi$ at a point in the base space $\dfiber_{\dbasepointc} = \pi^{-1}(\dbasepointc)$ and fibers of a bundle are isomorphic $\dfiberc \simeq \dfiberc_{\dbasepointc}\;\forall \dbasepointc \in \dbase$. The \textcolor{section}{sections} of a bundle $\dsection$ are maps from the base space to points in the bundles over that base space $\textcolor{set}{\Gamma}$ denotes the set of all sections in a bundle over an openset. 
 \begin{equation}
   \label{eq:atct:fb:sections}
   \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\} 
 \end{equation}
  
-A fiber bundle is locally trivial, which means that for every point \dbasepointc\ there exists an open neighborhood $\dbasepointc \in \opensetc \subseteq \dbasec$ such that there is a homeomorphism $\pi^{-1}(\opensetc)\xrightarrow{\equivc} \opensetc \times \dfiberc$. A bundle may be globally trivial, meaning that $\dtotalc = \dbasec \times \dfiberc$, and generally can be thought of as a twisted product of total and base spaces \cite{munkresElementsAlgebraicTopology1984}. 
+A fiber bundle is locally trivial, which means that for every point \dbasepointc\ there exists an open neighborhood $\dbasepointc \in \opensetc \subseteq \dbasec$ such that there is a homeomorphism $\pi^{-1}(\opensetc)\xrightarrow{\equivc} \opensetc \times \dfiberc$. A bundle may be globally trivial, meaning that $\dtotalc = \dbasec \times \dfiberc$, and generally can be thought of as a twisted product of total and base spaces \cite{munkresElementsAlgebraicTopology1984}. Throughout this work we will assume that fiber bundles are trivial because that allows us to model the section functions as from $\texttt{base} \rightarrow \texttt{fiber}$ since the fiber is the same at all points in the base space. 
 
-
-Fiber bundles can be used to model data for visualization, as proposed by Butler\cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We describe the topological properties of the data \cite{wilkinsonGrammarGraphics2005} as the base space \dbasec. The topological properties, as described by Wilkenson, are how the data is organized - for example \dbase\ could be discrete points, a line, a 2D surface, a 3D volume, or a graph. The names and data types of the data fields can be expressed as the fiber space \dfiberc, as described by Spivak \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}. 
-
-Fiber bundles can be used to model data for visualization, as proposed by Butler\cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}.  Even though fibers on non-trivial spaces, such as vector fields, are different, we simplify and represent all fibers with the same schema because fibers are isomorphic.
+Fiber bundles can be used to model data for visualization, as proposed by Butler\cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We describe the topological properties of the data \cite{wilkinsonGrammarGraphics2005} as the base space \dbasec. The topological properties, as described by Wilkenson, are how the data is organized - for example \dbase\ could be discrete points, a line, a 2D surface, a 3D volume, or a graph. The names and data types of the data fields can be expressed as the fiber space \dfiberc, as described by Spivak \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}. Extending Spivak's fiber bundle description of a table, we define the values returned by a section as named and typed records of the dataset. 
 
 \begin{figure}[h!]
   \label{fig:atct:fb}
   \includegraphics[width=\columnwidth]{fb_tau.png}
-  \caption{change to concrete example}
+  \caption{This trivial dataset consists of a single point $\dbasec$ and the fields \texttt{speed, direction, signal, and strength}. Each of these fields has an associated datatype, which is the set of possible valid values for that field. The fiber space is the cartesian product of these sets $\dfiberc$. Each section $\dsectionc$ function returns a single record in the fiber, here the data record outlined in green.  
+  \note{maybe change to temperature}}
 \end{figure} 
-
-As illustrated in \autoref{fig:atct:fb}, \note{figure out what the actual data example should be}
-
+A fiber bundle is a mathematical structure for encoding continuity, type, and datasets with that continuity and type. In \autoref{fig:atct:fb}, the continuity is a discrete point \dbase. The fiber space that encodes the types is the cartesian product of the field types, and the section returns a single record with values of each field type. While this is a very trivial example, a fiber bundle base space can have almost any topology. The fiber space also does not really have restrictions on which types it can encode or the structure of those types - for example, \texttt{speed} and \texttt{direction} are separate fibers in \autoref{fig:atct:fb} but can be combined into a single two dimensional fiber $\dfiber_{speed, direction} = {\mathbb{R}^{+}}^{s}$ The generality in base space and fiber space makes fiber bundles a unified dimension and type independent data abstraction that can encode most of the common visualization data set structures, such as continuous functions, tables, data cubes, images and networks. 
 
 We also use fiber bundles to represent the output of a visualization algorithm, which we term the graphic but generalizes to output on any display space, such as a screen or 3D print. 
 \begin{equation}
@@ -226,10 +222,10 @@ are functions that generate different graphics, for example markers for a scatte
 \begin{figure}[h!]
   \label{fig:atct:fb:graphic}
   \includegraphics[width=1\columnwidth]{fb_rho.png}
-  \caption{}
+  \caption{A bundle representation of a section that generates a scatter marker on a 2D screen. The fiber space encodes the potential color and position of each pixel in a prerender space. The marker is a 2d graphic; therefore the base space that parameterizes the graphic area \dbasec\ is a 2d disc. This section \gsection\ describes how to build a square red marker; a section evaluated on a single point $\gbasepoint \in \gbase$ is an infinitesimally small piece of the square, here illustrated as the small piece of the square outlined in green.  }
 \end{figure}
-In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ encodes the drawing of the \note{pin down what's beeing drawn}.   
-The renderer subsamples the position fibers  \textit{x} and \textit{y} of the graphic fiber space \gfiber. The preimage of the section at these coordinates returns a set of coordinates ${\gsection^{-1}_{x,y}} = \{\gbasepoint | \gsection(\gbasepoint)\restriction_{x,y} = \(x,y\)\}$ at the points $\gbasepoint \in \gbase$ in the graphic base topological space. The section is then evaluated at these points $\gsection\restriction_{\gsection^{-1}_{x,y}}$ to return a set of points in the fiber. Each point has an RGB tuple and these tuples are integrated to return the color of the pixel at that $(x,y)$ point. 
+
+In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ encodes the drawing of a red square marker. The renderer subsamples the position fibers  \textit{x} and \textit{y} of the graphic fiber space \gfiber. The preimage of the section at these coordinates returns a set of coordinates ${\gsection^{-1}_{x,y}} = \{\gbasepoint | \gsection(\gbasepoint)\restriction_{x,y} = \(x,y\)\}$ at the points $\gbasepoint \in \gbase$ in the graphic base topological space. The section is then evaluated at these points $\gsection\restriction_{\gsection^{-1}_{x,y}}$ to return a set of points in the fiber. One of these points, enlarged for visibility, is illustrated as the small square swatch inside the larger marker in \autoref{fig:atct:fb}. The renderer is handed some version of $\gsection$ to produce the final graphic. 
 
 \subsection{Input and Output Types}
 \label{sec:atct:io}
@@ -287,9 +283,7 @@ This means that two sections in a sheaf are equal when they evaluate to the same
 \label{def:atct:sheaf:gluing}
 The gluing axiom is that given $\dsectionc^{i} \in \sheafc(\opensetc_i)$ such that ${\dsectionc^{i}}\restriction_{\opensetc_i\cap \opensetc_j} = {\dsectionc^{j}}\restriction_{\opensetc_i \cap \opensetc_j}$ for $\opensetc_i, \opensetc_j \in \mathscr{\opensetc}$, there exists $\dsectionc \in \sheafc(\mathscr{\opensetc})$ such that $\dsectionc\restriction_{\opensetc_i} = {\dsectionc^{i}}$. 
 \end{definition}
-This means we can construct a section $\dsection$ on the collection of open sets that is the union of sections defined on specific open sets. This expresses an equivalency between a concatenated represetation of data and the distributed representation of the same data. 
-
-In this model, we represent data and graphics as a sheaf; doing so allows us to express that data sources are expected to have the bookkeeping that a sheaf requires, meaning inclusions, restrictions, locality, and gluing must be preserved. 
+This means we can construct a section $\dsection$ on the collection of open sets that is the union of sections defined on specific open sets. This expresses an equivalency between a concatenated representation of data and the distributed representation of the same data. In this model, we represent data and graphics as a sheaf; doing so allows us to express that data sources are expected to have the bookkeeping that a sheaf requires, meaning inclusions, restrictions, locality, and gluing must be preserved. 
 
 \subsubsection{Structure on Data}
 \label{sec:atct:sheaves:measurments}
@@ -348,6 +342,7 @@ if each (identical) component base space is transformed in the same way $\dfunch
 \begin{figure}[h!]
   \label{fig:atct:phi}
   \includegraphics[width=\columnwidth]{phi.png}
+  \caption{Values in a data set can be transformed in three ways: $\dfunch$-values can change position, .e.g transposed;  $\dfunct$-values can change, e.g. doubled; $\dfunc$ - values can change position and value}
 \end{figure}
 \autoref{fig:atct:phi} provides an example of a base space change \dfunch, a fiber space change \dfunct, and a composition of the two \dfunc\ applied to each data point $x_{\dbasepoint} \in \texttt{data}$. As defined in \autoref{eq:atct:morphism:verify_base}, 
 since transposition is a $(\dfunch, \dfuncpull)$, every data value $x_{\dbasepoint}$ must be equal to the value at the corresponding location in the transposed matrix $x_{\dbasepoint} = x_{\dbasepoint^{\prime}}, \dfunch(\dbasepoint^{\prime}) = \dbasepoint$ for all $x_{\dbasepoint^{\prime}} \in texttt{data.T}$ . In \autoref{fig:atct:phi}, this is demonstrated in the columns becoming rows such that there are no new values and each value retains the same neighboring values. As defined in \autoref{eq:atct:morphism:fiber} scaling is a transform $\dfunct$ that changes the value of each point but not its location. In \autoref{fig:atct:phi}, this means that $x_{\dbasepoint^{\prime}}= 2*x_{\dbasepoint}, \dbasepoint = \dbasepoint_{\prime}$ for all indices in \textt{data}, \textt{data.T}. As defined in \autoref{eq:atct:morphism:all} and illustrated in \autoref{fig:atct:phi}, these transformations can combine to yield a matrix that is both transposed and scaled such that $x_{\dbasepoint^{\prime}} = 2*x_{\dbasepoint}$ for all  
@@ -356,6 +351,7 @@ $\dfunch(\dbasepoint^{\prime}) = \dbasepoint$
 \subsection{Maps Between Spaces}
 The data sections defined in \autoref{eq:atct:fb} are sections of sheaves, introduced in \autoref{sec:atct:sheaves}, over open sets $\openset \subseteq \dbase$ in a base space \dbase\ that encodes the topology of the data topology. The graphic sections, defined in \autoref{eq:atct:fb_graphic_section}, are sections of sheaves over open sets $\opensetg \subseteq \gbase$ in a base space \gbase\ that encodes the topology of the graphic. We propose that there exists a continuous \textcolor{functor}{map between topological spaces} \vindexc 
 \begin{equation}
+  \label{eq:atct:xi}
   \vindexc: \opensetgc \rightarrow \opensetc 
 \end{equation}
 such that every $\opensetg \subseteq \gbase$ must map to a corresponding set $\openset \subset \dbase$. 
@@ -404,10 +400,10 @@ Therefore, the continuous map $\vindex$ and transport functors $\vindexpull, \vi
 \begin{figure}[h!]
   \label{fig:atct:morphisms:sheaf}
   \includegraphics*[width=1\columnwidth]{xi_scatter.png}
-  \caption{}
+  \caption{The base space functor $\vindexc$ is the mapping from each disc $\gbasec_i$ to it's corresponding point $\dbasepointc_i$. Over each point is a data record $\dsectionc$. The pullback function $\vindexpullc$ copies these records over $\gbase$ so that each piece of each marker knows the data associated with it. Each graphic disc has a corresponding graphic function $\gsectionc$. The pushforward function $\vindexpushc$ converts $\gsectionc$ into the visual parameters associated with each data point $\dbasepoint$.}
 \end{figure}
 
-Functors between sheaves are a way of expressing the bookkeeping involved in keeping track of which graphic section corresponds to which data section. This allows us to construct graphic specifications for each data index $\vindexpush\gsection$ and retrieve the data $\vindexpull\dsection$ for any graphic section generating any piece of a graphic. As illustrated in \autoref{fig:atct:morphisms:sheaf}, the \note{image functors?}
+Functors between sheaves are a way of expressing the bookkeeping involved in keeping track of which graphic section corresponds to which data section. This allows us to construct graphic specifications for each data index $\vindexpush\gsection$ and retrieve the data $\vindexpull\dsection$ for any graphic section generating any piece of a graphic. In \autoref{fig:atct:morphisms:sheaf}, the graphic specifications are the set of visual parameters associated with each point $\dbasepoint_i$. Each of these parameters describes the corresponding graphic $\gsectionc|_{\gbase_i}$ generated by evaluating the graphic section on the graphic base space associated with that data point $\vindexpre^{\dbasepoint_i} = \gbase_i$. The pullback functor $\vindexpull$ copies each data section at each point $\dsectionc(\dbasepointc_i)$ over the corresponding disk; in \autoref{fig:atct:morphisms:sheaf} this means that every pixel in a given marker, for example the yellow triangle, maps back into a single data record. Visualization specification languages such as vega \cite{heerDeclarative2010} and svg \cite{quintScalable2003} assume that there is a graphic  specification for every point. Interactive tooltips assume that there is a map between the graphics rendered on screen and the data such that a glyph maps back to a record. The functors $(\vindex, \vindexpush, \vindexpull)$ codify the expectation of these mappings between data and graphic space. 
 
 We propose that visualization libraries implement morphisms from a data sheaf $\sheafc_{\dtotal, \dbase}$ to a graphic sheaf $\sheafc_{\gtotal, \gbase}$ 
 \begin{equation}
@@ -576,12 +572,11 @@ The change in measurements $\dfunctc_{\measure}$ is defined by the developer as 
 For example, in \autoref{fig:artist:equivarance}, the measurable variable is color. This is a visual representation of the data shown in \autoref{fig:atct:phi}, and as such the equivariant transformations are an equivalent transposition and scaling of the colors. This visualization is equivariant with respect to base space transformations, as defined in \autoref{eq:atct:equivarance:verify:base}, because the color values at the new position at the old position $measure_\dbasepoint^{\prime} = \measure_{\dbasepoint}$. This visualization is also equivariant with respect to fiber wise transformations, as defined in \autoref{eq:atct:equivarance:verify:fiber}, because the colors are consistently scaled in the same was the data. For example, the values that have become 2 and 4 in the $\dfunctc$ and $\dfunc$ panels are colored the same as the original 2 and 4 values in the first panel. The equivariance in this visualization is composable, as shown in the colors being both transposed and scaled correctly in the $\dfunc$ panel.
 
 \subsection{Artist Operators}\label{sec:artist:operators}
-A common use of category theory in software engineering is the specification of modular components \cite{wielsManagementEvolvingSpecifications1998} such that we can build systems where the structure preserved by components is preserved in the composition of the components. We propose two types of artist composition, addition and multiplication. Artist addition is the composition of artists acting on distinct bundles, while artist multiplication is the composition of artists acting on different bundles over the same base space. 
-
+A common use of category theory in software engineering is the specification of modular components \cite{wielsManagementEvolvingSpecifications1998} such that we can build systems where the structure preserved by components is preserved in the composition of the components. This allows us to express that an artist that works on a dataset can be composed of artists that work on sub parts of that dataset. 
 \begin{equation}
   \label{eq:artist:operator}
-  \begin{tikzcd}[]
-      & \dfiberc^{a} \times_{\dfiberc^{c}} \dfiber^{b} 
+  \begin{tikzcd}[column sep=small]
+      & \dfiberc^{a} \times_{\dfiberc^{c}} \dfiberc^{b} 
     \arrow[ld, "{\pi_{a\times b, a}}"', color=fiber] 
     \arrow[rd, "{\pi_{a\times b, b}}", color=fiber] & & 
     \dtotalc^{a} \oplus_{\dfiberc^{c}} \dtotalc^{b} 
@@ -606,50 +601,73 @@ A common use of category theory in software engineering is the specification of 
   \end{tikzcd}
 \end{equation}
 
-As illustrated in \autoref{eq:artist:operator}, data bundles can be combined by taking the disjoint  union of base spaces $\dbase^{a} \sqcup_{\dbase^c} \dbase^b$. In the trivial case where $\dtotal^{a} = \dtotal_b$, this operation is a concatenation that adds values without adding fields. In this case, given $\dbasepointc_{a} \in \dbasec_{c} \subset \dbasec_{a}$ and $\dbasepointc_{b} \in \dbasec_{c} \subset \dbasec_{b}$, if $\dbasepointc_{a} = \dbasepointc_{b}$ \note{map to same thing on overlap for same measurments}
-
-\begin{equation}
-  \equivc(\dsectionc(\dbasepointc_{a})) = \equivc(\dsectionc(\dbasepointc_{b}))
-\end{equation}
-for all $\dbasepointc_{a}, \dbasepointc_{b} \in \dbasec_{a}\bigsqcup\limits_{\dbasec_{c}} \dbasec_{b}$
-
-
-The fibers can be combined by taking the cartesian product of the fibers $\dfiber^{a} \times_{\dfiber^c} \dfiber^{b}$. An artist acting on a cartesian product of fibers is a
-
-
-The expectation that the same fiber be mapped consistently is a generalization of the expectation that the same field in different views should be encoded in the same manner\cite{hullmanKeeping2018}.
-
-
-
 \subsubsection{Addition: +}
 \label{sec:artist:addition}
- $\vartist \coloneqq \vartist^{a}(\dsectionc^{a}) + \vartist^{b}(\dsectionc^{b})$ &\\
+As illustrated in \autoref{eq:artist:operator}, data bundles can be combined by taking the disjoint  union of base spaces $\dbase^{a} \sqcup_{\dbase^c} \dbase^b$, where $\dbase^c$ is an overlap. When the fibers of each bundle are isomorphic $\dfiber^{a} \simeq \dfiber^{b}$, which we denote as $\dtotal$, this is analogous to adding more observations to a dataset. We propose an addition operator that states that an artist that takes in a dataset can be constructed using artists that take as inputs subsets of the dataset
 
-is defined to have output 
+\begin{equation*}
+  \label{eq:artist:addition}
+  \vartistc_{a+b}(\cgamma{\dbasec^{a} \sqcup_{\dbase^c} \dbasec^b}{\dtotalc}) \coloneqq \vartistc_{a}(\cgamma{\dbasec^{a}}{\dtotalc}) + \vartistc_{b}(\cgamma{\dbasec^{b}}{\dtotalc}) 
+\end{equation*}
+As introduce in $\autoref{eq:artist:hom_transport}$, the artist returns a function $\gsection$. We assume that the output space is a trivial bundle, which means that $\gsectionc \in Hom(\gbase, \gfiber)$ because the output specification is the same at each point $\gbase$. This allows us to make use of the hom set adjoint property\note{find citation}\
+\begin{equation*}
+  Hom(\gbase^{a} + \gbasec^b, \gfiber) = Hom(\gbase^{a}, \gfiber) + Hom(\gbase^b, \gfiber)
+\end{equation*} 
+to define an artist constructed via addition as consisting of two distinct graphic sections
 \begin{equation}
   \label{eq:artist:plus:output}
-  \gsectionc(\gbasepointc) = \begin{cases} \gsectionc^{a}(\dbasepointc) & \gbasepointc \in \vindexprec(\dbasec^{a}) \\
-    \gsectionc^{b}(\dbasepointc) & \gbasepointc \in \vindexprec(\dbasec^{b})
+  \gsectionc(\gbasepointc) \coloneqq \begin{cases} \gsectionc^{a}(\gbasepointc) & \gbasepointc \in \vindexprec(\dbasec^{a}) \\
+    \gsectionc^{b}(\gbasepointc) & \gbasepointc \in \vindexprec(\dbasec^{b})
   \end{cases}
 \end{equation}
+that are evaluated only if the input graphic point is an the graphic area that graphic section acts on. 
+
+One way to verify that these artists are composable is to check that the return the same graphic on points in the intersection $\dbase^{c}$.  Given $\dbasepointc_{a} \in \dbasec_{c} \subset \dbasec_{a}$ and $\dbasepointc_{b} \in \dbasec_{c} \subset \dbasec_{b}$, if $\dbasepointc_{a} = \dbasepointc_{b}$ then
+
+\begin{equation}
+  \label{eq:artist:plus:verify}
+  \begin{split}
+  \vartistc_{a+b}(\dsectionc^{a+b}(\dbasepointc_{a})) \\ 
+  = \vartistc_{a}(\dsectionc^{a}(\dbasepointc_{a})) = \vartistc_{b}(\dsectionc^{b}(\dbasepointc_{b}))
+  \end{split}
+\end{equation}
+ for all $\dbasepointc_{a}, \dbasepointc_{b} \in \dbasec_{a}\bigsqcup\limits_{\dbasec_{c}} \dbasec_{b}$  
+ 
+ One example of an artist that is a sum of artists is a sphere drawer that draws different quadrants of a sphere $\vartist(\dsection) = \vartist_{1}(\dsection_{1}) + \vartist_{2}(\dsection_{2}) + \vartist_{3}(\dsection_{3}) \vartist_{4}(\dsection_{4})$. Given an input $\dbasepoint \in \dbase_4$ in the 4th quadrant, then the graphic section that would be executed is $\gsection_{4}$. If that point is also in the 3rd quadrant  $\dbasepoint \in \dbase_3$, then both artist outputs must return the same values $\gsection_{4}(\vindexprec(\dbasepoint)) = \gsection_{3}(\vindexprec(\dbasepoint))$. 
+
 
 \subsubsection{Multiplication: $\times$}
-$\vartist \coloneqq \vartist^{a}(\dsectionc^{a}) \times \vartist^{b}(\dsectionc^{b})$
-where  where $\dbase_a = \dbase_b$
- 
-Given that $\vindex(\gbase) = \dbase$
+As illustrated in \autoref{eq:artist:operator},  fibers that are a cartesian product of fiberspaces $\dfiber^{a} \times_{\dfiber^c} \dfiber^{b}$, where $\dfiber^c$ is any fiber that is present in both fibers, can be projected down into component fibers. In the trivial case where the base spaces are the same $\dbase^{a} = \dbase^{b} = \dbase$, this is equivalent to adding more fields to a dataset. 
+
+\begin{equation*}
+  \label{eq:artist:multiplication}
+  \vartistc_{a \times b}(\cgamma{\dbase}{\dtotalc^{a\times b}}) \coloneqq \vartistc_{a}(\cgamma{\dbasec}{\dtotalc^{a}}) \times \vartistc_{b}(\cgamma{\dbasec}{\dtotalc^{b}}) 
+\end{equation*}
+which following from an adjoint property of homsets \note{find citation}
+\begin{equation*}
+  Hom(\gbase, \gfiber) \times Hom(\gbase, \gfiber) = Hom(\gbase, \gfiber\times \gfiber)
+\end{equation*}
+which means that the artists on the subsets of fibers can be defined 
 \begin{equation}
-  \{\gsectionc^{a}(\gbasepointc), \gsectionc^{b}(\gbasepointc)\}, \gbasepointc \in \vindexprec(\dbasec)
+  \gsectionc^{a \times b} = \{\gsectionc^{a}(\gbasepointc), \gsectionc^{b}(\gbasepointc)\}, \gbasepointc \in \vindexprec(\dbasec)
 \end{equation} 
+but that the signature of $\gsectionc^{a \times b}$ would be $\gbase \rightarrow \gfiber \times \gfiber$. Instead of having to special case the return type of artists that are compositions of multiple case, the hom adjoint \note{find cite} property
+\begin{equation*}
+  Hom(\gbase, \gfiber \times \gfiber) = Hom(\gbase+\gbase, \gfiber)
+\end{equation*}
+ means that multiplication can be considered as a special case of addition where $\dbase^{a} = \dbase^{b}$. While we discussed the trivial case in \autoref{sec:artist:addition}, there is no strict  requirement that $\dfiber^{a} = \dfiber^{b}$. 
 
+One way to verify that these artists are composable is to check that they encode any shared fiber $\dfiber^{c}$ in the same way.
 
-which would require returning two points in the fiber $\gbase \rightarrow \dfiber \times \dfiber$. This function is adjoint to the addition function in \autoref{sec:artist:addition} 
 \begin{equation}
-  hom(\gbase, \gfiber\times \gfiber) \simeq hom(\gbase + \gbase, \gfiber)
+  \begin{split}
+    \extractmc(\vartistc_{a\times b}(\dsectionc^{a\times b}(\dbasepointc)))\restriction_{dfiberc^{c}}\\ = 
+    \extractmc(\vartistc_{a}(\dsectionc^{a}(\dbasepointc_{a})))\restriction_{\dfiber^{c}} = \extractmc(\vartistc_{b}(\dsectionc^{b}(\dbasepointc_{b})))\restriction_{\dfiber^{c}}
+  \end{split}
 \end{equation}
-such that the $\times$ operator can be implemented as a special case of \autoref{eq:artist:plus:output} where $\gbase^a$ is a copy of $\gbase$ associated with $\gsection^a$ and $\gbase^b$ is a copy of $\gbase$ associated with $\gsection^{b}$.
 
-For example, a box plot \cite{wickham40YearsBoxplots2011} typically consists of a rectangle, multiple lines, and scatter points. 
+This expectation of using the same encoding for the same variable is a generalization of the concept of consistency checking of multiple view encodings discussed by Zening and Hullman \cite{hullmanKeeping2018}. This expectation can also be used to check that a multipart glyph is assembled correctly. For example, a box plot \cite{wickham40YearsBoxplots2011} typically consists of a rectangle, multiple lines, and scatter points; therefore a boxplot artist $\vartist_{boxplot} = \vartist_{rect} \times \vartist_{errors} \times \vartist_{line} \times \vartist_{points}$ must be constructed such that all the sub artists draw a graphic at or around the same x value. 
+\note{maybe stripped down box figure}
 
 
 \section{Construction}
