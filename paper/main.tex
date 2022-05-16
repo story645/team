@@ -349,6 +349,7 @@ since transposition is a $(\dfunch, \dfuncpull)$, every data value $x_{\dbasepoi
 $\dfunch(\dbasepoint^{\prime}) = \dbasepoint$
 
 \subsection{Maps Between Spaces}
+\label{sec:atct:xi}
 The data sections defined in \autoref{eq:atct:fb} are sections of sheaves, introduced in \autoref{sec:atct:sheaves}, over open sets $\openset \subseteq \dbase$ in a base space \dbase\ that encodes the topology of the data topology. The graphic sections, defined in \autoref{eq:atct:fb_graphic_section}, are sections of sheaves over open sets $\opensetg \subseteq \gbase$ in a base space \gbase\ that encodes the topology of the graphic. We propose that there exists a continuous \textcolor{functor}{map between topological spaces} \vindexc 
 \begin{equation}
   \label{eq:atct:xi}
@@ -571,7 +572,7 @@ The change in measurements $\dfunctc_{\measure}$ is defined by the developer as 
 \end{figure}
 For example, in \autoref{fig:artist:equivarance}, the measurable variable is color. This is a visual representation of the data shown in \autoref{fig:atct:phi}, and as such the equivariant transformations are an equivalent transposition and scaling of the colors. This visualization is equivariant with respect to base space transformations, as defined in \autoref{eq:atct:equivarance:verify:base}, because the color values at the new position at the old position $measure_\dbasepoint^{\prime} = \measure_{\dbasepoint}$. This visualization is also equivariant with respect to fiber wise transformations, as defined in \autoref{eq:atct:equivarance:verify:fiber}, because the colors are consistently scaled in the same was the data. For example, the values that have become 2 and 4 in the $\dfunctc$ and $\dfunc$ panels are colored the same as the original 2 and 4 values in the first panel. The equivariance in this visualization is composable, as shown in the colors being both transposed and scaled correctly in the $\dfunc$ panel.
 
-\subsection{Artist Operators}\label{sec:artist:operators}
+\subsection{Composing Artists}\label{sec:artist:operators}
 A common use of category theory in software engineering is the specification of modular components \cite{wielsManagementEvolvingSpecifications1998} such that we can build systems where the structure preserved by components is preserved in the composition of the components. This allows us to express that an artist that works on a dataset can be composed of artists that work on sub parts of that dataset. 
 \begin{equation}
   \label{eq:artist:operator}
@@ -637,6 +638,7 @@ One way to verify that these artists are composable is to check that the return 
 
 
 \subsubsection{Multiplication: $\times$}
+\label{sec:artist:operator:multiplication}
 As illustrated in \autoref{eq:artist:operator},  fibers that are a cartesian product of fiberspaces $\dfiber^{a} \times_{\dfiber^c} \dfiber^{b}$, where $\dfiber^c$ is any fiber that is present in both fibers, can be projected down into component fibers. In the trivial case where the base spaces are the same $\dbase^{a} = \dbase^{b} = \dbase$, this is equivalent to adding more fields to a dataset. 
 
 \begin{equation*}
@@ -667,34 +669,66 @@ One way to verify that these artists are composable is to check that they encode
 \end{equation}
 
 This expectation of using the same encoding for the same variable is a generalization of the concept of consistency checking of multiple view encodings discussed by Zening and Hullman \cite{hullmanKeeping2018}. This expectation can also be used to check that a multipart glyph is assembled correctly. For example, a box plot \cite{wickham40YearsBoxplots2011} typically consists of a rectangle, multiple lines, and scatter points; therefore a boxplot artist $\vartist_{boxplot} = \vartist_{rect} \times \vartist_{errors} \times \vartist_{line} \times \vartist_{points}$ must be constructed such that all the sub artists draw a graphic at or around the same x value. 
-\note{maybe stripped down box figure}
 
+\begin{figure}[h!]
+  \label{fig:artist:operator}
+  \includegraphics*[width=1\columnwidth]{qcom.png}
+  \caption{The circle-line glyph can either be considered as composed of two separate shapes, a circle and line, which each have their own graphic base spaces or as a single glyph which has an equivalent graphic base  $\gbase_{circle} \sqcup \gbase_{line} = \gbase_{circle-line}$ }
+\end{figure}
+
+The circle-line glyph in \autoref{fig:artist:operator} can be generated via a line plot and highlighted points in that plot, which is the addition case of two datasets with the same fields and different continuities. The same circle-line glyph can also be generated via the multiplication case as different fields of the same bundle. As mentioned in \autoref{sec:artist:operator:multiplication}, multiplication is implemented as addition of two copies of a base space. Although we have been discussing the trivial cases of adding observations or adding fields, this merging of artists in datasets can be generalized:
+\begin{equation}
+  \vartist(\cgamma{\bigsqcup_{i} \dbase^{i}}{\bigoplus_{i}\dtotalc^{i}}) = \sum_{i}
+  \vartist_{i}(\cgamma{\dbase^{i}}{\dtotal^{i}}) 
+\end{equation} 
+
+As shown in \autoref{eq:artist:operator}, bundles over a union of base spaces can be joined as a product of the fibers. This allows us to consider all the data inputs in a complex visualization as a combined input, where some sections evaluate to null in fields for which there are no values for that point in the combined base space $\dbasepoint \in \bigsqcup_{i} \dbase^{i}$ The combined construction of the data is a method for expressing what each data input has in common with another data input-for example the data for labeling tick marks or legends- 
+and therefore which commonalities need to be preserved in the artists that act on these inputs. 
 
 \section{Construction}
 \label{sec:construction}
-\subsection{Measurable Visual Components}
+\begin{figure}[h!]
+  \label{fig:construction:flow-chart}
+  \includegraphics*[width=1\columnwidth]{path_of_q.png}
+  \caption{One method of constructing the artist is by formulating the artist as having two stages: (1) encoding functions $\vchannelc$ that convert different parts of the input into measurable visual components, such as color or position; (2) compositing functions $\vmarkc$ that assemble the measurable visual components into a visual element generating function. In this construction, we propose an intermediate visual bundle $\vtotalc$ that encodes the space of possible visual encodings.}
+\end{figure}
+We propose that one way of constructing artist functions is to separate generating a visualization, as shown in \autoref{fig:construction:flow-chart}, is into an equivariant continuity preserving encoding stage $\vchannelc$ and a equivariant continuity preserving compositing stage $\vmarkc$. In the \textcolor{artist}{encoding} stage $\vchannelc$, a data bundle is treated as separable fields and each field is mapped to a measurable visual variable. In the encoding stage, the expected visual mappings $\equivb$ can be implemented inside the library. Factoring out the encoding stage leaves the \textcolor{artist}{compositing} stage $\vmarkc$ responsible for faithfully translating those measurable visual components into a visual element.  
 
+\subsection{Measurable Visual Components}
+\label{sec:construction:vtotal}
+As shown in \autoref{fig:construction:flow-chart}, we propose an intermediate visual fiber bundle 
 \begin{equation}
   \vfiberc \hookrightarrow \vtotalc \xrightarrow{\pi} \dbasec
 \end{equation}
-where
+where the space of possible visual encodings is the fiber space $\vfiber$. The space of visual sections which return visual encoding specifications is 
 \begin{equation}
 \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \coloneqq \big\{\vsectionc: \opensetc\rightarrow \vtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\vsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\} 
 \end{equation}
+As shown in \autoref{eq:artist:inout:diagram},  measurable visual components are defined as having the same continuity as the data $\dbase$. This means that every data record $\dsection(\dbasepoint)$ has a corresponding visual section such that $\pi(\dsection(\dbasepoint)) = \pi(\vsection(\dbasepoint))$. 
 
-The bundle $\vtotal$ is structurally equivalent to the bundle $\dtotal$, but allows for separating the data that is input into the artist $\dsection$ from the data internal to the artist $\vsection$. This separation also allows for defining many of the target measurements \measure\ and the equivariant transformations to the measurements as internal components of the artists. 
+Although the bundle $\vtotal$ is structurally equivalent to the bundle $\dtotal$, its existence allows for separating the data that is input into the artist $\dsection$ from the data internal to the artist $\vsection$. This allows a visualization library to define a visual bundle space $\vtotalc$ the holds the internal representation standard for measurable visual components. For example, a visualization library could define a visual color fiber as an RGBA tuple $\vfiber_{color} = \mathbb{R}^{3} \times [0,1]$. This would then set the expectation that arbitrary color encoding functions would need to return an RGBA tuple for the library to recognize the encoding as a color. 
 
-\subsection{$\vindexc: \gbasec \rightarrow \dbasec$}
-We define the functor $\vindex$ such that the data base space \dbase\ is a deformation retraction\cite{nlab:deformation_retract} of the graphic space $\gbase$, meaning that there is a continuous surjective mapping from every point $\dbasepoint\in\dbase$ to a point $\dbasepoint \in dbase$ . To simplify matters, in this paper, we construct the graphic space as a constant multiple of the base space such that 
+\subsection{Defining Maps Between Spaces $\vindex$}
+In \autoref{sec:atct:sheaves}, the functors $\vindex, \vindexpull, \vindexpushc$ are introduced to describe the expected relationship between screen and data base spaces. In the construction of the artist, the functor $\vindex$ is defined such that the data base space \dbase\ is a deformation retraction\cite{nlab:deformation_retract} of the graphic space $\gbase$. This means that there is a continuous surjective mapping from every point $\dbasepoint\in\dbase$ to a point $\dbasepoint \in dbase$. To simplify matters, in this paper, we construct the graphic space as a constant multiple of the base space such that 
 \begin{equation}
   \underbrace{\opensetc\times[0,1]^{n}}_{\opensetgc} \textcolor{functor}{\xmapsto{\hspace{1em}\vindexc\hspace{1em}}} \opensetc 
 \end{equation}
+where n is a thickening of the graphic base space $\gbase$ to account for the dimensionality of the output space
 \begin{equation*}
   n = \begin{cases}
     dim(\gbase) - dim(\dbase) & dim(\dbase)<dim(\gbase)\\
   0 & otherwise
   \end{cases}
 \end{equation*}
+because the data dimensionality $\dbase$ may be too small for a graphic representation.
+
+\begin{figure}[h!]
+  \label{fig:construction:xi}
+  \includegraphics[width=1\columwidth]{deform_retract.png}
+  \caption{The graphic base space $\gbase$ is collapsable to the line $\dbase$ such that every band $(\dbasepoint_i, [0,1])$ on $\gbase$ maps to corresponding point $\dbasepoint_i \in \dbase$ and the band $[0,1]$ determines which pixels are filled in to generate the shape of the line.\note{maybe put in a phantom line plot in s}}
+\end{figure}
+For example, as shown in \autoref{fig:construction:xi}, a line is 1D but is a 2D glyph on a screen; therefore the graphic space $\gbase$ is constructed by multiplying the base space $\dbase$ with an interval $[0,1]$. Because $\gbase$ is collapsible into $\dbase$, every band $(\dbasepoint_i, [0,1])$ corresponds to a point in the base space $\dbasepoint_i \in \dbase$. The first coordinate $\alpha=\dbasepoint_i$ provides a lookup to retrieve the associated visual variables. The second coordinate, which is a point in the interval $\beta=[0,1]$. Together they are a point $\gbasepoint=(\alpha,\beta) \in gbase$ in the graphic base space. This point $\gbasepoint$ is the input into the graphic section $\gsection(\gbasepoint)$ that is used to determine which pixels are colored, which in turn determines the thickness, texture, and color of the line. 
+
 
 \subsection{Transforming Data into Measurable Components}
 The transformation $\vchannel$ is a map from data sections to graphic sections
