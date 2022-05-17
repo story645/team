@@ -167,7 +167,7 @@ Fiber bundles are a mathematical structure that can be use to encode the topolog
 \subsection{Equivariance}
 
 
-\section{Data And Visualizations}
+\section{Formally Describing Structure}
 \label{sec:atct}
 A goal of this work is to develop guidelines for building composable structure preserving functions for translating data into visual representations. Concepts in algebraic topology and category theory provide a language for formally expressing the structure that these visualizations are expected to preserve. Fiber bundles and sheaves, which come from algebraic topolology, provide a uniform generalizable way to describe data and visualization. Category theory is a method to describe how objects are specified, constrained, and composed \cite{wielsManagementEvolvingSpecifications1998}\; therefore in this work we propose categorical constructions of visualization components as specifications for implementable components.
 
@@ -466,7 +466,7 @@ take as input the same object \opensetc\ and return sets of data and graphic sec
     \opensetc_{2} \arrow[uu, "\iota", hook, color=base] & \cgamma{\opensetc_{2}}{\dtotalc\restruction_{\opensetc_2}} \arrow[rr, "\vartistc_{\opensetc_2}", color=artist]                        &  & \cgamma{\opensetc_{2}}{\vindexpushc\gtotalc\restruction_{\opensetc_2}}                      
     \end{tikzcd}
 \end{equation}
- The diagram in \autoref{eq:artist:natural_transform} shows that restricting a set of outputs of an artist to a set of graphic sections over a subspace is equivalent to restricting the inputs to data sections over the same subspace. By construction, the artist preserves the bookkeeping provided through the use of sheaves and transport functors. Specifically, the artist always takes as input a section over a data subspace and returns a section over the corresponding graphic subspace. Since these are sections of sheaves, they must be implemented such that they satisfy the sheaf axioms (\autoref{def:atct:sheaf:gluing}, \autoref{def:atct:sheaf:locality}) and therefore can be glued together and seperated as needed. 
+ The diagram in \autoref{eq:artist:natural_transform} shows that restricting a set of outputs of an artist to a set of graphic sections over a subspace is equivalent to restricting the inputs to data sections over the same subspace. By construction, the artist is expected to preserve the sheaf axioms of locality and gluing (\autoref{def:atct:sheaf:gluing}, \autoref{def:atct:sheaf:locality}). This bookkeeping is necessary for any visualization technique that selectively acts on different pieces of a data set; for example panning and zooming \cite{NekrasovskiEvaluationPanZoom2006} and streaming and animated visualizations.
 
 The output of an artist \vartist\ is a restricted subset of graphic sections
 \begin{equation}
