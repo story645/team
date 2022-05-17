@@ -149,24 +149,36 @@ The abstract goes here.
 
 \IEEEPARstart{T}
 
+\note{Functionl, Types, What is viz library architecture}
 \section{Related Work}
+Many visualization researchers have discussed structure preservation in a visualization context. In this work, we build on and generalize the notion that the structure of a dataset can be described as a combination of the topological properties of the dataset and the mathematical structure of the dataset fields.
 
 \subsection{Topology}
-The topological properties of visualization data are , as described by Wilkenson\cite{wilkinsonGrammarGraphics2005}. 
+\label{sec:related-work:continuity}
+\begin{figure}[h!]
+  \label{fig:related-work:continuity:ktypes}
+  \includegraphics[width=1\columnwidth]{k_different_types.png}
+  \caption{A topological representation of the data (in purple) is a simplified representation of how the records in a dataset are connected. Discrete rows of a table are discrete points, a 1D continuous function is evaluated on a 1D continuous interval, and a map is 2D continuous surface. }
+\end{figure}
+The topological properties of a dataset are the ways in which elements are organized, as described by Wilkenson\cite{wilkinsonGrammarGraphics2005}. Some examples, as shown in \autoref{fig:related-work:continuity:ktypes} are discrete rows of a table, a continuous 1D line, or a surface. The topological space (in purple) and the data form a key-value pair, as described by Munzner \cite{munznerVisualizationAnalysisDesign2014}. She imbues semantic meaning to the topology, wherein the key is an independent attribute used as a look up key to retrieve the value in the dataset. She defines the value as a dependent attribute. In this work we use a more general notion of the topological space as an indexing space for the data records. For example the data record in the yellow row in \autoref{fig:related-work:continuity:ktypes} can be expressed as a constant function of the yellow dot; A point on the green line is mapped to by evaluating the gaussian on a point on the interval; and each pixel in the map can be found via a lookup on the 2D surface. This general formulation of topology gives us a language for expressing the continuity of a dataset. 
 
 \begin{figure}[h!]
+  \label{fig:related-work:continuity:borked}
   \includegraphics[width=1\columnwidth]{continuity.png}
 \end{figure}
-Visualization libraries designed around continuity,  
-Visualization library algorithms assume 
+The continuity matters to visualization libraries because visual algorithms, such as a the line plot and image plot in \autoref{fig:related-work:continuity:borked}, assume that the continuity of their data, as described in taxonomies of visualization algorithms by Troy, M\"{o}ller, and Chi \cite{toryRethinkingVisualizationHighlevel2004,chiTaxonomyVisualizationTechniques2000}. In \autoref{fig:related-work:continuity:borked}, both algorithms are fed the same input matrix. The line plot assumes this matrix is a list of lines and plots it as such. The image map assumes that the data is an image and plots it as such. Neither function has a way of asking the matrix what it is, nor does the matrix encode information about the continuity of the data it contains. While this work is not about choosing the right visualization type for the given continuity, the ability to encode the continuity expectations in the visual algorithm and the data container would provide a way of ensuring that the assumptions match. 
 
-\begin{figure}[h!]
-  \includegraphics[width=1\columnwidth]{k_different_types.png}
-\end{figure}
-Fiber bundles are a mathematical structure that can be use to encode the topological properties of visualization data, as proposed by Butler\cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989}. Broadly, fiber bundles
+Current visualization libraries handle continuity in two main ways. Libraries that provide "building block" \cite{wongsuphasawatNavigatingWideWorld2021} components for building new visual algorithms embed their assumptions in their algorithms. This flexibility allows libraries such as matplotlib\cite{hunterMatplotlib2DGraphics2007}, VTK\cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012}, and D3\cite{bostockDataDrivenDocuments2011} to support a wide variety of data types, but at the cost of the ambiguity of \autoref{fig:related-work:continuity:borked}. These libraries can also have visual algorithms with  parameters that are tuned to the expected data in a way that leaves the over all library feeling uncohesive. On the other hand, domain specific libraries are designed with the assumption of continuities that are common in the domain \cite{HeerSoftware2006}. Tabular data is a very common data topology and is assumed by 
+A Presentation Tool\cite{mackinlayAutomatingDesignGraphical1986, mackinlayAutomatingDesignGraphical1986} and grammar of graphics\cite{wilkinsonGrammarGraphics2005} and the ggplot\cite{wickhamGgplot2ElegantGraphics2016a}, vega\cite{satyanarayanDeclarativeInteractionDesign2014}, and altair\cite{vanderplasAltairInteractiveStatistical2018} libraries built on these frameworks. Image libraries such as Napari\cite{nicholas_sofroniew_2021_4533308} and ImageJ\cite{schneiderNIHImageImageJ2012} and its humanaties data ImagePlot\cite{studiesCulturevisImageplot2021} plugin assumed that the input is 2D continuous. Networking libraries such as gephi\cite{bastianGephiOpenSource2009} and networkx\cite{HagbergExploringNetwork2008} assume a graph like structure. These libraries tend to benefit from more cohesive apis, but at the cost of a much more limited set of visualization algorithms than the building block libraries. 
+
+To bridge the need for flexibility and cohesiveness, we build on the proposal of fiber bundles as a general abstraction model for visualization data, as proposed by Butler\cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989}. Fiber bundles are a mathematical structure that can be used to encode the topological properties of visualization data. There is also a methodology for encoding field types in fiber bundles, as described in Spivak's description of tables as fiber bundles\cite{spivakSIMPLICIALDATABASES}. Fiber bundles are discussed in more detail in \autoref{sec:atct:fiber-bundles}, but broadly they provide a mathematical representation of data that can encode topological properties, field types, and data values in a way that is both uniform and continuity and dimension independent way. 
 
 \subsection{Equivariance}
+Equivariant maps are functions where variations in the input match variations in the output. The expectation that visualizations are equivariant maps from data to visual representation was first formalized by Bertin \cite{bertinSemiologyGraphicsDiagrams2011a}. He classified datasets into point, line, and surface topologies and proposed that these datasets should be represented by visual elements with the same sort of topology - points should be represented by discrete entities, lines by lines, and surfaces through area marks. Bertin also codified the idea that visual encoding of a data field should match the structure of the field; for example ordered data should be encoded as an ordered visual element or quantitative data as a quantitative visual element. This structure mapping is necessary to ensure that the visual representations in graphs are not distorting the data\cite{tufteVisualDisplayQuantitative2001} and graphs are easier to understand when properties match \cite{norman_things_smart}.
 
+The expectation of matching structure is generalized as a mapping of a binary operator that acts on the data domain to a binary operator that acts on the graphic domain by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987} An invertible binary operator is the basis of Kindlemannn and Scheideggers's algebraic model of visualization\cite{kindlmannAlgebraicProcessVisualization2014}. They propose three specific types of equivariance: that the visualization should not change if the data representation (i.e. the data container) changes, that changing the data should change the visualization in the same way in a perceptually significant manner. While the data representation introduced in \autoref{sec:atct:io} dispenses with a distinction between containers and the data, the definition of equivariance introduced in  \autoref{sec:artist:equivariance} includes invariant transformations and visually measurable transformations. 
+
+Visualization libraries are in part measured by how expressive the components of the library are; expressiveness is a measure of which structure preserving mappings a tool can implement \cite{mackinlayAutomaticDesignGraphical1987}. While some visualization tools aim to automate the pairing of data with structure preserving automated tool, such as Tableau\cite{StoltePolaris2002,hanrahanVizQL2006,MackinlayShowme2007}, many visualization libraries leave that choice to the user. Some libraries, such as Matplotlib, set default encoders for their visual algorithms and allow the user to change the default. In this work, we propose guidelines for building expressive structure informed data to visual transformers. As with visual algorithms, we aim to provide a way to check that the structure of the data matches the structure expected by the component. Doing so allows users to more easily develop equivariant visual algorithms.
 
 \section{IO: Data, Graphic}
 \label{sec:atct}
@@ -883,20 +895,22 @@ As shown in \autoref{eq:atct:sheaves:homset}, if a sheaf is equipped with transp
 The diagram in \autoref{eq:construction:artist:path} illustrates how a developer can connect transformations over data space, denoted with a subset $\dbase$, with transformations over graphic space $\gbase$, using $\vindexpushc$ and $\vindexpullc$ adaptors. This allows developers to for example connect transformers that transform data on a line to a color in dataspace, but build a line compositing function that dynamically resamples what is on screen in graphic space.
 
 \section{Discussion: Implementing The Math}
-he framework specified in \autoref{sec:artist} and \autoref{sec:construction} describes how to build structure preserving visualization components, but it is left to the library developer to follow these guidelines when building and reusing components. 
-In this section, we introduce a toy example of building an artist out of the components introduced in \autoref{sec:construction} to illustrate how components that adhere to these specifications are maintainable, extendible, scalable, and support concurrency. Specially, we introduce artists for building different types of bar graphs because it is a visualization type that allows us to demonstrate  composability and multivariate data encoding. We build our visualization components by extending the Python visualization library Matplotlib's artist\footnote{Matplotlib artists are our artist's namesake}\cite{hunterMatplotlib2DGraphics2007,hunterArchitectureOpenSource} to show that components using this model can be incorporated into existing visualization libraries iteratively. While the architecture specified in \autoref{sec:construction} can be implemented fully functionally, we make use of objects to keep track of parameters passed into artists. 
+The framework specified in \autoref{sec:artist} and \autoref{sec:construction} describes how to build structure preserving visualization components, but it is left to the library developer to follow these guidelines when building and reusing components. 
+In this section, we introduce a toy example of building an artist out of the components introduced in \autoref{sec:construction} to illustrate how components that adhere to these specifications are maintainable, extendible, scalable, and support concurrency. Specially, we introduce artists for building different types of bar graphs because it is a visualization type that allows us to demonstrate composability and multivariate data encoding. We build our visualization components by extending the Python visualization library Matplotlib's artist\footnote{Matplotlib artists are our artist's namesake}\cite{hunterMatplotlib2DGraphics2007,hunterArchitectureOpenSource} to show that components using this model can be incorporated into existing visualization libraries iteratively. While the architecture specified in \autoref{sec:construction} can be implemented fully functionally, we make use of objects to keep track of parameters passed into artists. In this toy example, the small composable components allow for more easily verifying that each component does its transformation correctly before assembling them into larger systems.  
 
-We construct a toy dataset with a discrete $\dbase$ of 4 points and a fiber space of $\dfiber=\{apple,\, orange,\, lemon\}\times \mathbb{Z}^{+} \times \{\texttt{True}, \texttt{False}\}$. 
+
 \begin{table}[h!]
+  \label{tab:discussion:data}
+  \centering
 \begin{tabular}{|llrl|}
   \hline \\
   &   fruit &  calories &  juice \\
-  \hline
+
   &   apple &        95 &   True \\ &  orange &        67 &   True \\ &   lemon &        17 &  False \\ &    lime &        20 &  False \\
   \hline
 \end{tabular}
 \end{table}
-that we thinly wrap so that the common data interface function is that $\tau = \ttexttt{DataContainerObject.query}$. 
+We construct a toy dataset with a discrete $\dbase$ of 4 points and a fiber space of $\dfiber=\{apple,\, orange,\, lemon\}\times \mathbb{Z}^{+} \times \{\texttt{True}, \texttt{False}\}$. We thinly wrap \autoref{tab:discussion:data} in an object so that the common data interface function is that $\tau = \ttexttt{DataContainerObject.query}$. 
 \begin{minted}{python}
   class FruitFrameWrapper:
     def query(self, data_bounds, sampling_rate):
@@ -905,9 +919,9 @@ that we thinly wrap so that the common data interface function is that $\tau = \
       return local_sections
 \end{minted}
 
-This interface provides a uniform way of  accessing subsets of the data, which are local sections. Because it is more efficient to work with the data in column order, we often treat the data as a collection of single fiber bundles. This is equivalent to the total bundle, as shown in \autoref{eq:artist:operator}. 
+This interface provides a uniform way of accessing subsets of the data, which are local sections. The motivation for a common data interface is that it would allow the artist to talk to different common python data containers, such as numpy\cite{harris2020array}, pandas\cite{jeff_reback_2020_3715232}, xarray \cite{hoyer2017xarray}, and networkx\cite{HagbergExploringNetwork2008}. Currently, data stored in these containers must be unpacked and converted into arrays and matrices in ways that either destroy or recreate the structure encoded in the container. For example a pandas data frame must be unpacked into its columns before it is sent into most artists and continuity is implicit in the columns being the same length rather than a tracked base space $\dbase$.
 
-To encode the values in the dataset, we enforce equivariance by writing $\vchannel$ encoders that match the structure of our dataset. For example, the fruit column is a nominal measurement scale. Therefore we implement a position encoder that respects permutation $\dfunch$ transformations. The most simple form of this $\vchannel$ is a python dictionary that returns an integer position, because Matplotlib's internal parameter space expects a numerical position type. 
+Because it is more efficient to work with the data in column order, we often treat the data as a collection of single fiber bundles. This is equivalent to the total bundle, as shown in \autoref{eq:artist:operator}. To encode the values in the dataset, we enforce equivariance by writing $\vchannel$ encoders that match the structure of the fields in the dataset. For example, the fruit column is a nominal measurement scale. Therefore we implement a position encoder that respects permutation $\dfunch$ transformations. The most simple form of this $\vchannel$ is a python dictionary that returns an integer position, because Matplotlib's internal parameter space expects a numerical position type. 
 \begin{minted}{python}
   def position_encoder(val):
     return {'apple': 0, 'orange': 2, 'lemon': 4, 'lime': 6}[val]
@@ -918,7 +932,7 @@ def composite_x_transform(ax, nu):
     return lambda x: ax.transData.transform(
             (position_encoder(x), 0))[0]
 \end{minted}
-This encoder returns a function that is \texttt{transData.transform} $\vchannel_{transData}$ composed with the position encoder $\vchannel_{position}$ and takes as input a record to be encoded. As with the position encoder, the transData encoder respects permutation transforms because it returns reals; therefore the composite encoder respects permutation transforms. In this model, developers implement $\vchannel$ encoders that are explicit about which $\dfunc_{\vtotal}$ they support. Writing semantically correct encoders is also the responsiblity of the developer and is not addressed in the model. For example \mintinline{python}{fruit_encoder = lamda x: {'apple': green, 'orange':'yellow', 'lemon':'red', 'lime':'orange'}} is a valid color encoding with respect to permutation, but none of those colors are intuitive to the data. It is therefore left to the user, or domain specific library developer, to choose $\vchannel$ encoders that are appropriate for their data.
+This encoder returns a function that is \texttt{transData.transform} $\vchannel_{transData}$ composed with the position encoder $\vchannel_{position}$ and takes as input a record to be encoded. As with the position encoder, the transData encoder respects permutation transforms because it returns reals; therefore the composite encoder respects permutation transforms. In this model, developers implement $\vchannel$ encoders that are explicit about which $\dfunc_{\vtotal}$ they support. Writing semantically correct encoders is also the responsibility of the developer and is not addressed in the model. For example \mintinline{python}{fruit_encoder = lamda x: {'apple': green, 'orange':'yellow', 'lemon':'red', 'lime':'orange'}} is a valid color encoding with respect to permutation, but none of those colors are intuitive to the data. It is therefore left to the user, or domain specific library developer, to choose $\vchannel$ encoders that are appropriate for their data.
 
 After converting each record into an intermediate visual component $\vsection$, the set of visual records is passed into $\vmarkc$. Here the $\vmarkc$ includes one last encoder, as illustrated in \autoref{eq:construction:q:fabrication}, that assembles the independent visual components into a rectangle. This $\vchannel$ is inside the $\vmarkc$ to hide that library preferred format from the user. It is called \texttt{qhat} to indicate that this is the $\vartist^{\dbase}$ path in \autoref{eq:construction:artist:path}.  This means that the parameters are constructed in data space $\dbase$ and this function returns a pushed forward $\vindexpush\gsection$. 
 
@@ -938,7 +952,7 @@ The function \texttt{fake\_draw} is the analog of $\vindexpush\gsection$. This f
 
 The $\vchannel$ and $\vmark$ are wrapped in a container object that stores the $\vartist = \vmark \circ \vchannel$ composition and a method for computing the $\vsectionc$.
 \begin{minted}{python}
-  class Bar(Rho): 
+  class Bar: 
     def compose_with_nu(self, pfield, ffield, 
           nu, nu_inv:):
         # returns a new copy of the Bar artist 
@@ -947,7 +961,7 @@ The $\vchannel$ and $\vmark$ are wrapped in a container object that stores the $
         # visual (P) field value
         return new
 
-    def mu(self, tau_local): #draw
+    def nu(self, tau_local): #draw
        # uses the stored nus to convert data
        # stored nus have F->P field info
       return mus
@@ -998,11 +1012,6 @@ def qhat(length, width, position, floor, facecolor, edgecolor, linewidth, linest
 This composition is equivalent to $\vmark_{barh} = \vmark_{bar} \circ \vchannel_{vtoh}$, which is an example of \autoref{eq:construction:q:fabrication}. These functions can be further added together, as described in \autoref{sec:artist:operators} to build more complex visualizations. 
 
 The example in this section is intentionally trivial to illustrate that the math to code translation is fairly straightforward and results in fairly self contained composable functions. Further research could investigate building new systems using this model, specifically libraries for visualizing domain specific structured data and domain specific artists. More research could also explore applying this model to visualizing high dimensional data, particularly building artists that take as input distributed data and artists that are concurrent. Developing complex systems could also be an avenue to codify how interactive techniques are expressed in this framework.
-
-
-
-
-
 
 
 \section{Conclusion}
