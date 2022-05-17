@@ -243,7 +243,7 @@ By definition, each object in a category has an identity morphism and morphisms 
   The fiber category $\mathcal{\dfiberc}$ is a monoidal category, meaning the category has a single object $\dfiberc$ of an arbitrary type. The morphisms on the fiber object are $\dfunctc \in Hom(\dfiberc, \dfiberc)$. 
 \end{definition}
 
-The fiber category is equipped with a bifunctor $\otimes: \mathcal{\dfiber} \times {\dfiber}$. The bifunctor provides a method for combining fibers, thereby allowing for fields that contain multityped values. For example, RGB color can either be represented as three fiber fields $\dfiber_{red}, \dfiber_{green}, \dfiber_{blue}$ or a composite fiber field $\dfiber_{red} \otimes \dfiber_{green} \otimes \dfiber_{blue} = \dfiber_{RGB}$.
+The fiber category is equipped with a bifunctor $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$. The bifunctor provides a method for combining fibers, thereby allowing for fields that contain multityped values. For example, RGB color can either be represented as three fiber fields $\dfiber_{red}, \dfiber_{green}, \dfiber_{blue}$ or a composite fiber field $\dfiber_{red} \otimes \dfiber_{green} \otimes \dfiber_{blue} = \dfiber_{RGB}$.
 
 \subsection{Sheaves}
 \label{sec:atct:sheaves}
@@ -283,9 +283,9 @@ This means that two sections in a sheaf are equal when they evaluate to the same
 \label{def:atct:sheaf:gluing}
 The gluing axiom is that given $\dsectionc^{i} \in \sheafc(\opensetc_i)$ such that ${\dsectionc^{i}}\restriction_{\opensetc_i\cap \opensetc_j} = {\dsectionc^{j}}\restriction_{\opensetc_i \cap \opensetc_j}$ for $\opensetc_i, \opensetc_j \in \mathscr{\opensetc}$, there exists $\dsectionc \in \sheafc(\mathscr{\opensetc})$ such that $\dsectionc\restriction_{\opensetc_i} = {\dsectionc^{i}}$. 
 \end{definition}
-This means we can construct a section $\dsection$ on the collection of open sets that is the union of sections defined on specific open sets. This expresses an equivalency between a concatenated representation of data and the distributed representation of the same data. In this model, we represent data and graphics as a sheaf; doing so allows us to express that data sources are expected to have the bookkeeping that a sheaf requires, meaning inclusions, restrictions, locality, and gluing must be preserved. 
+This means we can construct a section $\dsection$ on the collection of open sets that is the union of sections defined on specific open sets. This expresses an equivalency between a concatenated representation of data and the distributed representation of the same data. In this model, we represent data and graphics as a sheaf; doing so allows us to express that data sources are expected to implement the bookkeeping that a sheaf requires, meaning inclusions, restrictions, locality, and gluing must be preserved. 
 
-\subsubsection{Structure on Data}
+\subsubsection{Structure}
 \label{sec:atct:sheaves:measurments}
 We define structure on data as the allowable \textcolor{action}{transformations on the bundle}, which we formalize as actions $\dfuncc$ on sections of that sheaf. Our construction of $\dfunc$ is a generalization of the classification of measurement scales by their mathematical structure \cite{stevensTheoryScalesMeasurement1946,leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}, which often serves as the basis of the equivariance described in \autoref{sec:related-work:equivariance}.
 
@@ -466,7 +466,7 @@ take as input the same object \opensetc\ and return sets of data and graphic sec
     \opensetc_{2} \arrow[uu, "\iota", hook, color=base] & \cgamma{\opensetc_{2}}{\dtotalc\restruction_{\opensetc_2}} \arrow[rr, "\vartistc_{\opensetc_2}", color=artist]                        &  & \cgamma{\opensetc_{2}}{\vindexpushc\gtotalc\restruction_{\opensetc_2}}                      
     \end{tikzcd}
 \end{equation}
- The diagram in \autoref{eq:artist:natural_transform} shows that restricting a set of outputs of an artist to a set of graphic sections over a subspace is equivalent to restricting the inputs to data sections over the same subspace. Since the input and output of the artist is always sections over the same subspace, this is why the by construction the artist preserves the bookkeeping provided through the use of sheaves. 
+ The diagram in \autoref{eq:artist:natural_transform} shows that restricting a set of outputs of an artist to a set of graphic sections over a subspace is equivalent to restricting the inputs to data sections over the same subspace. By construction, the artist preserves the bookkeeping provided through the use of sheaves and transport functors. Specifically, the artist always takes as input a section over a data subspace and returns a section over the corresponding graphic subspace. Since these are sections of sheaves, they must be implemented such that they satisfy the sheaf axioms (\autoref{def:atct:sheaf:gluing}, \autoref{def:atct:sheaf:locality}) and therefore can be glued together and seperated as needed. 
 
 The output of an artist \vartist\ is a restricted subset of graphic sections
 \begin{equation}
@@ -526,26 +526,26 @@ It is difficult to formally define or implement $\dfunch_{\gtotal}$ because the 
 \begin{equation}
   \label{eq:artist:inout:diagram}
   \begin{tikzcd}[row sep=huge]
-    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+    \cgamma{\dbasec}{\dtotalc} 
     \arrow[rr, "\vartistc", color=artist] 
     \arrow[d, "\equivc"', color=monoid] &  & 
-    \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+    \imartist{\gbasec}{\gtotalc} 
     \arrow[d, "render"] 
     \arrow[lld, "\extractmc"', color=monoid, dashed] \\
-    {\textcolor{set}{Hom}(\opensetc, \measurec)}  &  & visualization 
+    {\textcolor{set}{Hom}(\dbasec, \measurec)}  &  & visualization 
     \arrow[ll, "measure",]
     \end{tikzcd}
 \end{equation}
 so instead we introduce a measurement extraction function $\extractm = measure\circ render$ that decomposes the rendered output into measurable components and returns a map from the data index into the measurement space
 \begin{equation}
   \label{eq:artist:actual}
-  \extractmc:\gsectionc \mapsto (\opensetc \xrightarrow{\extractmc_{\gsectionc}} \measurec)
+  \extractmc: (\gsectionc \circ \vindexpre) \mapsto (\dbasec \xrightarrow{\extractmc_{\gsectionc}} \measurec)
 \end{equation}
-such that $\extractmc_{\gsectionc}(\dbasepoint)$ returns a quantification of the measurable components $\measurec_{\dbasepointc}$ of the visual element generated for the data at that point $\gsectionc|_{\vindexprec(\dbasepointc)}$. 
+such that $\extractmc_{\gsectionc}(\dbasepoint)$ returns a quantification of the measurable components $\measurec_{\dbasepointc}$ of the visual element generated for the data at that point $\gsectionc|_{\vindexprec(\dbasepointc)}$. As shown in \autoref{eq:artist:actual}, the function $\extractmc$ takes in $\gsectionc$ and must evaluate the graphic section on all the graphic space associated with a point $\vindexpre\restriction_{\dbasepoint}$. This is because the measurable aspects, such as thickness or marker shape, refer to the entire visual element for that data point and as such can only be computed on the whole element.  
 
 We also introduce a function \equivc\ that maps data to the measurement space directly 
 \begin{equation}
-\equivc: \dsectionc \mapsto (\opensetc \xrightarrow{\equivc_{\dsectionc}} \measurec)
+\equivc: \dsectionc \mapsto (\dbase \xrightarrow{\equivc_{\dsectionc}} \measurec)
 \end{equation}
 such that $\equivc_{\dsection}(\dbasepointc)$ is the expected set of measurements $\measure_{\dbasepoint}$. The pair of \textcolor{monoid}{verification functions} (\equivc, \extractmc) can be used to test that the expected encoding $\equivb_{\dsection}$ of the data matches the actual encoding $\extractm_{\gsection}$ 
 \begin{equation}
@@ -556,7 +556,7 @@ such that $\equivc_{\dsection}(\dbasepointc)$ is the expected set of measurement
 An artist is equivariant when changes to expected and actual are equivariant. As introduced in \autoref{eq:atct:morphism:base}, the base space transformation \dfunch\ is invariant because $\dsection\restriction_{\openset} = \dsection\restriction_{\dfunch(\openset^{\prime})}$. This means that, for all points in the data $\dbasepoint \in \dbase$, the measurement should not change if only the base space is transformed 
 \begin{equation}
   \label{eq:atct:equivarance:verify:base}
-  \equivc(\vartistc(\dsectionc))(\dfunch(\dbasepointc^{\prime})) = \extractmc(\vartistc(\dsectionc))(\dbasepointc)
+  \equivc(\dsectionc)(\dfunch(\dbasepointc^{\prime})) = \extractmc(\vartistc(\dsectionc))(\dbasepointc)
 \end{equation}
 On the other hand, a change in sections \autoref{eq:atct:morphism:fiber} induces an equivalent change in measurements
 \begin{equation}
@@ -628,8 +628,8 @@ One way to verify that these artists are composable is to check that the return 
 \begin{equation}
   \label{eq:artist:plus:verify}
   \begin{split}
-  \vartistc_{a+b}(\dsectionc^{a+b}(\dbasepointc_{a})) \\ 
-  = \vartistc_{a}(\dsectionc^{a}(\dbasepointc_{a})) = \vartistc_{b}(\dsectionc^{b}(\dbasepointc_{b}))
+  &\vartistc_{a+b}(\dsectionc^{a+b}(\dbasepointc_{a})) \\ 
+  & = \vartistc_{a}(\dsectionc^{a}(\dbasepointc_{a})) = \vartistc_{b}(\dsectionc^{b}(\dbasepointc_{b}))
   \end{split}
 \end{equation}
  for all $\dbasepointc_{a}, \dbasepointc_{b} \in \dbasec_{a}\bigsqcup\limits_{\dbasec_{c}} \dbasec_{b}$  
@@ -663,8 +663,9 @@ One way to verify that these artists are composable is to check that they encode
 
 \begin{equation}
   \begin{split}
-    \extractmc(\vartistc_{a\times b}(\dsectionc^{a\times b}(\dbasepointc)))\restriction_{dfiberc^{c}}\\ = 
-    \extractmc(\vartistc_{a}(\dsectionc^{a}(\dbasepointc_{a})))\restriction_{\dfiber^{c}} = \extractmc(\vartistc_{b}(\dsectionc^{b}(\dbasepointc_{b})))\restriction_{\dfiber^{c}}
+    &\extractmc(\vartistc_{a\times b}(\dsectionc^{a\times b}(\dbasepointc)))\restriction_{\dfiberc^{c}}\\ 
+    &= 
+    \extractmc(\vartistc_{a}(\dsectionc^{a}(\dbasepointc_{a})))\restriction_{\dfiberc^{c}} = \extractmc(\vartistc_{b}(\dsectionc^{b}(\dbasepointc_{b})))\restriction_{\dfiberc^{c}}
   \end{split}
 \end{equation}
 
@@ -678,8 +679,8 @@ This expectation of using the same encoding for the same variable is a generaliz
 
 The circle-line glyph in \autoref{fig:artist:operator} can be generated via a line plot and highlighted points in that plot, which is the addition case of two datasets with the same fields and different continuities. The same circle-line glyph can also be generated via the multiplication case as different fields of the same bundle. As mentioned in \autoref{sec:artist:operator:multiplication}, multiplication is implemented as addition of two copies of a base space. Although we have been discussing the trivial cases of adding observations or adding fields, this merging of artists in datasets can be generalized:
 \begin{equation}
-  \vartist(\cgamma{\bigsqcup_{i} \dbase^{i}}{\bigoplus_{i}\dtotalc^{i}}) = \sum_{i}
-  \vartist_{i}(\cgamma{\dbase^{i}}{\dtotal^{i}}) 
+  \vartistc(\cgamma{\bigsqcup_{i} \dbasec^{i}}{\bigoplus_{i}\dtotalc^{i}}) \coloneqq \sum_{i}
+  \vartisct_{i}(\cgamma{\dbasec^{i}}{\dtotalc^{i}}) 
 \end{equation} 
 
 As shown in \autoref{eq:artist:operator}, bundles over a union of base spaces can be joined as a product of the fibers. This allows us to consider all the data inputs in a complex visualization as a combined input, where some sections evaluate to null in fields for which there are no values for that point in the combined base space $\dbasepoint \in \bigsqcup_{i} \dbase^{i}$ The combined construction of the data is a method for expressing what each data input has in common with another data input-for example the data for labeling tick marks or legends- 
@@ -724,25 +725,26 @@ because the data dimensionality $\dbase$ may be too small for a graphic represen
 
 \begin{figure}[h!]
   \label{fig:construction:xi}
-  \includegraphics[width=1\columwidth]{deform_retract.png}
+  \includegraphics[width=1\columnwidth]{deform_retract.png}
   \caption{The graphic base space $\gbase$ is collapsable to the line $\dbase$ such that every band $(\dbasepoint_i, [0,1])$ on $\gbase$ maps to corresponding point $\dbasepoint_i \in \dbase$ and the band $[0,1]$ determines which pixels are filled in to generate the shape of the line.\note{maybe put in a phantom line plot in s}}
 \end{figure}
 For example, as shown in \autoref{fig:construction:xi}, a line is 1D but is a 2D glyph on a screen; therefore the graphic space $\gbase$ is constructed by multiplying the base space $\dbase$ with an interval $[0,1]$. Because $\gbase$ is collapsible into $\dbase$, every band $(\dbasepoint_i, [0,1])$ corresponds to a point in the base space $\dbasepoint_i \in \dbase$. The first coordinate $\alpha=\dbasepoint_i$ provides a lookup to retrieve the associated visual variables. The second coordinate, which is a point in the interval $\beta=[0,1]$. Together they are a point $\gbasepoint=(\alpha,\beta) \in gbase$ in the graphic base space. This point $\gbasepoint$ is the input into the graphic section $\gsection(\gbasepoint)$ that is used to determine which pixels are colored, which in turn determines the thickness, texture, and color of the line. 
 
 
-\subsection{Transforming Data into Measurable Components}
-The transformation $\vchannel$ is a map from data sections to graphic sections
+\subsection{Encode Data as Measurable Components}
+\label{sec:construction:nu}
+As introduced in \autoref{fig:construction:flow-chart}, the encoding function $\vchannel$ is a map from data sections to graphic sections
 \begin{equation}
 \nu: \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \rightarrow \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}}
 \end{equation}
-such that the sections project to the same point on the base space $\pi(\dtotal) = \pi(\vchannel(\dtotal))$. As with artists, $\vchannel$ are maps of sections such that the composition operators defined in \autoref{sec:artist:composition} can also act on transformers $\vchannel$. 
-
-A consequence of $\pi(\dtotal) = \pi(\vchannel(\dtotal))$ is that $\vchannelc$ can be constructed as a pointwise transformation such that  
+such that the sections project to the same point on the base space $\pi(\dtotal) = \pi(\vchannel(\dtotal))$. A consequence of this property is that $\vchannelc$ can be constructed as a pointwise transformation such that  
 \begin{equation}
   \label{eq:constrution:nu}
   \vchannelc: \dfiberc_{\dbasepointc} \rightarrow \vfiberc_{\dbasepoint}
 \end{equation}
-which means that means that a point in a single data fiber $\delement \in \dfiber_{\dbasepointc}$ can be mapped into a corresponding point in a visual fiber $\velement \in \vfiber_{\dbasepointc}$. Since $\vchannel$ can be constructed as a pointwise function property, we can construct $\vchannelc$ functions 
+which means that means that a point in a single data fiber $\delement \in \dfiber_{\dbasepointc}$ can be mapped into a corresponding point in a visual fiber $\velement \in \vfiber_{\dbasepointc}$. This means that an encoding function $\vchannel$ can convert a single record and may not need the whole dataset. 
+
+The difference between $\dtotal$ and $\vtotal$ are semantic rather than structural; they are both maps from the topological space \dbase\ to sets of functions that return records of values. This means any $\vtotal$ can be redefined as $\dtotal$, 
 \begin{equation}
   \label{eq:construction:nu:fabrication}
   \begin{tikzcd}[col sep=Huge]
@@ -754,18 +756,13 @@ which means that means that a point in a single data fiber $\delement \in \dfibe
     \vfiberc^{\prime}_{\dbasepointc}
   \end{tikzcd}
 \end{equation}
-such that any new $\vchannel$ can be constructed as a composition of two or more $\vchannel$s. 
+which means that, as shown in \autoref{eq:construction:nu:fabrication}, any collection of $\vchannel$ functions can be composed such that they are equivalent to a $\vchannel$ that directly converts the input to the output. This means that a developer has the flexibility to implement either the direct convertor or the building block version (or both) depending on other library concerns. As with artists, $\vchannel$ are maps of sections such that the composition operators defined in \autoref{sec:artist:composition} can also act on transformers $\vchannel$, meaning that encoders can be added and multiplied. 
 
-\subsubsection{Transformer Equivariance}
-
-A pair of transformations $(\vchannel, \vchannel^{\prime})$ are equivariant if 
+\subsubsection{Encoder Verification}
+\label{sec:construction:nu:verification}
+A  motivation for constructing an artist with an encoder stage $\vchannel$ is so that the conversion from data to measurable component can be tested separately from the assembly of components into a glyph. 
 \begin{equation}
-  \dfunct_{\vtotal} \vchannel(\dsection(\dbasepoint)) = \vchannel(\dfunct_{\dtotal}(\dsection(\dbasepoint)))
-\end{equation}
-for all $\dbasepoint \in \dbase$.  Since the visual sections and data sections are over the same space $\dfunc$
-
-\begin{equation}
-  \label{def:construction:nu:validate}
+  \label{eq:construction:nu:validate}
   \begin{tikzcd}[column sep=4em]
     {\dfiberc_{\dbasepointc}^{a}} \times {\dfiberc_{\dbasepointc}^{b}} 
     \arrow[d, "\pi_a"', color=fiber] 
@@ -790,9 +787,21 @@ for all $\dbasepoint \in \dbase$.  Since the visual sections and data sections a
     \arrow[u, "\measurec\restriction_a"', color=set]            
     \end{tikzcd}
 \end{equation}
+As shown in \autoref{eq:construction:nu:validate}, an encoder is considered valid if there is an ismorphism between the actual outputted visual component and the expected measurable component encoding. An encoder is consistent if it encodes the same field in the same way even if coming from different data sources. 
 
-\subsection{Compositing Measurable Components into Output}
-The compositing function $\vmarkc$ transforms the sections of visual elements $\vsectionc$ into sections of graphics $\gsectionc$.
+An encoding function $\vchannelc$ is equivariant if the change in data, as defined in \autoref{sec:atct:sheaves:measurments}, and change in visual components are equivariant. Since $\dtotal$ and $\vtotal$ are over the same base space and are pointwise, the base space change $\dfunch_{\dtotal}$ applies to both sides of the equation 
+\begin{equation}
+  \vchannelc(\dsectionc_{\dtotalc}(\dfunchc_{\dbasec}(\dbasepointc^{\prime}))) = \vsectionc(\dfunchc_{\dbasec}(\dbasepointc^{\prime}))
+\end{equation}
+and therefore there should not be a change in encoding. On the other hand, a change in the data values $\dfunct_{\dtotal}$ must have an equivalent change in visual components
+\begin{equation}
+  \dfunctc_{\vtotal} \vchannelc(\dsectionc(\dbasepoint)) = \vchannelc(\dfunctc_{\dtotalc}(\dsectionc(\dbasepointc)))
+\end{equation}
+The change in visual components $\dfunct_{\vtotal}$ is dependent both on $\dfunct_{\dtotal}$ and the choice of visual encoding. As mentioned in \autoref{sec:related-work:equivariance}, this is why Bertin and many others since have advocated choosing an encoding that has a structure that matches the data structure\cite{bertinSemiologyGraphicsDiagrams2011a}. For example choosing a quantative colormap to encode quantative data if the $\dfunctc$ operation is scaling, as in \autoref{fig:artist:equivariance}.
+
+
+\subsection{Composite Measurable Components Into Visual Elements}
+As shown in \autoref{fig:construction:flow-chart}, the compositor function $\vmarkc$ transforms the measurable components into properties of a visual element. The compositing function $\vmarkc$ transforms the sections of visual elements $\vsectionc$ into sections of graphics $\gsectionc$.
 \begin{equation}
   \vmarkc: \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \rightarrow \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}
 \end{equation}
@@ -807,15 +816,9 @@ The compositing function $\vmarkc$ transforms the sections of visual elements $\
       \end{tikzcd} 
 \end{equation}
 
-\subsubsection{Compositor Equivariance}
-
-As mentioned in \autoref{sec:construction:nu}, the distinction between data sections $\dsection$ and visual sections $\vsection$ is semantic rather than structural. Therefore, the equivariance condition on the sheaf map with a change of base space $\vmarkc$ is identical to the one for artists shown in \autoref{eq:artist:equivariance} such that an equivariant \vmark\ must satisify the condition 
-\begin{equation}
-  \vmarkc(\dfunctc_{\vtotalc}(\vsectionc(\dfunchc_{\vtotalc}(\vindexc(\gbasepointc^{\prime}))))) = \dfunctc_{\gtotalc}(\vmarkc(\vsectionc(\vindexc(\dfunchc_{\gtotalc}(\gbasepointc^{\prime})))))  
-\end{equation}
-which means that any change to a measurable component input must have a measurably equivalent change in the output. 
-
-As with the artist, it is difficult to work with the output section \gsection\ directly and instead we test the compositer \vmark\ using measurements derived from the output. A compositer is expected to pass visual transformers \vsection\ through to their expected visual measurements, as described in \autoref{def:construction:nu:validate}, such that any shared visual components at a point $\vsection^{a}(\dbasepoint)$ must render to the same measurement $\measure^{a}_{\dbasepoint}$
+\subsubsection{Compositor Verification}
+\label{sec:construction:q:verification}
+An advantage of factoring out encoding and verification, as discussed in \autoref{sec:construction:nu:verification}, is that the responsibility of the compositor can be scoped to translating measurable components into visual elements. 
 \begin{equation}
   \label{eq:construction:q:validate}
   \begin{tikzcd}[row sep=huge]
@@ -824,16 +827,28 @@ As with the artist, it is difficult to work with the output section \gsection\ d
     \arrow[d, "\measurec\restriction_a \circ \extractmc_{ab}", color=monoid]  \\
    \cgamma{\opensetc}{\vtotalc^{a}\restriction_{\opensetc}} 
    \arrow[rr, "\simeq", dotted] &  & {\textcolor{set}{Hom}(\opensetc, \measurec^{a})}                                                                             \\
-    \cgamma{\opensetc}{(\vtotalc^{a}\times \vtotalc^{c})\restriction_{\opensetc}}  \arrow[rr, "\vmarkc_{ab}", color=artist] \arrow[u, "\pi_a", color=total]  &  &  \imartistsub{ac}{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \arrow[u, "\measurec\restriction_a \circ \extractmc_{ac}"', color=monoid]
+    \cgamma{\opensetc}{(\vtotalc^{a}\times \vtotalc^{c})\restriction_{\opensetc}}  \arrow[rr, "\vmarkc_{ac}", color=artist] \arrow[u, "\pi_a", color=total]  &  &  \imartistsub{ac}{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \arrow[u, "\measurec\restriction_a \circ \extractmc_{ac}"', color=monoid]
    \end{tikzcd}
 \end{equation}
+As illustrated in \autoref{eq:construction:q:validate}, a compositor is valid if there is an isomorphism between the actual outputted measured visual component and the expected measurable component that is the input. One way of verifying that a compositor is consistent is by verifying that it passes through one encoding even while changing others. For example, when $\vmark_{ab}=\vmark_{ac}$ then the output should differ in the same measurable components as $\vsectionc_{ab}$ and $\vsection_{ac}$. 
 
+A compositor function \vmark\ is equivariant if the renderer output changes in a way equivariant to the data transformation defined in \autoref{sec:atct:sheaves:measurments}. This means that a change in base space $\dfunch_{\dtotalc}$ should have an equivalent change in visual element base space. This means that there should be no change in visual measurement
+\begin{equation}
+  \label{eq:construction:q:verification:base}
+  \vsectionc(\dfunchc_{\dbasec}(\dbasepointc^{\prime})) = \extractmc(\vmarkc(\vsectionc)(\dfunch_{\dbasec}(\vindexpre^{\dbasepointc}))) = \measurec_{\dbasepointc}
+\end{equation}
+As discussed in \autoref{fig:artist:equivariance}, the change in base space may induce a change in locations of measurements relative to each other in the output; this can be verified via checking that all the measurements have not changed relative to the original positions $\measurec_{\dbasepoint} = \measurec_{\dbasepointc^{\prime}}$ and through separate measurable variables that encode holistic data properties, such as orientation or origin. 
 
-\note{when $Q_{ab} = Q_{bc}$, this says only things that change are the parameter controlled pieces}
+The compositor function is also expected to be equivariant with respect to changes in data and measurable components
+\begin{equation}
+  \dfunctc_{\vtotalc}(\vsectionc(\dbasepointc)) = \dfunctc_{\gtotalc}(\vmarkc(\vsectionc(\dbasepointc)))  
+\end{equation}
+which means that any change to a measurable component input must have a measurably equivalent change in the output. As illustrated in \autoref{fig:artist:equivariance}, the compositor $\vmarkc$ is expected to assemble the measurable components such that base space changes, for example transposition, are reflected in the output; faithfully pass through equivariant measurable components, such as scaled colors; and ensure that both types of transformations, here scaling and transposition, are present in the final glyph.  
+
 
 \subsection{Constructing the Artist: $\vartistc=\vmarkc\circ\vchannelc$}
 
-As shown in \autoref{eq:atct:sheaves:homset}, sheaves equipped with transport functors have isomorphic maps between the sheaves. This property, allows us to specify the transformation from data to graphic space in data or graphic space or a combination, as listed in \autoref{eq:artist:hom_transport}, such that the following diagram commutes:
+As shown in \autoref{eq:atct:sheaves:homset}, if a sheaf is equipped with transport functors, then the functions between sheaves over one space are isomorphic to functions between sheave over the other space. This property, allows us to specify the transformation from data to graphic space in data or graphic space or a combination, as listed in \autoref{eq:artist:hom_transport}, such that the following diagram commutes:
 \begin{equation}
   \label{eq:construction:artist:path}
 \begin{tikzcd}[row sep=2.5em, column sep=1.5em]
@@ -853,9 +868,9 @@ As shown in \autoref{eq:atct:sheaves:homset}, sheaves equipped with transport fu
   \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \arrow[uu, "\vindexpushc"', color=functor]
 \end{tikzcd}  
 \end{equation}
-The diagram in \autoref{eq:construction:artist:path} illustrates how a developer can connect transformations over data space, denoted with a subset $\dbase$, with transformations over graphic space $\gbase$, using $\vindexpushc$ and $\vindexpullc$ adaptors. This allows developers to for example connect transformers that transform data on a line to a color in dataspace, but build a line compositing function that dynamically resamples what is on screen in graphic space. x
+The diagram in \autoref{eq:construction:artist:path} illustrates how a developer can connect transformations over data space, denoted with a subset $\dbase$, with transformations over graphic space $\gbase$, using $\vindexpushc$ and $\vindexpullc$ adaptors. This allows developers to for example connect transformers that transform data on a line to a color in dataspace, but build a line compositing function that dynamically resamples what is on screen in graphic space.
 
-\section{Discussion}
+\section{Discussion: Implementing The Math}
 \subsection{Limitations}
 \subsection{future work}
 
