@@ -142,8 +142,9 @@ The abstract goes here.
 
 
 
-\IEEEraisesectionheading{\section{Introduction}\label{sec:intro}}
 
+\IEEEraisesectionheading{\section{Introduction}\label{sec:intro}}
+\note{please prioritize flagging content that needs major revisions: (1) Wrong (2) Missing (3) Horrific  (4) Incoherant}
 
 \IEEEPARstart{T}
 
@@ -168,8 +169,7 @@ Fiber bundles are a mathematical structure that can be use to encode the topolog
 
 \section{Data And Visualizations}
 \label{sec:atct}
-\note{why why why?}
-We use concepts from algberaic topolology and category theory to formally express the structure visualization components are expected to preserve.  Fiber bundles and sheaves, which come from algebraic topolology, provide a uniform generalizable way to describe data and visualizations. Category theory is a method to describe how objects are specified, constrained, and composed \cite{wielsManagementEvolvingSpecifications1998}\; therefore in this work we propose categorical constructions of visualization components as specifications for implementable components.
+A goal of this work is to develop guidelines for building composable structure preserving functions for translating data into visual representations. Concepts in algebraic topology and category theory provide a language for formally expressing the structure that these visualizations are expected to preserve. Fiber bundles and sheaves, which come from algebraic topolology, provide a uniform generalizable way to describe data and visualization. Category theory is a method to describe how objects are specified, constrained, and composed \cite{wielsManagementEvolvingSpecifications1998}\; therefore in this work we propose categorical constructions of visualization components as specifications for implementable components.
 
 \subsection{Fiber Bundles}
 \label{sec:atct:fiber-bundles}
@@ -568,7 +568,7 @@ The change in measurements $\dfunctc_{\measure}$ is defined by the developer as 
 \begin{figure}[h!]
   \label{fig:artist:equivariance}
   \includegraphics[width=1\columnwidth]{equivariance.png}
-  \caption{}
+  \caption{This artist is equivariant because the input data and output graphic representation are transposed $\dfunch$, scaled $\dfunct$ and both transposed and scaled $\dfunc$ in the same manner.}
 \end{figure}
 For example, in \autoref{fig:artist:equivarance}, the measurable variable is color. This is a visual representation of the data shown in \autoref{fig:atct:phi}, and as such the equivariant transformations are an equivalent transposition and scaling of the colors. This visualization is equivariant with respect to base space transformations, as defined in \autoref{eq:atct:equivarance:verify:base}, because the color values at the new position at the old position $measure_\dbasepoint^{\prime} = \measure_{\dbasepoint}$. This visualization is also equivariant with respect to fiber wise transformations, as defined in \autoref{eq:atct:equivarance:verify:fiber}, because the colors are consistently scaled in the same was the data. For example, the values that have become 2 and 4 in the $\dfunctc$ and $\dfunc$ panels are colored the same as the original 2 and 4 values in the first panel. The equivariance in this visualization is composable, as shown in the colors being both transposed and scaled correctly in the $\dfunc$ panel.
 
@@ -680,7 +680,7 @@ This expectation of using the same encoding for the same variable is a generaliz
 The circle-line glyph in \autoref{fig:artist:operator} can be generated via a line plot and highlighted points in that plot, which is the addition case of two datasets with the same fields and different continuities. The same circle-line glyph can also be generated via the multiplication case as different fields of the same bundle. As mentioned in \autoref{sec:artist:operator:multiplication}, multiplication is implemented as addition of two copies of a base space. Although we have been discussing the trivial cases of adding observations or adding fields, this merging of artists in datasets can be generalized:
 \begin{equation}
   \vartistc(\cgamma{\bigsqcup_{i} \dbasec^{i}}{\bigoplus_{i}\dtotalc^{i}}) \coloneqq \sum_{i}
-  \vartisct_{i}(\cgamma{\dbasec^{i}}{\dtotalc^{i}}) 
+  \vartistc_{i}(\cgamma{\dbasec^{i}}{\dtotalc^{i}}) 
 \end{equation} 
 
 As shown in \autoref{eq:artist:operator}, bundles over a union of base spaces can be joined as a product of the fibers. This allows us to consider all the data inputs in a complex visualization as a combined input, where some sections evaluate to null in fields for which there are no values for that point in the combined base space $\dbasepoint \in \bigsqcup_{i} \dbase^{i}$ The combined construction of the data is a method for expressing what each data input has in common with another data input-for example the data for labeling tick marks or legends- 
@@ -795,7 +795,7 @@ An encoding function $\vchannelc$ is equivariant if the change in data, as defin
 \end{equation}
 and therefore there should not be a change in encoding. On the other hand, a change in the data values $\dfunct_{\dtotal}$ must have an equivalent change in visual components
 \begin{equation}
-  \dfunctc_{\vtotal} \vchannelc(\dsectionc(\dbasepoint)) = \vchannelc(\dfunctc_{\dtotalc}(\dsectionc(\dbasepointc)))
+  \dfunctc_{\vtotalc} \vchannelc(\dsectionc(\dbasepoint)) = \vchannelc(\dfunctc_{\dtotalc}(\dsectionc(\dbasepointc)))
 \end{equation}
 The change in visual components $\dfunct_{\vtotal}$ is dependent both on $\dfunct_{\dtotal}$ and the choice of visual encoding. As mentioned in \autoref{sec:related-work:equivariance}, this is why Bertin and many others since have advocated choosing an encoding that has a structure that matches the data structure\cite{bertinSemiologyGraphicsDiagrams2011a}. For example choosing a quantative colormap to encode quantative data if the $\dfunctc$ operation is scaling, as in \autoref{fig:artist:equivariance}.
 
@@ -805,6 +805,9 @@ As shown in \autoref{fig:construction:flow-chart}, the compositor function $\vma
 \begin{equation}
   \vmarkc: \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \rightarrow \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}
 \end{equation}
+The compositing function is map from sheaves over $\dbase$ to sheaves over $\gbase$. This is because, as described in \autoref{fig:construction:xi}, the graphic section must be evaluated on all points in the graphic space to generate the visual element corresponding to a data record at a single point $\vartist(\dsection(\dbasepoint)) = \gsection(\vindexpre(\dbasepoint))$. 
+
+Since encoder functions are infinitely composable, as described in \autoref{eq:construction:nu:fabrication}, a new compositor function $\vmarkc$ can be constructed by precomposing $\vchannelc$ functions with the existing $\vmarkc$.
 
 \begin{equation}
   \label{eq:construction:q:fabrication}
@@ -815,6 +818,14 @@ As shown in \autoref{fig:construction:flow-chart}, the compositor function $\vma
       \arrow[rr, "\vmarkc", color=artist] &  & \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}
       \end{tikzcd} 
 \end{equation}
+The composition in \autoref{eq:construction:q:fabrication} means that different measurable components can yield the same visual elements. 
+
+\begin{figure}[h!]
+  \label{fig:construction:q}
+  \includegraphics[width=1\columnwidth]{q.png}
+  \caption{This simple $\vmarkc$ assembles a circular visual element that is the color specified in $\vsection(\dbasepoint)$ and is at the intersection specified in $\vsection(\dbasepoint)$}
+\end{figure}
+As shown in \autoref{fig:construction:q}, a set of  $\vchannel$ functions individually convert the values in the data record to visual components. Then the $\vmarkc$ function combines these visual encodings to produce a graphic section \gsection. When this section is evaluated on the graphic space associated with the data $\gsection(\vindexpre(\dbasepoint))$, it produces a blue circular marker at the intersection of the x and y positions listed in \vsection. The composition rule in \autoref{eq:construction:q:fabrication} means that developers can implement $\vmarkc$ as drawing circles or can implement a $\vmarkc$ that draws arbitrary shapes, and then provide different $\vchannelc$ adapters, such as one that specifies that the shape is a circle. 
 
 \subsubsection{Compositor Verification}
 \label{sec:construction:q:verification}
