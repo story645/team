@@ -64,10 +64,11 @@
 \usepackage{minted}
 \setminted[python]{fontsize=\scriptsize, 
                    linenos,
-                   numbersep=8pt,
-                   autogobble, 
+                   numbersep=8pt, 
                    frame=lines,
-                   framesep=3mm} 
+                   autogobble,
+                   framesep=3mm, 
+                   breaklines=True} 
 % *** ALIGNMENT PACKAGES ***
 \usepackage{array}
 \usepackage{tabulary}
@@ -167,7 +168,7 @@ Fiber bundles are a mathematical structure that can be use to encode the topolog
 \subsection{Equivariance}
 
 
-\section{Formally Describing Structure}
+\section{IO: Data, Graphic}
 \label{sec:atct}
 A goal of this work is to develop guidelines for building composable structure preserving functions for translating data into visual representations. Concepts in algebraic topology and category theory provide a language for formally expressing the structure that these visualizations are expected to preserve. Fiber bundles and sheaves, which come from algebraic topolology, provide a uniform generalizable way to describe data and visualization. Category theory is a method to describe how objects are specified, constrained, and composed \cite{wielsManagementEvolvingSpecifications1998}\; therefore in this work we propose categorical constructions of visualization components as specifications for implementable components.
 
@@ -175,7 +176,7 @@ A goal of this work is to develop guidelines for building composable structure p
 \label{sec:atct:fiber-bundles}
 Fiber bundles, are a "unified, dimension-independent framework", as described by Butler\cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989}, that allow us to seperatly describe the topological properties and fields of a data source and also the mapping between topolology and data values. A fiber bundle $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and continuous surjective map $\pi: \dtotalc \rightarrow \dbasec$\cite{FiberBundle2020}. 
 
-\begin{equation}[h]
+\begin{equation}
   \label{eq:atct:fb:intro}
   \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
    \dfiberc
@@ -466,7 +467,7 @@ take as input the same object \opensetc\ and return sets of data and graphic sec
     \opensetc_{2} \arrow[uu, "\iota", hook, color=base] & \cgamma{\opensetc_{2}}{\dtotalc\restruction_{\opensetc_2}} \arrow[rr, "\vartistc_{\opensetc_2}", color=artist]                        &  & \cgamma{\opensetc_{2}}{\vindexpushc\gtotalc\restruction_{\opensetc_2}}                      
     \end{tikzcd}
 \end{equation}
- The diagram in \autoref{eq:artist:natural_transform} shows that restricting a set of outputs of an artist to a set of graphic sections over a subspace is equivalent to restricting the inputs to data sections over the same subspace. By construction, the artist is expected to preserve the sheaf axioms of locality and gluing (\autoref{def:atct:sheaf:gluing}, \autoref{def:atct:sheaf:locality}). This bookkeeping is necessary for any visualization technique that selectively acts on different pieces of a data set; for example panning and zooming \cite{NekrasovskiEvaluationPanZoom2006} and streaming and animated visualizations.
+ The diagram in \autoref{eq:artist:natural_transform} shows that restricting a set of outputs of an artist to a set of graphic sections over a subspace is equivalent to restricting the inputs to data sections over the same subspace. By construction, the artist is expected to preserve the sheaf axioms of locality and gluing (\autoref{def:atct:sheaf:gluing}, \autoref{def:atct:sheaf:locality}). This bookkeeping is necessary for any visualization technique that selectively acts on different pieces of a data set; for example streaming visualizations \cite{krstajicVisualizationStreamingData2013} and panning and zooming \cite{NekrasovskiEvaluationPanZoom2006}
 
 The output of an artist \vartist\ is a restricted subset of graphic sections
 \begin{equation}
@@ -689,15 +690,15 @@ and therefore which commonalities need to be preserved in the artists that act o
 \section{Construction}
 \label{sec:construction}
 \begin{figure}[h!]
-  \label{fig:construction:flow-chart}
+  \label{fig:construction:flow}
   \includegraphics*[width=1\columnwidth]{path_of_q.png}
   \caption{One method of constructing the artist is by formulating the artist as having two stages: (1) encoding functions $\vchannelc$ that convert different parts of the input into measurable visual components, such as color or position; (2) compositing functions $\vmarkc$ that assemble the measurable visual components into a visual element generating function. In this construction, we propose an intermediate visual bundle $\vtotalc$ that encodes the space of possible visual encodings.}
 \end{figure}
-We propose that one way of constructing artist functions is to separate generating a visualization, as shown in \autoref{fig:construction:flow-chart}, is into an equivariant continuity preserving encoding stage $\vchannelc$ and a equivariant continuity preserving compositing stage $\vmarkc$. In the \textcolor{artist}{encoding} stage $\vchannelc$, a data bundle is treated as separable fields and each field is mapped to a measurable visual variable. In the encoding stage, the expected visual mappings $\equivb$ can be implemented inside the library. Factoring out the encoding stage leaves the \textcolor{artist}{compositing} stage $\vmarkc$ responsible for faithfully translating those measurable visual components into a visual element.  
+We propose that one way of constructing artist functions is to separate generating a visualization, as shown in \autoref{fig:construction:flow}, is into an equivariant continuity preserving encoding stage $\vchannelc$ and a equivariant continuity preserving compositing stage $\vmarkc$. In the \textcolor{artist}{encoding} stage $\vchannelc$, a data bundle is treated as separable fields and each field is mapped to a measurable visual variable. In the encoding stage, the expected visual mappings $\equivb$ can be implemented inside the library. Factoring out the encoding stage leaves the \textcolor{artist}{compositing} stage $\vmarkc$ responsible for faithfully translating those measurable visual components into a visual element.  
 
 \subsection{Measurable Visual Components}
 \label{sec:construction:vtotal}
-As shown in \autoref{fig:construction:flow-chart}, we propose an intermediate visual fiber bundle 
+As shown in \autoref{fig:construction:flow}, we propose an intermediate visual fiber bundle 
 \begin{equation}
   \vfiberc \hookrightarrow \vtotalc \xrightarrow{\pi} \dbasec
 \end{equation}
@@ -733,7 +734,7 @@ For example, as shown in \autoref{fig:construction:xi}, a line is 1D but is a 2D
 
 \subsection{Encode Data as Measurable Components}
 \label{sec:construction:nu}
-As introduced in \autoref{fig:construction:flow-chart}, the encoding function $\vchannel$ is a map from data sections to graphic sections
+As introduced in \autoref{fig:construction:flow}, the encoding function $\vchannel$ is a map from data sections to graphic sections
 \begin{equation}
 \nu: \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \rightarrow \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}}
 \end{equation}
@@ -801,7 +802,7 @@ The change in visual components $\dfunct_{\vtotal}$ is dependent both on $\dfunc
 
 
 \subsection{Composite Measurable Components Into Visual Elements}
-As shown in \autoref{fig:construction:flow-chart}, the compositor function $\vmarkc$ transforms the measurable components into properties of a visual element. The compositing function $\vmarkc$ transforms the sections of visual elements $\vsectionc$ into sections of graphics $\gsectionc$.
+As shown in \autoref{fig:construction:flow}, the compositor function $\vmarkc$ transforms the measurable components into properties of a visual element. The compositing function $\vmarkc$ transforms the sections of visual elements $\vsectionc$ into sections of graphics $\gsectionc$.
 \begin{equation}
   \vmarkc: \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \rightarrow \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}
 \end{equation}
@@ -882,8 +883,127 @@ As shown in \autoref{eq:atct:sheaves:homset}, if a sheaf is equipped with transp
 The diagram in \autoref{eq:construction:artist:path} illustrates how a developer can connect transformations over data space, denoted with a subset $\dbase$, with transformations over graphic space $\gbase$, using $\vindexpushc$ and $\vindexpullc$ adaptors. This allows developers to for example connect transformers that transform data on a line to a color in dataspace, but build a line compositing function that dynamically resamples what is on screen in graphic space.
 
 \section{Discussion: Implementing The Math}
-\subsection{Limitations}
-\subsection{future work}
+he framework specified in \autoref{sec:artist} and \autoref{sec:construction} describes how to build structure preserving visualization components, but it is left to the library developer to follow these guidelines when building and reusing components. 
+In this section, we introduce a toy example of building an artist out of the components introduced in \autoref{sec:construction} to illustrate how components that adhere to these specifications are maintainable, extendible, scalable, and support concurrency. Specially, we introduce artists for building different types of bar graphs because it is a visualization type that allows us to demonstrate  composability and multivariate data encoding. We build our visualization components by extending the Python visualization library Matplotlib's artist\footnote{Matplotlib artists are our artist's namesake}\cite{hunterMatplotlib2DGraphics2007,hunterArchitectureOpenSource} to show that components using this model can be incorporated into existing visualization libraries iteratively. While the architecture specified in \autoref{sec:construction} can be implemented fully functionally, we make use of objects to keep track of parameters passed into artists. 
+
+We construct a toy dataset with a discrete $\dbase$ of 4 points and a fiber space of $\dfiber=\{apple,\, orange,\, lemon\}\times \mathbb{Z}^{+} \times \{\texttt{True}, \texttt{False}\}$. 
+\begin{table}[h!]
+\begin{tabular}{|llrl|}
+  \hline \\
+  &   fruit &  calories &  juice \\
+  \hline
+  &   apple &        95 &   True \\ &  orange &        67 &   True \\ &   lemon &        17 &  False \\ &    lime &        20 &  False \\
+  \hline
+\end{tabular}
+\end{table}
+that we thinly wrap so that the common data interface function is that $\tau = \ttexttt{DataContainerObject.query}$. 
+\begin{minted}{python}
+  class FruitFrameWrapper:
+    def query(self, data_bounds, sampling_rate):
+      # local sections are a list of
+      # {field: local_batch_of_values}
+      return local_sections
+\end{minted}
+
+This interface provides a uniform way of  accessing subsets of the data, which are local sections. Because it is more efficient to work with the data in column order, we often treat the data as a collection of single fiber bundles. This is equivalent to the total bundle, as shown in \autoref{eq:artist:operator}. 
+
+To encode the values in the dataset, we enforce equivariance by writing $\vchannel$ encoders that match the structure of our dataset. For example, the fruit column is a nominal measurement scale. Therefore we implement a position encoder that respects permutation $\dfunch$ transformations. The most simple form of this $\vchannel$ is a python dictionary that returns an integer position, because Matplotlib's internal parameter space expects a numerical position type. 
+\begin{minted}{python}
+  def position_encoder(val):
+    return {'apple': 0, 'orange': 2, 'lemon': 4, 'lime': 6}[val]
+\end{minted}
+As mentioned in \autoref{eq:construction:nu:fabrication}, the encoders can be composed up. For example, the compositor $\vchannel$ may need the position to be converted to screen coordinates. Here the screen coordinate $\vchannel$ is a method of a Matplotlib axes object; a Matplotlib axes is akin to a container artist that holds all information about the sub artists plotted within it. 
+\begin{minted}{python}
+def composite_x_transform(ax, nu):
+    return lambda x: ax.transData.transform(
+            (position_encoder(x), 0))[0]
+\end{minted}
+This encoder returns a function that is \texttt{transData.transform} $\vchannel_{transData}$ composed with the position encoder $\vchannel_{position}$ and takes as input a record to be encoded. As with the position encoder, the transData encoder respects permutation transforms because it returns reals; therefore the composite encoder respects permutation transforms. In this model, developers implement $\vchannel$ encoders that are explicit about which $\dfunc_{\vtotal}$ they support. Writing semantically correct encoders is also the responsiblity of the developer and is not addressed in the model. For example \mintinline{python}{fruit_encoder = lamda x: {'apple': green, 'orange':'yellow', 'lemon':'red', 'lime':'orange'}} is a valid color encoding with respect to permutation, but none of those colors are intuitive to the data. It is therefore left to the user, or domain specific library developer, to choose $\vchannel$ encoders that are appropriate for their data.
+
+After converting each record into an intermediate visual component $\vsection$, the set of visual records is passed into $\vmarkc$. Here the $\vmarkc$ includes one last encoder, as illustrated in \autoref{eq:construction:q:fabrication}, that assembles the independent visual components into a rectangle. This $\vchannel$ is inside the $\vmarkc$ to hide that library preferred format from the user. It is called \texttt{qhat} to indicate that this is the $\vartist^{\dbase}$ path in \autoref{eq:construction:artist:path}.  This means that the parameters are constructed in data space $\dbase$ and this function returns a pushed forward $\vindexpush\gsection$. 
+
+\begin{minted}{python}
+   def qhat(position, width, length, floor, facecolor, edgecolor, linewidth, linestyle): 
+        box = box_nu(position, width, length, floor)
+        def fake_draw(render, transform=mtransforms.IdentityTransform()):
+            for (bx, fc, ec, lw, ls) in zip(box, facecolor, edgecolor, linewidth, linestyle):
+                gc = render.new_gc()
+                gc.set_foreground((ec.r, ec.g, ec.b, ec.a))
+                gc.set_dashes(*ls)
+                gc.set_linewidth(lw)
+                render.draw_path(gc=gc, path=bx, transform=transform, rgbFace=(fc.r, fc.g, fc.b, fc.a))
+        return fake_draw
+\end{minted}
+The function \texttt{fake\_draw} is the analog of $\vindexpush\gsection$. This function builds the rendering spec through the renderer API, and this curried function is returned. The transform here is required for the code to run, but is set to identity meaning that this function directly uses the output of the position encoders. The curried $\texttt{fake\_draw} \approx \vindexpush \gsection$ is evaluated using a renderer object. In our model, as shown in \autoref{eq:artist:inout:diagram}, the renderer is supposed to take $\gsection$ as input such that $renderer(\gsection) = visualization$, but here that would require an out of scope patching of the Matplotlib render objects. 
+
+The $\vchannel$ and $\vmark$ are wrapped in a container object that stores the $\vartist = \vmark \circ \vchannel$ composition and a method for computing the $\vsectionc$.
+\begin{minted}{python}
+  class Bar(Rho): 
+    def compose_with_nu(self, pfield, ffield, 
+          nu, nu_inv:):
+        # returns a new copy of the Bar artist 
+        # with the additional nu that converts 
+        # from a data (F) field value to a 
+        # visual (P) field value
+        return new
+
+    def mu(self, tau_local): #draw
+       # uses the stored nus to convert data
+       # stored nus have F->P field info
+      return mus
+    
+    @staticmethod
+    def qhat(position, width, length, floor, facecolor, edgecolor, linewidth, linestyle):
+       
+        return fake_draw
+\end{minted}
+
+This artist is then passed along to a shim artist that makes it compatible with existing Matplotlib objects
+\begin{minted}{python}
+class GenericArtist(martist.Artist):
+    def __init__(self, artist:TopologicalArtist):
+        super().__init__()
+        self.artist = artist
+        
+    def compose_with_tau(self, section):
+        self.section = section
+
+    def draw(self, renderer, bounds, rate):
+        for tau_local in self.section.query(bounds, rate): 
+            mu = self.artist.nu(tau_local)
+            rho = self.artist.qhat(**mu)
+            output = rho(renderer)
+\end{minted}
+As shown in the \texttt{draw} method, generating a graphic section $\gsection$ is implemented as the composition of $\texttt{qhat} \approx \vmark$ and $\texttt{nu} \approx \vchannel$ applied to a local section of the sheaf $\textttt{self.section.query} \approx \desection^{i}$ such  $\texttt{draw} \approx \vmarkc\circ\vchannelc\circ\dsectionc  = \vartistc\circ \dsectionc$. The $\vchannel$ and $\vmark$ functions shown here are written such that they can generate a visual element given a local section $\dsection\restriction_{\dbase^{i}}$ which can be as little or large as needed. This flexibility is a prerequisite for building scalable and streaming visualizations that may not have access to all the data. 
+
+\begin{figure}[h!]
+  \centering
+  \subfloat[]{
+    \includegraphics[width=.45\columnwidth]{bar.png}
+  \label{fig:discussion:vbar}}
+  \subfloat[]{
+    \includegraphics[width=.45\columnwidth]{barh.png}
+  \label{fig:discussion:hbar}
+  }
+  \label{fig:discussion:bar}
+\end{figure}
+
+The \texttt{GenericArtist} is a a standard Matplotlib object; therefore it can be hooked into the Matplotlib draw tree to produce the vertical bar chart in \autoref{fig:discussion:vbar}. Using the Matplotlib artist framework means this new artist can be composed with existing artists, such as the ones that draw the axes and ticks. 
+
+One of the advantages of this model is that it allows for succinctly expressing the difference between two very similar visualizations, such as \autoref{fig:discussion:vbar} and \autoref{fig:discussion:hbar}. In this model, the horizontal bar is implemented as a composition of a $\vchannel$ that renames fields in $\vsection_{barh}$ and the $\vmark$ implementation for the horizontal bar.
+\begin{minted}{python}
+def qhat(length, width, position, floor, facecolor, edgecolor, linewidth, linestyle):
+  return Bar.qhat(**BarH.bar_nu(length, width, position, floor, facecolor, edgecolor, linewidth, linestyle))
+\end{minted}
+This composition is equivalent to $\vmark_{barh} = \vmark_{bar} \circ \vchannel_{vtoh}$, which is an example of \autoref{eq:construction:q:fabrication}. These functions can be further added together, as described in \autoref{sec:artist:operators} to build more complex visualizations. 
+
+The example in this section is intentionally trivial to illustrate that the math to code translation is fairly straightforward and results in fairly self contained composable functions. Further research could investigate building new systems using this model, specifically libraries for visualizing domain specific structured data and domain specific artists. More research could also explore applying this model to visualizing high dimensional data, particularly building artists that take as input distributed data and artists that are concurrent. Developing complex systems could also be an avenue to codify how interactive techniques are expressed in this framework.
+
+
+
+
+
+
 
 \section{Conclusion}
 The conclusion goes here.
