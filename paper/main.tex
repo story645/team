@@ -93,7 +93,7 @@
 % (Unless specifically asked to do so by the journal or conference you plan
 % to submit to, of course. )
 
-\usepackage[inline]{showlabels}
+%\usepackage[inline]{showlabels}
 
 \usepackage{notation} %notation conventions
 % correct bad hyphenation here
@@ -145,13 +145,12 @@ The abstract goes here.
 
 
 \IEEEraisesectionheading{\section{Introduction}\label{sec:intro}}
-\note{please prioritize flagging content that needs major revisions: (1) Wrong (2) Missing (3) Horrific  (4) Incoherant}
+\note{please prioritize flagging content that needs major revisions: (1) Wrong (2) Missing (3) Horrific  (4) Incoherant (5) Movable to appendix - TCVG page limit is 12 pages content + supplemental}
 
-\IEEEPARstart{T}
+\IEEEPARstart{V}isualization software libraries consist of a set of functions for translating data into visual representations. These functions are expected to preserve the structure of the input data, however that structure is specified. Over time, library developers may need to develop new components to adapt to changing data needs, especially the growth of complex structured and distributed data. We propose that the complex structure of data can be described using concepts from algebraic topology and category theory, and that category theory can be used to express the constraints these components must satisfy in order to produce structure preserving data to visual transformations. This abstraction of the data structure and specificaton of the components can then be used to guide the developement of functional\footnote{functional programming paradigm} components. Since these components are functional, they are expected to be more composable and modular than existing components, have fewer side effects and therefore be easier to incorporate alignside existing library elements, and be verifiable and therefore easier to test \cite{huHowFunctionalProgramming2015,hughesWhyFunctionalProgramming1989}. In this paper, we introduce a mathematical framework for describing, constructing, and testing visualization library components and provide a toy example illustrating these concepts.
 
-\note{Functionl, Types, What is viz library architecture}
 \section{Related Work}
-Many visualization researchers have discussed structure preservation in a visualization context. In this work, we build on and generalize the notion that the structure of a dataset can be described as a combination of the topological properties of the dataset and the mathematical structure of the dataset fields.
+Visualization library components are required to preserve structure; in a visualization context this has widely come to be defined as a combination of the topological properties of the dataset and the mathematical structure of the dataset fields.
 
 \subsection{Topology}
 \label{sec:related-work:continuity}
@@ -171,6 +170,7 @@ The continuity matters to visualization libraries because visual algorithms, suc
 Current visualization libraries handle continuity in two main ways. Libraries that provide "building block" \cite{wongsuphasawatNavigatingWideWorld2021} components for building new visual algorithms embed their assumptions in their algorithms. This flexibility allows libraries such as matplotlib\cite{hunterMatplotlib2DGraphics2007}, VTK\cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012}, and D3\cite{bostockDataDrivenDocuments2011} to support a wide variety of data types, but at the cost of the ambiguity of \autoref{fig:related-work:continuity:borked}. These libraries can also have visual algorithms with  parameters that are tuned to the expected data in a way that leaves the over all library feeling uncohesive. On the other hand, domain specific libraries are designed with the assumption of continuities that are common in the domain \cite{HeerSoftware2006}. Tabular data is a very common data topology and is assumed by 
 A Presentation Tool\cite{mackinlayAutomatingDesignGraphical1986, mackinlayAutomatingDesignGraphical1986} and grammar of graphics\cite{wilkinsonGrammarGraphics2005} and the ggplot\cite{wickhamGgplot2ElegantGraphics2016a}, vega\cite{satyanarayanDeclarativeInteractionDesign2014}, and altair\cite{vanderplasAltairInteractiveStatistical2018} libraries built on these frameworks. Image libraries such as Napari\cite{nicholas_sofroniew_2021_4533308} and ImageJ\cite{schneiderNIHImageImageJ2012} and its humanaties data ImagePlot\cite{studiesCulturevisImageplot2021} plugin assumed that the input is 2D continuous. Networking libraries such as gephi\cite{bastianGephiOpenSource2009} and networkx\cite{HagbergExploringNetwork2008} assume a graph like structure. These libraries tend to benefit from more cohesive apis, but at the cost of a much more limited set of visualization algorithms than the building block libraries. 
 
+\note{maybe move the following to \autoref{sec:atct:io} and consolidate?}
 To bridge the need for flexibility and cohesiveness, we build on the proposal of fiber bundles as a general abstraction model for visualization data, as proposed by Butler\cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989}. Fiber bundles are a mathematical structure that can be used to encode the topological properties of visualization data. There is also a methodology for encoding field types in fiber bundles, as described in Spivak's description of tables as fiber bundles\cite{spivakSIMPLICIALDATABASES}. Fiber bundles are discussed in more detail in \autoref{sec:atct:fiber-bundles}, but broadly they provide a mathematical representation of data that can encode topological properties, field types, and data values in a way that is both uniform and continuity and dimension independent way. 
 
 \subsection{Equivariance}
@@ -180,9 +180,9 @@ The expectation of matching structure is generalized as a mapping of a binary op
 
 Visualization libraries are in part measured by how expressive the components of the library are; expressiveness is a measure of which structure preserving mappings a tool can implement \cite{mackinlayAutomaticDesignGraphical1987}. While some visualization tools aim to automate the pairing of data with structure preserving automated tool, such as Tableau\cite{StoltePolaris2002,hanrahanVizQL2006,MackinlayShowme2007}, many visualization libraries leave that choice to the user. Some libraries, such as Matplotlib, set default encoders for their visual algorithms and allow the user to change the default. In this work, we propose guidelines for building expressive structure informed data to visual transformers. As with visual algorithms, we aim to provide a way to check that the structure of the data matches the structure expected by the component. Doing so allows users to more easily develop equivariant visual algorithms.
 
-\section{IO: Data, Graphic}
+\section{Bundles and Sheaves}
 \label{sec:atct}
-A goal of this work is to develop guidelines for building composable structure preserving functions for translating data into visual representations. Concepts in algebraic topology and category theory provide a language for formally expressing the structure that these visualizations are expected to preserve. Fiber bundles and sheaves, which come from algebraic topolology, provide a uniform generalizable way to describe data and visualization. Category theory is a method to describe how objects are specified, constrained, and composed \cite{wielsManagementEvolvingSpecifications1998}\; therefore in this work we propose categorical constructions of visualization components as specifications for implementable components.
+A goal of this work is to develop guidelines for building composable structure preserving functions for translating data into visual representations. Concepts in algebraic topology and category theory provide a language for formally expressing the structure that these visualizations are expected to preserve. Fiber bundles and sheaves, which come from algebraic topolology, provide a uniform generalizable way to describe data and visualization. Category theory is a method to describe how objects are specified, constrained, and composed \cite{wielsManagementEvolvingSpecifications1998}\; therefore in this work we propose categorical constructions of visualization components as specifications for implementable components. A brief introduction to category theory for visualization practitioners is in Vickers et al \cite{vickersUnderstandingVisualizationFormal2013}, but they are applying category theory to semantic concerns about visualization design rather than library architecture.
 
 \subsection{Fiber Bundles}
 \label{sec:atct:fiber-bundles}
@@ -235,10 +235,10 @@ are functions that generate different graphics, for example markers for a scatte
 \begin{figure}[h!]
   \label{fig:atct:fb:graphic}
   \includegraphics[width=1\columnwidth]{fb_rho.png}
-  \caption{A bundle representation of a section that generates a scatter marker on a 2D screen. The fiber space encodes the potential color and position of each pixel in a prerender space. The marker is a 2d graphic; therefore the base space that parameterizes the graphic area \dbasec\ is a 2d disc. This section \gsection\ describes how to build a square red marker; a section evaluated on a single point $\gbasepoint \in \gbase$ is an infinitesimally small piece of the square, here illustrated as the small piece of the square outlined in green.  }
+  \caption{A bundle representation of a section that generates a scatter marker on a 2D screen. The fiber space encodes the potential color and position of each pixel in a prerender space. The marker is a 2d graphic; therefore the base space that parameterizes the graphic area \dbasec\ is a 2d disc. This section \gsection\ describes how to build a square red marker; a section evaluated on a single point $\gbasepoint \in \gbase$ is an infinitesimally small piece of the square, here illustrated as the small piece of the square outlined in green.}
 \end{figure}
 
-In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ encodes the drawing of a red square marker. The renderer subsamples the position fibers  \textit{x} and \textit{y} of the graphic fiber space \gfiber. The preimage of the section at these coordinates returns a set of coordinates ${\gsection^{-1}_{x,y}} = \{\gbasepoint | \gsection(\gbasepoint)\restriction_{x,y} = \(x,y\)\}$ at the points $\gbasepoint \in \gbase$ in the graphic base topological space. The section is then evaluated at these points $\gsection\restriction_{\gsection^{-1}_{x,y}}$ to return a set of points in the fiber. One of these points, enlarged for visibility, is illustrated as the small square swatch inside the larger marker in \autoref{fig:atct:fb}. The renderer is handed some version of $\gsection$ to produce the final graphic. 
+In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ encodes the drawing of a red square marker. The renderer subsamples the position fibers  \textit{x} and \textit{y} of the graphic fiber space \gfiber. The preimage of the section at these coordinates returns a set of coordinates \({\gsection^{-1}_{x,y}} = \{\gbasepoint | \gsection(\gbasepoint)\restriction_{x,y} = \(x,y\)\}\) at the points \(\gbasepoint \in \gbase\) in the graphic base topological space. The section is then evaluated at these points \(\gsection\restriction_{\gsection^{-1}_{x,y}}\) to return a set of points in the fiber. One of these points, enlarged for visibility, is illustrated as the small square swatch inside the larger marker in \autoref{fig:atct:fb}. The renderer is handed some version of $\gsection$ to produce the final graphic. 
 
 \subsection{Input and Output Types}
 \label{sec:atct:io}
@@ -262,6 +262,7 @@ The fiber category is equipped with a bifunctor $\otimes: \mathcal{\dfiber} \tim
 \label{sec:atct:sheaves}
 Sheaves on bundles are an "algebraic data structure", as described by Ghrist \cite{ghristElementaryAppliedTopology2014}, for expressing the bookkeeping involved in keeping track of sections of data over opensets. Sheaves are a way of expressing that subsets, distributed data, and streaming data are local sections that can be glued together. Formally, pre-sheaves are functors, meaning they are functions from objects of one category to objects of another category \cite{WhatFunctorDefinitions}. Here the sheaf 
 \begin{equation}
+  \label{eq:atct:sheaf:functor}
   \sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
 \end{equation}
 denotes a sheaf from opensets on the base space $\dbase$ to sets of sections on the bundle $\dtotal$. As a contravariant functor it preserves morphism s
@@ -358,10 +359,10 @@ if each (identical) component base space is transformed in the same way $\dfunch
   \caption{Values in a data set can be transformed in three ways: $\dfunch$-values can change position, .e.g transposed;  $\dfunct$-values can change, e.g. doubled; $\dfunc$ - values can change position and value}
 \end{figure}
 \autoref{fig:atct:phi} provides an example of a base space change \dfunch, a fiber space change \dfunct, and a composition of the two \dfunc\ applied to each data point $x_{\dbasepoint} \in \texttt{data}$. As defined in \autoref{eq:atct:morphism:verify_base}, 
-since transposition is a $(\dfunch, \dfuncpull)$, every data value $x_{\dbasepoint}$ must be equal to the value at the corresponding location in the transposed matrix $x_{\dbasepoint} = x_{\dbasepoint^{\prime}}, \dfunch(\dbasepoint^{\prime}) = \dbasepoint$ for all $x_{\dbasepoint^{\prime}} \in texttt{data.T}$ . In \autoref{fig:atct:phi}, this is demonstrated in the columns becoming rows such that there are no new values and each value retains the same neighboring values. As defined in \autoref{eq:atct:morphism:fiber} scaling is a transform $\dfunct$ that changes the value of each point but not its location. In \autoref{fig:atct:phi}, this means that $x_{\dbasepoint^{\prime}}= 2*x_{\dbasepoint}, \dbasepoint = \dbasepoint_{\prime}$ for all indices in \textt{data}, \textt{data.T}. As defined in \autoref{eq:atct:morphism:all} and illustrated in \autoref{fig:atct:phi}, these transformations can combine to yield a matrix that is both transposed and scaled such that $x_{\dbasepoint^{\prime}} = 2*x_{\dbasepoint}$ for all  
+since transposition is a $(\dfunch, \dfuncpull)$, every data value $x_{\dbasepoint}$ must be equal to the value at the corresponding location in the transposed matrix $x_{\dbasepoint} = x_{\dbasepoint^{\prime}}, \dfunch(\dbasepoint^{\prime}) = \dbasepoint$ for all $x_{\dbasepoint^{\prime}} \in texttt{data.T}$ . In \autoref{fig:atct:phi}, this is demonstrated in the columns becoming rows such that there are no new values and each value retains the same neighboring values. As defined in \autoref{eq:atct:morphism:fiber} scaling is a transform $\dfunct$ that changes the value of each point but not its location. In \autoref{fig:atct:phi}, this means that $x_{\dbasepoint^{\prime}}= 2*x_{\dbasepoint}, \dbasepoint = \dbasepoint_{\prime}$ for all indices in \texttt{data}, \texttt{data.T}. As defined in \autoref{eq:atct:morphism:all} and illustrated in \autoref{fig:atct:phi}, these transformations can combine to yield a matrix that is both transposed and scaled such that $x_{\dbasepoint^{\prime}} = 2*x_{\dbasepoint}$ for all  
 $\dfunch(\dbasepoint^{\prime}) = \dbasepoint$
 
-\subsection{Maps Between Spaces}
+\subsection{Image Functors}
 \label{sec:atct:xi}
 The data sections defined in \autoref{eq:atct:fb} are sections of sheaves, introduced in \autoref{sec:atct:sheaves}, over open sets $\openset \subseteq \dbase$ in a base space \dbase\ that encodes the topology of the data topology. The graphic sections, defined in \autoref{eq:atct:fb_graphic_section}, are sections of sheaves over open sets $\opensetg \subseteq \gbase$ in a base space \gbase\ that encodes the topology of the graphic. We propose that there exists a continuous \textcolor{functor}{map between topological spaces} \vindexc 
 \begin{equation}
@@ -445,17 +446,16 @@ and the hom set is the set of all morphisms from one sheaf to the other. The fun
 \end{split} 
 \end{equation}
 which means that the diagram of sheaf morphisms \autoref{eq:atct:sheaves:homset} is commutative; therefore the functors $\vindexpullc$ and $\vindexpushc$ can be used to adapt morphisms written over one space to another space. 
-This provides us flexibility over which space to construct data to graphic transforms. For example, specifications such as svg\cite{quintScalable2003} and Vega\cite{satyanarayanDeclarativeInteractionDesign2014}, typically define their transformations in data space and return specifications for the render to evaluate. An artist may also want to specify the transformations in a proxy of graphic space, for example for operations like dynamic resampling \note{citation:root maybe}. 
-
+This provides us flexibility over which space to construct data to graphic transforms. For example, specifications such as svg\cite{quintScalable2003} and Vega\cite{satyanarayanDeclarativeInteractionDesign2014}, typically define their transformations in data space and return specifications for the render to evaluate. An artist may also want to specify the transformations in a proxy of graphic space, for example to generate on-demand dynamically resampled continuous lines.
 
 \section{Artist: Data to Graphic}
 \label{sec:artist}
-In this work we propose that visualization libraries are implementing a subset of the functions in the hom sets in \autoref{eq:atct:sheaves:homset} and we call these subset of functions the artist:
+In this work we propose that visualization libraries are implementing a subset of the functions in the hom sets in \autoref{eq:atct:sheaves:homset}. We call these subset of functions the artist:
 \begin{align}
   \label{eq:artist:hom_transport}
-  \vartistc:& \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}\textcolor{artist}{\rightarrow} \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \in \textcolor{set}{Hom}_{\sheafc_{\dbase}, \sheafc_{\gbase}}\\
-  \vartistc^{\dbasec}:&\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}  \textcolor{artist}{\rightarrow} \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} \in \textcolor{set}{Hom}{\sheafc_{\dbase}}\\
-  \vartistc^{\gbasec}:& \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}} \textcolor{artist}{\rightarrow} \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \in \textcolor{set}{Hom}_{\sheafc_{\gbase}}
+  \vartistc:& \cgamma{\dbasec}{\dtotalc}\textcolor{artist}{\rightarrow} \cgamma{\gbasec}{\gtotalc} \in \textcolor{set}{Hom}_{\sheafc_{\dbase}, \sheafc_{\gbase}}\\
+  \vartistc^{\dbasec}:&\cgamma{\dbasec}{\dtotalc}  \textcolor{artist}{\rightarrow} \cgamma{\dbase}{\vindexpushc\gtotalc} \in \textcolor{set}{Hom}{\sheafc_{\dbase}}\\
+  \vartistc^{\gbasec}:& \cgamma{\gbasec}{\vindexpullc\dtotalc} \textcolor{artist}{\rightarrow} \cgamma{\gbasec}{\gtotalc} \in \textcolor{set}{Hom}_{\sheafc_{\gbase}}
 \end{align}
  Because the artists can be constructed as morphisms of sheave over the same base spaces, as listed in \autoref{eq:atct:sheaves:homset:functors}, they are natural transformations
 \begin{align}
@@ -465,8 +465,9 @@ In this work we propose that visualization libraries are implementing a subset o
 \end{align}
 which means that they are maps of functors that take the same input object and return objects in the same category\cite{milewskiCategoryTheoryProgrammers}. As illustrated in \autoref{eq:atct:sheaves:homset}, the sheaf functors
 \begin{equation}
+  \label{eq:artist:sheaf:base}
     \begin{tikzcd}
-      \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} &  & \opensetc \arrow[ll, "{\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] \arrow[rr, "{\vindexpushc\sheafc_{\gbasec, \gtotalc}}", maps to, color=sheaf] &  & \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} 
+      \cgamma{\dbasec}{\dtotalc} &  & \dbasec \arrow[ll, "{\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] \arrow[rr, "{\vindexpushc\sheafc_{\gbasec, \gtotalc}}", maps to, color=sheaf] &  & \cgamma{\dbase}{\vindexpushc\gtotalc} 
       \end{tikzcd}
 \end{equation}
 take as input the same object \opensetc\ and return sets of data and graphic sections that are objects in \setb. As a map between these sheaf functors, the artist has to preserve the $\iota, \iota^*$ morphisms of the presheaf functor, described in \autoref{eq:atct:presheaf}, such that the following diagram commutes
@@ -474,20 +475,26 @@ take as input the same object \opensetc\ and return sets of data and graphic sec
 \begin{equation}
   \label{eq:artist:natural_transform:inclusions}
   \begin{tikzcd}
-    \opensetc_1 & \cgamma{\opensetc_{1}}{\dtotalc\restruction_{\opensetc_1}} \arrow[dd, "\iota^*"', color=set] \arrow[rr, "\vartistc_{\opensetc_1}", color=artist] &  & \cgamma{\opensetc_{1}}{\vindexpushc\gtotalc\restruction_{\opensetc_1}} \arrow[dd, "\iota^*", color=set] \\
+    \dbasec_1 & \cgamma{\dbasec_1}{\dtotalc} 
+    \arrow[dd, "\iota^*"', color=set] 
+    \arrow[rr, "\vartistc_{\dbase_1}", color=artist] &  & 
+    \cgamma{\dbasec_{1}}{\vindexpushc\gtotalc} 
+    \arrow[dd, "\iota^*", color=set] \\
       &  &  &  \\
-    \opensetc_{2} \arrow[uu, "\iota", hook, color=base] & \cgamma{\opensetc_{2}}{\dtotalc\restruction_{\opensetc_2}} \arrow[rr, "\vartistc_{\opensetc_2}", color=artist]                        &  & \cgamma{\opensetc_{2}}{\vindexpushc\gtotalc\restruction_{\opensetc_2}}                      
+    \dbasec_{2} \arrow[uu, "\iota", hook, color=base] & 
+    \cgamma{\dbasec_{2}}{\dtotalc} 
+    \arrow[rr, "\vartistc_{\dbasec_2}", color=artist] &  & 
+    \cgamma{\dbasec_{2}}{\vindexpushc\gtotalc}                      
     \end{tikzcd}
 \end{equation}
  The diagram in \autoref{eq:artist:natural_transform} shows that restricting a set of outputs of an artist to a set of graphic sections over a subspace is equivalent to restricting the inputs to data sections over the same subspace. By construction, the artist is expected to preserve the sheaf axioms of locality and gluing (\autoref{def:atct:sheaf:gluing}, \autoref{def:atct:sheaf:locality}). This bookkeeping is necessary for any visualization technique that selectively acts on different pieces of a data set; for example streaming visualizations \cite{krstajicVisualizationStreamingData2013} and panning and zooming \cite{NekrasovskiEvaluationPanZoom2006}
 
 The output of an artist \vartist\ is a restricted subset of graphic sections
 \begin{equation}
-  \begin{split}
-  \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} &\coloneqq\\ 
-  &\{\gsectionc\vert\;\exists\;\dsectionc \in \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}\;s.t.\; 
-  \vartistc(\dsectionc) = \gsectionc,\; \vindexc(\opensetgc) = \opensetc \} 
-  \end{split}
+  \label{eq:artist:output}
+  \imartist{\gbasec}{\gtotalc} \coloneqq\\ 
+  \{\gsectionc \mid\;\exists\;\dsectionc \in \cgamma{\dbasec}{\dtotalc}\;s.t.\; 
+  \vartistc(\dsectionc) = \gsectionc,\; \vindexc(\gbasec) = \dbasec \}
 \end{equation} 
 that are, by definition, only reachable through a structure preserving artist, which we describe in \autoref{sec:artist:equivariance}. We define this subset because the space of all sections $\cgamma{\opensetg}{\gtotal\restriction_{\openset}}$ includes sections that may not be structure preserving. For example, a section may go from every point in the graphic space to the same single point in the graphic fiber $\gsection(\gbasepoint_i) = d\; \forall \gbasepoint \in \gbase$ such that the visual output is a single inked pixel on a screen. 
 
@@ -499,20 +506,20 @@ We formalize this structure preservation as equivariance, which is that for ever
 \begin{equation}
   \autoref{eq:artist:equivariance}
   \begin{tikzcd}[ampersand replacement=\&, column sep=small]
-  \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+  \cgamma{\dbasec}{\dtotalc} 
   \arrow[rrr, "\vartistc", color=artist] 
   \arrow[d, "\dfuncpullc_{\dtotalc}"', color=action] 
   \& \& \& 
-  \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+  \imartist{\gbasec}{\gtotalc} 
   \arrow[d, "\dfuncpullc_{\gtotalc}", dotted] \\
-  \cgamma{\opensetc^{\prime}}{\dfuncpullc_{\dtotalc}\dtotalc\restriction_{\opensetc^{\prime}}} 
+  \cgamma{\dbasec^{\prime}}{\dfuncpullc_{\dtotalc}\dtotalc} 
   \arrow[dd, "\dfunctc_{\dtotalc}"', color=action] \& 
   \opensetc 
    \& 
   \opensetgc 
   \arrow[l, "\vindexc"', color=functor] 
   \& 
-  \imartist{\opensetgc^{\prime}}{\dfuncpullc_{\gtotalc}\gtotalc\restriction_{\opensetgc^{\prime}}} 
+  \imartist{\gbase^{\prime}}{\dfuncpullc_{\gtotalc}\gtotalc} 
   \arrow[dd, "\dfunctc_{\gtotalc}", dotted, color=action] \\
   \& 
   \opensetc^{\prime} 
@@ -522,10 +529,10 @@ We formalize this structure preservation as equivariance, which is that for ever
   \arrow[l, "\vindexc"', color=functor] 
   \arrow[u, "\dfunchc_{\gtotalc}"', dotted, color=action] 
   \& \\
-  \cgamma{\opensetc^{\prime}}{\dtotalc^{\prime}\restriction_{\opensetc^{\prime}}} 
+  \cgamma{\dbasec^{\prime}}{\dtotalc^{\prime}} 
   \arrow[rrr, "\vartistc^{\prime}", color=artist]  
   \& \& \& 
-  \imartist{\opensetgc^{\prime}}{\gtotalc^{\prime}\restriction_{\opensetgc^{\prime}}}
+  \imartist{\gbasec^{\prime}}{\gtotalc^{\prime}}
   \end{tikzcd}
 \end{equation}
 such that starting at an arbitrary data point $\dsectionc(\dbasepointc)$ and transforming it into a different data point and then into a graphic 
@@ -692,11 +699,11 @@ This expectation of using the same encoding for the same variable is a generaliz
 
 The circle-line glyph in \autoref{fig:artist:operator} can be generated via a line plot and highlighted points in that plot, which is the addition case of two datasets with the same fields and different continuities. The same circle-line glyph can also be generated via the multiplication case as different fields of the same bundle. As mentioned in \autoref{sec:artist:operator:multiplication}, multiplication is implemented as addition of two copies of a base space. Although we have been discussing the trivial cases of adding observations or adding fields, this merging of artists in datasets can be generalized:
 \begin{equation}
-  \vartistc(\cgamma{\bigsqcup_{i} \dbasec^{i}}{\bigoplus_{i}\dtotalc^{i}}) \coloneqq \sum_{i}
+  \vartistc(\cgamma{\mathop{\sqcup}_{i} \dbasec^{i}}{\mathop{\oplus}_{i}\dtotalc^{i}}) \coloneqq \sum_{i}
   \vartistc_{i}(\cgamma{\dbasec^{i}}{\dtotalc^{i}}) 
 \end{equation} 
 
-As shown in \autoref{eq:artist:operator}, bundles over a union of base spaces can be joined as a product of the fibers. This allows us to consider all the data inputs in a complex visualization as a combined input, where some sections evaluate to null in fields for which there are no values for that point in the combined base space $\dbasepoint \in \bigsqcup_{i} \dbase^{i}$ The combined construction of the data is a method for expressing what each data input has in common with another data input-for example the data for labeling tick marks or legends- 
+As shown in \autoref{eq:artist:operator}, bundles over a union of base spaces can be joined as a product of the fibers. This allows us to consider all the data inputs in a complex visualization as a combined input, where some sections evaluate to null in fields for which there are no values for that point in the combined base space $\dbasepoint \in \mathop{\sqcup}_{i} \dbase^{i}$ The combined construction of the data is a method for expressing what each data input has in common with another data input-for example the data for labeling tick marks or legends- 
 and therefore which commonalities need to be preserved in the artists that act on these inputs. 
 
 \section{Construction}
@@ -725,7 +732,7 @@ Although the bundle $\vtotal$ is structurally equivalent to the bundle $\dtotal$
 \subsection{Defining Maps Between Spaces $\vindex$}
 In \autoref{sec:atct:sheaves}, the functors $\vindex, \vindexpull, \vindexpushc$ are introduced to describe the expected relationship between screen and data base spaces. In the construction of the artist, the functor $\vindex$ is defined such that the data base space \dbase\ is a deformation retraction\cite{nlab:deformation_retract} of the graphic space $\gbase$. This means that there is a continuous surjective mapping from every point $\dbasepoint\in\dbase$ to a point $\dbasepoint \in dbase$. To simplify matters, in this paper, we construct the graphic space as a constant multiple of the base space such that 
 \begin{equation}
-  \underbrace{\opensetc\times[0,1]^{n}}_{\opensetgc} \textcolor{functor}{\xmapsto{\hspace{1em}\vindexc\hspace{1em}}} \opensetc 
+  \underbrace{\dbasec\times[0,1]^{n}}_{\gbasec} \textcolor{functor}{\xmapsto{\hspace{1em}\vindexc\hspace{1em}}} \dbasec
 \end{equation}
 where n is a thickening of the graphic base space $\gbase$ to account for the dimensionality of the output space
 \begin{equation*}
@@ -748,7 +755,7 @@ For example, as shown in \autoref{fig:construction:xi}, a line is 1D but is a 2D
 \label{sec:construction:nu}
 As introduced in \autoref{fig:construction:flow}, the encoding function $\vchannel$ is a map from data sections to graphic sections
 \begin{equation}
-\nu: \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \rightarrow \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}}
+\nu: \cgamma{\dbasec}{\dtotalc} \rightarrow \cgamma{\dbasec}{\vtotalc}
 \end{equation}
 such that the sections project to the same point on the base space $\pi(\dtotal) = \pi(\vchannel(\dtotal))$. A consequence of this property is that $\vchannelc$ can be constructed as a pointwise transformation such that  
 \begin{equation}
@@ -816,7 +823,7 @@ The change in visual components $\dfunct_{\vtotal}$ is dependent both on $\dfunc
 \subsection{Composite Measurable Components Into Visual Elements}
 As shown in \autoref{fig:construction:flow}, the compositor function $\vmarkc$ transforms the measurable components into properties of a visual element. The compositing function $\vmarkc$ transforms the sections of visual elements $\vsectionc$ into sections of graphics $\gsectionc$.
 \begin{equation}
-  \vmarkc: \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \rightarrow \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}
+  \vmarkc: \cgamma{\dbasec}{\vtotalc} \rightarrow \cgamma{\gbasec}{\gtotalc}
 \end{equation}
 The compositing function is map from sheaves over $\dbase$ to sheaves over $\gbase$. This is because, as described in \autoref{fig:construction:xi}, the graphic section must be evaluated on all points in the graphic space to generate the visual element corresponding to a data record at a single point $\vartist(\dsection(\dbasepoint)) = \gsection(\vindexpre(\dbasepoint))$. 
 
@@ -825,10 +832,10 @@ Since encoder functions are infinitely composable, as described in \autoref{eq:c
 \begin{equation}
   \label{eq:construction:q:fabrication}
   \begin{tikzcd}
-      \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} 
+      \cgamma{\dbasec}{\vtotalc} 
       \arrow[rr, "\vchannel", color=artist] 
-      \arrow[rrrr, "\vmarkc^{\prime}"', bend right, color=artist, dashed] &  & \cgamma{\opensetc}{\vtotalc^{\prime}\restriction_{\opensetc}} 
-      \arrow[rr, "\vmarkc", color=artist] &  & \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}
+      \arrow[rrrr, "\vmarkc^{\prime}", bend right, color=artist, dashed] &  & \cgamma{\dbasec}{\vtotalc^{\prime}} 
+      \arrow[rr, "\vmarkc", color=artist] &  & \cgamma{\gbasec}{\gtotalc}
       \end{tikzcd} 
 \end{equation}
 The composition in \autoref{eq:construction:q:fabrication} means that different measurable components can yield the same visual elements. 
@@ -846,12 +853,17 @@ An advantage of factoring out encoding and verification, as discussed in \autore
 \begin{equation}
   \label{eq:construction:q:validate}
   \begin{tikzcd}[row sep=huge]
-    \cgamma{\opensetc}{(\vtotalc^{a}\times \vtotalc^{b})\restriction_{\opensetc}}  
-    \arrow[rr, "\vmarkc_{ab}", color=artist] \arrow[d, "\pi_a"', color=total] &  &  \imartistsub{ab}{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+    \cgamma{\dbasec}{\vtotalc^{a}\times \vtotalc^{b}}  
+    \arrow[rr, "\vmarkc_{ab}", color=artist] 
+    \arrow[d, "\pi_a"', color=total] &  &  \imartistsub{ab}{\gbasec}{\gtotalc} 
     \arrow[d, "\measurec\restriction_a \circ \extractmc_{ab}", color=monoid]  \\
-   \cgamma{\opensetc}{\vtotalc^{a}\restriction_{\opensetc}} 
-   \arrow[rr, "\simeq", dotted] &  & {\textcolor{set}{Hom}(\opensetc, \measurec^{a})}                                                                             \\
-    \cgamma{\opensetc}{(\vtotalc^{a}\times \vtotalc^{c})\restriction_{\opensetc}}  \arrow[rr, "\vmarkc_{ac}", color=artist] \arrow[u, "\pi_a", color=total]  &  &  \imartistsub{ac}{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \arrow[u, "\measurec\restriction_a \circ \extractmc_{ac}"', color=monoid]
+   \cgamma{\dbasec}{\vtotalc^{a}} 
+   \arrow[rr, "\simeq", dotted] &  & 
+   {\textcolor{set}{Hom}(\dbasec, \measurec^{a})}  \\
+    \cgamma{\dbasec}{\vtotalc^{a}\times \vtotalc^{c}}  
+    \arrow[rr, "\vmarkc_{ac}", color=artist] 
+    \arrow[u, "\pi_a", color=total]  &  &  \imartistsub{ac}{\gbasec}{\gtotalc} 
+    \arrow[u, "\measurec\restriction_a \circ \extractmc_{ac}"', color=monoid]
    \end{tikzcd}
 \end{equation}
 As illustrated in \autoref{eq:construction:q:validate}, a compositor is valid if there is an isomorphism between the actual outputted measured visual component and the expected measurable component that is the input. One way of verifying that a compositor is consistent is by verifying that it passes through one encoding even while changing others. For example, when $\vmark_{ab}=\vmark_{ac}$ then the output should differ in the same measurable components as $\vsectionc_{ab}$ and $\vsection_{ac}$. 
@@ -865,6 +877,7 @@ As discussed in \autoref{fig:artist:equivariance}, the change in base space may 
 
 The compositor function is also expected to be equivariant with respect to changes in data and measurable components
 \begin{equation}
+  \label{eq:construnction:nu:verify:base}
   \dfunctc_{\vtotalc}(\vsectionc(\dbasepointc)) = \dfunctc_{\gtotalc}(\vmarkc(\vsectionc(\dbasepointc)))  
 \end{equation}
 which means that any change to a measurable component input must have a measurably equivalent change in the output. As illustrated in \autoref{fig:artist:equivariance}, the compositor $\vmarkc$ is expected to assemble the measurable components such that base space changes, for example transposition, are reflected in the output; faithfully pass through equivariant measurable components, such as scaled colors; and ensure that both types of transformations, here scaling and transposition, are present in the final glyph.  
@@ -876,39 +889,46 @@ As shown in \autoref{eq:atct:sheaves:homset}, if a sheaf is equipped with transp
 \begin{equation}
   \label{eq:construction:artist:path}
 \begin{tikzcd}[row sep=2.5em, column sep=1.5em]
-  \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+  \cgamma{\dbasec}{\dtotalc} 
   \arrow[rr, "\vchannelc^{\dbasec}", color=artist] 
   \arrow[rrrr, "\vartistc^{\dbasec}", bend left, color=artist] 
   \arrow[dd, "\vindexpullc"', color=functor] 
   \arrow[rrrrdd, "\vartistc", color=artist, pos=.2] &  & 
-  \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} 
+  \cgamma{\dbasec}{\vtotalc} 
   \arrow[rrdd, "\vmarkc", color=artist] 
   \arrow[rr, "\vmarkc^{\dbasec}", color=artist] 
-  \arrow[dd, "\vindexpullc", color=functor, pos=.2] &  & \imartist{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}  \\
+  \arrow[dd, "\vindexpullc", color=functor, pos=.2] &  & \imartist{\dbasec}{\vindexpushc\gtotalc}  \\
    & & & & \\
-  \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}} \arrow[rr, "\vchannelc^{\gbasec}", color=artist] 
+  \cgamma{\gbasec}{\vindexpullc\dtotalc} 
+  \arrow[rr, "\vchannelc^{\gbasec}", color=artist] 
   \arrow[rrrr, "\vartistc^{\gbasec}", bend right, color=artist] & & 
-  \cgamma{\opensetgc}{\vindexpullc\vtotalc\restriction_{\opensetgc}} \arrow[rr, "\vmarkc^{\gbasec}", color=artist] &  & 
-  \imartist{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \arrow[uu, "\vindexpushc"', color=functor]
+  \cgamma{\gbasec}{\vindexpullc\vtotalc} 
+  \arrow[rr, "\vmarkc^{\gbasec}", color=artist] &  & 
+  \imartist{\gbasec}{\gtotalc} 
+  \arrow[uu, "\vindexpushc"', color=functor]
 \end{tikzcd}  
 \end{equation}
 The diagram in \autoref{eq:construction:artist:path} illustrates how a developer can connect transformations over data space, denoted with a subset $\dbase$, with transformations over graphic space $\gbase$, using $\vindexpushc$ and $\vindexpullc$ adaptors. This allows developers to for example connect transformers that transform data on a line to a color in dataspace, but build a line compositing function that dynamically resamples what is on screen in graphic space.
 
 \section{Discussion: Implementing The Math}
+\label{sec:discussion}
 The framework specified in \autoref{sec:artist} and \autoref{sec:construction} describes how to build structure preserving visualization components, but it is left to the library developer to follow these guidelines when building and reusing components. 
 In this section, we introduce a toy example of building an artist out of the components introduced in \autoref{sec:construction} to illustrate how components that adhere to these specifications are maintainable, extendible, scalable, and support concurrency. Specially, we introduce artists for building different types of bar graphs because it is a visualization type that allows us to demonstrate composability and multivariate data encoding. We build our visualization components by extending the Python visualization library Matplotlib's artist\footnote{Matplotlib artists are our artist's namesake}\cite{hunterMatplotlib2DGraphics2007,hunterArchitectureOpenSource} to show that components using this model can be incorporated into existing visualization libraries iteratively. While the architecture specified in \autoref{sec:construction} can be implemented fully functionally, we make use of objects to keep track of parameters passed into artists. In this toy example, the small composable components allow for more easily verifying that each component does its transformation correctly before assembling them into larger systems.  
 
 
 \begin{table}[h!]
-  \label{tab:discussion:data}
   \centering
-\begin{tabular}{|llrl|}
+\begin{tabular}{|lcl|}
   \hline \\
-  &   fruit &  calories &  juice \\
-
-  &   apple &        95 &   True \\ &  orange &        67 &   True \\ &   lemon &        17 &  False \\ &    lime &        20 &  False \\
+   fruit &  calories &  juice \\
+  \hline\\
+    apple &        95 &   True \\ 
+   orange &        67 &   True \\ 
+  lemon &        17 &  False \\ 
+      lime &        20 &  False \\
   \hline
 \end{tabular}
+\label{tab:discussion:data}
 \end{table}
 We construct a toy dataset with a discrete $\dbase$ of 4 points and a fiber space of $\dfiber=\{apple,\, orange,\, lemon\}\times \mathbb{Z}^{+} \times \{\texttt{True}, \texttt{False}\}$. We thinly wrap \autoref{tab:discussion:data} in an object so that the common data interface function is that $\tau = \ttexttt{DataContainerObject.query}$. 
 \begin{minted}{python}
@@ -1015,8 +1035,9 @@ The example in this section is intentionally trivial to illustrate that the math
 
 
 \section{Conclusion}
-The conclusion goes here.
-
+The toy example presented in \autoref{sec:discussion} demonstrates that it is relatively straightforward to build working visualization library components using the construction described in \autoref{sec:construction}. Since these components are defined with single record inputs, the can be implemented such that they are concurrent. The cost of building a new function using these components is sometimes as small as renaming fields, meaning the new feature is relatively easy to maintain. These new components are also a lower maintenance burden because, by definition, they are designed in conjunction with tests that verify that they are equivariant.  
+These new components are also compatible with the existing library architecture, allowing for a slow iterative transition to components built using this framework. 
+The framework introduced in this paper is a marriage of the ways the graphic and data visualization communities approach visualization. The graphic community prioritizes \note{?} how input is translated to output, which is encapsulated in the artist $\vartist$. The data visualization community prioritizes the manner in which that input is encoded, which is encapsulated in the separation of stages $\vmark \circ \vchannel$. Formalizing that both views are equivalent $\vartist=\vmark \circ \vchannel$ gives library developers the flexibility to build visualization components in the manner that makes more sense for the domain without having to sacrifice the equivariance of the translation. 
 
 \appendices
 
