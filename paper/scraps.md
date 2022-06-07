@@ -93,3 +93,9 @@ we can construct a $\vmarkc = \sqcup_i\vmarkc_i$. This allows us to .
 \end{figure}
 
 As illustrated in \autoref{fig:construction:combined_q}, this composition rule expresses the construction of a multipart circle-square graphic out of circles and squares produced by different $\vmarkc$. \note{rewrite:Also figures are the unions of their parts}.
+
+\begin{figure}[h!]
+  \label{fig:construction:flow}
+  \includegraphics*[width=1\columnwidth]{path_of_q.png}
+  \caption{One method of constructing the artist is by formulating the artist as having two stages: (1) encoding functions $\vchannelc$ that convert different parts of the input into measurable visual components, such as color or position; (2) compositing functions $\vmarkc$ that assemble the measurable visual components into a visual element generating function. In this construction, we propose an intermediate visual bundle $\vtotalc$ that encodes the space of possible visual encodings.}
+\end{figure}

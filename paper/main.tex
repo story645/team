@@ -150,17 +150,25 @@ The abstract goes here.
 \IEEEPARstart{V}isualizations are expected to be a faithful translation of the inherent structure of the data being visualized; therefore the components of visualization software libraries that translate data to graphics are also expected to preserve this structure. Motivated by a need to develop new library components that adapt to modern data needs, especially high dimensional multivariate and distributed data, we propose a framework that topological and field structure of the input data that must be mapped to the visualization and which changes to data must be expressed in visualization, and a a functional design framework that describes composability in terms of functional algebraic operations. \note{this may be a good place to incorporate types} This allows complex visualizations to be built from simple verifiable parts\cite{huHowFunctionalProgramming2015,hughesWhyFunctionalProgramming1989}, which makes these components easier to drop into the existing library and be used by domain specific library developers to build new libraries that work with existing ones.  While many of these elements have been partially described elsewhere, our framework naturally combines them in a unified framework based on ideas in category theory. Further we see the application of these ideas in low level visualization library design as our motivation, and we hope these ideas will help shape the reorganization of critical data visualization libraries, such as Matplotlib. The contribution of this paper is a uniform method for describing the structure in data and a mathematical framework for describing, constructing, and testing structure preserving visualization library components.  
 
 \section{Related Work}
-We build on the exentsive work codifying the structure of visualization data to develop a more generalizable method for expressing the structure that visualizations are expected to preserved. Broadly, previous work describes structure as a combination of the topological properties of the data, the mathematical structure of the data fields, and equivalent changes to data and graphics. We propose that a unified abstraction model can guide developers in building structure aware composable, reusable software library components with more consistent interfaces. 
+We build on the exentsive work codifying the structure of visualization data to develop a more generalizable method for expressing the structure that visualizations are expected to preserve. Broadly, previous work describes structure as a combination of the topological properties of the data, the mathematical structure of the data fields, and equivalent changes to data and graphics. We propose that a unified abstraction model can guide developers in building structure aware composable, reusable software library components with more consistent interfaces. 
 
 \subsection{Topology}
 \label{sec:related-work:continuity}
 \begin{figure}[h!]
   \includegraphics[width=1\columnwidth]{k_different_types.png}
-  \caption{A topological representation of the data (in purple) is a simplified representation of how the records in a dataset are connected. For example, a 1D continuous function is evaluated on a 1D continuous interval, and a map is 2D continuous surface. A network is a union of discrete nodes and continuous lines. The nodes represent the continuity of a table of discrete weather station data and the graph edges are encoded with the distances between the nodes. \label{fig:related-work:continuity:ktypes}}
+  \caption{
+    A topological representation of the data (in purple) is a simplified representation of how the records in a dataset are connected. The table is a set of independent records; therefore it has a 0D continuity represented by the disconnected dots. These records can also be samples from a timeseries, which has a 1D continuity. \note{started making a map of the temperature data but was taking a while so I didn't  }
+    \label{fig:related-work:continuity:ktypes}}
 \end{figure}
-The topological properties of a dataset are the ways in which elements are connected, as described by Wilkenson\cite{wilkinsonGrammarGraphics2005}. Some examples, as shown in \autoref{fig:related-work:continuity:ktypes} are discrete rows of a table, a continuous 1D line, or a surface. The topological space, in purple, acts as a generalized indexing space for the data. For example, a point on the green line is mapped to by evaluating the gaussian on a point on the interval and each pixel in the map can be found via a lookup on the 2D surface. This general formulation of topology gives us a language for expressing the continuity of a dataset. The network is a union of a 0D discrete points and 1D lines connecting those points. The data record in the yellow row can be expressed as a constant function of the yellow network node, while the data on the graph edge between any two points is a function of the distance between those points. 
 
-Bertin stated that data should be represented by visual elements with the same type of topology - points should be represented by discrete entities, lines by lines, and surfaces through area marks \cite{bertinSemiologyGraphicsDiagrams2011a}.  Visual algorithms assume the continuity of their data, as described in taxonomies of visualization algorithms by Troy, M\"{o}ller, and Chi \cite{toryRethinkingVisualizationHighlevel2004,chiTaxonomyVisualizationTechniques2000} and try to preserve it, but many data structures do not provide a method for encoding the topology of the data they store. For example, a \texttt{line} algorithm often take as input a list of (x,y) coordinates. The \texttt{line} algorithm assumes that its input is continuous and therefore displays the data as if it was continuous, regardless of the actual data topology. The ability to encode the continuity expectations in the visual algorithm and the data container would provide a way of verifying that the assumptions match and therefore that the components are preserving the topological structure. 
+ 
+
+Roughly, topology is a formal way of encoding the connectivity of the elements of the dataset \cite{wilkinsonGrammarGraphics2005} and there is an expectation that the visual elements should match this connectivity. Formally, a topological space is a set $X$ with a structure called a topology. The set $X$ is a collection of points, where these points are \note{getting tripped up on how much of the definition to include here, but this is the natural place to give a definition of topology and opensets}
+Some common topologies, as illustrated in\autoref{fig:related-work:continuity:ktypes}, are point, lines, and surfaces. The table is an example of disconnected discrete elements and therefore has the topology of discrete points. The timeseries is  sampled from a 1d continuous temperature measurement, and therefore has a topology of a 1D space. The map in \autoref{fig:related-work:continuity:ktypes} shows a 2D continuous surface. As illustrated in the figure, it is not uncommon for the same dataset to have multiple topologies. For the common topologies of discrete points, lines, and surfaces, Bertin recommend that they be represented visually by point, line, and area type visual elements respectively \cite{bertinSemiologyGraphicsDiagrams2011a}, and this expectation has been generalized in the development of visual algoriithms. 
+
+ 
+
+Visual algorithms assume the continuity of their data, as described in taxonomies of visualization algorithms Chi and by Troy and M\"{o}ller \cite{chiTaxonomyVisualizationTechniques2000,toryRethinkingVisualizationHighlevel2004} and try to preserve it, but many data structures do not provide a method for encoding the topology of the data they store. For example, a \texttt{line} algorithm often take as input a list of (x,y) coordinates. The \texttt{line} algorithm assumes that its input is continuous and therefore displays the data as if it was continuous, regardless of the actual data topology. The ability to encode the continuity expectations in the visual algorithm and the data container would provide a way of verifying that the assumptions match and therefore that the components are preserving the topological structure. 
 
 \subsection{Equivariance}
 Visualizations that preserve the mathematical structure of the data are called equivariant maps. Equivariant maps are maps where every change to an input has an equivalent change in the output. Bertin codified the idea that visual encoding of a data field should match the structure of the field; for example ordered data should be encoded as an ordered visual element or quantitative data as a quantitative visual element \cite{bertinSemiologyGraphicsDiagrams2011a}. This structure mapping is necessary to ensure that the visual representations in graphs are not distorting the data\cite{tufteVisualDisplayQuantitative2001} and graphs are easier to understand when properties match \cite{norman_things_smart}. The expectation of matching structure is generalized as a mapping of a binary operator that acts on the data domain to a binary operator that acts on the graphic domain by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. An invertible binary operator is the basis of Kindlemannn and Scheideggers's algebraic model of visualization\cite{kindlmannAlgebraicProcessVisualization2014}. They propose three specific types of equivariance: that the visualization should not change if the data representation (i.e. the data container) changes, that data maps unambiguously to visual elements \cite{ziemkiewiczEmbeddingInformationVisualization2009}, that changing the data should coresspond to changes in the visualization in a perceptually significant manner. While the data representation introduced in \autoref{sec:atct:io} dispenses with a distinction between containers and the data, the expectation of unambiguous mappings is expressed in \autoref{sec:atct:xi} and the definition of equivariance introduced in \autoref{sec:artist:equivariance} includes the correspondence between data and visual changes. 
@@ -213,7 +221,7 @@ Fiber bundles where the fibers are not identical are called non-trivial bundles.
 \begin{figure}[h!]
   \centering
   %needs cropping
-  \includegraphics[scale=.5]{fbtau.png}
+  \includegraphics[trim={2cm 2cm 2cm 2cm}, clip]{fbtau.png}
   \caption{A non-trivial fiber bundle is bundle where the (by definition isomorphic) fibers change along the indexing base space. Here $\dfiber_{\dbasepoint_1}$ and $\dfiber_{\dbasepoint_2}$ go in reverse directions and the global section $sin$ returns $sin(\dbasepoint_{i})$ which is a value between $[0,1]$
   \label{fig:atct:stripbundle}}
 \end{figure}
@@ -282,7 +290,8 @@ Presheaves are functors, meaning they are functions from objects of one category
   \sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
 \end{equation}
 
-Presheaves are a contraviant functor, which means that the inclusion morphisms $\iota$ between base space objects go in the opposite direction from the restriction morphisms $\iota^*$ between objects in set.  
+Presheaves are a contraviant functor, which means that the inclusion morphisms $\iota$ between base space objects go in the opposite direction from the restriction morphisms $\iota^*$ between objects in set.
+\note{maybe unpack each piece of this equation into a seperate equation/walk through, from U to fiber when trivial}  
 \begin{equation}
   \label{eq:atct:presheaf}
   \begin{tikzcd}
@@ -295,7 +304,7 @@ Presheaves are a contraviant functor, which means that the inclusion morphisms $
     \arrow[uu, "{\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf]              
     \end{tikzcd}
 \end{equation}
-A presheaf describes the expectation that any set of sections defined over a larger space $\dsection \in Gamma(\opensetc_2, \dtotal\restriction_{\openset_{2}})$ is also defined over subspaces of that space $\dsection\restriction_{\opensetc_{1}}$. 
+A presheaf describes the expectation that any set of sections defined over a larger space $\dsection \in \Gamma(\opensetc_2, \dtotal\restriction_{\openset_{2}})$ is also defined over subspaces of that space $\dsection\restriction_{\opensetc_{1}}$. 
 
 The locality and gluing axioms \cite{bakerMathsSheaf} of a sheaf describe the conditions for verifying that the sections over subspaces are part of a cohesive section over the whole space. The locality axiom asserts that two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values over the same set of open sets $\dsection^{a}|{\openset} =  \dsection^{b}|_{\openset}$. The gluing axiom asserts that the union of sections defined on specific open sets is equivalent to one big section over the union of spaces $\dsection|_{\openset_{i} \cup \openset_{j}} = \dsection^{i}|_{\openset_i} \cup \dsection^{j}|_{\openset_j}$ if these sections agree on overlaps $\dsection^{i}|_{\openset_i\cap\openset_j} =  \dsection^{j}|_{\openset_i\cap\openset_j}$ The gluing axiom generalizes to expresses an equivalency between a concatenated representation of data and distributed representation of the same data. In \autoref{fig:atct:networkbundle} this axiom means that the sections over each node and the edge can be combined into one section over the piece of the network in the figure.
 
@@ -417,7 +426,8 @@ such that it provides a way to look up which graphic  corresponds with a data in
 \begin{equation}
   \vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexprec(\dbasepointc)} = \{\gsectionc(\gbasepointc)\;for\;all\; \gbasepointc\in \vindexprec(\dbasepointc)\}
 \end{equation}
-
+\note{$\xi_*rho(k)(s)=rho(s) for s in \xi^{-1}(k)$
+ and move {} into narrative}
 Therefore, the continuous map $\vindex$ and transport functors $\vindexpull, \vindexpush$ allow us to express the correspondence between graphic section and data section. 
 
 \begin{figure}[h!]
@@ -588,7 +598,8 @@ The change in measurements $\dfunctc_{\measure}$ is defined by the developer as 
 
 \begin{figure}[h!]
   \includegraphics[width=1\columnwidth]{equivariance.png}
-  \caption{This artist is equivariant because the input data and output graphic representation are transposed $\dfunch$, scaled $\dfunct$ and both transposed and scaled $\dfunc$ in the same manner. \label{fig:artist:equivariance}}
+  \caption{This artist is equivariant because when the input data $\dsection$ is transposed, $\dfunch$, scaled $\dfunct$, and transposed and scaled $\dfunc$, the corresponding colored cells are transposed, scaled such that the color is moved two steps, and both transposed and scaled. 
+  \label{fig:artist:equivariance}}
 \end{figure}
 For example, in \autoref{fig:artist:equivarance}, the measurable variable is color. This is a visual representation of the data shown in \autoref{fig:atct:phi}, and as such the equivariant transformations are an equivalent transposition and scaling of the colors. This visualization is equivariant with respect to base space transformations, as defined in \autoref{eq:atct:equivarance:verify:base}, because the color values at the new position at the old position $measure_\dbasepoint^{\prime} = \measure_{\dbasepoint}$. This visualization is also equivariant with respect to fiber wise transformations, as defined in \autoref{eq:atct:equivarance:verify:fiber}, because the colors are consistently scaled in the same was the data. For example, the values that have become 2 and 4 in the $\dfunctc$ and $\dfunc$ panels are colored the same as the original 2 and 4 values in the first panel. The equivariance in this visualization is composable, as shown in the colors being both transposed and scaled correctly in the $\dfunc$ panel.
 
@@ -654,6 +665,7 @@ One way to verify that these artists are composable is to check that the return 
 \end{equation}
  for all $\dbasepointc_{a}, \dbasepointc_{b} \in \dbasec_{a}\bigsqcup\limits_{\dbasec_{c}} \dbasec_{b}$  
  
+ \note{replace w/ a line plot w/markers}
  One example of an artist that is a sum of artists is a sphere drawer that draws different quadrants of a sphere $\vartist(\dsection) = \vartist_{1}(\dsection_{1}) + \vartist_{2}(\dsection_{2}) + \vartist_{3}(\dsection_{3}) \vartist_{4}(\dsection_{4})$. Given an input $\dbasepoint \in \dbase_4$ in the 4th quadrant, then the graphic section that would be executed is $\gsection_{4}$. If that point is also in the 3rd quadrant  $\dbasepoint \in \dbase_3$, then both artist outputs must return the same values $\gsection_{4}(\vindexprec(\dbasepoint)) = \gsection_{3}(\vindexprec(\dbasepoint))$. 
 
 
@@ -692,11 +704,12 @@ One way to verify that these artists are composable is to check that they encode
 This expectation of using the same encoding for the same variable is a generalization of the concept of consistency checking of multiple view encodings discussed by Zening and Hullman \cite{hullmanKeeping2018}. This expectation can also be used to check that a multipart glyph is assembled correctly. For example, a box plot \cite{wickham40YearsBoxplots2011} typically consists of a rectangle, multiple lines, and scatter points; therefore a boxplot artist $\vartist_{boxplot} = \vartist_{rect} \times \vartist_{errors} \times \vartist_{line} \times \vartist_{points}$ must be constructed such that all the sub artists draw a graphic at or around the same x value. 
 
 \begin{figure}[h!]
-  \includegraphics*[width=1\columnwidth]{qcom.png}
-  \caption{The circle-line glyph can either be considered as composed of two separate shapes, a circle and line, which each have their own graphic base spaces or as a single glyph which has an equivalent graphic base  $\gbase_{circle} \sqcup \gbase_{line} = \gbase_{circle-line}$  \label{fig:artist:operator}}
+  \centering
+  \includegraphics*[scale=.75]{qcom.png}
+  \caption{The circle-line visual element can be constructed via $\gsection_{circle}$ + $\gsection_{line}$ functions that generate the circle and line elements respectively. This is equivalent to a $\gsection_{circle+line}$ function that takes as input the combined base space $\gbase_{circle} \sqcup \gbase_{line} = \gbase_{circle-line}$ and returns pixels in the circle-line element.  \label{fig:artist:operator}}
 \end{figure}
-
-The circle-line glyph in \autoref{fig:artist:operator} can be generated via a line plot and highlighted points in that plot, which is the addition case of two datasets with the same fields and different continuities. The same circle-line glyph can also be generated via the multiplication case as different fields of the same bundle. As mentioned in \autoref{sec:artist:operator:multiplication}, multiplication is implemented as addition of two copies of a base space. Although we have been discussing the trivial cases of adding observations or adding fields, this merging of artists in datasets can be generalized:
+There is no way to visually determine whether a visual element is the output of a single artist or a multiplied or added collection of artists. The circle-line visual element in \autoref{fig:artist:operator} can be a visual representation of a highlighted point intersecting with a line plot with the same fields. The same element can also be encoding some fields of a section in the circle and other fields of that section in the lines. \note{+*equive}
+Although we have been discussing the trivial cases of adding observations or adding fields, this merging of artists in datasets can be generalized:
 \begin{equation}
   \vartistc(\cgamma{\mathop{\sqcup}_{i} \dbasec^{i}}{\mathop{\oplus}_{i}\dtotalc^{i}}) \coloneqq \sum_{i}
   \vartistc_{i}(\cgamma{\dbasec^{i}}{\dtotalc^{i}}) 
@@ -707,11 +720,7 @@ and therefore which commonalities need to be preserved in the artists that act o
 
 \section{Construction}
 \label{sec:construction}
-\begin{figure}[h!]
-  \label{fig:construction:flow}
-  \includegraphics*[width=1\columnwidth]{path_of_q.png}
-  \caption{One method of constructing the artist is by formulating the artist as having two stages: (1) encoding functions $\vchannelc$ that convert different parts of the input into measurable visual components, such as color or position; (2) compositing functions $\vmarkc$ that assemble the measurable visual components into a visual element generating function. In this construction, we propose an intermediate visual bundle $\vtotalc$ that encodes the space of possible visual encodings.}
-\end{figure}
+
 We propose that one way of constructing artist functions is to separate generating a visualization, as shown in \autoref{fig:construction:flow}, is into an equivariant continuity preserving encoding stage $\vchannelc$ and a equivariant continuity preserving compositing stage $\vmarkc$. In the \textcolor{artist}{encoding} stage $\vchannelc$, a data bundle is treated as separable fields and each field is mapped to a measurable visual variable. In the encoding stage, the expected visual mappings $\equivb$ can be implemented inside the library. Factoring out the encoding stage leaves the \textcolor{artist}{compositing} stage $\vmarkc$ responsible for faithfully translating those measurable visual components into a visual element.  
 
 \subsection{Measurable Visual Components}
@@ -745,8 +754,9 @@ because the data dimensionality $\dbase$ may be too small for a graphic represen
 \begin{figure}[h!]
 
   \includegraphics[width=1\columnwidth]{deform_retract.png}
-  \caption{The graphic base space $\gbase$ is collapsable to the line $\dbase$ such that every band $(\dbasepoint_i, [0,1])$ on $\gbase$ maps to corresponding point $\dbasepoint_i \in \dbase$ and the band $[0,1]$ determines which pixels are filled in to generate the shape of the line.\note{maybe put in a phantom line plot in s}\label{fig:construction:xi}}
+  \caption{The graphic base space $\gbase$ is collapsable to the line $\dbase$ such that every band $(\dbasepoint_i, [0,1])$ on $\gbase$ maps to corresponding point $\dbasepoint_i \in \dbase$. The band $[0,1]$ determines the thickness of a rendered line for a given point $\dbasepoint_{i}$ by specifying how pixels corresponding to that point are colored. \label{fig:construction:xi}}
 \end{figure}
+
 For example, as shown in \autoref{fig:construction:xi}, a line is 1D but is a 2D glyph on a screen; therefore the graphic space $\gbase$ is constructed by multiplying the base space $\dbase$ with an interval $[0,1]$. Because $\gbase$ is collapsible into $\dbase$, every band $(\dbasepoint_i, [0,1])$ corresponds to a point in the base space $\dbasepoint_i \in \dbase$. The first coordinate $\alpha=\dbasepoint_i$ provides a lookup to retrieve the associated visual variables. The second coordinate, which is a point in the interval $\beta=[0,1]$. Together they are a point $\gbasepoint=(\alpha,\beta) \in gbase$ in the graphic base space. This point $\gbasepoint$ is the input into the graphic section $\gsection(\gbasepoint)$ that is used to determine which pixels are colored, which in turn determines the thickness, texture, and color of the line. 
 
 
@@ -837,14 +847,14 @@ Since encoder functions are infinitely composable, as described in \autoref{eq:c
       \arrow[rr, "\vmarkc", color=artist] &  & \cgamma{\gbasec}{\gtotalc}
       \end{tikzcd} 
 \end{equation}
-The composition in \autoref{eq:construction:q:fabrication} means that different measurable components can yield the same visual elements. The composition operators defined in \autoref{sec:artist:composition} can also act on compositors $\vmark$ such that $\vmarkc_{a+b} = \vmark_{a} + \vmark_{b}$ and multiplied d $\vmark_{a\times b} = \vmark_{a}  \vmark_{b}$.  
+The composition in \autoref{eq:construction:q:fabrication} means that different measurable components can yield the same visual elements. The composition operators defined in \autoref{sec:artist:composition} can also act on compositors $\vmark$ such that $\vmark_{a+b} = \vmark_{a} + \vmark_{b}$ and multiplied d $\vmark_{a\times b} = \vmark_{a}  \vmark_{b}$.  
 
 
 \begin{figure}[h!]
-  \includegraphics[width=1\columnwidth]{q.png}
+  \includegraphics[width=1\columnwidth]{full_scatter.png}
   \caption{This simple $\vmarkc$ assembles a circular visual element that is the color specified in $\vsection(\dbasepoint)$ and is at the intersection specified in $\vsection(\dbasepoint)$ \label{fig:construction:q}}
 \end{figure}
-As shown in \autoref{fig:construction:q}, a set of  $\vchannel$ functions individually convert the values in the data record to visual components. Then the $\vmarkc$ function combines these visual encodings to produce a graphic section \gsection. When this section is evaluated on the graphic space associated with the data $\gsection(\vindexpre(\dbasepoint))$, it produces a blue circular marker at the intersection of the x and y positions listed in \vsection. The composition rule in \autoref{eq:construction:q:fabrication} means that developers can implement $\vmarkc$ as drawing circles or can implement a $\vmarkc$ that draws arbitrary shapes, and then provide different $\vchannelc$ adapters, such as one that specifies that the shape is a circle. 
+As shown in \autoref{fig:construction:q}, a set of  $\vchannel$ functions individually convert the values in the data record to visual components. Then the $\vmark$ function combines these visual encodings to produce a graphic section \gsection. When this section is evaluated on the graphic space associated with the data $\gsection(\vindexpre(\dbasepoint))$, it produces a blue circular marker at the intersection of the x and y positions listed in \vsection. The composition rule in \autoref{eq:construction:q:fabrication} means that developers can implement $\vmark$ as drawing circles or can implement a $\vmark$ that draws arbitrary shapes, and then provide different $\vchannel$ adapters, such as one that specifies that the shape is a circle. 
 
 \subsubsection{Compositor Verification}
 \label{sec:construction:q:verification}
@@ -881,7 +891,6 @@ The compositor function is also expected to be equivariant with respect to chang
 \end{equation}
 which means that any change to a measurable component input must have a measurably equivalent change in the output. As illustrated in \autoref{fig:artist:equivariance}, the compositor $\vmarkc$ is expected to assemble the measurable components such that base space changes, for example transposition, are reflected in the output; faithfully pass through equivariant measurable components, such as scaled colors; and ensure that both types of transformations, here scaling and transposition, are present in the final glyph.  
 
-
 \subsection{Implementing the Artist: $\vartistc=\vmarkc\circ\vchannelc$}
 
 As shown in \autoref{eq:atct:sheaves:homset}, if a sheaf is equipped with transport functors, then the functions between sheaves over one space are isomorphic to functions between sheave over the other space. This property, allows us to specify the transformation from data to graphic space in data or graphic space or a combination, as listed in \autoref{eq:artist:hom_transport}, such that the following diagram commutes:
@@ -908,6 +917,10 @@ As shown in \autoref{eq:atct:sheaves:homset}, if a sheaf is equipped with transp
 \end{tikzcd}  
 \end{equation}
 The diagram in \autoref{eq:construction:artist:path} illustrates how a developer can connect transformations over data space, denoted with a subset $\dbase$, with transformations over graphic space $\gbase$, using $\vindexpushc$ and $\vindexpullc$ adaptors. This allows developers to for example connect transformers that transform data on a line to a color in dataspace, but build a line compositing function that dynamically resamples what is on screen in graphic space.
+\begin{figure}
+  \includegraphics[width=1\columnwidth]{full_line.png}
+  \caption{\label{fig:construction:artist:combo}}
+\end{figure}
 
 \section{Discussion: Feasibility of Math as Design Spec}
 \label{sec:discussion}
