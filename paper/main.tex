@@ -154,7 +154,7 @@ The abstract goes here.
 \section{Related Work}
 We build on the extensive work codifying the structure of visualization data to develop a more generalizable method for expressing the structure that visualizations are expected to preserve. Broadly, previous work describes structure as a combination of the topological properties of the data, the mathematical structure of the data fields, and equivalent changes to data and graphics. We propose that a unified abstraction model can guide developers in building structure aware composable, reusable software library components with more consistent interfaces. 
 
-\subsection{Topology}
+\subsection{Topological Structure}
 \label{sec:related-work:continuity}
 \begin{figure}[h!]
   \includegraphics[width=1\columnwidth]{k_different_types.png}
@@ -167,8 +167,8 @@ There is an assumption in visualization that the connectivity of the elements in
 
 Visual algorithms assume the topology of their input data, as described in taxonomies of visualization algorithms Chi and by Troy and M\"{o}ller \cite{chiTaxonomyVisualizationTechniques2000,toryRethinkingVisualizationHighlevel2004}. For example, a \texttt{line} algorithm often does not have a way to query whether a list of (x,y) coordinates is the distinct rows, the time series, or the list of stations in \autoref{fig:related-work:continuity:ktypes}. While plotting the time series as a continuous line would be correct, it would be incorrect for a visualization to indicate that the distinct rows or stations are connected in a 1D continuous manner. Since topological continuity is generalizable, we propose the construction of topology types such that data can explicitly state its topology type and visual algorithms can check that this type matches their assumptions. The typing system proposed in this paper builds on Butler's proposal of using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but his work provides a thorough introduction to bundles for visualization practitioners. 
 
-\subsection{Equivariance}
-Alongside preserving topology, visualization algorithms are expected to preserve the structure in data values when they translate data to visual representations. The mathematical term for this is equivariance and an equivariant map is a map that transforms input with structure to output with compatible structure. Bertin codified the idea that visual encoding of a data field should match the structure of the field; for example ordered data should be encoded as an ordered visual element or quantitative data as a quantitative visual element \cite{bertinSemiologyGraphicsDiagrams2011a}. This structure mapping is necessary to ensure that the visual representations in graphs are not distorting the data\cite{tufteVisualDisplayQuantitative2001} and graphs are easier to understand when properties match \cite{norman_things_smart}. The expectation of matching structure is generalized as a mapping of a binary operator that acts on the data domain to a binary operator that acts on the graphic domain by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. An invertible binary operator is the basis of Kindlemannn and Scheideggers's algebraic model of visualization\cite{kindlmannAlgebraicProcessVisualization2014}. They propose three specific types of equivariance: that the visualization should not change if the data representation (i.e. the data container) changes, that data maps unambiguously to visual elements \cite{ziemkiewiczEmbeddingInformationVisualization2009}, that changing the data should correspond to changes in the visualization in a perceptually significant manner. In \autoref{sec:atct:sheaves} we introduce a uniform abstract data representation layer, the expectation of unambiguous mappings is expressed in \autoref{sec:atct:xi}, and the definition of equivariance introduced in \autoref{sec:artist:equivariance} includes the correspondence between data and visual changes. In this work, we formally specify the conditions necessary to build structure preserving components using category theory. A brief visualization oriented introduction to category theory is in Vickers et al \cite{vickersUnderstandingVisualizationFormal2013}, but they are applying category theory to semantic concerns about visualization design rather than library architecture. 
+\subsection{Equivariant Transformations}
+Along with preserving topology, visualization algorithms are expected to preserve the structure of the data fields, i.e. the column types in a table, when they translate data to visual representations. The mathematical term for this is equivariance and an equivariant map is a map that transforms input with structure to output with compatible structure. Bertin codified the idea that visual encoding of a data field should match the structure of the field; for example ordered data should be encoded as an ordered visual element or quantitative data as a quantitative visual element \cite{bertinSemiologyGraphicsDiagrams2011a}. This structure mapping is necessary to ensure that the visual representations in graphs are not distorting the data\cite{tufteVisualDisplayQuantitative2001} and graphs are easier to understand when properties match \cite{norman_things_smart}. The expectation of matching structure is generalized as a mapping of a binary operator that acts on the data domain to a binary operator that acts on the graphic domain by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. An invertible binary operator is the basis of Kindlemannn and Scheideggers's algebraic model of visualization\cite{kindlmannAlgebraicProcessVisualization2014}. They propose three specific types of equivariance: that the visualization should not change if the data representation (i.e. the data container) changes, that data maps unambiguously to visual elements \cite{ziemkiewiczEmbeddingInformationVisualization2009}, that changing the data should correspond to changes in the visualization in a perceptually significant manner. In \autoref{sec:atct:sheaves} we introduce a uniform abstract data representation layer, the expectation of unambiguous mappings is expressed in \autoref{sec:atct:xi}, and the definition of equivariance introduced in \autoref{sec:artist:equivariance} includes the correspondence between data and visual changes. In this work, we formally specify the conditions necessary to build structure preserving components using category theory. A brief visualization oriented introduction to category theory is in Vickers et al \cite{vickersUnderstandingVisualizationFormal2013}, but they are applying category theory to semantic concerns about visualization design rather than library architecture. 
 
 \subsection{Structure Preservation In Software}
 \label{sec:related-work:software}
@@ -185,8 +185,7 @@ In this section, we propose a mathematical abstraction of the data input and gra
 \label{sec:atct:fiber-bundles}
 We model data using a mathematical representation of data that can encode topological properties, field types, and data values in a uniform manner using a structure from algebraic topology called a fiber bundle. We extend Butler's proposal of bundles as abstract visualization data type \cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989} by incorporating Spivak's methodology for encoding named data types from his fiber bundle representation of relational databases \cite{spivakDatabasesAreCategories2010, spivakSIMPLICIALDATABASES}. We build on this work to describe how to encode the connectivity of the data as a topological space, separately encode the fields as their own topological space with a typing system, and express the mappings between these two spaces.
 
-A fiber bundle $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and continuous surjective map $\pi: \dtotalc \rightarrow \dbasec$\cite{FiberBundle2020}. 
-
+A fiber bundle $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and continuous surjective map $\pi: \dtotalc \rightarrow \dbasec$ \cite{FiberBundle2020}. 
 \begin{equation}
   \label{eq:atct:fb:intro}
   \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
@@ -196,51 +195,58 @@ A fiber bundle $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topologi
     \arrow[d, "\pi"',color=total] \\
      \& 
   \dbasec
-     \arrow[u, "\dsectionc"', bend right, pos=.5, color=section]
+     \arrow[u, "\dsectionc"', bend right, pos=.5, color=section, dashed]
   \end{tikzcd}
 \end{equation} 
 
 
-\subsubsection{Connectivity: Base Space \dbase}
-The \textcolor{base}{base space} is a topological space \dbasec\ with points $\dbasepoint \in \dbase$ and topology $\mathcal{T}_{\dbase}$. For our purposes, $\dbase$ is a set of points that encodes the underlying connectivity of the dataset. For example, $\dbase$ could be the discrete points, interval, or plane in \autoref{fig:related-work:continuity:ktypes}. On this set \dbase, we can define subsets of connected elements, called opensets \openset. An openset \openset\ is a generalization of an open interval, meaning an openset contains points inside a bounded region on \dbase and excludes the points on the boundary. A topology $\mathcal{T}_{\dbase}$ defined on \dbase\ is a collection of opensets such that the empty set and \dbase are in $\mathcal{T}_{\dbase}$,and every union and intersection of opensets in $\mathcal{T}_{\dbase}$ are also in $\mathcal{T}_{\dbase}$ \cite{TopologyVsTopology,bradleyTopologyCategoricalApproach2020}. The topology is encoding the notion that the connectivity is expected to be preserved regardless of how small an openset or large a union of opensets.  
-
-\subsection{Field Types: Fiber Space \dfiber}
-The \textcolor{fiber}{fiber space} is a topological space \dfiberc\ that is the preimage of the projection function $\pi$ at a point in the base space $\dfiber_{\dbasepoint} = \pi^{-1}(\dbasepoint)$, meaning that all points in a fiber over a space $\dfiber_{\dbasepoint}$ map to the same point $\dbasepoint$. The fiber space can be used to encode the space of all possible values of a data field and the fibers can be named, as described by Spivak \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}. The space of all possible values is analogous to a CS data type; therefore the fiber space can be used to encode the data types of the data fields. This set theoretic formulation of field types also supports encoding valid operations on the type as part of the type, akin to methods on an object, as part of the field structure. For example, the Steven's measurement types are defined by the mathematical group structure on the measurment fields \cite{stevensTheoryScalesMeasurement1946,leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}, and often serve as the basis of the equivariance described in \autoref{sec:related-work:equivariance}.
-
-
-\subsection{Data: Section \dsection}
-The \textcolor{section}{sections} $\dsection$ of a bundle are continuous functions that bind the base space with a set of values in the total space $\dtotal$ and $\textcolor{set}{\Gamma}$ denotes the set of all sections in a bundle over an openset. 
-
+ $\textcolor{set}{\Gamma}$ denotes the set of all sections. The set of sections $\dsection$ of a bundle are continuous functions 
 \begin{equation}
   \label{eq:atct:fb:sections}
   \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\} 
 \end{equation}
-Each section function takes as input a point in the basespace  and returns a single point in the fiber  $\dsection: \dbasepoint \rightarrow \dfiber_{\dbasepoint}$. In a trivial bundle $\dtotalc = \dbasec \times \dfiberc$ such that all fibers are equal $\dfiberc \equiv \dfiberc_{\dbasepointc}\;\forall \dbasepointc \in \dbase$; therefore we can define a global section $\dsection \in \Gamma(\dbase, \dfiber)$. In non-trivial (general) bundles, fibers are isomorphic $\dfiberc \simeq \dfiberc_{\dbasepointc}\;\forall \dbasepointc \in \dbase$ but not necessarily equal, which means that we usually cannot define a global section. Instead, all fiber bundles are locally trivializable, $\dtotal\restriction_{\openset_{k}} = \openset_{k}\times \dfiber$ for all open neighborhoods $\dbasepoint \openset \dbase$ for all points $\dbasepoint \in \dbase$. This allows us to define sections locally, meaning $\dsection\restriction_{\openset} \in \Gamma(\openset_{\dbasepoint}, \dtotal\restriction_{\openset_{\dbasepoint}})$. All data can be expressed as a collection of local sections, which are maps from the indexing space \dbase\ to the field space \dbase, and data that is embedded in trivial bundles can be expressed as a single section. 
- 
-
-\begin{figure}[h!]
-  \centering
-  %needs cropping
-  \includegraphics[trim={2cm 2cm 2cm 2cm}, clip]{fbtau.png}
-  \caption{A non-trivial fiber bundle is bundle where the (by definition isomorphic) fibers change along the indexing base space. Here $\dfiber_{\dbasepoint_1}$ and $\dfiber_{\dbasepoint_2}$ go in reverse directions and the global section $sin$ returns $sin(\dbasepoint_{i})$ which is a value between $[0,1]$
-  \label{fig:atct:stripbundle}}
-\end{figure}
-
-The bundle in \autoref{fig:atct:stripbundle} is a fiber bundle representation of a mobius band, which is the total space \dtotal\ of the bundle. Each fiber \dfiber\ collapses to a point in the base space via the projection function $\pi$. The bundle is non-trivial because the fibers are not identical $[-1, 1] \not \equiv [1, 1]$. One section over this 1D continuous space is a \texttt{sin} function that takes as input a base point $\dbasepoint_{i}$ and returns a point in the fiber $sin(\dbasepoint_{i})$. 
-
-\subsection{intrepreation}
-Extending Spivak's fiber bundle description of a table, we define the values returned by a section as named and typed records. Since the fiber space is a topological space, it does not really have restrictions on the dimension of the types it can encode or the structure of those types. For example, wind has a speed component and a direction component and we can consider those separately $\dfiber_{speed} = \mathbb{R}, \dfiber_{direction} = \mathbb{R}$ or as one fiber$\dfiber_{wind} = \mathbb{R}^{2}$. The base space and the section evaluated on the base space form a sort of key-value pair, as described by Munzner \cite{munznerVisualizationAnalysisDesign2014}. She imbues semantic meaning to the topology, wherein the key is an independent attribute used as a look up key to retrieve the value in the dataset. She defines the value as a dependent attribute. In this work we use a more general notion of the topological space as an indexing space for the data records. Therefore, we do not impose any semantic constraints on what the fiber and base space encode. For example, a data cube of temperature can be encoded such that every fiber is a set of 2D temperature surfaces $\dfiber_{tempsurf}$, the base space is a 1D continuous interval, and each section returns a surface $\dsection(\dbasepoint) = f(x,y)$ where x and y are already parameterized. Alternatively, the fiber can encode each cell of the data cube $\dfiber_{lat} \times \dfiber_{lon} \times \dfiber_{temp}$, the base space could be a 3D volume, and each section returns a $\dsection(\dbasepoint) = \{lat, lon, temp\}$ record. 
 
 
+
+\subsubsection{Topology: Base Space \dbase}
+We encode the underlying connectivity of the data as the \textcolor{base}{base space} \dbase\ of the fiber bundle because it provides a uniform language for describing the topology regardless of how the data is subset. The base space \dbase\ is a topological space $(\dbase,\mathcal{T}_{\dbase})$, which means it consists of the set of points ${\dbasepoint \in dbasec}$ and topology $\mathcal{T}_{\dbase}$. A topology $\mathcal{T}_{\dbase}$ is a collection of open sets $\openset$ such that the empty set and \dbase are in $\mathcal{T}_{\dbase}$,and every union and intersection of opensets in $\mathcal{T}_{\dbase}$ are also in $\mathcal{T}_{\dbase}$ \cite{bradleyTopologyCategoricalApproach2020}. An openset \openset\ is a generalization of an open interval to a region, meaning an open set contains points inside a bounded region on \dbase and excludes the points on the boundary \cite{TopologyVsTopology}. A property of the base space \dbase\ is that it is a quotient topology, ,meaning it has the finest topology of $\dbase$, which  means that it contains the largest possible collection of distinct open sets on $\dbase$ \cite{QuotientSpaceTopology2020}. For our purposes, $\dbase$ is a set of points that encodes the underlying connectivity of the our dataset, for example, $\dbase$ could be the discrete points, interval, or plane in \autoref{fig:related-work:continuity:ktypes}. The topology on $\dbase$ encodes the space of smallest possible subsets of the data, and the union and intersection rules express that these subsets must be combinable into larger subsets of the data. 
+
+We encapsulate the notion of a programmatic topology type as the base space category $\mathcal{\dbasec}$. The base space category $\mathcal{\dbasec}$ has open set objects $\opensetc$. The morphisms of the category are inclusions $\iota: \opensetc_1 \rightarrow \opensetc_2$ such that $\opensetc_1 \subseteq \opensetc_2$. By definition of a catagory\cite{barrCategoryTheoryComputing}, morphisms are commutative $(\iota_{1,2}: \openset_{1} \rightarrow \openset_{2}) \circ (\iota_{2,3}: \openset_{2} \rightarrow \openset_{3}) = \iota_{1,3}: \openset_{1} \rightarrow \openset_{3}$. Another property of morphisms is that they are associative such that $\iota_{3,4}\circ(\iota_{2,3}\circ\iota_{1,2}) = (\iota_{3,4} \circ \iota{2,3})\circ \iota_{1,2}$ where $\iota_{3,4}:\openset_{3}\rightarrow \openset_{4}$. Each object also has an identity morphism $1_{\openset_i}: \openset_i \rightarrow \openset_i$. We propose that these categorical types can be mapped to 
+programmatic types that describe the data topology and that the inclusion morphisms can be used to assert that the continuity has been preserved when defining subsets of data. 
+
+\subsection{Field Types: Fiber Space \dfiber}
+We encode the field types of a dataset as the  \textcolor{fiber}{fiber space} \dfiberc of the fiber bundle because it allows us to encode fields of varying types and dimensionalities in a consistent manner. The fiber \dfiber\ is the preimage of the projection function $\pi$ at a point in the base space $\dfiber_{\dbasepoint} = \pi^{-1}(\dbasepoint)$, meaning that all points in a fiber space $\dfiber_{\dbasepoint}$ map to the same point $\dbasepoint$. The fiber space can be used to encode the space of all possible values of a data field and the fibers can be named, as described by Spivak \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}. The space of all possible values is analogous to a CS data type; therefore the fiber space can be used to encode the data types of the data fields. The fiber is also a topological space, meaning there is no restriction on the dimensionality of the field, thus allowing for the encoding of multi-dimensional fields in the same manner as single dimensional fields. 
+
+As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ to encapsulate the field types of the data, which is akin to a schema in a database \cite{ullmanFirstCourseDatabase2008}. The fiber category $\mathcal{\dfiberc}$ is a monoidal category, meaning the category has a single object $\dfiberc$ of an arbitrary type. The morphisms on the fiber object are $\dfunctc \in Hom(\dfiberc, \dfiberc)$. The fiber category is equipped with a bifunctor $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$. The bifunctor provides a method for combining fibers, thereby allowing for fields that contain multityped values. For example, wind can be represented as two fields $\dfiber_{speed} \times \dfiber_{direction}$ or a composite fiber field $\dfiber_{speed} \otimes \dfiber_{direction} = \dfiber_{wind}$. The $\otimes$ encapsulates both the sets associated with each fiber $\mathbb{R} \times \mathbb{R} = \mathbb{R}^{2}$ and the morphisms associated with each functor $(\dfunct_{speed}, \dfunct_{direction}) = \dfunct_{wind}$. Defining the field schema as a monoidal category allows us to formally express the structure of the field, as defined by its sets and functions, at different levels of composition as needed by different visualization tasks.
+
+\subsection{Data: Section \dsection}
+We encode data as a \textcolor{section}{section} \dsectionc\ of a bundle because this allows us to incorporate the topology and field types in the data definition. Sections  $\dsection: \dbasepoint \mapsto \delement$ map from a point in the basespace $\dbasepoint \in \dbase$ to a record in the fiber space $\delement \in \dfiber_{\dbasepoint}$. We can therefore model data as structures that map from an index like point $\dbasepoint$ to a data record $\delement$. Bundles can have multiple sections, as denoted by $\Gamma(\openset, \dtotal\restriction{\openset})$ which encapsulates the notion of multiple datasets with a shared fiber and base space. For example, all functions on the interval [0, 1] or a set of database tables with the same schema. 
+
+In a trivial bundle all fibers are equal $\dfiberc \equiv \dfiberc_{\dbasepointc}\;\forall \dbasepointc \in \dbase$, which means that $\dtotalc = \dbasec \times \dfiberc$ . This allows us to define global sections $\dsection: \dbase \rightarrow \dfiber \in \Gamma(\dbase, \dfiber)$ which we translate into a data signature of the form  
+\begin{equation}
+  \textcolor{section}{\texttt{dataset}}: \textcolor{base}{\texttt{topology}} \rightarrow \textcolor{fiber}{\texttt{field}}
+\end{equation}
+where $\dsection=\texttt{dataset}$, $\dbase=\texttt{topology}$ and $\dfiber=\texttt{fields}$. This type signature encapsulates the topology and field types of the data without much loss of generality. 
+
+Non-trivial bundles allow us to generalize even further. In a non-trivial (general) bundles, fibers are isomorphic $\dfiber \simeq \dfiber_{\dbasepoint}\;\forall \dbasepoint \in \dbase$, which means there is no single fiber type $\dfiber$. Instead, we can define sections locally $\dsection\restriction_{\openset} \in \Gamma(\openset_{\dbasepoint}, \dtotal\restriction_{\openset_{\dbasepoint}})$, which means a section defined only on an open neighborhood $\dbasepoint \in \openset \in \dbase$. This is because all fiber bundles are locally trivializable, $\dtotal\restriction_{\openset_{k}} = \openset_{k}\times \dfiber$ such that there's always a subset where the fibers are equal. This means almost all data can be expressed as a collection of local sections $\{\dsection\restriction_{\openset_{\dbasepoint}}| \dbasepoint \in \dbase \}$ which translate to a set of signatures 
+\begin{equation}
+  \begin{split}
+\{\textcolor{section}{\texttt{data-subset}}: \textcolor{base}{\texttt{topology}} \rightarrow \textcolor{fiber}{\texttt{fields}} \\
+ s.\;t.\;\textcolor{section}{\texttt{data-subset}} \in \texttt{dataset}\}  
+  \end{split}
+\end{equation}
+that can be glued together on overlaps to generate the dataset. We discuss this gluing in \autoref{sec:atct:sheaves}.
+
+
+
+\subsection{intrepretation/example}
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{fbnet.png}
-  \caption{The fibers over the discrete points $\dbase_{1}, \dbase_{2}$  encode the fields in the temperature table and the fiber over the continuous line $\dbase_{3}$ encodes the fields in the distance table \autoref{fig:related-work:continuity:ktypes}. Those tables can be modeled as sections of the bundle in this figure, where the section evaluated at a point in the base space returns the associated row, and on the edge is a constant function that returns the distance.
-  \label{fig:atct:networkbundle}}
+  \caption{\label{fig:atct:networkbundle}}
 \end{figure}
+\note{figure out picture/example}
+Extending Spivak's fiber bundle description of a table, we define the values returned by a section as named and typed records. Since the fiber space is a topological space, it does not really have restrictions on the dimension of the types it can encode or the structure of those types. For example, wind has a speed component and a direction component and we can consider those separately $\dfiber_{speed} = \mathbb{R}, \dfiber_{direction} = \mathbb{R}$ or as one fiber$\dfiber_{wind} = \mathbb{R}^{2}$. The base space and the section evaluated on the base space form a sort of key-value pair, as described by Munzner \cite{munznerVisualizationAnalysisDesign2014}. She imbues semantic meaning to the topology, wherein the key is an independent attribute used as a look up key to retrieve the value in the dataset. She defines the value as a dependent attribute. In this work we use a more general notion of the topological space as an indexing space for the data records. For example, a data cube of temperature can be encoded such that every fiber is a set of 2D temperature surfaces $\dfiber_{tempsurf}$, the base space is a 1D continuous interval, and each section returns a surface $\dsection(\dbasepoint) = f(x,y)$ where x and y are already parameterized. Alternatively, the fiber can encode each cell of the data cube $\dfiber_{lat} \times \dfiber_{lon} \times \dfiber_{temp}$, the base space could be a 3D volume, and each section returns a $\dsection(\dbasepoint) = \{lat, lon, temp\}$ record. 
 
-In \autoref{fig:atct:networkbundle}, the network from \autoref{fig:related-work:continuity:ktypes} is encoded as a section of a bundle. This bundle is constructed from a union of bundles over discrete points $\dbase_{0}, \dbase_{2}$ and a 1D continuous connecting line $\dbase_{1}$ that connects these two points. The fiber over the data points $\dfiber_{node}$ expresses that the name column type is a subset of \textttt{string}, the temperature column type is \texttt{float}, and the precipitation column type is positive \texttt{float}. The fiber over the network edge encodes that the distance from the edge table has type \texttt{float}. The data section evaluated at a discrete point $\dbase_{0}$ returns the values for the first row in the table. Evaluating the function on $\dbase_{2}$ would return a different row in the table. The section $\dsection$ knows which nodes $\dbase_{1}$ is between and so returns the corresponding data value.  The network edge function is constant and returns the same value any where along $\dbase_{1}$. 
-
-The only constraint on sections is that they are (piecewise) continuous and that they return values in the fiber. They can be constant or non-constant and they can be defined over a single type of topology or a union of topologies. The generality in base space, fiber space, and section makes fiber bundles a unified dimension and type independent data abstraction. Therefore fiber bundles provide guidance on constructing a structure aware data interface layer that can support most of the common visualization data set structures, such as continuous functions, tables, data cubes, images and networks. 
 
 \subsection{Uniform Abstract Graphic Representation}
 Fiber bundles are such a generalizable data abstraction that we can also use them to encode the output of a visual bundle; bundles allow for fully expressing the properties of the graphic that must be symmetric to the data in an equivariant (\autoref{sec:related-work:equivariance}) data to graphic transformation. We denote the output as a graphic, but the use of bundles allows us to generalize to output on any display space, such as a screen or 3D print. 
@@ -248,64 +254,42 @@ Fiber bundles are such a generalizable data abstraction that we can also use the
   \label{eq:atct:fb:graphic}
   \gfiberc \hookrightarrow \gtotalc \xrightarrow{\pi} \gbasec
 \end{equation}
+The total space \gtotalc\ is an abstraction of an ideal (infinite resolution) space into which the graphic can be rendered. The base space \gbasec\ is a parameterization of the display area, for example the inked bounding box in cairo \cite{CairographicsOrg}. The fiber space \gfiberc\ is an abstraction of the renderer fields, for example $\{x,\,y,\,r,\,g,\,b,\,a\}$. 
+
+As with data, we model the graphic generating functions as sections $\gsection$ of the graphic bundle 
 \begin{equation}
   \label{eq:atct:fb_graphic_section}
   \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \big\{\gsectionc: \opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} \; \bigm{\vert} \pi(\gsectionc(\gbasepointc)) = \gbasepointc\;for\, all\; \gbasepointc \in \opensetgc \big\}
 \end{equation}
-The base space \gbasec\ is a parameterization of the display area, for example the inked bounding box in cairo \cite{CairographicsOrg}. The fiber space \gfiberc\ is an abstraction of the renderer fields, for example $\{x,\,y,\,r,\,g,\,b,\,a\}$. The sections $\gsection$ of the graphic are functions that go from a point in the graphic base to elements in a prerendering space.
+that map from a point in an openset in the graphic space $\gbasepoint \in \opensetg \in \gbase$ to a point in the graphic fiber $\gfiber$. The section evaluated on a single point $\gbasepoint$ returns a single graphic record, for example one pixel in an ideal resolution space. In our model, the unevaluated graphic section us passed to a renderer to generate graphics. 
 
 \begin{figure}[h!]
   \includegraphics[width=1\columnwidth]{fb_rho.png}
-  \caption{For a 2D display a section $\gsection$ maps into a fiber $\dfiber$ that encodes an RGB prerender space with infinite resolution $\mathcal{R}^{2}$. Each tiny colored box is an approximation of the return value of the same section function $\gsection$ evaluated on different points $\gbasepoint \in \gbase$ in the base space. \label{fig:atct:fb:graphic}}
+  \caption{For a 2D display a section $\gsection$ maps from each point $\gbasepoint$ into a fiber $\gfiber_{\gbasepoint}$ that encodes an RGB prerender space with infinite resolution $\mathcal{R}^{2}$. Each tiny colored box is an approximation of the return value of the same section function $\gsection$ evaluated on different points $\gbasepoint \in \gbase$ in the base space. We represent all $\gfiber_{\gbasepoint}$ as the fiber $\gfiber$ because a 2D bundle is a trivial bundle so $\gfiber_{\gbasepoint} = \gfiber$ for all \gbasepoint.
+  \label{fig:atct:fb:graphic}}
 \end{figure}
 
-In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ maps into the fiber for a simplified 2D RGB infinite resolution prerender space and returns the $\{x,y,r,g,b\}$ values of a pixel in an infinite resolution space. In \autoref{fig:atct:fb:graphic} these pixels are approximated as the small orange and black colored boxes. Each box is the output of the $\gsection(\gbasepoint)$ section that intersects the box. The set of all pixels returned by a section evaluated on a given visual base space $\gsection|_{\gbase}$ can yield a visual element, such as a marker, line, or piece of a glyph. 
-
-
-\subsection{Topology and Field Categories}
-\label{sec:atct:io}
-We define categorical types for the topology and the fiber because this allows us to describe  how objects that encode topology and fiber should be specified, constrained, and composed \cite{wielsManagementEvolvingSpecifications1998}, which we can then translate to the implementation of these objects. In particular, the categorical construction allows us to bundle the topology and fiber as objects together with the changes to these objects, which are termed morphisms, that the visualization is expected to preserve.
-
-\begin{definition}
-  \label{sec:atct:io:base}
-  The base space category $\mathcal{\dbasec}$ has open set objects $\opensetc$ and inclusion morphisms $\iota: \opensetc_1 \rightarrow \opensetc_2$ such that $\opensetc_1 \subseteq \opensetc_2$. 
-\end{definition}
-
-By definition, each object in a category has an identity morphism and morphisms are associative and commutative \cite{barrCategoryTheoryComputing}. 
-
-\begin{definition}
-  \label{def:atct:io:fiber}
-  The fiber category $\mathcal{\dfiberc}$ is a monoidal category, meaning the category has a single object $\dfiberc$ of an arbitrary type. The morphisms on the fiber object are $\dfunctc \in Hom(\dfiberc, \dfiberc)$. 
-\end{definition}
-
-The fiber category is equipped with a bifunctor $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$. The bifunctor provides a method for combining fibers, thereby allowing for fields that contain multityped values. For example, RGB color can either be represented as three fiber fields $\dfiber_{red}, \dfiber_{green}, \dfiber_{blue}$ or a composite fiber field $\dfiber_{red} \otimes \dfiber_{green} \otimes \dfiber_{blue} = \dfiber_{RGB}$.
+In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ maps into the fiber for a simplified 2D RGB infinite resolution prerender space and returns the $\{x,y,r,g,b\}$ values of a pixel in an infinite resolution space. In \autoref{fig:atct:fb:graphic} these pixels are approximated as the small orange and black colored boxes. Each box is the output of the $\gsection(\gbasepoint)$ section that intersects the box. The set of all pixels returned by a section evaluated on a given visual base space $\gsection|_{\gbase}$ can yield a visual element, such as a marker, line, or piece of a glyph. \autoref{fig:atct:fb:graphic} illustrates a highly idealized space with no overlaps. To support overlaps, we can add another fiber element $\gfiber_{z}$ and leave it to the renderer to appropriately blend layers. 
 
 \subsection{Formal Properties of Data Containers}
 \label{sec:atct:sheaves}
-Sheaves are a mathematical way to describe the expectation that data structures implement the bookkeeping that keeps track of the continuity of the data and graphic \cite{ghristElementaryAppliedTopology2014}. These constraints generalize to data that is subsetted, distributed, streaming, and on-demand.
+Sheaves are a mathematical way to describe the expectation that data structures implement the bookkeeping that keeps track of the continuity of the data and graphic \cite{ghristElementaryAppliedTopology2014}. These constraints generalize to data that is subsetted, distributed, streaming, and on-demand. 
 
-Presheaves are functors, meaning they are functions from objects of one category to objects of another category\cite{WhatFunctorDefinitions} that preserve the morphisms in each category. By definition, presheaves are maps from objects in an arbitrary category to an object in the category \setb\cite{nlab:presheaf}. Here the arbitrary category is the base space category and the object in \setb is the set of sections
- 
+Presheaves are functors, meaning they are functions from objects of one category to objects of another category\cite{WhatFunctorDefinitions} that preserve the morphisms in each category. 
+A presheaf is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{nlab:presheaf}. 
 \begin{equation}
   \label{eq:atct:sheaf:functor}
   \sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
 \end{equation}
-
-Presheaves are a contraviant functor, which means that the inclusion morphisms $\iota$ between base space objects go in the opposite direction from the restriction morphisms $\iota^*$ between objects in set.
-\note{maybe unpack each piece of this equation into a seperate equation/walk through, from U to fiber when trivial}  
-\begin{equation}
-  \label{eq:atct:presheaf}
-  \begin{tikzcd}
-    \cgamma{\opensetc_1}{\dtotalc\restriction_{\opensetc_1}}  &  & \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} 
-    \arrow[ll, "\iota^*"', maps to, color=set] \\
-    & & \\
-    \opensetc_1 
-    \arrow[rr, "\iota", maps to, color=base] 
-    \arrow[uu, "{\sheafc_{\dbasec, \dtotalc}}", maps to, color=sheaf] &  & \opensetc_2 
-    \arrow[uu, "{\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf]              
-    \end{tikzcd}
-\end{equation}
-A presheaf describes the expectation that any set of sections defined over a larger space $\dsection \in \Gamma(\opensetc_2, \dtotal\restriction_{\openset_{2}})$ is also defined over subspaces of that space $\dsection\restriction_{\opensetc_{1}}$. 
+The presheaf expresses that every subset of the data $\openset$ has an associated set of data sections $\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$. The presheaf is a contravariant functor because the morphisms between input objects
+\begin{equation*}
+  \iota: \openset_1 \rightarrow \openset_2
+\end{equation*}
+go in the opposite direction from the restriction morphisms $\iota^*$ between the sets
+\begin{equation*}
+  \iota^*: \cgamma{\openset_2}{\dtotal_{\openset_2}} \rightarrow \cgamma{\openset_1}{\dtotal_{\openset_1}}
+\end{equation*}
+which are the outputs of the sheaf $\sheaf(\openset) = \cgamma{\openset}{\dtotal\restriction_{\openset}}$. We use a  presheaf to describe the expectation that any set of sections defined over a larger space $\dsection \in \Gamma(\opensetc_2, \dtotal\restriction_{\openset_{2}})$ is also defined over subspaces of that space $\dsection\restriction_{\opensetc_{1}}$. 
 
 The locality and gluing axioms \cite{bakerMathsSheaf} of a sheaf describe the conditions for verifying that the sections over subspaces are part of a cohesive section over the whole space. The locality axiom asserts that two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values over the same set of open sets $\dsection^{a}|{\openset} =  \dsection^{b}|_{\openset}$. The gluing axiom asserts that the union of sections defined on specific open sets is equivalent to one big section over the union of spaces $\dsection|_{\openset_{i} \cup \openset_{j}} = \dsection^{i}|_{\openset_i} \cup \dsection^{j}|_{\openset_j}$ if these sections agree on overlaps $\dsection^{i}|_{\openset_i\cap\openset_j} =  \dsection^{j}|_{\openset_i\cap\openset_j}$ The gluing axiom generalizes to expresses an equivalency between a concatenated representation of data and distributed representation of the same data. In \autoref{fig:atct:networkbundle} this axiom means that the sections over each node and the edge can be combined into one section over the piece of the network in the figure.
 
@@ -319,10 +303,9 @@ where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \
 
 \subsection{Mathematical Structure of Data}
 \label{sec:atct:sheaves:measurments}
-Equivariance in a visual context was formally defined as the preservation of a binary operator from one domain to another by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. We generalize binary operations to actions $\dfunc \in \dfuncset$ on elements of the bundle $\delement \in \dtotal$. This is expressed with a composition function  $act: \dfuncset \times E \tightarrow \dtotal$ that applies the action to the element such that $\dfunc(\delement_0) = \delement_1, \delement_0, \delement_1 \in \dfunc$. We generalize to a family of actions because that allows for expanding the set of allowable transformations on the data beyond a single operator. 
+Equivariance in a visual context was formally defined as the preservation of a binary operator from one domain to another by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. We generalize binary operations to actions $\dfunc \in \dfuncset$ on elements of the bundle $\delement \in \dtotal$. This is expressed with a composition function  $act: \dfuncset \times E \rightarrow \dtotal$ that applies the action to an element of \dtotal\ such that $\dfunc(\delement_0) = \delement_1, \delement_0, \delement_1 \in \dfunc$. We generalize to a family of actions because that allows for expanding the set of allowable transformations on the data beyond a single operator. 
 
-
-We separate data transformations into two types, transformations on the base space $(\dfunchc, \dfuncpullc)$ and transformations on the fiber space $\dfunctc$. These diagrams are separated because the base space transformation and the pullback are functors on the openset object and associated set of sections, while the fiber transformation takes a single fiber to a different fiber in the set of sections. 
+We separate data transformations into two components, transformations on the base space $(\dfunchc, \dfuncpullc)$ and transformations on the fiber space $\dfunctc$. These diagrams are separated because the base space transformation and the pullback are functors on the openset object and associated set of sections, while the fiber transformation takes a single fiber to a different fiber in the set of sections. 
 
 \begin{equation}
   \label{eq:atct:sheaves:monoid_morphism}
@@ -360,7 +343,7 @@ As introduced in \autoref{def:atct:io:fiber}, the fiber transformation $\dfunct:
   \label{eq:atct:morphism:fiber}
   \dfunct: \dfuncpull \dsection \restriction_{\openset^{\prime}} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
 \end{equation}
-where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946}. Since there are many different fiber transformations,  there is not a uniform way of expressing how this morphism acts on sections unlike in \label{eq:atct:morphism:verify_base}.
+where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Since there are many different fiber transformations,  there is not a uniform way of expressing how this morphism acts on sections unlike in \label{eq:atct:morphism:verify_base}. Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946m, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. 
 
 We define a full data transformation as one that induces both a remapping of the index space and a change in the data values
 \begin{equation}
@@ -383,14 +366,14 @@ if each (identical) component base space is transformed in the same way $\dfunch
 
 \subsection{Data and Graphic Correspondence}
 \label{sec:atct:xi}
-A property of sheaves is that, given two sheaves, if there exists a map between the base spaces of each sheave, then we can construct transport functors that can move each sheaves over the other base space. This allows us to move data over the corresponding graphic base space and graphics over the corresponding data base space. The data sections defined in \autoref{eq:atct:fb} are sections of sheaves, introduced in \autoref{sec:atct:sheaves}, over open sets $\openset \subseteq \dbase$ in a base space \dbase\ that encode the topology of the data topology. The graphic sections, defined in \autoref{eq:atct:fb_graphic_section}, are sections of sheaves over open sets $\opensetg \subseteq \gbase$ in a base space \gbase\ that encodes the topology of the graphic. We propose that there exists a continuous \textcolor{functor}{map between topological spaces} \vindexc 
+There is an expectation that for a visualization to readable, the visual elements must correspond to distinct data elements\cite{ziemkiewiczEmbeddingInformationVisualization2009} and we can use the properties of sheaves to formally express this correspondence. First we establish that the graphic continuity corresponds to the data continuity by proposing that there exists a continuous \textcolor{functor}{map between topological spaces} \vindexc 
 \begin{equation}
   \label{eq:atct:xi}
   \vindexc: \opensetgc \rightarrow \opensetc 
 \end{equation}
 such that every $\opensetg \subseteq \gbase$ must map to a corresponding set $\openset \subset \dbase$. The functor $\vindex$ is surjective such that for every point $\dbasepoint \in \openset$ there is a corresponding set of points $\{\gbasepoint | \gbasepoint \in  \vindexpre(k)\}$ for all $\gbasepoint in \opensetg$.
 
-Given the map between spaces \vindex\, a property of sheaves is that there exist image functors\cite{ImageFunctorsSheaves2021} functors \vindexpull\ and \vindexpush. The \textcolor{functor}{pullback functor} $\vindexpullc$ sends sheaves over $\dbase$ to $\gbase$ and the \textcolor{functor}{pushforward functor} $\vindexpushc$  sends sheaves over $\gbase$ to $\dbase$
+Given the map between spaces \vindex\, a property of sheaves is that there exist image functors\cite{ImageFunctorsSheaves2021} functors \vindexpull\ and \vindexpush that can transport sheaves over other base spaces. The \textcolor{functor}{pullback functor} $\vindexpullc$ sends sheaves over $\dbase$ to $\gbase$ and the \textcolor{functor}{pushforward functor} $\vindexpushc$  sends sheaves over $\gbase$ to $\dbase$
 \begin{equation}
   \label{eq:atct:morphisms:xi}
 \begin{tikzcd}[row sep=huge]
@@ -428,8 +411,8 @@ such that it provides a way to look up which graphic  corresponds with a data in
 \begin{equation}
   \vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexprec(\dbasepointc)} = \{\gsectionc(\gbasepointc)\;for\;all\; \gbasepointc\in \vindexprec(\dbasepointc)\}
 \end{equation}
-\note{\ci_*rho(k)(s)=rho(s) for s in \xi^{-1}(k)
-} and move {} into narrative
+\note{$\xi_*rho(k)(s)=rho(s) for s in \xi^{-1}(k)
+$} and move {} into narrative
 Therefore, the continuous map $\vindex$ and transport functors $\vindexpull, \vindexpush$ allow us to express the correspondence between graphic section and data section. 
 
 \begin{figure}[h!]
