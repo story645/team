@@ -63,7 +63,7 @@ class TopologicalArtist:
     def compose_with_tau(self, section): #doesn't need to be there
         # do I care about bounds yet? or only at draw time?
         new = copy.copy(self)
-        new.data = section
+        new.section = section
         return new
 
     def query(self, data_bounds:Optional[dict]=None, sampling_rate:Optional[int]=None)->dict:
@@ -98,7 +98,7 @@ class Bar(Rho):
         new.V[p] = FtoV(nu=nu, f=f, nu_inv=nu_inv) 
         return new
 
-    def mu(self, tau_restricted: Records)->Records: #draw
+    def nu(self, tau_restricted: Records)->Records: #draw
         #required nus, also done first to get length
         mus = {p: self.V[p].nu(*(tau_restricted[c] 
                 for c in self.V[p].f)) for p in self.P_required}
@@ -115,20 +115,25 @@ class Bar(Rho):
                 mus[p] = self.V[p].nu(*(tau_restricted[c] 
                                         for c in self.V[p].f))
         return mus
-
+    
+    @staticmethod
+    def box_nu(position, width, length, floor):
+        return [mpath.Path([(xi, fl), (xi, fl + yi), 
+                           (xi + wd, fl + yi), 
+                           (xi + wd, fl), (xi, fl)], closed=True) for 
+                (xi, wd, yi, fl) in zip(position, width, length, floor)]
+    
     @staticmethod
     def qhat(position, width, length, floor, facecolor, edgecolor, linewidth, linestyle):
         # are matplotlib 
+        box = Bar.box_nu(position, width, length, floor)
         def fake_draw(render, transform=mtransforms.IdentityTransform()):
-            for (xi, wd, yi, fl, fc, ec, lw, ls) in zip(position, width, length, floor, facecolor, edgecolor, linewidth, linestyle):
+            for (bx, fc, ec, lw, ls) in zip(box, facecolor, edgecolor, linewidth, linestyle):
                 gc = render.new_gc()
                 gc.set_foreground((ec.r, ec.g, ec.b, ec.a))
                 gc.set_dashes(*ls)
                 gc.set_linewidth(lw)
-                path = mpath.Path([(xi, fl), (xi, fl + yi), 
-                           (xi + wd, fl + yi), 
-                           (xi + wd, fl), (xi, fl)], closed=True)
-                render.draw_path(gc=gc, path=path, transform=transform, 
+                render.draw_path(gc=gc, path=bx, transform=transform, 
                     rgbFace=(fc.r, fc.g, fc.b, fc.a))
         return fake_draw
 
@@ -153,19 +158,22 @@ class GenericArtist(martist.Artist):
     def __init__(self, artist:TopologicalArtist):
         super().__init__()
         self.artist = artist
-
+    
+    def compose_with_tau(self, section):
+        self.section = section
+        
     def get_screen_bounds_to_data_bounds(self, renderer)->(dict, int):
         """
         uses the Axes object as a proxy for the screeen 
         """
         bounds = {}
         for pos, (vmin, vmax) in [('x', self.axes.get_xlim()), ('y', self.axes.get_ylim())]:
-            fibers = self.artist.graphic.V[self.artist.graphic.bounds[pos]].f
-            if self.artist.graphic.V[self.artist.graphic.bounds[pos]].nu == self.axes.transData.transform:
+            fibers = self.artist.V[self.artist.bounds[pos]].f
+            if self.artist.V[self.artist.bounds[pos]].nu == self.axes.transData.transform:
                 # may have to rework this for polar...
                 # assumes .transData.transform(xi)
                 bounds[fibers] = ((vmin, vmax),)
-            elif (inv_nu:=self.artist.graphic.V[self.artist.graphic.bounds[pos]].nu_inv) is not None:
+            elif (inv_nu:=self.artist.V[self.artist.bounds[pos]].nu_inv) is not None:
                 bounds[fibers] = inv_nu((vmin, vmax))
             else:
                 bounds[fibers] = [None for _ in fibers]
@@ -184,9 +192,9 @@ class GenericArtist(martist.Artist):
         #topArtist.graphic.V.items()[0]
         
         # maybe do loop over taus here (local section of taus)
-        for tau_restricted in self.artist.data.query(bounding_box, sampling_rate):
+        for tau_restricted in self.section.query(bounding_box, sampling_rate):
             # you write make_mu & qhat so what gets passed into which
             # \qhat \circ mu 
-            mu = self.artist.graphic.mu(tau_restricted)
-            rho = self.artist.graphic.qhat(**mu)
+            mu = self.artist.nu(tau_restricted)
+            rho = self.artist.qhat(**mu)
             H = rho(renderer)
