@@ -433,7 +433,7 @@ such that there is a way to then look up what data values correspond with a grap
 As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ in the graphic space that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$. 
  
 
-\subsubsection{Example: Correspondence Between Graphic and Data}
+\subsubsection{Example: Graphic and Data}
 \begin{figure}[h!]
   \includegraphics*[width=1\columnwidth]{xi_scatter.png}
   \caption{The functors $\vindex, \vindexpull, \vindexpush$ establish the correspondence between a data section \dsection\ and a graphic generation function \gsection. For every data record $\dsection(\dbasepoint)$, there is a graphic generating function $\vindexpush\gsection = \gsection|_{\vindexpre\dbasepoint}$. This curried function is here represented as the visual parameters associated with that function to demonstrate that it generates the visual element for that data record. Every data section can also be copied over to the graphic space such that each piece of the (idealized in infinite resolution) graphic $\gsection(\dbasepoint)$ has a corresponding data value $\vindexpull\dsection(\dbasepoint)$.
@@ -452,11 +452,15 @@ In this work we propose that visualization libraries are implementing transforma
   \label{eq:artist:hom_transport}
   \vartistc:& \cgamma{\dbasec}{\dtotalc}\textcolor{artist}{\rightarrow} \cgamma{\gbasec}{\gtotalc}
 \end{align}
- Because the artists can be constructed as morphisms of sheave over the same base spaces, as listed in \autoref{eq:atct:sheaves:homset:functors}, they are natural transformations.
- \begin{definition}
-    \note{natural transform definition}
+ Because the artists can be constructed as morphisms of sheaves over the same base spaces, they are natural transformations.
+ \begin{definition} Given two functors $F,G$ with the same domain $\mathcal{C}$ and codomain $\mathcal{D}$, a \textbf{natural transformation} $\alpha: F \Rightarrow G$ is a map
+\begin{itemize}
+  \item \textit{data}: morphism $F(c) \xrightarrow{\alpha_{c}} G(c)$ for each object $c \in \mathcal{C}$
+  \item \textit{property} when $f: c_1 \rightarrow c_2$ is a morphism in $\mathcal{C}$, the components of the natural transform commute $G(f) \circ \alpha_{c_1} = \alpha_{c_2} \circ F(f)$  
+\end{itemize}
+such that $\alpha = (\alpha_{c})_{c\in\mathcal{C}}$ is the set of all natural transformation components $\alpha_{c}$.\cite{bradleyWhatNaturalTransformation}
  \end{definition}
- which means that they are maps of functors that take the same input object and return objects in the same category\cite{milewskiCategoryTheoryProgrammers}. As illustrated in \autoref{eq:atct:sheaves:homset}, the sheaf functors
+ which means that natural transforms are maps of functors that take the same input object and return objects in the same category\cite{milewskiCategoryTheoryProgrammers}. As illustrated in \autoref{eq:atct:sheaves:homset}, the sheaf functors
 \begin{equation}
   \label{eq:artist:sheaf:base}
     \begin{tikzcd}
@@ -942,7 +946,7 @@ which means that any change to a measurable component input must have a measurab
 
 \subsection{Implementing the Artist: $\vartistc=\vmarkc\circ\vchannelc$}
 
-As shown in \autoref{eq:atct:sheaves:homset}, if a sheaf is equipped with transport functors, then the functions between sheaves over one space are isomorphic to functions between sheave over the other space. This property, allows us to specify the transformation from data to graphic space in data or graphic space or a combination, as listed in \autoref{eq:artist:hom_transport}, such that the following diagram commutes:
+ If a sheaf is equipped with transport functors, then the functions between sheaves over one space are isomorphic to functions between sheaves over the other space\cite{harder2008lectures}. This property, allows us to specify the transformation from data to graphic space in data or graphic space or a combination, as listed in \autoref{eq:artist:hom_transport}, such that the following diagram commutes:
 \begin{equation}
   \label{eq:construction:artist:path}
 \begin{tikzcd}[row sep=2.5em, column sep=1.5em]
@@ -965,14 +969,15 @@ As shown in \autoref{eq:atct:sheaves:homset}, if a sheaf is equipped with transp
   \arrow[uu, "\vindexpushc"', color=functor]
 \end{tikzcd}  
 \end{equation}
-The diagram in \autoref{eq:construction:artist:path} illustrates how a developer can connect transformations over data space, denoted with a subset $\dbase$, with transformations over graphic space $\gbase$, using $\vindexpushc$ and $\vindexpullc$ adaptors. This allows developers to for example connect transformers that transform data on a line to a color in dataspace, but build a line compositing function that dynamically resamples what is on screen in graphic space.
+The diagram in \autoref{eq:construction:artist:path} illustrates how a developer can connect transformations over data space, denoted with a subset $\dbase$, with transformations over graphic space $\gbase$, using $\vindexpushc$ and $\vindexpullc$ adaptors.This allows developers to for example connect transformers that transform data on a line to a color in dataspace, but build a line compositing function that dynamically resamples what is on screen in graphic space.
+
+
+\section{Discussion: Feasibility of Math as Design Spec}
+\label{sec:discussion}
 \begin{figure}
   \includegraphics[width=1\columnwidth]{full_line.png}
   \caption{\label{fig:construction:artist:combo}}
 \end{figure}
-
-\section{Discussion: Feasibility of Math as Design Spec}
-\label{sec:discussion}
 The framework specified in \autoref{sec:artist} and \autoref{sec:construction} describes how to build structure preserving visualization components, but it is left to the library developer to follow these guidelines when building and reusing components. In this section, we introduce a toy example of building an artist out of the components introduced in \autoref{sec:construction} to illustrate how components that adhere to these specifications are maintainable, extendible, scalable, and support concurrency. 
 
 \begin{figure}[h!]
