@@ -182,7 +182,7 @@ A Presentation Tool\cite{mackinlayAutomatingDesignGraphical1986, mackinlayAutoma
 \label{sec:atct}
 In this section, we propose a mathematical abstraction of the data input and graphic prerendered output. This mathematical abstraction has a robust language for expressing topology and fields; expresses how to verify that data continuity is preserved on subset, distributed, and streaming data representations; and formalizes the expectation of a correspondence between data and visual elements. 
 
-\subsection{Uniform Abstract Data Representation}
+\subsection{Abstract Data Representation}
 \label{sec:atct:fiber-bundles}
 We model data using a mathematical representation of data that can encode topological properties, field types, and data values in a uniform manner using a structure from algebraic topology called a fiber bundle. We extend Butler's proposal of bundles as abstract visualization data type \cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989} by incorporating Spivak's methodology for encoding named data types from his fiber bundle representation of relational databases \cite{spivakDatabasesAreCategories2010, spivakSIMPLICIALDATABASES}. We build on this work to describe how to encode the connectivity of the data as a topological space, separately encode the fields as their own topological space with a typing system, and express the mappings between these two spaces.
 
@@ -336,32 +336,39 @@ that map from a point in an openset in the graphic space $\gbasepoint \in \opens
 
 In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ maps into the fiber for a simplified 2D RGB infinite resolution prerender space and returns the $\{x,y,r,g,b\}$ values of a pixel in an infinite resolution space. In \autoref{fig:atct:fb:graphic} these pixels are approximated as the small orange and black colored boxes. Each box is the output of the $\gsection(\gbasepoint)$ section that intersects the box. The set of all pixels returned by a section evaluated on a given visual base space $\gsection|_{\gbase}$ can yield a visual element, such as a marker, line, or piece of a glyph. \autoref{fig:atct:fb:graphic} illustrates a highly idealized space with no overlaps. To support overlaps, we can add another fiber element $\gfiber_{z}$ and leave it to the renderer to appropriately blend layers. 
 
-\subsection{Formal Properties of Data Containers}
+\subsection{Abstract Data Containers}
 \label{sec:atct:sheaves}
-Sheaves are a mathematical way to describe the expectation that data structures implement the bookkeeping that keeps track of the continuity of the data and graphic \cite{ghristElementaryAppliedTopology2014}. These constraints generalize to data that is subsetted, distributed, streaming, and on-demand. Sheaves are built out of presheaves, which are functors, meaning they are functions from objects of one category to objects of another category\cite{WhatFunctorDefinitions} that preserve the morphisms in each category. 
-\begin{definition} A \textbf{functor} is map $F: \mathcal{C} \rightarrow \mathcal{D}$ such that every object $C \in \mathcal{OB(C)}$ has a corresponding object $F(C) \in \mathcal{OB(D)}$ in category $\mathcal{D}$. The functor also acts on morphisms such that for every morphism $f: C_1 \rightarrow C_2$ in category $\mathcal{C}$, there is a compatible morphism $F(f): F(C_{1}) \rightarrow F(C_2)$. 
+While bundles provide a way to describe the structure of the data, sheaves are a mathematical way of describing the data container. Sheaves are an algebraic data structure that provides a way of abstractly discussing the bookkeeping that data containers must implement to keep track of the continuity of the data \cite{ghristElementaryAppliedTopology2014}. This abstraction facilitates representational invariance, as introduced by Kindlemannn and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}, since the container level is uniformally specified as satisfying sheaf constraints. These constraints generalize to data that is subsetted, distributed, streaming, and on-demand. 
+
+Sheaves are built out of presheaves, which are functors, meaning they are functions from objects of one category to objects of another category\cite{WhatFunctorDefinitions} that preserve the morphisms in each category. 
+\begin{definition} A \textbf{functor} is a map $F: \mathcal{C} \rightarrow \mathcal{D}$ such that every object $C \in \mathcal{OB(C)}$ has a corresponding object $F(C) \in \mathcal{OB(D)}$ in category $\mathcal{D}$. The functor also acts on morphisms such that for every morphism $f: C_1 \rightarrow C_2$ in category $\mathcal{C}$, there is a compatible morphism $F(f): F(C_{1}) \rightarrow F(C_2)$. 
 A functor must satisfy the properties 
 \begin{itemize}
   \item \textit{identity}: $F(id_{C}(C)) = id_{D}(F(C))$
   \item \textit{composition}:$F(g)\circ F(f) = F(g\circ f)$ for any composable morphisms $C_{1}\xrightarrow{f} C_2$, $C_2 \xrightarrow{g} C_3$
 \end{itemize}
 \end{definition}
-Functors preserve all the structure of the categories, namely the domains, codomains, composition, and identities\cite{riehlCategoryTheoryContext}$. Specifically, functors allow us to express which structure must be preserved when an object is transformed from one category to another. 
+Functors preserve all the structure of the categories, namely the domains, codomains, composition, and identities\cite{riehlCategoryTheoryContext}. Specifically, functors allow us to express which structure must be preserved when an object is transformed from one category to another. 
 
-The presheaf encodes the expectation that continuity is preserved across sections. Specifically, a presheaf is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{nlab:presheaf}. 
+We use a presheaf to encode the expectation that continuity is preserved across sections. 
+\begin{definition}
+  A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{nlab:presheaf}. 
+  \end{definition}
+Specifically, we use a presheaf to describe the expectation that any set of sections defined over a larger space $\dsection \in \Gamma(\opensetc_2, \dtotal\restriction_{\openset_{2}})$ is also defined over subspaces of that space $\dsection\restriction_{\opensetc_{1}}$. We do this by defining the presheaf as the association between an openset and its corresponding set of sections
 \begin{equation}
   \label{eq:atct:sheaf:functor}
   \sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
 \end{equation}
-The presheaf expresses that every subset of the data $\openset$ has an associated set of data sections $\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$. The presheaf is a contravariant functor because the morphisms between input objects
+
+The presheaf preserves continuity by stating that given a morphism $\iota$ between two objects of $\mathcal{\dbase}$ 
 \begin{equation*}
   \iota: \openset_1 \rightarrow \openset_2
 \end{equation*}
-go in the opposite direction from the restriction morphisms $\iota^*$ between the sets
+there must be a corresponding restriction morphiism $\iota^*$ between the sets of sections 
 \begin{equation*}
   \iota^*: \cgamma{\openset_2}{\dtotal_{\openset_2}} \rightarrow \cgamma{\openset_1}{\dtotal_{\openset_1}}
 \end{equation*}
-which are the outputs of the sheaf $\sheaf(\openset) = \cgamma{\openset}{\dtotal\restriction_{\openset}}$. We use a presheaf to describe the expectation that any set of sections defined over a larger space $\dsection \in \Gamma(\opensetc_2, \dtotal\restriction_{\openset_{2}})$ is also defined over subspaces of that space $\dsection\restriction_{\opensetc_{1}}$. This means any data container must implement subsetting in a manner that  makes sense for the continuity, for example an appropriate interpolation for continuous data.
+which are the outputs of the sheaf $\sheaf(\openset) = \cgamma{\openset}{\dtotal\restriction_{\openset}}$. The presheaf is contravariant because the morphisms between the input openset objects go in the opposite direction from the morphisms between the output set objects. The expectation that data containers implement inclusion and restriction morphisms means that, for example, if a data container implements subsetting (inclusion) of a continuous base space than it must ensure that the sections can be interpolated such that they can be defined over the subspace. 
 
 While the presheaf is a generalization of the concept of a global space of sections $\Gamma(\dbase, \dtotal)$ \cite{spanier1989algebraic}, the locality and gluing axioms \cite{bakerMathsSheaf} of a sheaf describe the conditions for verifying that the sections over subspaces are part of a cohesive section over the whole space. 
 \begin{definition} A \textbf{sheaf} is a presheaf that satisfies the following two axioms
@@ -379,103 +386,43 @@ Each section of a sheaf over a point returns a single record in the fiber. The s
 \end{equation}
 where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The germ is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$ and is the data. The stalk and germ in the stalk provide the derivative of the record, which is needed for some computational and visualization tasks. 
 
-\subsection{Mathematical Structure of Data}
-\label{sec:atct:sheaves:measurments}
-\note{move to Artist }
-Equivariance in a visual context was formally defined as the preservation of a binary operator from one domain to another by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. We generalize binary operations to actions $\dfunc \in \dfuncset$ on elements of the bundle $\delement \in \dtotal$. This is expressed with a composition function  $act: \dfuncset \times E \rightarrow \dtotal$ that applies the action to an element of \dtotal\ such that $\dfunc(\delement_0) = \delement_1, \delement_0, \delement_1 \in \dfunc$. We generalize to a family of actions because that allows for expanding the set of allowable transformations on the data beyond a single operator. 
-
-We separate data transformations into two components, transformations on the base space $(\dfunchc, \dfuncpullc)$ and transformations on the fiber space $\dfunctc$. These diagrams are separated because the base space transformation and the pullback are functors on the openset object and associated set of sections, while the fiber transformation takes a single fiber to a different fiber in the set of sections. 
-
-\begin{equation}
-  \label{eq:atct:sheaves:monoid_morphism}
-  \begin{tikzcd}
-    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
-    \arrow[rr, "\dfuncpullc", color=action, maps to] &  & 
-    \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} & 
-    \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} 
-    \arrow[dd, "\dfunctc", color=action] \\
-     &  & &       \\
-    \opensetc 
-    \arrow[uu, maps to,color=sheaf]  &  & \opensetc^{\prime} 
-    \arrow[ll, "\dfunchc"', color=action, maps to] 
-    \arrow[uu, maps to, color=sheaf] & \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}}                       
-    \end{tikzcd}
-\end{equation}
-As shown in \autoref{eq:atct:sheaves:monoid_morphism}, the base space transform 
-\begin{equation}
- \label{eq:atct:morphism:base}
-\dfunch: \openset^{\prime}\rightarrow \openset
-\end{equation}
-The base space transformation is from one open set to another open set in the same base space $\openset, \openset^{\prime} \subseteq \dbase$. To correctly align the sections with the remapped base space, there is a a corresponding section pullback function
-\begin{equation}
-  \label{eq:atct:morphism:basepull}
-  \dfuncpull \dsection \restriction_{\openset^{\prime}}: \dsection\restriction_{\openset^{\prime}} \mapsto \dsection \restriction_{\openset^{\prime} \circ \dfunch} 
-\end{equation}
-such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\opensetc^{\prime})}$. This means that the base space transformation \dfunch\ does not change the data values at a given point
-\begin{equation}
-  \label{eq:atct:morphism:verify_base}
-  \dsection(\dbase) = \dfuncpull\dsectionc(\dbasepoint^{\prime}) = \dsection(\dfunch(\dbase^{prime}))
-\end{equation} 
-where $\dfunch(\dbasepoint^{\prime}) = \dfunch(\dbasepoint)$. 
-As introduced in \autoref{def:atct:io:fiber}, the fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a morphism on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
-\begin{equation}
-  \label{eq:atct:morphism:fiber}
-  \dfunct: \dfuncpull \dsection \restriction_{\openset^{\prime}} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
-\end{equation}
-where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Since there are many different fiber transformations,  there is not a uniform way of expressing how this morphism acts on sections unlike in \label{eq:atct:morphism:verify_base}. Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946m, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. 
-
-We define a full data transformation as one that induces both a remapping of the index space and a change in the data values
-\begin{equation}
-  \label{eq:atct:morphism:all}
-  \dfuncc: \dsectionc\restriction_{\opensetc} \mapsto \dsectionc^{\prime}\restriction_{\opensetc} \circ \dfunchc
-\end{equation}
-which gives us an equation that can express transformations that have both a base space change and a fiber change. 
-
-The data transform \dfunc\ is composable 
-\begin{equation}
-  \dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)
-\end{equation}
-if each (identical) component base space is transformed in the same way $\dfunch$ and there exists functions $\dfunc_{a,b}: \dtotal_a \times \dtotal_b \rightarrow \dtotal_a \times \dtotal_b$, $\dfunc_{a}: \dtotal_a \rightarrow \dtotal_a$ and $\dfunc_{b}: \dtotal_b \rightarrow \dtotal_b$ such that $\pi_a \circ \dfunc_a = \dfunc_{a,b} \circ \pi_a$ and $\pi_b \circ \dfunc_b = \dfunc_{a,b} \circ \pi_b$ then $\dfunc_{a,b} = (\dfunc_a, \dfunc_b)$. This allows us to define a data transform where each fiber transform $\dfunct_{i}$ can be applied to a different fiber field $\dfiber_i$. 
-
-\begin{figure}[h!]
-  \includegraphics[width=\columnwidth]{phi.png}
-  \caption{Values in a data set can be transformed in three ways: $\dfunch$-values can change position, .e.g transposed;  $\dfunct$-values can change, e.g. doubled; $\dfunc$ - values can change position and value  \label{fig:atct:phi}}
-\end{figure}
-\autoref{fig:atct:phi} provides an example of a transposition base space change \dfunch, a scaling fiber space change \dfunct, and a composition of the two \dfunc\ applied to each data point $x_{\dbasepoint} \in \texttt{data}$. In the transposition only case, the values in $\dfuncpull\dsection$ retain their neighbors from $\dsection$ because \dfunc\ does not change the continuity. Each value in $\dfuncpull\dsection$ is also the same as in $\dsection$, just moved to the new position. In $\dfunct\dsection$, each value is scaled by two but remains in the same location as in $\dsection$. And in $\dfunc\dsection$ each function is transposed such that it retains its neighbors and all values are scaled consistently. 
-
 \subsection{Data and Graphic Correspondence}
 \label{sec:atct:xi}
-There is an expectation that for a visualization to readable, the visual elements must correspond to distinct data elements\cite{ziemkiewiczEmbeddingInformationVisualization2009} and we can use the properties of sheaves to formally express this correspondence. First we establish that the graphic continuity corresponds to the data continuity by proposing that there exists a continuous \textcolor{functor}{map between topological spaces} \vindexc 
+There is an expectation that for a visualization to be readable, the visual elements must correspond to distinct data elements\cite{ziemkiewiczEmbeddingInformationVisualization2009} and we can use the properties of sheaves to formally express this correspondence. First we establish that the graphic continuity corresponds to the data continuity by proposing that there exists a continuous \textcolor{functor}{map between topological spaces} \vindexc 
 \begin{equation}
   \label{eq:atct:xi}
-  \vindexc: \opensetgc \rightarrow \opensetc 
+  \vindexc: \opensetgc \textcolor{functor}{\rightarrow} \opensetc 
 \end{equation}
 such that every $\opensetg \subseteq \gbase$ must map to a corresponding set $\openset \subset \dbase$. The functor $\vindex$ is surjective such that for every point $\dbasepoint \in \openset$ there is a corresponding set of points $\{\gbasepoint | \gbasepoint \in  \vindexpre(k)\}$ for all $\gbasepoint in \opensetg$.
 
-Given the map between spaces \vindex\, a property of sheaves is that there exist image functors\cite{ImageFunctorsSheaves2021} functors \vindexpull\ and \vindexpush that can transport sheaves over other base spaces.
-\note{insert formal def of pull back and pushforward functors}
-The \textcolor{functor}{pullback functor} $\vindexpullc$ sends sheaves over $\dbase$ to $\gbase$ and the \textcolor{functor}{pushforward functor} $\vindexpushc$  sends sheaves over $\gbase$ to $\dbase$
-\begin{equation}
-  \label{eq:atct:morphisms:xi}
-\begin{tikzcd}[row sep=huge]
-  \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
-  \arrow[rr, "\vindexpullc", maps to, color=functor] &  & 
-  \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}  \\
-  \opensetc 
-  \arrow[d, "{\vindexpushc\sheafc_{\gbasec,  \gtotalc}}", dashed, maps to, color=sheaf] 
-  \arrow[u, "{\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] &  & 
-  \opensetgc 
-  \arrow[d, "{\sheafc_{\gbasec, \gtotalc}}", maps to, color=sheaf] 
-  \arrow[u, "{\vindexpullc\sheafc_{\dbasec, \dtotalc}}"', dashed, maps to, color=sheaf] 
-  \arrow[ll, "\vindexc"', maps to, color=functor] \\
-  \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} &  & 
-  \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
-  \arrow[ll, "\vindexpushc"', maps to, color=functor]                                                         
-  \end{tikzcd}
-\end{equation}
-such that there is an association between graphic sections \gsection\ that take as input \gbasepoint\ and data sections that take input \dbasepointc\ when $\vindex(\gbasepoint) = \dbasepoint$. 
+\subsubsection{Graphic Corresponding to Data}
+The pushforward (direct image) sheaf establishes which graphic generating function $\gsection$ corresponds to a point $\dbasepoint \in dbase$ in the data base space. 
 
-The pull back $\vindexpullc$ transports sheaves of sections on $\openset \subseteq \dbase$ over $\opensetg \subseteq \gbase$
+\begin{definition} Given a sheaf $\sheaf_{\gbase, \gtotal}$ on $\gbase$, the \textbf{pushforward} sheaf  $\vindexpush\sheaf_{\gbase, \gtotal}$ on $\dbase$ is defined as 
+  \begin{equation*}
+    \vindexpushc(\sheafc_{\gbasec, \gtotalc})(\opensetc)  = \sheafc_{\gbasec, \gtotalc}(\vindexc^{-1}(\opensetc))
+  \end{equation*}
+for all opensets $\opensetc \subset \dbasec$\cite{harder2008lectures}.
+\end{definition}
+The pushforward sheaf returns the set of graphic sections over the data base space that corresponds to the graphic space $\vindex^{-1}(\openset) = \opensetgc$. The pushforward functor $\vindexpushc$ transports sheaves of sections on $\opensetgc$ over $\openset$
+ \begin{equation}  
+  \vindexpushc\gsectionc: \opensetc \rightarrow \vindexpushc \gtotalc\restriction_{\opensetc} \in \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} 
+\end{equation}
+such that it provides a way to look up which graphic  corresponds with a data index
+\begin{equation}
+  \vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexprec(\dbasepointc)}
+\end{equation}
+such that $\vindexpush\gsection(\dbasepoint))(\gbasepoint) = \gsection(\gbasepoint)$ for all $\gbasepoint \in \vindexpre(\dbasepoint)$. Therefore, the continuous map $\vindex$ and transport functors $\vindexpull, \vindexpush$ allow us to express the correspondence between graphic section and data section.
+
+\subsubsection{ Data Corresponding to Graphic}
+The pullback (inverse image) sheaf establishes which data record  returned by $\dsection$ corresponds to a point $\gbasepoint \in \gbase$ in the graphic base space. 
+\begin{definition} Given a sheaf $\sheaf_{\dbase, \dtotal}$ on $\dbase$, the \textbf{pullback} sheaf $\vindexpullc\sheafc_{\dbasec, \dtotalc}$ on $\gbasec$ is defined as the sheaf associated to the presheaf
+  \begin{equation*}
+    \vindexpullc(\sheafc_{\dbasec, \dtotalc})(\opensetgc) = \sheafc_{\dbasec, \dtotalc}(\vindexc(\opensetgc))   
+  \end{equation*}
+for $\vindex(\opensetgc) \in \dbase$ \cite{harder2008lectures}.
+\end{definition}
+The pullback sheaf returns the set of data sections over the graphic base space that corresponds to the graphic space $\vindex(\opensetg) = \openset$. The pullback $\vindexpullc$ transports sheaves of sections on $\openset \subseteq \dbase$ over $\opensetg \subseteq \gbase$
 \begin{equation}
   \vindexpullc\dsectionc: \opensetgc \rightarrow \vindexpullc \dtotalc\restriction_{\opensetgc} \in \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}} 
 \end{equation}
@@ -483,19 +430,10 @@ such that there is a way to then look up what data values correspond with a grap
 \begin{equation}
   \vindexpullc\dsectionc(\gbasepointc) = \dsectionc(\vindex(\gbasepointc)) = \dsectionc(\dbasepointc)
 \end{equation}
+As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ in the graphic space that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$. 
+ 
 
- The pushforward $\vindexpushc$ transports sheaves of sections on $\opensetgc$ over $\openset$
- \begin{equation}  
-  \vindexpushc\gsectionc: \opensetc \rightarrow \vindexpushc \gtotalc\restriction_{\opensetc} \in \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} 
-\end{equation}
-such that it provides a way to look up which graphic  corresponds with a data index
-\begin{equation}
-  \vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexprec(\dbasepointc)} = \{\gsectionc(\gbasepointc)\;for\;all\; \gbasepointc\in \vindexprec(\dbasepointc)\}
-\end{equation}
-\note{$\xi_*rho(k)(s)=rho(s) for s in \xi^{-1}(k)
-$} and move {} into narrative
-Therefore, the continuous map $\vindex$ and transport functors $\vindexpull, \vindexpush$ allow us to express the correspondence between graphic section and data section. 
-
+\subsubsection{Example: Correspondence Between Graphic and Data}
 \begin{figure}[h!]
   \includegraphics*[width=1\columnwidth]{xi_scatter.png}
   \caption{The functors $\vindex, \vindexpull, \vindexpush$ establish the correspondence between a data section \dsection\ and a graphic generation function \gsection. For every data record $\dsection(\dbasepoint)$, there is a graphic generating function $\vindexpush\gsection = \gsection|_{\vindexpre\dbasepoint}$. This curried function is here represented as the visual parameters associated with that function to demonstrate that it generates the visual element for that data record. Every data section can also be copied over to the graphic space such that each piece of the (idealized in infinite resolution) graphic $\gsection(\dbasepoint)$ has a corresponding data value $\vindexpull\dsection(\dbasepoint)$.
@@ -506,40 +444,19 @@ Functors between sheaves are a way of expressing the bookkeeping involved in kee
 
 Visualization specification languages such as vega \cite{heerDeclarative2010} and svg \cite{quintScalable2003} assume that there is a graphic  specification for every point. Interactive tooltips assume that there is a map between the graphics rendered on screen and the data such that a glyph maps back to a record. The functors $(\vindex, \vindexpush, \vindexpull)$ codify the expectation of these mappings between data and graphic space. 
 
-We propose that visualization libraries implement morphisms from a data sheaf $\sheafc_{\dtotal, \dbase}$ to a graphic sheaf $\sheafc_{\gtotal, \gbase}$ 
-\begin{equation}
-  \label{eq:atct:sheaves:homset}
-  \begin{tikzcd}
-    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
-    \arrow[dd, "\textcolor{set}{Hom}_{\sheafc_{\dbasec}}"', color=homset] 
-    \arrow[rrdd, "\textcolor{set}{Hom}_{\sheafc_{\dbasec},\sheafc_{\gbasec}}", color=homset] 
-    \arrow[rr, "\vindexpullc", color=functor] &  &
-    \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}} 
-    \arrow[dd, "\textcolor{set}{Hom}_{\sheafc_{\gbasec}}", color=homset] \\
-     & & \\
-    \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} &  & 
-    \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
-    \arrow[ll, "\vindexpushc"', color=functor]                  
-    \end{tikzcd}
-\end{equation}
-and the hom set is the set of all morphisms from one sheaf to the other. The functors $\vindexpullc, \vindexpushc$ are adjoint, meaning that there is a functorial isomorphism \cite{harder2008lectures} such that 
-\begin{equation}
-  \label{eq:atct:sheaves:homset:functors}
-   \textcolor{set}{Hom}_{\sheafc_{\gbasec}}(\vindexpullc\sheafc_{\dtotalc, \dbasec},\sheafc_{\gtotalc,\gbasec})
-  \simeq  \textcolor{set}{Hom}_{\sheafc_{\dbasec}}(\sheafc_{\dtotalc, \dbasec},\vindexpushc\sheafc_{\gtotalc,\gbasec}) 
-\end{equation}
-such that both are isomorphic to  $\simeq  \textcolor{set}{Hom}_{\sheafc_{\dbasec},\sheafc_{\gbasec}}(\sheafc_{\dtotalc, \dbasec},\sheafc_{\gtotalc,\gbasec})$. This set of ismorphic homsets means that the diagram of sheaf morphisms \autoref{eq:atct:sheaves:homset} is commutative; therefore the functors $\vindexpullc$ and $\vindexpushc$ can be used to adapt morphisms written over one space to another space. 
-\note{maybe move to construction}
-This provides us flexibility over which space to construct data to graphic transforms. For example, specifications such as svg\cite{quintScalable2003} and Vega\cite{satyanarayanDeclarativeInteractionDesign2014}, typically define their transformations in data space and return specifications for the render to evaluate. An artist may also want to specify the transformations in a proxy of graphic space, for example to generate on-demand dynamically resampled continuous lines.
 
 \section{Artist: Data to Graphic}
 \label{sec:artist}
-In this work we propose that visualization libraries are implementing a subset of the functions in the hom sets in \autoref{eq:atct:sheaves:homset}. We call these subset of functions the artist:
+In this work we propose that visualization libraries are implementing transformations from data sheaf to graphic sheaf. We call these subset of functions the artist:
 \begin{align}
   \label{eq:artist:hom_transport}
-  \vartistc:& \cgamma{\dbasec}{\dtotalc}\textcolor{artist}{\rightarrow} \cgamma{\gbasec}{\gtotalc} \in \textcolor{set}{Hom}_{\sheafc_{\dbase}, \sheafc_{\gbase}}
+  \vartistc:& \cgamma{\dbasec}{\dtotalc}\textcolor{artist}{\rightarrow} \cgamma{\gbasec}{\gtotalc}
 \end{align}
- Because the artists can be constructed as morphisms of sheave over the same base spaces, as listed in \autoref{eq:atct:sheaves:homset:functors}, they are natural transformations, which means that they are maps of functors that take the same input object and return objects in the same category\cite{milewskiCategoryTheoryProgrammers}. As illustrated in \autoref{eq:atct:sheaves:homset}, the sheaf functors
+ Because the artists can be constructed as morphisms of sheave over the same base spaces, as listed in \autoref{eq:atct:sheaves:homset:functors}, they are natural transformations.
+ \begin{definition}
+    \note{natural transform definition}
+ \end{definition}
+ which means that they are maps of functors that take the same input object and return objects in the same category\cite{milewskiCategoryTheoryProgrammers}. As illustrated in \autoref{eq:atct:sheaves:homset}, the sheaf functors
 \begin{equation}
   \label{eq:artist:sheaf:base}
     \begin{tikzcd}
@@ -575,8 +492,74 @@ The output of an artist \vartist\ is a restricted subset of graphic sections
 that are, by definition, only reachable through a structure preserving artist, which we describe in \autoref{sec:artist:equivariance}. We define this subset because the space of all sections $\cgamma{\opensetg}{\gtotal\restriction_{\openset}}$ includes sections that may not be structure preserving. For example, a section may go from every point in the graphic space to the same single point in the graphic fiber $\gsection(\gbasepoint_i) = d\; \forall \gbasepoint \in \gbase$ such that the visual output is a single inked pixel on a screen. 
 
 \subsection{Equivariance}
-The notion of structure preservation discussed in \autoref{sec:related-work:continuity} is that data and components of the graphic vary in equivalent ways. We describe the changes on the graphic side as changes in measurments \measure\, which are scaler or vector components of the rendered graphic that can be quantified, such as the color, position, shape, texture, or rotation angle of the graphic. The visual variables \cite{bertinIIPropertiesGraphic2011} are a subset of measurable components. For example, a measurement of a scatter marker could be its color (e.g. red) or its x position (e.g. 5). 
+\label{sec:artist:equiv}
+Equivariance in a visual context was formally defined as the preservation of a binary operator from one domain to another by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. We generalize binary operations to actions $\dfunc \in \dfuncset$ on elements of the bundle $\delement \in \dtotal$. This is expressed with a composition function  $act: \dfuncset \times E \rightarrow \dtotal$ that applies the action to an element of \dtotal\ such that $\dfunc(\delement_0) = \delement_1, \delement_0, \delement_1 \in \dfunc$. We generalize to a family of actions because that allows for expanding the set of allowable transformations on the data beyond a single operator. We describe the changes on the graphic side as changes in measurements \measure\, which are scaler or vector components of the rendered graphic that can be quantified, such as the color, position, shape, texture, or rotation angle of the graphic. The visual variables \cite{bertinIIPropertiesGraphic2011} are a subset of measurable components. For example, a measurement of a scatter marker could be its color (e.g. red) or its x position (e.g. 5). 
 
+\subsubsection{Mathematical Structure of Data}
+\label{sec:artist:equivariant:data}
+We separate data transformations into two components, transformations on the base space $(\dfunchc, \dfuncpullc)$ and transformations on the fiber space $\dfunctc$. These diagrams are separated because the base space transformation and the pullback are functors on the openset object and associated set of sections, while the fiber transformation takes a single fiber to a different fiber in the set of sections. 
+
+\begin{equation}
+  \label{eq:atct:sheaves:monoid_morphism}
+  \begin{tikzcd}
+    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+    \arrow[rr, "\dfuncpullc", color=action, maps to] &  & 
+    \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} & 
+    \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}} 
+    \arrow[dd, "\dfunctc", color=action] \\
+     &  & &       \\
+    \opensetc 
+    \arrow[uu, maps to,color=sheaf]  &  & \opensetc^{\prime} 
+    \arrow[ll, "\dfunchc"', color=action, maps to] 
+    \arrow[uu, maps to, color=sheaf] & \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}}                       
+    \end{tikzcd}
+\end{equation}
+
+The base space transformation is from one open set to another open set in the same base space
+\begin{equation}
+  \label{eq:atct:morphism:base}
+ \dfunch: \openset^{\prime}\rightarrow \openset
+ \end{equation}
+such that $\openset, \openset^{\prime} \subseteq \dbase$. This means $\openset$ and $\openset^{\prime}$ are of the same topology type. To correctly align the sections with the remapped base space, there is a a corresponding section pullback function
+\begin{equation}
+  \label{eq:atct:morphism:basepull}
+  \dfuncpull \dsection \restriction_{\openset^{\prime}}: \dsection\restriction_{\openset^{\prime}} \mapsto \dsection \restriction_{\openset^{\prime} \circ \dfunch} 
+\end{equation}
+such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\opensetc^{\prime})}$. This means that the base space transformation \dfunch\ does not change the data values at a given point
+\begin{equation}
+  \label{eq:atct:morphism:verify_base}
+  \dsection(\dbase) = \dfuncpull\dsectionc(\dbasepoint^{\prime}) = \dsection(\dfunch(\dbase^{prime}))
+\end{equation} 
+where $\dfunch(\dbasepoint^{\prime}) = \dfunch(\dbasepoint)$. 
+As introduced in \autoref{def:atct:io:fiber}, the fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a morphism on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
+\begin{equation}
+  \label{eq:atct:morphism:fiber}
+  \dfunct: \dfuncpull \dsection \restriction_{\openset^{\prime}} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
+\end{equation}
+where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Since there are many different fiber transformations,  there is not a uniform way of expressing how this morphism acts on sections unlike in \label{eq:atct:morphism:verify_base}. Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946m, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. 
+
+We define a full data transformation as one that induces both a remapping of the index space and a change in the data values
+\begin{equation}
+  \label{eq:atct:morphism:all}
+  \dfuncc: \dsectionc\restriction_{\opensetc} \mapsto \dsectionc^{\prime}\restriction_{\opensetc} \circ \dfunchc
+\end{equation}
+which gives us an equation that can express transformations that have both a base space change and a fiber change. 
+
+The data transform \dfunc\ is composable 
+\begin{equation}
+  \dfuncc = (\dfunchc, \prod\limits_{i=0}^{n}\dfunctc_i)
+\end{equation}
+if each (identical) component base space is transformed in the same way $\dfunch$ and there exists functions $\dfunc_{a,b}: \dtotal_a \times \dtotal_b \rightarrow \dtotal_a \times \dtotal_b$, $\dfunc_{a}: \dtotal_a \rightarrow \dtotal_a$ and $\dfunc_{b}: \dtotal_b \rightarrow \dtotal_b$ such that $\pi_a \circ \dfunc_a = \dfunc_{a,b} \circ \pi_a$ and $\pi_b \circ \dfunc_b = \dfunc_{a,b} \circ \pi_b$ then $\dfunc_{a,b} = (\dfunc_a, \dfunc_b)$. This allows us to define a data transform where each fiber transform $\dfunct_{i}$ can be applied to a different fiber field $\dfiber_i$. 
+
+\begin{figure}[h!]
+  \includegraphics[width=\columnwidth]{phi.png}
+  \caption{Values in a data set can be transformed in three ways: $\dfunch$-values can change position, .e.g transposed;  $\dfunct$-values can change, e.g. doubled; $\dfunc$ - values can change position and value  \label{fig:atct:phi}}
+\end{figure}
+\autoref{fig:atct:phi} provides an example of a transposition base space change \dfunch, a scaling fiber space change \dfunct, and a composition of the two \dfunc\ applied to each data point $x_{\dbasepoint} \in \texttt{data}$. In the transposition only case, the values in $\dfuncpull\dsection$ retain their neighbors from $\dsection$ because \dfunc\ does not change the continuity. Each value in $\dfuncpull\dsection$ is also the same as in $\dsection$, just moved to the new position. In $\dfunct\dsection$, each value is scaled by two but remains in the same location as in $\dsection$. And in $\dfunc\dsection$ each function is transposed such that it retains its neighbors and all values are scaled consistently.
+
+
+\subsubsection{Equivariant Artist}
+\label{sec:artist:equivariant:artist}
 We formalize this structure preservation as equivariance, which is that for every morphism on the data $(\dfunch_{\dtotal}, \dfunct_{\dtotal})$ there is an equivalent morphism on the graphic  $(\dfunch_{\gtotal}, \dfunct_{\gtotal})$ The artist is an equivariant map if the diagram commutes for all points $\gbasepointc^{\prime}\in \gbasec^{\prime}$
 \label{sec:artist:equivariance}
 \begin{equation}
@@ -590,18 +573,18 @@ We formalize this structure preservation as equivariance, which is that for ever
   \arrow[d, "\dfuncpullc_{\gtotalc}", dotted] \\
   \cgamma{\dbasec^{\prime}}{\dfuncpullc_{\dtotalc}\dtotalc} 
   \arrow[dd, "\dfunctc_{\dtotalc}"', color=action] \& 
-  \opensetc 
+  \dbasec 
    \& 
-  \opensetgc 
+  \gbasec 
   \arrow[l, "\vindexc"', color=functor] 
   \& 
   \imartist{\gbase^{\prime}}{\dfuncpullc_{\gtotalc}\gtotalc} 
   \arrow[dd, "\dfunctc_{\gtotalc}", dotted, color=action] \\
   \& 
-  \opensetc^{\prime} 
+  \dbasec^{\prime} 
   \arrow[u, "\dfunchc_{\dtotalc}", color=action] 
   \& 
-  \opensetgc^{\prime} 
+  \gbasec^{\prime} 
   \arrow[l, "\vindexc"', color=functor] 
   \arrow[u, "\dfunchc_{\gtotalc}"', dotted, color=action] 
   \& \\
