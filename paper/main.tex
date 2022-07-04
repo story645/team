@@ -326,7 +326,7 @@ As with data, we model the graphic generating functions as sections $\gsection$ 
   \label{eq:atct:fb_graphic_section}
   \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} \coloneqq \big\{\gsectionc: \opensetgc\rightarrow \gtotalc\restriction_{\opensetgc} \; \bigm{\vert} \pi(\gsectionc(\gbasepointc)) = \gbasepointc\;for\, all\; \gbasepointc \in \opensetgc \big\}
 \end{equation}
-that map from a point in an openset in the graphic space $\gbasepoint \in \opensetg \in \gbase$ to a point in the graphic fiber $\gfiber$. The section evaluated on a single point $\gbasepoint$ returns a single graphic record, for example one pixel in an ideal resolution space. In our model, the unevaluated graphic section us passed to a renderer to generate graphics. 
+that map from a point in an openset in the graphic space $\gbasepoint \in \opensetg \in \gbase$ to a point in the graphic fiber $\gfiber$. The section evaluated on a single point $\gbasepoint$ returns a single graphic record, for example one pixel in an ideal resolution space. In our model, the unevaluated graphic section is passed to a renderer to generate graphics. 
 
 \begin{figure}[h!]
   \includegraphics[width=1\columnwidth]{fb_rho.png}
@@ -338,11 +338,17 @@ In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ maps into the
 
 \subsection{Formal Properties of Data Containers}
 \label{sec:atct:sheaves}
-Sheaves are a mathematical way to describe the expectation that data structures implement the bookkeeping that keeps track of the continuity of the data and graphic \cite{ghristElementaryAppliedTopology2014}. These constraints generalize to data that is subsetted, distributed, streaming, and on-demand. 
+Sheaves are a mathematical way to describe the expectation that data structures implement the bookkeeping that keeps track of the continuity of the data and graphic \cite{ghristElementaryAppliedTopology2014}. These constraints generalize to data that is subsetted, distributed, streaming, and on-demand. Sheaves are built out of presheaves, which are functors, meaning they are functions from objects of one category to objects of another category\cite{WhatFunctorDefinitions} that preserve the morphisms in each category. 
+\begin{definition} A \textbf{functor} is map $F: \mathcal{C} \rightarrow \mathcal{D}$ such that every object $C \in \mathcal{OB(C)}$ has a corresponding object $F(C) \in \mathcal{OB(D)}$ in category $\mathcal{D}$. The functor also acts on morphisms such that for every morphism $f: C_1 \rightarrow C_2$ in category $\mathcal{C}$, there is a compatible morphism $F(f): F(C_{1}) \rightarrow F(C_2)$. 
+A functor must satisfy the properties 
+\begin{itemize}
+  \item \textit{identity}: $F(id_{C}(C)) = id_{D}(F(C))$
+  \item \textit{composition}:$F(g)\circ F(f) = F(g\circ f)$ for any composable morphisms $C_{1}\xrightarrow{f} C_2$, $C_2 \xrightarrow{g} C_3$
+\end{itemize}
+\end{definition}
+Functors preserve all the structure of the categories, namely the domains, codomains, composition, and identities\cite{riehlCategoryTheoryContext}$. Specifically, functors allow us to express which structure must be preserved when an object is transformed from one category to another. 
 
-\note{add definition of functor + presheaf}
-Presheaves are functors, meaning they are functions from objects of one category to objects of another category\cite{WhatFunctorDefinitions} that preserve the morphisms in each category. 
-A presheaf is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{nlab:presheaf}. 
+The presheaf encodes the expectation that continuity is preserved across sections. Specifically, a presheaf is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{nlab:presheaf}. 
 \begin{equation}
   \label{eq:atct:sheaf:functor}
   \sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
@@ -355,9 +361,16 @@ go in the opposite direction from the restriction morphisms $\iota^*$ between th
 \begin{equation*}
   \iota^*: \cgamma{\openset_2}{\dtotal_{\openset_2}} \rightarrow \cgamma{\openset_1}{\dtotal_{\openset_1}}
 \end{equation*}
-which are the outputs of the sheaf $\sheaf(\openset) = \cgamma{\openset}{\dtotal\restriction_{\openset}}$. We use a  presheaf to describe the expectation that any set of sections defined over a larger space $\dsection \in \Gamma(\opensetc_2, \dtotal\restriction_{\openset_{2}})$ is also defined over subspaces of that space $\dsection\restriction_{\opensetc_{1}}$. 
-\note{make these formal definitions again}
-The locality and gluing axioms \cite{bakerMathsSheaf} of a sheaf describe the conditions for verifying that the sections over subspaces are part of a cohesive section over the whole space. The locality axiom asserts that two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values over the same set of open sets $\dsection^{a}|{\openset} =  \dsection^{b}|_{\openset}$. The gluing axiom asserts that the union of sections defined on specific open sets is equivalent to one big section over the union of spaces $\dsection|_{\openset_{i} \cup \openset_{j}} = \dsection^{i}|_{\openset_i} \cup \dsection^{j}|_{\openset_j}$ if these sections agree on overlaps $\dsection^{i}|_{\openset_i\cap\openset_j} =  \dsection^{j}|_{\openset_i\cap\openset_j}$ The gluing axiom generalizes to expresses an equivalency between a concatenated representation of data and distributed representation of the same data. In \autoref{fig:atct:networkbundle} this axiom means that the sections over each node and the edge can be combined into one section over the piece of the network in the figure.
+which are the outputs of the sheaf $\sheaf(\openset) = \cgamma{\openset}{\dtotal\restriction_{\openset}}$. We use a presheaf to describe the expectation that any set of sections defined over a larger space $\dsection \in \Gamma(\opensetc_2, \dtotal\restriction_{\openset_{2}})$ is also defined over subspaces of that space $\dsection\restriction_{\opensetc_{1}}$. This means any data container must implement subsetting in a manner that  makes sense for the continuity, for example an appropriate interpolation for continuous data.
+
+While the presheaf is a generalization of the concept of a global space of sections $\Gamma(\dbase, \dtotal)$ \cite{spanier1989algebraic}, the locality and gluing axioms \cite{bakerMathsSheaf} of a sheaf describe the conditions for verifying that the sections over subspaces are part of a cohesive section over the whole space. 
+\begin{definition} A \textbf{sheaf} is a presheaf that satisfies the following two axioms
+\begin{itemize}
+  \item \textit{locality} two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values over the same set of open sets $\dsection^{a}|{\openset} =  \dsection^{b}|_{\openset}$.
+  \item \textit{gluing} the union of sections defined on specific open sets is equivalent to one big section over the union of spaces $\dsection|_{\openset_{i} \cup \openset_{j}} = \dsection^{i}|_{\openset_i} \cup \dsection^{j}|_{\openset_j}$ if these sections agree on overlaps $\dsection^{i}|_{\openset_i\cap\openset_j} =  \dsection^{j}|_{\openset_i\cap\openset_j}$
+  \end{itemize}
+\end{definition}
+The gluing axiom says that a distributed representation of a dataset, which is a set of local sections, is equivalent to a section over the union of the opensets of the local sections. The locality axiom asserts that the glued section function is equivalent to a function over the union if they evaluate t the same values. The gluing axiom can also be used to generate the gluing rules used to construct non-trivial bundles from the set of trivial local section. Generally, the sheaf asserts the expectation that the data container is implemented such that the connectivity between the opensets (underlying data continuity) is preserved. 
 
 Each section of a sheaf over a point returns a single record in the fiber. The sheaf over an open set $\openset$ surrounding a point $\dbasepoint$ is called a stalk\cite{StalkSheaf2019}
 \begin{equation}
@@ -365,7 +378,6 @@ Each section of a sheaf over a point returns a single record in the fiber. The s
     \sheaf_{\dbase, \dtotalc}\restriction_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal\restriction_{\openset}) 
 \end{equation}
 where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The germ is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$ and is the data. The stalk and germ in the stalk provide the derivative of the record, which is needed for some computational and visualization tasks. 
-
 
 \subsection{Mathematical Structure of Data}
 \label{sec:atct:sheaves:measurments}
