@@ -261,13 +261,13 @@ For example, if $T=\texttt{int}$, then the image $\pi^{-1}(\texttt{int}) = \math
 \begin{definition} A \textbf{schema} consists of a pair $(\fnames, \sigma)$ where $\fnames$ is the set of field names and $\sigma: \fnames \rightarrow \textbf{DT}$ is a function from field name to field data type. 
 \end{definition}
 The function $\sigma$ is composed with $\pi$ such that the bundle  $\pi_{\sigma}:\mathscr{U}_{\sigma} \rightarrow \fnames$ associates a field name $c \in C$ with the corresponding data type domain. Spivak then defines data records as sections on the bundle defined by $\pi_{\sigma}$. 
-\begin{definition} A \textbf{record} is a function $\delement: \fnames \rightarrow \mathscr{U}_{\sigma}$ and the set of records on $\pi_{\sigma}$ is denoted $\Gamma^{\pi}(\sigma)$.
+\begin{definition} A \textbf{record} is a function $\delement: \fnames \rightarrow \mathscr{U}_{\sigma}$ and the set of records on $\pi_{\sigma}$ is denoted $\Gamma^{\pi}(\sigma)$. Records must return an object of type $\sigma(\fname) \in \textbf{DT}$ for each field $c \in C$.
 \end{definition}
-Records must return an object of type $\sigma(\fname) \in \textbf{DT}$ for each field $c \in C$. Spivak then constructs tables as sections $\dsection: \dbase \rightarrow \Gamma^{\pi}(\sigma)$ from a key space $\dspace$ to the set of records $\Gamma^{\pi}(\sigma)$ on the schema bundle. Building on Spivak's construction, we define the fiber space in this work as the set of records 
-\begin{equation*}
+Spivak then constructs tables as sections $\dsection: \dbase \rightarrow \Gamma^{\pi}(\sigma)$ from a key space $\dspace$ to the set of records $\Gamma^{\pi}(\sigma)$ on the schema bundle. Generalizing Spivak's formulation of tables, we define the fiber space in this work as the set of record functions 
+\begin{equation}
   \dfiberc \coloneqq \{\delement: \fnames \rightarrow \mathscr{U}_{\sigma} \bigm{\vert} \pi_{\sigma}(\delement(\fname)) = \fname\;for\;all\; \fname \in \fnames \}
-\end{equation*}
-such that the preimage of a point is the corresponding domain $\pi^{-1}(\dbasepoint) = \dfiber_{k} = \mathscr{U}_{{\sigma}_{\dbasepoint}}$. This construction of the fiber as a schema bundle allows for the unique representation of data fields that have identical domains because they have the same underlying data type while still retaining the richness of a formal typing system. 
+\end{equation}
+such that the preimage of a point is the corresponding data type domain $\pi^{-1}(\dbasepoint) = \dfiber_{k} = \mathscr{U}_{{\sigma}_{\dbasepoint}}$. The construction of the fiber as the space of records provides a way to distinguish data fields with the same datatype while allowing that datatype to be defined as almost any arbitrary topological space. 
 
 As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ to encapsulate the field types of the data. The fiber category $\mathcal{\dfiberc}$ is a monoidal category, meaning the category has a single object $\dfiberc$ of an arbitrary type. The morphisms on the fiber object are $\dfunctc \in Hom(\dfiberc, \dfiberc)$. The fiber category is equipped with a bifunctor $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$. The bifunctor provides a method for combining fibers, thereby allowing for fields that contain multityped values. For example, wind can be represented as two fields $\dfiber_{speed} \times \dfiber_{direction}$ or a composite fiber field $\dfiber_{speed} \otimes \dfiber_{direction} = \dfiber_{wind}$. The $\otimes$ encapsulates both the sets associated with each fiber $\mathbb{R} \times \mathbb{R} = \mathbb{R}^{2}$ and the morphisms associated with each functor $(\dfunct_{speed}, \dfunct_{direction}) = \dfunct_{wind}$. Defining the field schema as a monoidal category allows us to formally express the structure of the field, as defined by its sets and functions, at different levels of composition as needed by different visualization tasks.
  
@@ -285,30 +285,36 @@ In a trivial bundle all fibers are equal $\dfiberc \equiv \dfiberc_{\dbasepointc
 \begin{equation}
   \textcolor{section}{\texttt{dataset}}: \textcolor{base}{\texttt{topology}} \rightarrow \textcolor{fiber}{\texttt{field}}
 \end{equation}
-where $\dsection=\texttt{dataset}$, $\dbase=\texttt{topology}$ and $\dfiber=\texttt{fields}$. This type signature encapsulates the topology and field types of the data without much loss of generality. 
+where $\dsection=\texttt{dataset}$, $\dbase=\texttt{topology}$ and $\dfiber=\texttt{fields}$. This type signature provides a method of explicitly stating the topology and field type of the data and generalizes to almost any topology and fiber type, provided that the total space is trivial. 
 
-Non-trivial bundles allow us to generalize even further. In a non-trivial (general) bundles, fibers are isomorphic $\dfiber \simeq \dfiber_{\dbasepoint}\;\forall \dbasepoint \in \dbase$, which means there is no single fiber type $\dfiber$. Instead, we can define sections locally $\dsection\restriction_{\openset} \in \Gamma(\openset_{\dbasepoint}, \dtotal\restriction_{\openset_{\dbasepoint}})$, which means a section defined only on an open neighborhood $\dbasepoint \in \openset \in \dbase$. This is because all fiber bundles are locally trivializable, $\dtotal\restriction_{\openset_{k}} = \openset_{k}\times \dfiber$ such that there's always a subset where the fibers are equal. This means almost all data can be expressed as a collection of local sections $\{\dsection\restriction_{\openset_{\dbasepoint}}| \dbasepoint \in \dbase \}$ which translate to a set of signatures 
+When the total space is non-trivial, we can use the fiber bundle property of local-triviality to generate type signatures. In a non-trivial bundle, fibers are isomorphic $\dfiber \simeq \dfiber_{\dbasepoint}\;\forall \dbasepoint \in \dbase$, which means there is no single fiber type $\dfiber$. Instead, we can define sections locally $\dsection\restriction_{\openset} \in \Gamma(\openset_{\dbasepoint}, \dtotal\restriction_{\openset_{\dbasepoint}})$, which means a section defined only on an open neighborhood $\dbasepoint \in \openset \in \dbase$. This is because all fiber bundles are locally trivializable, $\dtotal\restriction_{\openset_{k}} = \openset_{k}\times \dfiber$ such that there's always a subset where the fibers are equal. This means almost all data can be expressed as a collection of local sections $\{\dsection\restriction_{\openset_{\dbasepoint}}| \dbasepoint \in \dbase \}$ which translate to a set of signatures 
 \begin{equation}
   \begin{split}
 \{\textcolor{section}{\texttt{data-subset}}: \textcolor{base}{\texttt{topology}} \rightarrow \textcolor{fiber}{\texttt{fields}} \\
  s.\;t.\;\textcolor{section}{\texttt{data-subset}} \in \texttt{dataset}\}  
   \end{split}
 \end{equation}
-that can be glued together on overlaps to generate the dataset. We discuss this gluing in \autoref{sec:atct:sheaves}.
+that can be glued together on overlaps to generate the dataset. This gluing can be implemented as part of the data container, which we discuss in \autoref{sec:atct:sheaves}.
 
 
-
-\subsubsection{intrepretation/example}
+\subsubsection{Examples}
 \begin{figure}[h!]
-  \includegraphics[width=\columnwidth]{fbnet.png}
-  \caption{\label{fig:atct:networkbundle}}
+  \includegraphics[width=\columnwidth]{tbundle.png}
+  \caption{The mobius band is a non-trivial total space because the twist means that the fibers are sometimes [-1, 1] and other times [1,-1]. The mobius band can be represented as two trivial bundles, one with fiber [-1,1] and one with fiber [1,-1] that can be glued on the edges into the band. The gluing rules ensure that the arrows on the edges go in the same direction.\label{fig:atct:nontrivialbundle}}
 \end{figure}
-\note{figure out picture/example}
-Extending Spivak's fiber bundle description of a table, we define the values returned by a section as named and typed records. Since the fiber space is a topological space, it does not really have restrictions on the dimension of the types it can encode or the structure of those types. For example, wind has a speed component and a direction component and we can consider those separately $\dfiber_{speed} = \mathbb{R}, \dfiber_{direction} = \mathbb{R}$ or as one fiber$\dfiber_{wind} = \mathbb{R}^{2}$. The base space and the section evaluated on the base space form a sort of key-value pair, as described by Munzner \cite{munznerVisualizationAnalysisDesign2014}. She imbues semantic meaning to the topology, wherein the key is an independent attribute used as a look up key to retrieve the value in the dataset. She defines the value as a dependent attribute. In this work we use a more general notion of the topological space as an indexing space for the data records. For example, a data cube of temperature can be encoded such that every fiber is a set of 2D temperature surfaces $\dfiber_{tempsurf}$, the base space is a 1D continuous interval, and each section returns a surface $\dsection(\dbasepoint) = f(x,y)$ where x and y are already parameterized. Alternatively, the fiber can encode each cell of the data cube $\dfiber_{lat} \times \dfiber_{lon} \times \dfiber_{temp}$, the base space could be a 3D volume, and each section returns a $\dsection(\dbasepoint) = \{lat, lon, temp\}$ record. 
 
+The mobius band is an example of the non-trivial bundle because the twist in the middle means that the fibers are not the same, as shown in \autoref{fig:atct:nontrivialbundle}. But, as with all bundles, the mobius band can be decomposed into trivial bundle components, here the two sides of the mobius band. Each side has fibers going in the same direction, with the mismatch only apparent on the edges. These trivial bundles can be glued into the mobius band so long as the fibers (arrows on the edges) go in the same direction when glued. The data is encoded as the section of the bundle, here the sin curve. 
+
+\begin{figure}[h!]
+  \includegraphics[width=\columnwidth]{dbundle.png}
+  \caption{The table from \autoref{fig:related-work:continuity:ktypes} has a 3 dimensional fiber (name, temperature, precipitation), a 0D base space, and the row is the section. The time series has a 2D fiber (time, precipitation) and a 1D base space since the data is sampled along a continuous space (physical time). Each section returns a data point along the line. The map is sparsely sampled points along a 2D plane encoding spatial continuity, and the fiber is a 3D space encoding (latitude, longitude, precipitation)
+    \label{fig:atct:trivialbundle}}
+\end{figure}
+
+In \autoref{fig:atct:trivialbundle}, the base space $\dbase$ acts as an indexing space into the fiber space $\dfiber$. In the bundle encoding of the table, the indexing space is random keys; in the time series bundle, the base space is the interval [0,1]; and the map is sparse samples from a continuous space $[0,1]^{2}$ In contrast to a notion of a semantic binding between indexing space and field values, as proposed by Munzner\cite{munznerVisualizationAnalysisDesign2014}, the fields describing the continuity are part of the fiber. For example, the time is a fiber in the timeseries and the latitude and longitude are part of the map's fiber. This separation between connectivity and what it is called means the time or location can change units without a change to structure. It also provides a way to express data that may seem continuous but isn't, for example independent measurements over time. The data in \autoref{fig:atct:trivialbundle} comes from the same dataset; therefore we know that the bundles share connectivity and fiber space. It is expected that shared components be translated to visual elements in a consistent manner \cite{hullmanKeeping2018}, and in \autoref{sec:artist:operators} we introduce operators for expressing which components are shared and how to verify that they have been mapped into visual elements in a consistent manner. 
 
 \subsubsection{Uniform Abstract Graphic Representation}
-Fiber bundles are such a generalizable data abstraction that we can also use them to encode the output of a visual bundle; bundles allow for fully expressing the properties of the graphic that must be symmetric to the data in an equivariant (\autoref{sec:related-work:equivariance}) data to graphic transformation. We denote the output as a graphic, but the use of bundles allows us to generalize to output on any display space, such as a screen or 3D print. 
+One of the advantages of fiber bundles is that they are general enough that we can also encode the output of a visual algorithm as a bundle. This allows us to use the same structure to express the properties of data and the graphic that must be symmetric to the data in an equivariant (\autoref{sec:related-work:equivariance}) transformation. We denote the output as a graphic, but the use of bundles allows us to generalize to output on any display space, such as a screen or 3D print. 
 \begin{equation}
   \label{eq:atct:fb:graphic}
   \gfiberc \hookrightarrow \gtotalc \xrightarrow{\pi} \gbasec
