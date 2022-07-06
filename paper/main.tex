@@ -452,7 +452,7 @@ In this work we propose that visualization libraries are implementing transforma
   \label{eq:artist:hom_transport}
   \vartistc:& \cgamma{\dbasec}{\dtotalc}\textcolor{artist}{\rightarrow} \cgamma{\gbasec}{\gtotalc}
 \end{align}
- Because the artists can be constructed as morphisms of sheaves over the same base spaces, they are natural transformations.
+ The artists can be constructed as morphisms of sheaves over the same base spaces through the application of pushforward and pullback functors; therefore they are natural transformations.
  \begin{definition} Given two functors $F,G$ with the same domain $\mathcal{C}$ and codomain $\mathcal{D}$, a \textbf{natural transformation} $\alpha: F \Rightarrow G$ is a map
 \begin{itemize}
   \item \textit{data}: morphism $F(c) \xrightarrow{\alpha_{c}} G(c)$ for each object $c \in \mathcal{C}$
@@ -460,14 +460,14 @@ In this work we propose that visualization libraries are implementing transforma
 \end{itemize}
 such that $\alpha = (\alpha_{c})_{c\in\mathcal{C}}$ is the set of all natural transformation components $\alpha_{c}$.\cite{bradleyWhatNaturalTransformation}
  \end{definition}
- which means that natural transforms are maps of functors that take the same input object and return objects in the same category\cite{milewskiCategoryTheoryProgrammers}. As illustrated in \autoref{eq:atct:sheaves:homset}, the sheaf functors
+ This means that natural transforms are maps of functors that take the same input object and return objects in the same category\cite{milewskiCategoryTheoryProgrammers}. As illustrated in \autoref{eq:atct:sheaves:homset}, the sheaf functors
 \begin{equation}
   \label{eq:artist:sheaf:base}
     \begin{tikzcd}
       \cgamma{\dbasec}{\dtotalc} &  & \dbasec \arrow[ll, "{\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] \arrow[rr, "{\vindexpushc\sheafc_{\gbasec, \gtotalc}}", maps to, color=sheaf] &  & \cgamma{\dbase}{\vindexpushc\gtotalc} 
       \end{tikzcd}
 \end{equation}
-take as input the same object \opensetc\ and return sets of data and graphic sections that are objects in \setb. As a map between these sheaf functors, the artist has to preserve the $\iota, \iota^*$ morphisms of the presheaf functor, described in \autoref{eq:atct:presheaf}, such that the following diagram commutes
+take as input an openset object \opensetc\ or \opensetgc\ and return sets of data and graphic sections that are objects in \setb. As a map between these sheaf functors, the artist has to preserve the $\iota, \iota^*$ morphisms of the presheaf functor, described in \autoref{eq:atct:presheaf}, such that the following diagram commutes
 
 \begin{equation}
   \label{eq:artist:natural_transform:inclusions}
@@ -484,7 +484,7 @@ take as input the same object \opensetc\ and return sets of data and graphic sec
     \cgamma{\dbasec_{2}}{\vindexpushc\gtotalc}                      
     \end{tikzcd}
 \end{equation}
- The diagram in \autoref{eq:artist:natural_transform} shows that restricting a set of outputs of an artist to a set of graphic sections over a subspace is equivalent to restricting the inputs to data sections over the same subspace. By construction, the artist is expected to preserve the sheaf axioms of locality and gluing (\autoref{def:atct:sheaf:gluing}, \autoref{def:atct:sheaf:locality}). This bookkeeping is necessary for any visualization technique that selectively acts on different pieces of a data set; for example streaming visualizations \cite{krstajicVisualizationStreamingData2013} and panning and zooming \cite{NekrasovskiEvaluationPanZoom2006}
+ The diagram in \autoref{eq:artist:natural_transform} shows that restricting a set of outputs of an artist to a set of graphic sections over a subspace is equivalent to restricting the inputs to data sections over the same subspace. Because the artist is a functor of sheaves, the artist is expected to tra nslate the data continuity to graphic continuity such that the connectivity of subsets is preserved. This bookkeeping is necessary for any visualization technique that selectively acts on different pieces of a data set; for example streaming visualizations \cite{krstajicVisualizationStreamingData2013} and panning and zooming \cite{NekrasovskiEvaluationPanZoom2006}
 
 The output of an artist \vartist\ is a restricted subset of graphic sections
 \begin{equation}
@@ -497,12 +497,19 @@ that are, by definition, only reachable through a structure preserving artist, w
 
 \subsection{Equivariance}
 \label{sec:artist:equiv}
-Equivariance in a visual context was formally defined as the preservation of a binary operator from one domain to another by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. We generalize binary operations to actions $\dfunc \in \dfuncset$ on elements of the bundle $\delement \in \dtotal$. This is expressed with a composition function  $act: \dfuncset \times E \rightarrow \dtotal$ that applies the action to an element of \dtotal\ such that $\dfunc(\delement_0) = \delement_1, \delement_0, \delement_1 \in \dfunc$. We generalize to a family of actions because that allows for expanding the set of allowable transformations on the data beyond a single operator. We describe the changes on the graphic side as changes in measurements \measure\, which are scaler or vector components of the rendered graphic that can be quantified, such as the color, position, shape, texture, or rotation angle of the graphic. The visual variables \cite{bertinIIPropertiesGraphic2011} are a subset of measurable components. For example, a measurement of a scatter marker could be its color (e.g. red) or its x position (e.g. 5). 
+Equivariance in a visual context was formally defined as the preservation of a binary operator from one domain to another by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. We generalize binary operations to actions $\dfunc \in \dfuncset$ on the sheaf $\sheaf_{\dbase, \dtotal}$. 
+\begin{definition} An \textbf{action}  $\act: \dfuncsetc \times \dtotalc \rightarrow \sheaf_{\dbase, \dtotal}$ such that 
+  \begin{equation}
+    act(\dfuncc_{j}, act(\dfuncc_{i}, \dsectionc)) = act(\dfuncc_{j} \circ \dfuncc_{i}, \dsectionc)
+  \end{equation}
+where $\dfunc_{i}, \dfunc_{j}$ are elements of the set $\dfuncset$ equipped with operator $\circ$ and \dsection\ is an element of the sheaf  $\sheaf_{\dbase, \dtotal}$.\cite{nlab:action}
+\end{definition}.
+
+We generalize from binary operations to a family of actions because that allows for expanding the set of allowable transformations on the data beyond a single operator. We describe the changes on the graphic side as changes in measurements \measure\, which are scaler or vector components of the rendered graphic that can be quantified, such as the color, position, shape, texture, or rotation angle of the graphic. The visual variables \cite{bertinIIPropertiesGraphic2011} are a subset of measurable components. For example, a measurement of a scatter marker could be its color (e.g. red) or its x position (e.g. 5). 
 
 \subsubsection{Mathematical Structure of Data}
 \label{sec:artist:equivariant:data}
-We separate data transformations into two components, transformations on the base space $(\dfunchc, \dfuncpullc)$ and transformations on the fiber space $\dfunctc$. These diagrams are separated because the base space transformation and the pullback are functors on the openset object and associated set of sections, while the fiber transformation takes a single fiber to a different fiber in the set of sections. 
-
+We separate data transformations into two components, transformations on the base space $(\dfunchc, \dfuncpullc)$ and transformations on the fiber space $\dfunctc$. 
 \begin{equation}
   \label{eq:atct:sheaves:monoid_morphism}
   \begin{tikzcd}
@@ -518,6 +525,9 @@ We separate data transformations into two components, transformations on the bas
     \arrow[uu, maps to, color=sheaf] & \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc^{\prime}}}                       
     \end{tikzcd}
 \end{equation}
+The base space transformation transforms one openset object $\openset^{\prime}$ to another object $\openset$, and the pullback functor transports the entire set of sections $\Gamma(\openset, \dtotal\restriction_{\openset})$ over the new base space $\Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. The fiber transformation transforms a single section $\dfuncpull\dsection$ to a different section $\dfuncpull\dsection$. 
+
+\paragraph{Transform Continuity}
 
 The base space transformation is from one open set to another open set in the same base space
 \begin{equation}
@@ -532,15 +542,20 @@ such that $\openset, \openset^{\prime} \subseteq \dbase$. This means $\openset$ 
 such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\opensetc^{\prime})}$. This means that the base space transformation \dfunch\ does not change the data values at a given point
 \begin{equation}
   \label{eq:atct:morphism:verify_base}
-  \dsection(\dbase) = \dfuncpull\dsectionc(\dbasepoint^{\prime}) = \dsection(\dfunch(\dbase^{prime}))
+  \dsection(\dbase) = \dfuncpull\dsection(\dbasepoint^{\prime}) = \dsection(\dfunch(\dbase^{prime}))
 \end{equation} 
 where $\dfunch(\dbasepoint^{\prime}) = \dfunch(\dbasepoint)$. 
+
+\paragraph{Transform Records}
+
 As introduced in \autoref{def:atct:io:fiber}, the fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a morphism on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
 \begin{equation}
   \label{eq:atct:morphism:fiber}
   \dfunct: \dfuncpull \dsection \restriction_{\openset^{\prime}} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
 \end{equation}
 where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Since there are many different fiber transformations,  there is not a uniform way of expressing how this morphism acts on sections unlike in \label{eq:atct:morphism:verify_base}. Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946m, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. 
+
+\paragraph{Transform Continuity and Records}
 
 We define a full data transformation as one that induces both a remapping of the index space and a change in the data values
 \begin{equation}
@@ -946,7 +961,24 @@ which means that any change to a measurable component input must have a measurab
 
 \subsection{Implementing the Artist: $\vartistc=\vmarkc\circ\vchannelc$}
 
- If a sheaf is equipped with transport functors, then the functions between sheaves over one space are isomorphic to functions between sheaves over the other space\cite{harder2008lectures}. This property, allows us to specify the transformation from data to graphic space in data or graphic space or a combination, as listed in \autoref{eq:artist:hom_transport}, such that the following diagram commutes:
+ When a sheaf is equipped with transport functors, then the functions between sheaves over one space are isomorphic to functions between sheaves over the other space\cite{harder2008lectures} such that the following diagram commutes
+
+ \begin{equation}
+  \label{eq:atct:sheaves:homset}
+  \begin{tikzcd}
+    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
+    \arrow[dd, "\textcolor{set}{Hom}_{\sheafc_{\dbasec}}"', color=homset] 
+    \arrow[rrdd, "\textcolor{set}{Hom}_{\sheafc_{\dbasec},\sheafc_{\gbasec}}", color=homset] 
+    \arrow[rr, "\vindexpullc", color=functor] &  &
+    \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}} 
+    \arrow[dd, "\textcolor{set}{Hom}_{\sheafc_{\gbasec}}", color=homset] \\
+     & & \\
+    \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} &  & 
+    \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} 
+    \arrow[ll, "\vindexpushc"', color=functor]                  
+    \end{tikzcd}
+\end{equation}
+Since the artist is a family of functions in the homeset between sheaves, the isomorphism allows for the specification of the transformation from data as combination of functions over different spaces such that the following diagram commutes:
 \begin{equation}
   \label{eq:construction:artist:path}
 \begin{tikzcd}[row sep=2.5em, column sep=1.5em]
@@ -969,7 +1001,16 @@ which means that any change to a measurable component input must have a measurab
   \arrow[uu, "\vindexpushc"', color=functor]
 \end{tikzcd}  
 \end{equation}
-The diagram in \autoref{eq:construction:artist:path} illustrates how a developer can connect transformations over data space, denoted with a subset $\dbase$, with transformations over graphic space $\gbase$, using $\vindexpushc$ and $\vindexpullc$ adaptors.This allows developers to for example connect transformers that transform data on a line to a color in dataspace, but build a line compositing function that dynamically resamples what is on screen in graphic space.
+This means that an artist over data space $\vartist_{\dbase}: \dsection \mapsto \vindexpush \gsection$, an artist over graphic space $vartist_{\gbase}: \vindexpull \dsection \mapsto \gsection$, and an artist $\vartist: \dsection \mapsto \gsection$ are equivalent such that:
+\begin{equation*}
+  \begin{split}
+  & \dsection(\dbasepoint) = \vindexpull\dsection(\gbasepoint)  \\
+   & \implies
+  \vartist_{\dbase}(\dsection(\dbasepoint)) = \vartist_{\gbase}(\vindexpull\dsection(\gbasepoint)) = \vartist(\dsection(\dbasepoint))\\
+  & \implies \vindexpush\gsection(\gbasepoint) = \gsection(\gbasepoint) 
+  \end{split}
+\end{equation*}
+when $\vindex(\gbasepoint) = \dbasepoint$. This equivalence allows a  developer to connect transformations over data space, denoted with a subset $\dbase$, with transformations over graphic space $\gbase$, using $\vindexpushc$ and $\vindexpullc$ adaptors.This allows developers to for example connect transformers that transform data on a line to a color in dataspace, but build a line compositing function that dynamically resamples what is on screen in graphic space.
 
 
 \section{Discussion: Feasibility of Math as Design Spec}
