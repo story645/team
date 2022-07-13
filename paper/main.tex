@@ -53,7 +53,6 @@
 \usepackage{xcolor}
 \usepackage{algorithmic}
 \usepackage[utf8]{inputenc}
-\usepackage{subfig} %ieee does not like subfigure
 \usepackage{multicol}
 \usepackage{tikz}
 \usetikzlibrary{cd} % commutative diagrams
@@ -86,7 +85,7 @@
 
 % *** PDF, URL AND HYPERLINK PACKAGES ***
 \usepackage{url}
-
+% \usepackage[breaklinks=true]{hyperref} breaks compilation?
 % *** Do not adjust lengths that control margins, column widths, etc. ***
 % *** Do not use packages that alter fonts (such as pslatex).         ***
 % There should be no need to do such things with IEEEtran.cls V1.6 and later.
@@ -138,11 +137,7 @@ The abstract goes here.
 % make the title area
 \maketitle
 
-
 \IEEEpeerreviewmaketitle
-
-
-
 
 \IEEEraisesectionheading{\section{Introduction}\label{sec:intro}}
 \note{need a math check + rough cut on sections 4+}
@@ -169,13 +164,13 @@ Visual algorithms assume the topology of their input data, as described in taxon
 
 \subsection{Data Field Structure}
 \label{sec:related-work:equivariance}
-Along with preserving topology, visualization algorithms are expected to preserve the structure of the data fields, i.e. the column types in a table, when they translate data to visual representations. The mathematical term for this is equivariance and an equivariant map is a map that transforms input with structure to output with compatible structure. Bertin codified the idea that visual encoding of a data field should match the structure of the field; for example ordered data should be encoded as an ordered visual element or quantitative data as a quantitative visual element \cite{bertinSemiologyGraphicsDiagrams2011a}. This structure mapping is necessary to ensure that the visual representations in graphs are not distorting the data\cite{tufteVisualDisplayQuantitative2001} and graphs are easier to understand when properties match \cite{norman_things_smart}. The expectation of matching structure is generalized as a mapping of a binary operator that acts on the data domain to a binary operator that acts on the graphic domain by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. An invertible binary operator is the basis of Kindlemannn and Scheideggers's algebraic model of visualization\cite{kindlmannAlgebraicProcessVisualization2014}. They propose three specific types of equivariance: that the visualization should not change if the data representation (i.e. the data container) changes, that data maps unambiguously to visual elements \cite{ziemkiewiczEmbeddingInformationVisualization2009}, that changing the data should correspond to changes in the visualization in a perceptually significant manner. In \autoref{sec:atct:sheaves} we introduce a uniform abstract data representation layer, the expectation of unambiguous mappings is expressed in \autoref{sec:atct:xi}, and the definition of equivariance introduced in \autoref{sec:artist:equivariance} includes the correspondence between data and visual changes. In this work, we formally specify the conditions necessary to build structure preserving components using category theory, because it provides a rich language for expressing the structure of objects, functions between objects, and the constraints that must hold for these functions to compose \cite{wielsManagementEvolvingSpecifications1998,yorgeyMonoidsThemeVariations}. A brief visualization oriented introduction to category theory is in Vickers et al \cite{vickersUnderstandingVisualizationFormal2013}, but they are applying category theory to semantic concerns about visualization design rather than library architecture. 
+Along with preserving topology, visualization algorithms are expected to preserve the structure of the data fields, i.e. the column types in a table, when they translate data to visual representations. The mathematical term for this is equivariance and an equivariant map is a map that transforms input with structure to output with compatible structure. Bertin codified the idea that visual encoding of a data field should match the structure of the field; for example ordered data should be encoded as an ordered visual element or quantitative data as a quantitative visual element \cite{bertinSemiologyGraphicsDiagrams2011}. This structure mapping is necessary to ensure that the visual representations in graphs are not distorting the data\cite{tufteVisualDisplayQuantitative2001} and graphs are easier to understand when properties match \cite{norman_things_smart}. The expectation of matching structure is generalized as a mapping of a binary operator that acts on the data domain to a binary operator that acts on the graphic domain by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. An invertible binary operator is the basis of Kindlemannn and Scheideggers's algebraic model of visualization\cite{kindlmannAlgebraicProcessVisualization2014}. They propose three specific types of equivariance: that the visualization should not change if the data representation (i.e. the data container) changes, that data maps unambiguously to visual elements \cite{ziemkiewiczEmbeddingInformationVisualization2009}, that changing the data should correspond to changes in the visualization in a perceptually significant manner. In \autoref{sec:atct:sheaves} we introduce a uniform abstract data representation layer, the expectation of unambiguous mappings is expressed in \autoref{sec:atct:xi}, and the definition of equivariance introduced in \autoref{sec:artist:equivariant:artist} includes the correspondence between data and visual changes. In this work, we formally specify the conditions necessary to build structure preserving components using category theory, because it provides a rich language for expressing the structure of objects, functions between objects, and the constraints that must hold for these functions to compose \cite{wielsManagementEvolvingSpecifications1998,yorgeyMonoidsThemeVariations}. A brief visualization oriented introduction to category theory is in Vickers et al \cite{vickersUnderstandingVisualizationFormal2013}, but they are applying category theory to semantic concerns about visualization design rather than library architecture. 
 
 \subsection{Structure Preservation In Software}
 \label{sec:related-work:software}
 Visualization libraries are in part measured by how expressive the components of the library are, where expressiveness is a measure of which structure preserving mappings a tool can implement \cite{mackinlayAutomaticDesignGraphical1987}. While some visualization tools aim to automate the pairing of data with structure preserving visual representations, such as Tableau\cite{StoltePolaris2002,hanrahanVizQL2006,MackinlayShowme2007}, many visualization libraries leave that choice to the user. Libraries that provide small buildable components \cite{wongsuphasawatNavigatingWideWorld2021}, such as components for making boxes or translating data values to colors, mostly embed their connectivity assumptions in their visual algorithms and allow the user choose almost any component, regardless of structure preservation. Domain specific libraries are designed with the assumption of continuities that are common in the domain \cite{HeerSoftware2006}, and therefore can somewhat restrict the space of choices to algorithms that are appropriate for the data. 
 Buildable component libraries such as matplotlib\cite{hunterMatplotlib2DGraphics2007} and D3\cite{bostockDataDrivenDocuments2011} support a wide variety of data types, but at the cost of visual algorithms with  parameters that are tuned to the expected data in a way that leaves the over all library feeling uncohesive. VTK\cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012} provides a language for expressing the topological properties of the data, but does so in a non-uniform manner. On the other hand, the topology of a table as a set of discrete rows, as illustrated in \autoref{fig:related-work:continuity:ktypes}, is assumed by 
-A Presentation Tool\cite{mackinlayAutomatingDesignGraphical1986, mackinlayAutomatingDesignGraphical1986} and grammar of graphics\cite{wilkinsonGrammarGraphics2005} and the ggplot\cite{wickhamGgplot2ElegantGraphics2016a}, vega\cite{satyanarayanDeclarativeInteractionDesign2014}, and altair\cite{vanderplasAltairInteractiveStatistical2018} libraries built on these frameworks. Image libraries such as Napari\cite{nicholas_sofroniew_2021_4533308} and ImageJ\cite{schneiderNIHImageImageJ2012} and its humanaties data ImagePlot\cite{studiesCulturevisImageplot2021} plugin assumed that the input is 2D continuous. Networking libraries such as gephi\cite{bastianGephiOpenSource2009} and networkx\cite{HagbergExploringNetwork2008} assume a graph like structure. These domain specific libraries tend to benefit from more cohesive apis, but at the cost of a much more limited set of visualization algorithms than the building block libraries. 
+A Presentation Tool\cite{mackinlayAutomatingDesignGraphical1986, mackinlayAutomatingDesignGraphical1986} and grammar of graphics\cite{wilkinsonGrammarGraphics2005} and the ggplot\cite{wickhamGgplot2ElegantGraphics2016}, vega\cite{satyanarayanDeclarativeInteractionDesign2014}, and altair\cite{vanderplasAltairInteractiveStatistical2018} libraries built on these frameworks. Image libraries such as Napari\cite{nicholas_sofroniew_2021_4533308} and ImageJ\cite{schneiderNIHImageImageJ2012} and its humanaties data ImagePlot\cite{studiesCulturevisImageplot2021} plugin assumed that the input is 2D continuous. Networking libraries such as gephi\cite{bastianGephiOpenSource2009} and networkx\cite{HagbergExploringNetwork2008} assume a graph like structure. These domain specific libraries tend to benefit from more cohesive apis, but at the cost of a much more limited set of visualization algorithms than the building block libraries. 
 
 
 \section{Formal Properties of Data \& Graphics}
@@ -205,14 +200,14 @@ A map $\pi$ is a bundle projection map when
   \item there is an open neighborhood $\openset_{\dbasepoint}$ surrounding each point in the base space $\dbasepoint \in \openset_{\dbasepoint} \subset \dbase$ such that the \textcolor{total}{total space} \dtotalc\ over the neighborhood is locally trivial $\dtotal\restriction_{\openset} = \openset \times \dfiber$
 \end{enumerate}
 \end{definition}
-The first condition for a fiber bundle means that all points in a fiber space over a point in the base space map to the same base space point, which we rely on to establish that there is a formal binding between typed data value, discussed in \autoref{sec:atct:fiber:fiber} and the corresponding index, discussed in \autoref{sec:atct:fiber:base}. The condition of local triviality means that the fibers are identical over open neighborhoods and is what allows fiber bundles to be extremely generalizable, as discussed in \autoref{sec:atct:fiber:sections}
+The first condition for a fiber bundle means that all points in a fiber space over a point in the base space map to the same base space point, which we rely on to establish that there is a formal binding between typed data value, discussed in \autoref{sec:atct:fb:fiber} and the corresponding index, discussed in \autoref{sec:atct:fb:base}. The condition of local triviality means that the fibers are identical over open neighborhoods and is what allows fiber bundles to be extremely generalizable, as discussed in \autoref{sec:atct:fb:sections}
  
 \begin{definition} A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotalc$ over a fiber bundle is a smooth right inverse of $\pi$ such that $\pi(\dsection(\dbasepoint)) = \dbasepoint$ for all $\dbasepoint \in \dbase$
 \end{definition}
-In \autoref{sec:atct:fiber:sections}, we propose that modeling data as sections provides a way to encapsulate topological and field structure in a uniform dimension and type independent manner. 
+In \autoref{sec:atct:fb:sections}, we propose that modeling data as sections provides a way to encapsulate topological and field structure in a uniform dimension and type independent manner. 
 
 \subsubsection{Topological Structure: Base Space \dbase}
-\autoref{sec:atct:fiber:base}
+\label{sec:atct:fb:base}
 We encode the underlying connectivity of the data as the \textcolor{base}{base space} \dbase\ of the fiber bundle because it provides a uniform language for describing the topology regardless of how the data is subset. The base space \dbase\ is a topological space $(\dbase,\mathcal{T}_{\dbase})$, which means it  consists of the set of points ${\dbasepoint \in \dbase}$ and topology $\mathcal{T}_{\dbase}$ \cite{munkresElementsAlgebraicTopology1984}. The set \dbase\ is equipped with open subsets \openset, which are a generalization of an open interval. This means opensets contain points inside a bounded region on the topological space and excludes the points on the boundary \cite{TopologyVsTopology}. An openset that surrounds a point \dbasepoint\ is called an open neighborhood $\openset_{\dbasepoint}$. Opensets are key to constructing topologies, and are used in this paper to model subsets of the data contextualized within the larger continuity those subsets belong to. 
 
 \begin{definition}
@@ -252,7 +247,7 @@ We construct a base space category $\mathcal{\dbasec}$ to encapsulate the topolo
 
 
 \subsubsection{Data Fields: Fiber Space \dfiber}
-\autoref{sec:atct:fb:fiber}
+\label{sec:atct:fb:fiber}
 As mentioned in \autoref{sec:related-work:equivariance}, equivariance is traditionally evaluated as the preservation of field structure, which is based on the field type. To have a rich language for expressing field type, we generalize Spivak's fiber bundle formulation of table \cite{spivakDatabasesAreCategories2010,spivakSIMPLICIALDATABASES}. 
 
 \begin{definition} A \textbf{type specification} is the bundle map $\pi: \mathscr{U} \rightarrow \textbf{DT}$. The base space $\textbf{DT}$ is the set of data types, and the total space $\mathscr{U}$ is the set of domains of those data types. Given an arbitrary data type $T \in \textbf{DT}$, the preimage $\pi^{-1} \subset \mathscr{U}$ is the domain of $T$ and $x \in \pi^{-1}(T)$ is an object of type $T$.  
@@ -272,8 +267,8 @@ such that the preimage of a point is the corresponding data type domain $\pi^{-1
 As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ to encapsulate the field types of the data. The fiber category $\mathcal{\dfiberc}$ is a monoidal category, meaning the category has a single object $\dfiberc$ of an arbitrary type. The morphisms on the fiber object are $\dfunctc \in Hom(\dfiberc, \dfiberc)$. The fiber category is equipped with a bifunctor $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$. The bifunctor provides a method for combining fibers, thereby allowing for fields that contain multityped values. For example, wind can be represented as two fields $\dfiber_{speed} \times \dfiber_{direction}$ or a composite fiber field $\dfiber_{speed} \otimes \dfiber_{direction} = \dfiber_{wind}$. The $\otimes$ encapsulates both the sets associated with each fiber $\mathbb{R} \times \mathbb{R} = \mathbb{R}^{2}$ and the morphisms associated with each functor $(\dfunct_{speed}, \dfunct_{direction}) = \dfunct_{wind}$. Defining the field schema as a monoidal category allows us to formally express the structure of the field, as defined by its sets and functions, at different levels of composition as needed by different visualization tasks.
  
 
-\subsubsection{Data: Section \dsection} 
-\autoref{sec:atct:fb:sections}
+\subsubsection{Data: Section} 
+\label{sec:atct:fb:sections}
 We encode data as a \textcolor{section}{section} \dsectionc\ of a bundle because this allows us to incorporate the topology and field types in the data definition. We can define these section functions locally, meaning over a specific open subset \openset\ of \dbase\ 
 \begin{equation}
   \label{eq:atct:fb:sections}
@@ -340,7 +335,7 @@ In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ maps into the
 \label{sec:atct:sheaves}
 While bundles provide a way to describe the structure of the data, sheaves are a mathematical way of describing the data container. Sheaves are an algebraic data structure that provides a way of abstractly discussing the bookkeeping that data containers must implement to keep track of the continuity of the data \cite{ghristElementaryAppliedTopology2014}. This abstraction facilitates representational invariance, as introduced by Kindlemannn and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}, since the container level is uniformally specified as satisfying sheaf constraints. These constraints generalize to data that is subsetted, distributed, streaming, and on-demand. 
 
-Sheaves are built out of presheaves, which are functors, meaning they are functions from objects of one category to objects of another category\cite{WhatFunctorDefinitions} that preserve the morphisms in each category. 
+Sheaves are built out of presheaves, which are functors, meaning they are functions from objects of one category to objects of another category\cite{bradleyWhatFunctorDefinitions} that preserve the morphisms in each category. 
 \begin{definition} A \textbf{functor} is a map $F: \mathcal{C} \rightarrow \mathcal{D}$ such that every object $C \in \mathcal{OB(C)}$ has a corresponding object $F(C) \in \mathcal{OB(D)}$ in category $\mathcal{D}$. The functor also acts on morphisms such that for every morphism $f: C_1 \rightarrow C_2$ in category $\mathcal{C}$, there is a compatible morphism $F(f): F(C_{1}) \rightarrow F(C_2)$. 
 A functor must satisfy the properties 
 \begin{itemize}
@@ -362,10 +357,12 @@ Specifically, we use a presheaf to describe the expectation that any set of sect
 
 The presheaf preserves continuity by stating that given a morphism $\iota$ between two objects of $\mathcal{\dbase}$ 
 \begin{equation*}
+  \label{eq:atct:sheaf:inclusion}
   \iota: \openset_1 \rightarrow \openset_2
 \end{equation*}
 there must be a corresponding restriction morphiism $\iota^*$ between the sets of sections 
 \begin{equation*}
+  \label{eq:atct:sheaf:restriction}
   \iota^*: \cgamma{\openset_2}{\dtotal_{\openset_2}} \rightarrow \cgamma{\openset_1}{\dtotal_{\openset_1}}
 \end{equation*}
 which are the outputs of the sheaf $\sheaf(\openset) = \cgamma{\openset}{\dtotal\restriction_{\openset}}$. The presheaf is contravariant because the morphisms between the input openset objects go in the opposite direction from the morphisms between the output set objects. The expectation that data containers implement inclusion and restriction morphisms means that, for example, a data container mist ensure that sections can be interpolated over any subset that the container can provide. 
@@ -467,7 +464,7 @@ such that $\alpha = (\alpha_{c})_{c\in\mathcal{C}}$ is the set of all natural tr
       \cgamma{\dbasec}{\dtotalc} &  & \dbasec \arrow[ll, "{\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] \arrow[rr, "{\vindexpushc\sheafc_{\gbasec, \gtotalc}}", maps to, color=sheaf] &  & \cgamma{\dbase}{\vindexpushc\gtotalc} 
       \end{tikzcd}
 \end{equation}
-take as input an openset object \opensetc\ or \opensetgc\ and return sets of data and graphic sections that are objects in \setb. As a map between these sheaf functors, the artist has to preserve the $\iota, \iota^*$ morphisms of the presheaf functor, described in \autoref{eq:atct:presheaf}, such that the following diagram commutes
+take as input an openset object \opensetc\ or \opensetgc\ and return sets of data and graphic sections that are objects in \setb. As a map between these sheaf functors, the artist has to preserve the $\iota, \iota^*$ morphisms of the presheaf functor, described in \autoref{eq:atct:sheaf:inclusion} and \autoref{eq:atct:sheaf:restriction}, such that the following diagram commutes:
 
 \begin{equation}
   \label{eq:artist:natural_transform:inclusions}
@@ -484,7 +481,7 @@ take as input an openset object \opensetc\ or \opensetgc\ and return sets of dat
     \cgamma{\dbasec_{2}}{\vindexpushc\gtotalc}                      
     \end{tikzcd}
 \end{equation}
- The diagram in \autoref{eq:artist:natural_transform} shows that restricting a set of outputs of an artist to a set of graphic sections over a subspace is equivalent to restricting the inputs to data sections over the same subspace. Because the artist is a functor of sheaves, the artist is expected to tra nslate the data continuity to graphic continuity such that the connectivity of subsets is preserved. This bookkeeping is necessary for any visualization technique that selectively acts on different pieces of a data set; for example streaming visualizations \cite{krstajicVisualizationStreamingData2013} and panning and zooming \cite{NekrasovskiEvaluationPanZoom2006}
+ The diagram in \autoref{eq:artist:natural_transform:inclusions} shows that restricting a set of outputs of an artist to a set of graphic sections over a subspace is equivalent to restricting the inputs to data sections over the same subspace. Because the artist is a functor of sheaves, the artist is expected to tra nslate the data continuity to graphic continuity such that the connectivity of subsets is preserved. This bookkeeping is necessary for any visualization technique that selectively acts on different pieces of a data set; for example streaming visualizations \cite{krstajicVisualizationStreamingData2013} and panning and zooming \cite{NekrasovskiEvaluationPanZoom2006}
 
 The output of an artist \vartist\ is a restricted subset of graphic sections
 \begin{equation}
@@ -493,7 +490,7 @@ The output of an artist \vartist\ is a restricted subset of graphic sections
   \{\gsectionc \mid\;\exists\;\dsectionc \in \cgamma{\dbasec}{\dtotalc}\;s.t.\; 
   \vartistc(\dsectionc) = \gsectionc,\; \vindexc(\gbasec) = \dbasec \}
 \end{equation} 
-that are, by definition, only reachable through a structure preserving artist, which we describe in \autoref{sec:artist:equivariance}. We define this subset because the space of all sections $\cgamma{\opensetg}{\gtotal\restriction_{\openset}}$ includes sections that may not be structure preserving. For example, a section may go from every point in the graphic space to the same single point in the graphic fiber $\gsection(\gbasepoint_i) = d\; \forall \gbasepoint \in \gbase$ such that the visual output is a single inked pixel on a screen. 
+that are, by definition, only reachable through a structure preserving artist, which we describe in \autoref{sec:artist:equivariant:artist}. We define this subset because the space of all sections $\cgamma{\opensetg}{\gtotal\restriction_{\openset}}$ includes sections that may not be structure preserving. For example, a section may go from every point in the graphic space to the same single point in the graphic fiber $\gsection(\gbasepoint_i) = d\; \forall \gbasepoint \in \gbase$ such that the visual output is a single inked pixel on a screen. 
 
 \subsection{Equivariance}
 \label{sec:artist:equiv}
@@ -512,8 +509,9 @@ We generalize from binary operations to a family of actions because that allows 
 \subsubsection{Mathematical Structure of Data}
 \label{sec:artist:equivariant:data}
 We separate data transformations into two components, transformations on the base space $(\dfunchc, \dfuncpullc)$ and transformations on the fiber space $\dfunctc$. 
+
 \begin{equation}
-  \label{eq:atct:sheaves:monoid_morphism}
+  \label{eq:artist:sheaves:monoid_morphism}
   \begin{tikzcd}
     \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} 
     \arrow[rr, "\dfuncpullc", color=action, maps to] &  & 
@@ -550,12 +548,12 @@ where $\dfunch(\dbasepoint^{\prime}) = \dfunch(\dbasepoint)$.
 
 \paragraph{Transform Records}
 
-As introduced in \autoref{def:atct:io:fiber}, the fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a morphism on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
+As introduced in \autoref{eq:artist:sheaves:monoid_morphism}, the fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a morphism on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
 \begin{equation}
   \label{eq:atct:morphism:fiber}
   \dfunct: \dfuncpull \dsection \restriction_{\openset^{\prime}} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
 \end{equation}
-where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Since there are many different fiber transformations,  there is not a uniform way of expressing how this morphism acts on sections unlike in \autoref{eq:atct:morphism:verify_base}. Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946m, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. 
+where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Since there are many different fiber transformations,  there is not a uniform way of expressing how this morphism acts on sections unlike in \autoref{eq:atct:morphism:verify_base}. Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. 
 
 \paragraph{Transform Continuity and Records}
 
@@ -582,9 +580,9 @@ if each (identical) component base space is transformed in the same way $\dfunch
 \subsubsection{Equivariant Artist}
 \label{sec:artist:equivariant:artist}
 We formalize this structure preservation as equivariance, which is that for every morphism on the data $(\dfunch_{\dtotal}, \dfunct_{\dtotal})$ there is an equivalent morphism on the graphic  $(\dfunch_{\gtotal}, \dfunct_{\gtotal})$ The artist is an equivariant map if the diagram commutes for all points $\gbasepointc^{\prime}\in \gbasec^{\prime}$
-\label{sec:artist:equivariance}
+
 \begin{equation}
-  \autoref{eq:artist:equivariance}
+  \label{eq:artist:equivariance}
   \begin{tikzcd}[ampersand replacement=\&, column sep=small]
   \cgamma{\dbasec}{\dtotalc} 
   \arrow[rrr, "\vartistc", color=artist] 
@@ -671,7 +669,8 @@ The change in measurements $\dfunctc_{\measure}$ is defined by the developer as 
   \caption{This artist is equivariant because when the input data $\dsection$ is transposed, $\dfunch$, scaled $\dfunct$, and transposed and scaled $\dfunc$, the corresponding colored cells are transposed, scaled such that the color is moved two steps, and both transposed and scaled. 
   \label{fig:artist:equivariance}}
 \end{figure}
-For example, in \autoref{fig:artist:equivarance}, the measurable variable is color. This is a visual representation of the data shown in \autoref{fig:atct:phi}, and as such the equivariant transformations are an equivalent transposition and scaling of the colors. This visualization is equivariant with respect to base space transformations, as defined in \autoref{eq:atct:equivarance:verify:base}, because the color values at the new position at the old position $measure_\dbasepoint^{\prime} = \measure_{\dbasepoint}$. This visualization is also equivariant with respect to fiber wise transformations, as defined in \autoref{eq:atct:equivarance:verify:fiber}, because the colors are consistently scaled in the same was the data. For example, the values that have become 2 and 4 in the $\dfunctc$ and $\dfunc$ panels are colored the same as the original 2 and 4 values in the first panel. The equivariance in this visualization is composable, as shown in the colors being both transposed and scaled correctly in the $\dfunc$ panel.
+
+For example, in \autoref{fig:artist:equivariance}, the measurable variable is color. This is a visual representation of the data shown in \autoref{fig:atct:phi}, and as such the equivariant transformations are an equivalent transposition and scaling of the colors. This visualization is equivariant with respect to base space transformations, as defined in \autoref{eq:atct:equivarance:verify:base}, because the color values at the new position at the old position $measure_\dbasepoint^{\prime} = \measure_{\dbasepoint}$. This visualization is also equivariant with respect to fiber wise transformations, as defined in \autoref{eq:atct:equivarance:verify:fiber}, because the colors are consistently scaled in the same was the data. For example, the values that have become 2 and 4 in the $\dfunctc$ and $\dfunc$ panels are colored the same as the original 2 and 4 values in the first panel. The equivariance in this visualization is composable, as shown in the colors being both transposed and scaled correctly in the $\dfunc$ panel.
 
 \subsection{Composing Artists}\label{sec:artist:operators}
 A common use of category theory in software engineering is the specification of modular components \cite{wielsManagementEvolvingSpecifications1998} such that we can build systems where the structure preserved by components is preserved in the composition of the components. This allows us to express that an artist that works on a dataset can be composed of artists that work on sub parts of that dataset. 
@@ -703,7 +702,7 @@ A common use of category theory in software engineering is the specification of 
   \end{tikzcd}
 \end{equation}
 
-\subsubsection{Addition: +}
+\subsubsection{Addition}
 \label{sec:artist:addition}
 As illustrated in \autoref{eq:artist:operator}, data bundles can be combined by taking the disjoint  union of base spaces $\dbase^{a} \sqcup_{\dbase^c} \dbase^b$, where $\dbase^c$ is an overlap. When the fibers of each bundle are isomorphic $\dfiber^{a} \simeq \dfiber^{b}$, which we denote as $\dtotal$, this is analogous to adding more records to a dataset. We propose an addition operator that states that an artist that takes in a dataset can be constructed using artists that take as inputs subsets of the dataset
 
@@ -739,7 +738,7 @@ One way to verify that these artists are composable is to check that the return 
  One example of an artist that is a sum of artists is a sphere drawer that draws different quadrants of a sphere $\vartist(\dsection) = \vartist_{1}(\dsection_{1}) + \vartist_{2}(\dsection_{2}) + \vartist_{3}(\dsection_{3}) \vartist_{4}(\dsection_{4})$. Given an input $\dbasepoint \in \dbase_4$ in the 4th quadrant, then the graphic section that would be executed is $\gsection_{4}$. If that point is also in the 3rd quadrant  $\dbasepoint \in \dbase_3$, then both artist outputs must return the same values $\gsection_{4}(\vindexprec(\dbasepoint)) = \gsection_{3}(\vindexprec(\dbasepoint))$. 
 
 
-\subsubsection{Multiplication: $\times$}
+\subsubsection{Multiplication}
 \label{sec:artist:operator:multiplication}
 As illustrated in \autoref{eq:artist:operator},  fibers that are a cartesian product of fiberspaces $\dfiber^{a} \times_{\dfiber^c} \dfiber^{b}$, where $\dfiber^c$ is any fiber that is present in both fibers, can be projected down into component fibers. In the trivial case where the base spaces are the same $\dbase^{a} = \dbase^{b} = \dbase$, this is equivalent to adding more fields to a dataset. 
 
@@ -791,11 +790,11 @@ and therefore which commonalities need to be preserved in the artists that act o
 \section{Construction}
 \label{sec:construction}
 
-We propose that one way of constructing artist functions is to separate generating a visualization, as shown in \autoref{fig:construction:flow}, is into an equivariant continuity preserving encoding stage $\vchannelc$ and a equivariant continuity preserving compositing stage $\vmarkc$. In the \textcolor{artist}{encoding} stage $\vchannelc$, a data bundle is treated as separable fields and each field is mapped to a measurable visual variable. In the encoding stage, the expected visual mappings $\equivb$ can be implemented inside the library. Factoring out the encoding stage leaves the \textcolor{artist}{compositing} stage $\vmarkc$ responsible for faithfully translating those measurable visual components into a visual element.  
+We propose that one way of constructing artist functions is to separate generating a visualization into an encoding stage $\vchannelc$ and a compositing stage $\vmarkc$. In the \textcolor{artist}{encoding} stage $\vchannelc$, a data bundle is treated as separable fields and each field is mapped to a measurable visual variable. In the encoding stage, the expected visual mappings $\equivb$ can be implemented inside the library. Factoring out the encoding stage leaves the \textcolor{artist}{compositing} stage $\vmarkc$ responsible for faithfully translating those measurable visual components into a visual element.  
 
 \subsection{Measurable Visual Components}
 \label{sec:construction:vtotal}
-As shown in \autoref{fig:construction:flow}, we propose an intermediate visual fiber bundle 
+We propose an intermediate visual fiber bundle 
 \begin{equation}
   \vfiberc \hookrightarrow \vtotalc \xrightarrow{\pi} \dbasec
 \end{equation}
@@ -832,7 +831,7 @@ For example, as shown in \autoref{fig:construction:xi}, a line is 1D but is a 2D
 
 \subsection{Component Encoders}
 \label{sec:construction:nu}
-As introduced in \autoref{fig:construction:flow}, the encoding function $\vchannel$ is a map from data sections to graphic sections
+The encoding function $\vchannel$ is a map from data sections to graphic sections
 \begin{equation}
 \nu: \cgamma{\dbasec}{\dtotalc} \rightarrow \cgamma{\dbasec}{\vtotalc}
 \end{equation}
@@ -846,7 +845,7 @@ which means that means that a point in a single data fiber $\delement \in \dfibe
 The difference between $\dtotal$ and $\vtotal$ are semantic rather than structural; they are both maps from the topological space \dbase\ to sets of functions that return records of values. This means any $\vtotal$ can be redefined as $\dtotal$, 
 \begin{equation}
   \label{eq:construction:nu:fabrication}
-  \begin{tikzcd}[col sep=huge]
+  \begin{tikzcd}[column sep=huge]
     \dfiberc_{\dbasepointc} 
     \arrow[rr, "\vchannelc", color=artist] 
     \arrow[rrrr, "\vchannelc^{\prime\prime}", dashed, bend right, color=artist] &  & 
@@ -855,7 +854,7 @@ The difference between $\dtotal$ and $\vtotal$ are semantic rather than structur
     \vfiberc^{\prime}_{\dbasepointc}
   \end{tikzcd}
 \end{equation}
-which means that, as shown in \autoref{eq:construction:nu:fabrication}, any collection of $\vchannel$ functions can be composed such that they are equivalent to a $\vchannel$ that directly converts the input to the output. As with artists, $\vchannel$ are maps of sections such that the composition operators defined in \autoref{sec:artist:composition} can also act on transformers $\vchannel$, meaning that encoders can be added $\vchannel_{a+b} = \vchannel_{a} + \vchannel_{b}$ and multiplied d $\vchannel_{a\times b} = \vchannel_{a}  \vchannel_{b}$.  Encoders designed to satisfy these composability constraints provide for a rich set of building blocks for implementing complex encoders.
+which means that, as shown in \autoref{eq:construction:nu:fabrication}, any collection of $\vchannel$ functions can be composed such that they are equivalent to a $\vchannel$ that directly converts the input to the output. As with artists, $\vchannel$ are maps of sections such that the operators defined in \autoref{sec:artist:operators} can also act on transformers $\vchannel$, meaning that encoders can be added $\vchannel_{a+b} = \vchannel_{a} + \vchannel_{b}$ and multiplied d $\vchannel_{a\times b} = \vchannel_{a}  \vchannel_{b}$.  Encoders designed to satisfy these composability constraints provide for a rich set of building blocks for implementing complex encoders.
 
 \subsubsection{Encoder Verification}
 \label{sec:construction:nu:verification}
@@ -888,7 +887,7 @@ A  motivation for constructing an artist with an encoder stage $\vchannel$ is so
 \end{equation}
 As shown in \autoref{eq:construction:nu:validate}, an encoder is considered valid if there is an ismorphism between the actual outputted visual component and the expected measurable component encoding. An encoder is consistent if it encodes the same field in the same way even if coming from different data sources. 
 
-An encoding function $\vchannelc$ is equivariant if the change in data, as defined in \autoref{sec:atct:sheaves:measurments}, and change in visual components are equivariant. Since $\dtotal$ and $\vtotal$ are over the same base space and are pointwise, the base space change $\dfunch_{\dtotal}$ applies to both sides of the equation 
+An encoding function $\vchannelc$ is equivariant if the change in data, as defined in \autoref{sec:artist:equivariant:data}, and change in visual components are equivariant. Since $\dtotal$ and $\vtotal$ are over the same base space and are pointwise, the base space change $\dfunch_{\dtotal}$ applies to both sides of the equation 
 \begin{equation}
   \vchannelc(\dsectionc_{\dtotalc}(\dfunchc_{\dbasec}(\dbasepointc^{\prime}))) = \vsectionc(\dfunchc_{\dbasec}(\dbasepointc^{\prime}))
 \end{equation}
@@ -896,11 +895,11 @@ and therefore there should not be a change in encoding. On the other hand, a cha
 \begin{equation}
   \dfunctc_{\vtotalc} \vchannelc(\dsectionc(\dbasepoint)) = \vchannelc(\dfunctc_{\dtotalc}(\dsectionc(\dbasepointc)))
 \end{equation}
-The change in visual components $\dfunct_{\vtotal}$ is dependent both on $\dfunct_{\dtotal}$ and the choice of visual encoding. As mentioned in \autoref{sec:related-work:equivariance}, this is why Bertin and many others since have advocated choosing an encoding that has a structure that matches the data structure\cite{bertinSemiologyGraphicsDiagrams2011a}. For example choosing a quantative colormap to encode quantative data if the $\dfunctc$ operation is scaling, as in \autoref{fig:artist:equivariance}.
+The change in visual components $\dfunct_{\vtotal}$ is dependent both on $\dfunct_{\dtotal}$ and the choice of visual encoding. As mentioned in \autoref{sec:related-work:equivariance}, this is why Bertin and many others since have advocated choosing an encoding that has a structure that matches the data structure\cite{bertinSemiologyGraphicsDiagrams2011}. For example choosing a quantative colormap to encode quantative data if the $\dfunctc$ operation is scaling, as in \autoref{fig:artist:equivariance}.
 
 
 \subsection{Graphic Compositor}
-As shown in \autoref{fig:construction:flow}, the compositor function $\vmarkc$ transforms the measurable components into properties of a visual element. The compositing function $\vmarkc$ transforms the sections of visual elements $\vsectionc$ into sections of graphics $\gsectionc$.
+The compositor function $\vmarkc$ transforms the measurable components into properties of a visual element. The compositing function $\vmarkc$ transforms the sections of visual elements $\vsectionc$ into sections of graphics $\gsectionc$.
 \begin{equation}
   \vmarkc: \cgamma{\dbasec}{\vtotalc} \rightarrow \cgamma{\gbasec}{\gtotalc}
 \end{equation}
@@ -917,7 +916,7 @@ Since encoder functions are infinitely composable, as described in \autoref{eq:c
       \arrow[rr, "\vmarkc", color=artist] &  & \cgamma{\gbasec}{\gtotalc}
       \end{tikzcd} 
 \end{equation}
-The composition in \autoref{eq:construction:q:fabrication} means that different measurable components can yield the same visual elements. The composition operators defined in \autoref{sec:artist:composition} can also act on compositors $\vmark$ such that $\vmark_{a+b} = \vmark_{a} + \vmark_{b}$ and multiplied d $\vmark_{a\times b} = \vmark_{a}  \vmark_{b}$.  
+The composition in \autoref{eq:construction:q:fabrication} means that different measurable components can yield the same visual elements. The operators defined in \autoref{sec:artist:operators} can also act on compositors $\vmark$ such that $\vmark_{a+b} = \vmark_{a} + \vmark_{b}$ and multiplied d $\vmark_{a\times b} = \vmark_{a}  \vmark_{b}$.  
 
 
 \begin{figure}[h!]
@@ -947,7 +946,7 @@ An advantage of factoring out encoding and verification, as discussed in \autore
 \end{equation}
 As illustrated in \autoref{eq:construction:q:validate}, a compositor is valid if there is an isomorphism between the actual outputted measured visual component and the expected measurable component that is the input. One way of verifying that a compositor is consistent is by verifying that it passes through one encoding even while changing others. For example, when $\vmark_{ab}=\vmark_{ac}$ then the output should differ in the same measurable components as $\vsectionc_{ab}$ and $\vsection_{ac}$. 
 
-A compositor function \vmark\ is equivariant if the renderer output changes in a way equivariant to the data transformation defined in \autoref{sec:atct:sheaves:measurments}. This means that a change in base space $\dfunch_{\dtotalc}$ should have an equivalent change in visual element base space. This means that there should be no change in visual measurement
+A compositor function \vmark\ is equivariant if the renderer output changes in a way equivariant to the data transformation defined in \autoref{sec:artist:equivariant:data}. This means that a change in base space $\dfunch_{\dtotalc}$ should have an equivalent change in visual element base space. This means that there should be no change in visual measurement
 \begin{equation}
   \label{eq:construction:q:verification:base}
   \vsectionc(\dfunchc_{\dbasec}(\dbasepointc^{\prime})) = \extractmc(\vmarkc(\vsectionc)(\dfunch_{\dbasec}(\vindexprec^{\dbasepointc}))) = \measurec_{\dbasepointc}
@@ -961,7 +960,7 @@ The compositor function is also expected to be equivariant with respect to chang
 \end{equation}
 which means that any change to a measurable component input must have a measurably equivalent change in the output. As illustrated in \autoref{fig:artist:equivariance}, the compositor $\vmarkc$ is expected to assemble the measurable components such that base space changes, for example transposition, are reflected in the output; faithfully pass through equivariant measurable components, such as scaled colors; and ensure that both types of transformations, here scaling and transposition, are present in the final glyph.  
 
-\subsection{Implementing the Artist: $\vartistc=\vmarkc\circ\vchannelc$}
+\subsection{Implementing the Artist}
 
  When a sheaf is equipped with transport functors, then the functions between sheaves over one space are isomorphic to functions between sheaves over the other space\cite{harder2008lectures} such that the following diagram commutes
 
@@ -980,6 +979,7 @@ which means that any change to a measurable component input must have a measurab
     \arrow[ll, "\vindexpushc"', color=functor]                  
     \end{tikzcd}
 \end{equation}
+
 Since the artist is a family of functions in the homeset between sheaves, the isomorphism allows for the specification of the transformation from data as combination of functions over different spaces such that the following diagram commutes:
 \begin{equation}
   \label{eq:construction:artist:path}
@@ -1052,7 +1052,7 @@ Specially, we introduce artists for building the graphical elements shown in \au
 \end{tabular}
 \label{tab:discussion:data}
 \end{table}
-We construct a toy dataset with a discrete $\dbase$ of 4 points and a fiber space of $\dfiber=\{apple,\, orange,\, lemon\}\times \mathbb{Z}^{+} \times \{\texttt{True}, \texttt{False}\}$. We thinly wrap \autoref{tab:discussion:data} in an object so that the common data interface function is that $\tau = \ttexttt{DataContainerObject.query}$. 
+We construct a toy dataset with a discrete $\dbase$ of 4 points and a fiber space of $\dfiber=\{apple,\, orange,\, lemon\}\times \mathbb{Z}^{+} \times \{\texttt{True}, \texttt{False}\}$. We thinly wrap \autoref{tab:discussion:data} in an object so that the common data interface function is that $\tau = \texttt{DataContainerObject.query}$. 
 \begin{minted}{python}
   class FruitFrameWrapper:
     def query(self, data_bounds, sampling_rate):
@@ -1140,7 +1140,7 @@ class GenericArtist(martist.Artist):
             rho = self.artist.qhat(**mu)
             output = rho(renderer)
 \end{minted}
-As shown in the \texttt{draw} method, generating a graphic section $\gsection$ is implemented as the composition of $\texttt{qhat} \approx \vmark$ and $\texttt{nu} \approx \vchannel$ applied to a local section of the sheaf $\texttt{self.section.query} \approx \desection^{i}$ such  $\texttt{draw} \approx \vmarkc\circ\vchannelc\circ\dsectionc  = \vartistc\circ \dsectionc$. The $\vchannel$ and $\vmark$ functions shown here are written such that they can generate a visual element given a local section $\dsection\restriction_{\dbase^{i}}$ which can be as little or large as needed. This flexibility is a prerequisite for building scalable and streaming visualizations that may not have access to all the data.  
+As shown in the \texttt{draw} method, generating a graphic section $\gsection$ is implemented as the composition of $\texttt{qhat} \approx \vmark$ and $\texttt{nu} \approx \vchannel$ applied to a local section of the sheaf $\texttt{self.section.query} \approx \dsection^{i}$ such  $\texttt{draw} \approx \vmarkc\circ\vchannelc\circ\dsectionc  = \vartistc\circ \dsectionc$. The $\vchannel$ and $\vmark$ functions shown here are written such that they can generate a visual element given a local section $\dsection\restriction_{\dbase^{i}}$ which can be as little or large as needed. This flexibility is a prerequisite for building scalable and streaming visualizations that may not have access to all the data.  
 
 The \texttt{GenericArtist} is a a standard Matplotlib object; therefore it can be hooked into the Matplotlib draw tree to produce the vertical bar chart in \autoref{fig:discussion:vbar}. Using the Matplotlib artist framework means this new artist can be composed with existing artists, such as the ones that draw the axes and ticks. 
 
@@ -1194,7 +1194,7 @@ The authors would like to thank...
 % http://www.michaelshell.org/tex/ieeetran/bibtex/
 \bibliographystyle{IEEEtran}
 % argument is your BibTeX string definitions and bibliography database(s)
-\bibliography{IEEEabrv, bibliography}
+\bibliography{bibliography}
 
 % biography section 
 % If you have an EPS/PDF photo (graphicx package needed) extra braces are
