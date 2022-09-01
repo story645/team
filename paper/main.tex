@@ -197,11 +197,12 @@ A continuous surjective map \textbf{$\pi$ is bundle projection} map when
   \item there is an open neighborhood $\openset_{\dbasepoint}$ surrounding each point in the base space $\dbasepoint \in \openset_{\dbasepoint} \subset \dbase$ such that the \textcolor{total}{total space} \dtotalc\ over the neighborhood, denoted $\dtotal\restriction\openset$\footnote{The symbol $\restriction$ is the restriction operator\cite{RestrictionMathematics2022}. For example $\pi^{-1}\restriction\openset$ is the inverse function $\pi^{-1}$ only defined on the points in $\openset$}, is locally trivial. The condition for local triviality is that $\dtotal\restriction_{\openset} = \openset \times \dfiber = \pi^{-1}\restriction_{\openset}$
 \end{enumerate}
 \end{definition}
-We propose that the map $\pi$ can express the formal binding between having a typed data field, discussed in \autoref{sec:atct:fb:fiber}, and a corresponding point in the topological structure, as discussed in \autoref{sec:atct:fb:base}. For our purposes, the advantage of fiber bundles is that the field type and topological structure are unconstrained in terms of dimensionality and the only conditions that must be satisfied are that every index point has a corresponding field type and the field types must be the same (isomorphic) for every index point.
-
 \begin{definition} A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotalc$ over a fiber bundle is a smooth right inverse of $\pi$ such that $\pi(\dsection(\dbasepoint)) = \dbasepoint$ for all $\dbasepoint \in \dbase$
 \end{definition}
-We propose that modeling data as sections provides a way to encapsulate topological and field structure in a uniform dimension and type independent manner, as discussed in \autoref{sec:atct:fb:sections}.
+
+Local triviality $\dtotal\restriction_{\openset_{k}} = \openset_{k}\times \dfiber$ means that there is always a subset of the base space over which the fibers are identical. A bundle can be subsetted into regions such that the bundled can be reconstructed by gluing the regions back together via transition maps on the border of each region. These borders are fibers, and in a trivial bundle transition maps are identity maps because fibers are identical $\dfiber = \dfiber_{k}$ for all points $\dbasepoint \in dbase$. In a non-trivial bundle fibers are isomorphic $\dfiber \simeq \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \dbase$, which means that there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}. 
+
+We propose that the map $\pi$ can express the formal binding between having a typed data field, discussed in \autoref{sec:atct:fb:fiber}, and a corresponding point in the topological structure, as discussed in \autoref{sec:atct:fb:base}. For our purposes, the advantage of fiber bundles is that the field type and topological structure are unconstrained in terms of dimensionality and the only conditions that must be satisfied are that every index point has a corresponding field type and the field types must be the same for every index point. We propose that modeling data as sections provides a way to encapsulate topological and field structure in a uniform dimension and type independent manner, as discussed in \autoref{sec:atct:fb:sections}.
 
 \subsubsection{Topological Structure: Base Space \dbase}
 \label{sec:atct:fb:base}
@@ -268,28 +269,20 @@ We encode data as a \textcolor{section}{section} \dsectionc\ of a bundle because
 \end{equation}
 such that each section function $\dsection: \dbasepoint \mapsto \delement$ maps from each point $\dbasepoint \in \openset$ to a corresponding record in the fiber space $\delement \in \dfiber_{\dbasepoint}$ over that point. Bundles can have multiple sections, as denoted by $\Gamma(\openset, \dtotal\restriction{\openset})$. We can therefore model data as structures that map from an index like point $\dbasepoint$ to a data record $\delement$, and encapsulate multiple datasets with the same fiber and base space as different sections of the same bundle. 
 
-In a trivial bundle, the fibers are equal $\dfiberc =  \dfiberc_{\dbasepointc}$ over all points $\dbasepointc \in \dbase$  in the base space such that the total space is the product of the fiber and base space $\dtotalc = \dbasec \times \dfiberc$. This allows us to define global sections $\dsection: \dbase \rightarrow \dfiber \in \Gamma(\dbase, \dfiber)$ which we translate into a data signature of the form  
+In a trivial bundle, the total space is the product of the fiber and base space $\dtotalc = \dbasec \times \dfiberc$. This allows us to define global sections $\dsection: \dbase \rightarrow \dfiber \in \Gamma(\dbase, \dfiber)$ which we translate into a data signature of the form  
 \begin{equation}
   \textcolor{section}{\texttt{dataset}}: \textcolor{base}{\texttt{topology}} \rightarrow \textcolor{fiber}{\texttt{field}}
 \end{equation}
 where $\dsection=\texttt{dataset}$, $\dbase=\texttt{topology}$ and $\dfiber=\texttt{fields}$. This type signature provides a method of explicitly stating the topology and field type of the data and generalizes to almost any topology and fiber type, provided that the total space is trivial. 
 
-When the total space is non-trivial, we can use the fiber bundle property of local-triviality to generate type signatures. In a non-trivial bundle fibers are isomorphic $\dfiber \simeq \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \dbase$, which means that there may be a \textit{twist} in the bundle that prevents defining global sections \cite{hatcherAlgebraicTopology2002}. As mentioned in \autoref{def}
-
-
-
-Fiber bundles are locally trivializable, $\dtotal\restriction_{\openset_{k}} = \openset_{k}\times \dfiber$ such that there's always a subset where the fibers are equal.
-
-Instead, we can define sections locally $\dsection\restriction_{\openset} \in \Gamma(\openset_{\dbasepoint}, \dtotal\restriction_{\openset_{\dbasepoint}})$, which means a section defined only on an open neighborhood\footnote{An open set that surrounds a point \dbasepoint\ is called an open neighborhood $\openset_{\dbasepoint}$.} $\dbasepoint \in \openset \in \dbase$. 
- This means almost all data can be expressed as a collection of local sections $\{\dsection\restriction_{\openset_{\dbasepoint}}| \dbasepoint \in \dbase \}$ which translate to a set of signatures 
+When the total space is non-trivial, we can use the fiber bundle property of local-triviality to define local sections $\dsection\restriction_{\openset} \in \Gamma(\openset_{\dbasepoint}, \dtotal\restriction_{\openset_{\dbasepoint}})$. A local section is defined over an open neighborhood  $\dbasepoint \in \openset \in \dbase$, which is an open set that surrounds a point \dbasepoint. Most data sets can be encoded as a collection of local sections $\{\dsection\restriction_{\openset_{\dbasepoint}}| \dbasepoint \in \dbase \}$ and this encoding can be translated into a set of signatures 
 \begin{equation}
   \begin{split}
 \{\textcolor{section}{\texttt{data-subset}}: \textcolor{base}{\texttt{topology}} \rightarrow \textcolor{fiber}{\texttt{fields}} \\
- s.\;t.\;\textcolor{section}{\texttt{data-subset}} \in \texttt{dataset}\}  
+ s.\;t.\;\textcolor{section}{\texttt{data-subset}} \subset \texttt{dataset}\}  
   \end{split}
 \end{equation}
-that can be glued together on overlaps to generate the dataset. This gluing can be implemented as part of the data container, which we discuss in \autoref{sec:atct:sheaves}.
-
+The subsets of the fiber bundle and the transition maps between these subsets are encoded in an atlas\cite{ghristElementaryAppliedTopology2014} and the notion of an atlas can be incorporated into the data container, as discussed in \autoref{sec:atct:sheaves}.
 
 \subsubsection{Examples}
 \begin{figure}[h!]
@@ -297,7 +290,9 @@ that can be glued together on overlaps to generate the dataset. This gluing can 
   \caption{The mobius band is a non-trivial total space because the twist means that the fibers are sometimes [-1, 1] and other times [1,-1]. The mobius band can be represented as two trivial bundles, one with fiber [-1, 1] and one with fiber [1,-1] that can be glued on the edges into the band. The gluing rules ensure that the arrows on the edges go in the same direction.\label{fig:atct:nontrivialbundle}}
 \end{figure}
 
-The mobius band is an example of the non-trivial bundle because the twist in the middle means that the fibers are not the same, as shown in \autoref{fig:atct:nontrivialbundle}. But, as with all bundles, the mobius band can be decomposed into trivial bundle components, here the two sides of the mobius band. Each side has fibers going in the same direction, with the mismatch only apparent on the edges. These trivial bundles can be glued into the mobius band so long as the fibers (arrows on the edges) go in the same direction when glued. The data is encoded as the section of the bundle, here the sin curve. 
+The mobius band is an example of a non-trivial bundle because the twist in the middle, as shown in \autoref{fig:atct:nontrivialbundle}, means that there is at least one local . 
+
+But, as with all bundles, the mobius band can be decomposed into trivial bundle components, here the two sides of the mobius band. Each side has fibers going in the same direction, with the mismatch only apparent on the edges. These trivial bundles can be glued into the mobius band so long as the fibers (arrows on the edges) go in the same direction when glued. The data is encoded as the section of the bundle, here the sin curve. 
 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{dbundle.png}
