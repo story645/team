@@ -222,8 +222,8 @@ The topological structure of the data can be expressed programmatically by const
 \begin{definition} 
    An \textbf{category} $\mathcal{C}$ consists of the following \textit{data}: 
 \begin{enumerate}
-  \item a collection of \textit{objects} $X \in \mathcal{Ob}(\mathcal{C})$
-  \item for every pair of objects $X, Y \in \mathcal{Ob}(\mathcal{C})$, a set of \textit{morphisms} $X \xrightarrow{f} Y \in Hom_{\mathcal{C}}(X, Y)$
+  \item a collection of \textit{objects} $X \textbf{ob}(\mathcal{C})$
+  \item for every pair of objects $X, Y \in \textbf{ob}(\mathcal{C})$, a set of \textit{morphisms} $X \xrightarrow{f} Y \in Hom_{\mathcal{C}}(X, Y)$
   \item for every object $X$, a distinct \textit{identity morphism} $X \xrightarrow {id_x} X$ in $Hom_{\mathcal{C}}(X, X)$
   \item a \textit{composition function} $f \in Hom_{\mathcal{C}}(X, Y) \times  g \in Hom_{\mathcal{C}}(Y, Z) \rightarrow g \circ f \in Hom_{\mathcal{C}}(X, Z)$
 \end{enumerate}
@@ -287,12 +287,10 @@ The subsets of the fiber bundle and the transition maps between these subsets ar
 \subsubsection{Examples}
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{trivnon.png}
-  \caption{One local trivialization of both a trivial cylinder bundle and a non-trivial mobius bundle is a plane over the interval $\left[0,2\pi\right]$. The transition map that transforms this trivialization into a cylinder is an identity map aligning two \textit{up} fibers, while the transition map that transforms this trivialization into a mobius bundle aligns an \textit{up} fiber with a \textit{down} fiber.  
-  \note{not sure about wording here/ maybe should still have two transition maps so non-trivial has 1 id and 1 not-id}
-  \label{fig:atct:nontrivialbundle}}
+  \caption{A fiber bundle with a cylinderical total space, which is a trivial bundle, and bundle with a mobius band total space, which is non-trivial, can be covered by the same set of local trivializations. For example, they can both be decomposed into two planes over two intervals $\left(-\epsilon,\pi+\epsilon\right), \left(\pi-\epsilon, 2\pi+\epsilon\right)$. The transition maps that transforms this set of local trivializations into a cylinder are two identity map aligning two \textit{up} fibers, while the transition maps that transform this set into a mobius bundle are an identity map and a map that aligns an \textit{up} fiber with a \textit{down} fiber.  \note{in final may change this to something that's not half half to make the arbitraryness more clear/break it up into smaller pieces} \label{fig:atct:nontrivialbundle}}
 \end{figure}
 
-As shown in \autoref{fig:atct:nontrivialbundle}, a cylinder bundle and mobius band bundle over the same base space (here a unit circle) can be locally trivialized in the same manner. The local trivialization in \autoref{fig:atct:nontrivialbundle} is a plane over the interval $\left[0,2\pi\right]$. In the cylinder bundle, all fibers go in the same direction, \textit{up}, such that transition maps on local trivializations are all identity maps aliging two \textit{up} fibers. This property of transition maps is what charaterizes it as a trivial bundle, while local trivializations of  non-trivial bundles always have at least on non-identity transition map. In \autoref{fig:atct:nontrivialbundle} this is the sole transtion map and it aligns an \textit{up} fiber with a \textit{down} fiber, thereby creating the twist in the mobius band. The data is encoded as the section of the bundle, here exemplified as the sin curve. In the cylinder bundle, the sin curve is continuous on the whole space, while the sin curve is discontinuous at the twist in the mobius band and can be made continuous via the transition map. 
+As shown in \autoref{fig:atct:nontrivialbundle}, a trivial bundle with a cylinderical total space and a non-trivial bundle with mobius band total spacee can be covered with the same local trivializations; the distinguishing factor between these bundles is that the transition maps on these trivializations differ. The fibers in the cylinder bundle align in the same direction, \textit{up}, such that the transition maps that assemble the local trivializations into the cylinderical total space are all identity maps alinging two \textit{up} fibers. In the mobius bundle, there is twist where the fibers align in different directions, shown in the inset in \autoref{fig:atct:nontrivialbundle}. This twist is not present in either local trivialization because, by definition, fibers need to be aligned in local trivializations; therefore the transition map that aligns the fiber at the overlap between $\left(-\epsilon, \epsilon\right)$ must account for this flip by aligning \textit{up} fibers \textit{down} fibers. In this example, the transition map on the $\left(\pi-\epsilon, \pi+\epsilon\right)$ is an identity map since the fibers are aligned in the same direction on that section of the mobius band. \note{add something in the figure highlighting this part of the cylinder and the mobius band}
 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{dbundle.png}
@@ -325,18 +323,18 @@ that map from a point in an openset in the graphic space $\gbasepoint \in \opens
   \label{fig:atct:fb:graphic}}
 \end{figure}
 
-In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ maps into the fiber for a simplified 2D RGB infinite resolution prerender space and returns the $\{x,y,r,g,b\}$ values of a pixel in an infinite resolution space. In \autoref{fig:atct:fb:graphic} these pixels are approximated as the small orange and black colored boxes. Each pixel is the output of the $\gsection(\gbasepoint)$ section that intersects the box. The set of all pixels returned by a section evaluated on a given visual base space $\gsection|_{\gbase}$ can yield a visual element, such as a marker, line, or piece of a glyph. \autoref{fig:atct:fb:graphic} illustrates a highly idealized space with no overlaps. Overlaps can be indicated via fiber element $\gfiber_{z}$ and it can be left to the renderer to appropriately blend layers based on $\gfiber_{z}$ and $\gfiber_{a}$. 
+In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ maps into the fiber for a simplified 2D RGB infinite resolution prerender space and returns the $\{x,y,r,g,b\}$ values of a pixel in an infinite resolution space. In \autoref{fig:atct:fb:graphic} these pixels are approximated as the small orange and black colored boxes. Each pixel is the output of the $\gsection(\gbasepoint)$ section that intersects the box. The set of all pixels returned by a section evaluated on a given visual base space $\gsection|_{\gbase}$ can yield a visual element, such as a marker, line, or piece of a glyph. While \autoref{fig:atct:fb:graphic} illustrates a highly idealized space with no overlaps, overlaps can be managed via a fiber element $\gfiber_{z}$ for ordering. It is left to the renderer to choose how to blend layers based on $\gfiber_{z}$ and $\gfiber_{a}$. 
 
 \subsection{Abstract Data Containers}
 \label{sec:atct:sheaves}
 While bundles provide a way to describe the structure of the data, sheaves are a mathematical way of describing the data container. Sheaves are an algebraic data structure that provides a way of abstractly discussing the bookkeeping that data containers must implement to keep track of the continuity of the data \cite{ghristElementaryAppliedTopology2014}. This abstraction facilitates representational invariance, as introduced by Kindlemannn and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}, since the container level is uniformally specified as satisfying sheaf constraints. These constraints generalize to data that is subsetted, distributed, streaming, and on-demand. 
 
 Sheaves are built out of presheaves, which are functors, meaning they are functions from objects of one category to objects of another category\cite{bradleyWhatFunctorDefinitions} that preserve the morphisms in each category. 
-\begin{definition} A \textbf{functor} is a map $F: \mathcal{C} \rightarrow \mathcal{D}$ such that every object $C \in \mathcal{OB(C)}$ has a corresponding object $F(C) \in \mathcal{OB(D)}$ in category $\mathcal{D}$. The functor also acts on morphisms such that for every morphism $f: C_1 \rightarrow C_2$ in category $\mathcal{C}$, there is a compatible morphism $F(f): F(C_{1}) \rightarrow F(C_2)$. 
+\begin{definition} A \textbf{functor} is a map $F: \mathcal{C} \rightarrow \mathcal{D}$ such that every object $C \in \textbf{ob}(\mathcal{C})$ has a corresponding object $F(C) \in \textbf{ob}(\mathcal{D})$ in category $\mathcal{D}$. The functor also acts on morphisms such that for every morphism $f: C_1 \rightarrow C_2$ in category $\mathcal{C}$, there is a compatible morphism $F(f): F(C_{1}) \rightarrow F(C_2)$. 
 A functor must satisfy the properties 
 \begin{itemize}
   \item \textit{identity}: $F(id_{C}(C)) = id_{D}(F(C))$
-  \item \textit{composition}:$F(g)\circ F(f) = F(g\circ f)$ for any composable morphisms $C_{1}\xrightarrow{f} C_2$, $C_2 \xrightarrow{g} C_3$
+  \item \textit{composition}: $F(g)\circ F(f) = F(g\circ f)$ for any composable morphisms $C_{1}\xrightarrow{f} C_2$, $C_2 \xrightarrow{g} C_3$
 \end{itemize}
 \end{definition}
 Functors preserve all the structure of the categories, namely the domains, codomains, composition, and identities\cite{riehlCategoryTheoryContext}. Specifically, functors allow us to express which structure must be preserved when an object is transformed from one category to another. 
@@ -489,11 +487,11 @@ The output of an artist \vartist\ is a restricted subset of graphic sections
 that are, by definition, only reachable through a structure preserving artist, which we describe in \autoref{sec:artist:equivariant:artist}. We define this subset because the space of all sections $\cgamma{\opensetg}{\gtotal\restriction_{\openset}}$ includes sections that may not be structure preserving. For example, a section may go from every point in the graphic space to the same single point in the graphic fiber $\gsection(\gbasepoint_i) = d\; \forall \gbasepoint \in \gbase$ such that the visual output is a single inked pixel on a screen. 
 
 \subsection{Equivariance}
-\label{sec:artist:equiv}\note{our basis of structure preservation - is this even equivariance}
-to actions $\dfunc \in \dfuncset$ on the sheaf $\sheaf_{\dbase, \dtotal}$. 
-
+\label{sec:artist:equiv}
+As introduced in \autoref{sec:related-work:equivariance}, data and the corresponding visual encoding are expected to have compatible structure. This structure can be formally expressed as actions $\dfunc \in \dfuncset$ on the sheaf $\sheaf_{\dbase, \dtotal}$. 
+\note{rewrite for generalities probably}
 \begin{definition} 
-  An \textbf{action}  $act: \dfuncsetc \times \dtotalc \rightarrow \sheaf_{\dbase, \dtotal}$ is a function that expresses that elements of set $\dfuncset$ act on elements of the sheaf of sections.Actions are associative such that 
+  An \textbf{action}  $act: \dfuncsetc \times \sheaf_{\dbase, \dtotal} \rightarrow \sheaf_{\dbase, \dtotal}$ is a function that expresses that elements of set $\dfuncset$ act on elements of the set of sections $\sheaf_{\dbase, \dtotal}$. Actions are associative such that 
   \begin{equation}
     act(\dfuncc_{j}, act(\dfuncc_{i}, \dsectionc)) = act(\dfuncc_{j} \circ \dfuncc_{i}, \dsectionc)
   \end{equation}
@@ -523,9 +521,9 @@ We separate data transformations into two components, transformations on the bas
 \end{equation}
 The base space transformation transforms one openset object $\openset^{\prime}$ to another object $\openset$, and the pullback functor transports the entire set of sections $\Gamma(\openset, \dtotal\restriction_{\openset})$ over the new base space $\Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. The fiber transformation transforms a single section $\dfuncpull\dsection$ to a different section $\dfuncpull\dsection$. 
 
-\paragraph{Transform Continuity}
+\paragraph{Transform Continuity}\\
 
-The base space transformation is from one open set to another open set in the same base space
+The base space transformation is a pointwise continuous map from one open set to another open set in the same base space
 \begin{equation}
   \label{eq:atct:morphism:base}
  \dfunch: \openset^{\prime}\rightarrow \openset
@@ -538,13 +536,13 @@ such that $\openset, \openset^{\prime} \subseteq \dbase$. This means $\openset$ 
 such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\opensetc^{\prime})}$. This means that the base space transformation \dfunch\ does not change the data values at a given point
 \begin{equation}
   \label{eq:atct:morphism:verify_base}
-  \dsection(\dbase) = \dfuncpull\dsection(\dbasepoint^{\prime}) = \dsection(\dfunch(\dbase^{prime}))
+  \dsection(\dbase) = \dfuncpull\dsection(\dbasepoint^{\prime}) = \dsection(\dfunch(\dbasepoint^{\prime}))
 \end{equation} 
 where $\dfunch(\dbasepoint^{\prime}) = \dfunch(\dbasepoint)$. 
 
-\paragraph{Transform Records}
+\paragraph{Transform Records}\\
 
-As introduced in \autoref{eq:artist:sheaves:monoid_morphism}, the fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a morphism on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
+As introduced in \autoref{eq:artist:sheaves:monoid_morphism}, the fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a monoid action on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
 \begin{equation}
   \label{eq:atct:morphism:fiber}
   \dfunct: \dfuncpull \dsection \restriction_{\openset^{\prime}} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
