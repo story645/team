@@ -202,7 +202,14 @@ A continuous surjective map \textbf{$\pi$ is bundle projection} map when
 
 Local triviality $\dtotal\restriction_{\openset_{k}} = \openset_{k}\times \dfiber$ means that there is always a subset of the base space over which the fibers are identical. A bundle can be subsetted into regions such that the bundled can be reconstructed by gluing the regions back together via transition maps on the border of each region. These borders are fibers, and in a trivial bundle transition maps are identity maps because fibers are identical $\dfiber = \dfiber_{k}$ for all points $\dbasepoint \in dbase$. In a non-trivial bundle fibers are isomorphic $\dfiber \simeq \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \dbase$, which means that there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}. 
 
-We propose that the map $\pi$ can express the formal binding between having a typed data field, discussed in \autoref{sec:atct:fb:fiber}, and a corresponding point in the topological structure, as discussed in \autoref{sec:atct:fb:base}. For our purposes, the advantage of fiber bundles is that the field type and topological structure are unconstrained in terms of dimensionality and the only conditions that must be satisfied are that every index point has a corresponding field type and the field types must be the same for every index point. We propose that modeling data as sections provides a way to encapsulate topological and field structure in a uniform dimension and type independent manner, as discussed in \autoref{sec:atct:fb:sections}.
+\begin{figure}[h!]
+  \includegraphics[width=\columnwidth]{trivnon.png}
+  \caption{A fiber bundle with a cylinderical total space, which is a trivial bundle, and bundle with a mobius band total space, which is non-trivial, can be covered by the same set of local trivializations. For example, they can both be decomposed into two planes over two intervals $\left(-\epsilon,\pi+\epsilon\right), \left(\pi-\epsilon, 2\pi+\epsilon\right)$. The transition maps that transforms this set of local trivializations into a cylinder are two identity map aligning two \textit{up} fibers, while the transition maps that transform this set into a mobius bundle are an identity map and a map that aligns an \textit{up} fiber with a \textit{down} fiber.  \note{in final may change this to something that's not half half to make the arbitraryness more clear/break it up into smaller pieces} \label{fig:atct:nontrivialbundle}}
+\end{figure}
+
+As shown in \autoref{fig:atct:nontrivialbundle}, a trivial bundle with a cylinderical total space and a non-trivial bundle with mobius band total spacee can be covered with the same local trivializations; the distinguishing factor between these bundles is that the transition maps on these trivializations differ. The fibers in the cylinder bundle align in the same direction, \textit{up}, such that the transition maps that assemble the local trivializations into the cylinderical total space are all identity maps alinging two \textit{up} fibers. In the mobius bundle, there is twist where the fibers align in different directions, shown in the inset in \autoref{fig:atct:nontrivialbundle}. This twist is not present in either local trivialization because, by definition, fibers need to be aligned in local trivializations; therefore the transition map that aligns the fiber at the overlap between $\left(-\epsilon, \epsilon\right)$ must account for this flip by aligning \textit{up} fibers \textit{down} fibers. In this example, the transition map on the $\left(\pi-\epsilon, \pi+\epsilon\right)$ is an identity map since the fibers are aligned in the same direction on that section of the mobius band. \note{add something in the figure highlighting this part of the cylinder and the mobius band, possibly add in a section}
+
+We propose that the total space of a bundle can encode the mathematical space in which a  dataset is embedded, the base space can encode the topological properties of the dataset, and the fiber space can encode the data types of the record fields of the dataset. The map $\pi$ expresses the formal binding between having a typed data field, discussed in \autoref{sec:atct:fb:fiber}, and a corresponding point in the topological structure, which is discussed in \autoref{sec:atct:fb:base}. Fiber bundles are a good abstract data representation for visualization because the field type and topological structure are unconstrained in terms of dimensionality and the only conditions that must be satisfied are that every point in the base space has a corresponding field of values and the field types must be the same for every point in the base space. We propose that modeling data as sections provides a way to encapsulate topological and field structure in a uniform dimension and type independent manner, as discussed in \autoref{sec:atct:fb:sections}.
 
 \subsubsection{Topological Structure: Base Space \dbase}
 \label{sec:atct:fb:base}
@@ -284,13 +291,7 @@ When the total space is non-trivial, we can use the fiber bundle property of loc
 \end{equation}
 The subsets of the fiber bundle and the transition maps between these subsets are encoded in an atlas\cite{ghristElementaryAppliedTopology2014} and the notion of an atlas can be incorporated into the data container, as discussed in \autoref{sec:atct:sheaves}.
 
-\subsubsection{Examples}
-\begin{figure}[h!]
-  \includegraphics[width=\columnwidth]{trivnon.png}
-  \caption{A fiber bundle with a cylinderical total space, which is a trivial bundle, and bundle with a mobius band total space, which is non-trivial, can be covered by the same set of local trivializations. For example, they can both be decomposed into two planes over two intervals $\left(-\epsilon,\pi+\epsilon\right), \left(\pi-\epsilon, 2\pi+\epsilon\right)$. The transition maps that transforms this set of local trivializations into a cylinder are two identity map aligning two \textit{up} fibers, while the transition maps that transform this set into a mobius bundle are an identity map and a map that aligns an \textit{up} fiber with a \textit{down} fiber.  \note{in final may change this to something that's not half half to make the arbitraryness more clear/break it up into smaller pieces} \label{fig:atct:nontrivialbundle}}
-\end{figure}
-
-As shown in \autoref{fig:atct:nontrivialbundle}, a trivial bundle with a cylinderical total space and a non-trivial bundle with mobius band total spacee can be covered with the same local trivializations; the distinguishing factor between these bundles is that the transition maps on these trivializations differ. The fibers in the cylinder bundle align in the same direction, \textit{up}, such that the transition maps that assemble the local trivializations into the cylinderical total space are all identity maps alinging two \textit{up} fibers. In the mobius bundle, there is twist where the fibers align in different directions, shown in the inset in \autoref{fig:atct:nontrivialbundle}. This twist is not present in either local trivialization because, by definition, fibers need to be aligned in local trivializations; therefore the transition map that aligns the fiber at the overlap between $\left(-\epsilon, \epsilon\right)$ must account for this flip by aligning \textit{up} fibers \textit{down} fibers. In this example, the transition map on the $\left(\pi-\epsilon, \pi+\epsilon\right)$ is an identity map since the fibers are aligned in the same direction on that section of the mobius band. \note{add something in the figure highlighting this part of the cylinder and the mobius band}
+\subsubsection{Example}
 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{dbundle.png}
@@ -521,8 +522,8 @@ We separate data transformations into two components, transformations on the bas
 \end{equation}
 The base space transformation transforms one openset object $\openset^{\prime}$ to another object $\openset$, and the pullback functor transports the entire set of sections $\Gamma(\openset, \dtotal\restriction_{\openset})$ over the new base space $\Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. The fiber transformation transforms a single section $\dfuncpull\dsection$ to a different section $\dfuncpull\dsection$. 
 
-\paragraph{Transform Continuity}\\
-
+\paragraph{\textbf{Topological structure}}
+\noindent
 The base space transformation is a pointwise continuous map from one open set to another open set in the same base space
 \begin{equation}
   \label{eq:atct:morphism:base}
@@ -540,18 +541,17 @@ such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ be
 \end{equation} 
 where $\dfunch(\dbasepoint^{\prime}) = \dfunch(\dbasepoint)$. 
 
-\paragraph{Transform Records}\\
-
+\paragraph{\textbf{Records}}
+\noindent
 As introduced in \autoref{eq:artist:sheaves:monoid_morphism}, the fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a monoid action on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
 \begin{equation}
   \label{eq:atct:morphism:fiber}
   \dfunct: \dfuncpull \dsection \restriction_{\openset^{\prime}} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
 \end{equation}
-where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Since there are many different fiber transformations,  there is not a uniform way of expressing how this morphism acts on sections unlike in \autoref{eq:atct:morphism:verify_base}. Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. 
+where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Since there are many different fiber transformations,  there is not a uniform way of expressing how this morphism acts on sections unlike in \autoref{eq:atct:morphism:verify_base}. Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}.
 
-\paragraph{Transform Continuity and Records}
-
-We define a full data transformation as one that induces both a remapping of the index space and a change in the data values
+\paragraph{\textbf{Topological structure and records}} 
+\noindent We define a full data transformation as one that induces both a remapping of the index space and a change in the data values
 \begin{equation}
   \label{eq:atct:morphism:all}
   \dfuncc: \dsectionc\restriction_{\opensetc} \mapsto \dsectionc^{\prime}\restriction_{\opensetc} \circ \dfunchc
@@ -1009,7 +1009,7 @@ This means that an artist over data space $\vartist_{\dbase}: \dsection \mapsto 
 when $\vindex(\gbasepoint) = \dbasepoint$. This equivalence allows a  developer to connect transformations over data space, denoted with a subset $\dbase$, with transformations over graphic space $\gbase$, using $\vindexpushc$ and $\vindexpullc$ adaptors.This allows developers to for example connect transformers that transform data on a line to a color in dataspace, but build a line compositing function that dynamically resamples what is on screen in graphic space.
 
 
-\section{Discussion: Feasibility of Math as Design Spec}
+\section{Discussion: Feasibility as Design Spec}
 \label{sec:discussion}
 \begin{figure}
   \includegraphics[width=1\columnwidth]{full_line.png}
