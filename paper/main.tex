@@ -191,7 +191,7 @@ We model data using a mathematical representation of data that can encode topolo
      \arrow[u, "\dsectionc"', bend right, pos=.5, color=section, dashed]
   \end{tikzcd}
 \end{equation} 
-A continuous surjective map \textbf{$\pi$ is bundle projection} map when 
+A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when 
 \begin{enumerate}
   \item the \textcolor{fiber}{fiber space} \dfiberc\ is the preimage of the projection function $\pi$ at a point $\dbasepoint$ in the \textcolor{base}{base space} \dbasec\ such that $\dfiber_{\dbasepoint} = \pi^{-1}(\dbasepoint)$. All fibers in a bundle are isomorphic such that $\dfiber \cong \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \dbase$. 
   \item there is an open neighborhood $\openset_{\dbasepoint}$ surrounding each point in the base space $\dbasepoint \in \openset_{\dbasepoint} \subset \dbase$ such that the \textcolor{total}{total space} \dtotalc\ over the neighborhood, denoted $\dtotal\restriction\openset$\footnote{The symbol $\restriction$ is the restriction operator\cite{RestrictionMathematics2022}. For example $\pi^{-1}\restriction\openset$ is the inverse function $\pi^{-1}$ only defined on the points in $\openset$}, is locally trivial. The condition for local triviality is that $\dtotal\restriction_{\openset} = \openset \times \dfiber = \pi^{-1}\restriction_{\openset}$
@@ -331,16 +331,17 @@ In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ maps into the
 While bundles provide a way to describe the structure of the data, sheaves are a mathematical way of describing the data container. Sheaves are an algebraic data structure that provides a way of abstractly discussing the bookkeeping that data containers must implement to keep track of the continuity of the data \cite{ghristElementaryAppliedTopology2014}. This abstraction facilitates representational invariance, as introduced by Kindlemannn and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}, since the container level is uniformally specified as satisfying sheaf constraints. These constraints generalize to data that is subsetted, distributed, streaming, and on-demand. 
 
 Sheaves are built out of presheaves, which are functors, meaning they are functions from objects of one category to objects of another category\cite{bradleyWhatFunctorDefinitions} that preserve the morphisms in each category. 
-\begin{definition} A \textbf{functor} is a map $F: \mathcal{C} \rightarrow \mathcal{D}$ such that every object $C \in \textbf{ob}(\mathcal{C})$ has a corresponding object $F(C) \in \textbf{ob}(\mathcal{D})$ in category $\mathcal{D}$. The functor also acts on morphisms such that for every morphism $f: C_1 \rightarrow C_2$ in category $\mathcal{C}$, there is a compatible morphism $F(f): F(C_{1}) \rightarrow F(C_2)$. 
-A functor must satisfy the properties 
+\begin{definition} A \textbf{functor} is a map $F: \mathcal{C} \rightarrow \mathcal{D}$, which means it is a function between objects $F: \textbf{ob}(\mathcal{C}) \mapsto \textbf{ob}(\mathcal{D})$ and that for every morphism $f \in Hom(C_1, C_2)$  there is a corresponding function $F: Hom(C1, C2) \mapsto Hom(F(C_1), F( C_2))$.
+A \textbf{functor} must satisfy the properties 
 \begin{itemize}
   \item \textit{identity}: $F(id_{C}(C)) = id_{D}(F(C))$
   \item \textit{composition}: $F(g)\circ F(f) = F(g\circ f)$ for any composable morphisms $C_{1}\xrightarrow{f} C_2$, $C_2 \xrightarrow{g} C_3$
 \end{itemize}
+$F(C) \in \textbf{ob}(\mathcal{D})$ denotes the object to which an object $C$ is mapped, and $F(f) \in Hom(F_(C_1), F_(C_2))$ denotes the morphism that $f$ is mapped to. 
 \end{definition}
-Functors preserve all the structure of the categories, namely the domains, codomains, composition, and identities\cite{riehlCategoryTheoryContext}. Specifically, functors allow us to express which structure must be preserved when an object is transformed from one category to another. 
 
-We use a presheaf to encode the expectation that continuity is preserved across sections. 
+Functors preserve the domains, codomains, composition, and identities\cite{riehlCategoryTheoryContext}. Specifically, functors allow us to express which structure must be preserved when an object is transformed from one category to another. In this work, we use a presheaf functor to encode the constraints that ensure that the topological structure has been reserved. 
+
 \begin{definition}
   A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{nlab:presheaf}. 
   \end{definition}
@@ -365,18 +366,18 @@ which are the outputs of the sheaf $\sheaf(\openset) = \cgamma{\openset}{\dtotal
 While the presheaf is a generalization of the concept of a global space of sections $\Gamma(\dbase, \dtotal)$ \cite{spanier1989algebraic}, the locality and gluing axioms \cite{bakerEuclideanSpaceMathsSheaf} of a sheaf describe the conditions for verifying that the sections over subspaces are part of a cohesive section over the whole space. 
 \begin{definition} A \textbf{sheaf} is a presheaf that satisfies the following two axioms
 \begin{itemize}
-  \item \textit{locality} two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values over the same set of open sets $\dsection^{a}|{\openset} =  \dsection^{b}|_{\openset}$.
+  \item \textit{locality} two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values over the same set of open sets $\dsection^{a}|_{\openset} =  \dsection^{b}|_{\openset}$.
   \item \textit{gluing} the union of sections defined on specific open sets is equivalent to one big section over the union of spaces $\dsection|_{\openset_{i} \cup \openset_{j}} = \dsection^{i}|_{\openset_i} \cup \dsection^{j}|_{\openset_j}$ if these sections agree on overlaps $\dsection^{i}|_{\openset_i\cap\openset_j} =  \dsection^{j}|_{\openset_i\cap\openset_j}$
   \end{itemize}
 \end{definition}
-The gluing axiom says that a distributed representation of a dataset, which is a set of local sections, is equivalent to a section over the union of the opensets of the local sections. The locality axiom asserts that the glued section function is equivalent to a function over the union if they evaluate t the same values. The gluing axiom can also be used to generate the gluing rules used to construct non-trivial bundles from the set of trivial local section. Generally, the sheaf asserts the expectation that the data container is implemented such that the connectivity between the opensets (underlying data continuity) is preserved. 
+The gluing axiom says that a distributed representation of a dataset, which is a set of local sections, is equivalent to a section over the union of the opensets of the local sections. The locality axiom asserts that the glued section function is equivalent to a function over the union if they evaluate to the same values. The gluing axiom can also be used to generate the gluing rules used to construct non-trivial bundles from the set of trivial local section. Generally, the sheaf asserts the expectation that the data container is implemented such that the connectivity between the opensets (underlying data continuity) is preserved. 
 
-Each section of a sheaf over a point returns a single record in the fiber. The sheaf over an open set $\openset$ surrounding a point $\dbasepoint$ is called a stalk\cite{StalkSheaf2019}
+Each section of a sheaf over a point returns a single record in the fiber. The sheaf over an open set $\openset$ surrounding a point $\dbasepoint$ is called a \textit{stalk}\cite{StalkSheaf2019}
 \begin{equation}
   \label{eq:atct:sheaf:stalk}
     \sheaf_{\dbase, \dtotalc}\restriction_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal\restriction_{\openset}) 
 \end{equation}
-where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The germ is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$ and is the data. The stalk and germ in the stalk provide the derivative of the record, which is needed for some computational and visualization tasks. 
+where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The \textit{germ} is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$ and is the data. Since the stalk and the germ include the values near the limit of the point at \dbasepoint, the germ can be used to compute the mathematical derivative of the data for visualization tasks that require this information. 
 
 \subsection{Data and Graphic Correspondence}
 \label{sec:atct:xi}
