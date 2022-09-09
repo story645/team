@@ -1151,7 +1151,29 @@ The framework introduced in this paper is a marriage of the ways the graphic and
 
 \appendices
 
+\section{Objects & Functions}
+This table contains a summary of the topological structures introduced in \autoref{sec:atct:fiber-bundles} and \autoref{sec:construction:vtotal} and what they encode. These structures serve as the basis of abstractions for the data objects in \autoref{sec:discussion}. 
 
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|r|r|r|r|r|}
+    \hline\\
+   & Data  & Visual  & Graphic  & Encodes \\
+\hline \\
+\textcolor{total}{total space} & \dtotal & \vtotal & \gtotal &  \\
+\hline\\
+\textcolor{base}{base space} & \dbase & \dbase & \gbase & topological structure\\
+\hline \\ 
+\textcolor{base}{open set} & \openset & \openset & \opensetg & subspace \\
+\hline \\
+\textcolor{fiber}{fiber space} & \dfiber & \vfiber & \gfiber  & field structure\\
+\hline \\
+\textcolor{section}{Section} & \dsection & \vsection & \gsection & data set \\
+\hline
+  \end{tabular}
+\end{table}
+
+This table contains a summary of the functions introduced in \autoref{sec:atct:xi}, \autoref{sec:artist}, and \autoref{sec:construction}. These functions are an abstraction of the behavior implemented in visualization libraries. 
 
 % use section* for acknowledgment
 \ifCLASSOPTIONcompsoc
