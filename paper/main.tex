@@ -430,7 +430,7 @@ As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subs
 \begin{figure}[h!]
   \includegraphics*[width=1\columnwidth]{xi_scatter.png}
   \caption{The functors $\vindex, \vindexpull, \vindexpush$ establish the correspondence between a data section \dsection\ and a graphic generation function \gsection. For every data record $\dsection(\dbasepoint)$, there is a graphic generating function $\vindexpush\gsection = \gsection|_{\vindexpre\dbasepoint}$. This curried function is here represented as the visual parameters associated with that function to demonstrate that it generates the visual element for that data record. Every data section can also be copied over to the graphic space such that each piece of the (idealized in infinite resolution) graphic $\gsection(\dbasepoint)$ has a corresponding data value $\vindexpull\dsection(\dbasepoint)$.
-  \label{fig:atct:morphisms:sheaf}}
+  \label{fig:atct:morphisms:sheaf}} \note{possibly reorient and expand this diagram to illustrate eq 55}
 \end{figure}
 
 Functors between sheaves are a way of expressing the bookkeeping involved in keeping track of which graphic section \gsection\ corresponds to which data section \dsection\. The $(\dbasepoint_i, \gbase_i)$ pairing expressed in \autoref{eq:atct:xi} establishes that there is a correspondence between sections evaluated over $\dbasepoint_i$ and $\gbase_i$. This allows us to construct graphic specifications for each data index $\vindexpush\gsection$ and retrieve the data $\vindexpull\dsection$ for any graphic section generating any piece of a graphic. In \autoref{fig:atct:morphisms:sheaf}, the sections return rows in the table from \autoref{fig:related-work:continuity:ktypes}. Each section $\dsection(\dbasepoint_{i})$ has a corresponding visual element produced by evaluating the graphic section on the graphic base space $\gsection|_{\gbase_{i}}$. In \autoref{fig:atct:morphisms:sheaf} the output of $\gsection$ as pixels in an idealized prerendered space is approximated as the circles. Each graphic section $\gsection(\gbasepoint), \gbasepoint \in \gbase_{i}$ that is a piece of the graphic has a corresponding pulled back data value $\vindexpull\dsectionc(\gbasepoint)$. The pullback copies the data points such that $\vindexpull\dsectionc|_{\gbase_i} = \dsection(\dbasepoint_i)$. Each visual element $\gsection|_{\gbase_i}$ is generated from a single record $\dsection(\dbasepoint_i)$; therefore the pushforward is the curried graphic section $\gsection|_{\vindexpre(\dbasepoint_i)}$. The graphic parameterized in \autoref{fig:atct:morphisms:sheaf} is intended as an approximation of $\vindexpush\gsection$.
@@ -959,6 +959,7 @@ which means that any change to a measurable component input must have a measurab
 
  When a sheaf is equipped with transport functors, then the functions between sheaves over one space are isomorphic to functions between sheaves over the other space\cite{harder2008lectures} such that the following diagram commutes
 
+ \note{should either be oriented same as 55 and/or pushed back up to 3.3 as an intro to artist or squished a little. }
  \begin{equation}
   \label{eq:atct:sheaves:homset}
   \begin{tikzcd}
@@ -1151,29 +1152,51 @@ The framework introduced in this paper is a marriage of the ways the graphic and
 
 \appendices
 
-\section{Objects & Functions}
+\section{Summary}
 This table contains a summary of the topological structures introduced in \autoref{sec:atct:fiber-bundles} and \autoref{sec:construction:vtotal} and what they encode. These structures serve as the basis of abstractions for the data objects in \autoref{sec:discussion}. 
 
 \begin{table}[h]
   \centering
   \begin{tabular}{|r|r|r|r|r|}
-    \hline\\
+    \hline
    & Data  & Visual  & Graphic  & Encodes \\
-\hline \\
+\hline 
 \textcolor{total}{total space} & \dtotal & \vtotal & \gtotal &  \\
-\hline\\
+\hline
 \textcolor{base}{base space} & \dbase & \dbase & \gbase & topological structure\\
-\hline \\ 
+\hline 
 \textcolor{base}{open set} & \openset & \openset & \opensetg & subspace \\
-\hline \\
+\hline 
 \textcolor{fiber}{fiber space} & \dfiber & \vfiber & \gfiber  & field structure\\
-\hline \\
+\hline 
 \textcolor{section}{Section} & \dsection & \vsection & \gsection & data set \\
 \hline
   \end{tabular}
 \end{table}
 
-This table contains a summary of the functions introduced in \autoref{sec:atct:xi}, \autoref{sec:artist}, and \autoref{sec:construction}. These functions are an abstraction of the behavior implemented in visualization libraries. 
+This table contains a summary of the functions introduced in \autoref{sec:atct:xi}, \autoref{sec:artist}, and \autoref{sec:construction}. These functions are an abstraction of the behavior implemented in visualization libraries.
+
+\note{color and replace source/target with constraint}
+\begin{table}[h]
+  \centering
+\begin{tabular}{|r|l|r|r|}
+  \hline
+      & function & source & target \\
+  \hline
+  \textcolor{artist}{artist} & $\vartist: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\gbase, \gtotal)$ &  data & graphic \\
+  \hline 
+  \textcolor{functor}{lookup} & $\vindex: \gbase\rightarrow \dbase$ & graphic space & data space\\
+  \hline
+  \multicolumn{4}{c}{}\\
+  \hline
+  \textcolor{artist}{encoder} & $\vchannel: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\dbase, \vtotal) $ & data & visial \\
+  \hline
+  \textcolor{artist}{compositor} & $\vmark: \Gamma(\dbase,\vtotal) \rightarrow \Gamma(\gbase, \vtotal)$ & visual & graphic \\
+  \hline
+\end{tabular}
+\end{table}
+
+These functions can be verified using the following functions: 
 
 % use section* for acknowledgment
 \ifCLASSOPTIONcompsoc
