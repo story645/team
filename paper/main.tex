@@ -167,6 +167,7 @@ As with topology, Bertin \cite{bertinSemiologyGraphicsDiagrams2011} codified the
 Given a group $G$ that acts on input $X$ and output $Y$ and a function $f: X \rightarrow Y$, 
  \begin{definition}
 $f$ is \textbf{equivariant} when $f(g(x)) = g(f(x))$ for all $g$ in $G$ and for all $x$ in $X$\cite{nlab:equivariant}.
+ \end{definition}
  \begin{definition}
  $f$ is \textbf{homomorphic} when  $f(x_1 \oslash x_2) = f(x_1) \oslash f(x_2)$ for every pair $x_1, x_2$ in $X$\cite{grimaldiDiscreteCombinatorialMathematics2006}. 
  \end{definition}
@@ -1155,49 +1156,57 @@ The framework introduced in this paper is a marriage of the ways the graphic and
 \section{Summary}
 The topological spaces and functions introduced throughout this paper are summarized here for reference. 
 
-
-
 \begin{table}[h!]
   \centering
-  {\renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{|r c c c l|}
+  {\renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{|r | c c c|}
     \hline
- Topological Space  & Data  & Visual  & Graphic  & Encodes \\
+    &\textcolor{base}{point}/\textcolor{base}{openset}/\textcolor{base}{base space} & \textcolor{fiber}{fiber space} & \textcolor{total}{total space}\\
+     &  location/subset/topology & fields &  dataset type\\
+    \hline
+   Data & $\dbasepoint \in \opensetc \subseteq \dbasec$ & \dfiberc & \dtotalc\\
+   Visual & $\dbasepoint \in \opensetc \subseteq \dbasec$  & \vfiberc & \vtotalc\\
+   Graphic & $\gbasepoint \in \opensetgc \subseteq \gbasec$ & \gfiberc & \gtotalc\\
    \hline
-\textcolor{total}{total space} & \dtotal & \vtotal & \gtotal & fields + topology \\
-\textcolor{base}{base space} & \dbasec & \dbasec & \gbasec & topological structure\\
-\textcolor{base}{open set} & \opensetc & \opensetc & \opensetgc & subspace \\
-\textcolor{fiber}{fiber space} & \dfiberc & \vfiberc & \gfiberc  & field structure\\
-\hline
   \end{tabular}
-  \caption{Topological spaces introduced in \autoref{sec:atct:fiber-bundles} and \autoref{sec:construction:vtotal}}
-  \label{}
-\end{table}
-
-
-\begin{table}[h!]
-  \centering
-  {\renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{|r r r r r|}
-     & topological structure & subspace & field structure &  fields + topology\\
-     & \textcolor{base}{base space} & \textcolor{base}{openset} & \textcolor{fiber}{field types} & \textcolor{total}{total space}
-  \end{tabular}
-  \caption{Topological spaces introduced in \autoref{sec:atct:fiber-bundles} and \autoref{sec:construction:vtotal}}
+  \caption{Topological spaces introduced in \autoref{sec:atct:fiber-bundles}}
   \label{tab:appendix:summary:objects}
+  }
 \end{table}
 
 
 \begin{table}[h!]
   \centering
-  {\renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{|r c c c l|}
+  {\renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{|r | l l | }
+    \hline
+     & \textcolor{section}{section} & \textcolor{sheaf}{sheaf} \\
+     & location to record &  subset to set of possible records  \\
+     \hline
+  Data & $ \cgamma{\dbasec}{\dtotalc} \ni \dsectionc: \dbase \textcolor{section}{\rightarrow} \dfiberc$ & $\sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$\\
+  Visual &  $\cgamma{\dbasec}{\vtotalc} \ni \vsectionc: \dbase \textcolor{section}{\rightarrow} \vfiberc$ & $\sheafc_{\dbasec, \vtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}}$\\
+  Graphic &    $\cgamma{\gbasec}{\gtotalc} \ni \gsectionc: \gbase \textcolor{section}{\rightarrow} \gfiberc$ &  $\sheafc_{\gbasec, \gtotalc}: \opensetgc \rightarrow \cgamma{\opensetc}{\gtotalc\restriction_{\opensetgc}}$ \\ 
+  \hline
+  \end{tabular}
+  \caption{Functions that associate topological subspaces with records, discussed in \autoref{sec:atct:fb:sections} and \autoref{sec:atct:sheaves}}
+  \label{tab:appendix:summary:datafunctions}
+  }
+\end{table}
 
-\textcolor{section}{section} & $\dsectionc: \dbase \textcolor{section}{\rightarrow} \dfiberc$ &  $\vsectionc: \dbase \textcolor{section}{\rightarrow} \vfiberc$ & $\gsectionc: \gbase \textcolor{section}{\rightarrow} \gfiberc$ & data set \\
-\textcolor{sheaf}{sheaf} & $\sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$ & $\sheafc_{\dbasec, \vtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}}$ & $\sheafc_{\gbasec, \gtotalc}: \opensetgc \rightarrow \cgamma{\opensetc}{\gtotalc\restriction_{\opensetgc}}$ & subspace to records map \\ 
+\begin{table}[h!]
+  \centering
+  {\renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{|r | l  l |}
+\hline
+ \gbasepointc\ to \dbasepointc& $ \vindexc: \opensetgc \rightarrow \opensetc$ & for $\dbasepointc \in \opensetc$ exists $\gbasepointc \in \opensetgc$ \\
+ & & s.t. $\vindexc(\gbasepointc) = \dbasepointc$\\
+ graphic for \dbasepointc & $ \vindexpushc \gsectionc: \opensetc \rightarrow \vindexpushc\gtotalc\restriction_{\opensetc}$ & $\vindexpushc\gsectionc(\dbasepointc)(\gbasepointc) = \gsectionc(\gbasepointc)$ \\
+data for \gbasepointc & $\vindexpullc\dsectionc: \opensetgc \rightarrow  \vindexpullc\dtotalc\restriction_{\opensetgc}$ & $\vindexpullc\dsectionc(\gbasepointc)=\dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)  \\
 \hline
   \end{tabular}
-  \caption{Functions that associate topological subspaces with records. Equivalent constructions can be applied to elements in visual and graphic sheaves, and these functions are distinguised through subscripts $\dfunc_{\dtotal}$, $\dfunc_{\vtotal}$ and $\dfunc_{\gtotal}$}
-  \label{tab:appendix:summary:datafunctions}
+  \caption{Functors between graphic and data base spaces  \autoref{sec:atct:xi}}
+  \label{tab:appendix:summary:transport}
+  }
 \end{table}
 
 
@@ -1205,14 +1214,22 @@ The topological spaces and functions introduced throughout this paper are summar
 \begin{table}[h!]
 \centering
 {\renewcommand{\arraystretch}{1.2}
-\caption{Functions $\dfunc=(\dfunchc, \dfunctc)$ for modifying data records}
+\begin{tabular}{}
+  \note{changing locations, moving records to new locations, changing records}
+  
+\end{tabular}
+
+\caption{Functions $\dfunc=(\dfunchc, \dfunctc)$ for modifying data records. Equivalent constructions can be applied to elements in visual and graphic sheaves, and these functions are distinguised through subscripts $\dfunc_{\dtotal}$, $\dfunc_{\vtotal}$ and $\dfunc_{\gtotal}$}
 \label{tab:appendix:summary:datamod}
+}
 \end{table}
 
 
-\note{color and replace source/target with constraint}
+
+\note{color}
 \begin{table}[h!]
   \centering
+  {\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|r|l|l|}
   \hline
       & function & constraint \\
@@ -1220,15 +1237,15 @@ The topological spaces and functions introduced throughout this paper are summar
   \textcolor{artist}{artist} & $\vartist: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\gbase, \gtotal)$ &  \\
   \hline 
   \textcolor{functor}{lookup} & $\vindex: \gbase\rightarrow \dbase$  &\\
-  \multicolumn{4}{c}{}\\
   \hline
   \textcolor{artist}{encoder} & $\vchannel: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\dbase, \vtotal) $  & \\
   \hline
   \textcolor{artist}{compositor} & $\vmark: \Gamma(\dbase,\vtotal) \rightarrow \Gamma(\gbase, \vtotal)$ &  \\
   \hline
 \end{tabular}
-\caption{artist, verification functions, and construction $\vartist = \vmarkc \circ \nu$ introduced in \autoref{sec:atct:xi}, \autoref{sec:artist}, and \autoref{sec:construction}}
+\caption{artist, verification functions, and construction $\vartist = \vmarkc \circ \nu$ introduced in \autoref{sec:artist}, and \autoref{sec:construction}}
 \label{tab:appedendix:summary:artist}
+}
 \end{table}
 
 These functions can be verified using the following functions: 
