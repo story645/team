@@ -158,11 +158,13 @@ There is an assumption in visualization that the connectivity of the elements in
 
 Visual algorithms assume the topology of their input data, as described in taxonomies of visualization algorithms Chi\cite{chiTaxonomyVisualizationTechniques2000} and by Troy and M\"{o}ller \cite{toryRethinkingVisualizationHighlevel2004}. For example, a \texttt{line} algorithm often does not have a way to query whether a list of (x,y) coordinates is the distinct rows, the time series, or the list of stations in \autoref{fig:related-work:continuity:ktypes}. While plotting the time series as a continuous line would be correct, it would be incorrect for a visualization to indicate that the distinct rows or stations are connected in a 1D continuous manner. Since topological continuity is generalizable, we propose the construction of topology types such that data can explicitly state its topology type and visual algorithms can check that this type matches their assumptions. The typing system proposed in this paper builds on Butler's proposal of using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We extend Butler's work because he discusses how bundles can be used to encode data in a consistent manner for the topological and field structures that are common in visualization. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but his work provides a thorough introduction to bundles for visualization practitioners. 
 
-\subsection{Field Structure} 
+\subsection{Field Type Structure} 
 \label{sec:related-work:equivariance}
-As with topology, Bertin \cite{bertinSemiologyGraphicsDiagrams2011} codified the expectation that a data value and its visual encoding are expected to have compatible structure. The structure on values has traditionally been described  using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946a} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Generally the structure on each field of the dataset is preserved separately, i.e. each column in a table is mapped to a distinct encoding. Two mathematical concepts for describing a function that preserves structure are \textit{equivariance} and \textit{homomorphism}. An \textit{equivariant} function preserves symmetric group structure on its input and output. Given a group $G$ that acts on input $X$ and output $Y$ and a function $f: X \rightarrow Y$, the function $f$ is \textit{equivariant} when $f(g(x)) = g(f(x))$ for all $g$ in $G$ and for all $x$ in $X$\cite{nlab:equivariant}. A \textit{homomorphic} function $f$ preserves binary operations on input and output of the same algebraic type. A map $f: X \rightarrow Y$ is a \textit{homomorphism} when  $f(x_1 \oslash x_2) = f(x_1) \oslash f(x_2)$ for every pair $x_1, x_2$ in $X$\cite{grimaldiDiscreteCombinatorialMathematics2006}. For example, nominal measurements are permutable, meaning that they are acted on by elements of a permutation group. For the visual transformation to be equivariant, that nominal measurement must be mapped to a visual encoding that is also permutable, such as distinct marker shapes or color hues. Partial orders are non-invertable, so a visual encoding is homomorphic when data that is partially ordered is mapped to visual encodings that are partially ordered in the same way.
+As with topology, Bertin \cite{bertinSemiologyGraphicsDiagrams2011} codified the expectation that a data value and its visual encoding are expected to have compatible structure. The structure on values has traditionally been described  using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946a} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Generally the structure on each field of the dataset is preserved separately, i.e. each column in a table is mapped to a distinct encoding. Two mathematical concepts for describing a function that preserves structure are \textit{equivariance} and \textit{homomorphism}. An \textit{equivariant} function preserves symmetric group structure on its input and output. A group $G$ is a set of elements $g \in G$ with an invertable binary operator, identity, and  
 
-The notion that visual encodings should be \textit{homomorphic} was proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987} his specification of \textit{A Presentation Tool} and the idea that visual transforms are \textit{equivariant} underlies Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}'s Algebraic Visualization Design. Kindlemann and Scheidegger propose three specific types of structure preservation: that the visualization should not change if the data representation (i.e. the data container) changes, that data maps unambiguously to visual elements \cite{ziemkiewiczEmbeddingInformationVisualization2009}, and that changing the data should correspond to changes in the visualization in a perceptually significant manner. In \autoref{sec:atct:sheaves} we introduce a uniform abstract data representation layer, the expectation of unambiguous mappings is expressed in \autoref{sec:atct:xi}, and the definition of equivariance introduced in \autoref{sec:artist:equivariant:artist} includes the correspondence between data and visual changes. In this work, we formally specify the conditions necessary to build structure preserving components using category theory, because it provides a rich language for expressing the structure of objects, functions between objects, and the constraints that must hold for these functions to compose \cite{wielsManagementEvolvingSpecifications1998,yorgeyMonoidsThemeVariations}. A brief visualization oriented introduction to category theory is in Vickers et al \cite{vickersUnderstandingVisualizationFormal2013}, but they are applying category theory to semantic concerns about visualization design rather than library architecture. 
+Given a group $G$ that acts on input $X$ and output $Y$ and a function $f: X \rightarrow Y$, the function $f$ is \textit{equivariant} when $f(g(x)) = g(f(x))$ for all $g$ in $G$ and for all $x$ in $X$\cite{nlab:equivariant}. A \textit{homomorphic} function $f$ preserves binary operations on input and output of the same algebraic type. A map $f: X \rightarrow Y$ is a \textit{homomorphism} when  $f(x_1 \oslash x_2) = f(x_1) \oslash f(x_2)$ for every pair $x_1, x_2$ in $X$\cite{grimaldiDiscreteCombinatorialMathematics2006}. For example, nominal measurements are permutable, meaning that they are acted on by elements of a permutation group. For the visual transformation to be equivariant, that nominal measurement must be mapped to a visual encoding that is also permutable, such as distinct marker shapes or color hues. Partial orders are non-invertable, so a visual encoding is homomorphic when data that is partially ordered is mapped to visual encodings that are partially ordered in the same way.
+
+The notion that visual encodings should be \textit{homomorphic} was proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987} in his specification of \textit{A Presentation Tool} and the idea that visual transforms are \textit{equivariant} underlies Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}'s Algebraic Visualization Design. Kindlemann and Scheidegger propose three specific types of structure preservation: that the visualization should not change if the data representation (i.e. the data container) changes, that data maps unambiguously to visual elements \cite{ziemkiewiczEmbeddingInformationVisualization2009}, and that changing the data should correspond to changes in the visualization in a perceptually significant manner. In \autoref{sec:atct:sheaves} we introduce a uniform abstract data representation layer, the expectation of unambiguous mappings is expressed in \autoref{sec:atct:xi}, and the definition of equivariance introduced in \autoref{sec:artist:equivariant:artist} includes the correspondence between data and visual changes. In this work, we formally specify the conditions necessary to build structure preserving components using category theory, because it provides a rich language for expressing the structure of objects, functions between objects, and the constraints that must hold for these functions to compose \cite{wielsManagementEvolvingSpecifications1998,yorgeyMonoidsThemeVariations}. A brief visualization oriented introduction to category theory is in Vickers et al \cite{vickersUnderstandingVisualizationFormal2013}, but they are applying category theory to semantic concerns about visualization design rather than library architecture. 
 
 \subsection{Structure Preservation In Software}
 \label{sec:related-work:software}
@@ -249,7 +251,7 @@ such that
 We encapsulate the topological structure of the data as a category $\mathcal{\dbasec}$. The standard construction of a category from a topological space is that it has open set objects $\opensetc$ and inclusion morphisms $\opensetc_i \xrightarrow{\iota} \opensetc_j$ such that $\opensetc_i \subseteq \opensetc_j$\cite{riehlCategoryTheoryContext}. The composability property expresses that inclusion is transitive, while associativity expresses that the inclusion functions can be curried in various equivalent groupings. By formally specifying the properties of the topological structure datatypes as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects.  
 
 
-\subsubsection{Data Fields: Fiber Space \dfiber}
+\subsubsection{Data Field Types: Fiber Space \dfiber}
 \label{sec:atct:fb:fiber}
 As mentioned in \autoref{sec:related-work:equivariance}, visualization researchers traditionally describe equivariance as the preservation of field structure, which is based on the field type. Spivak shows that data typing can be expressed in a categorical framework in his fiber bundle formulation of tables in relational databases \cite{spivakDatabasesAreCategories2010,spivakSimplicialDatabases2009}. In this work, we adopt Spivak's definitions of \textit{type specification}, \textit{schema}, and \textit{record} because that allows us to use a dimension agnostic named typing system for the fields of our dataset that is consistent with the abstraction we are using to express the continuity. Spivak introduces a \textit{type specification} as a bundle map $\pi: \mathscr{U} \rightarrow \textbf{DT}$. The base space $\textbf{DT}$ is a set of data types $T \in \textbf{DT}$ and the total space $\mathscr{U}$ is the disjoint union of the domains of each type \[\mathscr{U} = \bigsqcup_{T \in \textbf{DT}} \pi^{-1}(T)\] such that each element $x$ in the domain $\pi^{-1}(T)$ is one possible value of an object of type $T$ \cite{spivakSimplicialDatabases2009}. For example, if $T=\texttt{int}$, then the image $\pi^{-1}(\texttt{int}) = \mathbb{Z} \subset \mathscr{U}$ is the set of all integers and $x=3 \in \mathbb{Z}$ is the value of one $\texttt{int}$ object. 
 
@@ -1153,47 +1155,84 @@ The framework introduced in this paper is a marriage of the ways the graphic and
 \appendices
 
 \section{Summary}
-This table contains a summary of the topological structures introduced in \autoref{sec:atct:fiber-bundles} and \autoref{sec:construction:vtotal} and what they encode. These structures serve as the basis of abstractions for the data objects in \autoref{sec:discussion}. 
+The topological spaces and functions introduced throughout this paper are summarized here for reference. 
 
-\begin{table}[h]
+
+
+\begin{table}[h!]
   \centering
-  \begin{tabular}{|r|r|r|r|r|}
+  {\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|r c c c l|}
     \hline
-   & Data  & Visual  & Graphic  & Encodes \\
-\hline 
-\textcolor{total}{total space} & \dtotal & \vtotal & \gtotal &  \\
-\hline
-\textcolor{base}{base space} & \dbase & \dbase & \gbase & topological structure\\
-\hline 
-\textcolor{base}{open set} & \openset & \openset & \opensetg & subspace \\
-\hline 
-\textcolor{fiber}{fiber space} & \dfiber & \vfiber & \gfiber  & field structure\\
-\hline 
-\textcolor{section}{Section} & \dsection & \vsection & \gsection & data set \\
+ Topological Space  & Data  & Visual  & Graphic  & Encodes \\
+   \hline
+\textcolor{total}{total space} & \dtotal & \vtotal & \gtotal & fields + topology \\
+\textcolor{base}{base space} & \dbasec & \dbasec & \gbasec & topological structure\\
+\textcolor{base}{open set} & \opensetc & \opensetc & \opensetgc & subspace \\
+\textcolor{fiber}{fiber space} & \dfiberc & \vfiberc & \gfiberc  & field structure\\
 \hline
   \end{tabular}
+  \caption{Topological spaces introduced in \autoref{sec:atct:fiber-bundles} and \autoref{sec:construction:vtotal}}
+  \label{tab:appendix:summary:objects}
 \end{table}
 
-This table contains a summary of the functions introduced in \autoref{sec:atct:xi}, \autoref{sec:artist}, and \autoref{sec:construction}. These functions are an abstraction of the behavior implemented in visualization libraries.
+
+
+
+\begin{table}[h!]
+  \centering
+  {\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|r c c c l|}
+     & topological structure & subspace & field structure &  fields + topology\\
+     & \textcolor{base}{total space} & \textcolor{base}{openset} & \textcolor{fiber}{field types} && 
+  \end{tabular}
+  \caption{Topological spaces introduced in \autoref{sec:atct:fiber-bundles} and \autoref{sec:construction:vtotal}}
+  \label{tab:appendix:summary:objects}
+\end{table}
+
+
+\begin{table}[h!]
+  \centering
+  {\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|r c c c l|}
+
+\textcolor{section}{section} & $\dsectionc: \dbase \textcolor{section}{\rightarrow} \dfiberc$ &  $\vsectionc: \dbase \textcolor{section}{\rightarrow} \vfiberc$ & $\gsectionc: \gbase \textcolor{section}{\rightarrow} \gfiberc$ & data set \\
+\textcolor{sheaf}{sheaf} & $\sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$ & $\sheafc_{\dbasec, \vtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}}$ & $\sheafc_{\gbasec, \gtotalc}: \opensetgc \rightarrow \cgamma{\opensetc}{\gtotalc\restriction_{\opensetgc}}$ & subspace to records map \\ 
+\hline
+  \end{tabular}
+  \caption{Functions that associate topological subspaces with records. Equivalent constructions can be applied to elements in visual and graphic sheaves, and these functions are distinguised through subscripts $\dfunc_{\dtotal}$, $\dfunc_{\vtotal}$ and $\dfunc_{\gtotal}$}
+  \label{tab:appendix:summary:datafunctions}
+\end{table}
+
+
+
+\begin{table}[h!]
+\centering
+{\renewcommand{\arraystretch}{1.2}
+\caption{Functions $\dfunc=(\dfunchc, \dfunctc)$ for modifying data records}
+\label{tab:appendix:summary:datamod}
+\end{table}
+
 
 \note{color and replace source/target with constraint}
-\begin{table}[h]
+\begin{table}[h!]
   \centering
-\begin{tabular}{|r|l|r|r|}
+\begin{tabular}{|r|l|l|}
   \hline
-      & function & source & target \\
+      & function & constraint \\
   \hline
-  \textcolor{artist}{artist} & $\vartist: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\gbase, \gtotal)$ &  data & graphic \\
+  \textcolor{artist}{artist} & $\vartist: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\gbase, \gtotal)$ &  \\
   \hline 
-  \textcolor{functor}{lookup} & $\vindex: \gbase\rightarrow \dbase$ & graphic space & data space\\
-  \hline
+  \textcolor{functor}{lookup} & $\vindex: \gbase\rightarrow \dbase$  &\\
   \multicolumn{4}{c}{}\\
   \hline
-  \textcolor{artist}{encoder} & $\vchannel: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\dbase, \vtotal) $ & data & visial \\
+  \textcolor{artist}{encoder} & $\vchannel: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\dbase, \vtotal) $  & \\
   \hline
-  \textcolor{artist}{compositor} & $\vmark: \Gamma(\dbase,\vtotal) \rightarrow \Gamma(\gbase, \vtotal)$ & visual & graphic \\
+  \textcolor{artist}{compositor} & $\vmark: \Gamma(\dbase,\vtotal) \rightarrow \Gamma(\gbase, \vtotal)$ &  \\
   \hline
 \end{tabular}
+\caption{artist, verification functions, and construction $\vartist = \vmarkc \circ \nu$ introduced in \autoref{sec:atct:xi}, \autoref{sec:artist}, and \autoref{sec:construction}}
+\label{tab:appedendix:summary:artist}
 \end{table}
 
 These functions can be verified using the following functions: 
