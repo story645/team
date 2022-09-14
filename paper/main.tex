@@ -160,9 +160,17 @@ Visual algorithms assume the topology of their input data, as described in taxon
 
 \subsection{Field Type Structure} 
 \label{sec:related-work:equivariance}
-As with topology, Bertin \cite{bertinSemiologyGraphicsDiagrams2011} codified the expectation that a data value and its visual encoding are expected to have compatible structure. The structure on values has traditionally been described  using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946a} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Generally the structure on each field of the dataset is preserved separately, i.e. each column in a table is mapped to a distinct encoding. Two mathematical concepts for describing a function that preserves structure are \textit{equivariance} and \textit{homomorphism}. An \textit{equivariant} function preserves symmetric group structure on its input and output. A group $G$ is a set of elements $g \in G$ with an invertable binary operator, identity, and  
-
-Given a group $G$ that acts on input $X$ and output $Y$ and a function $f: X \rightarrow Y$, the function $f$ is \textit{equivariant} when $f(g(x)) = g(f(x))$ for all $g$ in $G$ and for all $x$ in $X$\cite{nlab:equivariant}. A \textit{homomorphic} function $f$ preserves binary operations on input and output of the same algebraic type. A map $f: X \rightarrow Y$ is a \textit{homomorphism} when  $f(x_1 \oslash x_2) = f(x_1) \oslash f(x_2)$ for every pair $x_1, x_2$ in $X$\cite{grimaldiDiscreteCombinatorialMathematics2006}. For example, nominal measurements are permutable, meaning that they are acted on by elements of a permutation group. For the visual transformation to be equivariant, that nominal measurement must be mapped to a visual encoding that is also permutable, such as distinct marker shapes or color hues. Partial orders are non-invertable, so a visual encoding is homomorphic when data that is partially ordered is mapped to visual encodings that are partially ordered in the same way.
+As with topology, Bertin \cite{bertinSemiologyGraphicsDiagrams2011} codified the expectation that a data value and its visual encoding are expected to have compatible structure. The structure on values has traditionally been described  using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946a} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Generally the structure on each field of the dataset is preserved separately, i.e. each column in a table is mapped to a distinct encoding. Two mathematical concepts for describing a function that preserves structure are \textit{equivariance} and \textit{homomorphism}. An \textit{equivariant} function preserves symmetric group structure on its input and output, while a \textit{homomorphic} function $f$ preserves binary operations on input and output of the same algebraic type. Group structure and binary operations are both describing families of functions or operations that can be applied to data and visual encodings. A group $G$ is a set with an operator $\circ$. The set contains an identity element $e$ and the operator $\circ$ is closed, associative and invertible. Applying elements of a set, such as a group, to another set, such as data $X$, is called an \textit{action}.
+\begin{definition}
+  An \textcolor{action}{\textbf{action}} $act: G \times X \rightarrow X$ is a function that   satisfies the axioms of identity $act(e, x)$ for $e \in G$ and associativity $act(g, act(f, x)) = act(f \circ g, x)$ for $f,g \in G$ \cite{nlab:action}.
+\end{definition}
+Given a group $G$ that acts on input $X$ and output $Y$ and a function $f: X \rightarrow Y$, 
+ \begin{definition}
+$f$ is \textbf{equivariant} when $f(g(x)) = g(f(x))$ for all $g$ in $G$ and for all $x$ in $X$\cite{nlab:equivariant}.
+ \begin{definition}
+ $f$ is \textbf{homomorphic} when  $f(x_1 \oslash x_2) = f(x_1) \oslash f(x_2)$ for every pair $x_1, x_2$ in $X$\cite{grimaldiDiscreteCombinatorialMathematics2006}. 
+ \end{definition}
+For example, nominal measurements are permutable, meaning that they are acted on by elements of a permutation group. For the visual transformation to be equivariant, that nominal measurement must be mapped to a visual encoding that is also permutable, such as distinct marker shapes or color hues. We evaluate whether the encoding is homomorphic when the visual encoding does not have a group structure. For example, partial orders are not invertible; therefore a visual encoding of partially ordered data is structure preserving when the ordering is mapped to equivalently ordered visual encodings.
 
 The notion that visual encodings should be \textit{homomorphic} was proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987} in his specification of \textit{A Presentation Tool} and the idea that visual transforms are \textit{equivariant} underlies Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}'s Algebraic Visualization Design. Kindlemann and Scheidegger propose three specific types of structure preservation: that the visualization should not change if the data representation (i.e. the data container) changes, that data maps unambiguously to visual elements \cite{ziemkiewiczEmbeddingInformationVisualization2009}, and that changing the data should correspond to changes in the visualization in a perceptually significant manner. In \autoref{sec:atct:sheaves} we introduce a uniform abstract data representation layer, the expectation of unambiguous mappings is expressed in \autoref{sec:atct:xi}, and the definition of equivariance introduced in \autoref{sec:artist:equivariant:artist} includes the correspondence between data and visual changes. In this work, we formally specify the conditions necessary to build structure preserving components using category theory, because it provides a rich language for expressing the structure of objects, functions between objects, and the constraints that must hold for these functions to compose \cite{wielsManagementEvolvingSpecifications1998,yorgeyMonoidsThemeVariations}. A brief visualization oriented introduction to category theory is in Vickers et al \cite{vickersUnderstandingVisualizationFormal2013}, but they are applying category theory to semantic concerns about visualization design rather than library architecture. 
 
@@ -492,17 +500,7 @@ that are, by definition, only reachable through a structure preserving artist, w
 
 \subsection{Equivariance}
 \label{sec:artist:equiv}
-As introduced in \autoref{sec:related-work:equivariance}, data and the corresponding visual encoding are expected to have compatible structure. This structure can be formally expressed as actions $\dfunc \in \dfuncset$ on the sheaf $\sheaf_{\dbase, \dtotal}$. 
-\note{rewrite for generalities probably}
-\begin{definition} 
-  An \textbf{action}  $act: \dfuncsetc \times \sheaf_{\dbase, \dtotal} \rightarrow \sheaf_{\dbase, \dtotal}$ is a function that expresses that elements of set $\dfuncset$ act on elements of the set of sections $\sheaf_{\dbase, \dtotal}$. Actions are associative such that 
-  \begin{equation}
-    act(\dfuncc_{j}, act(\dfuncc_{i}, \dsectionc)) = act(\dfuncc_{j} \circ \dfuncc_{i}, \dsectionc)
-  \end{equation}
- for all elements  $\dfunc_{i}, \dfunc_{j}$ of the set $\dfuncset$ equipped with operator $\circ$ and all elements \dsection\ of the sheaf  $\sheaf_{\dbase, \dtotal}$. \cite{nlab:action}
-\end{definition}.
-
-We generalize from binary operations to a family of actions because that allows for expanding the set of allowable transformations on the data beyond a single operator. We describe the changes on the graphic side as changes in measurements \measure\, which are scaler or vector components of the rendered graphic that can be quantified, such as the color, position, shape, texture, or rotation angle of the graphic. The visual variables \cite{bertinIIPropertiesGraphic2011} are a subset of measurable components. For example, a measurement of a scatter marker could be its color (e.g. red) or its x position (e.g. 5). 
+As introduced in \autoref{sec:related-work:equivariance}, data and the corresponding visual encoding are expected to have compatible structure. This structure can be formally expressed as actions $\dfunc \in \dfuncset$ on the sheaf $\sheaf_{\dbase, \dtotal}$. We generalize from binary operations to a family of actions because that allows for expanding the set of allowable transformations on the data beyond a single operator. We describe the changes on the graphic side as changes in measurements \measure\, which are scaler or vector components of the rendered graphic that can be quantified, such as the color, position, shape, texture, or rotation angle of the graphic. The visual variables \cite{bertinIIPropertiesGraphic2011} are a subset of measurable components. For example, a measurement of a scatter marker could be its color (e.g. red) or its x position (e.g. 5). 
 
 \subsubsection{Mathematical Structure of Data}
 \label{sec:artist:equivariant:data}
@@ -1173,18 +1171,16 @@ The topological spaces and functions introduced throughout this paper are summar
 \hline
   \end{tabular}
   \caption{Topological spaces introduced in \autoref{sec:atct:fiber-bundles} and \autoref{sec:construction:vtotal}}
-  \label{tab:appendix:summary:objects}
+  \label{}
 \end{table}
-
-
 
 
 \begin{table}[h!]
   \centering
   {\renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{|r c c c l|}
+  \begin{tabular}{|r r r r r|}
      & topological structure & subspace & field structure &  fields + topology\\
-     & \textcolor{base}{total space} & \textcolor{base}{openset} & \textcolor{fiber}{field types} && 
+     & \textcolor{base}{base space} & \textcolor{base}{openset} & \textcolor{fiber}{field types} & \textcolor{total}{total space}
   \end{tabular}
   \caption{Topological spaces introduced in \autoref{sec:atct:fiber-bundles} and \autoref{sec:construction:vtotal}}
   \label{tab:appendix:summary:objects}
