@@ -162,7 +162,7 @@ Visual algorithms assume the topology of their input data, as described in taxon
 \label{sec:related-work:equivariance}
 As with topology, Bertin \cite{bertinSemiologyGraphicsDiagrams2011} codified the expectation that a data value and its visual encoding are expected to have compatible structure. The structure on values has traditionally been described  using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946a} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Generally the structure on each field of the dataset is preserved separately, i.e. each column in a table is mapped to a distinct encoding. Two mathematical concepts for describing a function that preserves structure are \textit{equivariance} and \textit{homomorphism}. An \textit{equivariant} function preserves symmetric group structure on its input and output, while a \textit{homomorphic} function $f$ preserves binary operations on input and output of the same algebraic type. Group structure and binary operations are both describing families of functions or operations that can be applied to data and visual encodings. A group $G$ is a set with an operator $\circ$. The set contains an identity element $e \in G$ and the operator $\circ$ is closed, associative and invertible. Applying elements of a set, such as a group, to another set, such as data $X$, is called an \textit{action}.
 \begin{definition}
-  An \textcolor{action}{\textbf{action}} \textit{act} of $G$ on $X$ is a function  $act: G \times X \rightarrow X$. An action has the properties of identity $act(e, x) = x$ for all $ x \in X$ and associativity $act(g, act(f, x)) = act(f \circ g, x)$ for $f,g \in G$ \cite{nlab:action, wki}.
+  An \textcolor{action}{\textbf{action}}\footnote{Throughout this paper, we augment the math with color to group conceptually similar objects and functions, for example \textcolor{action}{actions} and \textcolor{action}{sets of actions}. These colors carry through to the diagrams.\cite{headMathAugmentationHow2022}} \textit{act} of \textcolor{action}{$G$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = \x$ for all $ x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$ \cite{nlab:action, grimaldiDiscreteCombinatorialMathematics2006}.
 \end{definition}
 In \autoref{sec:artist:equivariant}, actions on data and compatible actions on graphics define structure in terms of testing whether a visualization is equivariant. Given a group $G$ that acts on input $X$ and output $Y$ and a function $f: X \rightarrow Y$
 
@@ -225,17 +225,13 @@ We propose that the total space of a bundle can encode the mathematical space in
 
 \subsubsection{Topological Structure: Base Space \dbase}
 \label{sec:atct:fb:base}
-We encode the topological structure of the data as the \textcolor{base}{base space} \dbase\ of the fiber bundle since the base space acts as indexing space where every point in the base space has a corresponding fiber space $\pi^{-1}(\dbasepoint) = \dfiber_{\dbasepoint}$. The \textcolor{base}{base space} \dbasec\ is a topological space $(\dbase,\mathcal{T}_{\dbase})$, which means it  consists of the set of points ${\dbasepoint \in \dbase}$ and topology $\mathcal{T}_{\dbase}$ \cite{munkresElementsAlgebraicTopology1984}. A topology $\dbase \coloneqq (\dbase,\mathcal{T}_{\dbase})$ is an axiomatic way of defining a topological structure\cite{bradleyTopologyCategoricalApproach2020}  as a collection of subsets, called open sets \footnote{Open sets (open subsets) are a generalization of open intervals to n dimensional spaces. For example, an open ball is the set of points inside the ball and excludes points on the surface of the ball. \cite{weissteinOpenSet}}, of that structure. 
-
+We encode the topological structure of the data as the \textcolor{base}{base space} \dbase\ of the fiber bundle since the base space acts as indexing space where every point in the base space has a corresponding fiber space $\pi^{-1}(\dbasepoint) = \dfiber_{\dbasepoint}$. The \textcolor{base}{base space} \dbasec\ is a topological space $(\dbase,\mathcal{T}_{\dbase})$, which means it  consists of the set of points ${\dbasepoint \in \dbase}$ and topology $\mathcal{T}_{\dbase}$ \cite{munkresElementsAlgebraicTopology1984}. A topology $\dbase \coloneqq (\dbase,\mathcal{T}_{\dbase})$ is an axiomatic way of defining a topological structure\cite{bradleyTopologyCategoricalApproach2020}  as a collection of subsets, called open sets \footnote{Open sets (open subsets) are a generalization of open intervals to n dimensional spaces. For example, an open ball is the set of points inside the ball and excludes points on the surface of the ball. \cite{weissteinOpenSet,bradleyTopologyVsTopology}}, of that structure. 
 \begin{definition}
-A \textbf{topology} $\mathcal{T}$ on a space \dbase\ is a collection of open sets \openset\ of \dbase\ that satisfy the properties 
-  \begin{itemize}
-    \item the empty set $\varnothing$ and $\dbase$ are in $\mathcal{T}$
-    \item the union of open sets in $\mathcal{T}$ is in also in $\mathcal{T}$
-    \item any finite intersection of open sets in $\mathcal{T}$ is also in $\mathscr{T}$
-  \end{itemize}
+A \textbf{topology} $\mathcal{T}$ on a space $X$ is a collection of open sets \openset\ of $X$. This collection has the properties that the empty set $\varnothing$ and $\dbase$ are in $\mathcal{T}$, the union of open sets in $\mathcal{T}$ is also in $\mathcal{T}$, and any finite intersection of open sets in $\mathcal{T}$ is also in $\mathscr{T}$. \cite{bradleyTopologyCategoricalApproach2020}
 \end{definition}
-The base space of a fiber bundle is a quotient topology\cite{QuotientSpaceTopology2020}, meaning that it divides the topological space into the smallest open sets such that $\pi$ remains a continuous function.  For our purposes, $\dbase$ encodes the underlying connectivity of the our dataset, for example, $\dbase$ could be the discrete points, interval, or plane in \autoref{fig:related-work:continuity:ktypes}. We define $\dbase$ as a topology $\mathcal{T}_{\dbase}$ because a topology codifies that the underlying topological structure of the data can be subsetted and how these subsets can be composed in a structure preserving manner. 
+We propose that the topology on \dbase\ can act as a mathematical abstraction for the \textcolor{base}{indexing space} of a dataset because the properties of a topology are the same as would be expected of an index space, namely that the space has a mathematical structure, that the space can be subsetted, and that continuity is preserved when sets of indices are merged. For example, in \autoref{fig:related-work:continuity:ktypes}, a topology on the line would break the line up into subsets, and those subsets could only be joined in ways where they cover the line in the same order in which it was broken up. The base space of a fiber bundle is a quotient topology\cite{QuotientSpaceTopology2020,munkresElementsAlgebraicTopology1984}, meaning that it divides the topological space into the smallest possible (largest number of) open sets such that $\pi$ remains a continuous function. This means that the topology can be defined to have a resolution equal to the number of indicies in a dataset or at whatever resolution of continuois function is required for a given task. 
+
+
 
 The topological structure of the data can be expressed programmatically by constructing data types that encapsulate the class of topological structure-.i.e point, line, plane, network, etc. We propose that these data types can be formally specified as objects of a category. 
 \begin{definition} 
@@ -268,7 +264,7 @@ As mentioned in \autoref{sec:related-work:equivariance}, visualization researche
 Since many fields can have the same datatype, Spivak formally defines a mapping from field name to field data type, akin to a database schema \cite{ullmanFirstCourseDatabase2008}. According to Spivak, a \textit{schema} consists of a pair $(\fnames, \sigma)$ where $\fnames$ is the set of field names and $\sigma: \fnames \rightarrow \textbf{DT}$ is a function from field name to field data type\cite{spivakSimplicialDatabases2009}. The function $\sigma$ is composed with $\pi$ such that $\pi^{-1}(\sigma(C)) \subseteq \mathscr{U}$; this composition induces a domain bundle $\pi_{\sigma}:\mathscr{U}_{\sigma} \rightarrow \fnames$ that associates a field name $c \in C$ with its corresponding domain $\pi^{-1}_{\sigma}(C) \subseteq \mathscr{U}_{\sigma}$. 
 \begin{definition} A \textbf{record} is a function $\delement: \fnames \rightarrow \mathscr{U}_{\sigma}$ and the set of records on $\pi_{\sigma}$ is denoted $\Gamma^{\pi}(\sigma)$. Records must return an object of type $\sigma(\fname) \in \textbf{DT}$ for each field $c \in C$.
 \end{definition}
-Spivak then describes tables as sections $\dsection: \dbase \rightarrow \Gamma^{\pi}(\sigma)$ from a key space $\dbase$ to the set of all possible records $\Gamma^{\pi}(\sigma)$ on the schema bundle, and his notion of a table generalizes to our notion of a data container. 
+Spivak then describes tables as sections $\dsection: \dbase \rightarrow \Gamma^{\pi}(\sigma)$ from an indexing space $\dbase$ to the set of all possible records $\Gamma^{\pi}(\sigma)$ on the schema bundle, and his notion of a table generalizes to our notion of a data container. 
 
 To build on the rich typing system provided by Spivak, we define the \textcolor{fiber}{fiber space} \dfiberc\ to be the set of all data records
 \begin{equation}
@@ -391,14 +387,20 @@ Each section of a sheaf over a point returns a single record in the fiber. The s
 where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The \textit{germ} is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$ and is the data. Since the stalk and the germ include the values near the limit of the point at \dbasepoint, the germ can be used to compute the mathematical derivative of the data for visualization tasks that require this information. 
 
 \subsection{Data and Graphic Correspondence}
+\note{index correspondence}
 \label{sec:atct:xi}
-There is an expectation that for a visualization to be readable, the visual elements must correspond to distinct data elements\cite{ziemkiewiczEmbeddingInformationVisualization2009} and we can use the properties of sheaves to formally express this correspondence. First we establish that the graphic continuity corresponds to the data continuity by proposing that there exists a continuous \textcolor{functor}{map between topological spaces} \vindexc 
+There is an expectation that for a visualization to be readable, the visual elements must correspond to distinct data elements\cite{ziemkiewiczEmbeddingInformationVisualization2009} and we can use the properties of sheaves to formally express this correspondence.\note{making it clearer that xi is a map between indexing spaces, and that defining it as surjective bakes in these expectations - make it clearer that we are defining functions and the way in which we define it is a choice to express constraints}
+\note{two types of definitions: standard definitions \& constructed definitions : we define things this way to have this role to encode this thing }
+
+First we establish that the graphic continuity corresponds to the data continuity by proposing that there exists a continuous \textcolor{functor}{map} \vindexc between opensets in the data base space $\openset \subseteq \dbase$ 
 \begin{equation}
   \label{eq:atct:xi}
   \vindexc: \opensetgc \textcolor{functor}{\rightarrow} \opensetc 
 \end{equation}
 such that every $\opensetg \subseteq \gbase$ must map to a corresponding set $\openset \subset \dbase$. The functor $\vindex$ is surjective such that for every point $\dbasepoint \in \openset$ there is a corresponding set of points $\{\gbasepoint | \gbasepoint \in  \vindexpre(k)\}$ for all $\gbasepoint in \opensetg$.
-
+\note{add little figure for xi showing it mapping from graphic index space back into data index space 
+}
+\note{Harder: if there exists a function between spaces, can construct the transport functors}
 \subsubsection{Graphic Corresponding to Data}
 The pushforward (direct image) sheaf establishes which graphic generating function $\gsection$ corresponds to a point $\dbasepoint \in dbase$ in the data base space. 
 
@@ -1162,11 +1164,11 @@ The topological spaces and functions introduced throughout this paper are summar
   \begin{tabular}{|r | c c c|}
     \hline
     &\textcolor{base}{point}/\textcolor{base}{openset}/\textcolor{base}{base space} & \textcolor{fiber}{fiber space} & \textcolor{total}{total space}\\
-     &  location/subset/topology & fields &  dataset type\\
+     &  location/subset/indicies & fields &  dataset type\\
     \hline
    Data & $\dbasepointc \in \opensetc \subseteq \dbasec$ & \dfiberc & \dtotalc\\
    Visual & $\dbasepointc \in \opensetc \subseteq \dbasec$  & \vfiberc & \vtotalc\\
-   Graphic & $\gbasepoint \in \opensetgc \subseteq \gbasec$ & \gfiberc & \gtotalc\\
+   Graphic & $\gbasepointc \in \opensetgc \subseteq \gbasec$ & \gfiberc & \gtotalc\\
    \hline
   \end{tabular}
   \caption{Topological spaces introduced in \autoref{sec:atct:fiber-bundles}}
@@ -1197,6 +1199,8 @@ The topological spaces and functions introduced throughout this paper are summar
   \centering
   {\renewcommand{\arraystretch}{1.5}
   \begin{tabular}{|r | l  l |}
+\hline
+& function & constraint\\
 \hline
  \gbasepointc\ to \dbasepointc& $ \vindexc: \opensetgc \rightarrow \opensetc$ & for $\dbasepointc \in \opensetc$ exists $\gbasepointc \in \opensetgc$ \\
  & & s.t. $\vindexc(\gbasepointc) = \dbasepointc$\\
