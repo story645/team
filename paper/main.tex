@@ -160,11 +160,12 @@ Visual algorithms assume the topology of their input data, as described in taxon
 
 \subsection{Field Type Structure} 
 \label{sec:related-work:equivariance}
-As with topology, Bertin \cite{bertinSemiologyGraphicsDiagrams2011} codified the expectation that a data value and its visual encoding are expected to have compatible structure. The structure on values has traditionally been described  using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946a} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Generally the structure on each field of the dataset is preserved separately, i.e. each column in a table is mapped to a distinct encoding. Two mathematical concepts for describing a function that preserves structure are \textit{equivariance} and \textit{homomorphism}. An \textit{equivariant} function preserves symmetric group structure on its input and output, while a \textit{homomorphic} function $f$ preserves binary operations on input and output of the same algebraic type. Group structure and binary operations are both describing families of functions or operations that can be applied to data and visual encodings. A group $G$ is a set with an operator $\circ$. The set contains an identity element $e$ and the operator $\circ$ is closed, associative and invertible. Applying elements of a set, such as a group, to another set, such as data $X$, is called an \textit{action}.
+As with topology, Bertin \cite{bertinSemiologyGraphicsDiagrams2011} codified the expectation that a data value and its visual encoding are expected to have compatible structure. The structure on values has traditionally been described  using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946a} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Generally the structure on each field of the dataset is preserved separately, i.e. each column in a table is mapped to a distinct encoding. Two mathematical concepts for describing a function that preserves structure are \textit{equivariance} and \textit{homomorphism}. An \textit{equivariant} function preserves symmetric group structure on its input and output, while a \textit{homomorphic} function $f$ preserves binary operations on input and output of the same algebraic type. Group structure and binary operations are both describing families of functions or operations that can be applied to data and visual encodings. A group $G$ is a set with an operator $\circ$. The set contains an identity element $e \in G$ and the operator $\circ$ is closed, associative and invertible. Applying elements of a set, such as a group, to another set, such as data $X$, is called an \textit{action}.
 \begin{definition}
-  An \textcolor{action}{\textbf{action}} $act: G \times X \rightarrow X$ is a function that   satisfies the axioms of identity $act(e, x)$ for $e \in G$ and associativity $act(g, act(f, x)) = act(f \circ g, x)$ for $f,g \in G$ \cite{nlab:action}.
+  An \textcolor{action}{\textbf{action}} \textit{act} of $G$ on $X$ is a function  $act: G \times X \rightarrow X$. An action has the properties of identity $act(e, x) = x$ for all $ x \in X$ and associativity $act(g, act(f, x)) = act(f \circ g, x)$ for $f,g \in G$ \cite{nlab:action, wki}.
 \end{definition}
-Given a group $G$ that acts on input $X$ and output $Y$ and a function $f: X \rightarrow Y$, 
+In \autoref{sec:artist:equivariant}, actions on data and compatible actions on graphics define structure in terms of testing whether a visualization is equivariant. Given a group $G$ that acts on input $X$ and output $Y$ and a function $f: X \rightarrow Y$
+
  \begin{definition}
 $f$ is \textbf{equivariant} when $f(g(x)) = g(f(x))$ for all $g$ in $G$ and for all $x$ in $X$\cite{nlab:equivariant}.
  \end{definition}
@@ -350,29 +351,28 @@ A \textbf{functor} must satisfy the properties
 \end{itemize}
 $F(C) \in \textbf{ob}(\mathcal{D})$ denotes the object to which an object $C$ is mapped, and $F(f) \in Hom(F_(C_1), F_(C_2))$ denotes the morphism that $f$ is mapped to. 
 \end{definition}
-
-Functors preserve the domains, codomains, composition, and identities\cite{riehlCategoryTheoryContext}. Specifically, functors allow us to express which structure must be preserved when an object is transformed from one category to another. In this work, we use a presheaf functor to encode the constraints that ensure that the topological structure has been reserved. 
-
+Functors preserve the domains, codomains, composition, and identities\cite{riehlCategoryTheoryContext}.  
 \begin{definition}
   A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{nlab:presheaf}. 
-  \end{definition}
-Specifically, we use a presheaf to describe the expectation that any set of sections defined over a larger space $\dsection \in \Gamma(\opensetc_2, \dtotal\restriction_{\openset_{2}})$ is also defined over subspaces of that space $\dsection\restriction_{\opensetc_{1}}$. We do this by defining the presheaf as the association between an openset and its corresponding set of sections
+\end{definition}
+Contravariance means that the morphisms between the input openset objects go in the opposite direction from the morphisms between the output set objects. We specify behavior using functors because it allows us to express which structure must be preserved when an object is transformed from one category to another.
+
+We use a presheaf functor to encode the binding between an openset and corresponding sets of sections 
 \begin{equation}
   \label{eq:atct:sheaf:functor}
   \sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
 \end{equation}
-
-The presheaf preserves continuity by stating that given a morphism $\iota$ between two objects of $\mathcal{\dbase}$ 
+and the morphisms preserved by the functor describe how subsets of the data are expected to behave. The presheaf is contravariant because the inclusion morphisms between input objects 
 \begin{equation*}
   \label{eq:atct:sheaf:inclusion}
-  \iota: \openset_1 \rightarrow \openset_2
+  \iota: \opensetc_1 \rightarrow \opensetc_2
 \end{equation*}
-there must be a corresponding restriction morphiism $\iota^*$ between the sets of sections 
+are defined such that they correspond to the partial ordering $\openset_1 \subseteq \openset_2$, but the restriction morphisms $\iota^*$ between the sets of sections 
 \begin{equation*}
   \label{eq:atct:sheaf:restriction}
-  \iota^*: \cgamma{\openset_2}{\dtotal_{\openset_2}} \rightarrow \cgamma{\openset_1}{\dtotal_{\openset_1}}
+  \iota^*: \cgamma{\opensetc_2}{\dtotalc_{\opensetc_2}} \rightarrow \cgamma{\opensetc_1}{\dtotalc_{\openset_c1}}
 \end{equation*}
-which are the outputs of the sheaf $\sheaf(\openset) = \cgamma{\openset}{\dtotal\restriction_{\openset}}$. The presheaf is contravariant because the morphisms between the input openset objects go in the opposite direction from the morphisms between the output set objects. The expectation that data containers implement inclusion and restriction morphisms means that, for example, a data container mist ensure that sections can be interpolated over any subset that the container can provide. 
+go in the opposite direction because any arbitrary function defined on an openset $\dsection\restriction_{\openset_2}$ must be definable on a subset of that space $\dsection\restriction_{\openset_1}$. The expectation that data containers implement inclusion and restriction morphisms means that, for example, a data container must ensure that continuous sections can be interpolated.
 
 While the presheaf is a generalization of the concept of a global space of sections $\Gamma(\dbase, \dtotal)$ \cite{spanier1989algebraic}, the locality and gluing axioms \cite{bakerEuclideanSpaceMathsSheaf} of a sheaf describe the conditions for verifying that the sections over subspaces are part of a cohesive section over the whole space. 
 \begin{definition} A \textbf{sheaf} is a presheaf that satisfies the following two axioms
@@ -1164,8 +1164,8 @@ The topological spaces and functions introduced throughout this paper are summar
     &\textcolor{base}{point}/\textcolor{base}{openset}/\textcolor{base}{base space} & \textcolor{fiber}{fiber space} & \textcolor{total}{total space}\\
      &  location/subset/topology & fields &  dataset type\\
     \hline
-   Data & $\dbasepoint \in \opensetc \subseteq \dbasec$ & \dfiberc & \dtotalc\\
-   Visual & $\dbasepoint \in \opensetc \subseteq \dbasec$  & \vfiberc & \vtotalc\\
+   Data & $\dbasepointc \in \opensetc \subseteq \dbasec$ & \dfiberc & \dtotalc\\
+   Visual & $\dbasepointc \in \opensetc \subseteq \dbasec$  & \vfiberc & \vtotalc\\
    Graphic & $\gbasepoint \in \opensetgc \subseteq \gbasec$ & \gfiberc & \gtotalc\\
    \hline
   \end{tabular}
@@ -1181,7 +1181,7 @@ The topological spaces and functions introduced throughout this paper are summar
   \begin{tabular}{|r | l l | }
     \hline
      & \textcolor{section}{section} & \textcolor{sheaf}{sheaf} \\
-     & location to record &  subset to set of possible records  \\
+     & record at location & set of possible records for subset \\
      \hline
   Data & $ \cgamma{\dbasec}{\dtotalc} \ni \dsectionc: \dbase \textcolor{section}{\rightarrow} \dfiberc$ & $\sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$\\
   Visual &  $\cgamma{\dbasec}{\vtotalc} \ni \vsectionc: \dbase \textcolor{section}{\rightarrow} \vfiberc$ & $\sheafc_{\dbasec, \vtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}}$\\
@@ -1201,7 +1201,7 @@ The topological spaces and functions introduced throughout this paper are summar
  \gbasepointc\ to \dbasepointc& $ \vindexc: \opensetgc \rightarrow \opensetc$ & for $\dbasepointc \in \opensetc$ exists $\gbasepointc \in \opensetgc$ \\
  & & s.t. $\vindexc(\gbasepointc) = \dbasepointc$\\
  graphic for \dbasepointc & $ \vindexpushc \gsectionc: \opensetc \rightarrow \vindexpushc\gtotalc\restriction_{\opensetc}$ & $\vindexpushc\gsectionc(\dbasepointc)(\gbasepointc) = \gsectionc(\gbasepointc)$ \\
-data for \gbasepointc & $\vindexpullc\dsectionc: \opensetgc \rightarrow  \vindexpullc\dtotalc\restriction_{\opensetgc}$ & $\vindexpullc\dsectionc(\gbasepointc)=\dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)  \\
+ record for \gbasepointc & $\vindexpullc\dsectionc: \opensetgc \rightarrow  \vindexpullc\dtotalc\restriction_{\opensetgc}$ & $\vindexpullc\dsectionc(\gbasepointc)=\dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)$  \\
 \hline
   \end{tabular}
   \caption{Functors between graphic and data base spaces  \autoref{sec:atct:xi}}
@@ -1214,11 +1214,10 @@ data for \gbasepointc & $\vindexpullc\dsectionc: \opensetgc \rightarrow  \vindex
 \begin{table}[h!]
 \centering
 {\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{}
-  \note{changing locations, moving records to new locations, changing records}
-  
-\end{tabular}
+\begin{tabular}{|c|}
 
+\end{tabular}
+\note{changing locations, moving records to new locations, changing records}
 \caption{Functions $\dfunc=(\dfunchc, \dfunctc)$ for modifying data records. Equivalent constructions can be applied to elements in visual and graphic sheaves, and these functions are distinguised through subscripts $\dfunc_{\dtotal}$, $\dfunc_{\vtotal}$ and $\dfunc_{\gtotal}$}
 \label{tab:appendix:summary:datamod}
 }
