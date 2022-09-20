@@ -161,9 +161,11 @@ Visual algorithms assume the topology of their input data, as described in taxon
 \subsection{Field Type Structure} 
 \label{sec:related-work:equivariance}
 As with topology, Bertin \cite{bertinSemiologyGraphicsDiagrams2011} codified the expectation that a data value and its visual encoding are expected to have compatible structure. The structure on values has traditionally been described  using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946a} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Generally the structure on each field of the dataset is preserved separately, i.e. each column in a table is mapped to a distinct encoding. Two mathematical concepts for describing a function that preserves structure are \textit{equivariance} and \textit{homomorphism}. An \textit{equivariant} function preserves symmetric group structure on its input and output, while a \textit{homomorphic} function $f$ preserves binary operations on input and output of the same algebraic type. Group structure and binary operations are both describing families of functions or operations that can be applied to data and visual encodings. A group $G$ is a set with an operator $\circ$. The set contains an identity element $e \in G$ and the operator $\circ$ is closed, associative and invertible. Applying elements of a set, such as a group, to another set, such as data $X$, is called an \textit{action}.
-\begin{definition}
-  An \textcolor{action}{\textbf{action}}\footnote{Throughout this paper, we augment the math with color to group conceptually similar objects and functions, for example \textcolor{action}{actions} and \textcolor{action}{sets of actions}. These colors carry through to the diagrams.\cite{headMathAugmentationHow2022}} \textit{act} of \textcolor{action}{$G$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = \x$ for all $ x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$ \cite{nlab:action, grimaldiDiscreteCombinatorialMathematics2006}.
+
+\begin{definition}\cite{nlab:action, grimaldiDiscreteCombinatorialMathematics2006}
+  An \textcolor{action}{\textbf{action}} \footnote{Throughout this paper, we augment the math with color to group conceptually similar objects and functions\cite{headMathAugmentationHow2022}, for example \textcolor{action}{actions} and \textcolor{action}{sets of actions}. This color coding carries through to the figures.} of \textcolor{action}{$G$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
 \end{definition}
+
 In \autoref{sec:artist:equivariant}, actions on data and compatible actions on graphics define structure in terms of testing whether a visualization is equivariant. Given a group $G$ that acts on input $X$ and output $Y$ and a function $f: X \rightarrow Y$
 
  \begin{definition}
@@ -338,27 +340,27 @@ In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ maps into the
 \label{sec:atct:sheaves}
 While bundles provide a way to describe the structure of the data, sheaves are a mathematical way of describing the data container. Sheaves are an algebraic data structure that provides a way of abstractly discussing the bookkeeping that data containers must implement to keep track of the continuity of the data \cite{ghristElementaryAppliedTopology2014}. This abstraction facilitates representational invariance, as introduced by Kindlemannn and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}, since the container level is uniformally specified as satisfying sheaf constraints. These constraints generalize to data that is subsetted, distributed, streaming, and on-demand. 
 
-Sheaves are built out of presheaves, which are functors, meaning they are functions from objects of one category to objects of another category\cite{bradleyWhatFunctorDefinitions} that preserve the morphisms in each category. 
-\begin{definition} A \textbf{functor} is a map $F: \mathcal{C} \rightarrow \mathcal{D}$, which means it is a function between objects $F: \textbf{ob}(\mathcal{C}) \mapsto \textbf{ob}(\mathcal{D})$ and that for every morphism $f \in Hom(C_1, C_2)$  there is a corresponding function $F: Hom(C1, C2) \mapsto Hom(F(C_1), F( C_2))$.
+
+We can mathematically encode that we expect data containers to preserve the underlying continuity of the indexing space and the mappings beween indexing space and record space using a type of function called a functor. Functors are mappings between categories that preserve the domains, codomains, composition, and identities of the morphisms within the category\cite{riehlCategoryTheoryContext}.
+
+\begin{definition}\cite{bradleyWhatFunctorDefinitions,bradleyTopologyCategoricalApproach2020} A \textbf{functor} is a map $F: \mathcal{C} \rightarrow \mathcal{D}$, which means it is a function between objects $F: \textbf{ob}(\mathcal{C}) \mapsto \textbf{ob}(\mathcal{D})$ and that for every morphism $f \in Hom(C_1, C_2)$  there is a corresponding function $F: Hom(C1, C2) \mapsto Hom(F(C_1), F( C_2))$.
 A \textbf{functor} must satisfy the properties 
 \begin{itemize}
   \item \textit{identity}: $F(id_{C}(C)) = id_{D}(F(C))$
-  \item \textit{composition}: $F(g)\circ F(f) = F(g\circ f)$ for any composable morphisms $C_{1}\xrightarrow{f} C_2$, $C_2 \xrightarrow{g} C_3$
+  \item \textit{composition}: $F(g)\circ F(f) = F(g\circ f)$ for any composable morphisms $C_{1}\xrightarrow{f} C_2$, $C_2 \xrightarrow{g} C_3$ 
 \end{itemize}
 $F(C) \in \textbf{ob}(\mathcal{D})$ denotes the object to which an object $C$ is mapped, and $F(f) \in Hom(F_(C_1), F_(C_2))$ denotes the morphism that $f$ is mapped to. 
 \end{definition}
-Functors preserve the domains, codomains, composition, and identities\cite{riehlCategoryTheoryContext}.  
-\begin{definition}
-  A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{nlab:presheaf}. 
-\end{definition}
-Contravariance means that the morphisms between the input openset objects go in the opposite direction from the morphisms between the output set objects. We specify behavior using functors because it allows us to express which structure must be preserved when an object is transformed from one category to another.
-
-We use a presheaf functor to encode the binding between an openset and corresponding sets of sections 
+Modeling the data container as a functor allows us state that, just like a functor, the container is a map between index space objects and sets of data records that preserve morphisms between index space objects and data records. 
 \begin{equation}
   \label{eq:atct:sheaf:functor}
   \sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
 \end{equation}
-and the morphisms preserved by the functor describe how subsets of the data are expected to behave. The presheaf is contravariant because the inclusion morphisms between input objects 
+A common way of encapsulating a map from a topological space to a category of sets is as a presheaf
+\begin{definition}
+  A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{nlab:presheaf, spanier1989algebraic}. 
+\end{definition}
+Contravariance means that the morphisms between the input openset objects go in the opposite direction from the morphisms between the output set objects. The presheaf is contravariant because the inclusion morphisms between input objects 
 \begin{equation*}
   \label{eq:atct:sheaf:inclusion}
   \iota: \opensetc_1 \rightarrow \opensetc_2
@@ -368,10 +370,10 @@ are defined such that they correspond to the partial ordering $\openset_1 \subse
   \label{eq:atct:sheaf:restriction}
   \iota^*: \cgamma{\opensetc_2}{\dtotalc_{\opensetc_2}} \rightarrow \cgamma{\opensetc_1}{\dtotalc_{\openset_c1}}
 \end{equation*}
-go in the opposite direction because any arbitrary function defined on an openset $\dsection\restriction_{\openset_2}$ must be definable on a subset of that space $\dsection\restriction_{\openset_1}$. The expectation that data containers implement inclusion and restriction morphisms means that, for example, a data container must ensure that continuous sections can be interpolated.
+go in the opposite direction. This is because any arbitrary function defined on an openset $\dsection\restriction_{\openset_2}$ must be definable on a subset of that space $\dsection\restriction_{\openset_1}$. The expectation that data containers implement inclusion and restriction morphisms means that, for example, a data container must ensure that continuous sections can be interpolated.
 
-While the presheaf is a generalization of the concept of a global space of sections $\Gamma(\dbase, \dtotal)$ \cite{spanier1989algebraic}, the locality and gluing axioms \cite{bakerEuclideanSpaceMathsSheaf} of a sheaf describe the conditions for verifying that the sections over subspaces are part of a cohesive section over the whole space. 
-\begin{definition} A \textbf{sheaf} is a presheaf that satisfies the following two axioms
+While presheaves preserve the rules for ensuring continuity in the indexing space and restriction in the sets of data records, sheaves add on conditions for verifying that sections over subspaces are part of a cohesive section over the whole space. 
+\begin{definition}\cite{bakerEuclideanSpaceMathsSheaf,spanier1989algebraic} A \textbf{sheaf} is a presheaf that satisfies the following two axioms
 \begin{itemize}
   \item \textit{locality} two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values over the same set of open sets $\dsection^{a}|_{\openset} =  \dsection^{b}|_{\openset}$.
   \item \textit{gluing} the union of sections defined on specific open sets is equivalent to one big section over the union of spaces $\dsection|_{\openset_{i} \cup \openset_{j}} = \dsection^{i}|_{\openset_i} \cup \dsection^{j}|_{\openset_j}$ if these sections agree on overlaps $\dsection^{i}|_{\openset_i\cap\openset_j} =  \dsection^{j}|_{\openset_i\cap\openset_j}$
@@ -389,21 +391,19 @@ where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \
 \subsection{Data and Graphic Correspondence}
 \note{index correspondence}
 \label{sec:atct:xi}
-There is an expectation that for a visualization to be readable, the visual elements must correspond to distinct data elements\cite{ziemkiewiczEmbeddingInformationVisualization2009} and we can use the properties of sheaves to formally express this correspondence.\note{making it clearer that xi is a map between indexing spaces, and that defining it as surjective bakes in these expectations - make it clearer that we are defining functions and the way in which we define it is a choice to express constraints}
-\note{two types of definitions: standard definitions \& constructed definitions : we define things this way to have this role to encode this thing }
-
-First we establish that the graphic continuity corresponds to the data continuity by proposing that there exists a continuous \textcolor{functor}{map} \vindexc between opensets in the data base space $\openset \subseteq \dbase$ 
+There is an expectation that for a visualization to be readable, the visual elements must correspond to distinct data elements\cite{ziemkiewiczEmbeddingInformationVisualization2009} and we can use the properties of sheaves to formally express this correspondence. We first describe the relationship between the graphic indexing space \gbase\ and the data indexing space \dbase\, which we propose is one where multiple graphic indexes map to one data index, and every index in the graphic space can be mapped to an index in the data space. We encode these expectations as the \textcolor{functor}{map} \vindexc, which we define to be a surjective continuous map
 \begin{equation}
   \label{eq:atct:xi}
   \vindexc: \opensetgc \textcolor{functor}{\rightarrow} \opensetc 
 \end{equation}
-such that every $\opensetg \subseteq \gbase$ must map to a corresponding set $\openset \subset \dbase$. The functor $\vindex$ is surjective such that for every point $\dbasepoint \in \openset$ there is a corresponding set of points $\{\gbasepoint | \gbasepoint \in  \vindexpre(k)\}$ for all $\gbasepoint in \opensetg$.
-\note{add little figure for xi showing it mapping from graphic index space back into data index space 
-}
-\note{Harder: if there exists a function between spaces, can construct the transport functors}
-\subsubsection{Graphic Corresponding to Data}
-The pushforward (direct image) sheaf establishes which graphic generating function $\gsection$ corresponds to a point $\dbasepoint \in dbase$ in the data base space. 
+between a graphic subspace $\opensetg \subseteq \gbase$ and data subspace $\openset \subseteq \dbase$. The functor $\vindex$ is surjective such that for every point $\dbasepoint \in \openset$ there is a corresponding set of points $\{\gbasepoint | \gbasepoint \in  \vindexpre(k)\}$ for all $\gbasepoint \in \opensetg$. We construct the map as going from graphic to data because that encodes the notion that every visual element traces back to the data in some way. We define $\vindex$ as a surjective map because it allows us to express that a union of graphic spaces $S_i$ maps to single data point $\dbasepoint$, which allows us to express visual representations of a single record that are the union of many primatives, discussed in \autoref{eq:artist:operator}, such as multipart glyphs (e.g boxplots) and combinations of plot types (e.g line with point markers). 
 
+\note{add little figure for xi showing it mapping from graphic index space back into data index space}
+
+\subsubsection{Graphic Corresponding to Data}
+Since we have defined a function \vindex\ between two spaces $\dbase, \gbase$, we can construct functors that transport sheaves over each space to the other\cite{harder2008lectures}. This allows us to describe what data we expect at each graphic index location and what graphic is expected at each data index location. Transport functors compose the indexing map \vindex\ with the sheave map to say that a record \dsection\ at \dbasepoint\ is at all corrresponding \gbasepoint\ and that a function \gsection\ over one point \gbasepoint\ is the same function at all points $\gbasepoint \in \gbase$ that correspond to the same record index \dbasepoint.
+
+The pushforward (direct image) sheaf establishes which graphic generating function $\gsection$ corresponds to a point $\dbasepoint \in dbase$ in the data base space.   
 \begin{definition} Given a sheaf $\sheaf_{\gbase, \gtotal}$ on $\gbase$, the \textbf{pushforward} sheaf  $\vindexpush\sheaf_{\gbase, \gtotal}$ on $\dbase$ is defined as 
   \begin{equation*}
     \vindexpushc(\sheafc_{\gbasec, \gtotalc})(\opensetc)  = \sheafc_{\gbasec, \gtotalc}(\vindexc^{-1}(\opensetc))
@@ -412,9 +412,9 @@ for all opensets $\opensetc \subset \dbasec$\cite{harder2008lectures}.
 \end{definition}
 The pushforward sheaf returns the set of graphic sections over the data base space that corresponds to the graphic space $\vindex^{-1}(\openset) = \opensetgc$. The pushforward functor $\vindexpushc$ transports sheaves of sections on $\opensetgc$ over $\openset$
  \begin{equation}  
-  \vindexpushc\gsectionc: \opensetc \rightarrow \vindexpushc \gtotalc\restriction_{\opensetc} \in \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} 
+  \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}  \ni \vindexpushc\gsectionc: \opensetc \rightarrow \vindexpushc \gtotalc\restriction_{\opensetc} 
 \end{equation}
-such that it provides a way to look up which graphic  corresponds with a data index
+such that it provides a way to look up which graphic corresponds with a data index
 \begin{equation}
   \vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexprec(\dbasepointc)}
 \end{equation}
@@ -422,15 +422,15 @@ such that $\vindexpush\gsection(\dbasepoint))(\gbasepoint) = \gsection(\gbasepoi
 
 \subsubsection{ Data Corresponding to Graphic}
 The pullback (inverse image) sheaf establishes which data record  returned by $\dsection$ corresponds to a point $\gbasepoint \in \gbase$ in the graphic base space. 
-\begin{definition} Given a sheaf $\sheaf_{\dbase, \dtotal}$ on $\dbase$, the \textbf{pullback} sheaf $\vindexpullc\sheafc_{\dbasec, \dtotalc}$ on $\gbasec$ is defined as the sheaf associated to the presheaf
+\begin{definition} \cite{harder2008lectures} Given a sheaf $\sheaf_{\dbase, \dtotal}$ on $\dbase$, the \textbf{pullback} sheaf $\vindexpullc\sheafc_{\dbasec, \dtotalc}$ on $\gbasec$ is defined as the sheaf associated to the presheaf
   \begin{equation*}
     \vindexpullc(\sheafc_{\dbasec, \dtotalc})(\opensetgc) = \sheafc_{\dbasec, \dtotalc}(\vindexc(\opensetgc))   
   \end{equation*}
-for $\vindex(\opensetgc) \in \dbase$ \cite{harder2008lectures}.
+for $\vindex(\opensetgc) \in \dbase$.
 \end{definition}
 The pullback sheaf returns the set of data sections over the graphic base space that corresponds to the graphic space $\vindex(\opensetg) = \openset$. The pullback $\vindexpullc$ transports sheaves of sections on $\openset \subseteq \dbase$ over $\opensetg \subseteq \gbase$
 \begin{equation}
-  \vindexpullc\dsectionc: \opensetgc \rightarrow \vindexpullc \dtotalc\restriction_{\opensetgc} \in \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}} 
+  \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}} \ni \vindexpullc\dsectionc: \opensetgc \rightarrow \vindexpullc \dtotalc\restriction_{\opensetgc}
 \end{equation}
 such that there is a way to then look up what data values correspond with a graphic index
 \begin{equation}
@@ -438,7 +438,6 @@ such that there is a way to then look up what data values correspond with a grap
 \end{equation}
 As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ in the graphic space that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$. 
  
-
 \subsubsection{Example: Graphic and Data}
 \begin{figure}[h!]
   \includegraphics*[width=1\columnwidth]{xi_scatter.png}
@@ -446,7 +445,7 @@ As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subs
   \label{fig:atct:morphisms:sheaf}} \note{possibly reorient and expand this diagram to illustrate eq 55}
 \end{figure}
 
-Functors between sheaves are a way of expressing the bookkeeping involved in keeping track of which graphic section \gsection\ corresponds to which data section \dsection\. The $(\dbasepoint_i, \gbase_i)$ pairing expressed in \autoref{eq:atct:xi} establishes that there is a correspondence between sections evaluated over $\dbasepoint_i$ and $\gbase_i$. This allows us to construct graphic specifications for each data index $\vindexpush\gsection$ and retrieve the data $\vindexpull\dsection$ for any graphic section generating any piece of a graphic. In \autoref{fig:atct:morphisms:sheaf}, the sections return rows in the table from \autoref{fig:related-work:continuity:ktypes}. Each section $\dsection(\dbasepoint_{i})$ has a corresponding visual element produced by evaluating the graphic section on the graphic base space $\gsection|_{\gbase_{i}}$. In \autoref{fig:atct:morphisms:sheaf} the output of $\gsection$ as pixels in an idealized prerendered space is approximated as the circles. Each graphic section $\gsection(\gbasepoint), \gbasepoint \in \gbase_{i}$ that is a piece of the graphic has a corresponding pulled back data value $\vindexpull\dsectionc(\gbasepoint)$. The pullback copies the data points such that $\vindexpull\dsectionc|_{\gbase_i} = \dsection(\dbasepoint_i)$. Each visual element $\gsection|_{\gbase_i}$ is generated from a single record $\dsection(\dbasepoint_i)$; therefore the pushforward is the curried graphic section $\gsection|_{\vindexpre(\dbasepoint_i)}$. The graphic parameterized in \autoref{fig:atct:morphisms:sheaf} is intended as an approximation of $\vindexpush\gsection$.
+Functors between sheaves are a way of expressing the bookkeeping involved in keeping track of which graphic section \gsection\ corresponds to which data section \dsection. The $(\dbasepoint_i, \gbase_i)$ pairing expressed in \autoref{eq:atct:xi} establishes that there is a correspondence between sections evaluated over $\dbasepoint_i$ and $\gbase_i$. This allows us to construct graphic specifications for each data index $\vindexpush\gsection$ and retrieve the data $\vindexpull\dsection$ for any graphic section generating any piece of a graphic. In \autoref{fig:atct:morphisms:sheaf}, the sections return rows in the table from \autoref{fig:related-work:continuity:ktypes}. Each section $\dsection(\dbasepoint_{i})$ has a corresponding visual element produced by evaluating the graphic section on the graphic base space $\gsection|_{\gbase_{i}}$. In \autoref{fig:atct:morphisms:sheaf} the output of $\gsection$ as pixels in an idealized prerendered space is approximated as the circles. Each graphic section $\gsection(\gbasepoint), \gbasepoint \in \gbase_{i}$ that is a piece of the graphic has a corresponding pulled back data value $\vindexpull\dsectionc(\gbasepoint)$. The pullback copies the data points such that $\vindexpull\dsectionc|_{\gbase_i} = \dsection(\dbasepoint_i)$. Each visual element $\gsection|_{\gbase_i}$ is generated from a single record $\dsection(\dbasepoint_i)$; therefore the pushforward is the curried graphic section $\gsection|_{\vindexpre(\dbasepoint_i)}$. The graphic parameterized in \autoref{fig:atct:morphisms:sheaf} is intended as an approximation of $\vindexpush\gsection$.
 
 Visualization specification languages such as vega \cite{heerDeclarative2010} and svg \cite{quintScalable2003} assume that there is a graphic  specification for every point. Interactive tooltips assume that there is a map between the graphics rendered on screen and the data such that a glyph maps back to a record. The functors $(\vindex, \vindexpush, \vindexpull)$ codify the expectation of these mappings between data and graphic space. 
 
