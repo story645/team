@@ -330,7 +330,7 @@ that map from a point in an openset in the graphic space $\gbasepoint \in \opens
 
 \begin{figure}[h!]
   \includegraphics[width=1\columnwidth]{fb_rho.png}
-  \caption{For a 2D display, a section $\gsection$ maps from each point $\gbasepoint$ into a fiber $\gfiber$ that encodes an RGB prerender space with infinite resolution $\mathcal{R}^{2}$. Each tiny colored box is an approximation of the return value of the same section function $\gsection$ evaluated on different points $\gbasepoint \in \gbase$ in the base space. \note{add alpha and z channels} 
+  \caption{For a 2D display, a section $\gsection$ maps from each point $\gbasepoint$ into a fiber $\gfiber$ that encodes an RGB prerender space with infinite resolution $\mathcal{R}^{2}$. Each tiny colored box is an approximation of the return value of the same section function $\gsection$ evaluated on different points $\gbasepoint \in \gbase$ in the base space. \note{add alpha and z channels and very faded out marker point} 
   \label{fig:atct:fb:graphic}}
 \end{figure}
 
@@ -370,16 +370,22 @@ are defined such that they correspond to the partial ordering $\openset_1 \subse
   \label{eq:atct:sheaf:restriction}
   \iota^*: \cgamma{\opensetc_2}{\dtotalc_{\opensetc_2}} \rightarrow \cgamma{\opensetc_1}{\dtotalc_{\openset_c1}}
 \end{equation*}
-go in the opposite direction. This is because any arbitrary function defined on an openset $\dsection\restriction_{\openset_2}$ must be definable on a subset of that space $\dsection\restriction_{\openset_1}$. The expectation that data containers implement inclusion and restriction morphisms means that, for example, a data container must ensure that continuous sections can be interpolated.
+restricts the larger set to the smaller one such that  $\cgamma{\openset_2}{\dtotal\restriction\openset_2} \subseteq \cgamma{\openset_1}{\dtotal\restriction\openset_1}$. 
+\begin{figure}[h]
+  \includegraphics[width=\columnwidth]{presheaf.png}
+  \caption{\note{amend this so if possible the restriction loses a function}
+  \label{fig:atct:presheaf}}
+\end{figure}
+For example, in \autoref{fig:atct:presheaf}, the set of sections over the interval $\openset_2 = \left[0, 2\pi\right]$ the set of sections includes $sin, cos, constant_0 \subset \cgamma{\openset_2}{\dtotal\restriction\openset_2}$ function. One subset of this interval is $\openset_1 = \left[\frac{\pi}{2}, \frac{3\pi}{2}\right]$, and over this interval is a set of corresponding sections $\cgamma{\openset_1}{\dtotal\restriction\openset_1}$. The constraint that the sheaf functor enforces is that given the sheaves $\sheafc_{\openset_1}, \sheafc_{\openset_2}$, and an inclusion between the opensets, there must be a corresponding restriction between the sections such the set of sections over $\openset_1$ can only contain section functions that were over $\openset_2$. This expectation means that when data containers implement subsetting, which is a combination of inclusion and restriction, no new data is introduced. 
 
-While presheaves preserve the rules for ensuring continuity in the indexing space and restriction in the sets of data records, sheaves add on conditions for verifying that sections over subspaces are part of a cohesive section over the whole space. 
+While presheaves preserve the rules for sets of sections, sheaves add on conditions for verifying that individual sections over subspaces are part of a cohesive section over the whole space. 
 \begin{definition}\cite{bakerEuclideanSpaceMathsSheaf,spanier1989algebraic} A \textbf{sheaf} is a presheaf that satisfies the following two axioms
 \begin{itemize}
   \item \textit{locality} two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values over the same set of open sets $\dsection^{a}|_{\openset} =  \dsection^{b}|_{\openset}$.
   \item \textit{gluing} the union of sections defined on specific open sets is equivalent to one big section over the union of spaces $\dsection|_{\openset_{i} \cup \openset_{j}} = \dsection^{i}|_{\openset_i} \cup \dsection^{j}|_{\openset_j}$ if these sections agree on overlaps $\dsection^{i}|_{\openset_i\cap\openset_j} =  \dsection^{j}|_{\openset_i\cap\openset_j}$
   \end{itemize}
 \end{definition}
-The gluing axiom says that a distributed representation of a dataset, which is a set of local sections, is equivalent to a section over the union of the opensets of the local sections. The locality axiom asserts that the glued section function is equivalent to a function over the union if they evaluate to the same values. The gluing axiom can also be used to generate the gluing rules used to construct non-trivial bundles from the set of trivial local section. Generally, the sheaf asserts the expectation that the data container is implemented such that the connectivity between the opensets (underlying data continuity) is preserved. 
+The gluing axiom says that a distributed representation of a dataset, which is a set of local sections, is equivalent to a section over the union of the opensets of the local sections. The locality axiom asserts that the glued section function is equivalent to a function over the union if they evaluate to the same values. The gluing axiom can also be used to generate the gluing rules used to construct non-trivial bundles from the set of trivial local section. Generally, the sheaf asserts the expectation that the data container is implemented such that the connectivity between the opensets (indexing subspaces) is preserved. 
 
 Each section of a sheaf over a point returns a single record in the fiber. The sheaf over an open set $\openset$ surrounding a point $\dbasepoint$ is called a \textit{stalk}\cite{StalkSheaf2019}
 \begin{equation}
