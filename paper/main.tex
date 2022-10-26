@@ -70,7 +70,7 @@
                    breaklines=True} 
 % *** ALIGNMENT PACKAGES ***
 \usepackage{array}
-\usepackage{tabulary}
+\usepackage{tabulary} 
 % IEEEtran contains the IEEEeqnarray family of commands
 
 % *** SUBFIGURE PACKAGES ***
@@ -162,7 +162,7 @@ Visual algorithms assume the topology of their input data, as described in taxon
 \label{sec:related-work:equivariance}
 As with topology, Bertin \cite{bertinSemiologyGraphicsDiagrams2011} codified the expectation that a data value and its visual encoding are expected to have compatible structure. The structure on values has traditionally been described  using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946a} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Generally the structure on each field of the dataset is preserved separately, i.e. each column in a table is mapped to a distinct encoding. Two mathematical concepts for describing a function that preserves structure are \textit{equivariance} and \textit{homomorphism}. An \textit{equivariant} function preserves symmetric group structure on its input and output, while a \textit{homomorphic} function $f$ preserves binary operations on input and output of the same algebraic type. Group structure and binary operations are both describing families of functions or operations that can be applied to data and visual encodings. A group $G$ is a set with an operator $\circ$. The set contains an identity element $e \in G$ and the operator $\circ$ is closed, associative and invertible. Applying elements of a set, such as a group, to another set, such as data $X$, is called an \textit{action}.
 
-\begin{definition}\cite{nlab:action, grimaldiDiscreteCombinatorialMathematics2006}
+\begin{definition}\label{def:related-work:action}\cite{nlab:action, grimaldiDiscreteCombinatorialMathematics2006}
   An \textcolor{action}{\textbf{action}} \footnote{Throughout this paper, we augment the math with color to group conceptually similar objects and functions\cite{headMathAugmentationHow2022}, for example \textcolor{action}{actions} and \textcolor{action}{sets of actions}. This color coding carries through to the figures.} of \textcolor{action}{$G$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
 \end{definition}
 
@@ -268,7 +268,7 @@ Since many fields can have the same datatype, Spivak formally defines a mapping 
 \end{definition}
 Spivak then describes tables as sections $\dsection: \dbase \rightarrow \Gamma^{\pi}(\sigma)$ from an indexing space $\dbase$ to the set of all possible records $\Gamma^{\pi}(\sigma)$ on the schema bundle, and his notion of a table generalizes to our notion of a data container. 
 
-To build on the rich typing system provided by Spivak, we define the \textcolor{fiber}{fiber space} \dfiberc\ to be the set of all data records
+To build on the rich typing system provided by Spivak, we define the \textcolor{fiber}{fiber space} \dfiberc\ to be the space of all possible data records
 \begin{equation}
   \dfiberc \coloneqq \{\delement: \fnames \rightarrow \mathscr{U}_{\sigma} \bigm{\vert} \pi_{\sigma}(\delement(\fname)) = \fname\;for\;all\; \fname \in \fnames \}
 \end{equation}
@@ -407,7 +407,7 @@ While presheaves preserve the rules for sets of sections, sheaves add on conditi
 \end{definition}
 The gluing axiom says that a distributed representation of a dataset, which is a set of local sections, is equivalent to a section over the union of the opensets of the local sections. The locality axiom asserts that the glued section function is equivalent to a function over the union if they evaluate to the same values. The gluing axiom can also be used to generate the gluing rules used to construct non-trivial bundles from the set of trivial local sections. Generally, the sheaf asserts the expectation that the data container is implemented such that the connectivity between the opensets (indexing subspaces) is preserved. 
 
-Each section of a sheaf over a point returns a single record in the fiber. The sheaf over an open set $\openset$ surrounding a point $\dbasepoint$ is called a \textit{stalk}\cite{StalkSheaf2019,harder2008lectures}
+Each section of a sheaf over a point returns a single record in the fiber. The sheaf over an open set $\openset$ surrounding a point $\dbasepoint$ is called a \textit{stalk}\cite{StalkSheaf2019, harder2008lectures}
 \begin{equation}
   \label{eq:atct:sheaf:stalk}
     \sheaf_{\dbase, \dtotalc}\restriction_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal\restriction_{\openset}) 
@@ -470,10 +470,7 @@ As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subs
   \caption{The data consists of the $sin$ and $cos$ functions over a unit circle base space. We choose to visualize this as a circle and two line plots. The indexing function \vindex\ bookkeeps which parts of the circle and each curve correspond to each point on the unit circle. The pushforward $\vindexpush$ matches each point in the data space to the specification of the graphic at that point, while the pullback $\vindexpull$ matches each point in the graphic space to the data over that point. \label{fig:atct:morphisms:sheaf}} 
 \end{figure}
 
-Functors between sheaves are a way of expressing the bookkeeping involved in keeping track of which graphic section \gsection\ corresponds to which data section \dsection. The $(\dbasepoint_i, \gbase_i)$ pairing expressed in \autoref{eq:atct:xi} establishes that there is a correspondence between sections evaluated over $\dbasepoint_i$ and $\gbase_i$. This allows us to construct graphic specifications for each data index $\vindexpush\gsection$ and retrieve the data $\vindexpull\dsection$ for any graphic section generating any piece of a graphic. In \autoref{fig:atct:morphisms:sheaf}, the visualization is a graphic representation of a unit circle and the sin and cosine curves on that interval. The index lookup $\vindex$ describes which parts of the circle and curves are generated from which points on the unit circle. Given this correspondance, the pullback $\vindexpull$ looks up which values are being represented in a given part of the graphic. The pushforward $\vindexpush$ describes how a graphic is supposed to look for each point in the data space. The graphic parameterized in \autoref{fig:atct:morphisms:sheaf} is intended as an approximation of $\vindexpush\gsection$.
-
-Visualization specification languages such as vega \cite{heerDeclarative2010} and svg \cite{quintScalable2003} assume that there is a graphic  specification for every point. Interactive tooltips assume that there is a map between the graphics rendered on screen and the data such that a glyph maps back to a record. The expectation that these mappings between data and graphic space exist are encapsulated in the functors $(\vindex, \vindexpush, \vindexpull)$.
-
+Functors between sheaves are a way of expressing the bookkeeping involved in keeping track of which graphic section \gsection\ corresponds to which data section \dsection. The $(\dbasepoint_i, \gbase_i)$ pairing expressed in \autoref{eq:atct:xi} establishes that there is a correspondence between sections evaluated over $\dbasepoint_i$ and $\gbase_i$. This allows us to construct graphic specifications for each data index $\vindexpush\gsection$ and retrieve the data $\vindexpull\dsection$ for any graphic section generating any piece of a graphic. In \autoref{fig:atct:morphisms:sheaf}, the visualization is a graphic representation of a unit circle and the sin and cosine curves on that interval. The index lookup $\vindex$ describes which parts of the circle and curves are generated from which points on the unit circle. Given this correspondance, the pullback $\vindexpull\dsection$ looks up which values are being represented in a given part of the graphic. This type of lookup is critical for interactive techniques such as brushing, linking, and tooltips\cite{beckerBrushingScatterplots1987}. The pushforward $\vindexpush\gsection$ describes how a graphic is supposed to look for each point in the data space. The graphic parameterization in \autoref{fig:atct:morphisms:sheaf} is intended as an approximation of $\vindexpush\gsection$ and is akin to declarative visualization specs such as vega \cite{satyanarayanDeclarativeInteractionDesign2014} and svg \cite{quintScalable2003}. These specs and $\vindexpushc\gsection$ provide a renderer independent way of describing the graphic and are therefore useful for standardizing internal representation of the graphic and serializing the graphic for portability.  
 
 \section{Artist: Data to Graphic}
 \label{sec:artist}
@@ -555,12 +552,12 @@ The base space transformation transforms one openset object $\openset^{\prime}$ 
 The base space transformation is a pointwise continuous map from one open set to another open set in the same base space
 \begin{equation}
   \label{eq:atct:morphism:base}
- \dfunch: \openset^{\prime}\rightarrow \openset
+ \dfunchc: \dbasepointc^{\prime}\mapsto \dbasepointc
  \end{equation}
 such that $\openset, \openset^{\prime} \subseteq \dbase$. This means $\openset$ and $\openset^{\prime}$ are of the same topology type. To correctly align the sections with the remapped base space, there is a a corresponding section pullback function
 \begin{equation}
   \label{eq:atct:morphism:basepull}
-  \dfuncpull \dsection \restriction_{\openset^{\prime}}: \dsection\restriction_{\openset^{\prime}} \mapsto \dsection \restriction_{\openset^{\prime} \circ \dfunch} 
+  \dfuncpullc \dsectionc \restriction_{\opensetc^{\prime}}: \dsectionc\restriction_{\opensetc^{\prime}} \mapsto \dsectionc \restriction_{\opensetc^{\prime} \circ \dfunchc} 
 \end{equation}
 such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\opensetc^{\prime})}$. This means that the base space transformation \dfunch\ does not change the data values at a given point
 \begin{equation}
@@ -576,7 +573,9 @@ As introduced in \autoref{eq:artist:sheaves:monoid_morphism}, the fiber transfor
   \label{eq:atct:morphism:fiber}
   \dfunct: \dfuncpull \dsection \restriction_{\openset^{\prime}} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
 \end{equation}
-where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Since there are many different fiber transformations,  there is not a uniform way of expressing how this morphism acts on sections unlike in \autoref{eq:atct:morphism:verify_base}. Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}.
+where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Since there are many different fiber transformations,  there is not a uniform way of expressing how this morphism acts on sections unlike in \autoref{eq:atct:morphism:verify_base}.\note{This is where we reintroduce the equivariance and homomorphism definitions from the introduction}
+
+Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}.
 
 \paragraph{\textbf{Topological structure and records}} 
 \noindent We define a full data transformation as one that induces both a remapping of the index space and a change in the data values
@@ -1188,11 +1187,11 @@ The topological spaces and functions introduced throughout this paper are summar
   \begin{tabular}{|r | c c c|}
     \hline
     &\textcolor{base}{point}/\textcolor{base}{openset}/\textcolor{base}{base space} & \textcolor{fiber}{fiber space} & \textcolor{total}{total space}\\
-     &  location/subset/indicies & fields &  dataset type\\
+     &  location/subset/indicies & record/fields &  dataset type\\
     \hline
-   Data & $\dbasepointc \in \opensetc \subseteq \dbasec$ & \dfiberc & \dtotalc\\
-   Visual & $\dbasepointc \in \opensetc \subseteq \dbasec$  & \vfiberc & \vtotalc\\
-   Graphic & $\gbasepointc \in \opensetgc \subseteq \gbasec$ & \gfiberc & \gtotalc\\
+   Data & $\dbasepointc \in \opensetc \subseteq \dbasec$ & $\delementc \in \dfiberc$ & \dtotalc\\
+   Visual & $\dbasepointc \in \opensetc \subseteq \dbasec$  & $\velementc \in \vfiberc$ & \vtotalc\\
+   Graphic & $\gbasepointc \in \opensetgc \subseteq \gbasec$ & $\gelementc \in \gfiberc$ & \gtotalc\\
    \hline
   \end{tabular}
   \caption{Topological spaces introduced in \autoref{sec:atct:fiber-bundles}}
@@ -1232,25 +1231,47 @@ The topological spaces and functions introduced throughout this paper are summar
  record for \gbasepointc & $\vindexpullc\dsectionc: \opensetgc \rightarrow  \vindexpullc\dtotalc\restriction_{\opensetgc}$ & $\vindexpullc\dsectionc(\gbasepointc)=\dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)$  \\
 \hline
   \end{tabular}
-  \caption{Functors between graphic and data base spaces  \autoref{sec:atct:xi}}
+  \caption{Functors between graphic and data indexing spaces  \autoref{sec:atct:xi}}
   \label{tab:appendix:summary:transport}
   }
 \end{table}
 
 
-
 \begin{table}[h!]
 \centering
-{\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{|c|}
-
+{\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|r|l|l|}
+  \hline
+  changes & function & constraints, for all $\dbasepointc \in \opensetc$ \\
+  \hline
+  index & $\dfunchc: \opensetc \rightarrow \opensetc^{\prime}$ &   $\dsectionc(\dbasepointc) = \dsectionc(\dfunchc(\dbasepointc^{\prime})) = \dfuncpullc \dsectionc(\dbasepointc^{\prime})$ \\
+  & & \\
+  record  & $\dfunctc: \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc}}$ &  $\lim\limits_{x\rightarrow \dbasepointc}\dfunctc(\dsectionc(x)) = \dfunctc(\dsectionc(\dbasepointc))$
+  \\
+  & $\textcolor{white}{\dfunct: } \rightarrow \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc}}$ &    
+  \\
+  & $\dfunctc: \dfiberc \rightarrow \dfiberc$ &  $\dfunctc(\dsectionc(\dbasepointc)) \in \dfiberc$  \\ 
+  & &  $\dfunctc(id_{\dfiberc}(\dsectionc(\dbasepointc))) = id_{\dfiberc}(\dfunctc(\dsectionc(\dbasepointc)))$\\
+  & & $\dfunctc(\dfunctc(\dsectionc(\dbasepointc))) = (\dfunctc\circ\dfunctc)(\dsectionc(\dbasepointc))$\\
+  \hline
 \end{tabular}
-\note{changing locations, moving records to new locations, changing records}
 \caption{Functions $\dfunc=(\dfunchc, \dfunctc)$ for modifying data records. Equivalent constructions can be applied to elements in visual and graphic sheaves, and these functions are distinguised through subscripts $\dfunc_{\dtotal}$, $\dfunc_{\vtotal}$ and $\dfunc_{\gtotal}$}
 \label{tab:appendix:summary:datamod}
 }
 \end{table}
 
+\begin{table}[h!]
+  \renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{|lll|}\hline
+      scale & property & scale specific constraints \\ \hline
+      nominal & permutation &  $\dsectionc(\dbasepointc_1) \neq \dsectionc(\dbasepointc_2) \implies \dfunctc (\dsectionc(\dbasepointc_1)) \neq\dfunctc(\dsectionc(\dbasepointc_2)$)\\
+      ordinal &  monotonic &  $\dsectionc(\dbasepointc_1) \leq \dsectionc(\dbasepointc_2) \implies \dfunctc (\dsectionc(\dbasepointc_1)) \leq \dfunctc(\dsectionc(\dbasepointc_2)$) \\
+      interval &  translation &  $\dfunctc(\dsectionc(\dbasepointc) + C) = \dfunctc(\dsectionc(\dbasepointc)) + C$ \\
+      ratio &  scaling &  $\dfunctc(\dsectionc(\dbasepointc) * C) = \dfunctc(\dsectionc(\dbasepointc))*C $\\ \hline
+  \end{tabular}
+  \caption{The record transformer $\dfunctc$ is defined by the general constraints listed in \autoref{tab:appendix:summary:datamod} and it must respect any properties that are specific to the record field. For example, this table lists the properties of the Steven's measurement scale types\cite{stevensTheoryScalesMeasurement1946}}
+  \label{tab:appendix:summary:datatypes}
+\end{table}
 
 
 \note{color}
