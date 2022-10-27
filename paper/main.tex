@@ -236,7 +236,7 @@ We propose that the topology on \dbase\ can act as a mathematical abstraction fo
 
 
 The topological structure of the data can be expressed programmatically by constructing data types that encapsulate the class of topological structure-.i.e point, line, plane, network, etc. We propose that these data types can be formally specified as objects of a category. 
-\begin{definition} 
+\begin{definition}\label{def:atct:category}
    An \textbf{category} $\mathcal{C}$ consists of the following \textit{data}: 
 \begin{enumerate}
   \item a collection of \textit{objects} $X \textbf{ob}(\mathcal{C})$
@@ -559,23 +559,37 @@ such that $\openset, \openset^{\prime} \subseteq \dbase$. This means $\openset$ 
   \label{eq:atct:morphism:basepull}
   \dfuncpullc \dsectionc \restriction_{\opensetc^{\prime}}: \dsectionc\restriction_{\opensetc^{\prime}} \mapsto \dsectionc \restriction_{\opensetc^{\prime} \circ \dfunchc} 
 \end{equation}
-such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\opensetc^{\prime})}$. This means that the base space transformation \dfunch\ does not change the data values at a given point
+such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\opensetc^{\prime})}$. This means that the base space transformation  $\dfunch(\dbasepoint^{\prime}) = \dfunch(\dbasepoint)$ such that  
 \begin{equation}
   \label{eq:atct:morphism:verify_base}
-  \dsection(\dbase) = \dfuncpull\dsection(\dbasepoint^{\prime}) = \dsection(\dfunch(\dbasepoint^{\prime}))
+  \dsectionc(\dbasec) = \dfuncpullc\dsectionc(\dbasepointc^{\prime}) = \dsectionc(\dfunchc(\dbasepointc^{\prime}))
 \end{equation} 
-where $\dfunch(\dbasepoint^{\prime}) = \dfunch(\dbasepoint)$. 
+which means that the index of the record changes from $\dbasepoint$ to $\dbasepoint^{\prime}$ but the values in the record are unmodified.
 
 \paragraph{\textbf{Records}}
-\noindent
-As introduced in \autoref{eq:artist:sheaves:monoid_morphism}, the fiber transformation $\dfunct: \dfuncpull \dtotal_{\dbasepoint^{\prime}} \rightarrow \dfuncpull \dtotal_{\dbasepoint^{\prime}}$ is a monoid action on the fiber $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. The fiber transformation is a change in section 
+As introduced in \autoref{eq:artist:sheaves:monoid_morphism}, the fiber transformation $\dfunctc$ is a change in section 
 \begin{equation}
   \label{eq:atct:morphism:fiber}
-  \dfunct: \dfuncpull \dsection \restriction_{\openset^{\prime}} \mapsto \dfuncpull \dsection^{\prime} \restriction_{\openset}
+  \dfunctc: \dfuncpullc \dsectionc \restriction_{\opensetc^{\prime}} \mapsto \dfuncpullc \dsectionc^{\prime} \restriction_{\opensetc}
 \end{equation}
-where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Since there are many different fiber transformations,  there is not a uniform way of expressing how this morphism acts on sections unlike in \autoref{eq:atct:morphism:verify_base}.\note{This is where we reintroduce the equivariance and homomorphism definitions from the introduction}
+where $\dsection, \dsection^{\prime} \in \Gamma(\openset^{\prime}, \dfuncpull\dtotal\restriction_{\openset^{\prime}})$. Since $\dfunct$ maps from one continuous function to another, it must itself be continuous such that
+\begin{equation}
+  \label{eq:atct:morphism:fiber:continuity}
+   \lim\limits_{x \rightarrow \dbasepointc^{\prime}}\dfunctc(\dfuncpullc\dsectionc(x)) =  \dfunctc(\dfuncpullc\dsectionc(\dbasepointc^{\prime}))
+\end{equation}
+As mentioned in \autoref{sec:atct:fb:fiber}, $\dfunct$ is also  
+a morphism on the fiber category $\dfunct \in Hom(\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}},\dfuncpull\dfiber\restriction_{\dbasepoint^{\prime}})$ restricted to a point $\dbasepoint^{\prime} \in \openset^{\prime}$. This means $\dfunct$ has to statisfy the properties of a morphism (\autoref{def:atct:category})
+\begin{itemize}
+  \item \textit{closed}: $\dfunctc(\dfuncpullc\dsectionc(\dbasepointc^{\prime})) \in \dfiberc$
+  \item \textit{unitality}: $\dfunctc(id_{\dfiberc}(\dfuncpullc\dsectionc(\dbasepointc^{\prime}))) = id_{\dfiberc}(\dfunctc(\dfuncpullc\dsectionc(\dbasepointc^{\prime})))$
+  \item \textit{composition and associativity}: \\
+  $\dfunctc(\dfunctc(\dfuncpullc\dsectionc(\dbasepointc^{\prime}))) = (\dfunctc\circ\dfunctc)(\dfuncpullc\dsectionc(\dbasepointc^{\prime}))$
+\end{itemize}
 
-Examples of a fiber transformation are actions such as partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the permutation, ordering, translation, and scaling codified as Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}.
+Additionally, each fiber $\dfiber_{type}$ may have features in addition to the set of possible records. For example, monoids and groups are defined as sets with operators 
+\note{clarify if $\dfunctc$ are actions on F or encode the operators/extra structure on F}
+
+the monoids that underly partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the groups that define Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}.
 
 \paragraph{\textbf{Topological structure and records}} 
 \noindent We define a full data transformation as one that induces both a remapping of the index space and a change in the data values
@@ -1199,7 +1213,6 @@ The topological spaces and functions introduced throughout this paper are summar
   }
 \end{table}
 
-
 \begin{table}[h!]
   \centering
   {\renewcommand{\arraystretch}{1.5}
@@ -1251,7 +1264,7 @@ The topological spaces and functions introduced throughout this paper are summar
   & $\textcolor{white}{\dfunct: } \rightarrow \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc}}$ &    
   \\
   & $\dfunctc: \dfiberc \rightarrow \dfiberc$ &  $\dfunctc(\dsectionc(\dbasepointc)) \in \dfiberc$  \\ 
-  & &  $\dfunctc(id_{\dfiberc}(\dsectionc(\dbasepointc))) = id_{\dfiberc}(\dfunctc(\dsectionc(\dbasepointc)))$\\
+  & & $\dfunctc(id_{\dfiberc}(\dsectionc(\dbasepointc))) = id_{\dfiberc}(\dfunctc(\dsectionc(\dbasepointc)))$\\
   & & $\dfunctc(\dfunctc(\dsectionc(\dbasepointc))) = (\dfunctc\circ\dfunctc)(\dsectionc(\dbasepointc))$\\
   \hline
 \end{tabular}
@@ -1263,13 +1276,13 @@ The topological spaces and functions introduced throughout this paper are summar
 \begin{table}[h!]
   \renewcommand{\arraystretch}{1.5}
   \begin{tabular}{|lll|}\hline
-      scale & property & scale specific constraints \\ \hline
-      nominal & permutation &  $\dsectionc(\dbasepointc_1) \neq \dsectionc(\dbasepointc_2) \implies \dfunctc (\dsectionc(\dbasepointc_1)) \neq\dfunctc(\dsectionc(\dbasepointc_2)$)\\
-      ordinal &  monotonic &  $\dsectionc(\dbasepointc_1) \leq \dsectionc(\dbasepointc_2) \implies \dfunctc (\dsectionc(\dbasepointc_1)) \leq \dfunctc(\dsectionc(\dbasepointc_2)$) \\
-      interval &  translation &  $\dfunctc(\dsectionc(\dbasepointc) + C) = \dfunctc(\dsectionc(\dbasepointc)) + C$ \\
-      ratio &  scaling &  $\dfunctc(\dsectionc(\dbasepointc) * C) = \dfunctc(\dsectionc(\dbasepointc))*C $\\ \hline
+      scale & operators & sample constraint \\ \hline
+      nominal & $=,\neq$ &  $\dsectionc(\dbasepointc_1) \neq \dsectionc(\dbasepointc_2)\implies \dfunctc (\dsectionc(\dbasepointc_1)) \neq\dfunctc(\dsectionc(\dbasepointc_2))$\\ 
+      ordinal & $<, \leq, \geq, >$ &  $\dsectionc(\dbasepointc_1) \leq \dsectionc(\dbasepointc_2) \implies \dfunctc (\dsectionc(\dbasepointc_1)) \leq \dfunctc(\dsectionc(\dbasepointc_2)$) \\
+      interval & $+, -$ &  $\dfunctc(\dsectionc(\dbasepointc) + C) = \dfunctc(\dsectionc(\dbasepointc)) + C$ \\
+      ratio & $*,/$ &  $\dfunctc(\dsectionc(\dbasepointc) * C) = \dfunctc(\dsectionc(\dbasepointc))*C $\\ \hline
   \end{tabular}
-  \caption{The record transformer $\dfunctc$ is defined by the general constraints listed in \autoref{tab:appendix:summary:datamod} and it must respect any properties that are specific to the record field. For example, this table lists the properties of the Steven's measurement scale types\cite{stevensTheoryScalesMeasurement1946}}
+  \caption{The record transformer $\dfunctc$ must satisfy the constraints listed in \autoref{tab:appendix:summary:datamod} and $\dfunctc$ must also respect the mathamatical structure of $\dfiber$. This table lists examples of $\dfunct$ preserving one of the binary operators that are part of the definition of each of the Steven's measurement scale types\cite{stevensTheoryScalesMeasurement1946}}. A full implementation would ensure that all operators that are defined as part of of $\dfiber$ are preserved.  
   \label{tab:appendix:summary:datatypes}
 \end{table}
 
