@@ -273,9 +273,12 @@ To build on the rich typing system provided by Spivak, we define the \textcolor{
   \dfiberc \coloneqq \{\delement: \fnames \rightarrow \mathscr{U}_{\sigma} \bigm{\vert} \pi_{\sigma}(\delement(\fname)) = \fname\;for\;all\; \fname \in \fnames \}
 \end{equation}
 such that the preimage of a point is the corresponding data type domain $\pi^{-1}(\dbasepoint) = \dfiber_{k} = \mathscr{U}_{{\sigma}_{\dbasepoint}}$. 
-Adopting Spivak's fiber bundle construction of types allows our model to reuse types so long as the field names are distinct and that field values can be accesed by field name,  since those are sections on $\mathcal{U}_{\sigma}$. Furthermore, since domains $\mathscr{U}_{{\sigma}}$ of types are a topological space, multi-dimensional fields can be encoded in the same manner as single dimensional fields and fields can have different names but the same type. 
+Adopting Spivak's fiber bundle construction of types allows our model to reuse types so long as the field names are distinct and that field values can be accesed by field name,  since those are sections on $\mathcal{U}_{\sigma}$. Furthermore, since domains $\mathscr{U}_{{\sigma}}$ of types are a mathematical space, multi-dimensional fields can be encoded in the same manner as single dimensional fields and fields can have different names but the same type. 
 
-As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ to encapsulate the field types of the data. The fiber category has a single object $\dfiberc$ of an arbitrary type and morphisms on the fiber object $\dfunctc \in Hom(\dfiberc, \dfiberc)$. The fiber category $\mathcal{\dfiberc}$ is a monoidal category, meaning that it is a category equipped with a bifunctor $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$. The bifunctor provides a method for combining fibers, thereby allowing us to express fields that contain multityped values. For example, wind can be represented as two fields $\dfiber_{speed} \times \dfiber_{direction}$ or a composite fiber field $\dfiber_{speed} \otimes \dfiber_{direction} = \dfiber_{wind}$. The $\otimes$ encapsulates both the sets associated with each fiber $\mathbb{R} \times \mathbb{R} = \mathbb{R}^{2}$ and the morphisms associated with each functor $(\dfunct_{speed}, \dfunct_{direction}) = \dfunct_{wind}$. Defining the field schema as a monoidal category allows us to formally express the structure of the field, as defined by its sets and functions, at different levels of composition as needed by different visualization tasks.
+
+As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ to encapsulate the field types of the data. The fiber category has a single object $\dfiberc$ of an arbitrary type and morphisms on the fiber object $\dfunctc \in Hom(\dfiberc, \dfiberc)$. We can also equip the category with any operators or relations that are part of he mathematical structure of the field type. For example we can equip the category with a comparison operator, which is part of the definition of the monoidal structure of a partially ordered ranking variable \cite{bruggemannRankingPrioritizationMultiindicator2011} or the group structure of Steven's ordinal measurment scale \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Steven's other scales are summarized in \autoref{tab:appendix:summary:stevens}. 
+
+The fiber category $\mathcal{\dfiberc}$ is also equipped with a bifunctor because it is a monoidal category and this functor provides a method for combining fiber types. The bifunctor $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$ allows us to express fields that contain multityped values. For example, wind can be represented as two fields $\dfiber_{speed} \times \dfiber_{direction}$ or a composite fiber field $\dfiber_{speed} \otimes \dfiber_{direction} = \dfiber_{wind}$. The $\otimes$ encapsulates both the sets associated with each fiber $\mathbb{R} \times \mathbb{R} = \mathbb{R}^{2}$ and the morphisms associated with each functor $(\dfunct_{speed}, \dfunct_{direction}) = \dfunct_{wind}$. Defining the field schema as a monoidal category allows us to formally express the structure of the field, as defined by its sets and functions, at different levels of composition as needed by different visualization tasks.
  \
 \subsubsection{Data: Section} 
 \label{sec:atct:fb:sections}
@@ -528,6 +531,7 @@ As introduced in \autoref{sec:related-work:equivariance}, data and the correspon
 
 \subsubsection{Mathematical Structure of Data}
 \label{sec:artist:equivariant:data}
+\note{something something rotation etc}
 We separate data transformations into two components, transformations on the base space $(\dfunchc, \dfuncpullc)$ and transformations on the fiber space $\dfunctc$. 
 
 \begin{equation}
@@ -586,10 +590,7 @@ a morphism on the fiber category $\dfunct \in Hom(\dfuncpull\dfiber\restriction_
   $\dfunctc(\dfunctc(\dfuncpullc\dsectionc(\dbasepointc^{\prime}))) = (\dfunctc\circ\dfunctc)(\dfuncpullc\dsectionc(\dbasepointc^{\prime}))$
 \end{itemize}
 
-Additionally, each fiber $\dfiber_{type}$ may have features in addition to the set of possible records. For example, monoids and groups are defined as sets with operators 
-\note{clarify if $\dfunctc$ are actions on F or encode the operators/extra structure on F}
-
-the monoids that underly partial ordering for ranking purpose \cite{bruggemannRankingPrioritizationMultiindicator2011} and the groups that define Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}.
+Additionally, $\dfunctc$ must preserve any features of $\dfiber$, such as operators that are defined as part of the structure of $\dfiber$. Examples of testing that $\dfunctc$ preserves the operations, and therefore structure, of the Steven's measurement scales are shown in \autoref{tab:appendix:summary:stevens}. We do not provide a general rule here because these constraints are defined with respect to how specific properties of the mathematical structure of individual fields $\dfiber$ are expected to be preserved rather than as a general consequence of $\dfunctc$ being a section map and morphism of the category. 
 
 \paragraph{\textbf{Topological structure and records}} 
 \noindent We define a full data transformation as one that induces both a remapping of the index space and a change in the data values
@@ -1283,7 +1284,7 @@ The topological spaces and functions introduced throughout this paper are summar
       ratio & $*,/$ &  $\dfunctc(\dsectionc(\dbasepointc) * C) = \dfunctc(\dsectionc(\dbasepointc))*C $\\ \hline
   \end{tabular}
   \caption{The record transformer $\dfunctc$ must satisfy the constraints listed in \autoref{tab:appendix:summary:datamod} and $\dfunctc$ must also respect the mathamatical structure of $\dfiber$. This table lists examples of $\dfunct$ preserving one of the binary operators that are part of the definition of each of the Steven's measurement scale types\cite{stevensTheoryScalesMeasurement1946}}. A full implementation would ensure that all operators that are defined as part of of $\dfiber$ are preserved.  
-  \label{tab:appendix:summary:datatypes}
+  \label{tab:appendix:summary:stevens}
 \end{table}
 
 
@@ -1297,7 +1298,7 @@ The topological spaces and functions introduced throughout this paper are summar
   \hline
   \textcolor{artist}{artist} & $\vartist: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\gbase, \gtotal)$ &  \\
   \hline 
-  \textcolor{functor}{lookup} & $\vindex: \gbase\rightarrow \dbase$  &\\
+  \textcolor{functor}{lookup} & $\vindex: \gbase\rightarrow \dbase$  &\\ add [0,1] etc...
   \hline
   \textcolor{artist}{encoder} & $\vchannel: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\dbase, \vtotal) $  & \\
   \hline
