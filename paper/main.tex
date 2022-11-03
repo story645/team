@@ -463,7 +463,7 @@ The pullback sheaf returns the set of data sections over the graphic base space 
 \end{equation}
 such that there is a way to then look up what data values correspond with a graphic index
 \begin{equation}
-  \vindexpullc\dsectionc(\gbasepointc) = \dsectionc(\vindex(\gbasepointc)) = \dsectionc(\dbasepointc)
+  \vindexpullc\dsectionc(\gbasepointc) = \dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)
 \end{equation}
 As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ in the graphic space that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$. 
  
@@ -1179,11 +1179,7 @@ class GenericArtist(martist.Artist):
 \end{minted}
 As shown in the \texttt{draw} method, generating a graphic section $\gsection$ is implemented as the composition of $\texttt{qhat} \approx \vmark$ and $\texttt{nu} \approx \vchannel$ applied to a local section of the sheaf $\texttt{self.section.query} \approx \dsection^{i}$ such  $\texttt{draw} \approx \vmarkc\circ\vchannelc\circ\dsectionc  = \vartistc\circ \dsectionc$. The $\vchannel$ and $\vmark$ functions shown here are written such that they can generate a visual element given a local section $\dsection\restriction_{\dbase^{i}}$ which can be as little or large as needed. This flexibility is a prerequisite for building scalable and streaming visualizations that may not have access to all the data.  
 
-The \texttt{GenericArtist} is a a standard Matplotlib object; therefore it can be hooked into the Matplotlib draw tree to produce the vertical bar chart in \autoref{fig:discussion:vbar}. Using the Matplotlib artist framework means this new artist can be composed with existing artists, such as the ones that draw the axes and ticks. 
-
-
-
-The example in this section is intentionally trivial to illustrate that the math to code translation is fairly straightforward and results in fairly self contained composable functions. Further research could investigate building new systems using this model, specifically libraries for visualizing domain specific structured data and domain specific artists. More research could also explore applying this model to visualizing high dimensional data, particularly building artists that take as input distributed data and artists that are concurrent. Developing complex systems could also be an avenue to codify how interactive techniques are expressed in this framework.
+The \texttt{GenericArtist} is a a standard Matplotlib object; therefore it can be hooked into the Matplotlib draw tree to produce the vertical bar chart in \autoref{fig:discussion:vbar}. Using the Matplotlib artist framework means this new artist can be composed with existing artists, such as the ones that draw the axes and ticks. The example in this section is intentionally trivial to illustrate that the math to code translation is fairly straightforward and results in fairly self contained composable functions. A library applying these ideas, created by Thomas Caswell, can be found at \url{https://github.com/matplotlib/data-prototype}. Further research could investigate building new systems using this model, specifically libraries for visualizing domain specific structured data and domain specific artists. More research could also explore applying this model to visualizing high dimensional data, particularly building artists that take as input distributed data and artists that are concurrent. Developing complex systems could also be an avenue to codify how interactive techniques are expressed in this framework.
 
 
 \section{Conclusion}
@@ -1250,7 +1246,6 @@ The topological spaces and functions introduced throughout this paper are summar
   }
 \end{table}
 
-
 \begin{table}[h!]
 \centering
 {\renewcommand{\arraystretch}{1.5}
@@ -1285,6 +1280,26 @@ The topological spaces and functions introduced throughout this paper are summar
   \end{tabular}
   \caption{The record transformer $\dfunctc$ must satisfy the constraints listed in \autoref{tab:appendix:summary:datamod} and $\dfunctc$ must also respect the mathamatical structure of $\dfiber$. This table lists examples of $\dfunct$ preserving one of the binary operators that are part of the definition of each of the Steven's measurement scale types\cite{stevensTheoryScalesMeasurement1946}}. A full implementation would ensure that all operators that are defined as part of of $\dfiber$ are preserved.  
   \label{tab:appendix:summary:stevens}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  {\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|r|l|l|}
+  \hline
+      & function & constraint \\
+  \hline
+  \textcolor{artist}{artist} & $\vartistc: \cgamma{\dbasec}{\dtotalc} \rightarrow \cgamma{\gbasec}{\gtotalc}$ &    \\
+  Data to Graphic &      & \\
+  \hline 
+  Verify Encoding & $\ 
+  \hline
+  Verify Pre-Rendering &
+
+\end{tabular}
+\caption{artist, verification functions, and construction $\vartist = \vmarkc \circ \nu$ introduced in \autoref{sec:artist}, and \autoref{sec:construction}}
+\label{tab:appedendix:summary:artist}
+}
 \end{table}
 
 
