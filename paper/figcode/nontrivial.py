@@ -205,5 +205,81 @@ def draw_segmented_bundle(ax, plot_total_space, labels):
                                               edgecolor=fc, zorder=3)
                 axins.add_patch(at)
        
+<<<<<<< Updated upstream
         title = axins.text(.5, 0.1, f"{labels[0]} Bundle", color='k', 
                  fontsize=config['fs'], ha='center', va='bottom')
+=======
+            ys, yt = (top, bottom) if flip and xr==t2[1] else (bottom, top) 
+            at = mpatches.FancyArrowPatch(posA=(xa, ys), posB=(xa, yt),
+                                          arrowstyle='->,head_width=.15', mutation_scale=10, 
+                                          edgecolor=fc, zorder=3)
+            axins.add_patch(at)
+
+        title = axins.set_title(f"{labels[0]} Bundle", y=-.65, color='k', fontsize=config['fs'])
+        
+        
+def plot_local_trivialization(ax):
+ 
+    ax.set( ylim=(0, 1), xlim=(config['t'][0]-config['boundary_pad']*2,
+                                     config['t'][-1]+config['boundary_pad']*2))
+    
+    ax.set_title("Local Trivializations of " +r"$(E,K,\pi,F)$", 
+                 fontsize=config['tfs'], color='k', y=.9)
+
+    for i, ((x0, x1), (tc, fc, bc)) in enumerate([(config['r1'], config['dark_colors']), 
+                                   (config['r2'], config['light_colors'])]):
+        rect = mpatches.Rectangle((x0, config['ry']), height = config['rh'], 
+                                  width=(x1-x0), 
+                                  edgecolor=tc, facecolor=pc.lighten(tc,.25), 
+                                  lw=config['lw'])
+        ax.add_patch(rect)
+        ax.plot([x0, x1], [config['ly'], config['ly']], lw=config['lw'], 
+                          color=bc, marker='o', mfc='white',  markersize=4)
+
+        for x in np.linspace(x0, x1, int(np.round(x1-x0,1)*5) +1):
+            at = mpatches.FancyArrowPatch(posA=(x, config['ry']), 
+                                          posB=(x, config['ry']+ config['rh']),
+                                            arrowstyle='->,head_width=0.15', 
+                                          mutation_scale=10, edgecolor=fc)
+            ax.add_patch(at)
+            
+        xarr = x0+(x1-x0)*.3
+        fp = mpatches.FancyArrowPatch(posA=(xarr, config['ry']), 
+                             posB=(xarr, 0.1), 
+                               arrowstyle=config['aws'], mutation_scale=config['ms']-5, 
+                               color=config['bundle_color'])
+        ax.add_artist(fp)
+        ax.text(xarr+.1, config['ry']*.75, "$\pi$", fontsize=config['fs'],
+                   color=config['bundle_color'], ha='left', va='center')
+        
+        xoff=.2*np.math.pow(-1, i+1)
+    
+       
+        ha = ['left', 'right']
+        trans = mtransforms.blended_transform_factory(ax.figure.transFigure, ax.transData)
+        xp = config['xp'][i]
+        ax.text(xp, config['ry']+config['rh'], f"$E_{i}$", color=tc, 
+                fontsize=config['tfs'], ha=ha[i], va='top', transform=trans)
+        ax.text(xp, config['ry'], f"$F_{i}$", color=fc, 
+                fontsize=config['tfs'], ha=ha[i], va='bottom', transform=trans)
+        ax.text(xp, 0.1, f"$U_{i}$", color=bc, 
+                fontsize=config['tfs'], ha=ha[i], va='center', transform=trans)
+
+       
+            
+    ax.set(xticks=config['r1'],
+                     xticklabels=[r"$\epsilon^{-}$", r"${\dfrac{2\pi}{5}}^{+}$"])
+
+
+    ax.xaxis.set_minor_locator(mticker.FixedLocator(config['r2']))
+    ax.xaxis.set_minor_formatter(mticker.FixedFormatter([r"${\dfrac{2\pi}{5}}^{-}$", r"$\epsilon^{+}$"]))
+
+    ax.tick_params('x', which='major', labelcolor=pcd['base'], 
+                             length=0, labelsize=config['fs']-2)
+    ax.tick_params('x', which='minor', labelcolor=config['light_base'], 
+                             length=0, labelsize=config['fs']-2)
+    ax.tick_params('y', labelleft=False, left=False)
+    ax.spines[:].set_visible(False)
+
+
+>>>>>>> Stashed changes

@@ -56,6 +56,12 @@
 \usepackage{multicol}
 \usepackage{tikz}
 \usetikzlibrary{cd} % commutative diagrams
+\usepackage{pgfplots}
+\DeclareUnicodeCharacter{2212}{−}
+\usepgfplotslibrary{groupplots,dateplot}
+\usetikzlibrary{patterns,shapes.arrows}
+
+\pgfplotsset{compat=newest}
 \newtheorem{axiom}{Axiom}
 \newtheorem{prop}{Proposition} %math?
 \usepackage[switch]{lineno}
@@ -92,7 +98,7 @@
 % (Unless specifically asked to do so by the journal or conference you plan
 % to submit to, of course. )
 
-%\usepackage[inline]{showlabels}
+\usepackage[inline]{showlabels}
 
 \usepackage{notation} %notation conventions
 % correct bad hyphenation here
@@ -180,7 +186,7 @@ The notion that visual encodings should be \textit{homomorphic} was proposed by 
 
 \subsection{Structure Preservation In Software}
 \label{sec:related-work:software}
-Visualization libraries are in part measured by how expressive the components of the library are, where expressiveness is a measure of which structure preserving mappings a tool can implement \cite{mackinlayAutomatingDesignGraphical1986}. While some visualization tools aim to automate the pairing of data with structure preserving visual representations, such as Tableau\cite{StoltePolaris2002,hanrahanVizQL2006,MackinlayShowme2007}, many visualization libraries leave that choice to the user. For example, connectivity assumptions tend to be embedded in each of the visual algorithms of `building block` libraries, a term used by Wongsuphasawat \cite{wongsuphasawatNavigatingWideWorld2021} to describe libraries that provide modular components for building elements of a visualization, such as functions for making boxes or translating data values to colors. In building block libraries such as Matplotlib\cite{hunterMatplotlib2DGraphics2007} and D3\cite{bostockDataDrivenDocuments2011} the connectivity assumptions lead to very different interfaces; for example in Matplotlib methods for updating data and parameters for controlling aesthetics differ between plots. While VTK\cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012} provides a language for expressing the topological properties of the data, and therefore can embed that information in its visual algorithms, it does so in a non-uniform manner. On the other hand, domain specific libraries are designed with the assumption of continuities that are common in the domain \cite{HeerSoftware2006}, and therefore can somewhat restrict the interface to choices that that are appropriate for the domain. For example, a tabular topological structure of discret rows, as illustrated in \autoref{fig:related-work:continuity:ktypes}, is assumed by 
+Visualization libraries are in part measured by how expressive the components of the library are, where expressiveness is a measure of which structure preserving mappings a tool can implement \cite{mackinlayAutomatingDesignGraphical1986}. While some visualization tools aim to automate the pairing of data with structure preserving visual representations, such as Tableau\cite{StoltePolaris2002,hanrahanVizQL2006,MackinlayShowme2007}, many visualization libraries leave that choice to the user. For example, connectivity assumptions tend to be embedded in each of the visual algorithms of `building block` libraries, a term used by Wongsuphasawat \cite{wongsuphasawatNavigatingWideWorld2021} to describe libraries that provide modular components for building elements of a visualization, such as functions for making boxes or translating data values to colors. In building block libraries such as Matplotlib\cite{hunterMatplotlib2DGraphics2007} and D3\cite{bostockDataDrivenDocuments2011} the connectivity assumptions lead to very different interfaces; for example in Matplotlib methods for updating data and parameters for controlling aesthetics differ between plots. While VTK\cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012} provides a language for expressing the topological properties of the data, and therefore can embed that information in its visual algorithms, it does so in a non-uniform manner. On the other hand, domain specific libraries are designed with the assumption of continuities that are common in the domain \cite{HeerSoftware2006}, and therefore can somewhat restrict the interface to choices that that are appropriate for the domain. For example, a tabular topological structure of discrete rows, as illustrated in \autoref{fig:related-work:continuity:ktypes}, is assumed by 
 A Presentation Tool\cite{mackinlayAutomatingDesignGraphical1986, mackinlayAutomatingDesignGraphical1986} and grammar of graphics\cite{wilkinsonGrammarGraphics2005} and the ggplot\cite{wickhamGgplot2ElegantGraphics2016}, vega\cite{satyanarayanDeclarativeInteractionDesign2014}, and altair\cite{vanderplasAltairInteractiveStatistical2018} libraries built on these frameworks. Image libraries such as Napari\cite{nicholas_sofroniew_2021_4533308} and ImageJ\cite{schneiderNIHImageImageJ2012} and its humanities ImagePlot\cite{studiesCulturevisImageplot2021} plugin assume that the input is 2D continuous. Networking libraries such as gephi\cite{bastianGephiOpenSource2009} and networkx\cite{HagbergExploringNetwork2008} assume a graph-like structure. By assuming the structure of their data, these domain specific libraries can provide more cohesive interfaces for a much more limited set of visualization algorithms than the building block libraries offer.
 
 \section{Formal Properties of Data \& Graphics}
@@ -191,7 +197,7 @@ In this section, we propose a mathematical abstraction of the data input and gra
 \label{sec:atct:fiber-bundles}
 We model data using a mathematical representation of data that can encode topological properties, field types, and data values in a uniform manner using a structure from algebraic topology called a fiber bundle. We extend Butler's proposal of bundles as abstract visualization data type \cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989} by incorporating Spivak's methodology for encoding named data types from his fiber bundle representation of relational databases \cite{spivakDatabasesAreCategories2010,spivakSimplicialDatabases2009}. We build on this work to describe how to encode the connectivity of the data as a topological space, separately encode the fields as their own topological space with a typing system, and express the mappings between these two spaces.
 
-\begin{definition}
+\begin{definition}\label{def:fiber_bundle}
    A \textbf{fiber bundle} $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and  bundle projection map $\pi: \dtotalc \rightarrow \dbasec$ \cite{FiberBundle2020,spanier1989algebraic}. 
 \begin{equation}
   \label{eq:atct:fb:intro}
@@ -214,14 +220,26 @@ A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
 \begin{definition} A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotalc$ over a fiber bundle is a smooth right inverse of $\pi$ such that $\pi(\dsection(\dbasepoint)) = \dbasepoint$ for all $\dbasepoint \in \dbase$
 \end{definition}
 
-Local triviality $\dtotal\restriction_{\openset_{k}} = \openset_{k}\times \dfiber$ means that there is always a subset of the base space over which the fibers are identical. A bundle can be subsetted into regions such that the bundled can be reconstructed by gluing the regions back together via transition maps on the border of each region. These borders are fibers, and in a trivial bundle transition maps are identity maps because fibers are identical $\dfiber = \dfiber_{k}$ for all points $\dbasepoint \in dbase$. In a non-trivial bundle fibers are isomorphic $\dfiber \simeq \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \dbase$, which means that there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}. 
 
+Local triviality $\dtotal\restriction_{\openset_{k}} = \openset_{k}\times \dfiber$ means that there is always a subset of the base space over which the fibers are identical. 
 \begin{figure}[h!]
-  \includegraphics[width=\columnwidth]{trivnon.png}
-  \caption{A fiber bundle with a cylinderical total space, which is a trivial bundle, and bundle with a mobius band total space, which is non-trivial, can be covered by the same set of local trivializations. For example, they can both be decomposed into two planes over two intervals $\left(-\epsilon,\pi+\epsilon\right), \left(\pi-\epsilon, 2\pi+\epsilon\right)$. The transition maps that transforms this set of local trivializations into a cylinder are two identity map aligning two \textit{up} fibers, while the transition maps that transform this set into a mobius bundle are an identity map and a map that aligns an \textit{up} fiber with a \textit{down} fiber.  \note{in final may change this to something that's not half half to make the arbitraryness more clear/break it up into smaller pieces} \label{fig:atct:nontrivialbundle}}
+  \includegraphics[width=\columnwidth]{figures/local_trivalizations.png}
+  \caption{Two local trivializations, $\dtotal_{0}$ and $\dtotal_{1}$, of an arbitrary bundle \dtotal.} 
 \end{figure}
 
-As shown in \autoref{fig:atct:nontrivialbundle}, a trivial bundle with a cylinderical total space and a non-trivial bundle with mobius band total spacee can be covered with the same local trivializations; the distinguishing factor between these bundles is that the transition maps on these trivializations differ. The fibers in the cylinder bundle align in the same direction, \textit{up}, such that the transition maps that assemble the local trivializations into the cylinderical total space are all identity maps alinging two \textit{up} fibers. In the mobius bundle, there is twist where the fibers align in different directions, shown in the inset in \autoref{fig:atct:nontrivialbundle}. This twist is not present in either local trivialization because, by definition, fibers need to be aligned in local trivializations; therefore the transition map that aligns the fiber at the overlap between $\left(-\epsilon, \epsilon\right)$ must account for this flip by aligning \textit{up} fibers \textit{down} fibers. In this example, the transition map on the $\left(\pi-\epsilon, \pi+\epsilon\right)$ is an identity map since the fibers are aligned in the same direction on that section of the mobius band. \note{add something in the figure highlighting this part of the cylinder and the mobius band, possibly add in a section}
+For example, in \autoref{fig:local_trivalizations}, the bundles $\dtotal_{0}=\dtotal\restriction_{[\epsilon^{-}, {\frac{2\pi}{5}}^{+}]}$ and $\dtotal_{1}=\dtotal\restriction_{[{\frac{2\pi}{5}}^{-}, \epsilon^{-}]}$ are local trivializations of an arbitrary bundle $\dtotal$. These local trivializations overlap on the intersections of the open subsets of each trivalization $[\epsilon^{-}, \epsilon^{+}]$ and $[{\frac{2\pi}{5}}^{-}, {\frac{2\pi}{5}}^{+}]$. A set of trivializations can be glued into a larger bundle by defining transition maps that describe how to align the fibers in the overlapping space such that the sections of the bundle remain continuous. 
+\note{add transition map construction formula} 
+
+\begin{figure}[h!]
+  \includegraphics[width=1\columwidth]{figures/cyl_mob.png}
+  \caption{\note{figure out short caption here}\label{fig:cyl_mob_bundles}}
+\end{figure}
+As demonstrated in \autoref{fig:cyl_mob_bundles} different types of total spaces can be decomposed into the same local trivializations; therefore the distinguishing factor between total spaces can be the transition maps for constructing the spaces from trivializations. 
+
+In a \textit{trivial bundle}, the fibers are identical $\dfiber = \dfiber_{k}$ for all points $\dbasepoint \in dbase$ such that all the transtion maps are also identical. For example, in the cylinder case the fibers in the overlappping regions of the trivalizations point in the same direction $\uparrow$ to illustrate that they are equal $\dfiber_0\restriction_{\openset_1\cap\openset_2} = \dfiber_{1}\restriction_{\openset_1\cap\openset_2}$. Because the fibers point in the same direction, the  transition maps at both intersections map the fiber to itself $\uparrow\rightarrow\uparrow$.
+
+In a \textit{non-trivial} bundle fibers are isomorphic $\dfiber \simeq \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \dbase$ such that there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}. For example, in the mobius band case, while $\dfiber_{0}\restriction_{[{\frac{2\pi}{5}}^{-}, {\frac{2\pi}{5}}^{+}]} = \dfiber_{0}\restriction_{[{\frac{2\pi}{5}}^{-}, {\frac{2\pi}{5}}^{+}]}$ such that the transition map is an identity map $\uparrow\rightarrow\uparrow$, the transition map must flip  $\uparrow \rightarrow \downarrow$ the fibers of $\dfiber_0\restriction_{[\epsilon^{-}, \epsilon^{+}]}$ in order for them to be equal to the fibers of $\dfiber_1\restriction_{[\epsilon^{-}, \epsilon^{+}]}$. 
+\note{add summary sentence about power of triviality, probably pointing to it's power for abstraction}
 
 We propose that the total space of a bundle can encode the mathematical space in which a  dataset is embedded, the base space can encode the topological properties of the dataset, and the fiber space can encode the data types of the record fields of the dataset. The map $\pi$ expresses the formal binding between having a typed data field, discussed in \autoref{sec:atct:fb:fiber}, and a corresponding point in the topological structure, which is discussed in \autoref{sec:atct:fb:base}. Fiber bundles are a good abstract data representation for visualization because the field type and topological structure are unconstrained in terms of dimensionality and the only conditions that must be satisfied are that every point in the base space has a corresponding field of values and the field types must be the same for every point in the base space. We propose that modeling data as sections provides a way to encapsulate topological and field structure in a uniform dimension and type independent manner, as discussed in \autoref{sec:atct:fb:sections}.
 
@@ -655,7 +673,7 @@ such that starting at an arbitrary data point $\dsectionc(\dbasepointc)$ and tra
 \end{equation*}
 is equivalent to transforming the original data point into a graphic and then transforming the graphic into another graphic. The function $\dfunch_{\gtotal}$ induces a change in graphic generating function that matches the change in data. The graphic transformation $\dfunch_{\gtotal}$ is difficult to define because by definition it acts on a single record, for example a pixel in an idealized 2D screen.
 
-Instead, we define an output \textcolor{action}{verification} function $\extractmc$ that takes as input the section evaluated on all the graphic space associated with a point $\gsection_{\vindexpre\restriction_{\dbasepoint}}$ and returns the corresponding \textcolor{action}{measurable visual components} $\measurec_{k}$. 
+Instead, we define an output \textcolor{action}{verification} function $\extractmc$ that takes as input the section evaluated on all the graphic space associated with a point $\gsection_{\vindexpre\restriction_{\dbasepoint}}$ and returns the corresponding \textcolor{action}{measurable visual components} $\measurec_{k}$. \note{formall define M as a space of measurements }
 \begin{equation}
   \label{eq:artist:actual}
   \extractmc: (\gsectionc \circ \vindexpre) \mapsto (\dbasec \xrightarrow{\extractmc_{\gsectionc}} \measurec)
@@ -709,6 +727,8 @@ The change in measurements $\dfunctc_{\measure}$ is defined by the developer as 
 For example, in \autoref{fig:artist:equivariance}, the measurable variable is color. This is a visual representation of the data shown in \autoref{fig:atct:phi}, and as such the equivariant transformations are an equivalent transposition and scaling of the colors. This visualization is equivariant with respect to base space transformations, as defined in \autoref{eq:atct:equivarance:verify:base}, because the color values at the new position at the old position $measure_\dbasepoint^{\prime} = \measure_{\dbasepoint}$. This visualization is also equivariant with respect to fiber wise transformations, as defined in \autoref{eq:atct:equivarance:verify:fiber}, because the colors are consistently scaled in the same was the data. For example, the values that have become 2 and 4 in the $\dfunctc$ and $\dfunc$ panels are colored the same as the original 2 and 4 values in the first panel. The equivariance in this visualization is composable, as shown in the colors being both transposed and scaled correctly in the $\dfunc$ panel.
 
 \subsection{Composing Artists}\label{sec:artist:operators}
+\note{addition: intersections mapped same, multiplication: fibers mapped same}
+\note{large big data glued together correctly}
 A common use of category theory in software engineering is the specification of modular components \cite{wielsManagementEvolvingSpecifications1998} such that we can build systems where the structure preserved by components is preserved in the composition of the components. This allows us to express that an artist that works on a dataset can be composed of artists that work on sub parts of that dataset. 
 \begin{equation}
   \label{eq:artist:operator}
@@ -740,7 +760,10 @@ A common use of category theory in software engineering is the specification of 
 
 \subsubsection{Addition}
 \label{sec:artist:addition}
-As illustrated in \autoref{eq:artist:operator}, data bundles can be combined by taking the disjoint  union of base spaces $\dbase^{a} \sqcup_{\dbase^c} \dbase^b$, where $\dbase^c$ is an overlap. When the fibers of each bundle are isomorphic $\dfiber^{a} \simeq \dfiber^{b}$, which we denote as $\dtotal$, this is analogous to adding more records to a dataset. We propose an addition operator that states that an artist that takes in a dataset can be constructed using artists that take as inputs subsets of the dataset
+As illustrated in \autoref{eq:artist:operator}, data bundles can be combined by taking the union of base spaces $\dbase^{a} \sqcup_{\dbase^c} \dbase^b$, where $\dbase^c$ is an overlap.
+\note{amalgamated union, or data bundles of the same type can be thought of as local trivializations of a larger space and glued togetehr as discussed in \autoref{sec:atct:fiber-bundles}}
+
+When the fibers of each bundle are isomorphic $\dfiber^{a} \simeq \dfiber^{b}$, which we denote as $\dtotal$, this is analogous to adding more records to a dataset. We propose an addition operator that states that an artist that takes in a dataset can be constructed using artists that take as inputs subsets of the dataset
 
 \begin{equation*}
   \label{eq:artist:addition}
@@ -776,6 +799,7 @@ One way to verify that these artists are composable is to check that the return 
 
 \subsubsection{Multiplication}
 \label{sec:artist:operator:multiplication}
+\note{fiber product vs cartesian product}
 As illustrated in \autoref{eq:artist:operator},  fibers that are a cartesian product of fiberspaces $\dfiber^{a} \times_{\dfiber^c} \dfiber^{b}$, where $\dfiber^c$ is any fiber that is present in both fibers, can be projected down into component fibers. In the trivial case where the base spaces are the same $\dbase^{a} = \dbase^{b} = \dbase$, this is equivalent to adding more fields to a dataset. 
 
 \begin{equation*}
@@ -825,7 +849,8 @@ and therefore which commonalities need to be preserved in the artists that act o
 
 \section{Construction}
 \label{sec:construction}
-
+\note{add a high level diagram Data->V->Screen}
+\note{add back in path of Q, use tikz backend to convert to pgf to then tweak}
 We propose that one way of constructing artist functions is to separate generating a visualization into an encoding stage $\vchannelc$ and a compositing stage $\vmarkc$. In the \textcolor{artist}{encoding} stage $\vchannelc$, a data bundle is treated as separable fields and each field is mapped to a measurable visual variable. In the encoding stage, the expected visual mappings $\equivb$ can be implemented inside the library. Factoring out the encoding stage leaves the \textcolor{artist}{compositing} stage $\vmarkc$ responsible for faithfully translating those measurable visual components into a visual element.  
 
 \subsection{Measurable Visual Components}
@@ -867,10 +892,12 @@ For example, as shown in \autoref{fig:construction:xi}, a line is 1D but is a 2D
 
 \subsection{Component Encoders}
 \label{sec:construction:nu}
-The encoding function $\vchannel$ is a map from data sections to graphic sections
-\begin{equation}
-\nu: \cgamma{\dbasec}{\dtotalc} \rightarrow \cgamma{\dbasec}{\vtotalc}
-\end{equation}
+The encoding functions $\vchannel: \cgamma{\dbasec}{\dtotalc} \rightarrow \cgamma{\dbasec}{\vtotalc}$ are a subset of the data to visual encoding functions $\equivc$ described in \autoref{sec:artist:equiv}.
+\begin{figure*}[h!]
+  \includegraphics*[]{encoderset.png}
+\end{figure*}
+
+
 such that the sections project to the same point on the base space $\pi(\dtotal) = \pi(\vchannel(\dtotal))$. A consequence of this property is that $\vchannelc$ can be constructed as a pointwise transformation such that  
 \begin{equation}
   \label{eq:constrution:nu}
@@ -878,10 +905,10 @@ such that the sections project to the same point on the base space $\pi(\dtotal)
 \end{equation}
 which means that means that a point in a single data fiber $\delement \in \dfiber_{\dbasepointc}$ can be mapped into a corresponding point in a visual fiber $\velement \in \vfiber_{\dbasepointc}$. This means that an encoding function $\vchannel$ can convert a single record and may not need the whole dataset. 
 
-The difference between $\dtotal$ and $\vtotal$ are semantic rather than structural; they are both maps from the topological space \dbase\ to sets of functions that return records of values. This means any $\vtotal$ can be redefined as $\dtotal$, 
+The difference between $\dtotal$ and $\vtotal$ are semantic rather than structural; they are both maps from the topological space \dbase\ to sets of functions that return records of values. This means any $\vtotal$ can be redefined as $\dtotal$, which means that, as shown in \autoref{eq:construction:nu:fabrication}, any collection of $\vchannel$ functions can be composed such that they are equivalent to a $\vchannel$ that directly converts the input to the output.
 \begin{equation}
   \label{eq:construction:nu:fabrication}
-  \begin{tikzcd}[column sep=huge]
+  \begin{tikzcd}
     \dfiberc_{\dbasepointc} 
     \arrow[rr, "\vchannelc", color=artist] 
     \arrow[rrrr, "\vchannelc^{\prime\prime}", dashed, bend right, color=artist] &  & 
@@ -890,7 +917,7 @@ The difference between $\dtotal$ and $\vtotal$ are semantic rather than structur
     \vfiberc^{\prime}_{\dbasepointc}
   \end{tikzcd}
 \end{equation}
-which means that, as shown in \autoref{eq:construction:nu:fabrication}, any collection of $\vchannel$ functions can be composed such that they are equivalent to a $\vchannel$ that directly converts the input to the output. As with artists, $\vchannel$ are maps of sections such that the operators defined in \autoref{sec:artist:operators} can also act on transformers $\vchannel$, meaning that encoders can be added $\vchannel_{a+b} = \vchannel_{a} + \vchannel_{b}$ and multiplied d $\vchannel_{a\times b} = \vchannel_{a}  \vchannel_{b}$.  Encoders designed to satisfy these composability constraints provide for a rich set of building blocks for implementing complex encoders.
+ As with artists, $\vchannel$ are maps of sections such that the operators defined in \autoref{sec:artist:operators} can also act on transformers $\vchannel$, meaning that encoders can be added $\vchannel_{a+b} = \vchannel_{a} + \vchannel_{b}$ and multiplied d $\vchannel_{a\times b} = \vchannel_{a}  \vchannel_{b}$.  Encoders designed to satisfy these composability constraints provide for a rich set of building blocks for implementing complex encoders.
 
 \subsubsection{Encoder Verification}
 \label{sec:construction:nu:verification}
@@ -957,7 +984,7 @@ The composition in \autoref{eq:construction:q:fabrication} means that different 
 
 \begin{figure}[h!]
   \includegraphics[width=1\columnwidth]{full_scatter.png}
-  \caption{This simple $\vmarkc$ assembles a circular visual element that is the color specified in $\vsection(\dbasepoint)$ and is at the intersection specified in $\vsection(\dbasepoint)$ \label{fig:construction:q}}
+  \caption{This simple $\vmarkc$ assembles a circular visual element that is the color specified in $\vsection(\dbasepoint)$ and is at the intersection specified in $\vsection(\dbasepoint)$ \label{fig:construction:q} \note{much better labeling, include semantic labeling, make everything bigger}}
 \end{figure}
 As shown in \autoref{fig:construction:q}, a set of  $\vchannel$ functions individually convert the values in the data record to visual components. Then the $\vmark$ function combines these visual encodings to produce a graphic section \gsection. When this section is evaluated on the graphic space associated with the data $\gsection(\vindexpre(\dbasepoint))$, it produces a blue circular marker at the intersection of the x and y positions listed in \vsection. The composition rule in \autoref{eq:construction:q:fabrication} means that developers can implement $\vmark$ as drawing circles or can implement a $\vmark$ that draws arbitrary shapes, and then provide different $\vchannel$ adapters, such as one that specifies that the shape is a circle. 
 
@@ -1054,10 +1081,7 @@ when $\vindex(\gbasepoint) = \dbasepoint$. This equivalence allows a  developer 
 
 \section{Discussion: Feasibility as Design Spec}
 \label{sec:discussion}
-\begin{figure}
-  \includegraphics[width=1\columnwidth]{full_line.png}
-  \caption{\label{fig:construction:artist:combo}}
-\end{figure}
+
 The framework specified in \autoref{sec:artist} and \autoref{sec:construction} describes how to build structure preserving visualization components, but it is left to the library developer to follow these guidelines when building and reusing components. In this section, we introduce a toy example of building an artist out of the components introduced in \autoref{sec:construction} to illustrate how components that adhere to these specifications are maintainable, extendible, scalable, and support concurrency. 
 
 \begin{figure}[h!]
@@ -1161,26 +1185,9 @@ The $\vchannel$ and $\vmark$ are wrapped in a container object that stores the $
         return fake_draw
 \end{minted}
 
-This artist is then passed along to a shim artist that makes it compatible with existing Matplotlib objects
-\begin{minted}{python}
-class GenericArtist(martist.Artist):
-    def __init__(self, artist:TopologicalArtist):
-        super().__init__()
-        self.artist = artist
-        
-    def compose_with_tau(self, section):
-        self.section = section
-
-    def draw(self, renderer, bounds, rate):
-        for tau_local in self.section.query(bounds, rate): 
-            mu = self.artist.nu(tau_local)
-            rho = self.artist.qhat(**mu)
-            output = rho(renderer)
-\end{minted}
 As shown in the \texttt{draw} method, generating a graphic section $\gsection$ is implemented as the composition of $\texttt{qhat} \approx \vmark$ and $\texttt{nu} \approx \vchannel$ applied to a local section of the sheaf $\texttt{self.section.query} \approx \dsection^{i}$ such  $\texttt{draw} \approx \vmarkc\circ\vchannelc\circ\dsectionc  = \vartistc\circ \dsectionc$. The $\vchannel$ and $\vmark$ functions shown here are written such that they can generate a visual element given a local section $\dsection\restriction_{\dbase^{i}}$ which can be as little or large as needed. This flexibility is a prerequisite for building scalable and streaming visualizations that may not have access to all the data.  
 
-The \texttt{GenericArtist} is a a standard Matplotlib object; therefore it can be hooked into the Matplotlib draw tree to produce the vertical bar chart in \autoref{fig:discussion:vbar}. Using the Matplotlib artist framework means this new artist can be composed with existing artists, such as the ones that draw the axes and ticks. The example in this section is intentionally trivial to illustrate that the math to code translation is fairly straightforward and results in fairly self contained composable functions. A library applying these ideas, created by Thomas Caswell, can be found at \url{https://github.com/matplotlib/data-prototype}. Further research could investigate building new systems using this model, specifically libraries for visualizing domain specific structured data and domain specific artists. More research could also explore applying this model to visualizing high dimensional data, particularly building artists that take as input distributed data and artists that are concurrent. Developing complex systems could also be an avenue to codify how interactive techniques are expressed in this framework.
-
+This artist is then passed along to a shim artist that makes it compatible with existing Matplotlib objects (\autoref{sec:appendix:artist_shim}). This shim object is hooked into the Matplotlib draw tree to produce the vertical bar chart in \autoref{fig:discussion:vbar}. Using the Matplotlib artist framework means this new artist can be composed with existing artists, such as the ones that draw the axes and ticks. The example in this section is intentionally trivial to illustrate that the math to code translation is fairly straightforward and results in fairly self contained composable functions. A library applying these ideas, created by Thomas Caswell, can be found at \url{https://github.com/matplotlib/data-prototype}. Further research could investigate building new systems using this model, specifically libraries for visualizing domain specific structured data and domain specific artists. More research could also explore applying this model to visualizing high dimensional data, particularly building artists that take as input distributed data and artists that are concurrent. Developing complex systems could also be an avenue to codify how interactive techniques are expressed in this framework.
 
 \section{Conclusion}
 The toy example presented in \autoref{sec:discussion} demonstrates that it is relatively straightforward to build working visualization library components using the construction described in \autoref{sec:construction}. Since these components are defined with single record inputs, the can be implemented such that they are concurrent. The cost of building a new function using these components is sometimes as small as renaming fields, meaning the new feature is relatively easy to maintain. These new components are also a lower maintenance burden because, by definition, they are designed in conjunction with tests that verify that they are equivariant.  
@@ -1190,6 +1197,7 @@ The framework introduced in this paper is a marriage of the ways the graphic and
 \appendices
 
 \section{Summary}
+\label{sec:appndix:summary}
 The topological spaces and functions introduced throughout this paper are summarized here for reference. 
 
 \begin{table}[h!]
@@ -1287,15 +1295,18 @@ The topological spaces and functions introduced throughout this paper are summar
   {\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|r|l|l|}
   \hline
-      & function & constraint \\
+      & function & constraints \\
   \hline
-  \textcolor{artist}{artist} & $\vartistc: \cgamma{\dbasec}{\dtotalc} \rightarrow \cgamma{\gbasec}{\gtotalc}$ &    \\
-  Data to Graphic &      & \\
+  \textcolor{artist}{artist} & $\vartistc: \cgamma{\dbasec}{\dtotalc} \rightarrow \imartist{\gbasec}{\gtotalc}$ &  \\
+  Data to Graphi  &  $\imartist{\gbasec}{\gtotalc} \subset \cgamma{\gbasec}{\gtotalc}$ & $\vindexc(\gbasec) = \dbasec$\\
+  & & \\
   \hline 
-  Verify Encoding & $\ 
+  Encoders  & & \\
+           & & \\
   \hline
-  Verify Pre-Rendering &
-
+  Decompositor & & \\
+              && \\
+  \hline
 \end{tabular}
 \caption{artist, verification functions, and construction $\vartist = \vmarkc \circ \nu$ introduced in \autoref{sec:artist}, and \autoref{sec:construction}}
 \label{tab:appedendix:summary:artist}
@@ -1307,7 +1318,7 @@ The topological spaces and functions introduced throughout this paper are summar
 \begin{table}[h!]
   \centering
   {\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{|r|l|l|}
+\begin{   tabular}{|r|l|l|}
   \hline
       & function & constraint \\
   \hline
@@ -1315,7 +1326,7 @@ The topological spaces and functions introduced throughout this paper are summar
   \hline 
   \textcolor{functor}{lookup} & $\vindex: \gbase\rightarrow \dbase$  &add [0,1] etc...\\ 
   \hline
-  \textcolor{artist}{encoder} & $\vchannel: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\dbase, \vtotal) $  & \\
+  \textcolor{artist}{encoders} & $\vchannel: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\dbase, \vtotal) $  & \\
   \hline
   \textcolor{artist}{compositor} & $\vmark: \Gamma(\dbase,\vtotal) \rightarrow \Gamma(\gbase, \vtotal)$ &  \\
   \hline
@@ -1327,6 +1338,29 @@ The topological spaces and functions introduced throughout this paper are summar
 
 These functions can be verified using the following functions: 
 
+\label{sec:appendix:artist_shim}
+
+As mentioned in \autoref{sec:discussion}, one advantage of using this type of  
+functional categorical approach to software design is that we can develop new 
+components that can be incorporated into the existing code base. For matplotlib, 
+we can use these functional artists by wrapping them in a very thin compatibility
+layer shim so that they behave like existing artists. 
+
+\begin{minted}{python}
+  class GenericArtist(martist.Artist):
+      def __init__(self, artist:TopologicalArtist):
+          super().__init__()
+          self.artist = artist
+          
+      def compose_with_tau(self, section):
+          self.section = section
+  
+      def draw(self, renderer, bounds, rate):
+          for tau_local in self.section.query(bounds, rate): 
+              mu = self.artist.nu(tau_local)
+              rho = self.artist.qhat(**mu)
+              output = rho(renderer)
+  \end{minted}
 % use section* for acknowledgment
 \ifCLASSOPTIONcompsoc
   % The Computer Society usually uses the plural form
