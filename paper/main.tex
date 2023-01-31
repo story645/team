@@ -76,6 +76,7 @@
                    breaklines=True} 
 % *** ALIGNMENT PACKAGES ***
 \usepackage{array}
+\usepackage{multirow}
 \usepackage{tabulary} 
 % IEEEtran contains the IEEEeqnarray family of commands
 
@@ -98,7 +99,7 @@
 % (Unless specifically asked to do so by the journal or conference you plan
 % to submit to, of course. )
 
-\usepackage[inline]{showlabels}
+%\usepackage[inline]{showlabels}
 
 \usepackage{notation} %notation conventions
 % correct bad hyphenation here
@@ -224,14 +225,14 @@ A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
 Local triviality $\dtotal\restriction_{\openset_{k}} = \openset_{k}\times \dfiber$ means that there is always a subset of the base space over which the fibers are identical. 
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{figures/local_trivalizations.png}
-  \caption{Two local trivializations, $\dtotal_{0}$ and $\dtotal_{1}$, of an arbitrary bundle \dtotal.} 
+  \caption{The local trivializations $\dtotal_{0}$ and $\dtotal_{1}$ are subspaces of $\dtotal$ where the fibers $\dfiber_{0}$ are equal, here illustrated as all pointing in the same direction. These local trivializations are themselves locally trivial fiber bundles.} 
 \end{figure}
 
 For example, in \autoref{fig:local_trivalizations}, the bundles $\dtotal_{0}=\dtotal\restriction_{[\epsilon^{-}, {\frac{2\pi}{5}}^{+}]}$ and $\dtotal_{1}=\dtotal\restriction_{[{\frac{2\pi}{5}}^{-}, \epsilon^{-}]}$ are local trivializations of an arbitrary bundle $\dtotal$. These local trivializations overlap on the intersections of the open subsets of each trivalization $[\epsilon^{-}, \epsilon^{+}]$ and $[{\frac{2\pi}{5}}^{-}, {\frac{2\pi}{5}}^{+}]$. A set of trivializations can be glued into a larger bundle by defining transition maps that describe how to align the fibers in the overlapping space such that the sections of the bundle remain continuous. 
 \note{add transition map construction formula} 
 
 \begin{figure}[h!]
-  \includegraphics[width=1\columwidth]{figures/cyl_mob.png}
+  \includegraphics[width=1\columnwidth]{figures/cyl_mob.png}
   \caption{\note{figure out short caption here}\label{fig:cyl_mob_bundles}}
 \end{figure}
 As demonstrated in \autoref{fig:cyl_mob_bundles} different types of total spaces can be decomposed into the same local trivializations; therefore the distinguishing factor between total spaces can be the transition maps for constructing the spaces from trivializations. 
@@ -851,21 +852,11 @@ and therefore which commonalities need to be preserved in the artists that act o
 \label{sec:construction}
 \note{add a high level diagram Data->V->Screen}
 \note{add back in path of Q, use tikz backend to convert to pgf to then tweak}
-We propose that one way of constructing artist functions is to separate generating a visualization into an encoding stage $\vchannelc$ and a compositing stage $\vmarkc$. In the \textcolor{artist}{encoding} stage $\vchannelc$, a data bundle is treated as separable fields and each field is mapped to a measurable visual variable. In the encoding stage, the expected visual mappings $\equivb$ can be implemented inside the library. Factoring out the encoding stage leaves the \textcolor{artist}{compositing} stage $\vmarkc$ responsible for faithfully translating those measurable visual components into a visual element.  
+We propose that one way of constructing artist functions is to separate generating a visualization into an encoding stage $\vchannelc$ and a compositing stage $\vmarkc$. In the \textcolor{artist}{encoding} stage $\vchannelc$, a data bundle is treated as separable fields and each field is mapped to a measurable visual variable. In the encoding stage, many of the expected visual mappings $\equivb$ can be implemented inside the library. Factoring out the encoding stage leaves the \textcolor{artist}{compositing} stage $\vmarkc$ responsible for faithfully translating those measurable visual components into a visual element.  
 
 \subsection{Measurable Visual Components}
 \label{sec:construction:vtotal}
-We propose an intermediate visual fiber bundle 
-\begin{equation}
-  \vfiberc \hookrightarrow \vtotalc \xrightarrow{\pi} \dbasec
-\end{equation}
-where the space of possible visual encodings is the fiber space $\vfiber$. The space of visual sections which return visual encoding specifications is 
-\begin{equation}
-\cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \coloneqq \big\{\vsectionc: \opensetc\rightarrow \vtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\vsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\} 
-\end{equation}
-As shown in \autoref{eq:artist:inout:diagram},  measurable visual components are defined as having the same continuity as the data $\dbase$. This means that every data record $\dsection(\dbasepoint)$ has a corresponding visual section such that $\pi(\dsection(\dbasepoint)) = \pi(\vsection(\dbasepoint))$. 
-
-Although the bundle $\vtotal$ is structurally equivalent to the bundle $\dtotal$, its existence allows for separating the data that is input into the artist $\dsection$ from the data internal to the artist $\vsection$. This allows a visualization library to define a visual bundle space $\vtotalc$ the holds the internal representation standard for measurable visual components. For example, a visualization library could define a visual color fiber as an RGBA tuple $\vfiber_{color} = \mathbb{R}^{3} \times [0,1]$. This would then set the expectation that arbitrary color encoding functions would need to return an RGBA tuple for the library to recognize the encoding as a color. 
+We encapsulate the space of measurable components reachable through the encoding stage $\vchannel$ as a visual fiber bundle $\vfiberc \hookrightarrow \vtotalc \xrightarrow{\pi} \dbasec$. The  restricted fiber space $\vfiber$ of the bundle acts as the specification of the internal library representation of the measurable visual components. The space of visual sections $\cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \coloneqq \big\{\vsectionc: \opensetc\rightarrow \vtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\vsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$ return a visual encoding $\vsectionc(\dbasepoint)$ corresponding to data record $\dbasepoint(\dbasepoint)$.  Since the data bundle $dtotal$ and visual bundle $\vtotal$ have the same continuity $\pi(\dsection(\dbasepoint)) = \pi(\vsection(\dbasepoint))$, they are considered structurally equivalent such that $\dtotal=\vtotal$. The distinguishing characteristic of $\vtotal$ is that it is part of the construction of the artist and therefore a part of the visualization library implementation. We propose that reusing the fibers $\vfiber$ across components facilitates standardizing internal types across the library and that this standardization improves maintainablity (\autoref{tab:appendix:library_spec}). 
 
 \subsection{Map Between Graphics and Data}
 In \autoref{sec:atct:sheaves}, the functors $\vindex, \vindexpull, \vindexpushc$ are introduced to describe the expected relationship between screen and data base spaces. In the construction of the artist, the functor $\vindex$ is defined such that the data base space \dbase\ is a deformation retraction\cite{nlab:deformation_retract,hatcherAlgebraicTopology2002} of the graphic space $\gbase$. This means that there is a continuous surjective mapping from every point $\dbasepoint\in\dbase$ to a point $\dbasepoint \in dbase$. To simplify matters, in this paper, we construct the graphic space as a constant multiple of the base space such that 
@@ -890,22 +881,24 @@ because the data dimensionality $\dbase$ may be too small for a graphic represen
 For example, as shown in \autoref{fig:construction:xi}, a line is 1D but is a 2D glyph on a screen; therefore the graphic space $\gbase$ is constructed by multiplying the base space $\dbase$ with an interval $[0,1]$. Because $\gbase$ is collapsible into $\dbase$, every band $(\dbasepoint_i, [0,1])$ corresponds to a point in the base space $\dbasepoint_i \in \dbase$. The first coordinate $\alpha=\dbasepoint_i$ provides a lookup to retrieve the associated visual variables. The second coordinate, which is a point in the interval $\beta=[0,1]$. Together they are a point $\gbasepoint=(\alpha,\beta) \in gbase$ in the graphic base space. This point $\gbasepoint$ is the input into the graphic section $\gsection(\gbasepoint)$ that is used to determine which pixels are colored, which in turn determines the thickness, texture, and color of the line. 
 
 
+
 \subsection{Component Encoders}
 \label{sec:construction:nu}
-The encoding functions $\vchannel: \cgamma{\dbasec}{\dtotalc} \rightarrow \cgamma{\dbasec}{\vtotalc}$ are a subset of the data to visual encoding functions $\equivc$ described in \autoref{sec:artist:equiv}.
-\begin{figure*}[h!]
-  \includegraphics*[]{encoderset.png}
-\end{figure*}
 
+As introduced in \autoref{sec:artist:equiv}, there is a set $\equivb$ of functions that map between data and corresponding visual encodings. We propose that for visualization library components to be structure preserving, they must implement a constrained subset of these encoding functions 
+\begin{equation}
+\cgamma{\dbasec}{\dtotalc} \xrightarrow{\vchannelc} \cgamma{\dbasec}{\vtotalc}  \subset \cgamma{\dbasec}{\dtotalc} \xrightarrow{\equivc}\textcolor{set}{Hom}(\dbasec, \measurec)
+\end{equation}
+that preserve the categorical structure (operators and morphisms) of the fiber and the contininuity of the data section. As mentioned in \autoref{sec:construction:vtotal}, the total visual space is restricted to the space of data types internal to the library $\vfiber \subset \measure$ and sections are subsets of homsets $\Gamma(\dbase, \vtotal) \subset Hom(\dbase, \measure)$ because sections must be continuous.
 
-such that the sections project to the same point on the base space $\pi(\dtotal) = \pi(\vchannel(\dtotal))$. A consequence of this property is that $\vchannelc$ can be constructed as a pointwise transformation such that  
+The encodeding functions $\vchannel$ are fiberwise transforms such that $\pi(\dtotal) = \pi(\vchannel(\dtotal))$. A consequence of this property is that $\vchannelc$ can be constructed as a pointwise transformation such that  
 \begin{equation}
   \label{eq:constrution:nu}
   \vchannelc: \dfiberc_{\dbasepointc} \rightarrow \vfiberc_{\dbasepoint}
 \end{equation}
-which means that means that a point in a single data fiber $\delement \in \dfiber_{\dbasepointc}$ can be mapped into a corresponding point in a visual fiber $\velement \in \vfiber_{\dbasepointc}$. This means that an encoding function $\vchannel$ can convert a single record and may not need the whole dataset. 
+which means that means that a point in a single data fiber $\delement \in \dfiber_{\dbasepointc}$ can be mapped into a corresponding point in a visual fiber $\velement \in \vfiber_{\dbasepointc}$. This means that an encoding function $\vchannel$ can convert a single record independent of the whole dataset. 
 
-The difference between $\dtotal$ and $\vtotal$ are semantic rather than structural; they are both maps from the topological space \dbase\ to sets of functions that return records of values. This means any $\vtotal$ can be redefined as $\dtotal$, which means that, as shown in \autoref{eq:construction:nu:fabrication}, any collection of $\vchannel$ functions can be composed such that they are equivalent to a $\vchannel$ that directly converts the input to the output.
+Since $\dtotal$ and $vtotal$ are structurally identical, any $\vtotal$ can be redefined as $\dtotal$; therefore, as shown in \autoref{eq:construction:nu:fabrication}, any collection of $\vchannel$ functions can be composed such that they are equivalent to a $\vchannel$ that directly converts the input to the output.
 \begin{equation}
   \label{eq:construction:nu:fabrication}
   \begin{tikzcd}
@@ -1318,13 +1311,13 @@ The topological spaces and functions introduced throughout this paper are summar
 \begin{table}[h!]
   \centering
   {\renewcommand{\arraystretch}{1.2}
-\begin{   tabular}{|r|l|l|}
+\begin{tabular}{|r|l|l|}
   \hline
       & function & constraint \\
   \hline
   \textcolor{artist}{artist} & $\vartist: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\gbase, \gtotal)$ &  \\
   \hline 
-  \textcolor{functor}{lookup} & $\vindex: \gbase\rightarrow \dbase$  &add [0,1] etc...\\ 
+  \textcolor{functor}{lookup} & $\vindex: \gbase\rightarrow \dbase$  &  \\ 
   \hline
   \textcolor{artist}{encoders} & $\vchannel: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\dbase, \vtotal) $  & \\
   \hline
@@ -1332,12 +1325,32 @@ The topological spaces and functions introduced throughout this paper are summar
   \hline
 \end{tabular}
 \caption{artist, verification functions, and construction $\vartist = \vmarkc \circ \nu$ introduced in \autoref{sec:artist}, and \autoref{sec:construction}}
-\label{tab:appedendix:summary:artist}
+\label{tab:appendix:summary:artist}
 }
 \end{table}
 
-These functions can be verified using the following functions: 
+\section{Internel Library Specification}
 
+
+\label{tab:appendix:library_spec}
+\begin{table}[H]
+  \centering
+  \renewcommand{\arraystretch}{2}
+  \begin{tabulary}{\columnwidth}{|l|L|l|}\hline
+   \(\bm{\vchannel_{i}}\)    & \(\bm{\vsection_{i}}\)  & \(\bm{codomain(\vchannel_{i}) \subset \vfiber_{i}}\)  \\ \hline                                              
+  position                    & x, y, z, theta, r      & \(\mathbb{R}\)   \\ \hline
+  size                        & linewidth, markersize  & \(\mathbb{R}^{+}\)  \\ \hline
+  shape                       & markerstyle            & \(\{f_{0}, \ldots, f_{n}\}\)\\ \hline
+  color                       & color, facecolor, markerfacecolor, edgecolor  & \(\mathbb{R}^{4}\) \\ \hline
+  \multirow{2}{*}{texture}    & hatch      & \(\mathbb{N}^{10}\)\\\cline{2-3}
+                              & linestyle    & \((\mathbb{R}, \mathbb{R^+}^{n, n\%2=0})\) \\ \hline              
+  \end{tabulary}
+  \caption{Some of the $\vfiber$ components of the $\vtotal$ bundles in Matplotlib components}
+  \label{tab:math:artist:mpl:fiber}
+\end{table}
+
+\pagebreak
+\section{Matplotlib Compatibility}
 \label{sec:appendix:artist_shim}
 
 As mentioned in \autoref{sec:discussion}, one advantage of using this type of  
