@@ -157,33 +157,22 @@ We build on the extensive work codifying the structure of visualization data to 
 \begin{figure}[h!]
   \includegraphics[width=1\columnwidth]{k_different_types.png}
   \caption{
-  A a topological representation of the data (in purple) is a simplified representation of a view of how the records in a dataset are connected. The table can be viewed as a set of independent records; therefore it has a 0D continuity represented by the disconnected dots. These weather records are also samples of continuous measurements at each location, which can be modeled as the time series measurements being samples on a 1d continuous interval and the geospatial station measurements as sparse samples on a 2D continuous space. 
+  \note{add first panel which is table + all K type, second is scatter, etc...}
+
   \label{fig:related-work:continuity:ktypes}}
 \end{figure}
 
-The connectivity and relative positioning of elements in a dataset is broadly its topology\cite{wilkinsonGrammarGraphics2005} and the expectation that it be be reflected in the visual representation is present in even the earliest maps \cite{friendlyBriefHistoryData2008} and is exemplified in Bertin's recommendation that discrete data values should be represented by discrete entities such as points, quantitative continuous data by lines, and surfaces through area marks \cite{bertinSemiologyGraphicsDiagrams2011}. Encoding this point, interval, and surface, connectivity as mathematical topologies provides us with a consistent way to describe and discuss these and other types of connectivity and the topological structure of the corresponding visualizations. 
+The connectivity and relative positioning of elements in a dataset is broadly its topology\cite{wilkinsonGrammarGraphics2005} and the expectation that it be be reflected in the visual representation is present in even the earliest maps \cite{friendlyBriefHistoryData2008} and in Bertin's assertion that the dimensionality of the data match the class of representation \cite{bertinSemiologyGraphicsDiagrams2011}. In this work, we propose that using the formalism of topology provides us a uniform way to express dimensionality such that we can generalize the expectation that the data and visual dimensionalty match past points, lines, and areas. 
 
 \begin{definition}
-A \textbf{topology} $\mathcal{T}$ on a space $X$ is a colletion of open sets\footnote{Open sets (open subsets) are a generalization of open intervals to n dimensional spaces. For example, an open ball is the set of points inside the ball and excludes points on the surface of the ball. \cite{weissteinOpenSet,bradleyTopologyVsTopology}} \openset\ of $X$. This collection has the properties that the empty set $\varnothing$ and $\dbase$ are in $\mathcal{T}$, the union of open sets in $\mathcal{T}$ is also in $\mathcal{T}$, and any finite intersection of open sets in $\mathcal{T}$ is also in $\mathscr{T}$. \cite{bradleyTopologyCategoricalApproach2020}
+A \textbf{topology} $\mathcal{T}$ on a space $X$ is a collection of open sets\footnote{Open sets (open subsets) are a generalization of open intervals to n dimensional spaces. For example, an open ball is the set of points inside the ball and excludes points on the surface of the ball. \cite{weissteinOpenSet,bradleyTopologyVsTopology}} \openset\ of $X$. This collection has the properties that the empty set $\varnothing$ and $\dbase$ are in $\mathcal{T}$, the union of open sets in $\mathcal{T}$ is also in $\mathcal{T}$, and any finite intersection of open sets in $\mathcal{T}$ is also in $\mathscr{T}$. \cite{bradleyTopologyCategoricalApproach2020}
 \end{definition}
 
+A topology is a partitioning of a space into sets of its subspaces and which connectivity is encoded in the topology is determined by the way in which the space is partitioned. For example, the GHCN\cite{lawrimoreGlobalHistoricalClimatology2011} dataset in \autoref{fig:related-work:continuity:ktypes} is a complex spatio-temporal record of weather station data. One way of encoding that each record is independent is to encode the underlying topology as a set of discrete points, one for each record. Each of these discrete points has a corresponding marker in the scatter plot. Another way of subsetting the data is as sets of timeseries, which can be encoded as intervals since weather station data is sampled from 1D continous natural phenomena. Each line plot can be thought of as a function evaluated on the underlying interval that encoding the temporal continuity. A third way to view the data is as a sparse sampling of a 2D geospatial grid, where the connectivity can be modeled as a 2D plane. Here the connectivity is preserved by plotting the stations in the map such that their relative distances are preserved.
+
+note{add summary and transition}
 
 
-
- In \autoref{fig:related-work:continuity:ktypes} the records of the GHCN\cite{lawrimoreGlobalHistoricalClimatology2011} weather station table can be considered disconnected from each other and therefore have a 0D continuity. This means each distinct row can be reduced to a discrete point and each row will be encoded as a discrete visual element, such as a standalone scatter point. Each station can also be considered a time series of weather observation since temperature and pressure are sampled from a 1D continuous measurement space. The connectivity of these observations can be modeled as an interval and the data is encoded as a line since that visual element is also 1D continuous. The measurements at set of stations on any given day is a sparse sampling of a 2D geospatial grid and the connectivity can be modeled as a 2D plane. Instead of interpolation, which is how continuity was preserved in the timeseries plot, in this instance the connectivity is preserved by plotting the stations in the map such that their relative distances are preserved.
-
-
-
-
-
-
-
-
-\note{pull definition of topology up here and also maybe homotopy type/homomorphic spaces in the next paragraph-it'll make things less handwavy }
-
-
-
-Encoding connectivity using the formalism of topological spaces allows us to encode the connectivity of the data in a uniform manner such that we can then generalize the preservation of that connectivity in the visual representation rather than constructing a condition specifically for each type of topological structure. 
 
 Visual algorithms assume the topology of their input data, as described in taxonomies of visualization algorithms Chi\cite{chiTaxonomyVisualizationTechniques2000} and by Troy and M\"{o}ller \cite{toryRethinkingVisualizationHighlevel2004}. For example, a \texttt{line} algorithm often does not have a way to query whether a list of (x,y) coordinates is the distinct rows, the time series, or the list of stations in \autoref{fig:related-work:continuity:ktypes}. While plotting the time series as a continuous line would be correct, it would be incorrect for a visualization to indicate that the distinct rows or stations are connected in a 1D continuous manner. Since topological continuity is generalizable, we propose the construction of topology types such that data can explicitly state its topology type and visual algorithms can check that this type matches their assumptions. The typing system proposed in this paper builds on Butler's proposal of using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We extend Butler's work because he discusses how bundles can be used to encode data in a consistent manner for the topological and field structures that are common in visualization. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but his work provides a thorough introduction to bundles for visualization practitioners. 
 
