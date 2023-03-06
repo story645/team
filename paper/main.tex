@@ -155,14 +155,16 @@ We propose that we can encode the structure of the data and graphics in a unifor
 \section{Related Work}
 We build on the extensive work codifying the structure of visualization data to develop a more generalizable method for expressing the structure that tools are expected to preserve when transforming data into visualizations. Structure preservation ensures that visual representations are not distortions of the data\cite{tufteVisualDisplayQuantitative2001} and it makes visualizations easier to understand \cite{norman_things_smart}. Broadly, previous work describes structure as a combination of the topological properties of the data, the mathematical structure of the data fields, and equivalent or compatible changes to data and graphics. We propose that a unified abstraction model can guide developers in building structure aware composable software library components with more consistent interfaces. 
 
+
+
 \subsection{Topological Structure}
 \label{sec:related-work:continuity}
 \begin{figure}[h!]
   \includegraphics[width=1\columnwidth]{k_different_types.png}
   \caption{
   \note{add first panel which is table + all K type, second is scatter, etc...}
-
-  \label{fig:related-work:continuity:ktypes}}
+  }
+  \label{fig:related-work:continuity:ktypes}
 \end{figure}
 
 The connectivity and relative positioning of elements in a dataset is broadly its topology\cite{wilkinsonGrammarGraphics2005} and the expectation that it be be reflected in the visual representation is present in even the earliest maps \cite{friendlyBriefHistoryData2008} and in Bertin's assertion that the dimensionality of the data match the class of representation \cite{bertinSemiologyGraphicsDiagrams2011}. In this work, we propose that using the formalism of topology provides us a uniform way to express dimensionality such that we can generalize the expectation that the data and visual dimensionalty match past points, lines, and areas. 
@@ -177,6 +179,7 @@ Since topological continuity is generalizable, we propose that encoding topology
 
 \subsection{Field Type Structure} 
 \label{sec:related-work:equivariance}
+\note{put this b/f topology since this is the thing folks do/is known}
 As with topology, Bertin \cite{bertinSemiologyGraphicsDiagrams2011} codified the expectation that a data value and its visual encoding are expected to have compatible structure. The structure on values has traditionally been described  using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946a} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Generally the structure on each field of the dataset is preserved separately, i.e. each column in a table is mapped to a distinct encoding. For example, nominal measurements are permutable, meaning that they are acted on by elements of a permutation group. For the visual transformation to be equivariant, that nominal measurement must be mapped to a visual encoding that is also permutable, such as distinct marker shapes or color hues. We evaluate whether the encoding is homomorphic when the visual encoding does not have a group structure. For example, partial orders are not invertible; therefore a visual encoding of partially ordered data is structure preserving when the ordering is mapped to equivalently ordered visual encodings. \note{add in Scales/APT/ GoG/Hullman/ETC}
 
 \subsection{General Structure Preservation}

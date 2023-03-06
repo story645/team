@@ -23,7 +23,7 @@ config.update(t = np.linspace(0, 2*np.pi, config['N']))
 config.update(r1 = np.array([config['t'][0], config['boundary']])-config['boundary_pad']/2, 
               r2 = np.array([config['boundary'], config['t'][-1]])+config['boundary_pad']/2, #trivialization E x
               ry = .35, rh =.5 , #trivilization E y
-              lw = 2, ly =  .25 #trivialization K lw and y
+              lw = 2, ly = .1 #trivialization K lw and y
              )
 
 
@@ -205,18 +205,15 @@ def draw_segmented_bundle(ax, plot_total_space, labels):
                                               edgecolor=fc, zorder=3)
                 axins.add_patch(at)
        
-<<<<<<< Updated upstream
-        title = axins.text(.5, 0.1, f"{labels[0]} Bundle", color='k', 
-                 fontsize=config['fs'], ha='center', va='bottom')
-=======
+
             ys, yt = (top, bottom) if flip and xr==t2[1] else (bottom, top) 
             at = mpatches.FancyArrowPatch(posA=(xa, ys), posB=(xa, yt),
-                                          arrowstyle='->,head_width=.15', mutation_scale=10, 
+                                          arrowstyle='->,head_width=.15', 
                                           edgecolor=fc, zorder=3)
             axins.add_patch(at)
 
-        title = axins.set_title(f"{labels[0]} Bundle", y=-.65, color='k', fontsize=config['fs'])
-        
+        title = axins.text(.5, 0.075, f"{labels[0]} Bundle", color='k', 
+                 fontsize=config['fs'], ha='center', va='bottom')
         
 def plot_local_trivialization(ax):
  
@@ -249,8 +246,11 @@ def plot_local_trivialization(ax):
                                arrowstyle=config['aws'], mutation_scale=config['ms']-5, 
                                color=config['bundle_color'])
         ax.add_artist(fp)
-        ax.text(xarr+.1, config['ry']*.75, "$\pi$", fontsize=config['fs'],
+        ax.annotate(text="$\pi$", xy=(0,.5), xycoods=fp,  fontsize=config['fs'],
                    color=config['bundle_color'], ha='left', va='center')
+        
+        #ax.text(xarr+.1, config['ry']*.75, "$\pi$", fontsize=config['fs'],
+        #           color=config['bundle_color'], ha='left', va='center')
         
         xoff=.2*np.math.pow(-1, i+1)
     
@@ -281,5 +281,3 @@ def plot_local_trivialization(ax):
     ax.tick_params('y', labelleft=False, left=False)
     ax.spines[:].set_visible(False)
 
-
->>>>>>> Stashed changes
