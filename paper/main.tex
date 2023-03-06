@@ -66,7 +66,7 @@
 \newtheorem{prop}{Proposition} %math?
 \usepackage[switch]{lineno}
 \renewcommand{\linenumberfont}{\normalfont\bfseries\small\color{lightgray}}
-\usepackage{minted}
+\usepackage[outputdir=../]{minted}
 \setminted[python]{fontsize=\scriptsize, 
                    linenos,
                    numbersep=8pt, 
@@ -110,12 +110,15 @@
 
 \title{Topological Equivariant Artist Model for Visualization Library Architecture}
 % author names and IEEE memberships
-\author{Hannah~Aizenman, Thomas~Caswell, and~Michael~Grossberg,~\IEEEmembership{Member,~IEEE,}% <-this % stops a space
+\author{Hannah~Aizenman, Mikael Vejdemo-Johansson, Thomas~Caswell, and~Michael~Grossberg,~\IEEEmembership{Member,~IEEE,}% <-this % stops a space
 \IEEEcompsocitemizethanks{\IEEEcompsocthanksitem H. Aizenman and M. Grossberg are with the department of Computer Science, City College of New York. 
 \protect\\
 % note need leading \protect in front of \\ to get a newline within \thanks as
 % \\ is fragile and will error, could use \hfil\break instead.
 E-mail: haizenman@ccny.cuny.edu, mgrossberg@ccny.cuny.edu 
+\IEEEcompsocthanksitem Mikael Vejdemo-Johansson is with the department of Mathematics, CUNY College of Staten Island.
+\protect\\
+E-mail: mvj@math.csi.cuny.edu
 \IEEEcompsocthanksitem Thomas Caswell is with National Synchrotron Light Source II, Brookhaven National Lab 
 \protect \\
 E-mail: tcaswell@bnl.gov}% <-this % stops an unwanted space
@@ -163,8 +166,8 @@ We build on the extensive work codifying the structure of visualization data to 
   \includegraphics[width=1\columnwidth]{k_different_types.png}
   \caption{
   \note{add first panel which is table + all K type, second is scatter, etc...}
-  }
-  \label{fig:related-work:continuity:ktypes}
+%
+  \label{fig:related-work:continuity:ktypes}}
 \end{figure}
 
 The connectivity and relative positioning of elements in a dataset is broadly its topology\cite{wilkinsonGrammarGraphics2005} and the expectation that it be be reflected in the visual representation is present in even the earliest maps \cite{friendlyBriefHistoryData2008} and in Bertin's assertion that the dimensionality of the data match the class of representation \cite{bertinSemiologyGraphicsDiagrams2011}. In this work, we propose that using the formalism of topology provides us a uniform way to express dimensionality such that we can generalize the expectation that the data and visual dimensionalty match past points, lines, and areas. 
