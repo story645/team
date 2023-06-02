@@ -274,8 +274,6 @@ A \textit{trivial bundle} is directly isomorphic to $\dbasec\times\dfiberc$, and
 
 A \textit{non-trivial bundle} on the other hand is one that can not be constructed as $\dbasec\times\dfiberc$, but where the construction is more complicated. Then for any choice of local trivializations, there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}. For example, in the Möbius band case, while $\dfiber_0\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}\to\dfiber_1\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}$ can be chosen to be an identity map (after transforming $\dbase_1\times[-2,2]\to\dbase_1\times[-1,1]$ by rescaling), the other transition map component $\dfiber_0\restriction_{(-\varepsilon,\varepsilon)}\to\dfiber_1\restriction_{(-\varepsilon,\varepsilon)}$ has to flip the fibers to align them between the pieces.
 
-%In a \textit{non-trivial} bundle fibers are isomorphic $\dfiber \simeq \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \dbase$ such that there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}. For example, in the mobius band case, while $\dfiber_{0}\restriction_{[{\frac{2\pi}{5}}^{-}, {\frac{2\pi}{5}}^{+}]} = \dfiber_{0}\restriction_{[{\frac{2\pi}{5}}^{-}, {\frac{2\pi}{5}}^{+}]}$ such that the transition map is an identity map $\uparrow\rightarrow\uparrow$, the transition map must flip  $\uparrow \rightarrow \downarrow$ the fibers of $\dfiber_0\restriction_{[\epsilon^{-}, \epsilon^{+}]}$ in order for them to be equal to the fibers of $\dfiber_1\restriction_{[\epsilon^{-}, \epsilon^{+}]}$. 
-
 
 We propose that the total space of a bundle can encode the mathematical space in which a  dataset is embedded, the base space can encode the topological properties of the dataset, and the fiber space can encode the data types of the record fields of the dataset. The map $\pi$ expresses the formal binding between having a typed data field, discussed in \autoref{sec:atct:fb:fiber}, and a corresponding point in the topological structure, which is discussed in \autoref{sec:atct:fb:base}. Fiber bundles are a good abstract data representation for visualization because the field type and topological structure are unconstrained in terms of dimensionality and the only conditions that must be satisfied are that every point in the base space has a corresponding field of values and the field types must be the same for every point in the base space. We propose that modeling data as sections provides a way to encapsulate topological and field structure in a uniform dimension and type independent manner, as discussed in \autoref{sec:atct:fb:sections}.
 
@@ -358,11 +356,22 @@ To build on the rich typing system provided by Spivak, we define the \textcolor{
 such that the preimage of a point is the corresponding data type domain $\pi^{-1}(\dbasepoint) = \dfiber_{k} = \mathscr{U}_{{\sigma}_{\dbasepoint}}$. 
 Adopting Spivak's fiber bundle construction of types allows our model to reuse types so long as the field names are distinct and that field values can be accesed by field name,  since those are sections on $\mathcal{U}_{\sigma}$. Furthermore, since domains $\mathscr{U}_{{\sigma}}$ of types are a mathematical space, multi-dimensional fields can be encoded in the same manner as single dimensional fields and fields can have different names but the same type. 
 
-
 As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ to encapsulate the field types of the data. The fiber category has a single object $\dfiberc$ of an arbitrary type and morphisms on the fiber object $\dfunctc \in Hom(\dfiberc, \dfiberc)$. We can also equip the category with any operators or relations that are part of he mathematical structure of the field type. For example we can equip the category with a comparison operator, which is part of the definition of the monoidal structure of a partially ordered ranking variable \cite{bruggemannRankingPrioritizationMultiindicator2011} or the group structure of Steven's ordinal measurment scale \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Steven's other scales are summarized in \autoref{tab:appendix:summary:stevens}. 
 
-The fiber category $\mathcal{\dfiberc}$ is also equipped with a bifunctor because it is a monoidal category and this functor provides a method for combining fiber types. The bifunctor $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$ allows us to express fields that contain multityped values. For example, wind can be represented as two fields $\dfiber_{speed} \times \dfiber_{direction}$ or a composite fiber field $\dfiber_{speed} \otimes \dfiber_{direction} = \dfiber_{wind}$. The $\otimes$ encapsulates both the sets associated with each fiber $\mathbb{R} \times \mathbb{R} = \mathbb{R}^{2}$ and the morphisms associated with each functor $(\dfunct_{speed}, \dfunct_{direction}) = \dfunct_{wind}$. Defining the field schema as a monoidal category allows us to formally express the structure of the field, as defined by its sets and functions, at different levels of composition as needed by different visualization tasks.
- \
+The fiber category $\mathcal{\dfiberc}$ is also equipped with a bifunctor because it is a monoidal category and this functor provides a method for combining fiber types. The bifunctor $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$ allows us to express fields that contain multityped values. For example, wind can be represented as two fields $\dfiber_{speed} \times \dfiber_{direction}$ or a composite fiber field $\dfiber_{speed} \otimes \dfiber_{direction} = \dfiber_{wind}$. The $\otimes$ encapsulates both the sets associated with each fiber $\mathbb{R} \times \mathbb{R} = \mathbb{R}^{2}$ and the morphisms associated with each functor $(\dfunct_{speed}, \dfunct_{direction}) = \dfunct_{wind}$. Combining fibers can be verified by checking that when a fiber component $\dfiber^{c}$ is present in both $\dfiber^{a}$ and $\dfiber^{b}$, it is identical when projected out of either such that the *product* diagram commutes:
+\begin{minipage}
+
+\begin{tikzcd}[c]{.25\columnwidth}
+  \dfiberc^{a}\times_{\dfiber^{c}} \dfiberc^{b} \arrow[d, "\pi_a"] \arrow[r, "\pi_b"] & \dfiberc^{b} \arrow[d, "\pi_c"] & {(temperature, time) \times_{time} (pressure, time)} \arrow[d, "\pi_a"] \arrow[r, "\pi_b"] & {(pressure,time)} \arrow[d, "\pi_c"] \\
+  \dfiberc^{a} \arrow[r, "\pi_c"]                                                     & \dfiberc^{c}                    & {(temperature,time)} \arrow[r, "\pi_c"]                                                    & time                                
+  \end{tikzcd}
+\end{minipage}\hfill
+\begin{minipage}[c]{.65\columwidth}
+  
+\end{minipage}
+
+This means that when multifield data is decomposed into its component fields, shared records stay the same. For example, the red (temperature, time, pressure) record seperates into (tempereture, time) and (pressure, time) records that share the same red time. Furthermore this time is the same whether it is obtained from the (temperature, time) or (pressure, time) record. This simple test that fields are joined together correctly for the same record is what allows us to reliably combine multiple datasets together on shared properties-for example growing the weather station data from a temporal to spatial dataset by adding the weather at each  location at each time. 
+
 \subsubsection{Data: Section} 
 \label{sec:atct:fb:sections}
 We encode data as a \textcolor{section}{section} \dsectionc\ of a bundle because this allows us to incorporate the topology and field types in the data definition. We can define these section functions locally, meaning that the section is (piece-wise) continuous over a specific open subset \openset\ of \dbase\
@@ -836,11 +845,7 @@ One way to verify that these artists are composable is to check that the return 
 \subsubsection{Multiplication}
 \label{sec:artist:operator:multiplication}
 \note{fiber product vs cartesian product}
-As illustrated in \autoref{eq:artist:operator},  fibers that are a cartesian product of fiberspaces $\dfiber^{a} \times_{\dfiber^c} \dfiber^{b}$, where $\dfiber^c$ is any fiber that is present in both fibers, can be projected down into component fibers.
-\begin{tikzcd}
-  \dfiberc^{a}\times_{\dfiber^{c}} \dfiberc^{b} \arrow[d, "\pi_a"] \arrow[r, "\pi_b"] & \dfiberc^{b} \arrow[d, "\pi_c"] & {(temperature, time) \times_{time} (pressure, time)} \arrow[d, "\pi_a"] \arrow[r, "\pi_b"] & {(pressure,time)} \arrow[d, "\pi_c"] \\
-  \dfiberc^{a} \arrow[r, "\pi_c"]                                                     & \dfiberc^{c}                    & {(temperature,time)} \arrow[r, "\pi_c"]                                                    & time                                
-  \end{tikzcd}
+
 In the trivial case where the base spaces are the same $\dbase^{a} = \dbase^{b} = \dbase$, this is equivalent to adding more fields to a dataset. 
 
 \begin{equation*}
