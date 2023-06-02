@@ -56,7 +56,7 @@
 \usepackage{multicol}
 \usepackage{tikz}
 \usetikzlibrary{cd} % commutative diagrams
-\usepackage{pgfplots}
+\usepackage{pgfplots} %numberline
 \DeclareUnicodeCharacter{2212}{−}
 \usepgfplotslibrary{groupplots,dateplot}
 \usetikzlibrary{patterns,shapes.arrows}
@@ -193,7 +193,8 @@ The connectivity and relative positioning of elements in a dataset is broadly it
 A \textbf{topology} $\mathcal{T}$ on a space $X$ is a collection of open sets\footnote{Open sets (open subsets) are a generalization of open intervals to n dimensional spaces. For example, an open ball is the set of points inside the ball and excludes points on the surface of the ball. \cite{weissteinOpenSet,bradleyTopologyVsTopology}} \openset\ of $X$. This collection has the properties that the empty set $\varnothing$ and $\dbase$ are in $\mathcal{T}$, the union of open sets in $\mathcal{T}$ is also in $\mathcal{T}$, and any finite intersection of open sets in $\mathcal{T}$ is also in $\mathscr{T}$. \cite{bradleyTopologyCategoricalApproach2020}
 \end{definition}
 
-A topology is a partitioning of a space into its subspaces in a way where those subspaces can be composed back into the space and the choice of partitions is how we encode the connectivity of the data that we are interested in. For example, the GHCN\cite{lawrimoreGlobalHistoricalClimatology2011} dataset in \autoref{fig:related-work:continuity:ktypes} is a complex spatio-temporal record of weather station data. One way of encoding that each record is independent is to encode the underlying topology as a set of discrete points, one for each record. Each of these discrete points is also represented visually as a discrete marker in the scatter plot. Another way of viewing the data is as sets of timeseries since weather station data is sampled from 1D continous natural phenomena. We encode this topological structure as intervals and sets of sub-intervals, and  we visually represent this strucure as continuous line plots. A third way of viewing the data is as a sparse sampling of a 2D geospatial grid, where the connectivity is modeled as a  surface and sub regions of that surface. In the visualization, that connectivity is expressed as plotting the stations in the map, visually denoting that these are points in the continuous geographical space that is New York State. By using topology as the underlying encoding scheme, we are able to represent the structure of points, lines, surfaces, and more using the same abstractions.
+A topology is a partitioning of a space into its subspaces in a way where those subspaces can be composed back into the space and the choice of partitions is how we encode the connectivity of the data that we are interested in. For example, the GHCN\cite{lawrimoreGlobalHistoricalClimatology2011} dataset in \autoref{fig:related-work:continuity:ktypes} is a complex spatio-temporal record of weather station data. One way of encoding that each record is independent is to encode the underlying topology as a set of 0D $\cdots$ points, one for each record. Each of these discrete points is also represented visually as a discrete marker in the scatter plot. We can view the timeseries at each station as a 1D $---$ continuous line since weather station data is sampled from natural phenomena. We encode this topological structure as intervals, .i.e [start date, end date], and sets of sub-intervals, and we visually represent this strucure as continuous line plots. A third way of viewing the data is as a sparse sampling of a 2D $\blacksquare$ geospatial grid, where the connectivity is modeled as a surface and sub regions of that surface. In the visualization, that connectivity is expressed as plotting the stations in the map, visually denoting that these are points in the continuous geographical space that is New York State. By using topology as the underlying encoding scheme, we are able to represent the structure of points, lines, surfaces, and more using the same abstractions.
+
 
 Since topological continuity is generalizable, we propose that encoding topology as part of a dataset type and a visualization type allows us to explicitly check which types of structure a visualization algorithm can preserve. Visual algorithms assume the topology of their input data, as described in taxonomies of visualization algorithms Chi\cite{chiTaxonomyVisualizationTechniques2000} and by Troy and M\"{o}ller \cite{toryRethinkingVisualizationHighlevel2004}, but generally do not verify that input structure. For example, a \texttt{line} algorithm often does not have a way to query whether a list of (x,y) coordinates is the distinct rows, the time series, or the list of stations in \autoref{fig:related-work:continuity:ktypes}. While plotting the time series as a continuous line would be correct, it would be incorrect for a visualization to indicate that the distinct rows or stations are connected in a 1D continuous manner. Encoding the expected input structure would enable a visualization algorithm to reject data that does not explicitely state that it matches those assumptions. This structure can be encoded in a generalizable way by building on Butler's work on using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989} where he discusses how bundles can be used to encode data in a consistent manner for the topological and field structures that are common in visualization. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but his work provides a thorough introduction to bundles for visualization practitioners. 
 
@@ -245,7 +246,7 @@ A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
 \begin{figure}[h!]
   \includegraphics[width=\columnwidth]{figures/local_trivalizations.png}
   \caption{The local trivializations $\dtotal_{0}$ and $\dtotal_{1}$ are subspaces of $\dtotal$ where the fibers $\dfiber_{0}$ are equal, here illustrated as all pointing in the same direction. These local trivializations are themselves locally trivial fiber bundles.} 
-  \label{fig:local_trivalizations}
+  \label{fig:atct:local_trivalizations}
 \end{figure}
 
 \note{Add motiviating note here!}
@@ -282,13 +283,9 @@ We propose that the total space of a bundle can encode the mathematical space in
 \label{sec:atct:fb:base}
 \note{base space of bundle for key/value pair, topology in general 'cause data + viz continuity in same way}
 Munzner~\cite{munznerChDataAbstraction} describes a key-value semantics for data representation and abstraction, where datasets can be queried with different kinds of keys depending on the dataset type - locations for values of spatial fields, times for values of timeseries, or indexes for values in flat or multidimensional tables.
-We propose that these different types of keys are instances of different underlying topological organization of the data, and that we can use the structure of the opensets in the topological space to encode the extent to which the keys can vary continuously: flat or multidimensional tables have discrete points as indices, timeseries have points on a line as indices and spatial fields (regardless of whether they are scalar or tensor fields) have points in a spatial domain as indices. Therefore we choose to encode the topological structure of the data as the \textcolor{base}{base space} of a fiber bundle. Since every point in the base space has a corresponding fiber space that contains the data values, we preserve the general notion of a key (continuity)-value (data) pairing. We further follow the example set by \cite{spivakSimplicialDatabases2009,spivakDatabasesAreCategories2010} and propose that the structure of the data types be formally specified as the objects of a category.
+We propose that these different types of keys are instances of different underlying topological organization of the data, and that we can use the structure of the opensets in the topological space to encode the extent to which the keys can vary continuously: flat or multidimensional tables have discrete points as indices, timeseries have points on a line as indices and spatial fields (regardless of whether they are scalar or tensor fields) have points in a spatial domain as indices. Therefore we choose to encode the topological structure of the data as the \textcolor{base}{base space} of a fiber bundle. Because the base space of a fiber bundle is a quotient topology\cite{munkresElementsAlgebraicTopology1984}, it divides the topological space into the largest number of open sets such that $\pi$ remains a continuous function. This means that the topology can be defined to have a resolution equal to the number of indicies in a dataset such that the key (continuity)-value (data) pairing is always preserved. 
 
-
-
-%We encode the topological structure of the data as the \textcolor{base}{base space} \dbase\ of the fiber bundle since the base space acts as indexing space where every point in the base space has a corresponding fiber space $\pi^{-1}(\dbasepoint) = \dfiber_{\dbasepoint}$. The \textcolor{base}{base space} \dbasec\ is a topological space $(\dbase,\mathcal{T}_{\dbase})$, which means it  consists of the set of points ${\dbasepoint \in \dbase}$ and topology $\mathcal{T}_{\dbase}$. We propose that the topology on \dbase\ can act as a mathematical abstraction for the \textcolor{base}{indexing space} of a dataset because the properties of a topology are the same as would be expected of an index space, namely that the space has a mathematical structure, that the space can be subsetted, and that continuity is preserved when sets of indices are merged. For example, in \autoref{fig:related-work:continuity:ktypes}, a topology on the line would break the line up into subsets, and those subsets could only be joined in ways where they cover the line in the same order in which it was broken up. The base space of a fiber bundle is a quotient topology\cite{QuotientSpaceTopology2020,munkresElementsAlgebraicTopology1984}, meaning that it divides the topological space into the smallest possible (largest number of) open sets such that $\pi$ remains a continuous function. This means that the topology can be defined to have a resolution equal to the number of indicies in a dataset or at whatever resolution of continuois function is required for a given task.
-
-%The topological structure of the data can be expressed programmatically by constructing data types that encapsulate the class of topological structure-.i.e point, line, plane, network, etc. We propose that these data types can be formally specified as objects of a category. 
+Following from Spivaks cataegorical abstraction of a database \cite{spivakSimplicialDatabases2009,spivakDatabasesAreCategories2010}, we also propose that the structure of the data types be formally specified as the objects of a category.
 
 \begin{definition}\label{def:atct:category}
    An \textbf{category} $\mathcal{C}$ consists of the following \textit{data}: 
@@ -310,7 +307,39 @@ such that
   then they are associative such that $h\circ(g\circ f) = (h \circ g) \circ f$  \cite{lawvere2009conceptual,riehlCategoryTheoryContext,maclaneCategoriesWorkingMathematician2013,fongInvitationAppliedCategory2019}. 
   \end{enumerate}
 \end{definition}
-We encapsulate the topological structure of the data as a category $\mathcal{\dbasec}$. The standard construction of a category from a topological space is that it has open set objects $\opensetc$ and inclusion morphisms $\opensetc_i \xrightarrow{\iota} \opensetc_j$ such that $\opensetc_i \subseteq \opensetc_j$\cite{riehlCategoryTheoryContext}. The composability property expresses that inclusion is transitive, while associativity expresses that the inclusion functions can be curried in various equivalent groupings. By formally specifying the properties of the topological structure datatypes as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects.  
+
+The standard construction of a category from a topological space is that it has open set objects $\opensetc$ and inclusion morphisms $\opensetc_i \xrightarrow{\iota} \opensetc_j$ such that $\opensetc_i \subseteq \opensetc_j$\cite{riehlCategoryTheoryContext}. The composability property expresses that inclusion is transitive, while associativity expresses that the inclusion functions can be curried in various equivalent groupings. By formally specifying the properties of the topological structure datatypes as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects. 
+
+For example, the disjoint union of two bundles, as shown in \autoref{fig:atct:local_trivalizations}, is the coproduct $\dbase^{a} \subseteq_{\dbase^{c}} \dbase^{b}$ over an overlap $\dbase^{c}$ and therefore the inclusion morphism must be commmutative:
+\begin{minipage}[c]{0.25\columnwidth} 
+  \begin{equation}
+    \label{eq:atct:base_union}
+  \begin{tikzcd}
+    \dbasec^{a}\sqcup_{\dbasec^{c}}\dbasec^{b} 
+    & \dbasec_{b} \arrow[l, "\iota_b"', color=base] \\
+    \dbasec_a \arrow[u, "\iota_a", color=base] 
+    & \dbasec_c 
+    \arrow[u, "\iota_c"', color=base] 
+    \arrow[l, "\iota_c"', color=base] 
+  \end{tikzcd}
+\end{equation}
+\end{minipage}\hfil
+\begin{minipage}[c]{0.65\columnwidth}
+  \begin{tikzpicture}[commutative diagrams/every diagram]
+    \matrix[matrix of math nodes, name=m, commutative diagrams/every cell]{
+      (0,1) & (.55,1) \\
+      (0,.45) & (.40, 60)\\  
+    };
+
+    \path[commutative diagrams/.cd, every arrow, every label]
+    (m-2-2) edge[color=base] (m-1-2)
+            edge[color=base] (m-2-1)
+    (m-2-1) edge[color=base] (m-1-1)
+    (m-1-2) edge[color=base] (m-1-1);
+  \end{tikzpicture}
+\end{minipage}
+
+The coproduct in \autoref{eq:atct:base_union} shows that the way to test that two spaces have been combined correctly is to verify that every point in the subspace $\dbasepoint \in \dbase^{c}$ must be present in the spaces for which inclusion morphisms exist $\dbasepoint \in \dbase^{a}$ and $\dbasepoint \in \dbase^{b}$ such that $\dbasepoint \in \dbase^{a}\sqcup_{\dbase^{c}} \dbase_{b}$. This simple test that the records are joined correctly is what allows us to reliably build larger datasets out of smaller ones, such as in the case of distributed and on demand datasets.
 
 
 \subsubsection{Data Field Types: Fiber Space \dfiber}
@@ -445,7 +474,7 @@ For example, lets define presheaves $\sheaf_1, \sheaf_2$. These are maps from in
     \textcolor{section}{cos}\\
     \textcolor{section}{tan}\\
   \end{array}\right\}} \\
-  \textcolor{base}{\openset_2 = \left(0,1\right)} 
+  \textcolor{base}{\openset_2 = \left(0,2\pi\right)} 
   \arrow[u, "\sheafc_{1}", maps to, color=sheaf, shift right=4.5]
   &  & 
   \textcolor{base}{\openset_1=\left(\frac{\pi}{2}, \frac{3\pi}{2}\right)} 
@@ -766,40 +795,11 @@ For example, in \autoref{fig:artist:equivariance}, the measurable variable is co
 \note{addition: intersections mapped same, multiplication: fibers mapped same}
 \note{large big data glued together correctly}
 A common use of category theory in software engineering is the specification of modular components \cite{wielsManagementEvolvingSpecifications1998} such that we can build systems where the structure preserved by components is preserved in the composition of the components. This allows us to express that an artist that works on a dataset can be composed of artists that work on sub parts of that dataset. 
-\begin{equation}
-  \label{eq:artist:operator}
-  \begin{tikzcd}[column sep=small]
-      & \dfiberc^{a} \times_{\dfiberc^{c}} \dfiberc^{b} 
-    \arrow[ld, "{\pi_{a\times b, a}}"', color=fiber] 
-    \arrow[rd, "{\pi_{a\times b, b}}", color=fiber] & & 
-    \dtotalc^{a} \oplus_{\dfiberc^{c}} \dtotalc^{b} 
-    \arrow[ddd, "\pi"', color=total] \\
-    \dfiberc^{a} 
-    %\arrow[d, "\pi"', color=fiber] 
-    \arrow[r, "{\pi_{a,c}}", color=fiber] 
-    & \dfiberc^{c} & \dfiberc^{b} 
-    %\arrow[d, "\pi", color=fiber] 
-    \arrow[l, "{\pi_{b,c}}"', color=fiber] & \\
-    \dbasec^{a} 
-    \arrow[rd, "{\iota_{a, a+b}}"', color=base] 
-    & \dbasec^{c} 
-    \arrow[r, "{\iota_{c,b}}", color=base] 
-    \arrow[l, "{\iota_{c,a}}"', color=base] 
-    & \dbasec^{b} 
-    \arrow[ld, "{\iota_{b, a+b}}", color=base] 
-    &  \\
-    & \dbasec^{a}\sqcup_{\dbasec^c}\dbasec^{b} & & 
-    \dbasec^{a}\sqcup_{\dbasec^c}\dbasec^{b} 
-    \arrow[uuu, "{\dsectionc^{a,b}}"', dashed, bend right, color=section]
-  \end{tikzcd}
-\end{equation}
+
 
 \subsubsection{Addition}
 \label{sec:artist:addition}
-As illustrated in \autoref{eq:artist:operator}, data bundles can be combined by taking the union of base spaces $\dbase^{a} \sqcup_{\dbase^c} \dbase^b$, where $\dbase^c$ is an overlap.
-\note{amalgamated union, or data bundles of the same type can be thought of as local trivializations of a larger space and glued togetehr as discussed in \autoref{sec:atct:fiber-bundles}}
-
-When the fibers of each bundle are isomorphic $\dfiber^{a} \simeq \dfiber^{b}$, which we denote as $\dtotal$, this is analogous to adding more records to a dataset. We propose an addition operator that states that an artist that takes in a dataset can be constructed using artists that take as inputs subsets of the dataset
+We propose an addition operator that states that an artist that takes in a dataset can be constructed using artists that take as inputs subsets of the dataset
 
 \begin{equation*}
   \label{eq:artist:addition}
@@ -836,7 +836,12 @@ One way to verify that these artists are composable is to check that the return 
 \subsubsection{Multiplication}
 \label{sec:artist:operator:multiplication}
 \note{fiber product vs cartesian product}
-As illustrated in \autoref{eq:artist:operator},  fibers that are a cartesian product of fiberspaces $\dfiber^{a} \times_{\dfiber^c} \dfiber^{b}$, where $\dfiber^c$ is any fiber that is present in both fibers, can be projected down into component fibers. In the trivial case where the base spaces are the same $\dbase^{a} = \dbase^{b} = \dbase$, this is equivalent to adding more fields to a dataset. 
+As illustrated in \autoref{eq:artist:operator},  fibers that are a cartesian product of fiberspaces $\dfiber^{a} \times_{\dfiber^c} \dfiber^{b}$, where $\dfiber^c$ is any fiber that is present in both fibers, can be projected down into component fibers.
+\begin{tikzcd}
+  \dfiberc^{a}\times_{\dfiber^{c}} \dfiberc^{b} \arrow[d, "\pi_a"] \arrow[r, "\pi_b"] & \dfiberc^{b} \arrow[d, "\pi_c"] & {(temperature, time) \times_{time} (pressure, time)} \arrow[d, "\pi_a"] \arrow[r, "\pi_b"] & {(pressure,time)} \arrow[d, "\pi_c"] \\
+  \dfiberc^{a} \arrow[r, "\pi_c"]                                                     & \dfiberc^{c}                    & {(temperature,time)} \arrow[r, "\pi_c"]                                                    & time                                
+  \end{tikzcd}
+In the trivial case where the base spaces are the same $\dbase^{a} = \dbase^{b} = \dbase$, this is equivalent to adding more fields to a dataset. 
 
 \begin{equation*}
   \label{eq:artist:multiplication}
@@ -1440,13 +1445,14 @@ The authors would like to thank...
 
 % can use a bibliography generated by BibTeX as a .bbl file
 % BibTeX documentation can be easily obtained at:
-% http://mirror.ctan.org/biblio/bibtex/contrib/doc/
+% http://mirror.ctan.org/biblio/bibtex/contrib/doc/https://www.overleaf.com/download/project/64063771726807fc06c1ee16/build/187faee483d-291434de4cddeda6/output/output.pdf?compileGroup=priority&clsiserverid=clsi-pre-emp-c2d-d-f-nkpv&enable_pdf_caching=true&popupDownload=truejjj
 % The IEEEtran BibTeX style support page is at:
 % http://www.michaelshell.org/tex/ieeetran/bibtex/
 
 \bibliographystyle{IEEEtran}
 % argument is your BibTeX string definitions and bibliography database(s)
-\bibliography{bibliography}
+\bibliography{bib
+
 % biography section 
 % If you have an EPS/PDF photo (graphicx package needed) extra braces are
 % needed around the contents of the optional argument to biography to prevent
