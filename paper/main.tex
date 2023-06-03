@@ -323,6 +323,7 @@ For example, the disjoint union of two bundles, as shown in \autoref{fig:atct:lo
 \end{equation}
 \end{minipage}\hfil
 \begin{minipage}[c]{0.65\columnwidth}
+  \note{will be replaced by # lines showing intervals}
   \begin{tikzpicture}[commutative diagrams/every diagram]
     \matrix[matrix of math nodes, name=m, commutative diagrams/every cell]{
       (0,1) & (.55,1) \\
@@ -359,15 +360,15 @@ Adopting Spivak's fiber bundle construction of types allows our model to reuse t
 As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ to encapsulate the field types of the data. The fiber category has a single object $\dfiberc$ of an arbitrary type and morphisms on the fiber object $\dfunctc \in Hom(\dfiberc, \dfiberc)$. We can also equip the category with any operators or relations that are part of he mathematical structure of the field type. For example we can equip the category with a comparison operator, which is part of the definition of the monoidal structure of a partially ordered ranking variable \cite{bruggemannRankingPrioritizationMultiindicator2011} or the group structure of Steven's ordinal measurment scale \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale, thomasMathematizationNotMeasurement2014}. Steven's other scales are summarized in \autoref{tab:appendix:summary:stevens}. 
 
 The fiber category $\mathcal{\dfiberc}$ is also equipped with a bifunctor because it is a monoidal category and this functor provides a method for combining fiber types. The bifunctor $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$ allows us to express fields that contain multityped values. For example, wind can be represented as two fields $\dfiber_{speed} \times \dfiber_{direction}$ or a composite fiber field $\dfiber_{speed} \otimes \dfiber_{direction} = \dfiber_{wind}$. The $\otimes$ encapsulates both the sets associated with each fiber $\mathbb{R} \times \mathbb{R} = \mathbb{R}^{2}$ and the morphisms associated with each functor $(\dfunct_{speed}, \dfunct_{direction}) = \dfunct_{wind}$. Combining fibers can be verified by checking that when a fiber component $\dfiber^{c}$ is present in both $\dfiber^{a}$ and $\dfiber^{b}$, it is identical when projected out of either such that the *product* diagram commutes:
-\begin{minipage}
 
-\begin{tikzcd}[c]{.25\columnwidth}
+\begin{minipage}[c]{.25\columnwidth}
+\begin{tikzcd}
   \dfiberc^{a}\times_{\dfiber^{c}} \dfiberc^{b} \arrow[d, "\pi_a"] \arrow[r, "\pi_b"] & \dfiberc^{b} \arrow[d, "\pi_c"] & {(temperature, time) \times_{time} (pressure, time)} \arrow[d, "\pi_a"] \arrow[r, "\pi_b"] & {(pressure,time)} \arrow[d, "\pi_c"] \\
   \dfiberc^{a} \arrow[r, "\pi_c"]                                                     & \dfiberc^{c}                    & {(temperature,time)} \arrow[r, "\pi_c"]                                                    & time                                
   \end{tikzcd}
 \end{minipage}\hfill
 \begin{minipage}[c]{.65\columwidth}
-  
+  \note{will be little pictures like in 7 sketchs  }
 \end{minipage}
 
 This means that when multifield data is decomposed into its component fields, shared records stay the same. For example, the red (temperature, time, pressure) record seperates into (tempereture, time) and (pressure, time) records that share the same red time. Furthermore this time is the same whether it is obtained from the (temperature, time) or (pressure, time) record. This simple test that fields are joined together correctly for the same record is what allows us to reliably combine multiple datasets together on shared properties-for example growing the weather station data from a temporal to spatial dataset by adding the weather at each  location at each time. 
