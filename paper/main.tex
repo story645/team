@@ -30,6 +30,7 @@
 % theorem environments
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
+\newcommand{\definitionautorefname}{Definition}
 \theoremstyle{remark}
 \newtheorem{example}{Example}[section]
 \newtheorem{axiom}{Axiom}
@@ -37,11 +38,29 @@
 
 % *** diagrams
 \usepackage{tikz}
-\usetikzlibrary{cd} % commutative diagrams
-\usepackage{pgfplots} %numberline
-\DeclareUnicodeCharacter{2212}{−}
-\usepgfplotslibrary{groupplots,dateplot}
+\usetikzlibrary{cd, calc, positioning}
 \usetikzlibrary{patterns,shapes.arrows}
+\usepackage{pgfplots} %numberline
+\usepgfplotslibrary{groupplots,dateplot}
+\pgfplotsset{
+  compat=1.15,
+   simple axis/.style={
+    scale only axis,
+    axis x line=bottom,
+    axis y line=none,
+    axis line style={latex-latex},
+    xticklabel style = {font=\footnotesize},
+    width=40pt,
+    height=20pt,
+    xtick = {0, 180, 360},
+    xticklabels = {$0$, $\pi$, $2\pi$},
+    xmin = 0, xmax=360,
+    ymin=0, ymax=1,
+    domain=0:360,
+    range=0:1,
+    tickwidth=0,
+    }
+}
 \pgfplotsset{compat=newest}
 
 % *** SPECIALIZED LIST PACKAGES ***
@@ -153,7 +172,7 @@ The notion that visual encoding functions should be \textit{homomorphisms} was p
 
 \subsection{Topological Structure}
 \label{sec:related-work:continuity}
-\begin{figure}[h!]
+\begin{figure}[H]
   \includegraphics[width=1\columnwidth]{k_different_types.png}
   \caption{
   \note{add first panel which is table + all K type, second is scatter, etc...}
@@ -217,7 +236,7 @@ A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
 \begin{definition} A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotalc$ over a fiber bundle is a smooth right inverse of $\pi$: $\pi(\dsection(\dbasepoint)) = \dbasepoint$ for all $\dbasepoint \in \dbase$
 \end{definition}
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \includegraphics[width=\columnwidth]{figures/local_trivalizations.png}
   \caption{The local trivializations $\dtotal_{0}$ and $\dtotal_{1}$ are subspaces of $\dtotal$ where the fibers $\dfiber_{0}$ are equal, here illustrated as all pointing in the same direction. These local trivializations are themselves locally trivial fiber bundles.} 
   \label{fig:atct:local_trivalizations}
@@ -236,7 +255,7 @@ These functions - using the isomorphisms $x\mapsto x$, $x\mapsto x/2$ and $x\map
 %For example, in \autoref{fig:local_trivalizations}, the bundles $\dtotal_{0}=\dtotal\restriction_{[\epsilon^{-}, {\frac{2\pi}{5}}^{+}]}$ and $\dtotal_{1}=\dtotal\restriction_{[{\frac{2\pi}{5}}^{-}, \epsilon^{-}]}$ are local trivializations of an arbitrary bundle $\dtotal$. These local trivializations overlap on the intersections of the open subsets of each trivialization $[\epsilon^{-}, \epsilon^{+}]$ and $[{\frac{2\pi}{5}}^{-}, {\frac{2\pi}{5}}^{+}]$. A set of trivializations can be glued into a larger bundle by defining transition maps that describe how to align the fibers in the overlapping space such that the sections of the bundle remain continuous. 
 \note{add transition map construction formula} 
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \includegraphics[width=1\columnwidth]{figures/cyl_mob.png}
   \caption{\note{figure out short caption here}\label{fig:cyl_mob_bundles}}
 \end{figure}
@@ -283,7 +302,7 @@ such that
 The standard construction of a category from a topological space is that it has open set objects $\opensetc$ and inclusion morphisms $\opensetc_i \xrightarrow{\iota} \opensetc_j$ such that $\opensetc_i \subseteq \opensetc_j$\cite{riehlCategoryTheoryContext}. The composability property expresses that inclusion is transitive, while associativity expresses that the inclusion functions can be curried in various equivalent groupings. By formally specifying the properties of the topological structure data types as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects. 
 
 For example, the disjoint union of two bundles, as shown in \autoref{fig:atct:local_trivalizations}, is the coproduct $\dbase^{a} \subseteq_{\dbase^{c}} \dbase^{b}$ over an overlap $\dbase^{c}$ and therefore the inclusion morphism must be commutative:
-\begin{minipage}[c]{0.25\columnwidth} 
+\begin{minipage}[c]{0.30\columnwidth} 
   \begin{equation}
     \label{eq:atct:base_union}
   \begin{tikzcd}
@@ -296,21 +315,37 @@ For example, the disjoint union of two bundles, as shown in \autoref{fig:atct:lo
   \end{tikzcd}
 \end{equation}
 \end{minipage}\hfill
-
-\begin{minipage}[c]{0.65\columnwidth}
-  \note{will be replaced by lines showing intervals}
+\begin{minipage}[c]{0.60\columnwidth}
   \begin{tikzpicture}[commutative diagrams/every diagram]
-    \matrix[matrix of math nodes, name=m, commutative diagrams/every cell]{
-      (0,1) & (.55,1) \\
-      (0,.45) & (.40, 60)\\  
-    };
+    \draw node[anchor=north west, minimum width=30pt, minimum height=10pt] (kabc) {};
+\begin{axis}[simple axis, at={(kabc)}]
+  %\addplot [thick, smooth] {sin(2*pi*x)};
+\end{axis}
 
-    \path[commutative diagrams/.cd, every arrow, every label]
-    (m-2-2) edge[color=base] (m-1-2)
-            edge[color=base] (m-2-1)
-    (m-2-1) edge[color=base] (m-1-1)
-    (m-1-2) edge[color=base] (m-1-1);
+\draw node[anchor=north east, right=55pt of kabc, minimum width=30pt, minimum height=10pt] (kb) {};
+%\begin{axis}[simple axis,at={(kb)}]
+%  %\addplot [thick, smooth] {sin(2*pi*x)};
+%\end{axis}
+\draw[at=(kb)][draw=black](0,0) -- (360,0);
+\draw node[anchor=south west, below=of kabc, minimum width=30pt, minimum height=10pt] (ka) {};
+\begin{axis}[simple axis,at={(ka)}]
+  %\addplot [thick, smooth] {sin(2*pi*x)};
+\end{axis}
+
+\draw node[anchor=south east, below=of kb, minimum width=30pt, minimum height=10pt] (kc) {};
+\begin{axis}[simple axis, at={(kc)}]
+  %\addplot [thick, smooth] {sin(2*pi*x)};
+\end{axis}
+
+\path[commutative diagrams/.cd, every arrow, every label]
+  (kc) edge[] (kb)
+       edge[] (ka)
+  (ka) edge[] (kabc)
+  (kb) edge[] (kabc);
+
+
   \end{tikzpicture}
+
 \end{minipage}
 
 The coproduct in \autoref{eq:atct:base_union} shows that the way to test that two spaces have been combined correctly is to verify that every point in the subspace $\dbasepoint \in \dbase^{c}$ must be present in the spaces for which inclusion morphisms exist $\dbasepoint \in \dbase^{a}$ and $\dbasepoint \in \dbase^{b}$ such that $\dbasepoint \in \dbase^{a}\sqcup_{\dbase^{c}} \dbase_{b}$. This simple test that the records are joined correctly is what allows us to reliably build larger datasets out of smaller ones, such as in the case of distributed and on demand datasets.
@@ -338,6 +373,7 @@ The fiber category $\mathcal{\dfiberc}$ is also equipped with a bifunctor becaus
 
 \begin{minipage}[c]{.25\columnwidth}
 \begin{tikzcd}
+  \label{eq:atct:fiber_product}
   \dfiberc^{a}\times_{\dfiber^{c}} \dfiberc^{b} \arrow[d, "\pi_a"] \arrow[r, "\pi_b"] 
   & \dfiberc^{b} \arrow[d, "\pi_c"] 
   & {(temperature, time) \times_{time} (pressure, time)} \arrow[d, "\pi_a"] \arrow[r, "\pi_b"] 
@@ -380,7 +416,7 @@ The subsets of the fiber bundle and the transition maps between these subsets ar
 
 \subsubsection{Example}
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \includegraphics[width=\columnwidth]{dbundle.png}
   \caption{The table from \autoref{fig:related-work:continuity:ktypes} has a 3 dimensional fiber (name, temperature, precipitation), a 0D base space, and each row is a section. Each time series is a section of a bundle with a 2D fiber (time, precipitation) and a 1D base space encoding temporal continuity. Each location of the rain map is a section of a bundle with a 2D plane base encoding spatial continuity and a 3D fiber space encoding (latitude, longitude, precipitation)
     \label{fig:atct:trivialbundle}}
@@ -405,7 +441,7 @@ As with data, we model the graphic generating functions as sections $\gsection$ 
 \end{equation}
 that map from a point in an openset in the graphic space $\gbasepoint \in \opensetg \subseteq \gbase$ to a point in the graphic fiber $\gfiber$. The section evaluated on a single point $\gbasepoint$ returns a single graphic record, for example one pixel in an ideal resolution space. In our model, the unevaluated graphic section is passed to a renderer to generate graphics. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \includegraphics[width=1\columnwidth]{fb_rho.png}
   \caption{For a 2D display, a section $\gsection$ maps from each point $\gbasepoint$ into a fiber $\gfiber$ that encodes an RGB pre-render space with infinite resolution $\mathcal{R}^{2}$. Each tiny colored box is an approximation of the return value of the same section function $\gsection$ evaluated on different points $\gbasepoint \in \gbase$ in the base space. \note{add alpha and z channels and very faded out marker point} 
   \label{fig:atct:fb:graphic}}
@@ -500,7 +536,7 @@ There is an expectation that for a visualization to be readable, the visual elem
 \end{equation}
 between a graphic subspace $\opensetg \subseteq \gbase$ and data subspace $\openset \subseteq \dbase$. The functor $\vindex$ is surjective such that for every point $\dbasepoint \in \openset$ there is a corresponding set of points $\{\gbasepoint | \gbasepoint \in  \vindexpre(k)\}$ for all $\gbasepoint \in \opensetg$.
 
-We construct the map as going from graphic to data because that encodes the notion that every visual element traces back to the data in some way. As exemplified in \autoref{fig:atct:morphisms:sheaf}, we define $\vindex$ as a surjective map because it allows us to express that a union of graphic spaces $S_i$ maps to single data point $\dbasepoint$, which allows us to express visual representations of a single record that are the union of many primitives, discussed in \autoref{eq:artist:operator}, such as multipart glyphs (e.g boxplots) and combinations of plot types (e.g line with point markers). 
+We construct the map as going from graphic to data because that encodes the notion that every visual element traces back to the data in some way. As exemplified in \autoref{fig:atct:morphisms:sheaf}, we define $\vindex$ as a surjective map because it allows us to express that a union of graphic spaces $S_i$ maps to single data point $\dbasepoint$, which allows us to express visual representations of a single record that are the union of many primitives, such as multipart glyphs (e.g boxplots) and combinations of plot types (e.g line with point markers). 
 
 \subsubsection{Data and Graphic Correspondence}
 Since we have defined a function \vindex\ between two spaces $\dbase, \gbase$, we can then construct functors that transport sheaves over each space to the other\cite{harder2008lectures}. This allows us to describe what data we expect at each graphic index location and what graphic is expected at each data index location. Transport functors compose the indexing map \vindex\ with the sheave map to say that a record \dsection\ at \dbasepoint\ is at all corresponding \gbasepoint\ and that a function \gsection\ over one point \gbasepoint\ is the same function at all points $\gbasepoint \in \gbase$ that correspond to the same record index \dbasepoint.
@@ -542,7 +578,7 @@ such that there is a way to then look up what data values correspond with a grap
 As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ in the graphic space that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$. 
  
 \subsubsection{Example: Graphic and Data}
-\begin{figure}[h!]
+\begin{figure}[H]
   \includegraphics*[width=1\columnwidth]{xi_sin.png}
   \caption{The data consists of the $sin$ and $cos$ functions over a unit circle base space. We choose to visualize this as a circle and two line plots. The indexing function \vindex\ book keeps \note{find better word than bookkeeping} which parts of the circle and each curve correspond to each point on the unit circle. The pushforward $\vindexpush$ matches each point in the data space to the specification of the graphic at that point, while the pullback $\vindexpull$ matches each point in the graphic space to the data over that point. \label{fig:atct:morphisms:sheaf}} 
 \end{figure}
@@ -571,7 +607,8 @@ such that $\alpha = (\alpha_{c})_{c\in\mathcal{C}}$ is the set of all natural tr
       \cgamma{\dbasec}{\dtotalc} &  & \dbasec \arrow[ll, "{\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] \arrow[rr, "{\vindexpushc\sheafc_{\gbasec, \gtotalc}}", maps to, color=sheaf] &  & \cgamma{\dbase}{\vindexpushc\gtotalc} 
       \end{tikzcd}
 \end{equation}
-take as input an openset object \opensetc\ or \opensetgc\ and return sets of data and graphic sections that are objects in \setb. As a map between these sheaf functors, the artist has to preserve the $\iota, \iota^*$ morphisms of the presheaf functor, described in \autoref{eq:atct:sheaf:inclusion} and \autoref{eq:atct:sheaf:restriction}, such that the following diagram commutes:
+take as input an openset object \opensetc\ or \opensetgc\ and return sets of data and graphic sections that are objects in \setb. As a map between these sheaf functors, the artist has to preserve the $\iota, \iota^*$ morphisms of the presheaf functor, described in \autoref{eq:atct:sheaf:inclusion} and 
+\autoref{eq:atct:sheaf:restriction}, such that the following diagram commutes:
 
 \begin{equation}
   \label{eq:artist:natural_transform:inclusions}
@@ -680,7 +717,7 @@ The data transform \dfunc\ is composable
 \end{equation}
 if each (identical) component base space is transformed in the same way $\dfunch$ and there exists functions $\dfunc_{a,b}: \dtotal_a \times \dtotal_b \rightarrow \dtotal_a \times \dtotal_b$, $\dfunc_{a}: \dtotal_a \rightarrow \dtotal_a$ and $\dfunc_{b}: \dtotal_b \rightarrow \dtotal_b$ such that $\pi_a \circ \dfunc_a = \dfunc_{a,b} \circ \pi_a$ and $\pi_b \circ \dfunc_b = \dfunc_{a,b} \circ \pi_b$ then $\dfunc_{a,b} = (\dfunc_a, \dfunc_b)$. This allows us to define a data transform where each fiber transform $\dfunct_{i}$ can be applied to a different fiber field $\dfiber_i$. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \includegraphics[width=\columnwidth]{phi.png}
   \caption{Values in a data set can be transformed in three ways: $\dfunch$-values can change position, .e.g transposed;  $\dfunct$-values can change, e.g. doubled; $\dfunc$ - values can change position and value  \label{fig:atct:phi}}
 \end{figure}
@@ -774,7 +811,7 @@ On the other hand, a change in sections \autoref{eq:atct:morphism:fiber} induces
 \end{equation}
 The change in measurements $\dfunctc_{\measure}$ is defined by the developer as the symmetry between data and graphic that the artist is expected to preserve. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \includegraphics[width=1\columnwidth]{equivariance.png}
   \caption{This artist is equivariant because when the input data $\dsection$ is transposed, $\dfunch$, scaled $\dfunct$, and transposed and scaled $\dfunc$, the corresponding colored cells are transposed, scaled such that the color is moved two steps, and both transposed and scaled. 
   \label{fig:artist:equivariance}}
@@ -834,10 +871,12 @@ In the trivial case where the base spaces are the same $\dbase^{a} = \dbase^{b} 
   \label{eq:artist:multiplication}
   \vartistc_{a \times b}(\cgamma{\dbase}{\dtotalc^{a\times b}}) \coloneqq \vartistc_{a}(\cgamma{\dbasec}{\dtotalc^{a}}) \times \vartistc_{b}(\cgamma{\dbasec}{\dtotalc^{b}}) 
 \end{equation*}
-which following from an adjoint property of homsets \note{find citation}
-\begin{equation*}
+
+which following from an adjoint property of homsets \note{find citation and push this into a footnote or appendix maybe} 
+\begin{equation}
   Hom(\gbase, \gfiber) \times Hom(\gbase, \gfiber) = Hom(\gbase, \gfiber\times \gfiber)
-\end{equation*}
+\end{equation}
+
 which means that the artists on the subsets of fibers can be defined 
 \begin{equation}
   \gsectionc^{a \times b} = \{\gsectionc^{a}(\gbasepointc), \gsectionc^{b}(\gbasepointc)\}, \gbasepointc \in \vindexprec(\dbasec)
@@ -860,7 +899,7 @@ One way to verify that these artists are composable is to check that they encode
 
 This expectation of using the same encoding for the same variable is a generalization of the concept of consistency checking of multiple view encodings discussed by Zening and Hullman \cite{hullmanKeeping2018}. This expectation can also be used to check that a multipart glyph is assembled correctly. For example, a box plot \cite{wickham40YearsBoxplots2011} typically consists of a rectangle, multiple lines, and scatter points; therefore a boxplot artist $\vartist_{boxplot} = \vartist_{rect} \times \vartist_{errors} \times \vartist_{line} \times \vartist_{points}$ must be constructed such that all the sub artists draw a graphic at or around the same x value. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \includegraphics*[scale=.75]{qcom.png}
   \caption{The circle-line visual element can be constructed via $\gsection_{circle}$ + $\gsection_{line}$ functions that generate the circle and line elements respectively. This is equivalent to a $\gsection_{circle+line}$ function that takes as input the combined base space $\gbase_{circle} \sqcup \gbase_{line} = \gbase_{circle-line}$ and returns pixels in the circle-line element.  \label{fig:artist:operator}}
@@ -868,11 +907,12 @@ This expectation of using the same encoding for the same variable is a generaliz
 There is no way to visually determine whether a visual element is the output of a single artist or a multiplied or added collection of artists. The circle-line visual element in \autoref{fig:artist:operator} can be a visual representation of a highlighted point intersecting with a line plot with the same fields. The same element can also be encoding some fields of a section in the circle and other fields of that section in the lines. \note{+*equive}
 Although we have been discussing the trivial cases of adding observations or adding fields, this merging of artists in datasets can be generalized:
 \begin{equation}
+  \label{eq:artist:join_base_fiber}
   \vartistc(\cgamma{\mathop{\sqcup}_{i} \dbasec^{i}}{\mathop{\oplus}_{i}\dtotalc^{i}}) \coloneqq \sum_{i}
   \vartistc_{i}(\cgamma{\dbasec^{i}}{\dtotalc^{i}}) 
 \end{equation} 
 
-As shown in \autoref{eq:artist:operator}, bundles over a union of base spaces can be joined as a product of the fibers. This allows us to consider all the data inputs in a complex visualization as a combined input, where some sections evaluate to null in fields for which there are no values for that point in the combined base space $\dbasepoint \in \mathop{\sqcup}_{i} \dbase^{i}$ The combined construction of the data is a method for expressing what each data input has in common with another data input-for example the data for labeling tick marks or legends- 
+As shown in \autoref{eq:artist:join_base_fiber}, bundles over a union of base spaces can be joined as a product of the fibers. This allows us to consider all the data inputs in a complex visualization as a combined input, where some sections evaluate to null in fields for which there are no values for that point in the combined base space $\dbasepoint \in \mathop{\sqcup}_{i} \dbase^{i}$ The combined construction of the data is a method for expressing what each data input has in common with another data input-for example the data for labeling tick marks or legends- 
 and therefore which commonalities need to be preserved in the artists that act on these inputs. 
 
 \section{Constructing Structure Preserving Components}
@@ -899,7 +939,7 @@ where n is a thickening of the graphic base space $\gbase$ to account for the di
 \end{equation*}
 because the data dimensionality $\dbase$ may be too small for a graphic representation.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 
   \includegraphics[width=1\columnwidth]{deform_retract.png}
   \caption{The graphic base space $\gbase$ is collapsible to the line $\dbase$ such that every band $(\dbasepoint_i, [0,1])$ on $\gbase$ maps to corresponding point $\dbasepoint_i \in \dbase$. The band $[0,1]$ determines the thickness of a rendered line for a given point $\dbasepoint_{i}$ by specifying how pixels corresponding to that point are colored. \label{fig:construction:xi}}
@@ -1002,7 +1042,7 @@ Since encoder functions are infinitely composable, as described in \autoref{eq:c
 The composition in \autoref{eq:construction:q:fabrication} means that different measurable components can yield the same visual elements. The operators defined in \autoref{sec:artist:operators} can also act on compositors $\vmark$ such that $\vmark_{a+b} = \vmark_{a} + \vmark_{b}$ and multiplied d $\vmark_{a\times b} = \vmark_{a}  \vmark_{b}$.  
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \includegraphics[width=1\columnwidth]{full_scatter.png}
   \caption{This simple $\vmarkc$ assembles a circular visual element that is the color specified in $\vsection(\dbasepoint)$ and is at the intersection specified in $\vsection(\dbasepoint)$ \label{fig:construction:q} \note{much better labeling, include semantic labeling, make everything bigger}}
 \end{figure}
@@ -1119,7 +1159,7 @@ The framework specified in \autoref{sec:artist} and \autoref{sec:construction} d
 Specially, we introduce artists for building the graphical elements shown in \autoref{fig:discussion:bar} because it is a visualization type that allows us to demonstrate composability and multivariate data encoding. We build our visualization components by extending the Python visualization library Matplotlib's artist\footnote{Matplotlib artists are our artist's namesake}\cite{hunterMatplotlib2DGraphics2007,hunterArchitectureOpenSource} to show that components using this model can be incorporated into existing visualization libraries iteratively. While the architecture specified in \autoref{sec:construction} can be implemented fully functionally, we make use of objects to keep track of parameters passed into artists. In this toy example, the small composable components allow for more easily verifying that each component does its transformation correctly before assembling them into larger systems.  
 
 \subsection{Bundle Inspired Data Containers}
-\begin{table}[h!]
+\begin{table}[H]
   \centering
 \begin{tabular}{|lcl|}
   \hline \\
@@ -1142,7 +1182,7 @@ We construct a toy dataset with a discrete $\dbase$ of 4 points and a fiber spac
       return local_sections
 \end{minted}
 
-This interface provides a uniform way of accessing subsets of the data, which are local sections. The motivation for a common data interface is that it would allow the artist to talk to different common python data containers, such as numpy\cite{harris2020array}, pandas\cite{jeff_reback_2020_3715232}, xarray \cite{hoyer2017xarray}, and networkx\cite{HagbergExploringNetwork2008}. Currently, data stored in these containers must be unpacked and converted into arrays and matrices in ways that either destroy or recreate the structure encoded in the container. For example a pandas data frame must be unpacked into its columns before it is sent into most artists and continuity is implicit in the columns being the same length rather than a tracked base space $\dbase$. Because it is more efficient to work with the data in column order, we often treat the data as a collection of single fiber bundles. This is equivalent to the total bundle, as shown in \autoref{eq:artist:operator}. 
+This interface provides a uniform way of accessing subsets of the data, which are local sections. The motivation for a common data interface is that it would allow the artist to talk to different common python data containers, such as numpy\cite{harris2020array}, pandas\cite{jeff_reback_2020_3715232}, xarray \cite{hoyer2017xarray}, and networkx\cite{HagbergExploringNetwork2008}. Currently, data stored in these containers must be unpacked and converted into arrays and matrices in ways that either destroy or recreate the structure encoded in the container. For example a pandas data frame must be unpacked into its columns before it is sent into most artists and continuity is implicit in the columns being the same length rather than a tracked base space $\dbase$. Because it is more efficient to work with the data in column order, we often project the fiber down into individual components. As shown in \autoref{eq:atct:fiber_product}, we can verify that this projection is correct by checking that the values at the index are the same regardless of the level of decomposition. 
 
 \subsection{Component Encoders}
 To encode the values in the dataset, we enforce equivariance by writing $\vchannel$ encoders that match the structure of the fields in the dataset. For example, the fruit column is a nominal measurement scale. Therefore we implement a position encoder that respects permutation $\dfunch$ transformations. The most simple form of this $\vchannel$ is a python dictionary that returns an integer position, because Matplotlib's internal parameter space expects a numerical position type. 
@@ -1220,7 +1260,7 @@ The framework introduced in this paper is a marriage of the ways the graphic and
 \label{sec:appndix:summary}
 The topological spaces and functions introduced throughout this paper are summarized here for reference. 
 
-\begin{table}[h!]
+\begin{table}[H]
   \centering
   {\renewcommand{\arraystretch}{1.5}
   \begin{tabular}{|r | c c c|}
@@ -1238,7 +1278,7 @@ The topological spaces and functions introduced throughout this paper are summar
   }
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[H]
   \centering
   {\renewcommand{\arraystretch}{1.5}
   \begin{tabular}{|r | l l | }
@@ -1256,7 +1296,7 @@ The topological spaces and functions introduced throughout this paper are summar
   }
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[H]
   \centering
   {\renewcommand{\arraystretch}{1.5}
   \begin{tabular}{|r | l  l |}
@@ -1274,7 +1314,7 @@ The topological spaces and functions introduced throughout this paper are summar
   }
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 {\renewcommand{\arraystretch}{1.5}
 \begin{tabular}{|r|l|l|}
@@ -1297,7 +1337,7 @@ The topological spaces and functions introduced throughout this paper are summar
 }
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[H]
   \renewcommand{\arraystretch}{1.5}
   \begin{tabular}{|lll|}\hline
       scale & operators & sample constraint \\ \hline
@@ -1310,7 +1350,7 @@ The topological spaces and functions introduced throughout this paper are summar
   \label{tab:appendix:summary:stevens}
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[H]
   \centering
   {\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|r|l|l|}
@@ -1336,7 +1376,7 @@ The topological spaces and functions introduced throughout this paper are summar
 
 
 \note{color}
-\begin{table}[h!]
+\begin{table}[H]
   \centering
   {\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|r|l|l|}
