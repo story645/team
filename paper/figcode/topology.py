@@ -10,7 +10,7 @@ def make_map():
 
 def make_timeseries(axt, axk, timeseries):
     for station, dft in timeseries.items():
-        dft.plot(ax=axt, color=ip.cdict[station], legend=False)
+        dft.plot(ax=axt, color=ip.airports[station]['color'], legend=False)
     axt.set_xlabel(None)
     
     axk.hlines(.5, 0, .75, lw=5, color=pcd['base'])
@@ -35,14 +35,14 @@ def make_table(axt, axk, sample):
         xt, yt = ip.source_cell(tab[i+1,0],'k', xr=(i/10)+.5)
         station = tab[(i+1,0)].get_text().get_text()
         for c in range(3):
-            tab[(i+1,c)].set_facecolor(ip.cdict[station])
+            tab[(i+1,c)].set_facecolor(ip.airports[station]['color'])
             tab[(i+1,c)].set_alpha(.25)
             tab[(i+1,c)].get_text().set_color("black")
             tab[(i+1,c)].get_text().set_wrap(True)
 
     for i, (xj, yj) in enumerate(zip(xshuf, yjit)):
         station = tab[(i+1,0)].get_text().get_text()
-        axk.scatter(xj, yj, s=250, color=mcolors.to_rgba(ip.cdict[station], alpha=1), 
+        axk.scatter(xj, yj, s=250, color=mcolors.to_rgba(ip.airports[station]['color'], alpha=1), 
                         edgecolor=pcd['base'], lw=2, zorder=10)
 
     axk.set(xlim=(-0.5, 1.5), ylim=(.25, .75))

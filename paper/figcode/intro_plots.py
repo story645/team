@@ -10,43 +10,22 @@ from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 
 #scatter position: 
 
-cdict = {#'GANG MILLS NEW YORK': '#e6194B',
-         #'SARA NEW YORK': '#42d4f4',
-         #'SCHROON LAKE NEW YORK': '#9A6324',
-         #'SHERBURNE NEW YORK': '#4363d8',
-        #'STONYKILL NEW YORK': '#fabed4',
-         'BINGHAMTON': '#9A6324',
-         'ISLIP LI MACARTHUR AP': '#ffe119',
-         'NEW YORK LAGUARDIA AP': '#f58231',
-         'BUFFALO': '#f032e6',
-         'ALBANY AP':'#469990',
-         'GLENS FALLS AP': '#dcbeff',
-         'ROCHESTER GTR INTL AP': '#800000',
-         'SYRACUSE HANCOCK INTL AP': '#aaffc3',
-         'NEW YORK JFK INTL AP': '#000075',
-         'HILO INTERNATIONAL AIRPORT':'#3CB44B',
-         'BARROW AIRPORT':'#C0C0C0'
-}
-airport_codes = {'ALBANY AP': 'ALB', 
-                 'BINGHAMTON': 'BGM', 
-                 'BUFFALO':'BUF', 
-                 'GLENS FALLS AP':'GFL',
-                 'ISLIP LI MACARTHUR AP':'ISP', 
-                 'NEW YORK LAGUARDIA AP':'LGA', 
-                 'ROCHESTER GTR INTL AP':'ROC',
-                 'SYRACUSE HANCOCK INTL AP':'SYR',
-                 'NEW YORK JFK INTL AP':'JFK',
-                 'HILO INTERNATIONAL AIRPORT':'ITO', 
-                 'BARROW AIRPORT': 'BRW',
-                 'SARA NEW YORK':'a',
-                 'STONYKILL NEW YORK':'b'}
-rac = {v:k for k, v in airport_codes.items()}
+airports = {'ALBANY INTL AP': {'code': 'ALB', 'color': '#469990'},
+            'BINGHAMTON': {'code': 'BGM', 'color': '#9A6324'},
+            'BUFFALO': {'code': 'BUF', 'color': '#f032e6'},
+            'GLENS FALLS AP': {'code': 'GFL', 'color': '#dcbeff'},
+            'ISLIP-LI MACARTHUR AP': {'code': 'ISP', 'color': '#ffe119'},
+            'LAGUARDIA AP': {'code': 'LGA', 'color': '#f58231'},
+            'ROCHESTER GTR INTL AP': {'code': 'ROC', 'color': '#800000'},
+            'SYRACUSE HANCOCK INTL AP': {'code': 'SYR', 'color': '#aaffc3'},
+            'JFK INTL AP': {'code': 'JFK', 'color': '#000075'},
+            'HILO INTERNATIONAL AIRPORT': {'code': 'ITO', 'color': '#3CB44B'},
+            'BARROW AIRPORT': {'code': 'BRW', 'color': '#C0C0C0'},
+            'SARANAC LK ADIRONDACK RGNL AP': {'code': 'a', 'color': '#42d4f4'},
+            'STONYKILL NEW YORK': {'code': 'b', 'color': '#fabed4'}}
+rac = {v['code']: k for k, v in airports.items()}
 
-ssubset = ['ROCHESTER GTR INTL AP','STONYKILL NEW YORK', 
-           'ALBANY AP', 'SCHROON LAKE NEW YORK', 
-           'SARA NEW YORK','NEW YORK LAGUARDIA AP',
-           'NEW YORK JFK INTL AP', 'SYRACUSE HANCOCK INTL AP', 
-           'ISLIP LI MACARTHUR AP', 'GLENS FALLS AP', 'BINGHAMTON']
+ssubset = set(airports.keys()) - {'HILO INTERNATIONAL AIRPORT', 'BARROW AIRPORT'}
 
 
 def plot_table(ax, dfs, ccolors, edgecolor='k', textcolor='k'):
@@ -71,11 +50,11 @@ def plot_table(ax, dfs, ccolors, edgecolor='k', textcolor='k'):
     return tab
 
 def plot_map(ax, gdf, nystate, cmap, norm, fade='k', alpha=.5, station=None):
-    for name in cdict:
+    for name in airports:
         a = 1 if name == station else alpha
         df = gdf.loc[[name], ['PRCPI','geometry']]
         df.plot(ax=ax, label=name, facecolor=cmap(norm(df['PRCPI'])), 
-                edgecolor=mcolors.to_rgba(cdict[name], alpha=a), 
+                edgecolor=mcolors.to_rgba(airports[name]['color'], alpha=a), 
                 legend=False, linewidth=2.5, alpha=a, markersize=100)
     
     nystate[nystate['postal'].str.match('NY')].plot(ax=ax,
@@ -97,7 +76,7 @@ def plot_time(ax, df, fade='k', alpha=.5, station=None):
     for name, gdf in df.groupby(['NAME']):
         a = 1 if name == station else alpha
         zorder = 100 if name == station else -1
-        ax.plot('DATES', 'PRCPI', data=gdf, label=name, color=cdict[name], alpha=a, zorder=zorder, lw=2)
+        ax.plot('DATES', 'PRCPI', data=gdf, label=name, color=airports[name]['color'], alpha=a, zorder=zorder, lw=2)
     ax.xaxis.set_major_formatter(mdates.ConciseDateFormatter(mdates.AutoDateLocator()))
     ax.tick_params(color=fade, labelcolor=fade)
     ax.spines[:].set_color(fade)
