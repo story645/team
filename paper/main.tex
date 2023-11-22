@@ -3,9 +3,10 @@
 % *** MISC UTILITY PACKAGES ***
 
 \newcommand{\note}[1]{\textcolor{magenta}{#1}} 
-\usepackage{silence} 
 
+\usepackage{silence} 
 \WarningsOff[fixltx2e]
+
 \usepackage[switch]{lineno}
 \renewcommand{\linenumberfont}{\normalfont\bfseries\small\color{lightgray}}
 
@@ -118,41 +119,18 @@ The abstract goes here.
 \IEEEpeerreviewmaketitle
 \IEEEraisesectionheading{\section{Introduction}\label{sec:intro}}
 
-\IEEEPARstart{V}{isualization} is a structure preserving mapping from data to graphic, which loosely means that the visualization retains how the data values are positioned relative to each other and the mathematical properties of those values. One way of verifying that the structure is preserved is to attempt to distill
-the data set from the graphic, i.e. check that the values read off a bar chart are equivalent to the values used to construct the chart. Structure preservation assumes that the $data\leftrightarrow graphic$ mapping is bidirectional, meaning changes to either data or graphic are expected to be reflected in the other\cite{kindlmannAlgebraicProcessVisualization2014}.
- 
-We propose a methodology for describing structure, verifying structure preservation, and specifying the conditions for constructing a structure preserving map between data and graphics using topology and category theory. Using category theory and algebraic structures, we can encode the structure of data and graphics in a uniform manner. This uniformity allows us to develop a generalizable framework for specifying the conditions under which structure is preserved. For example, our methodology can be used to describe how a table and scatter plot and heatmap are different representations of the same data and track an observation from a datacube as a point along a time series and on a map and in a network. We developed a generalizable model because our goal is to improve data visualization software. The algebraic structures can be translated into analogous programmatic types, while category theory facilitates developing a functional design framework. Strong typing and function composition enable library developers to build complex components from simpler verifiable parts \cite{huHowFunctionalProgramming2015, hughesWhyFunctionalProgramming1989}. These  components can be built as a standalone library and integrated into existing libraries and we hope these ideas will help shape the reorganization of critical data visualization libraries, such as Matplotlib. 
 
-The contribution of this paper is a mathematical framework for describing structure preserving visualization components in a manner that is generalizable to different types of inherent structure. This framework also provides guidance for the construction and testing of structure preserving visualization library components.
+
+\IEEEPARstart{V}{isualization} tools implement transforms of the form $data \rightarrow graphic$ and are expected to be structure preserving. Loosely, that means the mathematical properties of the data and how the points are connected to each other should be inferable such that  $graphic \rightarrow data$. For example, values read off a bar chart have to be equivalent to the values used to construct that chart. Motivated by wanting to make better tools, we use algebraic topology to describe how $data$ and a corresponding $graphics$ have the same underlying structure and we use category theory to describing under what conditions the visualization tool preserves that structure such that $graphic \leftrightarrow data$. 
+
+Algebraic structures allow us to describe many types of inherent structure in a uniform manner, and category theory provides a rigorous framework for specifying the behavior and properties of structure and maps between structures. For example, our framework can encapsulate how a table and scatter plot and heatmap are different representations of the same data and track an observation from a datacube as a point along a time series and on a map and in a network. The algebraic structures can be translated into programmatic types, while the categorical descriptions translate to a functional design framework. Strong typing and function composition enable library developers to build complex components from simpler verifiable parts \cite{huHowFunctionalProgramming2015, hughesWhyFunctionalProgramming1989}. These  components can be built as a standalone library and integrated into existing libraries and we hope these ideas will help shape the reorganization of critical data visualization libraries, such as Matplotlib. 
+
+The contribution of this paper is a methodology for describing structure, verifying structure preservation, and specifying the conditions for constructing a structure preserving map between data and graphics. This framework also provides guidance for the construction and testing of structure preserving visualization library components.
 
 \section{Related Work}
-We build on extensive work codifying the structure of visualization data and corresponding graphics and use the concepts of \textit{homomorphism} and \textit{equivariance} to express how that structure should be preserved. Structure is considered preserved when the input and output change in tandem, and these symmetries are often modeled as \textit{group actions}, which are a way for a group\footnote{A \textit{group} is a set with an associative binary operator, an identity, and an inverse operation} to transform some other set:
-
-\begin{definition}\label{def:related-work:action}\cite{nlab:action, grimaldiDiscreteCombinatorialMathematics2006}
-  An \textcolor{action}{\textbf{action}} \footnote{Throughout this paper, we augment the math with color to group conceptually similar objects and functions\cite{headMathAugmentationHow2022}, for example \textcolor{action}{actions} and \textcolor{action}{sets of actions}. This color coding carries through to the figures.} of \textcolor{action}{$G = (G,\circ, e)$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
-\end{definition}
-
-Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
-
- \begin{definition}
-$f$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$\cite{nlab:equivariant,pittsNominalSetsNames2013}.
- \end{definition}
-In an equivariant transform, mapping the data after acting on it $f(act)$ is equivalent to acting on the data after mapping it $act(f)$ since $G$ acts on both. A homomorphism does not require that the input and output are of the same type; instead 
-
- \begin{definition}
-\note{must sort out exact appropriate definition of group homomorphism here}
- \end{definition}
-
-
-The notion that visual encoding functions should be \textit{homomorphisms} was proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987} in his specification of \textit{A Presentation Tool} and the idea that visual transforms are \textit{equivariant} underlies Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}'s Algebraic Visualization Design. Kindlemann and Scheidegger propose three specific types of structure preservation: that the visualization should not change if the data representation (i.e. the data container) changes, that data maps unambiguously to visual elements \cite{ziemkiewiczEmbeddingInformationVisualization2009}, and that changing the data should correspond to changes in the visualization in a perceptually significant manner. A uniform abstract data representation layer is introduced in \autoref{sec:atct:sheaves}, the expectation of unambiguous mappings is expressed in \autoref{sec:atct:xi}, and the the correspondence between data and visual changes is included in the definition of equivariance introduced in \autoref{sec:artist:equivariant:artist}. We define structure preservation both in \note{field types and topology}
-
-\subsection{Field Type Structure} 
-\label{sec:related-work:equivariance}
- Bertin \cite{bertinSemiologyGraphicsDiagrams2011} codified the expectation that a data value and its visual encoding are expected to have compatible structure. The structure on values has traditionally been described  using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946} and others have formally expanded to include more types 
- \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}. Generally the structure on each field of the dataset is preserved separately, i.e. each column in a table is mapped to a distinct encoding. For example, nominal measurements are permutable, meaning that they are acted on by elements of a permutation group. For the visual transformation to be equivariant, that nominal measurement must be mapped to a visual encoding that is also permutable, such as distinct marker shapes or color hues. We evaluate whether the encoding is a homomorphism when the visual encoding does not have a group structure. For example, partial orders are not invertible; therefore a visual encoding of partially ordered data is structure preserving when the ordering is mapped to equivalently ordered visual encodings. Steven's measurement scale's and the structure preservation they define is the basis of Wilkenson's scales\cite{wilkinsonGrammarGraphics2005} in Grammar of Graphics and derivative libraries, and in this work we generalize the concept of fields to support a wider array of field types. This also allows us to specify what consistency means when creating different views of data from a single dataset, as discussed in Qu and Hullman \cite{hullmanKeeping2018}, specifically in terms of each field type separate from the overall structure. 
-
-\subsection{Topological Structure}
 \label{sec:related-work:continuity}
+
+
 \begin{figure}[H]
   \includegraphics[width=1\columnwidth]{k_different_types.png}
   \caption{
@@ -161,17 +139,47 @@ The notion that visual encoding functions should be \textit{homomorphisms} was p
   \label{fig:related-work:continuity:ktypes}}
 \end{figure}
 
-The connectivity and relative positioning of elements in a dataset is broadly its topology\cite{wilkinsonGrammarGraphics2005} and the expectation that it be be reflected in the visual representation is present in even the earliest maps \cite{friendlyBriefHistoryData2008} and in Bertin's assertion that the dimensionality of the data match the class of representation \cite{bertinSemiologyGraphicsDiagrams2011}. In this work, we propose that using the formalism of topology provides us a uniform way to express dimensionality such that we can generalize the expectation that the data and visual dimensionality match past points, lines, and areas. 
+Since the earliest maps \cite{friendlyBriefHistoryData2006}, a visualization has been expected to preserve the $field$ properties and $topology$ of the corresponding dataset; a \textcolor{fiber}{\textcolor{field}} \footnote{Throughout this paper, we augment the math with color to group conceptually similar objects and functions\cite{headMathAugmentationHow2022}, for example \textcolor{action}{actions} and \textcolor{action}{sets of actions}. This color coding carries through to the figures.}  is a set of values of the same type, e.g. one column of a table or the pixels of an image, and \textcolor{base}{\textcolor{topology}} is the connectivity and relative positioning of elements in a dataset \cite{wilkinsonGrammarGraphics2005}. In \autoref{fig:related-work:continuity:ktypes}, the topology is a continuous 3 dimensional surface encapsulating time and position, while the fields are date, location, station, pressure, and temperature. Our paper provides a language to express how the scatter plot, line plot, and heatmap are preserving different structural properties of the dataset, thereby generalizing Bertin's codification of how the topology of observations must match the class of representation (i.e. point , line, area) and how the variation possible in a field match the variation in the corresponding visual variable \cite{bertinSemiologyGraphicsDiagrams2011} and Mackinlay's work on how structure preservation includes preserving the mathimatical relations between elements of the same and different fields \cite{mackinlayAutomatingDesignGraphical1986}. 
+
+While Bertin and Mackinlay's work primarily discusses the $data \rightarrow graphic$, Kindlemann and Scheidegger's algebraic framework \cite{kindlmannAlgebraicProcessVisualization2014} also dictates a set of conditions under which the $graphic \rightarrow data$  mapping is structure preserving. Encapsulating their conditions, we: present a uniform abstract data representation layer in \autoref{sec:atct:sheaves} for ensuring that the visualization should not change if the data representation (i.e. the data container) changes, define the conditions under which data maps unambiguously to visual elements \cite{ziemkiewiczEmbeddingInformationVisualization2009} in \autoref{sec:atct:xi}, and provide a methodology for verifying that changes in data should correspond to changes in the visualization in \autoref{sec:artist:equivariant:artist} that does not necessarily require that the changes be perceptually significant. Furthermore, our model extends their conditions of equivariance by explicitly incorporating topology and by providing a framework for translating the theoretical ideas into buildable components in \autoref{sec:construction}. 
+
+
+\subsection{Fields} 
+\label{sec:related-work:equivariance}
+The structure on values has traditionally been described using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}. Specifically, Steven's conceptualizes the structure on values as \textcolor{action}{actions} on groups \footnote{A \textit{group} is a set with an associative binary operator, an identity, and an inverse operation}:
+
+\begin{definition}\label{def:related-work:action}\cite{grimaldiDiscreteCombinatorialMathematics2006}
+  An \textcolor{action}{\textbf{action}} of \textcolor{action}{$G = (G,\circ, e)$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
+\end{definition}
+
+where the measurements are the groups and changes to them are actions. Structure preservetion in fields means that the data and the visualization are equivalent representations of an underlyng phenomena such that changes to data or visualization be reflected in the other in a consistent way. A function that preserves structure in this manner for groups is called equivariant. Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
+\begin{definition}
+ A function $f$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
+\end{definition}
+
+which means that a visualization is structure preserving when there exist compatible actions on the data and visualization, as proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}. Equivariance can sometimes be too restrictive because it can only be applied to groups and sometimes data does not have a group structure; an alternative is asserting that a visualization is structure preserving so long as it preserves the mathematical relations with and between fields, as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}, which is termed homomorphism. Given the function $f$ between sets $X$ and $Y$, both of which are equipped with the binary operator $\circ$
+\begin{definition}
+  
+\end{definition}
+  A function $f$ is \textbf{homeomorphic} when $f(x\circ y) = f(x) \circ f(y)$ for every pair of elements $x,y$ in $X$
+\end{definition}
+which means that applying the operation $\circ$ to the input to $f$ is equivalent to applying the operation to the output, which is only possibly when the output of the map $f$ from $X$ to $Y$ has the same structure as the input. Our framework for structure preservation incorporates equivariance and homomorphism and allows for defining other measures of equivalent representation; it is discussed in detail in \autoref{sec:artist:equivariant:data}. 
+
+ 
+\subsection{Topology}
+Borrowing strcutures from algebraic topology allows us to describe structure on individual elements in a way that holds true for the entire dataset, meaning we can use the same tools to check if structre is preserved regardless of whether the data fits in memory, is distributed, or is streaming. Our framework generalizesis because, informally, a topology $\mathcal{T}$ is a partitioning of a space into its subspaces in a way where those subspaces can be composed back into the space; the choice of partitions is how we encode the connectivity of the data and visualizations that we are interested in. 
 
 \begin{definition}
 A \textbf{topology} $\mathcal{T}$ on a space $X$ is a collection of open sets\footnote{Open sets (open subsets) are a generalization of open intervals to n dimensional spaces. For example, an open ball is the set of points inside the ball and excludes points on the surface of the ball. \cite{weissteinOpenSet,bradleyTopologyVsTopology}} \openset\ of $X$. This collection has the properties that the empty set $\varnothing$ and $\dbase$ are in $\mathcal{T}$, the union of open sets in $\mathcal{T}$ is also in $\mathcal{T}$, and any finite intersection of open sets in $\mathcal{T}$ is also in $\mathscr{T}$. \cite{bradleyTopologyCategoricalApproach2020}
 \end{definition}
 
-A topology is a partitioning of a space into its subspaces in a way where those subspaces can be composed back into the space and the choice of partitions is how we encode the connectivity of the data that we are interested in. For example, the GHCN\cite{lawrimoreGlobalHistoricalClimatology2011} dataset in \autoref{fig:related-work:continuity:ktypes} is a complex spatiotemporal record of weather station data. One way of encoding that each record is independent is to encode the underlying topology as a set of 0D $\cdots$ points, one for each record. Each of these discrete points is also represented visually as a discrete marker in the scatter plot. We can view the time series at each station as a 1D $---$ continuous line since weather station data is sampled from natural phenomena. We encode this topological structure as intervals, .i.e [start date, end date], and sets of sub-intervals, and we visually represent this structure as continuous line plots. A third way of viewing the data is as a sparse sampling of a 2D $\blacksquare$ geospatial grid, where the connectivity is modeled as a surface and sub regions of that surface. In the visualization, that connectivity is expressed as plotting the stations in the map, visually denoting that these are points in the continuous geographical space that is New York State. By using topology as the underlying encoding scheme, we are able to represent the structure of points, lines, surfaces, and more using the same abstractions.
+Visual algorithms assume the topology of their input data, as described in taxonomies of visualization algorithms Chi\cite{chiTaxonomyVisualizationTechniques2000} and by Troy and M\"{o}ller \cite{toryRethinkingVisualizationHighlevel2004}, but generally do not verify that input structure. For example, a \texttt{line} algorithm often does not have a way to query whether a list of (x,y) coordinates is the distinct rows, the time series, or the list of stations in \autoref{fig:related-work:continuity:ktypes}. While plotting the time series as a continuous line would be correct, it would be incorrect for a visualization to indicate that the distinct rows or stations are connected in a 1D continuous manner because it introduces ambiguity over which part of the line maps back to the data. A map that by definition has continous maps between two spaces, such as data and graphics, is called a homeomorphism\cite{riehlCategoryTheoryContext}. 
 
+\begin{definition}
+  A function $f$ is a $homeomorphism$ if it is bijective, continous, and has a continous inverse function f^{-1}. 
+\end{definition}
 
-Since topological continuity is generalizable, we propose that encoding topology as part of a dataset type and a visualization type allows us to explicitly check which types of structure a visualization algorithm can preserve. Visual algorithms assume the topology of their input data, as described in taxonomies of visualization algorithms Chi\cite{chiTaxonomyVisualizationTechniques2000} and by Troy and M\"{o}ller \cite{toryRethinkingVisualizationHighlevel2004}, but generally do not verify that input structure. For example, a \texttt{line} algorithm often does not have a way to query whether a list of (x,y) coordinates is the distinct rows, the time series, or the list of stations in \autoref{fig:related-work:continuity:ktypes}. While plotting the time series as a continuous line would be correct, it would be incorrect for a visualization to indicate that the distinct rows or stations are connected in a 1D continuous manner. Encoding the expected input structure would enable a visualization algorithm to reject data that does not explicitly state that it matches those assumptions. This structure can be encoded in a generalizable way by building on Butler's work on using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989} where he discusses how bundles can be used to encode data in a consistent manner for the topological and field structures that are common in visualization. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but his work provides a thorough introduction to bundles for visualization practitioners. 
-
+To encode topology and field structure, we extend Butler's work on using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but Butler provides a thorough introduction to bundles for visualization practitioners.
 
 
 \subsection{Structure Preservation In Software}
@@ -443,9 +451,16 @@ where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \
 There is an expectation that for a visualization to be readable, the visual elements must correspond to distinct data elements\cite{ziemkiewiczEmbeddingInformationVisualization2009} and we can use the properties of sheaves to formally express this correspondence. We first describe the relationship between the graphic indexing space \gbase\ and the data indexing space \dbase\, which we propose is one where multiple graphic indexes map to one data index, and every index in the graphic space can be mapped to an index in the data space. We encode these expectations as the \textcolor{functor}{map} \vindexc, which we define to be a surjective continuous map
 \begin{equation}
   \label{eq:atct:xi}
-  \vindexc: \opensetgc \textcolor{functor}{\rightarrow} \opensetc 
+  \vindexc: \opensetgc \textcolor{functor}{\rightarrow} \opensetc
 \end{equation}
-between a graphic subspace $\opensetg \subseteq \gbase$ and data subspace $\openset \subseteq \dbase$. The functor $\vindex$ is surjective such that for every point $\dbasepoint \in \openset$ there is a corresponding set of points $\{\gbasepoint | \gbasepoint \in  \vindexpre(k)\}$ for all $\gbasepoint \in \opensetg$.
+between a graphic subspace $\opensetg \subseteq \gbase$ and data subspace $\openset \subseteq \dbase$. The functor $\vindex$ is surjective 
+such that we can identify the set of points in graphic space that correspond to each point in data space
+\begin{equation}
+  \label{eq:atct:xi:inverse}
+  \vindexprec(\dbasepointc) = \{\gbasepointc | \vindexc(\gbasepointc) = \dbasepointc \forall \dbasepointc \in \dbase, \gbasepointc \in \gbasec\}
+\end{equation}
+and every point in a graphic space has a corresponding point in data space. 
+
 
 We construct the map as going from graphic to data because that encodes the notion that every visual element traces back to the data in some way. As exemplified in \autoref{fig:atct:morphisms:sheaf}, we define $\vindex$ as a surjective map because it allows us to express that a union of graphic spaces $S_i$ maps to single data point $\dbasepoint$, which allows us to express visual representations of a single record that are the union of many primitives, such as multipart glyphs (e.g boxplots) and combinations of plot types (e.g line with point markers). 
 
@@ -546,6 +561,21 @@ The output of an artist \vartist\ is a restricted subset of graphic sections
   \vartistc(\dsectionc) = \gsectionc,\; \vindexc(\gbasec) = \dbasec \}
 \end{equation} 
 that are, by definition, only reachable through a structure preserving artist, which we describe in \autoref{sec:artist:equivariant:artist}. We define this subset because the space of all sections $\cgamma{\opensetg}{\gtotal\restriction_{\openset}}$ includes sections that may not be structure preserving. For example, a section may go from every point in the graphic space to the same single point in the graphic fiber $\gsection(\gbasepoint_i) = d\; \forall \gbasepoint \in \gbase$ such that the visual output is a single inked pixel on a screen. 
+
+\subsection{Homeomorphism}
+As mentioned in \autoref{sec:related-work:continuity}, preserving the topology of a visualization means that each discrete piece of differentiable visual information corresponds to a distince element of the dataset\cite{ziemkiewiczEmbeddingInformationVisualization2009} in a way where the organization of elements is preserved. A generalization of this condition is the idea that the graphic space can be collapased into the data indexing space, which means that the data base space is a deformation retraction of the graphic base space\cite{hatcherAlgebraicTopology2002}. By defining the indexing look up function \vindex, introduced in \autoref{sec:atct:sheaves}, to be 
+\begin{equation}
+  \vindex: \dbase \times I \rightarrow \dbase s.t \vindex(\dbasepoint) = \dbasepoint \forall \dbasepoint \in \gbase
+\end{equation}
+
+we can assert that the data space \dbase acts as an indexing space into \gbase such that knowing the location on space yields the location on the other and any point in either base space or graphic space has a correspoinding point in the other space. 
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{deform_retract.png}
+  \caption{The graphic base space $\gbase$ is collapsible to the line $\dbase$ such that every band $(\dbasepoint_i, [0,1])$ on $\gbase$ maps to corresponding point $\dbasepoint_i \in \dbase$. The band $[0,1]$ determines the thickness of a rendered line for a given point $\dbasepoint_{i}$ by specifying how pixels corresponding to that point are colored. \label{fig:construction:xi}}
+\end{figure}
+
+For example, as shown in \autoref{fig:construction:xi}, a line is 1D but is a 2D glyph on a screen; therefore the graphic space $\gbase$ is constructed by multiplying the base space $\dbase$ with an interval $[0,1]$. Because $\gbase$ is collapsible into $\dbase$, every band $(\dbasepoint_i, [0,1])$ corresponds to a point in the base space $\dbasepoint_i \in \dbase$. The first coordinate $\alpha=\dbasepoint_i$ provides a lookup to retrieve the associated visual variables. The second coordinate, which is a point in the interval $\beta=[0,1]$. Together they are a point $\gbasepoint=(\alpha,\beta) \in gbase$ in the graphic base space. This point $\gbasepoint$ is the input into the graphic section $\gsection(\gbasepoint)$ that is used to determine which pixels are colored, which in turn determines the thickness, texture, and color of the line. 
+
 
 \subsection{Equivariance}
 \label{sec:artist:equiv}
@@ -708,9 +738,7 @@ such that $\equivc_{\dsection}(\dbasepointc)$ is the expected set of measurement
     \equivc(\dsectionc)(\dbasepointc) = \extractmc(\vartistc(\dsectionc))(\dbasepointc) = \extractmc(\gsectionc\circ\vindexprec)(\dbasepointc)=\measurec_{\dbasepointc}
 \end{equation}
 
-An artist is equivariant when changes to the input and output are equivariant.
-
-As introduced in \autoref{eq:atct:morphism:base}, the base space transformation \dfunch\ is invariant because $\dsection\restriction_{\openset} = \dsection\restriction_{\dfunch(\openset^{\prime})}$. This means that, for all points in the data $\dbasepoint \in \dbase$, the measurement should not change if only the base space is transformed 
+An artist is equivariant when changes to the input and output are equivariant. As introduced in \autoref{eq:atct:morphism:base}, the base space transformation \dfunch\ is invariant because $\dsection\restriction_{\openset} = \dsection\restriction_{\dfunch(\openset^{\prime})}$. This means that, for all points in the data $\dbasepoint \in \dbase$, the measurement should not change if only the base space is transformed 
 \begin{equation}
   \label{eq:atct:equivarance:verify:base}
   \equivc(\dsectionc)(\dfunchc(\dbasepointc^{\prime})) = \extractmc(\vartistc(\dsectionc))(\dbasepointc)
@@ -808,7 +836,7 @@ One way to verify that these artists are composable is to check that they encode
   \end{split}
 \end{equation}
 
-This expectation of using the same encoding for the same variable is a generalization of the concept of consistency checking of multiple view encodings discussed by Zening and Hullman \cite{hullmanKeeping2018}. This expectation can also be used to check that a multipart glyph is assembled correctly. For example, a box plot \cite{wickham40YearsBoxplots2011} typically consists of a rectangle, multiple lines, and scatter points; therefore a boxplot artist $\vartist_{boxplot} = \vartist_{rect} \times \vartist_{errors} \times \vartist_{line} \times \vartist_{points}$ must be constructed such that all the sub artists draw a graphic at or around the same x value. 
+This expectation of using the same encoding for the same variable is a generalization of the concept of consistency checking of multiple view encodings discussed by Qu and Hullman \cite{hullmanKeeping2018}. This expectation can also be used to check that a multipart glyph is assembled correctly. For example, a box plot \cite{wickham40YearsBoxplots2011} typically consists of a rectangle, multiple lines, and scatter points; therefore a boxplot artist $\vartist_{boxplot} = \vartist_{rect} \times \vartist_{errors} \times \vartist_{line} \times \vartist_{points}$ must be constructed such that all the sub artists draw a graphic at or around the same x value. 
 
 \begin{figure}[H]
   \centering
@@ -832,12 +860,7 @@ and therefore which commonalities need to be preserved in the artists that act o
 \note{add back in path of Q, use tikz backend to convert to pgf to then tweak}
 We propose that one way of constructing artist functions is to separate generating a visualization into an encoding stage $\vchannelc$ and a compositing stage $\vmarkc$. In the \textcolor{artist}{encoding} stage $\vchannelc$, a data bundle is treated as separable fields and each field is mapped to a measurable visual variable. In the encoding stage, many of the expected visual mappings $\equivb$ can be implemented inside the library. Factoring out the encoding stage leaves the \textcolor{artist}{compositing} stage $\vmarkc$ responsible for faithfully translating those measurable visual components into a visual element.  
 
-\subsection{Measurable Visual Components}
-\label{sec:construction:vtotal}
-We encapsulate the space of measurable components reachable through the encoding stage $\vchannel$ as a visual fiber bundle $\vfiberc \hookrightarrow \vtotalc \xrightarrow{\pi} \dbasec$. The  restricted fiber space $\vfiber$ of the bundle acts as the specification of the internal library representation of the measurable visual components. The space of visual sections $\cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \coloneqq \big\{\vsectionc: \opensetc\rightarrow \vtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\vsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$ return a visual encoding $\vsectionc(\dbasepoint)$ corresponding to data record $\dbasepoint(\dbasepoint)$.  Since the data bundle $dtotal$ and visual bundle $\vtotal$ have the same continuity $\pi(\dsection(\dbasepoint)) = \pi(\vsection(\dbasepoint))$, they are considered structurally equivalent such that $\dtotal=\vtotal$. The distinguishing characteristic of $\vtotal$ is that it is part of the construction of the artist and therefore a part of the visualization library implementation. We propose that reusing the fibers $\vfiber$ across components facilitates standardizing internal types across the library and that this standardization improves maintainability (\autoref{tab:appendix:library_spec}). 
-
-\subsection{Map Between Graphics and Data}
-In \autoref{sec:atct:sheaves}, the functors $\vindex, \vindexpull, \vindexpushc$ are introduced to describe the expected relationship between screen and data base spaces. In the construction of the artist, the functor $\vindex$ is defined such that the data base space \dbase\ is a deformation retraction\cite{nlab:deformation_retract,hatcherAlgebraicTopology2002} of the graphic space $\gbase$. This means that there is a continuous surjective mapping from every point $\dbasepoint\in\dbase$ to a point $\dbasepoint \in dbase$. To simplify matters, in this paper, we construct the graphic space as a constant multiple of the base space such that 
+As mentioned in \autoref{sec:artist:homeomorphic}, we construct the data base space as a deformation retraction of the graphic space. On simple way of doing so is to construct the graphic base space as a constant multiple of the base space such that 
 \begin{equation}
   \underbrace{\dbasec\times[0,1]^{n}}_{\gbasec} \textcolor{functor}{\xmapsto{\hspace{1em}\vindexc\hspace{1em}}} \dbasec
 \end{equation}
@@ -848,16 +871,11 @@ where n is a thickening of the graphic base space $\gbase$ to account for the di
   0 & otherwise
   \end{cases}
 \end{equation*}
-because the data dimensionality $\dbase$ may be too small for a graphic representation.
+because otherwise the data dimensionality $\dbase$ may be too small for a graphic representation. For example, as shown in \autoref{fig:construction:xi}, a line is 1D but is a 2D glyph on a screen; therefore the graphic space $\gbase$ is constructed by multiplying the base space $\dbase$ with an interval $[0,1]$. 
 
-\begin{figure}[H]
-
-  \includegraphics[width=1\columnwidth]{deform_retract.png}
-  \caption{The graphic base space $\gbase$ is collapsible to the line $\dbase$ such that every band $(\dbasepoint_i, [0,1])$ on $\gbase$ maps to corresponding point $\dbasepoint_i \in \dbase$. The band $[0,1]$ determines the thickness of a rendered line for a given point $\dbasepoint_{i}$ by specifying how pixels corresponding to that point are colored. \label{fig:construction:xi}}
-\end{figure}
-
-For example, as shown in \autoref{fig:construction:xi}, a line is 1D but is a 2D glyph on a screen; therefore the graphic space $\gbase$ is constructed by multiplying the base space $\dbase$ with an interval $[0,1]$. Because $\gbase$ is collapsible into $\dbase$, every band $(\dbasepoint_i, [0,1])$ corresponds to a point in the base space $\dbasepoint_i \in \dbase$. The first coordinate $\alpha=\dbasepoint_i$ provides a lookup to retrieve the associated visual variables. The second coordinate, which is a point in the interval $\beta=[0,1]$. Together they are a point $\gbasepoint=(\alpha,\beta) \in gbase$ in the graphic base space. This point $\gbasepoint$ is the input into the graphic section $\gsection(\gbasepoint)$ that is used to determine which pixels are colored, which in turn determines the thickness, texture, and color of the line. 
-
+\subsection{Measurable Visual Components}
+\label{sec:construction:vtotal}
+We encapsulate the space of measurable components reachable through the encoding stage $\vchannel$ as a visual fiber bundle $\vfiberc \hookrightarrow \vtotalc \xrightarrow{\pi} \dbasec$. The  restricted fiber space $\vfiber$ of the bundle acts as the specification of the internal library representation of the measurable visual components. The space of visual sections $\cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}} \coloneqq \big\{\vsectionc: \opensetc\rightarrow \vtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\vsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}$ return a visual encoding $\vsectionc(\dbasepoint)$ corresponding to data record $\dbasepoint(\dbasepoint)$.  Since the data bundle $dtotal$ and visual bundle $\vtotal$ have the same continuity $\pi(\dsection(\dbasepoint)) = \pi(\vsection(\dbasepoint))$, they are considered structurally equivalent such that $\dtotal=\vtotal$. The distinguishing characteristic of $\vtotal$ is that it is part of the construction of the artist and therefore a part of the visualization library implementation. We propose that reusing the fibers $\vfiber$ across components facilitates standardizing internal types across the library and that this standardization improves maintainability (\autoref{tab:appendix:library_spec}). 
 
 
 \subsection{Component Encoders}
