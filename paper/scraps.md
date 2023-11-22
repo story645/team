@@ -99,3 +99,34 @@ As illustrated in \autoref{fig:construction:combined_q}, this composition rule e
   \includegraphics*[width=1\columnwidth]{path_of_q.png}
   \caption{One method of constructing the artist is by formulating the artist as having two stages: (1) encoding functions $\vchannelc$ that convert different parts of the input into measurable visual components, such as color or position; (2) compositing functions $\vmarkc$ that assemble the measurable visual components into a visual element generating function. In this construction, we propose an intermediate visual bundle $\vtotalc$ that encodes the space of possible visual encodings.}
 \end{figure}
+
+
+## intro 
+
+and use the concepts of \textit{homomorphism} and \textit{equivariance} to express how that structure should be preserved. Structure is considered preserved when the input and output change in tandem, and these symmetries are often modeled as \textit{group actions}, which are a way for a group\footnote{A \textit{group} is a set with an associative binary operator, an identity, and an inverse operation} to transform some other set:
+
+
+
+
+
+ instead 
+
+ \begin{definition}
+\note{must sort out exact appropriate definition of group homomorphism here}
+ \end{definition}
+
+
+The notion that visual encoding functions should be \textit{homomorphisms} was in his specification of \textit{A Presentation Tool} and the idea that visual transforms are \textit{equivariant} underlies 
+
+We define structure preservation both in \note{field types and topology}
+
+
+For example, the GHCN\cite{lawrimoreGlobalHistoricalClimatology2011} dataset in \autoref{fig:related-work:continuity:ktypes} is a complex spatiotemporal record of weather station data. One way of encoding that each record is independent is to encode the underlying topology as a set of 0D $\cdots$ points, one for each record. Each of these discrete points is also represented visually as a discrete marker in the scatter plot. We can view the time series at each station as a 1D $-$ continuous line since weather station data is sampled from natural phenomena. We encode this topological structure as intervals, .i.e [start date, end date], and sets of sub-intervals, and we visually represent this structure as continuous line plots. A third way of viewing the data is as a sparse sampling of a 2D $\blacksquare$ geospatial grid, where the connectivity is modeled as a surface and sub regions of that surface. In the visualization, that connectivity is expressed as plotting the stations in the map, visually denoting that these are points in the continuous geographical space that is New York State.
+
+
+In \autoref{sec:atct:sheaves}, the functors $\vindex, \vindexpull, \vindexpushc$ are introduced to codify the expectation that every element
+
+
+The functor 
+
+

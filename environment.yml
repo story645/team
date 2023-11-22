@@ -1,0 +1,15 @@
+name: paper
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+- matplotlib
+- pandas
+- xarray
+- scipy
+- cmocean
+- metpy
+- geopandas
+- contextily
+- pygments
+- jupyterlab
