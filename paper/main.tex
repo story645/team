@@ -139,44 +139,64 @@ The contribution of this paper is a methodology for describing structure, verify
   \label{fig:related-work:continuity:ktypes}}
 \end{figure}
 
-Since the earliest maps \cite{friendlyBriefHistoryData2006}, a visualization has been expected to preserve the $field$ properties and $topology$ of the corresponding dataset; a \textcolor{fiber}{\textbf{field}} \footnote{Throughout this paper, we augment the math with color to group conceptually related terms\cite{headMathAugmentationHow2022}, for example \textcolor{fiber}{field} and \textcolor{fiber}{fiber}. This color coding carries through to the figures.}  is a set of values of the same type, e.g. one column of a table or the pixels of an image, and \textcolor{base}{\textcolor{topology}} is the connectivity and relative positioning of elements in a dataset \cite{wilkinsonGrammarGraphics2005}. In \autoref{fig:related-work:continuity:ktypes}, the topology is a continuous 3 dimensional surface encapsulating time and position, while the fields are date, location, station, pressure, and temperature. Our paper provides a language to express how the scatter plot, line plot, and heatmap are preserving different structural properties of the dataset, thereby generalizing Bertin's codification of how the topology of observations must match the class of representation (i.e. point , line, area) and how the variation possible in a field match the variation in the corresponding visual variable \cite{bertinSemiologyGraphicsDiagrams2011} and Mackinlay's work on how structure preservation includes preserving the mathimatical relations between elements of the same and different fields \cite{mackinlayAutomatingDesignGraphical1986}. 
+Since the earliest maps \cite{friendlyBriefHistoryData2006}, a visualization has been expected to preserve the $field$ properties and $topology$ of the corresponding dataset; a \textcolor{fiber}{\textbf{field}} \footnote{Throughout this paper, we augment the math with color to group conceptually related terms\cite{headMathAugmentationHow2022}, for example \textcolor{fiber}{field} and \textcolor{fiber}{fiber}. This color coding carries through to the figures.}  is a set of values of the same type, e.g. one column of a table or the pixels of an image, and \textcolor{base}{\textbf{topology}} is the connectivity and relative positioning of elements in a dataset \cite{wilkinsonGrammarGraphics2005}. In \autoref{fig:related-work:continuity:ktypes}, the topology is a continuous 3 dimensional surface encapsulating time and position, while the fields are date, location, station, pressure, and temperature. Our paper provides a language to express how the scatter plot, line plot, and heatmap are preserving different structural properties of the dataset, thereby generalizing Bertin's codification of how the topology of observations must match the class of representation (i.e. point , line, area) and how the variation possible in a field match the variation in the corresponding visual variable \cite{bertinSemiologyGraphicsDiagrams2011} and Mackinlay's work on how structure preservation includes preserving the mathimatical relations between elements of the same and different fields \cite{mackinlayAutomatingDesignGraphical1986}. 
 
 While Bertin and Mackinlay's work primarily discusses the $data \rightarrow graphic$, Kindlemann and Scheidegger's algebraic framework \cite{kindlmannAlgebraicProcessVisualization2014} also dictates a set of conditions under which the $graphic \rightarrow data$  mapping is structure preserving. Encapsulating their conditions, we: present a uniform abstract data representation layer in \autoref{sec:atct:sheaves} for ensuring that the visualization should not change if the data representation (i.e. the data container) changes, define the conditions under which data maps unambiguously to visual elements \cite{ziemkiewiczEmbeddingInformationVisualization2009} in \autoref{sec:atct:xi}, and provide a methodology for verifying that changes in data should correspond to changes in the visualization in \autoref{sec:artist:equivariant:artist} that does not necessarily require that the changes be perceptually significant. Furthermore, our model extends their conditions of equivariance by explicitly incorporating topology and by providing a framework for translating the theoretical ideas into buildable components in \autoref{sec:construction}. 
 
 
 \subsection{Fields} 
 \label{sec:related-work:equivariance}
-The structure on values has traditionally been described using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}. Specifically, Steven's conceptualizes the structure on values as \textcolor{action}{actions} on groups \footnote{A \textit{group} is a set with an associative binary operator, an identity, and an inverse operation}:
+
+The structure on values has traditionally been codified using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}. 
+
+Specifically, Steven's conceptualizes the structure on values as \textcolor{action}{actions} on groups \footnote{A \textit{group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative, 
+and invertable}:
 
 \begin{definition}\label{def:related-work:action}\cite{grimaldiDiscreteCombinatorialMathematics2006}
   An \textcolor{action}{\textbf{action}} of \textcolor{action}{$G = (G,\circ, e)$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
 \end{definition}
 
-where the measurements are the groups and changes to them are actions. Structure preservetion in fields means that the data and the visualization are equivalent representations of an underlyng phenomena such that changes to data or visualization be reflected in the other in a consistent way. A function that preserves structure in this manner for groups is called equivariant. Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
-\begin{definition}
+where the measurements are the groups and changes to them are actions. Structure preservetion in fields means that the data and the visualization are equivalent representations of an underlying phenomena such that changes to data or visualization be reflected in the other in a consistent way. A function that preserves structure in this manner for groups is called equivariant. Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
+\begin{definition}\label{def:equivariance}
  A function $f$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
 \end{definition}
+which means that a visualization is structure preserving when there exist compatible group actions on the data and visualization, as proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}. 
 
-which means that a visualization is structure preserving when there exist compatible actions on the data and visualization, as proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}. Equivariance can sometimes be too restrictive because it can only be applied to groups and sometimes data does not have a group structure; an alternative is asserting that a visualization is structure preserving so long as it preserves the mathematical relations with and between fields, as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}, which is termed homomorphism. Given the function $f$ between sets $X$ and $Y$, both of which are equipped with the binary operator $\circ$
-\begin{definition}
+Some fields have structures that cannot be codified as groups, for example the ordinal 
+scale is a type of structure called a monoid\footnote{The difference between a monoid 
+and a group is that monoid operators do not have to be invertable.} For these situations, 
+we build on the claim that visualizations are $homomorphic$, as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. Given the function $f: X \rightarrow Y$, with
+compatiable operators $(X,*)$ \note{finish this out}
+
+
+\begin{definition}\label{def:homomorphism}
+  A function $f$ is \textbf{homomorphic} when 
   
+  
+  
+  $f(act_x(x)) = act_y(f(x))$ for all $x, y \in X$ if there exists a compatibility function $\varphi(act_y) = act_x$. 
+
+
 \end{definition}
-  A function $f$ is \textbf{homeomorphic} when $f(x\circ y) = f(x) \circ f(y)$ for every pair of elements $x,y$ in $X$
-\end{definition}
-which means that applying the operation $\circ$ to the input to $f$ is equivalent to applying the operation to the output, which is only possibly when the output of the map $f$ from $X$ to $Y$ has the same structure as the input. Our framework for structure preservation incorporates equivariance and homomorphism and allows for defining other measures of equivalent representation; it is discussed in detail in \autoref{sec:artist:equivariant:data}. 
+which means that applying the operation $*$ to the input to $f$ is equivalent to applying the operation $\circ$ to the output. 
+
+
+
+Our framework for structure preservation incorporates equivariance and homomorphism and allows for defining other measures of equivalent representation; it is discussed in detail in \autoref{sec:artist:equivariant:data}. 
 
  
 \subsection{Topology}
-Borrowing strcutures from algebraic topology allows us to describe structure on individual elements in a way that holds true for the entire dataset, meaning we can use the same tools to check if structre is preserved regardless of whether the data fits in memory, is distributed, or is streaming. Our framework generalizesis because, informally, a topology $\mathcal{T}$ is a partitioning of a space into its subspaces in a way where those subspaces can be composed back into the space; the choice of partitions is how we encode the connectivity of the data and visualizations that we are interested in. 
+Borrowing structures from algebraic topology allows us to describe structure on individual elements in a way that holds true for the entire dataset, meaning we can use the same tools to check if structre is preserved regardless of whether the data fits in memory, is distributed, or is streaming. Our framework generalizesis because, informally, a topology $\mathcal{T}$ is a partitioning of a space into its subspaces in a way where those subspaces can be composed back into the space; the choice of partitions is how we encode the connectivity of the data and visualizations that we are interested in. 
 
 \begin{definition}
 A \textbf{topology} $\mathcal{T}$ on a space $X$ is a collection of open sets\footnote{Open sets (open subsets) are a generalization of open intervals to n dimensional spaces. For example, an open ball is the set of points inside the ball and excludes points on the surface of the ball. \cite{weissteinOpenSet,bradleyTopologyVsTopology}} \openset\ of $X$. This collection has the properties that the empty set $\varnothing$ and $\dbase$ are in $\mathcal{T}$, the union of open sets in $\mathcal{T}$ is also in $\mathcal{T}$, and any finite intersection of open sets in $\mathcal{T}$ is also in $\mathscr{T}$. \cite{bradleyTopologyCategoricalApproach2020}
 \end{definition}
 
 Visual algorithms assume the topology of their input data, as described in taxonomies of visualization algorithms Chi\cite{chiTaxonomyVisualizationTechniques2000} and by Troy and M\"{o}ller \cite{toryRethinkingVisualizationHighlevel2004}, but generally do not verify that input structure. For example, a \texttt{line} algorithm often does not have a way to query whether a list of (x,y) coordinates is the distinct rows, the time series, or the list of stations in \autoref{fig:related-work:continuity:ktypes}. While plotting the time series as a continuous line would be correct, it would be incorrect for a visualization to indicate that the distinct rows or stations are connected in a 1D continuous manner because it introduces ambiguity over which part of the line maps back to the data. A map that by definition has continous maps between two spaces, such as data and graphics, is called a homeomorphism\cite{riehlCategoryTheoryContext}. 
-
+\note{add functional def of bijective and continous
+}
 \begin{definition}
-  A function $f$ is a $homeomorphism$ if it is bijective, continous, and has a continous inverse function f^{-1}. 
+  A function $f$ is a $homeomorphism$ if it is bijective, continous, and has a continous inverse function $f^{-1}$. 
 \end{definition}
 
 To encode topology and field structure, we extend Butler's work on using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but Butler provides a thorough introduction to bundles for visualization practitioners.
@@ -270,7 +290,7 @@ Following from Spivak's categorical abstraction of a database \cite{spivakSimpli
 \begin{definition}\label{def:atct:category}
    An \textbf{category} $\mathcal{C}$ consists of the following \textit{data}: 
 \begin{enumerate}
-  \item a collection of \textit{objects} $X \textbf{ob}(\mathcal{C})$
+  \item a collection of \textit{objects} $X \in \textbf{ob}(\mathcal{C})$
   \item for every pair of objects $X, Y \in \textbf{ob}(\mathcal{C})$, a set of \textit{morphisms} $X \xrightarrow{f} Y \in Hom_{\mathcal{C}}(X, Y)$
   \item for every object $X$, a distinct \textit{identity morphism} $X \xrightarrow {id_x} X$ in $Hom_{\mathcal{C}}(X, X)$
   \item a \textit{composition function} $f \in Hom_{\mathcal{C}}(X, Y) \times  g \in Hom_{\mathcal{C}}(Y, Z) \rightarrow g \circ f \in Hom_{\mathcal{C}}(X, Z)$
@@ -290,6 +310,7 @@ such that
 
 The standard construction of a category from a topological space is that it has open set objects $\opensetc$ and inclusion morphisms $\opensetc_i \xrightarrow{\iota} \opensetc_j$ such that $\opensetc_i \subseteq \opensetc_j$\cite{riehlCategoryTheoryContext}. The composability property expresses that inclusion is transitive, while associativity expresses that the inclusion functions can be curried in various equivalent groupings. By formally specifying the properties of the topological structure data types as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects. 
 
+\paragraph{Joining indexing spaces: $\oplus: \mathcal{\dbasec} \sqcup \mathcal{\dbasec} \rightarrow \mathcal{\dbasec}$}
 For example, the disjoint union of two bundles, as shown in \autoref{fig:atct:local_trivalizations}, is the coproduct $\dbase^{a} \subseteq_{\dbase^{c}} \dbase^{b}$ over an overlap $\dbase^{c}$ and therefore the inclusion morphism must be commutative:
 \begin{figure}
   \includegraphics*[width=1\columnwidth]{figures/tex/k_coproduct.pdf}
@@ -316,7 +337,9 @@ Adopting Spivak's fiber bundle construction of types allows our model to reuse t
 
 As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ to encapsulate the field types of the data. The fiber category has a single object $\dfiberc$ of an arbitrary type and morphisms on the fiber object $\dfunctc \in Hom(\dfiberc, \dfiberc)$. We can also equip the category with any operators or relations that are part of he mathematical structure of the field type. For example we can equip the category with a comparison operator, which is part of the definition of the monoidal structure of a partially ordered ranking variable \cite{bruggemannRankingPrioritizationMultiindicator2011} or the group structure of Steven's ordinal measurement scale \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}. Steven's other scales are summarized in \autoref{tab:appendix:summary:stevens}. 
 
-The fiber category $\mathcal{\dfiberc}$ is also equipped with a bifunctor because it is a monoidal category and this functor provides a method for combining fiber types. The bifunctor $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$ allows us to express fields that contain complexly typed values. For example, wind can be represented as two fields $\dfiber_{speed} \times \dfiber_{direction}$ or a composite fiber field $\dfiber_{speed} \otimes \dfiber_{direction} = \dfiber_{wind}$. The $\otimes$ encapsulates both the sets associated with each fiber $\mathbb{R} \times \mathbb{R} = \mathbb{R}^{2}$ and the morphisms associated with each functor $(\dfunct_{speed}, \dfunct_{direction}) = \dfunct_{wind}$. Combining fibers can be verified by checking that when a fiber component $\dfiber^{c}$ is present in both $\dfiber^{a}$ and $\dfiber^{b}$, it is identical when projected out of either such that the *product* diagram commutes:
+\paragraph{Merging fields: $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$ }
+
+The fiber category $\mathcal{\dfiberc}$ is also equipped with a bifunctor because it is a monoidal category and this functor provides a method for combining fiber types. The bifunctorallows $\otimes$ us to express fields that contain complexly typed values. For example, wind can be represented as two fields $\dfiber_{speed} \times \dfiber_{direction}$ or a composite fiber field $\dfiber_{speed} \otimes \dfiber_{direction} = \dfiber_{wind}$. The $\otimes$ encapsulates both the sets associated with each fiber $\mathbb{R} \times \mathbb{R} = \mathbb{R}^{2}$ and the morphisms associated with each functor $(\dfunct_{speed}, \dfunct_{direction}) = \dfunct_{wind}$. Combining fibers can be verified by checking that when a fiber component $\dfiber^{c}$ is present in both $\dfiber^{a}$ and $\dfiber^{b}$, it is identical when projected out of either such that the *product* diagram commutes:
 
 \begin{figure}
   \includegraphics*[width=1\columnwidth]{figures/tex/f_product.pdf}
@@ -1371,14 +1394,13 @@ layer shim so that they behave like existing artists.
               rho = self.artist.qhat(**mu)
               output = rho(renderer)
   \end{minted}
-% use section* for acknowledgment
 
 \section*{Acknowledgment}
 \note{Acknowledge all the actual people}
 The authors would like to thank...
 
-Hannah is also very grateful to the nlab and wikipedia contributors who wrote 
-articles explaining a lot of the more abstract math on which this paper is built. 
+Hannah is also very grateful to the nlab and wikipedia contributors who wrote such 
+clear explainations of many of the topics discussed in this paper. 
 
 % Can use something like this to put references on a page
 % by themselves when using endfloat and the captionsoff option.

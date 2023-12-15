@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+- jupyterlab
 - matplotlib
 - pandas
 - xarray
@@ -10,6 +11,5 @@ dependencies:
 - cmocean
 - metpy
 - geopandas
-- contextily
 - pygments
-- jupyterlab
+
