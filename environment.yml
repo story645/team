@@ -12,4 +12,5 @@ dependencies:
 - metpy
 - geopandas
 - pygments
-
+- dask
+- s3fs
