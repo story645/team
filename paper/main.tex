@@ -87,7 +87,7 @@
 \protect\\
 % note need leading \protect in front of \\ to get a newline within \thanks as
 % \\ is fragile and will error, could use \hfil\break instead.
-E-mail: haizenman@ccny.cuny.edu, mgrossberg@ccny.cuny.edu
+E-mail: haizenman@.edu, mgrossberg@ccny.cuny.edu
 \IEEEcompsocthanksitem Mikael Vejdemo-Johansson is with the department of Mathematics, CUNY College of Staten Island.
 \protect\\
 E-mail: mvj@math.csi.cuny.edu
@@ -152,8 +152,14 @@ While Bertin and Mackinlay's work primarily discusses the $data \rightarrow grap
 \subsection{Fields}
 \label{sec:related-work:equivariance}
 
-The structure on values has traditionally been codified using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical group structure\cite{stevensTheoryScalesMeasurement1946} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}.
+The structure on values has traditionally been codified using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical structure\cite{stevensTheoryScalesMeasurement1946} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale1971, homasMathematizationNotMeasurement2014}.
 
+ \textit{equivariance} allows us to test stucture preservation under transformations to data or visualization has been proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}.
+
+
+ \textit{homomorphism} provides a way of asserting whether the relations between data elements was preserved as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}.
+
+\subsubsection{equivariance}
 Specifically, Steven's conceptualizes the structure on values as \textcolor{action}{actions} on groups \footnote{A \textit{group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative,
 and invertable}:
 
@@ -161,31 +167,36 @@ and invertable}:
   An \textcolor{action}{\textbf{action}} of \textcolor{action}{$G = (G,\circ, e)$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
 \end{definition}
 
-where the measurements are the groups and changes to them are actions. A function that preserves structure when the input or output is changed by a group action is called *equivariant*. Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
+where the measurements are the groups and changes to them are actions. A function that preserves structure when the input or output is changed by a group action is called \textit{equivariant}. Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
 \begin{definition}\label{def:equivariance}
  A function $f$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
 \end{definition}
 which means that a visualization is structure preserving when there exist compatible group actions on the data and visualization, as proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}.
 
+\subsection{homomorphism}
 
-While *equivariance* allows us to test stucture preservation under transformations to data or visualization, *homomorphism* provides a way of asserting whether the relations between data elements was preserved as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$
+For example, although the Steven's scales were conceptualized as having group structure, the ordinal scale have a monoidal structure because partial orders ($\geq, \leq$) are not invertable. This means we cannot use \textit{equivariance} to test for structure preservation instead we use \textit{homomorphsim} because it imposes fewer constraints on the underlying mathematical structure of the data.
 
+Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$
 
 \begin{definition}\label{def:homomorphism}
   A function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identites $f(I_x) = I_y$ all $x, y \in X$
 
 \end{definition}
-which means that the operators $\circ$ and $*$ are compatiable. For example, although the Steven's scales were conceptualized as having group structure, the ordinal scale have a monoidal structure because partial orders ($\geq, \leq$) are not invertable. \note{check grimalidi for citation}.
+which means that the operators $\circ$ and $*$ are compatiable.  \note{check grimalidi for citation}.
 
 As illustrated in \ref{fig:def:homomorphism}, .... structure preservation under ordering means that since 1 is less than 2, the visual transformation of 1 must be less than the visual transformation of two - here shown as 1 having a shorter bar than 2. We must define a < for visual compatable with the < for numbers. We handwave that for every relation we can write a compatabile closed function,  e.g. we can replace $\leq$ with $\min$, such that the operation is closed.
 
 
+As shown in \autoref{fig:def:equivariance} and \autoref{fig:def:homomorphsim}, the basis of asserting structure preservation is that there exist compatiable actions and these actions commute; we generalize compatability and commutability as the basis for structure preservation in \autoref{sec:artist:equivariant:data}.
 
 
-Our framework for structure preservation incorporates equivariance and homomorphism and allows for defining other measures of equivalent representation; it is discussed in detail in \autoref{sec:artist:equivariant:data}.
+
+
 
 
 \subsection{Topology}
+\note{lead with homomorphism}
 Borrowing structures from algebraic topology allows us to describe structure on individual elements in a way that holds true for the entire dataset, meaning we can use the same tools to check if structre is preserved regardless of whether the data fits in memory, is distributed, or is streaming. Our framework generalizesis because, informally, a topology $\mathcal{T}$ is a partitioning of a space into its subspaces in a way where those subspaces can be composed back into the space; the choice of partitions is how we encode the connectivity of the data and visualizations that we are interested in.
 
 \begin{definition}
@@ -220,20 +231,27 @@ We model data using a mathematical representation of data that can encode topolo
 
 The fiber bundle abstraction is a structure fusing some \textcolor{base}{base space} (indexing into the data) with some \textcolor{fiber}{fiber space} (acting as the data domain). This sort of fusion could be done by a simple direct product (or join-operation), but with the fiber bundle abstraction we get the flexibility of expressing more complicated fusions than the direct product, as long as they can be constructed from building blocks that look like direct products.
 
+
+
+%\caption{The local trivializations $\dtotal_{0}$ and $\dtotal_{1}$ are subspaces of $\dtotal$ where the fibers $\dfiber_{0}$ are equal, here illustrated as all pointing in the same direction. These local trivializations are themselves locally trivial fiber bundles.}
+
 \begin{definition}\label{def:fiber_bundle}
    A \textbf{fiber bundle} $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and  bundle projection map $\pi: \dtotalc \rightarrow \dbasec$ \cite{FiberBundle2020,spanier1989algebraic}.
-\begin{equation}
-  \label{eq:atct:fb:intro}
-  \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-   \dfiberc
-    \arrow[r, hook, color=total] \&
-    \dtotalc
-    \arrow[d, "\pi"',color=total, two heads] \\
-     \&
-  \dbasec
-     \arrow[u, "\dsectionc"', bend right, pos=.5, color=section, dashed]
-  \end{tikzcd}
-\end{equation}
+
+    \begin{equation}
+      \label{eq:atct:fb:intro}
+      \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+       \dfiberc
+        \arrow[r, hook, color=total] \&
+        \dtotalc
+        \arrow[d, "\pi"',color=total, two heads] \\
+         \&
+      \dbasec
+         \arrow[u, "\dsectionc"', bend right, pos=.5, color=section, dashed]
+      \end{tikzcd}
+    \end{equation}
+
+
 A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
 \begin{enumerate}
   \item all fibers in the bundle are isomorphic. Since all fibers are isomorphic, there is a uniquely determined \textcolor{fiber}{fiber space} \dfiberc\ given by the preimage of the projection $\pi$ at any point $\dbasepoint$ in the \textcolor{base}{base space} \dbasec: $\dfiberc = \pi^{-1}(k)$.
@@ -246,10 +264,18 @@ A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
 \end{definition}
 
 \begin{figure}[H]
-  \includegraphics[width=\columnwidth]{figures/local_trivalizations.png}
-  \caption{The local trivializations $\dtotal_{0}$ and $\dtotal_{1}$ are subspaces of $\dtotal$ where the fibers $\dfiber_{0}$ are equal, here illustrated as all pointing in the same direction. These local trivializations are themselves locally trivial fiber bundles.}
-  \label{fig:atct:local_trivalizations}
+    \includegraphics[width=\columnwidth]{figures/local_trivalizations.png}
+    \label{fig:atct:local_trivalizations}
+    \caption{Example of bundles $\dtotalc_0$ and $\dtotalc_1$, which are both trivializations
+    of a bundle $\dtotalc$ add in section here!}
 \end{figure}
+
+\autoref{fig:atct:local_trivalizations} shows an example of a two dimenensional bundle
+$\dtotal$. This bundle can encapsulate a set datasets where the data points are connected to each other along a unit circle $\dbasec$ = $\left[0, 2\pi\right]$ and the data values lie along an interval $dfiberc$ = $[0,1]$. Each dataset is encoded as a section, for example $sin$ and $cos$. The subspaces of $\dtotal_{0}$ and $\dtotal_{1}$ are local trivializations $\dtotal$; therefore the fibers are equal, here illustrated as all pointing in the same direction. These local trivializations are themselves locally trivial fiber bundles.
+
+
+
+
 
 \note{Add motiviating note here!}
 Consider the circle. Points can be identified with angles (in radians, for instance), and we can imagine covering the circle with two overlapping intervals - for instance $\dbase_0=(-\varepsilon, 2\pi/5+\varepsilon)$ and $\dbase_1=(2\pi/5-\varepsilon, 2\pi+\varepsilon)$. We can imagine creating building blocks $\dbase_0\times[-1,1]$ and $\dbase_1\times[-2,2]$.
@@ -1199,7 +1225,7 @@ The $\vchannel$ and $\vmark$ are wrapped in a container object that stores the $
 
 As shown in the \texttt{draw} method, generating a graphic section $\gsection$ is implemented as the composition of $\texttt{qhat} \approx \vmark$ and $\texttt{nu} \approx \vchannel$ applied to a local section of the sheaf $\texttt{self.section.query} \approx \dsection^{i}$ such  $\texttt{draw} \approx \vmarkc\circ\vchannelc\circ\dsectionc  = \vartistc\circ \dsectionc$. The $\vchannel$ and $\vmark$ functions shown here are written such that they can generate a visual element given a local section $\dsection\restriction_{\dbase^{i}}$ which can be as little or large as needed. This flexibility is a prerequisite for building scalable and streaming visualizations that may not have access to all the data.
 
-This artist is then passed along to a shim artist that makes it compatible with existing Matplotlib objects (\autoref{sec:appendix:artist_shim}). This shim object is hooked into the Matplotlib draw tree to produce the vertical bar chart in \autoref{fig:discussion:vbar}. Using the Matplotlib artist framework means this new artist can be composed with existing artists, such as the ones that draw the axes and ticks. The example in this section is intentionally trivial to illustrate that the math to code translation is fairly straightforward and results in fairly self contained composable functions. A library applying these ideas, created by Thomas Caswell, can be found at \url{https://github.com/matplotlib/data-prototype}. Further research could investigate building new systems using this model, specifically libraries for visualizing domain specific structured data and domain specific artists. More research could also explore applying this model to visualizing high dimensional data, particularly building artists that take as input distributed data and artists that are concurrent. Developing complex systems could also be an avenue to codify how interactive techniques are expressed in this framework.
+This artist is then passed along to a shim artist that makes it compatible with existing Matplotlib objects (\autoref{sec:appendix:artist_shim}). This shim object is hooked into the Matplotlib draw tree to produce the vertical bar chart in \autoref{fig:discussion:vbar}. Using the Matplotlib artist framework means this new artist can be composed with existing artists, such as the ones that draw the axes and ticks. The example in this section is intentionally trivial to illustrate that the math to code translation is fairly straightforward and results in fairly self contained composable functions. A library applying these ideas, created by Thomas Caswell and Kyle Sunden, can be found at \url{https://github.com/matplotlib/data-prototype}. Further research could investigate building new systems using this model, specifically libraries for visualizing domain specific structured data and domain specific artists. More research could also explore applying this model to visualizing high dimensional data, particularly building artists that take as input distributed data and artists that are concurrent. Developing complex systems could also be an avenue to codify how interactive techniques are expressed in this framework.
 
 \section{Conclusion}
 The toy example presented in \autoref{sec:discussion} demonstrates that it is relatively straightforward to build working visualization library components using the construction described in \autoref{sec:construction}. Since these components are defined with single record inputs, they can be implemented such that they are concurrent. The cost of building a new function using these components is sometimes as small as renaming fields, meaning the new feature is relatively easy to maintain. These new components are also a lower maintenance burden because, by definition, they are designed in conjunction with tests that verify that they are equivariant.
