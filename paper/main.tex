@@ -152,7 +152,7 @@ While Bertin and Mackinlay's work primarily discusses the $data \rightarrow grap
 \subsection{Fields}
 \label{sec:related-work:equivariance}
 
-The structure on values has traditionally been codified using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical structure\cite{stevensTheoryScalesMeasurement1946} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale1971, homasMathematizationNotMeasurement2014}.
+The structure on values has traditionally been codified using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical structure\cite{stevensTheoryScalesMeasurement1946} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}.
 
  \textit{equivariance} allows us to test stucture preservation under transformations to data or visualization has been proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}.
 
@@ -260,18 +260,6 @@ A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
   %there is an open neighborhood $\openset_{\dbasepoint}$ surrounding each point in the base space $\dbasepoint \in \openset_{\dbasepoint} \subset \dbase$ such that the \textcolor{total}{total space} \dtotalc\ over the neighborhood, denoted $\dtotal\restriction\openset$\footnote{The symbol $\restriction$ is the restriction operator\cite{RestrictionMathematics2022} defined in \texttt{amssymb}. For example $\pi^{-1}\restriction\openset$ is the inverse function $\pi^{-1}$ defined only on the points in $\openset$. Since $\pi^{-1}(\dbase)=\dtotal$, we use the shorthand $\dtotal\restriction_{\openset} \coloneqq \pi^{-1}\restriction_{\openset}$}, is locally trivial. The condition for local triviality is that $\dtotal\restriction_{\openset} = \openset \times \dfiber = \pi^{-1}\restriction_{\openset}$
 \end{enumerate}
 \end{definition}
-\begin{definition} A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotalc$ over a fiber bundle is a smooth right inverse of $\pi$: $\pi(\dsection(\dbasepoint)) = \dbasepoint$ for all $\dbasepoint \in \dbase$
-\end{definition}
-
-\begin{figure}[H]
-    \includegraphics[width=\columnwidth]{figures/local_trivalizations.png}
-    \label{fig:atct:local_trivalizations}
-    \caption{Example of bundles $\dtotalc_0$ and $\dtotalc_1$, which are both trivializations
-    of a bundle $\dtotalc$ add in section here!}
-\end{figure}
-
-\autoref{fig:atct:local_trivalizations} shows an example of a two dimenensional bundle
-$\dtotal$. This bundle can encapsulate a set datasets where the data points are connected to each other along a unit circle $\dbasec$ = $\left[0, 2\pi\right]$ and the data values lie along an interval $dfiberc$ = $[0,1]$. Each dataset is encoded as a section, for example $sin$ and $cos$. The subspaces of $\dtotal_{0}$ and $\dtotal_{1}$ are local trivializations $\dtotal$; therefore the fibers are equal, here illustrated as all pointing in the same direction. These local trivializations are themselves locally trivial fiber bundles.
 
 
 
@@ -302,6 +290,19 @@ A \textit{trivial bundle} is directly isomorphic to $\dbasec\times\dfiberc$, and
 
 A \textit{non-trivial bundle} on the other hand is one that can not be constructed as $\dbasec\times\dfiberc$, but where the construction is more complicated. Then for any choice of local trivializations, there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}. For example, in the Möbius band case, while $\dfiber_0\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}\to\dfiber_1\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}$ can be chosen to be an identity map (after transforming $\dbase_1\times[-2,2]\to\dbase_1\times[-1,1]$ by rescaling), the other transition map component $\dfiber_0\restriction_{(-\varepsilon,\varepsilon)}\to\dfiber_1\restriction_{(-\varepsilon,\varepsilon)}$ has to flip the fibers to align them between the pieces.
 
+\note{ending on sectionsis probably better for our purposes!}
+\begin{definition} A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotalc$ over a fiber bundle is a smooth right inverse of $\pi$: $\pi(\dsection(\dbasepoint)) = \dbasepoint$ for all $\dbasepoint \in \dbase$
+\end{definition}
+
+\begin{figure}[H]
+    \includegraphics[width=\columnwidth]{figures/local_trivalizations.png}
+    \label{fig:atct:local_trivalizations}
+    \caption{Example of bundles $\dtotalc_0$ and $\dtotalc_1$, which are both trivializations
+    of a bundle $\dtotalc$ add in section here!}
+\end{figure}
+
+\autoref{fig:atct:local_trivalizations} shows an example of a two dimenensional bundle
+$\dtotal$. This bundle can encapsulate a set datasets where the data points are connected to each other along a unit circle $\dbasec$ = $\left[0, 2\pi\right]$ and the data values lie along an interval $dfiberc$ = $[0,1]$. Each dataset is encoded as a section, for example $sin$ and $cos$. The subspaces of $\dtotal_{0}$ and $\dtotal_{1}$ are local trivializations $\dtotal$; therefore the fibers are equal, here illustrated as all pointing in the same direction. These local trivializations are themselves locally trivial fiber bundles.
 
 We propose that the total space of a bundle can encode the mathematical space in which a  dataset is embedded, the base space can encode the topological properties of the dataset, and the fiber space can encode the data types of the record fields of the dataset. The map $\pi$ expresses the formal binding between having a typed data field, discussed in \autoref{sec:atct:fb:fiber}, and a corresponding point in the topological structure, which is discussed in \autoref{sec:atct:fb:base}. Fiber bundles are a good abstract data representation for visualization because the field type and topological structure are unconstrained in terms of dimensionality and the only conditions that must be satisfied are that every point in the base space has a corresponding field of values and the field types must be the same for every point in the base space. We propose that modeling data as sections provides a way to encapsulate topological and field structure in a uniform dimension and type independent manner, as discussed in \autoref{sec:atct:fb:sections}.
 
@@ -480,7 +481,7 @@ For example, lets define presheaves $\sheaf_1, \sheaf_2$. These are maps from in
 The constraints of a presheaf functor are that since the $constant, sin, cos$ functions are defined over the interval $\left[0,1\right]$, these functions must also be continuous over the sub-interval $\left(\frac{\pi}{2}, \frac{3\pi}{2}\right)$; therefore the sections in $\Gamma_{2}$ must also be included in the set of sections over the subspace $\Gamma_{1}$. The generalization of this constraint is that data structures that contain continuous functions must support interpolating them over arbitrarily small subspaces.
 
 While presheaves preserve the rules for sets of sections, sheaves add on conditions for gluing individual sections over subspaces into cohesive sections over the whole space.
-\begin{definition}\cite{bakerEuclideanSpaceMathsSheaf,spanier1989algebraic} A \textbf{sheaf} is a presheaf that satisfies the following two axioms
+\begin{definition}\label{def:atct:sheaf}\cite{bakerEuclideanSpaceMathsSheaf,spanier1989algebraic} A \textbf{sheaf} is a presheaf that satisfies the following two axioms
 \begin{itemize}
   \item \textit{locality} two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values over the same set of open sets $\dsection^{a}|_{\openset} =  \dsection^{b}|_{\openset}$.
   \item \textit{gluing} the union of sections defined on specific open sets is equivalent to one big section over the union of spaces $\dsection|_{\openset_{i} \cup \openset_{j}} = \dsection^{i}|_{\openset_i} \cup \dsection^{j}|_{\openset_j}$ if these sections agree on overlaps $\dsection^{i}|_{\openset_i\cap\openset_j} =  \dsection^{j}|_{\openset_i\cap\openset_j}$
@@ -519,9 +520,9 @@ Since we have defined a function \vindex\ between two spaces $\dbase, \gbase$, w
 \paragraph{\textbf{Graphic Corresponding to Data}}
 The pushforward (direct image) sheaf establishes which graphic generating function $\gsection$ corresponds to a point $\dbasepoint \in dbase$ in the data base space.
 \begin{definition} Given a sheaf $\sheaf_{\gbase, \gtotal}$ on $\gbase$, the \textbf{pushforward} sheaf  $\vindexpush\sheaf_{\gbase, \gtotal}$ on $\dbase$ is defined as
-  \begin{equation*}
+  \begin{equation}
     \vindexpushc(\sheafc_{\gbasec, \gtotalc})(\opensetc)  = \sheafc_{\gbasec, \gtotalc}(\vindexc^{-1}(\opensetc))
-  \end{equation*}
+  \end{equation}
 for all opensets $\opensetc \subset \dbasec$\cite{harder2008lectures}.
 \end{definition}
 The pushforward sheaf returns the set of graphic sections over the data base space that corresponds to the graphic space $\vindex^{-1}(\openset) = \opensetgc$. The pushforward functor $\vindexpushc$ transports sheaves of sections on $\opensetgc$ over $\openset$
@@ -530,6 +531,7 @@ The pushforward sheaf returns the set of graphic sections over the data base spa
 \end{equation}
 such that it provides a way to look up which graphic corresponds with a data index
 \begin{equation}
+  \label{eq:atct:sheaf:pushforward_select}
   \vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexprec(\dbasepointc)}
 \end{equation}
 such that $\vindexpush\gsection(\dbasepoint))(\gbasepoint) = \gsection(\gbasepoint)$ for all $\gbasepoint \in \vindexpre(\dbasepoint)$. Therefore, the continuous map $\vindex$ and transport functors $\vindexpull, \vindexpush$ allow us to express the correspondence between graphic section and data section.
@@ -548,6 +550,7 @@ The pullback sheaf returns the set of data sections over the graphic base space 
 \end{equation}
 such that there is a way to then look up what data values correspond with a graphic index
 \begin{equation}
+  \label{eq:atct:sheaf:pullback_hover}
   \vindexpullc\dsectionc(\gbasepointc) = \dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)
 \end{equation}
 As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ in the graphic space that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$.
@@ -902,6 +905,21 @@ Although we have been discussing the trivial cases of adding observations or add
 
 As shown in \autoref{eq:artist:join_base_fiber}, bundles over a union of base spaces can be joined as a product of the fibers. This allows us to consider all the data inputs in a complex visualization as a combined input, where some sections evaluate to null in fields for which there are no values for that point in the combined base space $\dbasepoint \in \mathop{\sqcup}_{i} \dbase^{i}$ The combined construction of the data is a method for expressing what each data input has in common with another data input-for example the data for labeling tick marks or legends-
 and therefore which commonalities need to be preserved in the artists that act on these inputs.
+
+\note{explain why annotation is similar to brush/linking in operators section }
+
+\subsection{Animation and Interactivity}
+
+
+\begin{LaTeXdescription}
+  \item[pan, zoom, scroll] sheaf: locality + gluing \autoref{def:atct:sheaf}
+  \item[selection and hover] pushforward \autoref{eq:atct:sheaf:pushforward_select},  pullback \autoref{eq:atct:sheaf:pullback_hover}
+  \item[brushing, linking, annotation] composition of artists \autoref{eq:artist:join_base_fiber}
+\end{LaTeXdescription}
+
+Animation and interaction are a set of stills. Because the constraints are on the functions $\vartist\circ\dsection$ , satisfying the constraints on each function means that the constraint is satisfied for all visualizations $\{\vartist(\dsection(\dbasepoint)) \mid\dbasepoint \in \dbase \}$ that make up an animation or interaction.
+
+
 
 \section{Constructing Structure Preserving Components}
 \label{sec:construction}
