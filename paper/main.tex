@@ -121,7 +121,7 @@ The abstract goes here.
 
 
 
-\IEEEPARstart{V}{isualization} tools implement transforms of the form $data \rightarrow graphic$ and are expected to be structure preserving. Loosely, that means the mathematical properties of the data and how the points are connected to each other should be inferable such that  $graphic \rightarrow data$. For example, values read off a bar chart have to be equivalent to the values used to construct that chart. Therefore a visualization tool is structure preserving when it preserves the mapping $data\leftrightarrow graphic$.
+\IEEEPARstart{V}{isualization} tools implement transforms of the form $data \rightarrow graphic$ and are expected to be structure preserving. Loosely, that means the mathematical properties of the data and how the points are connected to each other should be inferable such that  $graphic \rightarrow data$. For example, values read off a bar chart have to be equivalent to the values used to construct that chart. Therefore a visualization tool is structure preserving when it preserves the bidirectional mapping $data\leftrightarrow graphic$.
 
 We propose that we can better enforce this expectation in software by providing a uniform way of expressing $data$ and $graphic$ using their respective algebraic structure and by uniformally specifying the behaviors and properties of those structures and the maps between them using category theory. For example, our framework can encapsulate how a table and scatter plot and heatmap are different representations of the same data and track an observation from a datacube as a point along a time series and on a map and in a network. The algebraic structures can then be translated into programmatic types, while the categorical descriptions translate to a functional design framework. Strong typing and function composition enable visualization software developers to build complex components from simpler verifiable parts \cite{huHowFunctionalProgramming2015, hughesWhyFunctionalProgramming1989}. These  components can be built as a standalone library and integrated into existing libraries and we hope these ideas will help shape the reorganization of critical data visualization libraries, such as Matplotlib.
 
@@ -136,14 +136,6 @@ Since the earliest maps \cite{friendlyBriefHistoryData2006}, a visualization has
   \item[\textcolor{base}{\textbf{topology}}] is the connectivity and relative positioning of elements in a dataset \cite{wilkinsonGrammarGraphics2005}.
 \end{LaTeXdescription}
 
-\begin{figure}[H]
-  \includegraphics[width=1\columnwidth]{k_different_types.png}
-  \caption{
-  \note{add first panel which is table + all K type, second is scatter, etc...}
-%
-  \label{fig:related-work:continuity:ktypes}}
-\end{figure}
-
  In \autoref{fig:related-work:continuity:ktypes}, the topology is a continuous 3 dimensional surface encapsulating time and position, while the fields are date, location, station, pressure, and temperature. Our paper provides a language to express how the scatter plot, line plot, and heatmap are preserving different structural properties of the dataset, thereby generalizing Bertin's codification of how the topology of observations must match the class of representation (i.e. point , line, area) and how the variation possible in a field match the variation in the corresponding visual variable \cite{bertinSemiologyGraphicsDiagrams2011} and Mackinlay's work on how structure preservation includes preserving the mathimatical relations between elements of the same and different fields \cite{mackinlayAutomatingDesignGraphical1986}.
 
 While Bertin and Mackinlay's work primarily discusses the $data \rightarrow graphic$, Kindlemann and Scheidegger's algebraic framework \cite{kindlmannAlgebraicProcessVisualization2014} also dictates a set of conditions under which the $graphic \rightarrow data$  mapping is structure preserving. Encapsulating their conditions, we: present a uniform abstract data representation layer in \autoref{sec:atct:sheaves} for ensuring that the visualization should not change if the data representation (i.e. the data container) changes, define the conditions under which data is mapped unambiguously to visual encodings \cite{ziemkiewiczEmbeddingInformationVisualization2009} in \autoref{sec:atct:xi}, and provide a methodology for verifying that changes in data should correspond to changes in the visualization in \autoref{sec:artist:equivariant:artist} that does not necessarily require that the changes be perceptually significant. Furthermore, our model extends their conditions of equivariance by explicitly incorporating topology and by providing a framework for translating the theoretical ideas into buildable components in \autoref{sec:construction}.
@@ -152,28 +144,29 @@ While Bertin and Mackinlay's work primarily discusses the $data \rightarrow grap
 \subsection{Fields}
 \label{sec:related-work:equivariance}
 
-The structure on values has traditionally been codified using the measurement scales-i.e. nominal, ordinal, interval, ratio - which Steven's classified by their mathematical structure\cite{stevensTheoryScalesMeasurement1946} and others have formally expanded to include more types \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}.
+Data is often described by its mathematical structure, for example the Steven's measurement scales define nominal, ordinal, interval, and ratio data by the allowed operations on each \cite{stevensTheoryScalesMeasurement1946} and other researchers have since expanded the scales to encapsulate more types of structure \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}.
 
- \textit{equivariance} allows us to test stucture preservation under transformations to data or visualization has been proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}.
-
-
- \textit{homomorphism} provides a way of asserting whether the relations between data elements was preserved as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}.
-
-\subsubsection{equivariance}
-Specifically, Steven's conceptualizes the structure on values as \textcolor{action}{actions} on groups \footnote{A \textit{group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative,
-and invertable}:
+Loosely, the scales classify data as a set of values and the allowed transformations on that set, which can be operations, relations, or generalized as actions:
 
 \begin{definition}\label{def:related-work:action}\cite{grimaldiDiscreteCombinatorialMathematics2006}
   An \textcolor{action}{\textbf{action}} of \textcolor{action}{$G = (G,\circ, e)$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
 \end{definition}
 
-where the measurements are the groups and changes to them are actions. A function that preserves structure when the input or output is changed by a group action is called \textit{equivariant}. Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
+Computer science data types roughly describe structure in an equivalent manner;
+objects are elements of the set and class operators and methods are akin to
+actions, as described in \autoref{sec:atct:fb:fiber}. Given this equivalancy between code and math, we can develop software functions to test whether structure is preserved based on mathematical tests of structure preservation. For example, \textit{equivariance} allows us to test stucture preservation under transformations to data or visualization and has been proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014} and \textit{homomorphism} provides a way of asserting whether the relations between data elements was preserved as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}.
+
+
+\subsubsection{equivariance}
+Specifically, Steven's conceptualizes the structure on values as \textcolor{action}{actions} on groups \footnote{A \textit{group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative,
+and invertable}. A function that preserves structure when the input or output is changed by a group action is called \textit{equivariant}. Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
+
 \begin{definition}\label{def:equivariance}
  A function $f$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
 \end{definition}
 which means that a visualization is structure preserving when there exist compatible group actions on the data and visualization, as proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}.
 
-\subsection{homomorphism}
+\subsubsection{homomorphism}
 
 For example, although the Steven's scales were conceptualized as having group structure, the ordinal scale have a monoidal structure because partial orders ($\geq, \leq$) are not invertable. This means we cannot use \textit{equivariance} to test for structure preservation instead we use \textit{homomorphsim} because it imposes fewer constraints on the underlying mathematical structure of the data.
 
@@ -196,6 +189,14 @@ As shown in \autoref{fig:def:equivariance} and \autoref{fig:def:homomorphsim}, t
 
 
 \subsection{Topology}
+
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{k_different_types.png}
+  \caption{
+  \note{add first panel which is table + all K type, second is scatter, etc...}
+%
+  \label{fig:related-work:continuity:ktypes}}
+\end{figure}
 \note{lead with homomorphism}
 Borrowing structures from algebraic topology allows us to describe structure on individual elements in a way that holds true for the entire dataset, meaning we can use the same tools to check if structre is preserved regardless of whether the data fits in memory, is distributed, or is streaming. Our framework generalizesis because, informally, a topology $\mathcal{T}$ is a partitioning of a space into its subspaces in a way where those subspaces can be composed back into the space; the choice of partitions is how we encode the connectivity of the data and visualizations that we are interested in.
 
