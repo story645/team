@@ -10,13 +10,13 @@ from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 
 #scatter position: 
 
-airports = {'ALBANY INTL AP': {'code': 'ALB', 'color': '#469990'},
+airports = {'ALBANY INTL AP': {'code': 'ALB', 'color': '#800000'},
             'BINGHAMTON': {'code': 'BGM', 'color': '#9A6324'},
             'BUFFALO': {'code': 'BUF', 'color': '#f032e6'},
             'GLENS FALLS AP': {'code': 'GFL', 'color': '#dcbeff'},
             'ISLIP-LI MACARTHUR AP': {'code': 'ISP', 'color': '#ffe119'},
             'LAGUARDIA AP': {'code': 'LGA', 'color': '#f58231'},
-            'ROCHESTER GTR INTL AP': {'code': 'ROC', 'color': '#800000'},
+            'ROCHESTER GTR INTL AP': {'code': 'ROC', 'color':'#469990'},
             'SYRACUSE HANCOCK INTL AP': {'code': 'SYR', 'color': '#aaffc3'},
             'JFK INTL AP': {'code': 'JFK', 'color': '#000075'},
             'HILO INTERNATIONAL AIRPORT': {'code': 'ITO', 'color': '#3CB44B'},
