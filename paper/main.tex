@@ -124,29 +124,24 @@ The abstract goes here.
 
 \IEEEPARstart{V}isualization design guidelines, generally, describe how to choose visual encodings that preserve the structure of the data; to follow these guidelines the visualization tools that implement these $\data \rightarrow graphic$ transforms must be structure preserving. Loosely, preserving structure means that the properties of the data and how the points are connected to each other should be inferable from the graphic such that a $graphic \rightarrow data$ mapping can be made. For example, values read off a bar chart have to be equivalent to the values used to construct that chart. Therefore a visualization tool is structure preserving when it preserves the bidirectional mapping $data\leftrightarrow graphic$.
 
-We propose that we can better enforce this expectation in software by providing a uniform way of expressing $data$ and $graphic$ using their respective algebraic structure and by uniformally specifying the behaviors and properties of those structures and the maps between them using category theory. For example, our framework can encapsulate how a table and scatter plot and heatmap are different representations of the same data and track an observation from a datacube as a point along a time series and on a map and in a network. The algebraic structures can then be translated into programmatic types, while the categorical descriptions translate to a functional design framework. Strong typing and function composition enable visualization software developers to build complex components from simpler verifiable parts \cite{huHowFunctionalProgramming2015, hughesWhyFunctionalProgramming1989}. These  components can be built as a standalone library and integrated into existing libraries and we hope these ideas will help shape the reorganization of critical data visualization libraries, such as Matplotlib.
+We propose that we can better enforce this expectation in software by providing a uniform way of expressing $data$ and $graphic$ using their respective algebraic structure and by uniformally specifying the behaviors and properties of those structures and the maps between them using category theory. For example, our framework can encapsulate how a table and scatter plot and heatmap are different representations of the same data and track an observation from a data cube as a point along a time series and on a map and in a network. The algebraic structures can then be translated into programmatic types, while the categorical descriptions translate to a functional design framework. Strong typing and function composition enable visualization software developers to build complex components from simpler verifiable parts \cite{huHowFunctionalProgramming2015, hughesWhyFunctionalProgramming1989}. These components can be built as a standalone library and integrated into existing libraries and we hope these ideas will influence the architecture of critical data visualization libraries, such as Matplotlib.
 
 The contribution of this paper is a methodology for describing structure, verifying structure preservation, and specifying the conditions for constructing a structure preserving map between data and graphics. This framework also provides guidance for the construction and testing of structure preserving visualization library components.
 
 \section{Related Work}
-\label{sec:related-work:continuity}
+\label{sec:related-work}
 
-In this section, we describe how structure has traditionally been discussed in visualization and mathematics and encapsulated in visualization library design because we propose that by formally incorporating mathematical definitions of equality, we provide a general framework that can account for a larger variety of fields than the existing work has, can formally expresse what it means to preserve the topology of the data, and we can do so in a uniform manner using category theory because that can lead to more consistent software interfaces in visualization software libraries \cite{wielsManagementEvolvingSpecifications1998,yorgeyMonoidsThemeVariations2012}.
-
-
-Generally, preserving structure means that a visualization is expected to preserve the $field$ properties and $topology$ of the corresponding dataset:
+This paper builds on how structure has traditionally been discussed in visualization and mathematics and encapsulated in visualization library design to propose a uniform interface for encoding structure that supports a broader variety of fields and more rigorously define how connectivity is preserved. Generally, preserving structure means that a visualization is expected to preserve the $field$ properties and $topology$ of the corresponding dataset:
 
 \begin{LaTeXdescription}
   \item[\textcolor{fiber}{\textbf{field}} \footnote{Throughout this paper, we use color in definitions, equations, and visualizations to group conceptually related terms\cite{headMathAugmentationHow2022}, for example \textcolor{fiber}{field} and \textcolor{fiber}{fiber}.}] is a set of values of the same type, e.g. one column of a table or the pixels of an image
   \item[\textcolor{base}{\textbf{topology}}] is the connectivity and relative positioning of elements in a dataset \cite{wilkinsonGrammarGraphics2005}.
 \end{LaTeXdescription}
 
-The conditions under which $data \rightarrow graphic$ is structure preserving is discussed extensively in the visualization literature, codified by Bertin\cite{bertinSemiologyGraphicsDiagrams2011} and extended to tool design by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}, and a set of conditions under which the $graphic \rightarrow data$ mapping is structure preserving is presented in Kindlemann and Scheidegger's algebraic framework \cite{kindlmannAlgebraicProcessVisualization2014}. Encapsulating their conditions, we present a uniform abstract data representation layer in \autoref{sec:atct:sheaves} for ensuring that the visualization should not change if the data representation (i.e. the data container) changes, define the conditions under which data is mapped unambiguously to visual encodings \cite{ziemkiewiczEmbeddingInformationVisualization2009} in \autoref{sec:atct:xi}, and provide a methodology for verifying that changes in data should correspond to changes in the visualization in \autoref{sec:artist:equivariant:artist} that does not necessarily require that the changes be perceptually significant. Furthermore, our model extends their conditions of equivariance by explicitly incorporating topology and by providing a framework for translating the theoretical ideas into buildable components in \autoref{sec:construction}.
+The conditions under which $data \rightarrow graphic$ is structure preserving is discussed extensively in the visualization literature, codified by Bertin\cite{bertinSemiologyGraphicsDiagrams2011} and extended to tool design by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}, and a set of conditions under which the $graphic \rightarrow data$ mapping is structure preserving is presented in Kindlemann and Scheidegger's algebraic visualization design (AVD) framework \cite{kindlmannAlgebraicProcessVisualization2014}. Encapsulating the AVD conditions, we present a uniform abstract data representation layer in \autoref{sec:atct:sheaves} for ensuring that the visualization should not change if the data representation (i.e. the data container) changes, define the conditions under which data is mapped unambiguously to visual encodings \cite{ziemkiewiczEmbeddingInformationVisualization2009} in \autoref{sec:atct:xi}, and provide a methodology for verifying that changes in data should correspond to changes in the visualization in \autoref{sec:artist:equivariant:artist} that does not necessarily require that the changes be perceptually significant. Furthermore, our model generalizes the AVD notion of equivariance by allowing non-group structures, explicitly incorporating topology and by providing a framework for translating the theoretical ideas into buildable components in \autoref{sec:construction}.
 
 
 
-\note{this got moved}
-In \autoref{fig:related-work:continuity:ktypes}, the topology is a continuous 3 dimensional surface encapsulating time and position, while the fields are date, location, station, pressure, and temperature. Our paper provides a language to express how the scatter plot, line plot, and heatmap are preserving different structural properties of the dataset, thereby generalizing Bertin's codification of how the topology of observations must match the class of representation (i.e. point , line, area) and how the variation possible in a field match the variation in the corresponding visual variable \cite{bertinSemiologyGraphicsDiagrams2011} and Mackinlay's work on how structure preservation includes preserving the mathimatical relations between elements of the same and different fields \cite{mackinlayAutomatingDesignGraphical1986}.
 
 \subsection{Fields}
 \label{sec:related-work:equivariance}
@@ -159,52 +154,46 @@ Loosely, the scales classify data as a set of values and the allowed transformat
   An \textcolor{action}{\textbf{action}} of \textcolor{action}{$G = (G,\circ, e)$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
 \end{definition}
 
+Elements of $X$ can be from one data field or all of them or some subset; similarly the actions act on
+the elements of $X$ and each action can be a composition of actions. This means actions can be used when discussing various measures of structure preservation. For example, \textit{equivariant} functions preserve structure under transformations to data or visualization and has been proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014} and \textit{homomorphic} maps preserve relations between data elements was preserved as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}.
 
-The elements of a set $X$ are roughly equivalent to instantiated objects of a class, and actions are roughly equivalent to methods on the objects; therefore mathematical definitions of structure preservation can be mapped directly to code. For example, \textit{equivariant} functions preserve structure under transformations to data or visualization and has been proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014} and \textit{homomorphic} maps preserve relations between data elements was preserved as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}.
+Specifically, Steven's conceptualizes the structure on values as \textcolor{action}{actions} on groups \footnote{A \textit{group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative, and invertable}. A function that preserves structure when the input or output is changed by a group action is called \textit{equivariant}.
 
-
-\subsubsection{equivariance}
-\begin{figure}
+\begin{figure}[H]
   \includegraphics*[width=1\columnwidth]{tex/equivariant.png}
+  \caption{Encoding data as the bar height using an exponential transform is not equivariant because encoding the data and then scaling the bar heights yields a much taller graph then scaling the data and then encoding those heights using the same exponential transform function.}
+  \label{fig:related-work:equivariance}
 \end{figure}
-Specifically, Steven's conceptualizes the structure on values as \textcolor{action}{actions} on groups \footnote{A \textit{group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative,
-and invertable}. A function that preserves structure when the input or output is changed by a group action is called \textit{equivariant}. Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
+
+ Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
 
 \begin{definition}\label{def:equivariance}
  A function $f$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
 \end{definition}
-which means that a visualization is structure preserving when there exist compatible group actions on the data and visualization, as proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}.
+which means that a visualization is structure preserving when there exist compatible group actions on the data and visualization, as discussed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}. As illustrated in the commutative diagram in \autoref{fig:related-work:equivariance}, what this means is that the visual representation is consistent whether the data is scaled and then mapped to a graphic or whether the data is mapped to a graphic that is then modified in a compatible way.
+
+Although the Steven's scales were conceptualized as having group structure, the ordinal scale has a monoidal structure because partial orders ($\geq, \leq$) are not invertable. This means \textit{equivariance} cannot be used to test for structure preservation. Instead \textit{homomorphsim} can be used because it imposes fewer constraints on the underlying mathematical structure of the data.
 
 \subsubsection{homomorphism}
-\begin{figure}
+\begin{figure}[H]
   \includegraphics[width=1\columnwidth]{tex/homomorphism.png}
+  \caption{Encoding data as bar height using an inverse transform is not homomorphic because the largest number is mapped to the smallest bar while the max function returns the largest bar.}
+  \label{fig:related-work:homomorphism}
 \end{figure}
-For example, although the Steven's scales were conceptualized as having group structure, the ordinal scale have a monoidal structure because partial orders ($\geq, \leq$) are not invertable. This means we cannot use \textit{equivariance} to test for structure preservation instead we use \textit{homomorphsim} because it imposes fewer constraints on the underlying mathematical structure of the data.
 
 Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$
 
 \begin{definition}\label{def:homomorphism}
-  A function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identites $f(I_x) = I_y$ all $x, y \in X$
+  A function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identites $f(I_x) = I_y$ all $x, y \in X$ \cite{grimaldiDiscreteCombinatorialMathematics2006}
 
 \end{definition}
-which means that the operators $\circ$ and $*$ are compatiable.  \note{check grimalidi for citation}.
+which means that the operators $\circ$ and $*$ are compatible. In \autoref{fig:related-work:homomorphism}, the $\geq$ operator is defined as the compatible closed functions \texttt{max} and the inverse transform
+is not homomorphic because it does not encode the maximum data value as the maximum bar value.
 
-As illustrated in \ref{fig:def:homomorphism}, structure preservation under ordering means that since 1 is less than 2, the visual transformation of 1 must be less than the visual transformation of two - here shown as 1 having a shorter bar than 2. We must define a < for visual compatable with the < for numbers. We handwave that for every relation we can write a compatabile closed function,  e.g. we can replace $\leq$ with $\min$, such that the operation is closed.
-
-
-As shown in \autoref{fig:def:equivariance} and \autoref{fig:def:homomorphsim}, the basis of asserting structure preservation is that there exist compatiable actions and these actions commute; we generalize compatability and commutability as the basis for structure preservation in \autoref{sec:artist:equivariant:data}.
-
-
-
-
-
-
-
-A brief visualization oriented introduction to category theory is in Vickers et al \cite{vickersUnderstandingVisualizationFormal2013}, but they are applying category theory to semantic concerns about visualization design rather than library architecture.
-
+As shown in \autoref{fig:def:equivariance} and \autoref{fig:def:homomorphsim}, a function can be homomorphic but not equivariant, such as an exponential encoding, or equivariant but not homomorphic, such as the inverse encoding. A function can also be homomorphic (or equivariant) with respect to one action but not with respect to another. The encoding transforms in visualization tools are expected to preserve the structure of whatever input they receive; therefore a methodology for codifying arbitrary structure is presented in \autoref{sec:atct:fb:fiber} and \autoref{sec:artist:equivariant:data} presents a generalization of equivariance and homomorphism for evaluating structure preservation.
 
 \subsection{Topology}
-
+\label{sec:related-work:continuity}
 \begin{figure}[H]
   \includegraphics[width=1\columnwidth]{k_different_types.png}
   \caption{
@@ -228,14 +217,18 @@ Visual algorithms assume the topology of their input data, as described in taxon
 
 To encode topology and field structure, we extend Butler's work on using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but Butler provides a thorough introduction to bundles for visualization practitioners.
 
+\note{this got moved}
+In \autoref{fig:related-work:continuity:ktypes}, the topology is a continuous 3 dimensional surface encapsulating time and position, while the fields are date, location, station, pressure, and temperature. Our paper provides a language to express how the scatter plot, line plot, and heatmap are preserving different structural properties of the dataset, thereby generalizing Bertin's codification of how the topology of observations must match the class of representation (i.e. point , line, area) and how the variation possible in a field match the variation in the corresponding visual variable \cite{bertinSemiologyGraphicsDiagrams2011} and Mackinlay's work on how structure preservation includes preserving the mathimatical relations between elements of the same and different fields \cite{mackinlayAutomatingDesignGraphical1986}.
 
 \subsection{Structure Preservation In Software}
 \label{sec:related-work:software}
-Visualization libraries are in part measured by how expressive the components of the library are, where expressiveness is a measure of which structure preserving mappings a tool can implement \cite{mackinlayAutomatingDesignGraphical1986}. While some visualization tools aim to automate the pairing of data with structure preserving visual representations, such as Tableau\cite{StoltePolaris2002,hanrahanVizQL2006,MackinlayShowme2007}, many visualization libraries leave that choice to the user. For example, connectivity assumptions tend to be embedded in each of the visual algorithms of `building block` libraries, a term used by Wongsuphasawat \cite{wongsuphasawatNavigatingWideWorld2021} to describe libraries that provide modular components for building elements of a visualization, such as functions for making boxes or translating data values to colors. In building block libraries such as Matplotlib\cite{hunterMatplotlib2DGraphics2007} and D3\cite{bostockDataDrivenDocuments2011} assumptions about connectivity are embedded in the interfaces such that the API is inconsistent across plot types. For example in Matplotlib methods for updating data and parameters for controlling aesthetics differ between (1D) line based plotting methods and (0D) marker based methods. While VTK\cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012} provides a language for expressing the topological properties of the data, and therefore can embed that information in its visual algorithms, VTK's charts API is similar to the continuity dependent APIs of other building block libraries.
+Visualization libraries are in part measured by how expressive the components of the library are, where expressiveness is a measure of which structure preserving mappings a tool can implement \cite{mackinlayAutomatingDesignGraphical1986}. While some visualization tools aim to automate the pairing of data with structure preserving visual representations, such as Tableau\cite{StoltePolaris2002,hanrahanVizQL2006,MackinlayShowme2007}, many visualization libraries leave that choice to the user. For example, connectivity assumptions tend to be embedded in each of the visual algorithms of `building block` libraries, a term used by Wongsuphasawat \cite{wongsuphasawatNavigatingWideWorld2021,wongsuphasawatNavigatingWideWorld2020} to describe libraries that provide modular components for building elements of a visualization, such as functions for making boxes or translating data values to colors. In building block libraries such as Matplotlib\cite{hunterMatplotlib2DGraphics2007} and D3\cite{bostockDataDrivenDocuments2011} assumptions about connectivity are embedded in the interfaces such that the API is inconsistent across plot types. For example in Matplotlib methods for updating data and parameters for controlling aesthetics differ between (1D) line based plotting methods and (0D) marker based methods. While VTK\cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012} provides a language for expressing the topological properties of the data, and therefore can embed that information in its visual algorithms, VTK's charts API is similar to the continuity dependent APIs of other building block libraries.
 
 Domain specific libraries are designed with the assumption of continuities that are common in the domain \cite{HeerSoftware2006}, and therefore can somewhat restrict their API to choices that that are appropriate for the domain. For example, a tabular topological structure of discrete rows, as illustrated in \autoref{fig:related-work:continuity:ktypes}, is assumed by
 A Presentation Tool\cite{mackinlayAutomatingDesignGraphical1986, mackinlayAutomatingDesignGraphical1986} and grammar of graphics\cite{wilkinsonGrammarGraphics2005} and the ggplot\cite{wickhamGgplot2ElegantGraphics2016}, vega\cite{satyanarayanDeclarativeInteractionDesign2014}, and altair\cite{vanderplasAltairInteractiveStatistical2018} libraries built on these frameworks. Image libraries such as Napari\cite{nicholas_sofroniew_2021_4533308} and ImageJ\cite{schneiderNIHImageImageJ2012} and its humanities ImagePlot\cite{studiesCulturevisImageplot2021} plugin assume that the input is 2D continuous. Networking libraries such as gephi\cite{bastianGephiOpenSource2009} and networkx\cite{HagbergExploringNetwork2008} assume a graph-like structure. By assuming the structure of their data, these domain specific libraries can provide more cohesive interfaces for a much more limited set of visualization algorithms than the building block libraries offer.
 
+
+The coupling of values with their allowed transformations is roughly equivalent to the data and methods of and on a software class. Category theory refines the mapping between math and software and its use can lead to more consistent software interfaces in visualization software libraries \cite{wielsManagementEvolvingSpecifications1998,yorgeyMonoidsThemeVariations2012}. A brief visualization oriented introduction to category theory is in Vickers et al \cite{vickersUnderstandingVisualizationFormal2013}, but they are applying category theory to semantic concerns about visualization design rather than library architecture.
 
 
 
@@ -1469,8 +1462,7 @@ Hannah is also very grateful to Nicolas for the suggestion of augmented notation
 the nlab and wikipedia contributors who wrote clear explanations of many of the topics
 discussed in this paper.
 
-This project has been made possible in part by grant number 2019-207333 and from the
-\note{Cycle 3 grant #} Chan Zuckerberg Initiative DAF, an advised fund of Silicon Valley Community Foundation
+This project has been made possible in part by grant number 2019-207333 and \note{Cycle 3 grant number} Chan Zuckerberg Initiative DAF, an advised fund of Silicon Valley Community Foundation
 
 
 % Can use something like this to put references on a page
