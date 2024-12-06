@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.tri as mtri
 import matplotlib.patches as mpatches
 import matplotlib.transforms as mtransforms
+import matplotlib.ticker as mticker
 from mpl_toolkits.mplot3d import proj3d
 
 import papercolors as pc
@@ -107,34 +108,10 @@ def plot_mobius_band(ax, mask, mask_color):
 
 
 def draw_segmented_bundle(ax, plot_total_space, labels):
-
-    bundle_label = [(r"$(\;$", None ), (f"$E_{labels[1]},$", 'total'),
-                    (f"$K_{labels[1]},$",'base'), 
-                    ("$\pi$,",None), (f"$F_{labels[1]}$", 'fiber'), (")", None)] 
-    
-    
-    fig = ax.figure
-    trans = ax.transAxes
-    for s, c in bundle_label:
-        pad= " " if s.find("(")>-1 else " "
-        fs = config['tfs']+2 if ((s.find(")") >-1 or  s.find("(") >-1)) else config['tfs']
-        text = ax.text2D(0.25, 1., s+pad, transform = trans, 
-                         color=pcd.get(c, config['bundle_color']),
-                         ha='center', va='center', fontsize=fs, family='monospace')
-        text.draw(fig.canvas.get_renderer())
-        ex = text.get_window_extent()
-        ex = fig.dpi_scale_trans.inverted().transform_bbox(ex)
-        trans = text.get_transform() + \
-                mtransforms.offset_copy(mtransforms.Affine2D(), fig=fig, x=ex.width, y=0)
-      
-     
-        
-
-
+   
     for (mask, (tc, fc, bc)) in [(config['mask1'], config['light_colors']), 
                              (config['mask2'], config['dark_colors'])]:
-
-
+        
         bounds = plot_total_space(ax, mask, tc)
         
         if mask.sum()>79:
@@ -148,7 +125,7 @@ def draw_segmented_bundle(ax, plot_total_space, labels):
             ax.add_artist(fp)
             ax.text3D(config['xB'][mask][pii], config['yB'][mask][pii], 
                       config['zb']+(bounds[0]['z'][pii] - config['zb'])/2, 
-                      "$\pi$", fontsize=config['fs'],
+                      r"$\pi$", fontsize=config['fs'],
                        color=config['bundle_color'], ha='left', va='center')
 
 
@@ -172,9 +149,19 @@ def draw_segmented_bundle(ax, plot_total_space, labels):
                           marker='o', markersize=5)
         
 
+    bundle_label = [(r"$(\;$", None ), (f"$E_{labels[1]},$", 'total'),
+                    (f"$K_{labels[1]},$",'base'), 
+                    (r"$\pi$,",None), (f"$F_{labels[1]}$", 'fiber'), (")", None)] 
+    
+    s, c = bundle_label[0]
+    # this should be annotation aligned
+    text = ax.text2D(-.05, .1, s, color=pcd.get(c, config['bundle_color']))
+    for s, c in bundle_label[1:]:
+        text = ax.annotate(s,xycoords=text, xy=(1,0), color=pcd.get(c, config['bundle_color']), va='bottom')     
+        
 
    
-    axins = ax.inset_axes([0,-.25, 1, .25])
+    axins = ax.inset_axes([0,-.4, 1, .25])
     axins.axis('off')
     axins.set(xlim=(0,1), ylim=(0,1))
     
@@ -246,18 +233,18 @@ def plot_local_trivialization(ax):
                                arrowstyle=config['aws'], mutation_scale=config['ms']-5, 
                                color=config['bundle_color'])
         ax.add_artist(fp)
-        ax.annotate(text="$\pi$", xy=(0,.5), xycoods=fp,  fontsize=config['fs'],
+        ax.annotate(text=r"$\pi$", xy=(0,.5), xycoords=fp,  fontsize=config['fs'],
                    color=config['bundle_color'], ha='left', va='center')
         
         #ax.text(xarr+.1, config['ry']*.75, "$\pi$", fontsize=config['fs'],
         #           color=config['bundle_color'], ha='left', va='center')
         
-        xoff=.2*np.math.pow(-1, i+1)
+        xoff=.2*np.pow(-1, i+1)
     
        
         ha = ['left', 'right']
         trans = mtransforms.blended_transform_factory(ax.figure.transFigure, ax.transData)
-        xp = config['xp'][i]
+        xp = config['xB'][i]
         ax.text(xp, config['ry']+config['rh'], f"$E_{i}$", color=tc, 
                 fontsize=config['tfs'], ha=ha[i], va='top', transform=trans)
         ax.text(xp, config['ry'], f"$F_{i}$", color=fc, 
@@ -281,3 +268,18 @@ def plot_local_trivialization(ax):
     ax.tick_params('y', labelleft=False, left=False)
     ax.spines[:].set_visible(False)
 
+  
+    fig = ax.figure
+    trans = ax.transAxes
+    for s, c in bundle_label:
+        pad= " " if s.find("(")>-1 else " "
+        fs = config['tfs']+2 if ((s.find(")") >-1 or  s.find("(") >-1)) else config['tfs']
+        text = ax.text2D(0.25, 1., s+pad, transform = trans, 
+                         color=pcd.get(c, config['bundle_color']),
+                         ha='center', va='center', fontsize=fs, family='monospace')
+        text.draw(fig.canvas.get_renderer())
+        ex = text.get_window_extent()
+        ex = fig.dpi_scale_trans.inverted().transform_bbox(ex)
+        trans = text.get_transform() + \
+                mtransforms.offset_copy(mtransforms.Affine2D(), fig=fig, x=ex.width, y=0)
+      

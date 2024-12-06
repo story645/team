@@ -192,7 +192,7 @@ As shown in \autoref{fig:def:equivariance} and \autoref{fig:def:homomorphsim}, a
 Visual algorithms assume the topology of their input data, as described in taxonomies of visualization algorithms Chi\cite{chiTaxonomyVisualizationTechniques2000} and by Troy and M\"{o}ller \cite{toryRethinkingVisualizationHighlevel2004}, but generally do not verify that input structure.
 
 
-\begin{figure}[]
+\begin{figure}[H]
   \includegraphics[width=1\columnwidth]{k_different_types.png}
   \caption{This weather station data has multiple embedded continuities - points at each time and position, timeseries at each position, and maps at each time. The corresponding visualizations - bar chart, timeseries, and map - each preserve the continuity of the subset of the data they visualize by not introducing or leaving out values and preserving the relative positioning of continuous values.}
 %
@@ -207,15 +207,22 @@ For example, a \texttt{line} algorithm often does not have a way to query whethe
 \end{definition}
 
 
-The bar plot, line plot, and heatmap in \autoref{fig:related-work:continuity:ktypes} have a homemeomorphic relationship to the 0D points, 1D timeseries, and 2D surface continuities embedded in the continuous 3 dimensional surface encapsulating time and position because each point of the visualization maps back into a point in its corresponding indexing space in the cube. Using homeomorphism to test whether continuity is preserved formalizes Bertin's codification of how the topology of observations matches the class of representation (i.e. point , line, area) \cite{bertinSemiologyGraphicsDiagrams2011} and Wilkinson's assertion that connectivity must be preserved \cite{wilkinsonGrammarGraphics2005}.
+The bar plot, line plot, and heatmap in \autoref{fig:related-work:continuity:ktypes} have a homemeomorphic relationship to the 0D ($\bullet$)\points, 1D (--) timeseries, and 2D *$\blacksquare$) surface continuities embedded in the continuous 3 dimensional surface encapsulating time and position because each point of the visualization maps back into a point in its corresponding indexing space in the cube. Using homeomorphism to test whether continuity is preserved formalizes Bertin's codification of how the topology of observations matches the class of representation (i.e. point , line, area) \cite{bertinSemiologyGraphicsDiagrams2011} and Wilkinson's assertion that connectivity must be preserved \cite{wilkinsonGrammarGraphics2005}.
 
-Describing connectivity using the language of topology allows for describing individual elements in a way that holds true for the entire dataset. This means that the framework described in this paper can be used regardless of whether the data fits in memory, is distributed, or is streaming, because, informally, a topology $\mathcal{T}$ is a partitioning of a space into its subspaces in a way where those subspaces can be composed back into the total space:
+Describing connectivity using the language of topology allows for describing individual elements in a way that holds true whether the data fits in memory, is distributed, or is streaming. This is because, informally, a topology $\mathcal{T}$ on the underlying data indexing space (which is a proxy for the continuity), is a partitioning of that space such that the partitions have the same mathematical properties as each other. The partitions must also be composable in a continuity and property preserving way. There are various equivalent definitions of topology, but here we show the neighborhood axiomatization because it is most analogous the data access model of index (point) in subset (neighborhood) of all indices (mathematical space).
 
-\begin{definition}
-A \textcolor{base}{\textbf{topology}} $\mathcal{T}$ on a space $X$ is a collection of open sets\footnote{Open sets (open subsets) are a generalization of open intervals to n dimensional spaces. For example, an open ball is the set of points inside the ball and excludes points on the surface of the ball. \cite{weissteinOpenSet,bradleyTopologyVsTopology}} \openset\ of $X$. This collection has the properties that the empty set $\varnothing$ and $\dbase$ are in $\mathcal{T}$, the union of open sets in $\mathcal{T}$ is also in $\mathcal{T}$, and any finite intersection of open sets in $\mathcal{T}$ is also in $\mathscr{T}$. \cite{bradleyTopologyCategoricalApproach2020}
+\begin{definition}\label{def:topology}
+Given a space $X$, a point $x$ in $X$, and a function $\mathcal{N}(x)$ that assigns to $x$ subsets of $X$ , then $X$ with  $\mathcal{N}$ is a \textcolor{base}{topological space} if for each $x$ in $X$: \cite{brownronaldTopologyGroupoids2006}
+\begin{enumerate}
+  \item if $N$ is a neighborhood $N \in \mathcal{N}(x)$ of $x$ then $x \in N$
+  \item every superset of a neighborhood of x is a neighborhood of x; therefore a union of a neighborhood and an arbitrary subset of $X$ is a neighborhood of $x$
+  \item the intersection of any two neighborhoods of $x$ is a neighborhood of $x$
+  \item any neighborhood $N$ of $x$ contains a smaller neighborhood $M \subset N$ such that $N$ is also a neighborhood of each of the other points in $M$
+\end{enumerate}
 \end{definition}
 
-This means that the data can be partitioned arbitrarily and still retain it's continuity; for example the topology of the data in \autoref{fig:fig:related-work:continuity:ktypes} could be encoded as the set of individual points (one at each time and station) or set of timeseries (one per station) or set of maps (one per time). In this topological model, semantic indexing as described by Munzner's key-value model of data structure act as different ways of building the partitions. It also makes clearer when different labeling schemes refer to the same point, for example how 0-360 and 180E-180W are two ways of labeling longitude. To encode topology and field structure in a way that is both uniform and generalizable, we extend Butler's work on using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but Butler provides a thorough introduction to bundles for visualization practitioners.
+For example, in the indexing cube in \autoref{fig:fig:related-work:continuity:ktypes}, the brown surface and blue rectangle are both neighborhoods of the index for the measurement in Albany on June 09. The blue rectangle is also a neighborhood of
+the index for the measurement in Albany on March 09. The indexing cube is a neighborhood for both of these indices. While \autoref{def:topology} applies broadly to topological spaces, in this paper we usually model the indexing space as CW-complexes. CW-complexes are a class of topological spaces built by gluing together n-dimensional balls (which include points, intervals, filled circles, filled spheres, etc.) using continuous attaching maps. In our topological model of indexing, semantic indexing as described by Munzner's key-value model of data structure act as different ways of building the neighborhoods. It also makes clearer when different labeling schemes refer to the same point, for example how 0-360 and 180E-180W are two ways of labeling longitude. To encode topology and field structure in a way that is both uniform and generalizable, we extend Butler's work on using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but Butler provides a thorough introduction to bundles for visualization practitioners.
 
 
 \subsection{Structure Preservation In Software}
@@ -229,34 +236,22 @@ We propose that the cohesion of domain specific library APIs is obtainable using
 
 \section{Formal Properties of Data \& Graphics}
 \label{sec:atct}
-In this section, we propose a mathematical abstraction of the data input and graphic pre-rendered output. This mathematical abstraction has a robust language for expressing topology and fields; expresses how to verify that data continuity is preserved on subset, distributed, and streaming data representations; and formalizes the expectation of a correspondence between data and visual elements.
+In this section, we propose a mathematical abstraction of the data input and pre-rendered graphic output. This mathematical abstraction has a robust language for expressing topology and fields; expresses how to verify that data continuity is preserved on subset, distributed, and streaming data representations; and formalizes the expectation of a correspondence between data and visual elements.
 
 \subsection{Abstract Data Representation}
 \label{sec:atct:fiber-bundles}
-We model data using a mathematical representation of data that can encode topological properties, field types, and data values in a uniform manner using a structure from algebraic topology called a fiber bundle. We extend Butler's proposal of bundles as abstract visualization data type \cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989} by incorporating Spivak's methodology for encoding named data types from his fiber bundle representation of relational databases \cite{spivakDatabasesAreCategories2010,spivakSimplicialDatabases2009}. We build on this work to describe how to encode the connectivity of the data as a topological space, separately encode the fields as their own topological space with a typing system, and express the mappings between these two spaces.
+We model data using a mathematical representation of data that can encode topological properties, field types, and data values in a uniform manner using a structure from algebraic topology called a fiber bundle. We extend Butler's proposal of using bundles as an abstraction for visualization data\cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989} by incorporating Spivak's methodology for encoding named data types from his fiber bundle representation of relational databases \cite{spivakDatabasesAreCategories2010,spivakSimplicialDatabases2009}. We build on this work to describe how to encode the connectivity of the data as a topological space, separately encode the fields as their own topological space with a typing system, and express the mappings between these two spaces.
 
 The fiber bundle abstraction is a structure fusing some \textcolor{base}{base space} (indexing into the data) with some \textcolor{fiber}{fiber space} (acting as the data domain). This sort of fusion could be done by a simple direct product (or join-operation), but with the fiber bundle abstraction we get the flexibility of expressing more complicated fusions than the direct product, as long as they can be constructed from building blocks that look like direct products.
-
-
-
-%\caption{The local trivializations $\dtotal_{0}$ and $\dtotal_{1}$ are subspaces of $\dtotal$ where the fibers $\dfiber_{0}$ are equal, here illustrated as all pointing in the same direction. These local trivializations are themselves locally trivial fiber bundles.}
 
 \begin{definition}\label{def:fiber_bundle}
    A \textbf{fiber bundle} $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and  bundle projection map $\pi: \dtotalc \rightarrow \dbasec$ \cite{FiberBundle2020,spanier1989algebraic}.
 
-    \begin{equation}
-      \label{eq:atct:fb:intro}
-      \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-       \dfiberc
-        \arrow[r, hook, color=total] \&
-        \dtotalc
-        \arrow[d, "\pi"',color=total, two heads] \\
-         \&
-      \dbasec
-         \arrow[u, "\dsectionc"', bend right, pos=.5, color=section, dashed]
+   \begin{equation} \label{eq:atct:fb:intro}
+    \begin{tikzcd}
+      \dfiberc \arrow[r, hook, color=total] & \dtotalc \arrow[r, "\pi", color=total, two heads] & \dbasec
       \end{tikzcd}
     \end{equation}
-
 
 A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
 \begin{enumerate}
@@ -267,7 +262,32 @@ A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
 \end{enumerate}
 \end{definition}
 
+\begin{minipage}{.5\columnwidth}
+\begin{definition}\label{def:fiber_bundle:section}
+  \\
+  A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotalc$ over a fiber bundle is a smooth right inverse of $\pi$: $\pi(\dsection(\dbasepoint)) = \dbasepoint$ for all $\dbasepoint \in \dbase$
+\end{definition}
+\end{minipage}
+\begin{minipage}{.4\columnwidth}
+  \begin{equation} \label{eq:atct:fb:intro-sec}
+    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+     \dfiberc
+      \arrow[r, hook, color=total] \&
+      \dtotalc
+      \arrow[d, "\pi"',color=total, two heads] \\
+       \&
+    \dbasec
+       \arrow[u, "\dsectionc"', bend right, pos=.5, color=section, dashed]
+    \end{tikzcd}
+  \end{equation}
+\end{minipage}
 
+
+\begin{figure}[!h]
+       \includegraphics{fb.png}
+       \label{fig:atct:fbdef}
+       \caption{The space of all data values encoded by this fiber bundle can be modeled as a \textcolor{total}{rectangle} total space. Each dataset in this dataspace lies along the interval \textcolor{base}{[0,1]} base space. Each dataset has values along the \textcolor{fiber}{$0 \rightarrow 1$} interval fiber. One dataset embedded in this total space is the \textcolor{section}{sin} section over the bundle.}
+  \end{figure}
 
 
 
@@ -284,21 +304,7 @@ These functions - using the isomorphisms $x\mapsto x$, $x\mapsto x/2$ and $x\map
 %For example, in \autoref{fig:local_trivalizations}, the bundles $\dtotal_{0}=\dtotal\restriction_{[\epsilon^{-}, {\frac{2\pi}{5}}^{+}]}$ and $\dtotal_{1}=\dtotal\restriction_{[{\frac{2\pi}{5}}^{-}, \epsilon^{-}]}$ are local trivializations of an arbitrary bundle $\dtotal$. These local trivializations overlap on the intersections of the open subsets of each trivialization $[\epsilon^{-}, \epsilon^{+}]$ and $[{\frac{2\pi}{5}}^{-}, {\frac{2\pi}{5}}^{+}]$. A set of trivializations can be glued into a larger bundle by defining transition maps that describe how to align the fibers in the overlapping space such that the sections of the bundle remain continuous.
 \note{add transition map construction formula}
 
-\begin{figure}[H]
-  \includegraphics[width=1\columnwidth]{figures/cyl_mob.png}
-  \caption{\note{figure out short caption here}\label{fig:cyl_mob_bundles}}
-\end{figure}
-As demonstrated in \autoref{fig:cyl_mob_bundles} different types of total spaces can be decomposed into the same local trivializations; therefore the distinguishing factor between total spaces can be the transition maps for constructing the spaces from trivializations.
 
-A \textit{trivial bundle} is directly isomorphic to $\dbasec\times\dfiberc$, and for any choice of cover of $\dbasec$ by overlapping opensets, we can choose local trivializations so that all transition maps are identity maps. In the example in Figure~\ref{fig:cyl_mob_bundles}, we use arrows $\uparrow$ to denote fiber alignments, illustrating that by choosing simple enough trivializations, we get identity maps in the transition maps.
-
-%In a \textit{trivial bundle}, the fibers are identical $\dfiber = \dfiber_{k}$ for all points $\dbasepoint \in dbase$ such that all the transition maps are also identical. For example, in the cylinder case the fibers in the overlapping regions of the trivializations point in the same direction $\uparrow$ to illustrate that they are equal $\dfiber_0\restriction_{\openset_1\cap\openset_2} = \dfiber_{1}\restriction_{\openset_1\cap\openset_2}$. Because the fibers point in the same direction, the  transition maps at both intersections map the fiber to itself $\uparrow\rightarrow\uparrow$.
-
-A \textit{non-trivial bundle} on the other hand is one that can not be constructed as $\dbasec\times\dfiberc$, but where the construction is more complicated. Then for any choice of local trivializations, there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}. For example, in the Möbius band case, while $\dfiber_0\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}\to\dfiber_1\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}$ can be chosen to be an identity map (after transforming $\dbase_1\times[-2,2]\to\dbase_1\times[-1,1]$ by rescaling), the other transition map component $\dfiber_0\restriction_{(-\varepsilon,\varepsilon)}\to\dfiber_1\restriction_{(-\varepsilon,\varepsilon)}$ has to flip the fibers to align them between the pieces.
-
-\note{ending on sectionsis probably better for our purposes!}
-\begin{definition} A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotalc$ over a fiber bundle is a smooth right inverse of $\pi$: $\pi(\dsection(\dbasepoint)) = \dbasepoint$ for all $\dbasepoint \in \dbase$
-\end{definition}
 
 \begin{figure}[H]
     \includegraphics[width=\columnwidth]{figures/local_trivalizations.png}
@@ -312,8 +318,9 @@ $\dtotal$. This bundle can encapsulate a set datasets where the data points are 
 
 We propose that the total space of a bundle can encode the mathematical space in which a  dataset is embedded, the base space can encode the topological properties of the dataset, and the fiber space can encode the data types of the record fields of the dataset. The map $\pi$ expresses the formal binding between having a typed data field, discussed in \autoref{sec:atct:fb:fiber}, and a corresponding point in the topological structure, which is discussed in \autoref{sec:atct:fb:base}. Fiber bundles are a good abstract data representation for visualization because the field type and topological structure are unconstrained in terms of dimensionality and the only conditions that must be satisfied are that every point in the base space has a corresponding field of values and the field types must be the same for every point in the base space. We propose that modeling data as sections provides a way to encapsulate topological and field structure in a uniform dimension and type independent manner, as discussed in \autoref{sec:atct:fb:sections}.
 
-\subsubsection{Topological Structure: Base Space \dbase}
+\subsubsection{\textcolor{base}{Topological Structure: Base Space \dbase}}
 \label{sec:atct:fb:base}
+\note{all the munzner stuff got moved up to related work}
 \note{base space of bundle for key/value pair, topology in general 'cause data + viz continuity in same way}
 Munzner~\cite{munznerChDataAbstraction} describes a key-value semantics for data representation and abstraction, where datasets can be queried with different kinds of keys depending on the dataset type - locations for values of spatial fields, times for values of time series, or indexes for values in flat or multidimensional tables.
 We propose that these different types of keys are instances of different underlying topological organization of the data, and that we can use the structure of the opensets in the topological space to encode the extent to which the keys can vary continuously: flat or multidimensional tables have discrete points as indices, time series have points on a line as indices and spatial fields (regardless of whether they are scalar or tensor fields) have points in a spatial domain as indices. Therefore we choose to encode the topological structure of the data as the \textcolor{base}{base space} of a fiber bundle. Because the base space of a fiber bundle is a quotient topology\cite{munkresElementsAlgebraicTopology1984}, it divides the topological space into the largest number of open sets such that $\pi$ remains a continuous function. This means that the topology can be defined to have a resolution equal to the number of indices in a dataset such that the key (continuity)-value (data) pairing is always preserved.
@@ -345,7 +352,7 @@ The standard construction of a category from a topological space is that it has 
 
 \paragraph{Joining indexing spaces: $\oplus: \mathcal{\dbasec} \sqcup \mathcal{\dbasec} \rightarrow \mathcal{\dbasec}$}
 For example, the disjoint union of two bundles, as shown in \autoref{fig:atct:local_trivalizations}, is the coproduct $\dbase^{a} \subseteq_{\dbase^{c}} \dbase^{b}$ over an overlap $\dbase^{c}$ and therefore the inclusion morphism must be commutative:
-\begin{figure}
+\begin{figure}[h]
   \includegraphics*[width=1\columnwidth]{figures/tex/k_coproduct.pdf}
 \end{figure}
 
@@ -1399,6 +1406,23 @@ The topological spaces and functions introduced throughout this paper are summar
 \label{tab:appendix:summary:artist}
 }
 \end{table}
+
+\section{Trivial and non-trivial bundles}
+
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{figures/}
+  \caption{\note{figure out short caption here}\label{fig:cyl_mob_bundles}}
+\end{figure}
+In \autoref{fig:cyl_mob_bundles} the cylinder is an example of a trivial bundle and the non mobius band is an example of a non-trivial bundle. We explain the difference here to show that our framework is not limited to trivial bundles, but generally  the bundle type does not matter because both types can be decomposed into trivial fiber bundles. For example, both the cylinder and mobius band can be decomposed into the fiber bundles shown in \autoref{fig:atct:fbdef}.
+
+Generally, the distinguishing factor between a trivial bundle and a non-trivial bun transition maps for constructing the spaces from trivializations:
+\begin{description}
+  \item[\textit{trivial bundle}] is directly isomorphic to $\dbasec\times\dfiberc$, and for any choice of cover of $\dbasec$ by overlapping opensets, we can choose local trivializations so that all transition maps are identity maps.
+  \item[\textit{non-trivial bundle}] on the other hand is one that can not be constructed as $\dbasec\times\dfiberc$, but where the construction is more complicated. Then for any choice of local trivializations, there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}.
+\end{description}
+
+In the example in Figure~\ref{fig:cyl_mob_bundles}, we use arrows $\uparrow$ to denote fiber alignments, illustrating that by choosing simple enough trivializations, we get identity maps in the transition maps. In the cylinder case the fibers in the overlapping regions of the trivializations point in the same direction $\uparrow$ to illustrate that they are equal $\dfiber_0\restriction_{\openset_1\cap\openset_2} = \dfiber_{1}\restriction_{\openset_1\cap\openset_2}$. Because the fibers point in the same direction, the  transition maps at both intersections map the fiber to itself $\uparrow\rightarrow\uparrow$. In the Möbius band case, while $\dfiber_0\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}\to\dfiber_1\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}$ can be chosen to be an identity map (after transforming $\dbase_1\times[-2,2]\to\dbase_1\times[-1,1]$ by rescaling), the other transition map component $\dfiber_0\restriction_{(-\varepsilon,\varepsilon)}\to\dfiber_1\restriction_{(-\varepsilon,\varepsilon)}$ has to flip the fibers to align them between the pieces.
+
 
 \pagebreak
 \section{Internal Library Specification}
