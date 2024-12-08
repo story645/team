@@ -1,9 +1,30 @@
-1. look up product and coproduct
-   1. bicartesian is a special case of monoidal category - 
-   2. figure out what our actual base case is 
-   3. F is a monoid & preserve that structure in a fiber bundle
-      1. can be a cross product & that will be part of the monoidal structure 
-   4. add in to background maybe what we mean by product 
-2. given map 
-   * f: K->F_1, g:K->F_2
-   * if composite artist $A(f) \times A(g)$, $Hom(F_1,F_2) \cong Hom(F_1 \times F_2)$
+* first draft of big task due by wednesday meeting
+
+# Oct 23 - Nov 4
+
+[section ii: defining structure preservation](https://github.com/story645/team/issues/29)
+* big task: homeomorphism figure (due week of nov 4)
+
+# Nov 4 - Nov 8 (PyData Sprint Nov 5)
+[section iii: why bundles and sheaves? ](https://github.com/story645/team/issues/30)
+* big task: xi figure (due week of 11)
+
+# Nov 11 - 15 (Arizona)
+
+
+# Nov 18 - Nov 22
+[section iv: data <--> vis](https://github.com/story645/team/issues/31)
+* big task: replace categorical diagrams w/ small figures
+
+# Nov 25 - Nov 29
+[section v: translating to code specs](https://github.com/story645/team/issues/32)
+* big task: small figures for composition and assembly diagrams
+
+## first look deadline: Dec 1
+
+# Dec 1 - Dec 6
+section vi: what's the benefit to viz libaries
+* big task: [use svg to show building tests](https://github.com/story645/team/issues/26)
+
+# Dec 9 - 13
+[appendix: tables](https://github.com/story645/team/issues/33)
