@@ -2387,9 +2387,9 @@
     <bcf:citekey order="18" intorder="1">riehlCategoryTheoryContext</bcf:citekey>
     <bcf:citekey order="19" intorder="1">bertinSemiologyGraphicsDiagrams2011</bcf:citekey>
     <bcf:citekey order="20" intorder="1">wilkinsonGrammarGraphics2005</bcf:citekey>
-    <bcf:citekey order="21" intorder="1">brownronaldTopologyGroupoids2006</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">butlerVectorBundleClassesForm1992</bcf:citekey>
-    <bcf:citekey order="22" intorder="2">butlerVisualizationModelBased1989</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">butlerVectorBundleClassesForm1992</bcf:citekey>
+    <bcf:citekey order="21" intorder="2">butlerVisualizationModelBased1989</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">munznerWhatDataAbstraction2014</bcf:citekey>
     <bcf:citekey order="23" intorder="1">mackinlayAutomatingDesignGraphical1986</bcf:citekey>
     <bcf:citekey order="24" intorder="1">StoltePolaris2002</bcf:citekey>
     <bcf:citekey order="24" intorder="2">hanrahanVizQL2006</bcf:citekey>
@@ -2419,67 +2419,66 @@
     <bcf:citekey order="42" intorder="2">butlerVisualizationModelBased1989</bcf:citekey>
     <bcf:citekey order="43" intorder="1">spivakDatabasesAreCategories2010</bcf:citekey>
     <bcf:citekey order="43" intorder="2">spivakSimplicialDatabases2009</bcf:citekey>
-    <bcf:citekey order="44" intorder="1">FiberBundle2020</bcf:citekey>
-    <bcf:citekey order="44" intorder="2">spanier1989algebraic</bcf:citekey>
-    <bcf:citekey order="45" intorder="1">munznerChDataAbstraction</bcf:citekey>
-    <bcf:citekey order="46" intorder="1">munkresElementsAlgebraicTopology1984</bcf:citekey>
-    <bcf:citekey order="47" intorder="1">spivakSimplicialDatabases2009</bcf:citekey>
-    <bcf:citekey order="47" intorder="2">spivakDatabasesAreCategories2010</bcf:citekey>
-    <bcf:citekey order="48" intorder="1">lawvere2009conceptual</bcf:citekey>
-    <bcf:citekey order="48" intorder="2">riehlCategoryTheoryContext</bcf:citekey>
-    <bcf:citekey order="48" intorder="3">maclaneCategoriesWorkingMathematician2013</bcf:citekey>
-    <bcf:citekey order="48" intorder="4">fongInvitationAppliedCategory2019</bcf:citekey>
-    <bcf:citekey order="49" intorder="1">riehlCategoryTheoryContext</bcf:citekey>
-    <bcf:citekey order="50" intorder="1">spivakDatabasesAreCategories2010</bcf:citekey>
-    <bcf:citekey order="50" intorder="2">spivakSimplicialDatabases2009</bcf:citekey>
-    <bcf:citekey order="51" intorder="1">spivakSimplicialDatabases2009</bcf:citekey>
-    <bcf:citekey order="52" intorder="1">ullmanFirstCourseDatabase2008</bcf:citekey>
-    <bcf:citekey order="53" intorder="1">spivakSimplicialDatabases2009</bcf:citekey>
-    <bcf:citekey order="54" intorder="1">bruggemannRankingPrioritizationMultiindicator2011</bcf:citekey>
-    <bcf:citekey order="55" intorder="1">stevensTheoryScalesMeasurement1946</bcf:citekey>
-    <bcf:citekey order="55" intorder="2">leaFormalizationMeasurementScale1971</bcf:citekey>
-    <bcf:citekey order="55" intorder="3">thomasMathematizationNotMeasurement2014</bcf:citekey>
-    <bcf:citekey order="56" intorder="1">ghristElementaryAppliedTopology2014</bcf:citekey>
-    <bcf:citekey order="57" intorder="1">munznerVisualizationAnalysisDesign2014</bcf:citekey>
-    <bcf:citekey order="58" intorder="1">hullmanKeeping2018</bcf:citekey>
-    <bcf:citekey order="59" intorder="1">CairographicsOrg</bcf:citekey>
-    <bcf:citekey order="60" intorder="1">ghristElementaryAppliedTopology2014</bcf:citekey>
-    <bcf:citekey order="61" intorder="1">kindlmannAlgebraicProcessVisualization2014</bcf:citekey>
-    <bcf:citekey order="62" intorder="1">riehlCategoryTheoryContext</bcf:citekey>
-    <bcf:citekey order="63" intorder="1">bradleyWhatFunctorDefinitions</bcf:citekey>
-    <bcf:citekey order="63" intorder="2">bradleyTopologyCategoricalApproach2020</bcf:citekey>
-    <bcf:citekey order="64" intorder="1">nlab:presheaf</bcf:citekey>
+    <bcf:citekey order="44" intorder="1">spanier1989algebraic</bcf:citekey>
+    <bcf:citekey order="45" intorder="1">weissteinOpenSet</bcf:citekey>
+    <bcf:citekey order="45" intorder="2">bradleyTopologyVsTopology</bcf:citekey>
+    <bcf:citekey order="46" intorder="1">brownronaldTopologyGroupoids2006</bcf:citekey>
+    <bcf:citekey order="47" intorder="1">munkresElementsAlgebraicTopology1984</bcf:citekey>
+    <bcf:citekey order="48" intorder="1">spivakSimplicialDatabases2009</bcf:citekey>
+    <bcf:citekey order="48" intorder="2">spivakDatabasesAreCategories2010</bcf:citekey>
+    <bcf:citekey order="49" intorder="1">lawvere2009conceptual</bcf:citekey>
+    <bcf:citekey order="49" intorder="2">riehlCategoryTheoryContext</bcf:citekey>
+    <bcf:citekey order="49" intorder="3">maclaneCategoriesWorkingMathematician2013</bcf:citekey>
+    <bcf:citekey order="49" intorder="4">fongInvitationAppliedCategory2019</bcf:citekey>
+    <bcf:citekey order="50" intorder="1">riehlCategoryTheoryContext</bcf:citekey>
+    <bcf:citekey order="51" intorder="1">spivakDatabasesAreCategories2010</bcf:citekey>
+    <bcf:citekey order="51" intorder="2">spivakSimplicialDatabases2009</bcf:citekey>
+    <bcf:citekey order="52" intorder="1">spivakSimplicialDatabases2009</bcf:citekey>
+    <bcf:citekey order="53" intorder="1">ullmanFirstCourseDatabase2008</bcf:citekey>
+    <bcf:citekey order="54" intorder="1">spivakSimplicialDatabases2009</bcf:citekey>
+    <bcf:citekey order="55" intorder="1">bruggemannRankingPrioritizationMultiindicator2011</bcf:citekey>
+    <bcf:citekey order="56" intorder="1">stevensTheoryScalesMeasurement1946</bcf:citekey>
+    <bcf:citekey order="56" intorder="2">leaFormalizationMeasurementScale1971</bcf:citekey>
+    <bcf:citekey order="56" intorder="3">thomasMathematizationNotMeasurement2014</bcf:citekey>
+    <bcf:citekey order="57" intorder="1">ghristElementaryAppliedTopology2014</bcf:citekey>
+    <bcf:citekey order="58" intorder="1">CairographicsOrg</bcf:citekey>
+    <bcf:citekey order="59" intorder="1">ghristElementaryAppliedTopology2014</bcf:citekey>
+    <bcf:citekey order="60" intorder="1">kindlmannAlgebraicProcessVisualization2014</bcf:citekey>
+    <bcf:citekey order="61" intorder="1">riehlCategoryTheoryContext</bcf:citekey>
+    <bcf:citekey order="62" intorder="1">bradleyWhatFunctorDefinitions</bcf:citekey>
+    <bcf:citekey order="62" intorder="2">bradleyTopologyCategoricalApproach2020</bcf:citekey>
+    <bcf:citekey order="63" intorder="1">nlab:presheaf</bcf:citekey>
+    <bcf:citekey order="63" intorder="2">spanier1989algebraic</bcf:citekey>
+    <bcf:citekey order="64" intorder="1">bakerEuclideanSpaceMathsSheaf</bcf:citekey>
     <bcf:citekey order="64" intorder="2">spanier1989algebraic</bcf:citekey>
-    <bcf:citekey order="65" intorder="1">bakerEuclideanSpaceMathsSheaf</bcf:citekey>
-    <bcf:citekey order="65" intorder="2">spanier1989algebraic</bcf:citekey>
-    <bcf:citekey order="66" intorder="1">harder2008lectures</bcf:citekey>
-    <bcf:citekey order="67" intorder="1">ziemkiewiczEmbeddingInformationVisualization2009</bcf:citekey>
+    <bcf:citekey order="65" intorder="1">harder2008lectures</bcf:citekey>
+    <bcf:citekey order="66" intorder="1">ziemkiewiczEmbeddingInformationVisualization2009</bcf:citekey>
+    <bcf:citekey order="67" intorder="1">harder2008lectures</bcf:citekey>
     <bcf:citekey order="68" intorder="1">harder2008lectures</bcf:citekey>
     <bcf:citekey order="69" intorder="1">harder2008lectures</bcf:citekey>
-    <bcf:citekey order="70" intorder="1">harder2008lectures</bcf:citekey>
-    <bcf:citekey order="71" intorder="1">beckerBrushingScatterplots1987</bcf:citekey>
-    <bcf:citekey order="72" intorder="1">satyanarayanDeclarativeInteractionDesign2014</bcf:citekey>
-    <bcf:citekey order="73" intorder="1">quintScalable2003</bcf:citekey>
-    <bcf:citekey order="74" intorder="1">bradleyWhatNaturalTransformation</bcf:citekey>
-    <bcf:citekey order="75" intorder="1">milewskiCategoryTheoryProgrammers</bcf:citekey>
-    <bcf:citekey order="76" intorder="1">krstajicVisualizationStreamingData2013</bcf:citekey>
-    <bcf:citekey order="77" intorder="1">NekrasovskiEvaluationPanZoom2006</bcf:citekey>
-    <bcf:citekey order="78" intorder="1">ziemkiewiczEmbeddingInformationVisualization2009</bcf:citekey>
-    <bcf:citekey order="79" intorder="1">hatcherAlgebraicTopology2002</bcf:citekey>
-    <bcf:citekey order="80" intorder="1">bertinIIPropertiesGraphic2011</bcf:citekey>
-    <bcf:citekey order="81" intorder="1">wielsManagementEvolvingSpecifications1998</bcf:citekey>
-    <bcf:citekey order="82" intorder="1">hullmanKeeping2018</bcf:citekey>
-    <bcf:citekey order="83" intorder="1">wickham40YearsBoxplots2011</bcf:citekey>
-    <bcf:citekey order="84" intorder="1">bertinSemiologyGraphicsDiagrams2011</bcf:citekey>
-    <bcf:citekey order="85" intorder="1">harder2008lectures</bcf:citekey>
-    <bcf:citekey order="86" intorder="1">hunterMatplotlib2DGraphics2007</bcf:citekey>
-    <bcf:citekey order="86" intorder="2">hunterArchitectureOpenSource</bcf:citekey>
-    <bcf:citekey order="87" intorder="1">harris2020array</bcf:citekey>
-    <bcf:citekey order="88" intorder="1">jeff_reback_2020_3715232</bcf:citekey>
-    <bcf:citekey order="89" intorder="1">hoyer2017xarray</bcf:citekey>
-    <bcf:citekey order="90" intorder="1">HagbergExploringNetwork2008</bcf:citekey>
-    <bcf:citekey order="91" intorder="1">stevensTheoryScalesMeasurement1946</bcf:citekey>
-    <bcf:citekey order="92" intorder="1">hatcherAlgebraicTopology2002</bcf:citekey>
+    <bcf:citekey order="70" intorder="1">beckerBrushingScatterplots1987</bcf:citekey>
+    <bcf:citekey order="71" intorder="1">satyanarayanDeclarativeInteractionDesign2014</bcf:citekey>
+    <bcf:citekey order="72" intorder="1">quintScalable2003</bcf:citekey>
+    <bcf:citekey order="73" intorder="1">bradleyWhatNaturalTransformation</bcf:citekey>
+    <bcf:citekey order="74" intorder="1">milewskiCategoryTheoryProgrammers</bcf:citekey>
+    <bcf:citekey order="75" intorder="1">krstajicVisualizationStreamingData2013</bcf:citekey>
+    <bcf:citekey order="76" intorder="1">NekrasovskiEvaluationPanZoom2006</bcf:citekey>
+    <bcf:citekey order="77" intorder="1">ziemkiewiczEmbeddingInformationVisualization2009</bcf:citekey>
+    <bcf:citekey order="78" intorder="1">hatcherAlgebraicTopology2002</bcf:citekey>
+    <bcf:citekey order="79" intorder="1">bertinIIPropertiesGraphic2011</bcf:citekey>
+    <bcf:citekey order="80" intorder="1">wielsManagementEvolvingSpecifications1998</bcf:citekey>
+    <bcf:citekey order="81" intorder="1">hullmanKeeping2018</bcf:citekey>
+    <bcf:citekey order="82" intorder="1">wickham40YearsBoxplots2011</bcf:citekey>
+    <bcf:citekey order="83" intorder="1">bertinSemiologyGraphicsDiagrams2011</bcf:citekey>
+    <bcf:citekey order="84" intorder="1">harder2008lectures</bcf:citekey>
+    <bcf:citekey order="85" intorder="1">hunterMatplotlib2DGraphics2007</bcf:citekey>
+    <bcf:citekey order="85" intorder="2">hunterArchitectureOpenSource</bcf:citekey>
+    <bcf:citekey order="86" intorder="1">harris2020array</bcf:citekey>
+    <bcf:citekey order="87" intorder="1">jeff_reback_2020_3715232</bcf:citekey>
+    <bcf:citekey order="88" intorder="1">hoyer2017xarray</bcf:citekey>
+    <bcf:citekey order="89" intorder="1">HagbergExploringNetwork2008</bcf:citekey>
+    <bcf:citekey order="90" intorder="1">stevensTheoryScalesMeasurement1946</bcf:citekey>
+    <bcf:citekey order="91" intorder="1">hatcherAlgebraicTopology2002</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

@@ -121,12 +121,12 @@ def draw_segmented_bundle(ax, plot_total_space, labels):
                 (config['xB'][mask][pii], config['yB'][mask][pii], config['zb']),
                 
                                    arrowstyle=config['aws'], mutation_scale=config['ms'], 
-                                   color=config['bundle_color'])
+                                   color=tc)
             ax.add_artist(fp)
             ax.text3D(config['xB'][mask][pii], config['yB'][mask][pii], 
                       config['zb']+(bounds[0]['z'][pii] - config['zb'])/2, 
                       r"$\pi$", fontsize=config['fs'],
-                       color=config['bundle_color'], ha='left', va='center')
+                       color=tc, ha='left', va='center')
 
 
         for i in [0,-1]:
@@ -147,11 +147,10 @@ def draw_segmented_bundle(ax, plot_total_space, labels):
             ax.plot(config['xB'][mask], config['yB'][mask],  config['zb'], 
                           color=bc, mfc='none', lw=2, markevery=[0, -1], 
                           marker='o', markersize=5)
-        
 
     bundle_label = [(r"$(\;$", None ), (f"$E_{labels[1]},$", 'total'),
                     (f"$K_{labels[1]},$",'base'), 
-                    (r"$\pi$,",None), (f"$F_{labels[1]}$", 'fiber'), (")", None)] 
+                    (r"$\pi$,",'total'), (f"$F_{labels[1]}$", 'fiber'), (")", None)] 
     
     s, c = bundle_label[0]
     # this should be annotation aligned
