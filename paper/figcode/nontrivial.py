@@ -23,7 +23,7 @@ config.update(t = np.linspace(0, 2*np.pi, config['N']))
 
 config.update(r1 = np.array([config['t'][0], config['boundary']])-config['boundary_pad']/2, 
               r2 = np.array([config['boundary'], config['t'][-1]])+config['boundary_pad']/2, #trivialization E x
-              ry = .35, rh =.5 , #trivilization E y
+              ry = .35, rh =.4 , #trivilization E y
               lw = 2, ly = .1 #trivialization K lw and y
              )
 
