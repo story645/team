@@ -394,7 +394,7 @@ One of the reasons we use fiber bundles as an abstraction is that they are gener
       \gfiberc \arrow[r, hook, color=total] & \gtotalc \arrow[r, "\pi", two heads, color=total] & \gbasec
   \end{tikzcd}
 \end{equation}
-The total space \gtotalc\ is an abstraction of an ideal (infinite resolution) space into which the graphic can be rendered. The base space \gbasec\ is a parameterization of the display area, for example the inked bounding box in the cairo \cite{CairographicsOrg} rendering library. The fiber space \gfiberc\ is an abstraction of the renderer fields; for example a 2 dimension screen has pixels that can be parameterized $ \gfiber=\{x,\,y\,z,\,r,\,g,\,b,\,a\}$. As with data, we model the graphic generating functions as sections $\gsection$ of the graphic bundle
+The total space \gtotalc\ is an abstraction of an ideal (infinite resolution) space into which the graphic can be rendered. The base space \gbasec\ is a parameterization of the display area, for example the inked bounding box in the cairo \cite{CairographicsOrg} rendering library. The fiber space \gfiberc\ is an abstraction of the renderer fields; for example a 2 dimension screen has pixels that can be parameterized $ \gfiber=\{x,\,y\,z,\,r,\,g,\,b,\,a\}$. As with data, we model the graphic specifications as sections $\gsection$ of the graphic bundle
 \begin{equation}\label{eq:atct:fb_graphic_section}
   \begin{split}
   \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}} & \coloneqq \\
@@ -469,30 +469,29 @@ While each section of a sheaf is evaluated over a point $\dsection(\dbasepoint)$
   \label{eq:atct:sheaf:stalk}
     \sheaf_{\dbase, \dtotalc}\restriction_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal\restriction_{\openset})
 \end{equation}
-where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The \textit{germ} is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$ and is the data. Since the stalk includes the values near the limit of the point at \dbasepoint, the germ can be used to compute the mathematical derivative of the data for visualization tasks that require this information.
+where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The \textit{germ} is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$ and is the data. Since the stalk includes the values near the limit of the point at \dbasepoint\, the germ can be used to compute the mathematical derivative of the data for visualization tasks that require this information.
 
 \subsection{Data Index and Graphic Index Correspondence}
 \label{sec:atct:xi}
-There is an expectation that for a visualization to be readable, the visual elements must correspond to distinct data elements\cite{ziemkiewiczEmbeddingInformationVisualization2009} and we can use the properties of sheaves to formally express this correspondence. We first describe the relationship between the graphic indexing space \gbase\ and the data indexing space \dbase\, which we propose is one where multiple graphic indexes map to one data index, and every index in the graphic space can be mapped to an index in the data space. We encode these expectations as the \textcolor{functor}{map} \vindexc, which we define to be a surjective continuous map
+When data and graphic containers are modeled as sheaves and there is a continuous map between their base spaces, the properties of sheaves can be used to describe how visual elements correspond to distinct data elements, which is a necessary condition of a visualization being readable\cite{ziemkiewiczEmbeddingInformationVisualization2009}. We propose that if a visualization is structure preserving, there exists a homeomorphic map \vindexc\ between the graphic indexing space \gbase\ and the data indexing space \dbase\ that maps multiple graphic indexes to one data index such that every index in the graphic space can be mapped to an index in the data space. We define the mapping \vindexc\ to be a surjective continuous map:
 \begin{equation}
   \label{eq:atct:xi}
   \vindexc: \opensetgc \textcolor{functor}{\rightarrow} \opensetc
 \end{equation}
-between a graphic subspace $\opensetg \subseteq \gbase$ and data subspace $\openset \subseteq \dbase$. The functor $\vindex$ is surjective
-such that we can identify the set of points in graphic space that correspond to each point in data space
+between a graphic subspace $\opensetg \subseteq \gbase$ and data subspace $\openset \subseteq \dbase$. The set of points in graphic space that correspond to each point in data space is
 \begin{equation}
   \label{eq:atct:xi:inverse}
   \vindexprec(\dbasepointc) = \{\gbasepointc | \vindexc(\gbasepointc) = \dbasepointc \forall \dbasepointc \in \dbase, \gbasepointc \in \gbasec\}
 \end{equation}
-and every point in a graphic space has a corresponding point in data space.
+such that every point in a graphic space has a corresponding point in data space.
 
-
-We construct the map as going from graphic to data because that encodes the notion that every visual element traces back to the data in some way. As exemplified in \autoref{fig:atct:morphisms:sheaf}, we define $\vindex$ as a surjective map because it allows us to express that a union of graphic spaces $S_i$ maps to single data point $\dbasepoint$, which allows us to express visual representations of a single record that are the union of many primitives, such as multipart glyphs (e.g boxplots) and combinations of plot types (e.g line with point markers).
+We construct the map as going from graphic to data because that encodes the notion that every visual element traces back to the data in some way, but there may be more data available than what is shown in the graphic. As exemplified in \autoref{fig:atct:morphisms:sheaf}, defining $\vindex$ as a surjective map allows allows us to express visual representations of a single record that are the union of many primitives, each of which has a different base space $\gbase_i$. These visual representations include multipart glyphs (e.g boxplots), combinations of plot types (e.g line with point markers), and the same point showing up in different continuities, such as $\dsection(\dbase_point)$ in \autoref{fig:atct:morphisms:sheaf} and a station in \autoref{fig:related-work:continuity:ktypes}.
 
 \subsubsection{Data and Graphic Correspondence}
-Since we have defined a function \vindex\ between two spaces $\dbase, \gbase$, we can then construct functors that transport sheaves over each space to the other\cite{harder2008lectures}. This allows us to describe what data we expect at each graphic index location and what graphic is expected at each data index location. Transport functors compose the indexing map \vindex\ with the sheave map to say that a record \dsection\ at \dbasepoint\ is at all corresponding \gbasepoint\ and that a function \gsection\ over one point \gbasepoint\ is the same function at all points $\gbasepoint \in \gbase$ that correspond to the same record index \dbasepoint.
+Since we have defined a continuous function \vindex\ between two spaces $\dbase, \gbase$, we can construct functors that transport sheaves over each space to the other space\cite{harder2008lectures}. This allows us to describe what data we expect is being visualized at each graphic index location and what graphic is generated for the data at each data index location. Transport functors compose the indexing map \vindex\ with the sheaf map to say that a record \dsection\ evaluated at a data index \dbasepoint\ is the same record at all corresponding  graphic indices \gbasepoint\ and that a graphic specification \gsection\ over one point \gbasepoint\ is the same specification at all points $\gbasepoint \in \gbase$ that correspond to the same record index \dbasepoint.
 
 \paragraph{\textbf{Graphic Corresponding to Data}}
+
 The pushforward (direct image) sheaf establishes which graphic generating function $\gsection$ corresponds to a point $\dbasepoint \in dbase$ in the data base space.
 \begin{definition} Given a sheaf $\sheaf_{\gbase, \gtotal}$ on $\gbase$, the \textbf{pushforward} sheaf  $\vindexpush\sheaf_{\gbase, \gtotal}$ on $\dbase$ is defined as
   \begin{equation}
@@ -509,15 +508,12 @@ such that it provides a way to look up which graphic corresponds with a data ind
   \label{eq:atct:sheaf:pushforward_select}
   \vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexprec(\dbasepointc)}
 \end{equation}
-such that $\vindexpush\gsection(\dbasepoint))(\gbasepoint) = \gsection(\gbasepoint)$ for all $\gbasepoint \in \vindexpre(\dbasepoint)$. Therefore, the continuous map $\vindex$ and transport functors $\vindexpull, \vindexpush$ allow us to express the correspondence between graphic section and data section.
+such that $\vindexpush\gsection(\dbasepoint))(\gbasepoint) = \gsection(\gbasepoint)$ for all $\gbasepoint \in \vindexpre(\dbasepoint)$. Therefore, the continuous map $\vindex$ and transport functors $\vindexpull, \vindexpush$ allow us to express the correspondence between graphic section and data section. The parameterization of $\vindexpush\gsection$ in \autoref{fig:atct:morphisms:sheaf} is intended as an approximation and is akin to declarative visualization specs such as vega \cite{satyanarayanDeclarativeInteractionDesign2014} and svg \cite{quintScalable2003}. These specs and $\vindexpush\gsection$ also provide a renderer independent way of describing the graphic and are therefore useful for standardizing internal representation of the graphic and serializing the graphic for portability.
+
 
 \paragraph{\textbf{Data Corresponding to Graphic}}
-The pullback (inverse image) sheaf establishes which data record  returned by $\dsection$ corresponds to a point $\gbasepoint \in \gbase$ in the graphic base space.
-\begin{definition} \cite{harder2008lectures} Given a sheaf $\sheaf_{\dbase, \dtotal}$ on $\dbase$, the \textbf{pullback} sheaf $\vindexpullc\sheafc_{\dbasec, \dtotalc}$ on $\gbasec$ is defined as the sheaf associated to the presheaf
-  \begin{equation*}
-    \vindexpullc(\sheafc_{\dbasec, \dtotalc})(\opensetgc) = \sheafc_{\dbasec, \dtotalc}(\vindexc(\opensetgc))
-  \end{equation*}
-for $\vindex(\opensetgc) \in \dbase$.
+The pullback (inverse image) sheaf establishes which data record returned by $\dsection$ corresponds to each point $\gbasepoint \in \gbase$ in the graphic base space.
+\begin{definition} \cite{harder2008lectures} Given a sheaf $\sheaf_{\dbase, \dtotal}$ on $\dbase$, the \textbf{pullback} sheaf $\vindexpullc\sheafc_{\dbasec, \dtotalc}$ on $\gbasec$ is defined as the sheaf associated to the presheaf $\vindexpullc(\sheafc_{\dbasec, \dtotalc})(\opensetgc) = \sheafc_{\dbasec, \dtotalc}(\vindexc(\opensetgc))$ for $\vindex(\opensetgc) \in \dbase$.
 \end{definition}
 The pullback sheaf returns the set of data sections over the graphic base space that corresponds to the graphic space $\vindex(\opensetg) = \openset$. The pullback $\vindexpullc$ transports sheaves of sections on $\openset \subseteq \dbase$ over $\opensetg \subseteq \gbase$
 \begin{equation}
@@ -528,15 +524,19 @@ such that there is a way to then look up what data values correspond with a grap
   \label{eq:atct:sheaf:pullback_hover}
   \vindexpullc\dsectionc(\gbasepointc) = \dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)
 \end{equation}
-As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ in the graphic space that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$.
+As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ in the graphic space that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$. As illustared in \autoref{fig:atct:morphisms:sheaf}, $\vindexpullc$ is critical to interactive techniques such as brushing, linking, and tooltips\cite{beckerBrushingScatterplots1987} because they depend on being able to look up which data values go to which parts of the graphic.
 
 \subsubsection{Example: Graphic and Data}
-\begin{figure}[t]
+\begin{figure*}[t]
   \includegraphics[width=1\textwidth]{xi_diagram.pdf}
-  \caption{The data consists of the $sin$ and $cos$ functions over a unit circle base space. We choose to visualize this as a circle and two line plots. The indexing function \vindex\ book keeps \note{find better word than bookkeeping} which parts of the circle and each curve correspond to each point on the unit circle. The pushforward $\vindexpush$ matches each point in the data space to the specification of the graphic at that point, while the pullback $\vindexpull$ matches each point in the graphic space to the data over that point. \label{fig:atct:morphisms:sheaf}}
-\end{figure}
+  \caption{The data  \dsectionc\ consists of the $sin$ and $cos$ functions over a unit circle base space, which here are circle and two line plots generated from the graphic specification \gsectionc\. The index map \vindexc\ keeps track of which part of the circle, sin, and cosine plots correspond to which point on the unit circle. For example the orange bands on $\gbase_0, \gbase_1, \gbase_2$ map to the orange point $\dbasepoint_i$. The pushforward $\vindexpushc$ matches each point in the data space to the specification of the graphic at that point, here illustared as an svg-like specification. The pullback $\vindexpull$ matches each point in the graphic space to the data over that point, and as shown often the same data point maps to multiple graphic spaces (and their corresponding pixels).
+  \label{fig:atct:morphisms:sheaf}}
+\end{figure*}
 
-Functors between sheaves are a way of expressing the bookkeeping involved in keeping track of which graphic section \gsection\ corresponds to which data section \dsection. The $(\dbasepoint_i, \gbase_i)$ pairing expressed in \autoref{eq:atct:xi} establishes that there is a correspondence between sections evaluated over $\dbasepoint_i$ and $\gbase_i$. This allows us to construct graphic specifications for each data index $\vindexpush\gsection$ and retrieve the data $\vindexpull\dsection$ for any graphic section generating any piece of a graphic. In \autoref{fig:atct:morphisms:sheaf}, the visualization is a graphic representation of a unit circle and the sin and cosine curves on that interval. The index lookup $\vindex$ describes which parts of the circle and curves are generated from which points on the unit circle. Given this correspondence, the pullback $\vindexpull\dsection$ looks up which values are being represented in a given part of the graphic. This type of lookup is critical for interactive techniques such as brushing, linking, and tooltips\cite{beckerBrushingScatterplots1987}. The pushforward $\vindexpush\gsection$ describes how a graphic is supposed to look for each point in the data space. The graphic parameterization in \autoref{fig:atct:morphisms:sheaf} is intended as an approximation of $\vindexpush\gsection$ and is akin to declarative visualization specs such as vega \cite{satyanarayanDeclarativeInteractionDesign2014} and svg \cite{quintScalable2003}. These specs and $\vindexpushc\gsection$ provide a renderer independent way of describing the graphic and are therefore useful for standardizing internal representation of the graphic and serializing the graphic for portability.
+As illustrated in \autoref{fig:atct:morphisms:sheaf}, modeling the data and graphic containers as sheaves and constructing structure preserving maps between the indicies provides a method of precisely describing the which data values belong with which graphical representations. The $(\dbasepoint_i, \gbase_i)$ pairing expressed in \autoref{eq:atct:xi} establishes that there is a correspondence between data at an index $\dbasepoint_i$ and graphics generated at $\gbase_i$. In \autoref{fig:atct:morphisms:sheaf}, one example of this correspondance is the the orange bands on $\gbase_0, \gbase_1, \gbase_2$ that correspond to the orange point $\dbasepoint_i$. Because of this correspondance and the properties of sheaves, we can construct a graphic specifications for each data index $\vindexpush\gsection$; in \autoref{fig:atct:morphisms:sheaf}  $\vindexpush\gsection(\dbase_i)$ a psuedo-svg spec describing the piece of the circle, sin, and cosine curves generated for the data at the point \dbasepointc\. We can also retrieve the data $\vindexpull\dsection_{\vindexpre(\dbasepoint)}$ that is being visualized by each specific part of the graphic, which in \autoref{fig:atct:morphisms:sheaf} is the section $\dsection(\dbasepoint_i)$.
+
+
+
 
 \section{Codifying Structure Preservation}
 \label{sec:artist}
@@ -1265,22 +1265,6 @@ The topological spaces and functions introduced throughout this paper are summar
   \end{tabular}
   \caption{Functions that associate topological subspaces with records, discussed in \autoref{sec:atct:fb:sections} and \autoref{sec:atct:sheaves}}
   \label{tab:appendix:summary:datafunctions}
-  }
-\end{table}
-
-\begin{table}[H]
-  {\renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{|r|l|}
-    \hline
-    merge & equation & behavior\\
-    \hline
-    indices  & $\dbasec_{a} \sqcup_{\dbasec_c} \dbasec_b$ & ${\dbasepoint \in \dbase_a, \dbase_b$ | $\dbasepoint_c \in \dbase_a, \dbase_b$ for all $dbase_ \in \dbasec$ \\
-    \hline
-    fields  & $\dfiberc_{a} \times_{\dfiberc_c} \dbase_c$
-    \hline
-
-  \caption{}
-  \label{tab:appendix:summary:merge}
   }
 \end{table}
 
