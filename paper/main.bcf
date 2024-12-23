@@ -2477,26 +2477,3 @@
     <bcf:citekey order="87" intorder="1">jeff_reback_2020_3715232</bcf:citekey>
     <bcf:citekey order="88" intorder="1">hoyer2017xarray</bcf:citekey>
     <bcf:citekey order="89" intorder="1">HagbergExploringNetwork2008</bcf:citekey>
-    <bcf:citekey order="90" intorder="1">stevensTheoryScalesMeasurement1946</bcf:citekey>
-    <bcf:citekey order="91" intorder="1">hatcherAlgebraicTopology2002</bcf:citekey>
-  </bcf:section>
-  <!-- SORTING TEMPLATES -->
-  <bcf:sortingtemplate name="none">
-    <bcf:sort order="1">
-      <bcf:sortitem order="1">citeorder</bcf:sortitem>
-    </bcf:sort>
-    <bcf:sort order="2">
-      <bcf:sortitem order="1">intciteorder</bcf:sortitem>
-    </bcf:sort>
-  </bcf:sortingtemplate>
-  <!-- DATALISTS -->
-  <bcf:datalist section="0"
-                name="none/global//global/global"
-                type="entry"
-                sortingtemplatename="none"
-                sortingnamekeytemplatename="global"
-                labelprefix=""
-                uniquenametemplatename="global"
-                labelalphanametemplatename="global">
-  </bcf:datalist>
-</bcf:controlfile>

@@ -157,7 +157,7 @@ the elements of $X$ and each action can be a composition of actions. This means 
 Specifically, Steven's conceptualizes the structure on values as \textcolor{action}{actions} on groups \footnote{A \textit{group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative, and invertible}. A function that preserves structure when the input or output is changed by a group action is called \textit{equivariant}.
 
 \begin{figure}
-  \includegraphics*[width=1\columnwidth]{tex/equivariant.png}
+  \includegraphics*[width=1\columnwidth]{equivariant.pdf}
   \caption{Encoding data as the bar height using an exponential transform is not equivariant because encoding the data and then scaling the bar heights yields a much taller graph then scaling the data and then encoding those heights using the same exponential transform function.}
   \label{fig:related-work:equivariance}
 \end{figure}
@@ -171,7 +171,7 @@ which means that a visualization is structure preserving when there exist compat
 
 Although the Steven's scales were conceptualized as having group structure, the ordinal scale has a monoidal structure because partial orders ($\geq, \leq$) are not invertible. This means \textit{equivariance} cannot be used to test for structure preservation. Instead \textit{homomorphism} can be used because it imposes fewer constraints on the underlying mathematical structure of the data.
 \begin{figure}
-  \includegraphics[width=1\columnwidth]{tex/homomorphism.png}
+  \includegraphics[width=1\columnwidth]{homomorphism.pdf}
   \caption{Encoding data as bar height using an inverse transform is not homomorphic because the largest number is mapped to the smallest bar while the max function returns the largest bar.}
   \label{fig:related-work:homomorphism}
 \end{figure}
@@ -191,7 +191,7 @@ As shown in \autoref{fig:def:equivariance} and \autoref{fig:def:homomorphsim}, a
 \label{sec:related-work:continuity}
 
 \begin{figure}[H]
-  \includegraphics[width=1\columnwidth]{k_different_types.png}
+  \includegraphics[width=1\columnwidth]{k_different_types.pdf}
   \caption{This weather station data has multiple embedded continuities - points at each time and position, timeseries at each position, and maps at each time. The corresponding visualizations - bar chart, timeseries, and map - each preserve the continuity of the subset of the data they visualize by not introducing or leaving out values and preserving the relative positioning of continuous values.}
 %
   \label{fig:related-work:continuity:ktypes}
@@ -212,7 +212,7 @@ To encode topology and field structure in a way that is both uniform and general
 \label{sec:related-work:software}
 Visualization libraries are in part measured by how expressive the components of the library are, where expressiveness is a measure of which structure preserving mappings a tool can implement \cite{mackinlayAutomatingDesignGraphical1986}. While some visualization tools aim to automate the pairing of data with structure preserving visual representations, such as Tableau\cite{StoltePolaris2002,hanrahanVizQL2006,MackinlayShowme2007}, many visualization libraries leave that choice to the user. For example, connectivity assumptions tend to be embedded in each of the visual algorithms of `building block` libraries, a term used by Wongsuphasawat \cite{wongsuphasawatNavigatingWideWorld2021,wongsuphasawatNavigatingWideWorld2020} to describe libraries that provide modular components for building elements of a visualization, such as functions for making boxes or translating data values to colors. In building block libraries such as Matplotlib\cite{hunterMatplotlib2DGraphics2007} and D3\cite{bostockDataDrivenDocuments2011} assumptions about connectivity are embedded in the interfaces such that the API is inconsistent across plot types. For example in Matplotlib methods for updating data and parameters for controlling aesthetics differ between (1D) line based plotting methods and (0D) marker based methods. While VTK\cite{hanwellVisualizationToolkitVTK2015,geveciVTK2012} provides a language for expressing the topological properties of the data, and therefore can embed that information in its visual algorithms, VTK's charts API is similar to the continuity dependent APIs of other building block libraries.
 
-Domain specific libraries are designed with the assumption of continuities that are common in the domain \cite{HeerSoftware2006}, and therefore can somewhat restrict their API to choices that are appropriate for the domain. For example, a tabular topological structure of discrete rows, as illustrated in \autoref{fig:related-work:continuity:ktypes}, is assumed by A Presentation Tool\cite{mackinlayAutomatingDesignGraphical1986, mackinlayAutomatingDesignGraphical1986} and grammar of graphics\cite{wilkinsonGrammarGraphics2005} and the ggplot\cite{wickhamGgplot2ElegantGraphics2016}, vega\cite{satyanarayanDeclarativeInteractionDesign2014}, and altair\cite{vanderplasAltairInteractiveStatistical2018} libraries built on these frameworks. Image libraries such as Napari\cite{nicholas_sofroniew_2021_4533308} and ImageJ\cite{schneiderNIHImageImageJ2012} and its humanities ImagePlot\cite{studiesCulturevisImageplot2021} plugin assume that the input is 2D continuous. Networking libraries such as gephi\cite{bastianGephiOpenSource2009} and networkx\cite{HagbergExploringNetwork2008} assume a graph-like structure. By assuming the structure of their data, these domain specific libraries can provide more cohesive interfaces for a much more limited set of visualization algorithms than the building block libraries offer.
+Domain specific libraries are designed with the assumption of continuities that are common in the domain \cite{HeerSoftware2006}, and therefore can somewhat restrict their API to choices that are appropriate for that domain. For example, a tabular topological structure of discrete rows, as illustrated in \autoref{fig:related-work:continuity:ktypes}, is assumed by A Presentation Tool\cite{mackinlayAutomatingDesignGraphical1986, mackinlayAutomatingDesignGraphical1986} and grammar of graphics\cite{wilkinsonGrammarGraphics2005} and the ggplot\cite{wickhamGgplot2ElegantGraphics2016}, vega\cite{satyanarayanDeclarativeInteractionDesign2014}, and altair\cite{vanderplasAltairInteractiveStatistical2018} libraries built on these frameworks. Image libraries such as Napari\cite{nicholas_sofroniew_2021_4533308} and ImageJ\cite{schneiderNIHImageImageJ2012} and the ImagePlot\cite{studiesCulturevisImageplot2021} art plugin assume that the input is a 2D continuous image. Networking libraries such as gephi\cite{bastianGephiOpenSource2009} and networkx\cite{HagbergExploringNetwork2008} assume a graph-like structure. By assuming the structure of their data, these domain specific libraries can provide more cohesive interfaces because a limited set of visualization algorithms apply to their data and the visualizations these algorithms provide can be styled in a fixed number of ways.
 
 We propose that the cohesion of domain specific library APIs is obtainable using the uniform data model described in \autoref{sec:atct:fiber-bundles} while the expressivity of building block libraries can be preserved by defining explicit structure preserving constraints on the library components, as described in \autoref{sec:artist}. Because category theory constructions map cleanly to objects and functions, using category theory to express the structure and constraints can lead to more consistent software interfaces in visualization software libraries \cite{wielsManagementEvolvingSpecifications1998,yorgeyMonoidsThemeVariations2012}. A brief visualization oriented introduction to category theory is in Vickers et al \cite{vickersUnderstandingVisualizationFormal2013}, but they are applying category theory to semantic concerns about visualization design rather than library architecture.
 
@@ -270,7 +270,7 @@ A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotal
 We propose that the total space of a bundle can encode the mathematical space in which a  dataset is embedded, the base space can encode the topological properties of the dataset, the fiber space can encode the data types of the fields of the dataset, and that the datasets can be encoded as section functions from the continuity to the fiber space.
 
 \begin{figure}[!h]
-       \includegraphics[width=1\columnwidth]{fb.png}
+       \includegraphics[width=1\columnwidth]{fb.pdf}
        \caption{The space of all data values encoded by this fiber bundle can be modeled as a \textcolor{total}{rectangle} total space. Each dataset in this data space lies along the interval \textcolor{base}{$[0,2\pi]$} base space. Each dataset has values along the \textcolor{fiber}{$-1 \rightarrow 1$} interval fiber. One dataset embedded in this total space is the \textcolor{section}{sin} section over the bundle.}\label{fig:atct:fb}
   \end{figure}
 
@@ -322,13 +322,12 @@ such that
 The standard construction of a category from a topological space is that it has open set objects $\opensetc$ and inclusion morphisms $\opensetc_i \xrightarrow{\iota} \opensetc_j$ such that $\opensetc_i \subseteq \opensetc_j$\cite{riehlCategoryTheoryContext}. The composability property expresses that inclusion is transitive, while associativity expresses that the inclusion functions can be curried in various equivalent groupings. By formally specifying the properties of the topological structure data types as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects.
 
 \paragraph{Joining indexing spaces: $\oplus: \mathcal{\dbasec} \sqcup \mathcal{\dbasec} \rightarrow \mathcal{\dbasec}$}
-For example, the disjoint union of two bundles, as shown in \autoref{fig:atct:local_trivalizations}, is the coproduct $\dbase_{a} \sqcup_{\dbase_{c}} \dbase_{b}$ over an overlap $\dbase_{c}$ and therefore the inclusion morphism must be commutative:
+Joining two bundles on their base space, for example to glue the two trivializations in \autoref{fig:atct:fb} into a bundle, is the coproduct $\dbase_{a} \sqcup_{\dbase_{c}} \dbase_{b}$ over a space $\dbase_{c}$. A property of the coproduct is that the inclusion morphism must be commutative, which means that index spaces are combined on overlapping indices:
 \begin{figure}[h]
   \includegraphics*[width=1\columnwidth]{figures/tex/k_coproduct.pdf}  \caption{Index spaces are combined via the \textit{coproduct} $\dbase_{a}\sqcup_{\dbase_c} \dbase_{b}$.}
   \label{fig:atct:base}
 \end{figure}
-
-This means that index spaces are combined on overlapping indices. For example, in \autoref{fig:atct:base}, the open interval $\dbase_c$ is present in both $\dbase_a$ and $\dbase_c$; therefore $\dbase_a$ and $\dbase_b$ are glued together where they overlap at $\dbase_c$.  Two spaces have been combined correctly if every point in the overlap  $\dbasepoint \in \dbase^{c}$ is present in each of the spaces $\dbasepoint \in \dbase^{a}$ and $\dbasepoint \in \dbase^{b}$ such that it is present in the joined space $\dbasepoint \in \dbase^{a}\sqcup_{\dbase^{c}} \dbase_{b}$. This simple test that the records are joined correctly is what allows us to reliably build larger datasets out of smaller ones, such as in the case of distributed and on demand datasets.
+ For example, in \autoref{fig:atct:base}, the open interval $\dbase_c$ is present in both $\dbase_a$ and $\dbase_c$; therefore $\dbase_a$ and $\dbase_b$ are glued together where they overlap at $\dbase_c$.  Two spaces have been combined correctly if every point in the overlap  $\dbasepoint \in \dbase^{c}$ is present in each of the spaces $\dbasepoint \in \dbase^{a}$ and $\dbasepoint \in \dbase^{b}$ such that it is present in the joined space $\dbasepoint \in \dbase^{a}\sqcup_{\dbase^{c}} \dbase_{b}$. This simple test that the records are joined correctly is what allows us to reliably build larger datasets out of smaller ones, such as in the case of distributed and on demand datasets.
 
 
 \subsubsection{\textcolor{fiber}{Data Field Types: Fiber Space \dfiber}}
@@ -354,7 +353,7 @@ As with the base space category $\mathcal{\dbase}$, we propose a fiber category 
 The fiber category $\mathcal{\dfiberc}$ is also equipped with a bifunctor because it is a monoidal category and this functor provides a method for combining fiber types. The bifunctor allows $\otimes$ us to express fields that contain complexly typed values. For example, dates can be represented as three fields $\dfiber_{year} \times \dfiber_{month} \times \dfiber_{day}$ or a composite fiber field $\dfiber_{year} \times \dfiber_{month} \times \dfiber_{day} = \dfiber_{date}$. The $\otimes$ encapsulates both the sets of values associated with each fiber $\{y \in \mathbb{I}\vert 1992 \leq y \leq 2025\} \times \{m \in \mathbb{I}\vert 1 \leq m \leq 12 \} \times \{d \in \mathbb{I}\vert 1 \leq d \leq 31 \}$ and the composition function $ \otimes: \dfiber_{year} \times \dfiber_{month} \times \dfiber_{day} \rightarrow \dfiber_{date}$
 could include a constraint to only return dates that have the right number of days for each month. The bifunctor also composes the morphisms associated with each category into a morphism on the composite category $(\dfunct_{year}, \dfunct_{month}, \dfunct_{day}) = \dfunct_{date}$.
 
-Combining fibers correctly can be verified by checking that when a fiber component $\dfiber^{c}$ is present in both $\dfiber^{a}$ and $\dfiber^{b}$, it is identical when projected out of either such that the \textit{product} diagram commutes:
+Combining fibers correctly can be verified by checking that when a fiber component $\dfiber^{c}$ is present in both $\dfiber^{a}$ and $\dfiber^{b}$, it is identical when projected out of either such that the \textit{product} diagram commutes, means that when data with many fields is decomposed into its component fields, records maintain their integrity:
 
 \begin{figure}[H]
   \includegraphics*[width=1\columnwidth]{figures/tex/f_product.pdf}
@@ -362,9 +361,9 @@ Combining fibers correctly can be verified by checking that when a fiber compone
   \label{fig:atct:fiber}
 \end{figure}
 
-This means that when data with many fields is decomposed into its component fields, records maintain their integrity. For example in \autoref{fig:atct:fiber} the red (temperature, time, pressure) record separates into (temperature, time) and (pressure, time) records that share the same red time. Furthermore this time is the same whether it is obtained from the (temperature, time) or (pressure, time) record. Generally, the test for joining fields is that when a record is present in a fiber $\delement_{c} \in \pi_c(\dfiber_{a}), \delement_c \in \pi_c(\dfiber_{b})$ then it is in the joint record $\delement_{c} \in \pi_c(\dfiber_{a}\times_{\dfiber_c}\dfiber_{b})$ when is in the field $\dfiber_c$ being joined on. This simple test that fields are joined together correctly for the same record is what allows us to reliably combine multiple datasets together on shared properties, for example growing the weather station data in \autoref{fig:related-work:continuity:ktypes} from a temporal to spatial dataset by adding the weather at each location at each time.
+For example in \autoref{fig:atct:fiber} the red (temperature, time, pressure) record separates into (temperature, time) and (pressure, time) records that share the same red time. Furthermore this time is the same whether it is obtained from the (temperature, time) or (pressure, time) record. Generally, the test for joining fields is that when a record is present in a fiber $\delement_{c} \in \pi_c(\dfiber_{a}), \delement_c \in \pi_c(\dfiber_{b})$ then it is in the joint record $\delement_{c} \in \pi_c(\dfiber_{a}\times_{\dfiber_c}\dfiber_{b})$ when is in the field $\dfiber_c$ being joined on. This simple test that fields are joined together correctly for the same record is what allows us to reliably combine multiple datasets together on shared properties, for example growing the weather station data in \autoref{fig:related-work:continuity:ktypes} from a temporal to spatial dataset by adding the weather at each location at each time.
 
-\subsubsection{\textcolor{section}{Data: Section}}
+\subsubsection{\textcolor{section}{Data: Section $\dsection$}}
 \label{sec:atct:fb:sections}
 We encode data as a \textcolor{section}{section} \dsectionc\ of a bundle because this allows us to incorporate the topology and field types in the data definition. We define section functions locally, meaning that the section is (piece-wise) continuous over a specific open subset \openset\ of \dbase\:
 \begin{equation}
@@ -405,7 +404,7 @@ The total space \gtotalc\ is an abstraction of an ideal (infinite resolution) sp
 that map from a point in an openset in the graphic space $\gbasepoint \in \opensetg \subseteq \gbase$ to a point in the graphic fiber $\gfiber$. The section evaluated on a single point $\gbasepoint$ returns a single graphic record, for example one pixel in an ideal resolution space. In our model, the unevaluated graphic section is passed from the visualization library component to the renderer to generate graphics.
 
 \begin{figure}[H]
-  \includegraphics[width=1\columnwidth]{fb_rho.png}
+  \includegraphics[width=1\columnwidth]{fb_rho.pdf}
   \caption{The scatter marker is specified by the section $\gsection$, which maps into the fiber $\gfiber$ to retrieve the values that compose into the pixel (approximated as a square) returned by the section function evaluated at each point $\gbasepoint$. The section evaluated over the entire space $\gsection\vert_{S}$ returns the entire scatter mark, shown here in faded form to make it easier to see the individual pixels.
   \label{fig:atct:fb:graphic}}
 \end{figure}
@@ -459,7 +458,7 @@ While presheaves preserve the rules for sets of sections, sheaves add on conditi
 The gluing axiom says that a distributed representation of a dataset, which is a set of local sections, is equivalent to a section over the union of the opensets of the local sections. The gluing axiom can also be used to generate the gluing rules used to construct non-trivial bundles from the set of trivial local sections. The locality axiom asserts that the glued section function is equivalent to a function over the union if they evaluate to the same values.
 
 \begin{figure}[h]
-  \includegraphics[width=1\columnwidth]{tex/sheaf_rules.png}
+  \includegraphics[width=1\columnwidth]{tex/sheaf_rules.pdf}
   \caption{A sheaf has the conditions that sections are equal when they match on all subsets (\textit{locality}) and that the sections can be concatenated when they match on overlaps \textit{gluing}.\label{fig:atct:sheaf}}
 \end{figure}
 
@@ -532,8 +531,8 @@ such that there is a way to then look up what data values correspond with a grap
 As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ in the graphic space that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$.
 
 \subsubsection{Example: Graphic and Data}
-\begin{figure}[H]
-  \includegraphics*[width=1\columnwidth]{xi_diagram.png}
+\begin{figure}[t]
+  \includegraphics[width=1\textwidth]{xi_diagram.pdf}
   \caption{The data consists of the $sin$ and $cos$ functions over a unit circle base space. We choose to visualize this as a circle and two line plots. The indexing function \vindex\ book keeps \note{find better word than bookkeeping} which parts of the circle and each curve correspond to each point on the unit circle. The pushforward $\vindexpush$ matches each point in the data space to the specification of the graphic at that point, while the pullback $\vindexpull$ matches each point in the graphic space to the data over that point. \label{fig:atct:morphisms:sheaf}}
 \end{figure}
 
@@ -1268,6 +1267,23 @@ The topological spaces and functions introduced throughout this paper are summar
   \label{tab:appendix:summary:datafunctions}
   }
 \end{table}
+
+\begin{table}[H]
+  {\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|r|l|}
+    \hline
+    merge & equation & behavior\\
+    \hline
+    indices  & $\dbasec_{a} \sqcup_{\dbasec_c} \dbasec_b$ & ${\dbasepoint \in \dbase_a, \dbase_b$ | $\dbasepoint_c \in \dbase_a, \dbase_b$ for all $dbase_ \in \dbasec$ \\
+    \hline
+    fields  & $\dfiberc_{a} \times_{\dfiberc_c} \dbase_c$
+    \hline
+
+  \caption{}
+  \label{tab:appendix:summary:merge}
+  }
+\end{table}
+
 \begin{table}[H]
   \centering
   {\renewcommand{\arraystretch}{1.2}
@@ -1407,7 +1423,7 @@ Generally, the distinguishing factor between a trivial bundle and a non-trivial 
 
 
 \begin{figure}[H]
-  \includegraphics[width=1\columnwidth]{transition_maps.png}
+  \includegraphics[width=1\columnwidth]{transition_maps.pdf}
   \caption{The cylinder is a trivial fiber bundle; therefore it can be decomposed into local trivalizations that only need identity
   maps to glue the trivializations together. The mobius band is a non-trivial bundle; therefore it can only be decomposed into trivializations where at least one transition map is not an identity map. }\label{fig:cyl_mob_bundles}
 \end{figure}
@@ -1463,14 +1479,9 @@ layer shim so that they behave like existing artists.
 
 \section*{Acknowledgment}
 \note{Acknowledge all the actual people}
-The authors would like to thank the anonymous reviewers who gave constructive feedback on
-an earlier version of this paper. Various Matplotlib and Napari contributors, particularly
-Juan Nunez-Iglesias , and Nicolas Kruchten have provided valuable feedback from the
-library developers perspective.
+The authors would like to thank the anonymous reviewers who gave constructive feedback on an earlier version of this paper. The authors are also grateful to  the various Matplotlib and Napari contributors, particularly Juan Nunez-Iglesias, and Nicolas Kruchten for their valuable feedback from the library developer perspective.
 
-Hannah is also very grateful to Nicolas for the suggestion of augmented notation and to
-the nlab and wikipedia contributors who wrote clear explanations of many of the topics
-discussed in this paper.
+Hannah is also very grateful to Nicolas for the suggestion of augmented notation and to the nlab and wikipedia contributors who wrote clear explanations of many of the topics discussed in this paper.
 
 This project has been made possible in part by grant number 2019-207333 and \note{Cycle 3 grant number} Chan Zuckerberg Initiative DAF, an advised fund of Silicon Valley Community Foundation
 
