@@ -220,9 +220,9 @@ We propose that the cohesion of domain specific library APIs is obtainable using
 \label{sec:atct}
 In this section, we propose a mathematical abstraction of the data input and pre-rendered graphic output. This mathematical abstraction provides a uniform highly generalizable method for describing topology and fields; expresses how to verify that data continuity is preserved on subset, distributed, and streaming data representations; and formalizes the expectation of a correspondence between data and visual elements. Using these abstractions allows us to embed information about structure in dataset types:
 
-\begin{equation}
+\begin{equation*}
   \textcolor{section}{\texttt{dataset}}: \textcolor{base}{\texttt{topology}} \rightarrow \textcolor{fiber}{\texttt{fields}}
-\end{equation}
+\end{equation*}
 
 which can then be checked by visualization algorithms to ensure that the assumptions of the data match the assumptions of the algorithm. This typing system also extends to pre-rendered graphic output, allowing us to develop the structure preservation framework in \autoref{sec:artist} that ensures that output fields are equivalent to the input fields and that the topology of the output graphic is homeomorphic to the topology of the input.
 
@@ -372,19 +372,7 @@ We encode data as a \textcolor{section}{section} \dsectionc\ of a bundle because
 \end{equation}
 such that each section function $\dsection: \dbasepoint \mapsto \delement$ maps from each point $\dbasepoint \in \openset$ to a corresponding record in the fiber space $\delement \in \dfiber_{\dbasepoint}$ over that point. Bundles can have multiple sections, as denoted by $\Gamma(\openset, \dtotal\restriction{\openset})$. We can therefore model data as structures that map from an index like point $\dbasepoint$ to a data record $\delement$, and encapsulate multiple datasets with the same fiber and base space as different sections of the same bundle.
 
-
-When a bundle is trivial $\dtotalc = \dbasec \times \dfiberc$, we can defined a global sections $\dsection: \dbase \rightarrow \dfiber \in \Gamma(\dbase, \dfiber)$ which we translate into a data signature of the form
-\begin{equation}
-  \textcolor{section}{\texttt{dataset}}: \textcolor{base}{\texttt{topology}} \rightarrow \textcolor{fiber}{\texttt{field}}
-\end{equation}
-where $\dsection=\texttt{dataset}$, $\dbase=\texttt{topology}$ and $\dfiber=\texttt{fields}$. When the bundle is non-trivial, we can use the fiber bundle property of local-triviality to define local sections $\dsection\restriction_{\openset} \in \Gamma(\openset_{\dbasepoint}, \dtotal\restriction_{\openset_{\dbasepoint}})$. A local section is defined over an open neighborhood  $\dbasepoint \in \openset \in \dbase$, which is an open set that surrounds a point \dbasepoint. Most data sets can be encoded as a collection of local sections $\{\dsection\restriction_{\openset_{\dbasepoint}}| \dbasepoint \in \dbase \}$ and this encoding can be translated into a set of signatures
-\begin{equation}
-  \begin{split}
-\{\textcolor{section}{\texttt{data-subset}}: \textcolor{base}{\texttt{topology}} \rightarrow \textcolor{fiber}{\texttt{fields}} \\
- s.\;t.\;\textcolor{section}{\texttt{data-subset}} \subset \texttt{dataset}\}
-  \end{split}
-\end{equation}
-The subsets of the fiber bundle and the transition maps between these subsets are encoded in an atlas\cite{ghristElementaryAppliedTopology2014} and the notion of an atlas can be incorporated into the data container, as discussed in \autoref{sec:atct:sheaves}.
+When a bundle is trivial $\dtotalc = \dbasec \times \dfiberc$, we can defined a global sections $\dsection: \dbase \rightarrow \dfiber \in \Gamma(\dbase, \dfiber)$ which we translate into a data signature of the form $\textcolor{section}{\texttt{dataset}}: \textcolor{base}{\texttt{topology}} \rightarrow \textcolor{fiber}{\texttt{field}}$ where $\dsectionc=\textcolor{section}{\texttt{dataset}}$, $\dbasec=\textcolor{base}{\texttt{topology}}$ and $\dfiberc=\textcolor{fiber}{\texttt{fields}}$. When the bundle is non-trivial, we can use the fiber bundle property of local-triviality to define local sections $\dsection\restriction_{\openset} \in \Gamma(\openset_{\dbasepoint}, \dtotal\restriction_{\openset_{\dbasepoint}})$. A local section is defined over an open neighborhood  $\dbasepoint \in \openset \in \dbase$, which is an open set that surrounds a point \dbasepoint. Most data sets can be encoded as a collection of local sections $\{\dsection\restriction_{\openset_{\dbasepoint}}| \dbasepoint \in \dbase \}$ and this encoding can be translated into a set of signatures $\{\textcolor{section}{\texttt{data-subset}}: \textcolor{base}{\texttt{topology}} \rightarrow \textcolor{fiber}{\texttt{fields}}$ s.t. $\textcolor{section}{\texttt{data-subset}} \subset \textcolor{section}{\texttt{dataset}}\}$. The subsets of the fiber bundle and the transition maps between these subsets are encoded in an atlas\cite{ghristElementaryAppliedTopology2014} and the notion of an atlas can be incorporated into the data container, as discussed in \autoref{sec:atct:sheaves}.
 
 \subsubsection{Example: Uniform Abstract Graphic Representation}
 One of the reasons we use fiber bundles as an abstraction is that they are general enough that we can also encode the output of a visual algorithm as a bundle. We denote the output as a graphic, but the use of bundles allows us to generalize to output on any display space, such as a screen or 3D print.
@@ -403,7 +391,7 @@ The total space \gtotalc\ is an abstraction of an ideal (infinite resolution) sp
 \end{equation}
 that map from a point in an openset in the graphic space $\gbasepoint \in \opensetg \subseteq \gbase$ to a point in the graphic fiber $\gfiber$. The section evaluated on a single point $\gbasepoint$ returns a single graphic record, for example one pixel in an ideal resolution space. In our model, the unevaluated graphic section is passed from the visualization library component to the renderer to generate graphics.
 
-\begin{figure}[H]
+\begin{figure}[]
   \includegraphics[width=1\columnwidth]{fb_rho.pdf}
   \caption{The scatter marker is specified by the section $\gsection$, which maps into the fiber $\gfiber$ to retrieve the values that compose into the pixel (approximated as a square) returned by the section function evaluated at each point $\gbasepoint$. The section evaluated over the entire space $\gsection\vert_{S}$ returns the entire scatter mark, shown here in faded form to make it easier to see the individual pixels.
   \label{fig:atct:fb:graphic}}
@@ -431,7 +419,7 @@ Modeling the data container as a functor allows us state that, just like a funct
   \sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
 \end{equation}
 A common way of encapsulating a map from a topological space to a category of sets is as a presheaf
-\begin{definition}
+\begin{definition}\label{def:atct:presheaf}
   A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{nlab:presheaf, spanier1989algebraic}.
 \end{definition}
 A functor is contravariant when the morphisms between the input objects go in the opposite direction from the morphisms between the output objects. The presheaf is contravariant because the inclusion morphisms between input object $\iota: \opensetc_1 \rightarrow \opensetc_2$
@@ -524,71 +512,78 @@ such that there is a way to then look up what data values correspond with a grap
   \label{eq:atct:sheaf:pullback_hover}
   \vindexpullc\dsectionc(\gbasepointc) = \dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)
 \end{equation}
-As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ in the graphic space that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$. As illustared in \autoref{fig:atct:morphisms:sheaf}, $\vindexpullc$ is critical to interactive techniques such as brushing, linking, and tooltips\cite{beckerBrushingScatterplots1987} because they depend on being able to look up which data values go to which parts of the graphic.
+As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ in the graphic space that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$. As illustrated in \autoref{fig:atct:morphisms:sheaf}, $\vindexpullc$ is critical to interactive techniques such as brushing, linking, and tooltips\cite{beckerBrushingScatterplots1987} because they depend on being able to look up which data values go to which parts of the graphic.
 
 \subsubsection{Example: Graphic and Data}
 \begin{figure*}[t]
   \includegraphics[width=1\textwidth]{xi_diagram.pdf}
-  \caption{The data  \dsectionc\ consists of the $sin$ and $cos$ functions over a unit circle base space, which here are circle and two line plots generated from the graphic specification \gsectionc\. The index map \vindexc\ keeps track of which part of the circle, sin, and cosine plots correspond to which point on the unit circle. For example the orange bands on $\gbase_0, \gbase_1, \gbase_2$ map to the orange point $\dbasepoint_i$. The pushforward $\vindexpushc$ matches each point in the data space to the specification of the graphic at that point, here illustared as an svg-like specification. The pullback $\vindexpull$ matches each point in the graphic space to the data over that point, and as shown often the same data point maps to multiple graphic spaces (and their corresponding pixels).
+  \caption{The data  \dsectionc\ consists of the $sin$ and $cos$ functions over a unit circle base space, which here are circle and two line plots generated from the graphic specification \gsectionc\. The index map \vindexc\ keeps track of which part of the circle, sin, and cosine plots correspond to which point on the unit circle. For example the orange bands on $\gbase_0, \gbase_1, \gbase_2$ map to the orange point $\dbasepoint_i$. The pushforward $\vindexpushc$ matches each point in the data space to the specification of the graphic at that point, here illustrated as an svg-like specification. The pullback $\vindexpull$ matches each point in the graphic space to the data over that point, and as shown often the same data point maps to multiple graphic spaces (and their corresponding pixels). The artist \vartistc\ is the function
+  that transforms data into a graphic and is introduced in \autoref{sec:artist}.
   \label{fig:atct:morphisms:sheaf}}
 \end{figure*}
 
-As illustrated in \autoref{fig:atct:morphisms:sheaf}, modeling the data and graphic containers as sheaves and constructing structure preserving maps between the indicies provides a method of precisely describing the which data values belong with which graphical representations. The $(\dbasepoint_i, \gbase_i)$ pairing expressed in \autoref{eq:atct:xi} establishes that there is a correspondence between data at an index $\dbasepoint_i$ and graphics generated at $\gbase_i$. In \autoref{fig:atct:morphisms:sheaf}, one example of this correspondance is the the orange bands on $\gbase_0, \gbase_1, \gbase_2$ that correspond to the orange point $\dbasepoint_i$. Because of this correspondance and the properties of sheaves, we can construct a graphic specifications for each data index $\vindexpush\gsection$; in \autoref{fig:atct:morphisms:sheaf}  $\vindexpush\gsection(\dbase_i)$ a psuedo-svg spec describing the piece of the circle, sin, and cosine curves generated for the data at the point \dbasepointc\. We can also retrieve the data $\vindexpull\dsection_{\vindexpre(\dbasepoint)}$ that is being visualized by each specific part of the graphic, which in \autoref{fig:atct:morphisms:sheaf} is the section $\dsection(\dbasepoint_i)$.
-
-
-
+As illustrated in \autoref{fig:atct:morphisms:sheaf}, modeling the data and graphic containers as sheaves and constructing structure preserving maps between the indices provides a method of precisely describing the which data values belong with which graphical representations. The $(\dbasepoint_i, \gbase_i)$ pairing expressed in \autoref{eq:atct:xi} establishes that there is a correspondence between data at an index $\dbasepoint_i$ and graphics generated at $\gbase_i$. In \autoref{fig:atct:morphisms:sheaf}, one example of this correspondence is the the orange bands on $\gbase_0, \gbase_1, \gbase_2$ that correspond to the orange point $\dbasepoint_i$. Because of this correspondence and the properties of sheaves, we can construct a graphic specifications for each data index $\vindexpush\gsection$; in \autoref{fig:atct:morphisms:sheaf}  $\vindexpush\gsection(\dbase_i)$ a svg-like spec describing the piece of the circle, sin, and cosine curves generated for the data at the point \dbasepointc\. We can also retrieve the data $\vindexpull\dsection_{\vindexpre(\dbasepoint)}$ that is being visualized by each specific part of the graphic, which in \autoref{fig:atct:morphisms:sheaf} is the section $\dsection(\dbasepoint_i)$.
 
 \section{Codifying Structure Preservation}
 \label{sec:artist}
-In this work we propose that visualization libraries are implementing transformations from data sheaf to graphic sheaf. We call these subset of functions the artist:
+%%Representing data and graphics as fiber bundles means that the fields and topology of the dataset and graphic can be described in a uniform way. Implementing data containers as sheaves means that visualization components can be designed under the assumption that subsets of the data have the same properties as the whole sets. Maintaining an index between graphic space and data space facilitates transporting graphic and data access functions (\gsection, \dsection) to data and graphic space (\vindexpush\gsection, \vindexpull\dsection) respectively. -> not sure if
+Data visualization components are implementing a structure preserving mapping from a dataset to a graphic, which in the framework presented in this paper is a function from data to graphic sheaf. We call these structure preserving functions \textcolor{artist}{Artists}\footnote{Artists are named for the Artist class in Matplotlib. Artist is the parent class of all the objects that assemble and manage visual elements such as points, lines, and shapes.}:
+
 \begin{align}
   \label{eq:artist:hom_transport}
-  \vartistc:& \cgamma{\dbasec}{\dtotalc}\textcolor{artist}{\rightarrow} \cgamma{\gbasec}{\gtotalc}
+  \vartistc:& \cgamma{\dbasec}{\dtotalc}\textcolor{artist}{\rightarrow} \imartist{\gbasec}{\gtotalc}, \imartist{\gbasec}{\gtotalc} \subset \cgamma{\gbasec}{\gtotalc}
 \end{align}
- The artists can be constructed as morphisms of sheaves over the same base spaces through the application of pushforward and pullback functors; therefore they are natural transformations.
- \begin{definition} Given two functors $F,G$ with the same domain $\mathcal{C}$ and codomain $\mathcal{D}$, a \textbf{natural transformation} $\alpha: F \Rightarrow G$ is a map
-\begin{itemize}
-  \item \textit{data}: morphism $F(c) \xrightarrow{\alpha_{c}} G(c)$ for each object $c \in \mathcal{C}$
-  \item \textit{property} when $f: c_1 \rightarrow c_2$ is a morphism in $\mathcal{C}$, the components of the natural transform commute $G(f) \circ \alpha_{c_1} = \alpha_{c_2} \circ F(f)$
-\end{itemize}
-such that $\alpha = (\alpha_{c})_{c\in\mathcal{C}}$ is the set of all natural transformation components $\alpha_{c}$.\cite{bradleyWhatNaturalTransformation}
- \end{definition}
- This means that natural transforms are maps of functors that take the same input object and return objects in the same category\cite{milewskiCategoryTheoryProgrammers}. As illustrated in \autoref{eq:atct:sheaves:homset}, the sheaf functors
-\begin{equation}
-  \label{eq:artist:sheaf:base}
-    \begin{tikzcd}
-      \cgamma{\dbasec}{\dtotalc} &  & \dbasec \arrow[ll, "{\sheafc_{\dbasec, \dtotalc}}"', maps to, color=sheaf] \arrow[rr, "{\vindexpushc\sheafc_{\gbasec, \gtotalc}}", maps to, color=sheaf] &  & \cgamma{\dbase}{\vindexpushc\gtotalc}
-      \end{tikzcd}
-\end{equation}
-take as input an openset object \opensetc\ or \opensetgc\ and return sets of data and graphic sections that are objects in \setb. As a map between these sheaf functors, the artist has to preserve the $\iota, \iota^*$ morphisms of the presheaf functor, described in \autoref{eq:atct:sheaf:inclusion} and
-\autoref{eq:atct:sheaf:restriction}, such that the following diagram commutes:
-\note{this needs human words - subsets of functions of the same type map to subsets of visualizations of the same type}
 
-\begin{equation}
-  \label{eq:artist:natural_transform:inclusions}
-  \begin{tikzcd}
-    \dbasec_1 & \cgamma{\dbasec_1}{\dtotalc}
-    \arrow[dd, "\iota^*"', color=set]
-    \arrow[rr, "\vartistc_{\dbase_1}", color=artist] &  &
-    \cgamma{\dbasec_{1}}{\vindexpushc\gtotalc}
-    \arrow[dd, "\iota^*", color=set] \\
-      &  &  &  \\
-    \dbasec_{2} \arrow[uu, "\iota", hook, color=base] &
-    \cgamma{\dbasec_{2}}{\dtotalc}
-    \arrow[rr, "\vartistc_{\dbasec_2}", color=artist] &  &
-    \cgamma{\dbasec_{2}}{\vindexpushc\gtotalc}
-    \end{tikzcd}
-\end{equation}
- The diagram in \autoref{eq:artist:natural_transform:inclusions} shows that restricting a set of outputs of an artist to a set of graphic sections over a subspace is equivalent to restricting the inputs to data sections over the same subspace. Because the artist is a functor of sheaves, the artist is expected to translate the data continuity to graphic continuity such that the connectivity of subsets is preserved. This bookkeeping is necessary for any visualization technique that selectively acts on different pieces of a data set; for example streaming visualizations \cite{krstajicVisualizationStreamingData2013} and panning and zooming \cite{NekrasovskiEvaluationPanZoom2006}
-
-The output of an artist \vartist\ is a restricted subset of graphic sections
+The output of an artist \vartist\ is a restricted subset of graphic sections $\imartist{\gbasec}{\gtotalc}$ that are, by definition, only reachable through a structure preserving artist:
 \begin{equation}
   \label{eq:artist:output}
   \imartist{\gbasec}{\gtotalc} \coloneqq\\
   \{\gsectionc \mid\;\exists\;\dsectionc \in \cgamma{\dbasec}{\dtotalc}\;s.t.\;
   \vartistc(\dsectionc) = \gsectionc,\; \vindexc(\gbasec) = \dbasec \}
 \end{equation}
-that are, by definition, only reachable through a structure preserving artist, which we describe in \autoref{sec:artist:equivariant:artist}. We define this subset because the space of all sections $\cgamma{\opensetg}{\gtotal\restriction_{\openset}}$ includes sections that may not be structure preserving. For example, a section may go from every point in the graphic space to the same single point in the graphic fiber $\gsection(\gbasepoint_i) = d\; \forall \gbasepoint \in \gbase$ such that the visual output is a single inked pixel on a screen.
+We define this subset because the space of all sections $\cgamma{\opensetg}{\gtotal\restriction_{\openset}}$ is every possible way of setting pixels on an H base space, including non structure preserving settings such as setting all the pixels the same color.
+
+While Artists are defined as maps going from data over \dbase\ to graphic over \gbase\, they are compatible with maps defined solely over \dbase\ or \gbase\. This is because when a sheaf is equipped with transport functors (\vindexpush, \vindexpull), maps between sheaves over one space $Hom _{\sheaf_{\dbase}}$ are isomorphic to maps between sheaves over the other space $Hom _{\sheaf_{\gbase}}$\cite{harder2008lectures}:
+
+\begin{equation}
+  \label{eq:artist:homset}
+  \begin{tikzcd}[column sep=50]
+ \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}
+& \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}
+\arrow[l, "\vindexpushc"', color=functor]                                          \\
+\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
+\arrow[r, "\vindexpullc", color=functor]
+\arrow[u, "\textcolor{set}{Hom}_{\sheafc_{\dbasec}}", color=homset]
+\arrow[ru, "{\textcolor{set}{Hom}_{\sheafc_{\dbasec},\sheafc_{\gbasec}}}", color=homset]
+&
+\cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}
+\arrow[u, "\textcolor{set}{Hom}_{\sheafc_{\gbasec}}"', color=homset]
+\end{tikzcd}
+\end{equation}
+Both $Hom _{\sheaf_{\dbase}}$ and $Hom _{\sheaf_{\gbase}}$ are compatible, via composition with \vindex, with a mapping from data sheaf in data space to graphic sheaf in graphic space $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$. Artists are a subset of structure preserving functions in $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$ \textcolor{artist}{Artists}. For example, the artist in \autoref{fig:atct:morphisms:sheaf} is the blue arrow that converts $(i, \sin(i), cos(i))$ into the corresponding sections of the circle and lines.
+
+The commutativity of \autoref{eq:artist:homset} means that an artist over data space $\vartist_{\dbase}: \dsection \mapsto \vindexpush \gsection$, an artist over graphic space $vartist_{\gbase}: \vindexpull \dsection \mapsto \gsection$, and an artist $\vartist: \dsection \mapsto \gsection$ are equivalent such that:
+\begin{equation*}
+  \begin{split}
+  \dsection(\dbasepoint) &= \vindexpull\dsection(\gbasepoint)  \\
+   \implies
+  \vartist_{\dbase}(\dsection(\dbasepoint)) &= \vartist_{\gbase}(\vindexpull\dsection(\gbasepoint)) = \vartist(\dsection(\dbasepoint))\\
+  \implies \vindexpush\gsection(\gbasepoint) &= \gsection(\gbasepoint)
+  \end{split}
+\end{equation*}
+when $\vindex(\gbasepoint) = \dbasepoint$. The ability to shift base spaces using adaptors (\vindexpush, \vindexpull) allows a developer to specify structure preserving visualization components in data space, graphic space, or a mix of both depending on what is optimal for the specific use case. For example, mapping a line to a color in data space, but drawing the line in graphic space so that it can be dynamically resampled.
+
+Because Artists can be constructed as morphisms of sheaves over the same base spaces through the application of pushforward and pullback functors, they are natural transformations \cite{bradleyWhatNaturalTransformation}.
+\begin{definition}
+  Given two functors $F, G: \mathcal{C}\rightarrow \mathcal{D}$, a \textbf{natural transformation} $\alpha: F \rightarrow G$ is a function which assigns to each object $c$ of $\mathcal{C}$ a morphism $\alpha_c:F(input) \rightarrow G(c), G(c) \in \mathcal{D}$, in such a way that for every morphism $f:c \rightarrow c^\prime, c^\prime \in \mathcal{C}$, the morphisms in $\mathcal{D}$ commute such that $\alpha_c^{\prime}(F(f)(F(c))) = G(f)(\alpha_c(F(c))$. When this holds, $\alpha_{c}$ is \textit{natural} in $c$.\cite{maclaneCategoriesWorkingMathematician2013}.
+\end{definition}.
+
+This means that the structure on $\mathcal{C}$, as defined by its input objects $c \in \mathcal{C}$ and morphisms $f: c \rightarrow c^\prime$ are preserved in the output of the functors $F, G$ and by maps between functors $\alpha$. This preservation of the structure of the input in the output encapsulates the structure preservation discussed in \autoref{sec:related-work:equivariance} and serves as the basis for describing structure preservation in \autoref{sec:artist:equiv}. Because the Artist is a natural transform and natural transforms are maps of functors that take the same input object and return objects in the same category\cite{milewskiCategoryTheoryProgrammers}, the artist signature can be formulated as:
+ \begin{align*}
+  \textcolor{artist}{\texttt{Artist}}:&(\textcolor{section}{\texttt{dataset}}: \textcolor{base}{\texttt{topology}}\textcolor{section}{\rightarrow} \textcolor{fiber}{\texttt{fields}}) \\
+  \textcolor{artist}{\rightarrow} & (\textcolor{section}{\texttt{graphic}}: \textcolor{base}{\texttt{topology}}\textcolor{section}{\rightarrow} \textcolor{fiber}{\texttt{fields}})
+ \end{align*}
+where \texttt{topology} and \texttt{field} are meta classes of compatible types.
 
 \subsection{Homeomorphism}
 As mentioned in \autoref{sec:related-work:continuity}, preserving the topology of a visualization means that each discrete piece of differentiable visual information corresponds to a distance element of the dataset\cite{ziemkiewiczEmbeddingInformationVisualization2009} in a way where the organization of elements is preserved. A generalization of this condition is the idea that the graphic space can be collapsed into the data indexing space, which means that the data base space is a deformation retraction of the graphic base space\cite{hatcherAlgebraicTopology2002}. By defining the indexing look up function \vindex, introduced in \autoref{sec:atct:sheaves}, to be
@@ -596,7 +591,7 @@ As mentioned in \autoref{sec:related-work:continuity}, preserving the topology o
   \vindex: \dbase \times I \rightarrow \dbase s.t \vindex(\dbasepoint) = \dbasepoint \forall \dbasepoint \in \gbase
 \end{equation}
 
-we can assert that the data space \dbase acts as an indexing space into \gbase such that knowing the location on space yields the location on the other and any point in either base space or graphic space has a corresponding point in the other space.
+we can assert that the data space \dbase\ acts as an indexing space into \gbase\ such that knowing the location in one space yields the location on the other and any point in either base space or graphic space has a corresponding point in the other space.
 \begin{figure}[H]
   \includegraphics[width=1\columnwidth]{deform_retract.png}
   \caption{The graphic base space $\gbase$ is collapsible to the line $\dbase$ such that every band $(\dbasepoint_i, [0,1])$ on $\gbase$ maps to corresponding point $\dbasepoint_i \in \dbase$. The band $[0,1]$ determines the thickness of a rendered line for a given point $\dbasepoint_{i}$ by specifying how pixels corresponding to that point are colored. \label{fig:construction:xi}}
@@ -604,6 +599,7 @@ we can assert that the data space \dbase acts as an indexing space into \gbase s
 
 For example, as shown in \autoref{fig:construction:xi}, a line is 1D but is a 2D glyph on a screen; therefore the graphic space $\gbase$ is constructed by multiplying the base space $\dbase$ with an interval $[0,1]$. Because $\gbase$ is collapsible into $\dbase$, every band $(\dbasepoint_i, [0,1])$ corresponds to a point in the base space $\dbasepoint_i \in \dbase$. The first coordinate $\alpha=\dbasepoint_i$ provides a lookup to retrieve the associated visual variables. The second coordinate, which is a point in the interval $\beta=[0,1]$. Together they are a point $\gbasepoint=(\alpha,\beta) \in gbase$ in the graphic base space. This point $\gbasepoint$ is the input into the graphic section $\gsection(\gbasepoint)$ that is used to determine which pixels are colored, which in turn determines the thickness, texture, and color of the line.
 
+Because the artist is a functor of sheaves, the artist preserves the inclusion and restriction conditions of a presheaf \autoref{def:atct:presheaf} and the locality and gluing conditions of a sheaf \autoref{def:atct:sheaf} when mapping between subspaces $\vindex(\opensetg) \rightarrow \openset$. This bookkeeping is necessary for any visualization technique that selectively acts on different pieces of a data set; for example streaming visualizations \cite{krstajicVisualizationStreamingData2013} and panning and zooming \cite{NekrasovskiEvaluationPanZoom2006}
 
 \subsection{Equivariance}
 \label{sec:artist:equiv}
@@ -1056,27 +1052,8 @@ The compositor function is also expected to be equivariant with respect to chang
 which means that any change to a measurable component input must have a measurably equivalent change in the output. As illustrated in \autoref{fig:artist:equivariance}, the compositor $\vmarkc$ is expected to assemble the measurable components such that base space changes, for example transposition, are reflected in the output; faithfully pass through equivariant measurable components, such as scaled colors; and ensure that both types of transformations, here scaling and transposition, are present in the final glyph.
 
 \subsection{Implementing the Artist}
+Since the artist is a family of functions in the homset between sheaves (\autoref{eq:atct:sheaves:homset}) the isomorphism allows for the specification of the transformation from data as a combination of functions over different spaces:
 
- When a sheaf is equipped with transport functors, then the functions between sheaves over one space are isomorphic to functions between sheaves over the other space\cite{harder2008lectures} such that the following diagram commutes
-
- \note{should either be oriented same as 55 and/or pushed back up to 3.3 as an intro to artist or squished a little. }
- \begin{equation}
-  \label{eq:atct:sheaves:homset}
-  \begin{tikzcd}
-    \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
-    \arrow[dd, "\textcolor{set}{Hom}_{\sheafc_{\dbasec}}"', color=homset]
-    \arrow[rrdd, "\textcolor{set}{Hom}_{\sheafc_{\dbasec},\sheafc_{\gbasec}}", color=homset]
-    \arrow[rr, "\vindexpullc", color=functor] &  &
-    \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}
-    \arrow[dd, "\textcolor{set}{Hom}_{\sheafc_{\gbasec}}", color=homset] \\
-     & & \\
-    \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}} &  &
-    \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}
-    \arrow[ll, "\vindexpushc"', color=functor]
-    \end{tikzcd}
-\end{equation}
-
-Since the artist is a family of functions in the homset between sheaves, the isomorphism allows for the specification of the transformation from data as combination of functions over different spaces such that the following diagram commutes:
 \begin{equation}
   \label{eq:construction:artist:path}
 \begin{tikzcd}[row sep=2.5em, column sep=1.5em]
@@ -1408,7 +1385,7 @@ Generally, the distinguishing factor between a trivial bundle and a non-trivial 
 
 \begin{figure}[H]
   \includegraphics[width=1\columnwidth]{transition_maps.pdf}
-  \caption{The cylinder is a trivial fiber bundle; therefore it can be decomposed into local trivalizations that only need identity
+  \caption{The cylinder is a trivial fiber bundle; therefore it can be decomposed into local trivializations that only need identity
   maps to glue the trivializations together. The mobius band is a non-trivial bundle; therefore it can only be decomposed into trivializations where at least one transition map is not an identity map. }\label{fig:cyl_mob_bundles}
 \end{figure}
 

@@ -2459,26 +2459,27 @@
     <bcf:citekey order="70" intorder="1">quintScalable2003</bcf:citekey>
     <bcf:citekey order="71" intorder="1">harder2008lectures</bcf:citekey>
     <bcf:citekey order="72" intorder="1">beckerBrushingScatterplots1987</bcf:citekey>
-    <bcf:citekey order="73" intorder="1">bradleyWhatNaturalTransformation</bcf:citekey>
-    <bcf:citekey order="74" intorder="1">milewskiCategoryTheoryProgrammers</bcf:citekey>
-    <bcf:citekey order="75" intorder="1">krstajicVisualizationStreamingData2013</bcf:citekey>
-    <bcf:citekey order="76" intorder="1">NekrasovskiEvaluationPanZoom2006</bcf:citekey>
+    <bcf:citekey order="73" intorder="1">harder2008lectures</bcf:citekey>
+    <bcf:citekey order="74" intorder="1">bradleyWhatNaturalTransformation</bcf:citekey>
+    <bcf:citekey order="75" intorder="1">maclaneCategoriesWorkingMathematician2013</bcf:citekey>
+    <bcf:citekey order="76" intorder="1">milewskiCategoryTheoryProgrammers</bcf:citekey>
     <bcf:citekey order="77" intorder="1">ziemkiewiczEmbeddingInformationVisualization2009</bcf:citekey>
     <bcf:citekey order="78" intorder="1">hatcherAlgebraicTopology2002</bcf:citekey>
-    <bcf:citekey order="79" intorder="1">bertinIIPropertiesGraphic2011</bcf:citekey>
-    <bcf:citekey order="80" intorder="1">wielsManagementEvolvingSpecifications1998</bcf:citekey>
-    <bcf:citekey order="81" intorder="1">hullmanKeeping2018</bcf:citekey>
-    <bcf:citekey order="82" intorder="1">wickham40YearsBoxplots2011</bcf:citekey>
-    <bcf:citekey order="83" intorder="1">bertinSemiologyGraphicsDiagrams2011</bcf:citekey>
-    <bcf:citekey order="84" intorder="1">harder2008lectures</bcf:citekey>
-    <bcf:citekey order="85" intorder="1">hunterMatplotlib2DGraphics2007</bcf:citekey>
-    <bcf:citekey order="85" intorder="2">hunterArchitectureOpenSource</bcf:citekey>
-    <bcf:citekey order="86" intorder="1">harris2020array</bcf:citekey>
-    <bcf:citekey order="87" intorder="1">jeff_reback_2020_3715232</bcf:citekey>
-    <bcf:citekey order="88" intorder="1">hoyer2017xarray</bcf:citekey>
-    <bcf:citekey order="89" intorder="1">HagbergExploringNetwork2008</bcf:citekey>
-    <bcf:citekey order="90" intorder="1">stevensTheoryScalesMeasurement1946</bcf:citekey>
-    <bcf:citekey order="91" intorder="1">hatcherAlgebraicTopology2002</bcf:citekey>
+    <bcf:citekey order="79" intorder="1">krstajicVisualizationStreamingData2013</bcf:citekey>
+    <bcf:citekey order="80" intorder="1">NekrasovskiEvaluationPanZoom2006</bcf:citekey>
+    <bcf:citekey order="81" intorder="1">bertinIIPropertiesGraphic2011</bcf:citekey>
+    <bcf:citekey order="82" intorder="1">wielsManagementEvolvingSpecifications1998</bcf:citekey>
+    <bcf:citekey order="83" intorder="1">hullmanKeeping2018</bcf:citekey>
+    <bcf:citekey order="84" intorder="1">wickham40YearsBoxplots2011</bcf:citekey>
+    <bcf:citekey order="85" intorder="1">bertinSemiologyGraphicsDiagrams2011</bcf:citekey>
+    <bcf:citekey order="86" intorder="1">hunterMatplotlib2DGraphics2007</bcf:citekey>
+    <bcf:citekey order="86" intorder="2">hunterArchitectureOpenSource</bcf:citekey>
+    <bcf:citekey order="87" intorder="1">harris2020array</bcf:citekey>
+    <bcf:citekey order="88" intorder="1">jeff_reback_2020_3715232</bcf:citekey>
+    <bcf:citekey order="89" intorder="1">hoyer2017xarray</bcf:citekey>
+    <bcf:citekey order="90" intorder="1">HagbergExploringNetwork2008</bcf:citekey>
+    <bcf:citekey order="91" intorder="1">stevensTheoryScalesMeasurement1946</bcf:citekey>
+    <bcf:citekey order="92" intorder="1">hatcherAlgebraicTopology2002</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
