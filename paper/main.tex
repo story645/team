@@ -420,9 +420,13 @@ Modeling the data container as a functor allows us state that, just like a funct
 \end{equation}
 A common way of encapsulating a map from a topological space to a category of sets is as a presheaf
 \begin{definition}\label{def:atct:presheaf}
-  A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{nlab:presheaf, spanier1989algebraic}.
+  A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{spanier1989algebraic}.
 \end{definition}
-A functor is contravariant when the morphisms between the input objects go in the opposite direction from the morphisms between the output objects. The presheaf is contravariant because the inclusion morphisms between input object $\iota: \opensetc_1 \rightarrow \opensetc_2$
+A functor is contravariant when the morphisms between the input objects go in the opposite direction from the morphisms between the output objects. The presheaf is contravariant when for every arbitrary morphism between input base spaces $\dfunch: \openset_1 \rightarrow \openset_2$ there exists a corresponding pullback function between the sets of sections $\dfunchpull:  \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} \rightarrow \cgamma{\opensetc_1}{\dtotalc\restriction_{\openset_c1}}$. The job
+
+
+%% these two paragraphs cen be condensed and moved below the figure as an example
+The presheaf is contravariant because the morphisms between input object $\iota: \opensetc_1 \rightarrow \opensetc_2$
 are defined such that they correspond to the partial ordering $\openset_1 \subseteq \openset_2$, but the restriction morphisms $\iota^*$ between the sets of sections $\iota^*: \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} \rightarrow \cgamma{\opensetc_1}{\dtotalc\restriction_{\openset_c1}}$ restricts the larger set to the smaller one such that all functions that are continuous over a space must be continuous over a subspace $\Gamma_2 \subseteq \Gamma_1$, where $\Gamma_{i}\coloneqq\Gamma(\openset_{i}, \dtotal\restriction_{\openset_{i}})$.
 
 Data containers that implement managing subsets in a structure preserving way are satisfying the  presheaf constraints that subsets of the indexing space $\openset_1$ are included in any index $\openset_2$ that is a superset $\iota$ and that data defined over an indexing space must exist over any indexes inside that space $\iota^*$. For example, lets define presheaves $\sheaf_1, \sheaf_2$. These are maps from intervals $\openset_1, \openset_2$ to a set of functions $\Gamma_1, \Gamma_2$ that are continuous over that interval:
@@ -596,7 +600,7 @@ Because the artist is specified as a natural transform (\autoref{def:natural-tra
 
 \subsection{Equivariance}
 \label{sec:artist:equiv}
-As introduced in \autoref{sec:related-work:equivariance}, data and the corresponding visual encoding are expected to have compatible structure such that actions (\autoref{def:related-work:action}) on data and graphic are symmetric. We generalize from binary operations to a family of actions $\dfunc \in \dfuncset$ on the sheaf $\sheaf_{\dbase, \dtotal}$ because that allows for expanding the set of allowable transformations on the data beyond a single operator. We describe the changes on the graphic side as changes in measurements \measure\ of visual components. A superset of the Bertin visual variables \cite{\cite{bertinIIPropertiesGraphic2011}, measurable components are scaler or vector components of the rendered graphic that can be quantified, such as the color, position, shape, texture, or rotation angle of the graphic. For example, a measurement of a scatter marker could be its color (e.g. red) or its x position (e.g. 5).
+As introduced in \autoref{sec:related-work:equivariance}, data and the corresponding visual encoding are expected to have compatible structure such that actions (\autoref{def:related-work:action}) on data and graphic are symmetric. We generalize from binary operations to a family of actions $\dfunc \in \dfuncset$ on the sheaf $\sheaf_{\dbase, \dtotal}$ because that allows for expanding the set of allowable transformations on the data beyond a single operator. We describe the changes on the graphic side as changes in \textcolor{monoid}{measurements} \measurec\ of visual components. A superset of the Bertin visual variables \cite{bertinIIPropertiesGraphic2011}, measurable components are scaler or vector components of the rendered graphic that can be quantified, such as the color, position, shape, texture, or rotation angle of the graphic. For example, a measurement of a scatter marker could be its color (e.g. red) or its x position (e.g. 5).
 
 
 \subsubsection{Mathematical Structure of Data}
@@ -893,6 +897,7 @@ Animation and interaction are a set of stills. Because the constraints are on th
 \note{add back in path of Q, use tikz backend to convert to pgf to then tweak}
 We propose that one way of constructing artist functions is to separate generating a visualization into an encoding stage $\vchannelc$ and a compositing stage $\vmarkc$. In the \textcolor{artist}{encoding} stage $\vchannelc$, a data bundle is treated as separable fields and each field is mapped to a measurable visual variable. In the encoding stage, many of the expected visual mappings $\equivb$ can be implemented inside the library. Factoring out the encoding stage leaves the \textcolor{artist}{compositing} stage $\vmarkc$ responsible for faithfully translating those measurable visual components into a visual element.
 
+\label{sec:construction:xi}
 As mentioned in \autoref{sec:artist:homeomorphic}, we construct the data base space as a deformation retraction of the graphic space. On simple way of doing so is to construct the graphic base space as a constant multiple of the base space such that
 \begin{equation}
   \underbrace{\dbasec\times[0,1]^{n}}_{\gbasec} \textcolor{functor}{\xmapsto{\hspace{1em}\vindexc\hspace{1em}}} \dbasec
