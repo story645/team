@@ -1,8 +1,8 @@
 ## reorder:
-# inclusion & equiv can be done as O_E->O_H 
+# inclusion & equiv can be done as O_E->O_H
 # equiv can then be used to introduce O_A which is the constraint on O_H
-# bundles: 
-## data: 
+# bundles:
+## data:
 * $(E, K, \pi, F)$
 * sections: $\{\tau: k \rightarrow r \mid k \in K, r \in F\} \coloneqq \Gamma(K, E)$
 * sheaf: $\mathcal{O}_E: U \rightarrow \Gamma(U, E)$, $U \subset K$
@@ -29,11 +29,11 @@
 ### sheaf pullback/pushforwards
 * morphism: $S \xrightarrow{\xi} K$
 * pushforward $\mathcal{O}_A(S) \xrightarrow{ \xi_*} (\xi_*\mathcal{O}_A)(K)$
-  
-    $\{\rho: s \rightarrow d \mid s \in S, d \in D\} \xrightarrow{\xi_*} \{\rho: \xi^{-1}[k] \rightarrow d \mid \xi^{-1}(k)\subset S\}$  
+
+    $\{\rho: s \rightarrow d \mid s \in S, d \in D\} \xrightarrow{\xi_*} \{\rho: \xi^{-1}[k] \rightarrow d \mid \xi^{-1}(k)\subset S\}$
 
 * pullback: $(\xi^*\mathcal{O}_E)(S) \xrightarrow{\xi^*} \mathcal{O}_E(K)\}$
-  
+
     $\{\tau: \xi(s) \rightarrow r \mid \xi(s) \in K, r \in F\}\xrightarrow{\xi^*}\{\tau: \xi \rightarrow r \mid k \in K, r \in F\}$
 
     ![](figures/pushpull.png)
@@ -73,18 +73,18 @@ A property of hom-sets is that $Hom(W_i,H) + Hom(W_j,H) = Hom(W_i+W_j,H)$, which
   \label{eq:construction:qc2}
   \bigsqcup_i\Gamma(\opensetg_i, \gtotal\restriction_{\opensetg_i}) = \Gamma(\mathop{\sqcup}_{i}\opensetg_i, \gtotal\restriction_{{\mathop{\sqcup}_i}\opensetg_i})
 \end{equation}
-the union of sets of functions that generate parts of an image is equal to a set of functions that can generate the whole image. This implies that we can define a $\vmarkc$ that generates the set of sections over the whole image 
+the union of sets of functions that generate parts of an image is equal to a set of functions that can generate the whole image. This implies that we can define a $\vmarkc$ that generates the set of sections over the whole image
 \begin{equation}
   \label{eq:construction:qc3}
-\Gamma(\mathop{\sqcup}_i\opensetg_i, \gtotal\restriction_{\mathop{\sqcup}_{i}\opensetg_i}) \implies \vmark(\mathop{\sqcup}_{i}\Gamma(\openset_i,\vtotal_i\restriction_{\openset_i}) 
+\Gamma(\mathop{\sqcup}_i\opensetg_i, \gtotal\restriction_{\mathop{\sqcup}_{i}\opensetg_i}) \implies \vmark(\mathop{\sqcup}_{i}\Gamma(\openset_i,\vtotal_i\restriction_{\openset_i})
 \end{equation}
 which means that, following from \autoref{eq:constrution:qc1} and \autoref{eq:construction:qc3},
 \begin{equation}
   \label{eq:construction:qc4}
-  \vmarkc(\mathop{\sqcup}_{i}\cgamma{\opensetc_i}{\vtotalc_i\restriction_{\opensetc_i}}) =   
+  \vmarkc(\mathop{\sqcup}_{i}\cgamma{\opensetc_i}{\vtotalc_i\restriction_{\opensetc_i}}) =
   \bigsqcup_i \vmarkc_i(\cgamma{\opensetc_i}{\vtotalc_i\restriction_{\opensetc_i}})
 \end{equation}
-we can construct a $\vmarkc = \sqcup_i\vmarkc_i$. This allows us to . 
+we can construct a $\vmarkc = \sqcup_i\vmarkc_i$. This allows us to .
 
 \begin{figure}
   \label{fig:construction:combined_q}
@@ -101,7 +101,7 @@ As illustrated in \autoref{fig:construction:combined_q}, this composition rule e
 \end{figure}
 
 
-## intro 
+## intro
 
 and use the concepts of \textit{homomorphism} and \textit{equivariance} to express how that structure should be preserved. Structure is considered preserved when the input and output change in tandem, and these symmetries are often modeled as \textit{group actions}, which are a way for a group\footnote{A \textit{group} is a set with an associative binary operator, an identity, and an inverse operation} to transform some other set:
 
@@ -109,14 +109,14 @@ and use the concepts of \textit{homomorphism} and \textit{equivariance} to expre
 
 
 
- instead 
+ instead
 
  \begin{definition}
 \note{must sort out exact appropriate definition of group homomorphism here}
  \end{definition}
 
 
-The notion that visual encoding functions should be \textit{homomorphisms} was in his specification of \textit{A Presentation Tool} and the idea that visual transforms are \textit{equivariant} underlies 
+The notion that visual encoding functions should be \textit{homomorphisms} was in his specification of \textit{A Presentation Tool} and the idea that visual transforms are \textit{equivariant} underlies
 
 We define structure preservation both in \note{field types and topology}
 
@@ -127,6 +127,17 @@ For example, the GHCN\cite{lawrimoreGlobalHistoricalClimatology2011} dataset in 
 In \autoref{sec:atct:sheaves}, the functors $\vindex, \vindexpull, \vindexpushc$ are introduced to codify the expectation that every element
 
 
-The functor 
+The functor
 
 
+\begin{equation*}
+  \begin{tikzcd}
+    & {} \arrow[dd, "\texttt{artist}" description, Rightarrow,  shorten <= .85em, shorten >= .85em, color=artist, font=\Huge]
+    & \\ {\scriptstyle\textcolor{base}{\texttt{topology}}}
+      \arrow[rr, "\texttt{graphic}"', bend right, color=section, font=\huge] \arrow[rr, "\texttt{dataset}", bend left, color=section, font=\huge] &
+    & {\scriptstyle\textcolor{base}{\texttt{topology}}\textcolor{section}{\rightarrow} \textcolor{fiber}{\texttt{fields}}} \\
+    & {}                                              &
+\end{tikzcd}
+\end{equation*}
+
+add note in presheafs about how we're showing inclusion but presheaf contracts include all morphisms between base spaces, is the entire space:
