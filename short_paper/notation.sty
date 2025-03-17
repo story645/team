@@ -1,0 +1,205 @@
+\ProvidesPackage{notation}
+%% defintion function: \cdef{name}{symbol}
+\newcommand\cdef[2]{%
+    \expandafter\newcommand\csname #1\endcsname{\ensuremath{#2}}}
+
+
+\definecolor{total}{HTML}{248EA6}
+\definecolor{fiber}{HTML}{E30B5C}
+\definecolor{base}{HTML}{7924AB}
+\definecolor{section}{HTML}{03C04A}
+\definecolor{artist}{HTML}{11557c}
+\definecolor{homset}{HTML}{85003B}
+\definecolor{action}{HTML}{A02035}
+\definecolor{monoid}{HTML}{C40A4E}
+\definecolor{sheaf}{HTML}{ECAA15}
+\definecolor{fade}{gray}{0.5}
+\definecolor{source}{HTML}{749DC4}%4585E6%6CB3E6
+\definecolor{target}{HTML}{0040A3}
+\definecolor{functor}{HTML}{E65331}
+\definecolor{nattran}{HTML}{B2AAFA}
+\definecolor{set}{HTML}{4C8A6E}
+
+% colored Gamma({open set}, bundle )
+\newcommand\cgamma[2]{%
+    \ensuremath{\textcolor{set}{\Gamma(}#1 \textcolor{set}{,}\; #2 \textcolor{set}{)}}}
+
+% ImA{openset} {bundle\restriction_{openset}}
+\newcommand\imartist[2]{%
+    \ensuremath{\textcolor{set}{{Im}_{\vartistc}(}#1 \textcolor{set}{,}\; #2 \textcolor{set}{)}}}
+
+% ImA{sub}{openset} {bundle\restriction_{openset}}
+\newcommand\imartistsub[3]{%
+    \ensuremath{\textcolor{set}{{Im}_{\underset{#1}{\vartistc}}(}#2 \textcolor{set}{,}\; #3 \textcolor{set}{)}}}
+
+% Hom_{space}{source}{target}
+\newcommand\hombig[3]{%
+    \ensuremath{\textcolor{set}{{Hom}_{#1}(}#2 \textcolor{set}{,}\; #3 \textcolor{set}{)}}}
+
+%% measurement
+\cdef{measure}{M}
+\cdef{measurec}{\textcolor{monoid}{\measure}}
+\cdef{extractm}{\delta}
+\cdef{extractmc}{\textcolor{monoid}{\extractm}}
+
+\cdef{equivb}{\eta}
+\cdef{equivc}{\textcolor{monoid}{\equivb}}
+%% set
+\cdef{setb}{\bm{Set}}
+\cdef{setc}{\textcolor{set}{\setb}}
+%% sheaf
+\cdef{sheaf}{\mathcal{O}}
+\cdef{sheafc}{\textcolor{sheaf}{\sheaf}}
+
+%%open sets
+\cdef{openset}{U}
+\cdef{opensetc}{\textcolor{base}{\openset}}
+\cdef{opensetg}{W}
+\cdef{opensetgc}{\textcolor{base}{\opensetg}}
+
+%% section arrow
+\cdef{scarr}{\textcolor{section}{\rightarrow}}
+
+
+%% databundle
+\cdef{dtotal}{E}
+\cdef{dtotalc}{\textcolor{total}{\dtotal}}
+
+\cdef{dfiber}{F}
+\cdef{dfiberc}{\textcolor{fiber}{\dfiber}}
+
+\cdef{delement}{r}
+\cdef{delementc}{\textcolor{set}{\delement}}
+
+\cdef{dbase}{K}
+\cdef{dbasec}{\textcolor{base}{\dbase}}
+
+\cdef{dbasepoint}{k}
+\cdef{dbasepointc}{\textcolor{base}{\dbasepoint}}
+\cdef{dbasepath}{J}
+\cdef{dbasepathpoint}{\MakeLowercase{\dbasepath}}
+
+\cdef{dsection}{\tau}
+\cdef{dsectionc}{\textcolor{section}{\dsection}}
+
+\cdef{dx}{j}
+\cdef{dy}{k}
+
+% fiber
+\cdef{ftotal}{\mathbb{U}}
+\cdef{fsection}{\sigma}
+\cdef{fttype}{\ftotal_{\fsection}}
+\cdef{fnames}{C}
+\cdef{fname}{\MakeLowercase{\fnames}}
+\cdef{ftypes}{\textbf{DT}}
+\cdef{ftype}{T}
+
+%monoid 
+\cdef{dfunc}{\phi}
+\cdef{dfuncset}{\Phi}
+\cdef{dfuncsetc}{\textcolor{action}{\dfuncset}}
+\cdef{dfuncp}{\dfunc^{\prime}}
+\cdef{dfuncc}{\textcolor{action}{\dfunc}}
+\cdef{dfuncpc}{\textcolor{action}{\dfuncp}}
+\cdef{dfunch}{\hat\dfunc}
+\cdef{dfunchc}{\textcolor{action}{\dfunch}}
+\cdef{dfuncpull}{\dfunch^*}
+\cdef{dfuncpullc}{\textcolor{action}{\dfuncpull}}
+\cdef{dfunct}{\tilde\dfunc}
+\cdef{dfunctc}{\textcolor{action}{\dfunct}}
+
+\cdef{monoid}{M}
+\cdef{monoidc}{\textcolor{monoid}{\monoid}}
+
+
+%graphic bundle
+\cdef{gtotal}{H}
+\cdef{gtotalc}{\textcolor{total}{\gtotal}}
+
+\cdef{gfiber}{D}
+\cdef{gfiberc}{\textcolor{fiber}{\gfiber}}
+
+\cdef{gelement}{d}
+\cdef{gelementc}{\textcolor{set}{\gelement}}
+
+\cdef{gbase}{S}
+\cdef{gbasec}{\textcolor{base}{\gbase}}
+
+\cdef{gbasepoint}{s}
+\cdef{gbasepointc}{\textcolor{base}{\gbasepoint}}
+
+\cdef{gsection}{\rho}
+\cdef{gsectionc}{\textcolor{section}{\gsection}}
+
+\cdef{gx}{\alpha}
+\cdef{gy}{\beta}
+
+%visual bundle
+\cdef{vtotal}{V}
+\cdef{vtotalc}{\textcolor{total}{\vtotal}}
+
+\cdef{vfiber}{P}
+\cdef{vfiberc}{\textcolor{fiber}{\vfiber}}
+
+\cdef{velement}{\MakeLowercase{\vtotal}}
+\cdef{velementc}{\textcolor{set}{\velement}}
+
+\cdef{vsection}{\mu}
+\cdef{vsectionc}{\textcolor{section}{\vsection}}
+
+
+% artist maps
+
+\cdef{vartist}{A}
+\cdef{vartistc}{\textcolor{artist}{\vartist}}
+
+\cdef{vartisteq}{\vartist^{\prime}}
+\cdef{vartisteqc}{\vartist_c^{\prime}}
+
+\cdef{vchannel}{\nu}
+\cdef{vchannelc}{\textcolor{artist}{\vchannel}}
+
+\cdef{vmark}{Q}
+\cdef{vmarkc}{\textcolor{artist}{\vmark}}
+
+\cdef{vmarkd}{\hat{\vmark}}
+\cdef{vmarkdc}{\textcolor{artist}{\vmarkd}}
+
+
+\cdef{vindex}{\xi}
+\cdef{vindexc}{\textcolor{functor}{\vindex}}
+
+\cdef{vindexpull}{\vindex^{*}}
+\cdef{vindexpullc}{\textcolor{functor}{\vindexpull}}
+
+\cdef{vindexpush}{\vindex_{*}}
+\cdef{vindexpushc}{\textcolor{functor}{\vindexpush}}
+\cdef{vindexpre}{\vindex^{-1}}
+\cdef{vindexprec}{\textcolor{functor}{\vindex^{-1}}}
+
+%data pullbacks
+\cdef{dtotalpull}{\vindexpull\dtotal}
+\cdef{dtotalpullc}{\textcolor{total}{\dtotalpull}}
+
+\cdef{dsectionpull}{\vindexpull\dsection}
+\cdef{dsectionpullc}{\textcolor{section}{\dsectionpull}}
+
+%visual pullbacks
+
+\cdef{vtotalpull}{\vindexpull\vtotal}
+\cdef{vtotalpullc}{\textcolor{total}{\vtotalpull}}
+
+\cdef{vfiberpull}{\textcolor{fiber}{\vfiber^{*}\vsection}}
+\cdef{vfiberpullc}{\textcolor{fiber}{\vfiberpull}}
+
+\cdef{vsectionpull}{\vindexpull\vsection}
+\cdef{vsectionpullc}{\textcolor{section}{\vsectionpull}}
+\cdef{vpreimg}{\vindex^{-1}(\dbasepoint)}
+
+%graphic push forwards
+\cdef{gtotalpush}{\vindexpush\gtotal}
+\cdef{gtotalpushc}{\textcolor{total}{\gtotalpush}}
+
+\cdef{gsectionpush}{\vindexpush\gsection}
+\cdef{gsectionpushc}{\textcolor{section}{\gsectionpush}}
+

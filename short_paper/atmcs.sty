@@ -1,0 +1,52 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{atmcs}[2024/12/01 ATMCS Package]
+
+% OPTIONS:
+\newif\ifanonymousoption % false by default
+\DeclareOption{anonymous}{\anonymousoptiontrue}
+\ProcessOptions\relax
+
+\ifanonymousoption
+    \renewcommand{\author}[1]{}
+    \renewcommand{\address}[1]{}
+    \renewcommand{\email}[1]{}
+\fi
+
+\usepackage{amsfonts} % cool things like mathbb
+\usepackage{listings} % put code in the document
+\usepackage{url} % for addresses
+\usepackage{cite} % to sort and compress citations
+\usepackage{float}
+\usepackage{amsthm,amssymb,amsmath}
+\usepackage{xspace}
+\usepackage[margin=1in]{geometry}
+
+\usepackage{graphicx} % add images
+\usepackage{subcaption} % for subfigures
+\graphicspath{{./}{figs/}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\corref}[1]{Corollary~\ref{cor:#1}}
+\newcommand{\remref}[1]{Remark~\ref{rem:#1}}
+\newcommand{\defref}[1]{Definition~\ref{def:#1}}
+\newcommand{\exref}[1]{Example~\ref{ex:#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{lem:#1}}
+\newcommand{\probref}[1]{Problem~\ref{prob:#1}}
+\newcommand{\propref}[1]{Proposition~\ref{prop:#1}}
+\newcommand{\thmref}[1]{Theorem~\ref{thm:#1}}
+\newcommand{\figref}[1]{Figure~\ref{fig:#1}}
+\newcommand{\secref}[1]{Section~\ref{sec:#1}}
+\newcommand{\appendref}[1]{Appendix~\ref{append:#1}}
