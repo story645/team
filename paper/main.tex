@@ -80,7 +80,7 @@
 \begin{document}
 \linenumbers
 
-\title{Topological Equivariant Artist Model for Visualization Library Architecture}
+\title{Topological Equivariant Artist Model}
 % author names and IEEE memberships
 \author{Hannah~Aizenman, Mikael Vejdemo-Johansson, Thomas~Caswell, and~Michael~Grossberg,~\IEEEmembership{Member,~IEEE,}% <-this % stops a space
 \IEEEcompsocitemizethanks{\IEEEcompsocthanksitem H. Aizenman is with the department of Computer Science, The Gradaute Center, CUNY.
@@ -876,7 +876,7 @@ One way to verify that these artists are composable is to check that they encode
 
 This expectation of using the same encoding for the same variable is a generalization of the concept of consistency checking of multiple view encodings discussed by Qu and Hullman \cite{hullmanKeeping2018}. This expectation can also be used to check that a multipart glyph is assembled correctly. For example, a box plot \cite{wickham40YearsBoxplots2011} typically consists of a rectangle, multiple lines, and scatter points; therefore a boxplot artist $\vartist_{boxplot} = \vartist_{rect} \times \vartist_{errors} \times \vartist_{line} \times \vartist_{points}$ must be constructed such that all the sub artists draw a graphic at or around the same x value.
 
-\begin{figure}[H]
+\begin{figure}[H]xxxxxxx
   \centering
   \includegraphics*[scale=.75]{qcom.png}
   \caption{The circle-line visual element can be constructed via $\gsection_{circle}$ + $\gsection_{line}$ functions that generate the circle and line elements respectively. This is equivalent to a $\gsection_{circle+line}$ function that takes as input the combined base space $\gbase_{circle} \sqcup \gbase_{line} = \gbase_{circle-line}$ and returns pixels in the circle-line element.  \label{fig:artist:operator}}
