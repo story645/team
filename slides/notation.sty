@@ -6,9 +6,9 @@
 
 \definecolor{total}{HTML}{248EA6}
 \definecolor{fiber}{HTML}{E30B5C}
-\definecolor{base}{HTML}{41135C}
+\definecolor{base}{HTML}{7924AB}
 \definecolor{section}{HTML}{03C04A}
-\definecolor{artist}{HTML}{A020F0}
+\definecolor{artist}{HTML}{11557c}
 \definecolor{homset}{HTML}{85003B}
 \definecolor{action}{HTML}{A02035}
 \definecolor{monoid}{HTML}{C40A4E}
@@ -28,12 +28,22 @@
 \newcommand\imartist[2]{%
     \ensuremath{\textcolor{set}{{Im}_{\vartistc}(}#1 \textcolor{set}{,}\; #2 \textcolor{set}{)}}}
 
+% ImA{sub}{openset} {bundle\restriction_{openset}}
+\newcommand\imartistsub[3]{%
+    \ensuremath{\textcolor{set}{{Im}_{\underset{#1}{\vartistc}}(}#2 \textcolor{set}{,}\; #3 \textcolor{set}{)}}}
 
-%% mearsurement
+% Hom_{space}{source}{target}
+\newcommand\hombig[3]{%
+    \ensuremath{\textcolor{set}{{Hom}_{#1}(}#2 \textcolor{set}{,}\; #3 \textcolor{set}{)}}}
+
+%% measurement
 \cdef{measure}{M}
 \cdef{measurec}{\textcolor{monoid}{\measure}}
 \cdef{extractm}{\delta}
 \cdef{extractmc}{\textcolor{monoid}{\extractm}}
+
+\cdef{equivb}{\eta}
+\cdef{equivc}{\textcolor{monoid}{\equivb}}
 %% set
 \cdef{setb}{\bm{Set}}
 \cdef{setc}{\textcolor{set}{\setb}}
@@ -64,7 +74,7 @@
 \cdef{dbase}{K}
 \cdef{dbasec}{\textcolor{base}{\dbase}}
 
-\cdef{dbasepoint}{\MakeLowercase{\dbase}}
+\cdef{dbasepoint}{k}
 \cdef{dbasepointc}{\textcolor{base}{\dbasepoint}}
 \cdef{dbasepath}{J}
 \cdef{dbasepathpoint}{\MakeLowercase{\dbasepath}}
@@ -84,8 +94,10 @@
 \cdef{ftypes}{\textbf{DT}}
 \cdef{ftype}{T}
 
-%monoid 
+%monoid
 \cdef{dfunc}{\phi}
+\cdef{dfuncset}{\Phi}
+\cdef{dfuncsetc}{\textcolor{action}{\dfuncset}}
 \cdef{dfuncp}{\dfunc^{\prime}}
 \cdef{dfuncc}{\textcolor{action}{\dfunc}}
 \cdef{dfuncpc}{\textcolor{action}{\dfuncp}}
@@ -99,8 +111,7 @@
 \cdef{monoid}{M}
 \cdef{monoidc}{\textcolor{monoid}{\monoid}}
 
-\cdef{equivb}{\eta}
-\cdef{equivc}{\textcolor{monoid}{\equivb}}
+
 %graphic bundle
 \cdef{gtotal}{H}
 \cdef{gtotalc}{\textcolor{total}{\gtotal}}
@@ -114,7 +125,7 @@
 \cdef{gbase}{S}
 \cdef{gbasec}{\textcolor{base}{\gbase}}
 
-\cdef{gbasepoint}{\MakeLowercase{\gbase}}
+\cdef{gbasepoint}{s}
 \cdef{gbasepointc}{\textcolor{base}{\gbasepoint}}
 
 \cdef{gsection}{\rho}
@@ -131,6 +142,7 @@
 \cdef{vfiberc}{\textcolor{fiber}{\vfiber}}
 
 \cdef{velement}{\MakeLowercase{\vtotal}}
+\cdef{velementc}{\textcolor{set}{\velement}}
 
 \cdef{vsection}{\mu}
 \cdef{vsectionc}{\textcolor{section}{\vsection}}
