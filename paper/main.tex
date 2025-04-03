@@ -41,7 +41,7 @@
 \usepackage{xcolor}
 \usepackage[utf8]{inputenc}
 
-\usepackage[outputdir=.]{minted}
+\usepackage[]{minted}
 \setminted[python]{fontsize=\scriptsize,
                    linenos,
                    numbersep=8pt,
@@ -54,6 +54,7 @@
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{tabulary}
+\usepackage{tabularray}
 % IEEEtran contains the IEEEeqnarray family of commands
 
 % *** SUBFIGURE PACKAGES ***
@@ -320,7 +321,11 @@ such that
   \end{enumerate}
 \end{definition}
 
-The standard construction of a category from a topological space is that it has open set objects $\opensetc$ and inclusion morphisms $\opensetc_i \xrightarrow{\iota} \opensetc_j$ such that $\opensetc_i \subseteq \opensetc_j$\cite{riehlCategoryTheoryContext}. The composability property expresses that inclusion is transitive, while associativity expresses that the inclusion functions can be curried in various equivalent groupings. By formally specifying the properties of the topological structure data types as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects.
+The standard construction of a category from a topological space is that it has open set objects $\opensetc$ and morphisms $\opensetc_i \xrightarrow{\hat{\phi}} \opensetc_j$\cite{riehlCategoryTheoryContext}.
+
+\note{move $\hat{\phi}$ here}
+
+The composability property expresses that the morphism is transitive, while associativity expresses that the morphisms can be curried in various equivalent groupings. By formally specifying the properties of the topological structure data types as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects.
 
 \paragraph{Joining indexing spaces: $\oplus: \mathcal{\dbasec} \sqcup \mathcal{\dbasec} \rightarrow \mathcal{\dbasec}$}
 Joining two bundles on their base space, for example to glue the two trivializations in \autoref{fig:atct:fb} into a bundle, is the coproduct $\dbase_{a} \sqcup_{\dbase_{c}} \dbase_{b}$ over a space $\dbase_{c}$. A property of the coproduct is that the inclusion morphism must be commutative, which means that index spaces are combined on overlapping indices:
@@ -331,21 +336,45 @@ Joining two bundles on their base space, for example to glue the two trivializat
  For example, in \autoref{fig:atct:base}, the open interval $\dbase_c$ is present in both $\dbase_a$ and $\dbase_c$; therefore $\dbase_a$ and $\dbase_b$ are glued together where they overlap at $\dbase_c$.  Two spaces have been combined correctly if every point in the overlap  $\dbasepoint \in \dbase^{c}$ is present in each of the spaces $\dbasepoint \in \dbase^{a}$ and $\dbasepoint \in \dbase^{b}$ such that it is present in the joined space $\dbasepoint \in \dbase^{a}\sqcup_{\dbase^{c}} \dbase_{b}$. This simple test that the records are joined correctly is what allows us to reliably build larger datasets out of smaller ones, such as in the case of distributed and on demand datasets.
 
 
-\subsubsection{\textcolor{fiber}{Data Field Types: Fiber Space \dfiber}}
+\subsubsection{\textcolor{fiber}{Field Data Types: Fiber Space \dfiber}}
 \label{sec:atct:fb:fiber}
-As mentioned in \autoref{sec:related-work:equivariance}, visualization researchers traditionally describe equivariance as the preservation of field structure, which is based on the field type. Spivak shows that data typing can be expressed in a categorical framework in his fiber bundle formulation of tables in relational databases \cite{spivakDatabasesAreCategories2010,spivakSimplicialDatabases2009}. In this work, we adopt Spivak's definitions of \textit{type specification}, \textit{schema}, and \textit{record} because that allows us to use a dimension agnostic named typing system for the fields of our dataset that is consistent with the abstraction we are using to express the continuity. Spivak introduces a \textit{type specification} as a bundle map $\pi: \mathscr{U} \rightarrow \textbf{DT}$. The base space $\textbf{DT}$ is a set of data types $T \in \textbf{DT}$ and the total space $\mathscr{U}$ is the disjoint union of the domains of each type \[\mathscr{U} = \bigsqcup_{T \in \textbf{DT}} \pi^{-1}(T)\] such that each element $x$ in the domain $\pi^{-1}(T)$ is one possible value of an object of type $T$ \cite{spivakSimplicialDatabases2009}. For example, if $T=\texttt{int}$, then the image $\pi^{-1}(\texttt{int}) = \mathbb{Z} \subset \mathscr{U}$ is the set of all integers and $x=3 \in \mathbb{Z}$ is the value of one $\texttt{int}$ object.
+As mentioned in \autoref{sec:related-work:equivariance}, visualization researchers traditionally describe equivariance as the preservation of field structure, which is based on the field type. Spivak shows that data typing can be expressed in a categorical framework in his fiber bundle formulation of tables in relational databases \cite{spivakDatabasesAreCategories2010,spivakSimplicialDatabases2009}. We adopt Spivak's definitions of \textit{type specification}, \textit{schema}, \textit{record}, and \textit{table} because that allows us to use a dimension agnostic named typing system for the dataset fields that is consistent with the abstraction we are using to express the continuity.
 
-Since many fields can have the same datatype, Spivak formally defines a mapping from field name to field data type, akin to a database schema \cite{ullmanFirstCourseDatabase2008}. According to Spivak, a \textit{schema} consists of a pair $(\fnames, \sigma)$ where $\fnames$ is the set of field names and $\sigma: \fnames \rightarrow \textbf{DT}$ is a function from field name to field data type\cite{spivakSimplicialDatabases2009}. The function $\sigma$ is composed with $\pi$ such that $\pi^{-1}(\sigma(C)) \subseteq \mathscr{U}$; this composition induces a domain bundle $\pi_{\sigma}:\mathscr{U}_{\sigma} \rightarrow \fnames$ that associates a field name $c \in C$ with its corresponding domain $\pi^{-1}_{\sigma}(C) \subseteq \mathscr{U}_{\sigma}$.
-\begin{definition} A \textbf{record} is a function $\delement: \fnames \rightarrow \mathscr{U}_{\sigma}$ and the set of records on $\pi_{\sigma}$ is denoted $\Gamma^{\pi}(\sigma)$. Records must return an object of type $\sigma(\fname) \in \textbf{DT}$ for each field $c \in C$.
-\end{definition}
-Spivak then describes tables as sections $\dsection: \dbase \rightarrow \Gamma^{\pi}(\sigma)$ from an indexing space $\dbase$ to the set of all possible records $\Gamma^{\pi}(\sigma)$ on the schema bundle, and his notion of a table generalizes to our notion of a data container.
+Spivak introduces a \textit{type specification} as a bundle map $\pi: \mathscr{U} \rightarrow \textbf{DT}$. The base space $\textbf{DT}$ is a set of data types $T \in \textbf{DT}$ and the total space $\mathscr{U}$ is the disjoint union of the domains of each type $\mathscr{U} = \bigsqcup_{T \in \textbf{DT}} \pi^{-1}(T)$ such that each element $x$ in the domain $\pi^{-1}(T)$ is one possible value of an object of type $T$ \cite{spivakSimplicialDatabases2009}. For example, if $T=\texttt{int}$, then the image $\pi^{-1}(\texttt{int}) = \mathbb{Z} \subset \mathscr{U}$ is the set of all integers and $x=3 \in \mathbb{Z}$ is the value of one $\texttt{int}$ object. Spivak's analogue of a database \textit{schema}\cite{ullmanFirstCourseDatabase2008} is the \textit{simple schema of type $\pi$} which is defined as consisting of the pair $(\fnames, \sigma)$ where $\fnames$ is the set of field names and $\sigma: \fnames \rightarrow \textbf{DT}$ is a function from field name to field data type\cite{spivakSimplicialDatabases2009}. The function $\sigma$ is composed with $\pi$ such that $\pi^{-1}(\sigma(C)) \subseteq \mathscr{U}$; this composition induces a domain bundle $\pi_{\sigma}:\mathscr{U}_{\sigma} \rightarrow \fnames$ that associates a field name $c \in C$ with its corresponding domain $\pi^{-1}_{\sigma}(C) \subseteq \mathscr{U}_{\sigma}$. He defines a \textit{record} as a function $\delement: \fnames \rightarrow \mathscr{U}_{\sigma}$ from column name to type domain and the set of records on $\pi_{\sigma}$ is denoted $\Gamma^{\pi}(\sigma)$. Records must return an object of type $\sigma(\fname) \in \textbf{DT}$ for each field $c \in C$. Spivak then describes tables as sections $\dsection: \dbase \rightarrow \Gamma^{\pi}(\sigma)$ from an indexing space $\dbase$ to the set of all possible records $\Gamma^{\pi}(\sigma)$ on the schema bundle, and his notion of a table generalizes to our notion of a data container.
 
-To build on the rich typing system provided by Spivak, we define the \textcolor{fiber}{fiber space} \dfiberc\ to be the space of all possible data records
+In summary, Spivak defines types as maps between type name (e.g. $temperature \in C$), data type ($\texttt{float} \in \texttt{DT}$), and type domain $\mathbb{R}\subseteq \mathscr{U_{\sigma}} \subseteq \mathscr{U}$). Records are maps from name to value ($\textit{temperature}:152.0^{\circ} F$) and tables are maps from index to record \cite{spivakSimplicialDatabases2009}:
+\begin{table}[H]
+  \begin{equation*}
+    \begin{tabular}{|c|c|c|}
+      \hline
+       types and schema & \textcolor{fiber}{record} & \textcolor{section}{table}\\
+      \hline
+      \begin{tikzcd}[ampersand replacement=\&, sep=huge]
+        \textcolor{total}{\mathcal{U}_\sigma} \arrow[d, "\pi_{\sigma}"', color=total, two heads] \arrow[r, dotted] \arrow[rd, dotted] \& \textcolor{total}{\mathcal{U}} \arrow[d, "\pi"', color=total, two heads] \\
+        \textcolor{base}{C} \arrow[r, "\sigma"']                                                                                   \& \textcolor{base}{\texttt{DT}}
+      \end{tikzcd}
+    &
+    \begin{tikzcd}[ampersand replacement=\&, sep=huge]
+      \textcolor{total}{\mathcal{U}_{\sigma}} \arrow[d, "\pi_{\sigma}"', color=total, two heads] \\
+      \textcolor{base}{C} \arrow[u, "\delementc"', dashed, bend right, color=fiber]
+      \end{tikzcd}
+    &
+    \begin{tikzcd}[ampersand replacement=\&, sep=huge]
+      \dfiberc\coloneqq \textcolor{total}{\Gamma^{\pi}(\sigma)} \arrow[d, "\pi"', color=total, two heads] \\
+      \dbasec \arrow[u, "\dsectionc"', dashed, bend right, color=section]
+      \end{tikzcd}\\
+      \hline
+    \end{tabular}
+    \end{equation*}
+    \caption{}
+    \label{tab:fiber_specification}
+  \end{table}
+
+Building on Spivak, we define the \textcolor{fiber}{fiber space} \dfiberc\ to be the space of all possible data records:
 \begin{equation}
   \dfiberc \coloneqq \{\delement: \fnames \rightarrow \mathscr{U}_{\sigma} \bigm{\vert} \pi_{\sigma}(\delement(\fname)) = \fname\;for\;all\; \fname \in \fnames \}
 \end{equation}
-such that the preimage of a point is the corresponding data type domain $\pi^{-1}(\dbasepoint) = \dfiber_{k} = \mathscr{U}_{{\sigma}_{\dbasepoint}}$.
-Adopting Spivak's fiber bundle construction of types allows our model to reuse types so long as the field names are distinct and that field values can be accessed by field name,  since those are sections on $\mathcal{U}_{\sigma}$. Furthermore, since domains $\mathscr{U}_{{\sigma}}$ of types are a mathematical space, multi-dimensional fields can be encoded in the same manner as single dimensional fields and fields can have different names but the same type.
+such that the preimage of a point is the corresponding data type domain $\pi^{-1}(\dbasepoint) = \dfiber_{k} = \mathscr{U}_{{\sigma}_{\dbasepoint}}$. Adopting Spivak's fiber bundle construction of types allows our model to reuse types so long as the field names are distinct and that field values can be accessed by field name,  since those are sections on $\mathcal{U}_{\sigma}$. Furthermore, since domains $\mathscr{U}_{{\sigma}}$ of types are a mathematical space, multi-dimensional fields can be encoded in the same manner as single dimensional fields and fields can have different names but the same type.
 
 As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ to encapsulate the field types of the data. The fiber category has a single object $\dfiberc$ of an arbitrary type and morphisms on the fiber object $\dfunctc \in Hom(\dfiberc, \dfiberc)$. We can also equip the category with any operators or relations that are part of he mathematical structure of the field type. For example we can equip the category with a comparison operator, which is part of the definition of the monoidal structure of a partially ordered ranking variable \cite{bruggemannRankingPrioritizationMultiindicator2011} or the group structure of Steven's ordinal measurement scale \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}. Steven's other scales are summarized in \autoref{tab:appendix:summary:stevens}.
 
