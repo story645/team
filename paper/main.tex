@@ -327,24 +327,17 @@ The standard construction of a category from a topological space is that it has 
 
 The composability property expresses that the morphism is transitive, while associativity expresses that the morphisms can be curried in various equivalent groupings. By formally specifying the properties of the topological structure data types as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects.
 
-\paragraph{Joining indexing spaces: $\oplus: \mathcal{\dbasec} \sqcup \mathcal{\dbasec} \rightarrow \mathcal{\dbasec}$}
-Joining two bundles on their base space, for example to glue the two trivializations in \autoref{fig:atct:fb} into a bundle, is the coproduct $\dbase_{a} \sqcup_{\dbase_{c}} \dbase_{b}$ over a space $\dbase_{c}$. A property of the coproduct is that the inclusion morphism must be commutative, which means that index spaces are combined on overlapping indices:
-\begin{figure}[h]
-  \includegraphics*[width=1\columnwidth]{figures/tex/k_coproduct.pdf}  \caption{Index spaces are combined via the \textit{coproduct} $\dbase_{a}\sqcup_{\dbase_c} \dbase_{b}$.}
-  \label{fig:atct:base}
-\end{figure}
- For example, in \autoref{fig:atct:base}, the open interval $\dbase_c$ is present in both $\dbase_a$ and $\dbase_c$; therefore $\dbase_a$ and $\dbase_b$ are glued together where they overlap at $\dbase_c$.  Two spaces have been combined correctly if every point in the overlap  $\dbasepoint \in \dbase^{c}$ is present in each of the spaces $\dbasepoint \in \dbase^{a}$ and $\dbasepoint \in \dbase^{b}$ such that it is present in the joined space $\dbasepoint \in \dbase^{a}\sqcup_{\dbase^{c}} \dbase_{b}$. This simple test that the records are joined correctly is what allows us to reliably build larger datasets out of smaller ones, such as in the case of distributed and on demand datasets.
-
 
 \subsubsection{\textcolor{fiber}{Field Data Types: Fiber Space \dfiber}}
 \label{sec:atct:fb:fiber}
 As mentioned in \autoref{sec:related-work:equivariance}, visualization researchers traditionally describe equivariance as the preservation of field structure, which is based on the field type. Spivak shows that data typing can be expressed in a categorical framework in his fiber bundle formulation of tables in relational databases \cite{spivakDatabasesAreCategories2010,spivakSimplicialDatabases2009}. We adopt Spivak's definitions of \textit{type specification}, \textit{schema}, \textit{record}, and \textit{table} because that allows us to use a dimension agnostic named typing system for the dataset fields that is consistent with the abstraction we are using to express the continuity.
 
-Spivak introduces a \textit{type specification} as a bundle map $\pi: \mathscr{U} \rightarrow \textbf{DT}$. The base space $\textbf{DT}$ is a set of data types $T \in \textbf{DT}$ and the total space $\mathscr{U}$ is the disjoint union of the domains of each type $\mathscr{U} = \bigsqcup_{T \in \textbf{DT}} \pi^{-1}(T)$ such that each element $x$ in the domain $\pi^{-1}(T)$ is one possible value of an object of type $T$ \cite{spivakSimplicialDatabases2009}. For example, if $T=\texttt{int}$, then the image $\pi^{-1}(\texttt{int}) = \mathbb{Z} \subset \mathscr{U}$ is the set of all integers and $x=3 \in \mathbb{Z}$ is the value of one $\texttt{int}$ object. Spivak's analogue of a database \textit{schema}\cite{ullmanFirstCourseDatabase2008} is the \textit{simple schema of type $\pi$} which is defined as consisting of the pair $(\fnames, \sigma)$ where $\fnames$ is the set of field names and $\sigma: \fnames \rightarrow \textbf{DT}$ is a function from field name to field data type\cite{spivakSimplicialDatabases2009}. The function $\sigma$ is composed with $\pi$ such that $\pi^{-1}(\sigma(C)) \subseteq \mathscr{U}$; this composition induces a domain bundle $\pi_{\sigma}:\mathscr{U}_{\sigma} \rightarrow \fnames$ that associates a field name $c \in C$ with its corresponding domain $\pi^{-1}_{\sigma}(C) \subseteq \mathscr{U}_{\sigma}$. He defines a \textit{record} as a function $\delement: \fnames \rightarrow \mathscr{U}_{\sigma}$ from column name to type domain and the set of records on $\pi_{\sigma}$ is denoted $\Gamma^{\pi}(\sigma)$. Records must return an object of type $\sigma(\fname) \in \textbf{DT}$ for each field $c \in C$. Spivak then describes tables as sections $\dsection: \dbase \rightarrow \Gamma^{\pi}(\sigma)$ from an indexing space $\dbase$ to the set of all possible records $\Gamma^{\pi}(\sigma)$ on the schema bundle, and his notion of a table generalizes to our notion of a data container.
+Spivak introduces a \textit{type specification} as a bundle map $\pi: \mathscr{U} \rightarrow \textbf{DT}$. The base space $\textbf{DT}$ is a set of data types $T \in \textbf{DT}$ and the total space $\mathscr{U}$ is the disjoint union of the domains of each type $\mathscr{U} = \bigsqcup_{T \in \textbf{DT}} \pi^{-1}(T)$ such that each element $x$ in the domain $\pi^{-1}(T)$ is one possible value of an object of type $T$ \cite{spivakSimplicialDatabases2009}. For example, if $T=\texttt{int}$, then the image $\pi^{-1}(\texttt{int}) = \mathbb{Z} \subset \mathscr{U}$ is the set of all integers and $x=3 \in \mathbb{Z}$ is the value of one $\texttt{int}$ object. Spivak's analogue of a database \textit{schema}\cite{ullmanFirstCourseDatabase2008} is the \textit{simple schema of type $\pi$} which is defined as consisting of the pair $(\fnames, \sigma)$ where $\fnames$ is the set of field names and $\sigma: \fnames \rightarrow \textbf{DT}$ is a function from field name to field data type\cite{spivakSimplicialDatabases2009}.
 
-In summary, Spivak defines types as maps between type name (e.g. $temperature \in C$), data type ($\texttt{float} \in \texttt{DT}$), and type domain $\mathbb{R}\subseteq \mathscr{U_{\sigma}} \subseteq \mathscr{U}$). Records are maps from name to value ($\textit{temperature}:152.0^{\circ} F$) and tables are maps from index to record \cite{spivakSimplicialDatabases2009}:
-\begin{table}[H]
-  \begin{equation*}
+The function $\sigma$ is composed with $\pi$ such that $\pi^{-1}(\sigma(C)) \subseteq \mathscr{U}$; this composition induces a domain bundle $\pi_{\sigma}:\mathscr{U}_{\sigma} \rightarrow \fnames$ that associates a field name $c \in C$ with its corresponding domain $\pi^{-1}_{\sigma}(C) \subseteq \mathscr{U}_{\sigma}$. He defines a \textit{record} as a function $\delement: \fnames \rightarrow \mathscr{U}_{\sigma}$ from column name to type domain and the set of records on $\pi_{\sigma}$ is denoted $\Gamma^{\pi}(\sigma)$. Records must return an object of type $\sigma(\fname) \in \textbf{DT}$ for each field $c \in C$. Spivak then describes tables as sections $\dsection: \dbase \rightarrow \Gamma^{\pi}(\sigma)$ from an indexing space $\dbase$ to the set of all possible records $\Gamma^{\pi}(\sigma)$ on the schema bundle, and his construction of a table generalizes to our notion of a dataset.
+
+In summary, Spivak defines \textit{types} as map $\sigma$ from type name (e.g. $temperature \in C$) to data type ($\texttt{float} \in \texttt{DT}$) and maps $\pi_{\sigma}, \pi$ from type domain ($\mathbb{R}\subseteq \mathscr{U_{\sigma}} \subseteq \mathscr{U}$) to name and type, \textit{schemas} as maps from type name to data type ($temperature: \texttt{float}$), \textit{records} as maps from name to value ($temperature:152.0^{\circ} F$) and \textit{tables} as maps from index to record \cite{spivakSimplicialDatabases2009}:
+\begin{equation*}
     \begin{tabular}{|c|c|c|}
       \hline
        types and schema & \textcolor{fiber}{record} & \textcolor{section}{table}\\
@@ -356,7 +349,7 @@ In summary, Spivak defines types as maps between type name (e.g. $temperature \i
     &
     \begin{tikzcd}[ampersand replacement=\&, sep=huge]
       \textcolor{total}{\mathcal{U}_{\sigma}} \arrow[d, "\pi_{\sigma}"', color=total, two heads] \\
-      \textcolor{base}{C} \arrow[u, "\delementc"', dashed, bend right, color=fiber]
+      \textcolor{base}{C} \arrow[u, "\delement"', dashed, bend right, color=fiber]
       \end{tikzcd}
     &
     \begin{tikzcd}[ampersand replacement=\&, sep=huge]
@@ -365,12 +358,9 @@ In summary, Spivak defines types as maps between type name (e.g. $temperature \i
       \end{tikzcd}\\
       \hline
     \end{tabular}
-    \end{equation*}
-    \caption{}
-    \label{tab:fiber_specification}
-  \end{table}
+\end{equation*}
 
-Building on Spivak, we define the \textcolor{fiber}{fiber space} \dfiberc\ to be the space of all possible data records:
+Building on Spivak's constructions, we define the \textcolor{fiber}{fiber space} \dfiberc\ to be the space of all possible data records:
 \begin{equation}
   \dfiberc \coloneqq \{\delement: \fnames \rightarrow \mathscr{U}_{\sigma} \bigm{\vert} \pi_{\sigma}(\delement(\fname)) = \fname\;for\;all\; \fname \in \fnames \}
 \end{equation}
@@ -378,20 +368,23 @@ such that the preimage of a point is the corresponding data type domain $\pi^{-1
 
 As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ to encapsulate the field types of the data. The fiber category has a single object $\dfiberc$ of an arbitrary type and morphisms on the fiber object $\dfunctc \in Hom(\dfiberc, \dfiberc)$. We can also equip the category with any operators or relations that are part of he mathematical structure of the field type. For example we can equip the category with a comparison operator, which is part of the definition of the monoidal structure of a partially ordered ranking variable \cite{bruggemannRankingPrioritizationMultiindicator2011} or the group structure of Steven's ordinal measurement scale \cite{stevensTheoryScalesMeasurement1946, leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}. Steven's other scales are summarized in \autoref{tab:appendix:summary:stevens}.
 
-\paragraph{Merging fields: $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$ }
+
 
 The fiber category $\mathcal{\dfiberc}$ is also equipped with a bifunctor because it is a monoidal category and this functor provides a method for combining fiber types. The bifunctor allows $\otimes$ us to express fields that contain complexly typed values. For example, dates can be represented as three fields $\dfiber_{year} \times \dfiber_{month} \times \dfiber_{day}$ or a composite fiber field $\dfiber_{year} \times \dfiber_{month} \times \dfiber_{day} = \dfiber_{date}$. The $\otimes$ encapsulates both the sets of values associated with each fiber $\{y \in \mathbb{I}\vert 1992 \leq y \leq 2025\} \times \{m \in \mathbb{I}\vert 1 \leq m \leq 12 \} \times \{d \in \mathbb{I}\vert 1 \leq d \leq 31 \}$ and the composition function $ \otimes: \dfiber_{year} \times \dfiber_{month} \times \dfiber_{day} \rightarrow \dfiber_{date}$
 would include a constraint to only return dates that have the right number of days for each month. The bifunctor also composes the morphisms associated with each category into a morphism on the composite category $(\dfunct_{year}, \dfunct_{month}, \dfunct_{day}) = \dfunct_{date}$.
 
-Combining fibers correctly can be verified by checking that when a fiber component $\dfiber^{c}$ is present in both $\dfiber^{a}$ and $\dfiber^{b}$, it is identical when projected out of either such that the \textit{product} diagram commutes, means that when data with many fields is decomposed into its component fields, records maintain their integrity:
+\subsubsection{Adding and expanding records}
+
+A common use of category theory in software engineering is the specification of modular components \cite{wielsManagementEvolvingSpecifications1998} such that we can build systems where the structure preserved by components is preserved in the composition of the components. As described in \autoref{sec:atct:fb:base}, the index space is modeled as a set of open sets; therefore adding index spaces $\dbase_a$ and $\dbase_b$ is the coproduct $\dbase_{a} \sqcup_{\dbase_{c}} \dbase_{b}$ over a shared space $\dbase_{c}$. As described in \autoref{sec:atct:fb:fiber}, the bifunctor can be used to build composite fiber types;  in the same manner fields $\dfiber_a$ and $\dfiber_b$ can be composed by taking the fiber product $\dfiber_{a}\times_{\dfiber_{c}} \dfiber_b$ over a shared fiber $\dfiber_c$.
+
 
 \begin{figure}[H]
-  \includegraphics*[width=1\columnwidth]{figures/tex/f_product.pdf}
-  \caption{Fields are combined via the \textit{product} $\dfiber_{a}\times_{\dfiber_c} \dfiber_{b}$.}
-  \label{fig:atct:fiber}
+  \includegraphics*[width=1\columnwidth]{figures/tex/more_records.pdf}
+  \caption{Records are added to the dataset as a \textit{coproduct} $\dbase_{a}\sqcup_{\dbase_c} \dbase_{b}$ of index spaces. Fields are added to each record as a \textit{product} $\dfiber_{a}\times_{\dfiber_c} \dfiber_{b}$ of fiber spaces.}
+  \label{fig:atct:joint}
 \end{figure}
 
-For example in \autoref{fig:atct:fiber} the red (temperature, time, pressure) record separates into (temperature, time) and (pressure, time) records that share the same red time. Furthermore this time is the same whether it is obtained from the (temperature, time) or (pressure, time) record. Generally, the test for joining fields is that when a record is present in a fiber $\delement_{c} \in \pi_c(\dfiber_{a}), \delement_c \in \pi_c(\dfiber_{b})$ then it is in the joint record $\delement_{c} \in \pi_c(\dfiber_{a}\times_{\dfiber_c}\dfiber_{b})$ when is in the field $\dfiber_c$ being joined on. This simple test that fields are joined together correctly for the same record is what allows us to reliably combine multiple datasets together on shared properties, for example growing the weather station data in \autoref{fig:related-work:continuity:ktypes} from a temporal to spatial dataset by adding the weather at each location at each time.
+For example, in \autoref{fig:atct:joint}, the open interval $\dbase_c$ is present in both $\dbase_a$ and $\dbase_c$; therefore $\dbase_a$ and $\dbase_b$ are glued together where they overlap at $\dbase_c$.  Two spaces have been combined correctly if every point in the overlap  $\dbasepoint \in \dbase^{c}$ is present in each of the spaces $\dbasepoint \in \dbase^{a}$ and $\dbasepoint \in \dbase^{b}$ such that it is present in the joined space $\dbasepoint \in \dbase^{a}\sqcup_{\dbase^{c}} \dbase_{b}$. In \autoref{fig:atct:joint}, the red (temperature, time, pressure) record separates into (temperature, time) and (pressure, time) records that share the same red time. Furthermore this time is the same whether it is obtained from the (temperature, time) or (pressure, time) record. Generally, the test for joining fields is that when a record is present in a fiber $\delement_{c} \in \pi_c(\dfiber_{a}), \delement_c \in \pi_c(\dfiber_{b})$ then it is in the joint record $\delement_{c} \in \pi_c(\dfiber_{a}\times_{\dfiber_c}\dfiber_{b})$ when is in the field $\dfiber_c$ being joined on. Verifying that indicies are joined correctly allows us to reliably build larger datasets out of smaller ones, such as in the case of distributed and on demand datasets. Verifying that fields are joined together correctly for the same record allows us to reliably combine multiple datasets together on shared properties, for example growing the weather station data in \autoref{fig:related-work:continuity:ktypes} from a temporal to spatial dataset by adding the weather at each location at each time.
 
 \subsubsection{\textcolor{section}{Data: Section $\dsection$}}
 \label{sec:atct:fb:sections}
@@ -827,7 +820,7 @@ For example, in \autoref{fig:artist:equivariance}, the measurable variable is co
 \subsection{Composing Artists}\label{sec:artist:operators}
 \note{addition: intersections mapped same, multiplication: fibers mapped same}
 \note{large big data glued together correctly}
-A common use of category theory in software engineering is the specification of modular components \cite{wielsManagementEvolvingSpecifications1998} such that we can build systems where the structure preserved by components is preserved in the composition of the components. This allows us to express that an artist that works on a dataset can be composed of artists that work on sub parts of that dataset.
+ This allows us to express that an artist that works on a dataset can be composed of artists that work on sub parts of that dataset.
 
 
 \subsubsection{Addition}
