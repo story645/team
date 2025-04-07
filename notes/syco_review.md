@@ -14,22 +14,21 @@ Comments and questions
     - [ ] add citation for line drawing algorithim,
 
 What does it mean for "continuities" to be "homeomorphic"? It seems to me that your intended meaning of the term "homeomorphic" is weaker than the conventional definition in topology. You say in Figure 3 that asking for a transformation to be "homeomorphic" means that "there exists a deformation retract ξ : S → K between graphic and artist base space". A deformation retract is an instance of a homotopy equivalence; should you be using "homotopic" in place of "homeomorphic"?
-    - [ ] definition of homemorphism we're using is in related work, key is the continuos inverse
-        - [ ] stress homeomorphism > homotopy b/c of Kosara/Z readability (every glyph must map back to data)
-    - [ ] add homeomorphism conditions to $\xi$ (w/ notion of choosing topology K s.t.  homemorphism exists)
+- [ ] definition of homemorphism we're using is in related work, key is the continuos inverse
+    - [ ] stress homeomorphism > homotopy b/c of Kosara/Z readability (every glyph must map back to data)
+- [ ] add homeomorphism conditions to $\xi$ (w/ notion of choosing topology K s.t.  homemorphism exists)
 
 You introduction ends by stating that your method is improves on some other cited methods "by explicitly incorporating topology" and "by providing a framework for translating the theoretical ideas into buildable components". Taking a cursory sample of the references provided, Wilkinson's book has an entire chapter (13, "Space") on the topological structure of data, while Mackinlay's paper claims to implement an AI based tool. In other words, your citations rather undermine your claimed advantages, and you should be making a more explicit comparison between your treatment and theirs.
-    - [ ] "by explicitly incorporating topology"
-        - [ ] add a sentence or two to related work topology talking about how "topology" all follows the mark match implantation model and here we introduce a generalized formalism of the implicit expectation
-            - [ ] add sentence on Wilkonson chap 13: He discusses mathematical spaces, but explicitly won't generalize b/c
-                - [ ] " . Restricting ourselves to homeomorphic mappings would eliminate many useful charts, the most obvious being planar geographic maps" <- our framework doesn't need that restriction b/c the generalization to non-trivial bundles accounts for it
-                - [ ] instead he embeds in a metric space/other - figure out if metric space distance functions are $\hat{phi}$ in a presheaf context
-                    - maybe: https://arxiv.org/abs/1901.09077
-
-    - [ ] "by providing a framework for translating the theoretical ideas into buildable components"
-        - [ ] make clear that this is a contribution of this work but not the novelty
-        - [ ] contextualize in terms of the software related work - topology independent (where as existing very structure driven)
-    - [ ] answer to both is make clear that the improvement is in the generalization
+- [ ] "by explicitly incorporating topology"
+    - [ ] add a sentence or two to related work topology talking about how "topology" all follows the mark match implantation model and here we introduce a generalized formalism of the implicit expectation
+        - [ ] add sentence on Wilkonson chap 13: He discusses mathematical spaces, but explicitly won't generalize b/c
+            - [ ] " . Restricting ourselves to homeomorphic mappings would eliminate many useful charts, the most obvious being planar geographic maps" <- our framework doesn't need that restriction b/c the generalization to non-trivial bundles accounts for it
+            - [ ] instead he embeds in a metric space/other - figure out if metric space distance functions are $\hat{phi}$ in a presheaf context
+                - maybe: https://arxiv.org/abs/1901.09077
+- [ ] "by providing a framework for translating the theoretical ideas into buildable components"
+    - [ ] make clear that this is a contribution of this work but not the novelty
+    - [ ] contextualize in terms of the software related work - topology independent (where as existing very structure driven)
+- [ ] answer to both is make clear that the improvement is in the generalization
 
 - [ ] You also mention "supporting non-group and non-monoidal structures", but since you do not mention these terms again, let alone any examples of data structures that lack these structures that your framework is thus able to treat in contrast to the cited ones, it is unclear what advantage is being claimed there.
     - [ ] related work section goes into depth about
@@ -56,10 +55,9 @@ You introduction ends by stating that your method is improves on some other cite
         - " At its highest level, the matplotlib API has three basic classes: FigureCanvasBase is the canvas onto which the scene is painted, analogous to a painter’s canvas; RendererBase is the object used to paint on the canvas, analogous to a paintbrush; and Artist is the object that knows how to use a renderer to paint on a canvas. Artist is also where most of the interesting stuff happens; basic graphics primitives such as Line2D, Polygon, and Text all derive from this base class."
         - artist is what translates the data (real world) into the instructions for drawing the visual (like human artists conjure images based on ideas/prompts/directives/etc and then their arms draw)
 
-        -
-
 I have many questions about the contents of Figure 3.
-- How is the stated 'homeomorphic' condition related to naturality?
+- [ ] How is the stated 'homeomorphic' condition related to naturality?
+    - Harder's lectures - homemorphic map between base spaces means pullback/pushforward means exists natural transform
 - [ ] What is $Dir^{\alpha}(k)$?
     - make sure to explain that example is showing the dirchilet distribution and why
 - [ ] What are $\hat{\phi}$ and $\tilde{\phi}$ and what do the subscripts on them refer to; if the subscripts are total spaces from Table 1, why is the codomain of $\hat{\phi}_E$ labelled with the same letter as the base space?
@@ -93,6 +91,6 @@ Typos / minor comments
 
 "As illustrated in 4" -> should be 'Figure 4'.
 
--[ ] "how visual elements correspond to distinct data elements" -> should be 'distinct visual elements'
+- [ ] "how visual elements correspond to distinct data elements" -> should be 'distinct visual elements'
 
 - [ ] "respectively, Since" -> should be '.'
