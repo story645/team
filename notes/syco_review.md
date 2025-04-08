@@ -25,6 +25,7 @@ You introduction ends by stating that your method is improves on some other cite
             - [ ] " . Restricting ourselves to homeomorphic mappings would eliminate many useful charts, the most obvious being planar geographic maps" <- our framework doesn't need that restriction b/c the generalization to non-trivial bundles accounts for it
             - [ ] instead he embeds in a metric space/other - figure out if metric space distance functions are $\hat{phi}$ in a presheaf context
                 - maybe: https://arxiv.org/abs/1901.09077
+            - [ ] also we propose a lot of these are actually field variables and the distance function is a property of the field
 - [ ] "by providing a framework for translating the theoretical ideas into buildable components"
     - [ ] make clear that this is a contribution of this work but not the novelty
     - [ ] contextualize in terms of the software related work - topology independent (where as existing very structure driven)
@@ -53,7 +54,7 @@ You introduction ends by stating that your method is improves on some other cite
 - [ ] Naming a mapping "artist" after a class in Matplotlib seems doubly insulting to actual visual artists and graphic designers. Given that you are happy to use mathematical notation for the other components, you need a pretty strong case for how this mapping is doing something artistic to defend the choice to name this mapping at all.
     - [ ] clarify that it's named for the part of the library architecture it's abstracting:
         - " At its highest level, the matplotlib API has three basic classes: FigureCanvasBase is the canvas onto which the scene is painted, analogous to a painter’s canvas; RendererBase is the object used to paint on the canvas, analogous to a paintbrush; and Artist is the object that knows how to use a renderer to paint on a canvas. Artist is also where most of the interesting stuff happens; basic graphics primitives such as Line2D, Polygon, and Text all derive from this base class."
-        - artist is what translates the data (real world) into the instructions for drawing the visual (like human artists conjure images based on ideas/prompts/directives/etc and then their arms draw)
+        - artist is what translates the data (real world) into the instructions for drawing the visual (like human artists conjure images based on ideas/prompts/directives/etc and then their arms draw) - visual language
 
 I have many questions about the contents of Figure 3.
 - [ ] How is the stated 'homeomorphic' condition related to naturality?
