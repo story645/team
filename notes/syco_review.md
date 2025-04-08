@@ -25,6 +25,7 @@ You introduction ends by stating that your method is improves on some other cite
             - [ ] " . Restricting ourselves to homeomorphic mappings would eliminate many useful charts, the most obvious being planar geographic maps" <- our framework doesn't need that restriction b/c the generalization to non-trivial bundles accounts for it
             - [ ] instead he embeds in a metric space/other - figure out if metric space distance functions are $\hat{phi}$ in a presheaf context
                 - maybe: https://arxiv.org/abs/1901.09077
+            - [ ] also we propose a lot of these are actually field variables and the distance function is a property of the field
 - [ ] "by providing a framework for translating the theoretical ideas into buildable components"
     - [ ] make clear that this is a contribution of this work but not the novelty
     - [ ] contextualize in terms of the software related work - topology independent (where as existing very structure driven)
