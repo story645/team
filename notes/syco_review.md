@@ -70,7 +70,7 @@ I have many questions about the contents of Figure 3.
     - [ ] part of figure explaination - rotation on the base space/rotated figure
 
 - The caption of Figure 4 only explains a small fraction of what is happening in the diagram. In particular, it is unclear which side of the diagram is supposed to be "data" and which "visualization", both sides containing data (a table and a list of coordinates, respectively) and a visualization...
-    - [ ] add a human readable title to each quadrant: graphic at point, graphic, data, data at pixel
+    - [x] add a human readable title to each quadrant: graphic at point, graphic, data, data at pixel
 
 - [ ] I don't know what it means for a topology to be "equipped with operators", or what a "record" is, although I presume you are trying to say that your framework includes a way to extend the topological spaces involved when further data is added.
     - [ ] yes
