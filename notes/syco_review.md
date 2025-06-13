@@ -47,6 +47,7 @@ You introduction ends by stating that your method is improves on some other cite
     - [ ] example of this in the Spivak discussion but also just use Spivak's terminalogy
 
 - [ ] You claim that "Abstracting the data containers as sheaves provides a way of encoding how data containers keep track of the continuity of the data [5] such that visual algorithms developed on this model apply whether the data fits in memory, is distributed, or is streaming". The two halves of the claim seem disconnected: I don't doubt that sheaves can handle continuity, but that determines how the algorithm structures data after receiving it, which seems orthogonal to the question of how and where the data is stored beforehand. Perhaps your claim is rather that sheaves allow parallelism, so that not all data needs to be immediately available in order for approximations of the visual output to be produced. If so, this assertion needs to be made explicitly and supported in its own right.
+    - [ ] pull in Ghrist more
 
 - [x] At the start of Section 3, what is $\rho$? You mentioned earlier that $\tau$ is a section of a bundle (which bundle?); presumably $\rho$ is too.
     - [x] this is discussed in "Uniform abstract graphic representation" section
@@ -76,6 +77,9 @@ I have many questions about the contents of Figure 3.
     - [ ] yes
     - [ ] record is explained in fiber section/spivak section
     - [ ] figure out what the actual language is (not equipped w/ operator)
+        - functors are $\oplus$, $\otimes$ and implementation are union/product
+        - it's the categories that are equipped w/ bifunctors ()
+            - maybe add a composite base space example: maybe line + point
 ---
 
 Typos / minor comments
