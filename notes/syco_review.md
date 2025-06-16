@@ -65,7 +65,7 @@ I have many questions about the contents of Figure 3.
     - [ ] make each of them a definition in the respective sections
     - [ ] add a note about how subscripts are for the side {date, viz} the transform is on (and change hat subscripts to base space)
 - What does the prime in $K'$ and $S'$ refer to? Are there in fact supposed to be several of each kind of bundle around?
-    - [ ] make clear that these are base spaces and these shouldn't actually be K'/S' b/c they're the same type as K/still K (same w/ the little k/k')
+    -  [x] make clear that these are base spaces and these shouldn't actually be K'/S' b/c they're the same type as K/still K (same w/ the little k/k')
 - What is the rotation in the triangle supposed to illustrate, and in what way is the transformation of the visual on the right-hand side relate to $\phi$?
     - [ ] part of figure explaination - rotation on the base space/rotated figure
 
