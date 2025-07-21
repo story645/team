@@ -1,4 +1,4 @@
-\documentclass[journal]{IEEEtran}
+\documentclass[review]{vgtc}
 
 % *** MISC UTILITY PACKAGES ***
 
@@ -57,6 +57,13 @@
 \usepackage{tabularray}
 % IEEEtran contains the IEEEeqnarray family of commands
 
+
+% Fonts
+
+\usepackage{times}                     % we use Times as the main font
+\renewcommand*\ttdefault{txtt}         % a nicer typewriter font
+\usepackage{mathptmx}
+
 % *** SUBFIGURE PACKAGES ***
 \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 
@@ -64,13 +71,10 @@
 \usepackage{dblfloatfix}
 
 % *** PDF, URL AND HYPERLINK PACKAGES ***
-\usepackage{xurl}
+%\usepackage{xurl}
 
 % *** BIBLIOGRAPHY ***
 \usepackage[]{footmisc}
-\usepackage{bookmark}
-\usepackage[style=ieee, backend=biber]{biblatex}
-\addbibresource{references.bib}
 
 %\usepackage[inline]{showlabels}
 
@@ -78,27 +82,26 @@
 % correct bad hyphenation here
 %\hyphenation{}
 
-\begin{document}
-\linenumbers
 
-\title{Topological Equivariant Artist Model}
-% author names and IEEE memberships
-\author{Hannah~Aizenman, Mikael Vejdemo-Johansson, Thomas~Caswell, and~Michael~Grossberg,~\IEEEmembership{Member,~IEEE,}% <-this % stops a space
-\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem H. Aizenman is with the department of Computer Science, The Gradaute Center, CUNY.
-\protect\\
-% note need leading \protect in front of \\ to get a newline within \thanks as
-% \\ is fragile and will error, could use \hfil\break instead.
-E-mail: haizenman@gradcenter.cuny.edu,
-\IEEEcompsocthanksitem M. Grossberg is with the department of Computer Science, City College of New York, CUNY.
-E-mail: mgrossberg@ccny.cuny.edu
-\IEEEcompsocthanksitem Mikael Vejdemo-Johansson is with the department of Mathematics, CUNY College of Staten Island.
-\protect\\
-E-mail: mvj@math.csi.cuny.edu
-\IEEEcompsocthanksitem Thomas Caswell is with National Synchrotron Light Source II, Brookhaven National Lab
-\protect \\
-E-mail: tcaswell@bnl.gov}% <-this % stops an unwanted space
-\thanks{Manuscript received X XX, XXXX; revised X XX, XXXX.}
-}
+
+\onlineid{0}
+
+%% declare the category of your paper, only shown in review mode
+\vgtccategory{Research}
+
+%% allow for this line if you want the electronic option to work properly
+\vgtcinsertpkg
+
+\title{Categorical Framework for Visualization Software Design}
+
+\author{Hannah Aizenman \thanks{email:haizenman@gradcenter.cuny.edu}\\%
+        \scriptsize Computer Science, The Graduate Center, CUNY
+\and Mikael Vejdemo-Johansson \thanks{e-mail: mvj@math.csi.cuny.edu}\\%
+        \scriptsize  Mathematics, CUNY College of Staten Island %
+\and Thomas Caswell \thanks{e-mail: tcaswell@bnl.gov}\\%
+  \scriptsize National Synchrotron Light Source II, Brookhaven National Lab%
+\and Michael Grossberg \thanks{e-mail: mgrossberg@ccny.cuny.edu}\\%
+  \scriptsize Computer Science, City College of New York, CUNY}
 
 
 % for Computer Society papers, we must declare the abstract and index terms
@@ -106,24 +109,20 @@ E-mail: tcaswell@bnl.gov}% <-this % stops an unwanted space
 % command as these need to go into the title area created by \maketitle.
 % As a general rule, do not put math, special symbols or citations
 % in the abstract or keywords.
-\IEEEtitleabstractindextext{%
-\begin{abstract}
+
+\abstract{
   The contract data visualization tools make with their users is that a chart is a faithful and accurate visual representation of the numbers it is made from. Motivated by wanting to make tools that are more flexible while still rigorously structure preserving, we propose a methodology for fully specifying arbitrary data to visualization mappings in a manner that translates to code. We propose that fiber bundles provide a uniform interface for describing a variety of underlying data - tables, images, networks, etc. - in a manner that independently encodes the mathematical structure of the topology and the fields of the dataset. Modeling the data structures that store the datasets as sheaves provide a method for specifying visualization methods that are designed to work regardless of how the dataset is stored - whether the data is on disk, distributed, or on demand. Specifying the visualization library components as natural transforms of sheaves means that the constraints that the component must satisfy to be structure preserving can be specified as the set of morphisms on the data and graphic sheaves, including the structure on the topology and fields of the data. Using category theory to formally express how visual elements are constructed means we can translate those expectations into code, which can then be used to enforce the expectation that a visualization tool is faithfully translating between numbers and charts.
-\end{abstract}
+}
 
-% Note that keywords are not normally used for peerreview papers.
-\begin{IEEEkeywords}
-%Computer Society, IEEE, IEEEtran, journal, \LaTeX, paper, template.
-\end{IEEEkeywords}}
-
-
+\keywords{Visualization software design, visualization theory, categorical framework}
+\begin{document}
 % make the title area
+
+\firstsection{Introduction}\label{sec:intro}
+
 \maketitle
-\IEEEpeerreviewmaketitle
-\IEEEraisesectionheading{\section{Introduction}\label{sec:intro}}
 
-
-\IEEEPARstart{V}isualization design guidelines, generally, describe how to choose visual encodings that preserve the structure of the data; to follow these guidelines the visualization tools that implement these $data \rightarrow graphic$ transforms must be structure preserving. Loosely, preserving structure means that the properties of the data and how the points are connected to each other should be inferable from the graphic such that a $graphic \rightarrow data$ mapping can be made. For example, values read off a bar chart have to be equivalent to the values used to construct that chart. Therefore a visualization tool is structure preserving when it preserves the bidirectional mapping $data\leftrightarrow graphic$.
+Visualization design guidelines, generally, describe how to choose visual encodings that preserve the structure of the data; to follow these guidelines the visualization tools that implement these $data \rightarrow graphic$ transforms must be structure preserving. Loosely, preserving structure means that the properties of the data and how the points are connected to each other should be inferable from the graphic such that a $graphic \rightarrow data$ mapping can be made. For example, values read off a bar chart have to be equivalent to the values used to construct that chart. Therefore a visualization tool is structure preserving when it preserves the bidirectional mapping $data\leftrightarrow graphic$.
 
 We propose that we can better enforce this expectation in software by providing a uniform way of expressing $data$ and $graphic$ using their respective algebraic structure and by uniformly specifying the behaviors and properties of those structures and the maps between them using category theory. For example, our framework can encapsulate how a table and scatter plot and heatmap are different representations of the same data and track an observation from a data cube as a point along a time series and on a map and in a network. The algebraic structures can then be translated into programmatic types, while the categorical descriptions translate to a functional design framework. Strong typing and function composition enable visualization software developers to build complex components from simpler verifiable parts \cite{huHowFunctionalProgramming2015, hughesWhyFunctionalProgramming1989}. These components can be built as a standalone library and integrated into existing libraries and we hope these ideas will influence the architecture of critical data visualization libraries, such as Matplotlib.
 
@@ -144,49 +143,7 @@ The conditions under which $data \rightarrow graphic$ is structure preserving is
 \subsection{Fields}
 \label{sec:related-work:equivariance}
 
-Data is often described by its mathematical structure, for example the Steven's measurement scales define nominal, ordinal, interval, and ratio data by the allowed operations on each \cite{stevensTheoryScalesMeasurement1946} and other researchers have since expanded the scales to encapsulate more types of structure \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}.
-
-Loosely, the scales classify data as a set of values and the allowed transformations on that set, which can be operations, relations, or generalized as actions:
-
-\begin{definition}\label{def:related-work:action}\cite{grimaldiDiscreteCombinatorialMathematics2006}
-  An \textcolor{action}{\textbf{action}} of \textcolor{action}{$G = (G,\circ, e)$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
-\end{definition}
-
-Elements of $X$ can be from one data field or all of them or some subset; similarly the actions act on
-the elements of $X$ and each action can be a composition of actions. This means actions can be used when discussing various measures of structure preservation. For example, \textit{equivariant} functions preserve structure under transformations to data or visualization and has been proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014} and \textit{homomorphic} maps preserve relations between data elements was preserved as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}.
-
-Specifically, Steven's conceptualizes the structure on values as \textcolor{action}{actions} on groups \footnote{A \textit{group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative, and invertible}. A function that preserves structure when the input or output is changed by a group action is called \textit{equivariant}.
-
-\begin{figure}
-  \includegraphics*[width=1\columnwidth]{equivariant.pdf}
-  \caption{Encoding data as the bar height using an exponential transform is not equivariant because encoding the data and then scaling the bar heights yields a much taller graph then scaling the data and then encoding those heights using the same exponential transform function.}
-  \label{fig:related-work:equivariance}
-\end{figure}
-
- Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
-
-\begin{definition}\label{def:equivariance}
- A function $f$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
-\end{definition}
-which means that a visualization is structure preserving when there exist compatible group actions on the data and visualization, as discussed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}. As illustrated in the commutative diagram in \autoref{fig:related-work:equivariance}, what this means is that the visual representation is consistent whether the data is scaled and then mapped to a graphic or whether the data is mapped to a graphic that is then modified in a compatible way.
-
-Although the Steven's scales were conceptualized as having group structure, the ordinal scale has a monoidal structure because partial orders ($\geq, \leq$) are not invertible. This means \textit{equivariance} cannot be used to test for structure preservation. Instead \textit{homomorphism} can be used because it imposes fewer constraints on the underlying mathematical structure of the data.
-\begin{figure}
-  \includegraphics[width=1\columnwidth]{homomorphism.pdf}
-  \caption{Encoding data as bar height using an inverse transform is not homomorphic because the largest number is mapped to the smallest bar while the max function returns the largest bar.}
-  \label{fig:related-work:homomorphism}
-\end{figure}
-
-Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$
-
-\begin{definition}\label{def:homomorphism}
-  A function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identities $f(I_x) = I_y$ all $x, y \in X$ \cite{grimaldiDiscreteCombinatorialMathematics2006}
-\end{definition}
-
-which means that the operators $\circ$ and $*$ are compatible. In \autoref{fig:related-work:homomorphism}, the $\geq$ operator is defined as the compatible closed functions \texttt{max} and the inverse transform
-is not homomorphic because it does not encode the maximum data value as the maximum bar value.
-
-As shown in \autoref{fig:def:equivariance} and \autoref{fig:def:homomorphsim}, a function can be homomorphic but not equivariant, such as an exponential encoding, or equivariant but not homomorphic, such as the inverse encoding. A function can also be homomorphic (or equivariant) with respect to one action but not with respect to another. The encoding transforms in visualization tools are expected to preserve the structure of whatever input they receive; therefore a methodology for codifying arbitrary structure is presented in \autoref{sec:atct:fb:fiber} and \autoref{sec:artist:equivariant:data} presents a generalization of equivariance and homomorphism for evaluating structure preservation.
+Data is often described by its mathematical structure, for example the Steven's measurement scales define nominal, ordinal, interval, and ratio data by the allowed operations on each \cite{stevensTheoryScalesMeasurement1946} and other researchers have since expanded the scales to encapsulate more types of structure \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}. Loosely we define structure as a mathematical space $X$ and the actions on that space; our model is purposely generalizable to many different types of spaces (e.g sets, metric spaces, etc). Steven's conceptualizes the scales as mathematical groups with \textcolor{action}{actions}. A function that preserves structure when the input or output is changed by a group action is called \textit{equivariant}; a visualization is structure preserving when there exist compatible group actions on the data and visualization was proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}. Although the Steven's scales were conceptualized as having group structure, the ordinal scale has a monoidal structure because partial orders ($\geq, \leq$) are not invertible. This means \textit{equivariance} cannot be used to test for structure preservation; instead \textit{homomorphism} can be used to verify whether map preserve relations between data elements, as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. These tests are mutually exclusive; a function can be homomorphic but not equivariant, such as an exponential encoding, or equivariant but not homomorphic, such as the inverse encoding. A function can also be homomorphic (or equivariant) with respect to one action but not with respect to another. The encoding transforms in visualization tools are expected to preserve the structure of whatever input they receive; therefore a methodology for codifying arbitrary structure is presented in \autoref{sec:atct:fb:fiber} and \autoref{sec:artist:equivariant:data} presents a generalization of equivariance and homomorphism for evaluating structure preservation.
 
 \subsection{Topology}
 \label{sec:related-work:continuity}
@@ -198,15 +155,13 @@ As shown in \autoref{fig:def:equivariance} and \autoref{fig:def:homomorphsim}, a
   \label{fig:related-work:continuity:ktypes}
 \end{figure}
 
-Visual algorithms assume the topology of their input data, as described in taxonomies of visualization algorithms Chi\cite{chiTaxonomyVisualizationTechniques2000} and by Troy and M\"{o}ller \cite{toryRethinkingVisualizationHighlevel2004}, but generally do not verify that input structure. For example, a \texttt{line} algorithm often does not have a way to query whether a list of (x,y) coordinates is the distinct rows, the time series, or the list of stations in \autoref{fig:related-work:continuity:ktypes}. While plotting the time series as a continuous line would be correct, it would be incorrect for a visualization to indicate that the distinct rows or stations are connected in a 1D continuous manner because it introduces ambiguity over which part of the line maps back to the data. A map that by definition has continuous maps between the input and output spaces, such as data and graphics, is called a \textit{homeomorphism}\cite{riehlCategoryTheoryContext}:
+Visual algorithms assume the topology of their input data, as described in taxonomies of visualization algorithms Chi\cite{chiTaxonomyVisualizationTechniques2000} and by Troy and M\"{o}ller \cite{toryRethinkingVisualizationHighlevel2004}, but generally do not verify that input structure. For example, a \texttt{line} algorithm often does not have a way to query whether a list of (x,y) coordinates is the distinct rows, the time series, or the list of stations in \autoref{fig:related-work:continuity:ktypes}. While plotting the time series as a continuous line would be correct, it would be incorrect for a visualization to indicate that the distinct rows or stations are connected in a 1D continuous manner because it introduces ambiguity over which part of the line maps back to the data. A map that by definition has continuous maps between the input and output spaces, such as data and graphics, is called a \textit{homeomorphism}\cite{riehlCategoryTheoryContext}. The bar plot, line plot, and heatmap in \autoref{fig:related-work:continuity:ktypes} have a homeomorphic relationship to the 0D ($\bullet$) points, 1D (--) linear, and 2D ($\blacksquare$) surface continuities embedded in the continuous 3 dimensional surface encapsulating time and position because each point of the visualization maps back into a point in its corresponding indexing space in the cube. Using homeomorphism to test whether continuity is preserved formalizes Bertin's codification of how the topology of observations matches the class of representation (i.e. point , line, area) \cite{bertinSemiologyGraphicsDiagrams2011} and Wilkinson's assertion that connectivity must be preserved \cite{wilkinsonGrammarGraphics2005}. Unlike Wilkinson's
 
-\begin{definition}
-  A function $f$ is a $homeomorphism$ if it is bijective, continuous, and has a continuous inverse function $f^{-1}$.
-\end{definition}
+To encode topology and field structure in a way that is both uniform and generalizable, we extend Butler's work on using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. This allows us to use homeomorphism as the basis of equivalence, unlike Wilkinson \cite{wilkinsonGrammarGraphics2005}, because fiber bundles support planer geographic maps. Using this topological model of indexing, semantic indexing as described by Munzner's key-value model of data structure \cite{munznerWhatDataAbstraction2014} act as different ways of partitioning the underlying data continuity. For example, the data cube in \autoref{fig:related-work:continuity:ktypes} could be subset into sets of timeseries where the key would be $station$, or subset into maps where the key would be $date$, or subset into station records where the keys are $(date, latitude, longitude)$. Using a topological model rather than semantic indexing also makes clearer when different labeling schemes refer to the same point, for example how 0-360 and 180E-180W are two ways of labeling longitude or how (date, lat, lon) and (date, station) refer to the same point. This is in contrast to Wilkinson modeling the continuity as metric spaces \cite{wilkinsonGrammarGraphics2005}such that a distance function is a fixed property of the continuity; in our model it distance is a property of a field over that continuity.
 
-The bar plot, line plot, and heatmap in \autoref{fig:related-work:continuity:ktypes} have a homeomorphic relationship to the 0D ($\bullet$) points, 1D (--) linear, and 2D ($\blacksquare$) surface continuities embedded in the continuous 3 dimensional surface encapsulating time and position because each point of the visualization maps back into a point in its corresponding indexing space in the cube. Using homeomorphism to test whether continuity is preserved formalizes Bertin's codification of how the topology of observations matches the class of representation (i.e. point , line, area) \cite{bertinSemiologyGraphicsDiagrams2011} and Wilkinson's assertion that connectivity must be preserved \cite{wilkinsonGrammarGraphics2005}.
 
-To encode topology and field structure in a way that is both uniform and generalizable, we extend Butler's work on using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. Using this topological model of indexing, semantic indexing as described by Munzner's key-value model of data structure \cite{munznerWhatDataAbstraction2014} act as different ways of partitioning the underlying data continuity. For example, the data cube in \autoref{fig:related-work:continuity:ktypes} could be subset into sets of timeseries where the key would be $station$, or subset into maps where the key would be $date$, or subset into station records where the keys are $(date, latitude, longitude)$. Using a topological model rather than semantic indexing also makes clearer when different labeling schemes refer to the same point, for example how 0-360 and 180E-180W are two ways of labeling longitude or how (date, lat, lon) and (date, station) refer to the same point. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but Butler provides a thorough introduction to bundles for visualization practitioners.
+
+We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but Butler provides a thorough introduction to bundles for visualization practitioners.
 
 
 \subsection{Structure Preservation In Software}
@@ -229,98 +184,16 @@ which can then be checked by visualization algorithms to ensure that the assumpt
 
 \subsection{Abstract Data Representation}
 \label{sec:atct:fiber-bundles}
-We model data using a mathematical representation of data that can encode topological properties, field types, and data values in a uniform manner using a structure from algebraic topology called a fiber bundle. We extend Butler's proposal of using bundles as an abstraction for visualization data\cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989} by incorporating Spivak's methodology for encoding named data types from his fiber bundle representation of relational databases \cite{spivakDatabasesAreCategories2010,spivakSimplicialDatabases2009}. We build on this work to describe how to encode the connectivity of the data as a topological \textcolor{base}{base space} modeling the data indexing space, encode the fields as a \textcolor{fiber}{fiber space} that acts as the data schema (domain), and express the mappings between these two spaces as \textcolor{section}{section} functions that encode datasets as mappings from indexing space to field space \texttt{dataset: topology $\rightarrow$ fields}.
-
-\begin{definition}\label{def:fiber_bundle}
-   A \textbf{fiber bundle} $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and  bundle projection map $\pi: \dtotalc \rightarrow \dbasec$ \cite{spanier1989algebraic}.
-
-   \begin{equation} \label{eq:atct:fb:intro}
-    \begin{tikzcd}
-      \dfiberc \arrow[r, hook, color=total] & \dtotalc \arrow[r, "\pi", color=total, two heads] & \dbasec
-      \end{tikzcd}
-    \end{equation}
-
-A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
-\begin{enumerate}
-  \item all fibers in the bundle are isomorphic. Since all fibers are isomorphic $\dfiber \cong \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \dbase$, there is a uniquely determined \textcolor{fiber}{fiber space} \dfiberc\ given by the preimage of the projection $\pi$ at any point $\dbasepoint$ in the \textcolor{base}{base space} \dbasec: $\dfiberc = \pi^{-1}(k)$.
-  \item each point $\dbasepointc$ in the \textcolor{base}{base space} \dbasec\ has an open neighborhood $\openset_{\dbasepointc}$ such that the \textcolor{total}{total space} \dtotalc\ over the neighborhood is locally trivial.
-\end{enumerate}
-\end{definition}
-
-\textbf{Local triviality} means $\dtotal\vert_{\openset} = \openset\times \dfiber$. In this paper we use $\dtotal\vert_{\openset} = \pi^{-1}(\openset)$ to denote the preimage of an openset\footnote{Open sets (open subsets) are a generalization of open intervals to n dimensional spaces. For example, an open ball is the set of points inside the ball and excludes points on the surface of the ball. \cite{weissteinOpenSet,bradleyTopologyVsTopology}}, and a \textbf{local trivialization} is a specific choice of neighborhoods (described in \autoref{sec:atct:fb:base}) and their preimages such that the fibers in each preimage are identical $\dfiber = \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \openset$. All fiber bundles can be decomposed into sets of local trivializations that are also bundles and we can specify a gluing scheme that reconstructs the fiber bundle from locally trivial pieces by specifying\textbf{transition maps} for all overlaps of the local trivializations; therefore, while the framework in this paper applies to all bundles, in this paper we assume that the bundles are trivial bundles $\dtotal = \dbase \times \dfiber$ so that we can assign all fibers in a bundle the same type. For an example of trivial and non-trivial bundles, see \autoref{sec:appendix:bundle_triviality}.
-
-\begin{minipage}{.5\columnwidth}
-\begin{definition}\label{def:fiber_bundle:section}
-A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotalc$ over a fiber bundle is a smooth right inverse of $\pi(\dsection(\dbasepoint)) = \dbasepoint$ for all $\dbasepoint \in \dbase$
-\end{definition}
-\end{minipage}
-\begin{minipage}{.4\columnwidth}
-  \begin{equation} \label{eq:atct:fb:intro-sec}
-    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
-     \dfiberc
-      \arrow[r, hook, color=total] \&
-      \dtotalc
-      \arrow[d, "\pi"',color=total, two heads] \\
-       \&
-    \dbasec
-       \arrow[u, "\dsectionc"', bend right, pos=.5, color=section, dashed]
-    \end{tikzcd}
-  \end{equation}
-\end{minipage}
-
-We propose that the total space of a bundle can encode the mathematical space in which a  dataset is embedded, the base space can encode the topological properties of the dataset, the fiber space can encode the data types of the fields of the dataset, and that the datasets can be encoded as section functions from the continuity to the fiber space.
-
-\begin{figure}[!h]
-       \includegraphics[width=1\columnwidth]{fb.pdf}
-       \caption{The space of all data values encoded by this fiber bundle can be modeled as a \textcolor{total}{rectangle} total space. Each dataset in this data space lies along the interval \textcolor{base}{$[0,2\pi]$} base space. Each dataset has values along the \textcolor{fiber}{$-1 \rightarrow 1$} interval fiber. One dataset embedded in this total space is the \textcolor{section}{sin} section over the bundle.}\label{fig:atct:fb}
-  \end{figure}
-
-
-For example, the fiber bundle in \autoref{fig:atct:fb} encodes the space of all continuous functions that have a domain of $[0, 2\pi]$ and range $[0,1]$. Using a fiber bundle abstraction encodes that the dataset has a 1D linear continuity as the base space \dbase is the interval $[0,2\pi]$ and a field type that is a \texttt{float} in the range $[0,1]$. Therefore the type signature of the datasets in this fiber bundle, which is called a section \dsection, would be \texttt{dataset: $[0, 2\pi] \rightarrow [0,1]$}. One such dataset (section) is the $\sin$ function, which as shown in \autoref{fig:atct:fb} is defined via a function \dsection from a point in the base space to a corresponding point in the fiber. Evaluating the section function over the entire base space yields the $\sin$ curve that is composed of points intersecting each fiber over the corresponding point. The local trivializations shown in \autoref{fig:atct:fb} are one way of decomposing the total bundle and conversely the bundle can be constructed from the local trivializations $\dbase = \dbase_{0} \oplus \dbase_{1}$. As shown, the section $\sin$ spans the trivializations in the same manner that it spans the bundle; this is analogous to how a dataset may span multiple tables or be collected in one table. The trivializations are glued together into the bundle at the overlapping region $\frac{2\pi}{5}$ by defining the transition map $\dfiber_{1} \rightarrow \dfiber_{2}$. Because the fibers in \autoref{fig:atct:fb} at $\frac{2\pi}{5}$ are aligned, the transition map is an identity map that take every value in $\dfiber_1$ and maps it to the same value in $\dfiber_2$ so that the sections, such as $\sin$, remain continuous.
-
+We model data using a mathematical representation of data that can encode topological properties, field types, and data values in a uniform manner using a structure from algebraic topology called a fiber bundle.  We extend Butler's proposal of using bundles as an abstraction for visualization data\cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989} by incorporating Spivak's methodology for encoding named data types from his fiber bundle representation of relational databases \cite{spivakDatabasesAreCategories2010,spivakSimplicialDatabases2009}. A \textbf{fiber bundle} $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and bundle projection map $\pi: \dtotalc \rightarrow \dbasec$ \cite{spanier1989algebraic}. We build on this work to describe how to encode the connectivity of the data as a topological \textcolor{base}{base space} \dtotalc\ modeling the data indexing space, encode the fields as a \textcolor{fiber}{fiber space} \dfiberc\ that acts as the data schema (domain), and express the mappings between these two spaces as \textcolor{section}{section} \dsectionc\ functions that encode datasets as mappings from indexing space to field space \texttt{dataset: topology $\rightarrow$ fields}.
 
 \subsubsection{\textcolor{base}{Topological Structure: Base Space \dbase}}
 \label{sec:atct:fb:base}
 
 We encode the topological structure of the data as the \textcolor{base}{base space} of a fiber bundle. Describing connectivity using the language of topology allows for describing individual elements in a way that holds true whether the data fits in memory, is distributed, or is streaming. This is because, informally, a topology $\mathcal{T}$ on the underlying data indexing space (which is a proxy for the continuity), is a partitioning of that space such that the partitions are of the same mathematical type as each other and the partitioned space. The partitions must also be composable in a continuity and property preserving way.
 
-There are various equivalent definitions of topology, but here we use the neighborhood axiomatization because it is most analogous to the data access model of index (element) in subset (neighborhood) of all indices (mathematical space). Given a set $X$ and a function $\mathcal{N}:X\to 2^{2^X}$ that assigns to any $x\in X$ a non-empty collection of subsets $\mathcal{N}(x)$, where each element of $\mathcal{N}(x)$ is a \emph{neighborhood of $x$}, then $X$ with  $\mathcal{N}$ is a \textcolor{base}{topological space} and $\mathcal{N}$ is a neighborhood \emph{topology} if for each $x$ in $X$: \cite{brownronaldTopologyGroupoids2006}
+There are various equivalent definitions of topology, but here we use the neighborhood axiomatization because it is most analogous to the data access model of index (element) in subset (neighborhood) of all indices (mathematical space). Roughly, a neighborhood of an element $x$ has to contain $x$ (1), can grow (2), or shrink (3), and every neighborhood also contains smaller neighborhoods of points adjacent to x (4). For example, in the indexing cube in \autoref{fig:fig:related-work:continuity:ktypes}, the brown surface and blue rectangle are both neighborhoods of the index for the measurement in Albany on June 09. The blue rectangle is also a neighborhood of the index for the measurement in Albany on March 09. The indexing cube is a neighborhood for both of these indices. While \autoref{def:topology} applies broadly to topological spaces, in this paper we usually model the indexing space as CW-complexes. CW-complexes are a class of topological spaces built by gluing together n-dimensional balls (which include points, intervals, filled circles, filled spheres, etc.) using continuous attaching maps. Because the base space of a fiber bundle is a quotient topology\cite{munkresElementsAlgebraicTopology1984}, it divides the topological space into the largest number of open sets such that $\pi$ remains a continuous function. This means that the topology can be defined to have a resolution equal to the number of indices in a dataset such that the key (continuity)-value (data) pairing is always preserved.
 
-\begin{definition}\label{def:topology}
-\begin{enumerate}
-  \item if $N$ is a neighborhood $N \in \mathcal{N}(x)$ of $x$ then $x \in N$
-  \item every superset of a neighborhood of $x$ is a neighborhood of $x$; therefore a union of a neighborhood and adjacent points in $X$ is also a neighborhood of $x$
-  \item the intersection of any two neighborhoods of $x$ is a neighborhood of $x$
-  \item any neighborhood $N$ of $x$ contains a neighborhood $M \subset N$ of $x$ such that $N$ is a neighborhood of each of the points in $M$
-\end{enumerate}
-\end{definition}
-
-Therefore a neighborhood has to contain $x$ (1), can grow (2), or shrink (3), and every neighborhood also contains smaller neighborhoods of points adjacent to x (4). For example, in the indexing cube in \autoref{fig:fig:related-work:continuity:ktypes}, the brown surface and blue rectangle are both neighborhoods of the index for the measurement in Albany on June 09. The blue rectangle is also a neighborhood of the index for the measurement in Albany on March 09. The indexing cube is a neighborhood for both of these indices. While \autoref{def:topology} applies broadly to topological spaces, in this paper we usually model the indexing space as CW-complexes. CW-complexes are a class of topological spaces built by gluing together n-dimensional balls (which include points, intervals, filled circles, filled spheres, etc.) using continuous attaching maps. Because the base space of a fiber bundle is a quotient topology\cite{munkresElementsAlgebraicTopology1984}, it divides the topological space into the largest number of open sets such that $\pi$ remains a continuous function. This means that the topology can be defined to have a resolution equal to the number of indices in a dataset such that the key (continuity)-value (data) pairing is always preserved.
-
-Following from Spivak's categorical abstraction of a database \cite{spivakSimplicialDatabases2009,spivakDatabasesAreCategories2010}, we also propose that the structure of the data types be formally specified as the objects of a category.
-
-\begin{definition}\label{def:atct:category}
-   An \textbf{category} $\mathcal{C}$ consists of the following \textit{data}:
-\begin{enumerate}
-  \item a collection of \textit{objects} $X \in \textbf{ob}(\mathcal{C})$
-  \item for every pair of objects $X, Y \in \textbf{ob}(\mathcal{C})$, a set of \textit{morphisms} $X \xrightarrow{f} Y \in Hom_{\mathcal{C}}(X, Y)$
-  \item for every object $X$, a distinct \textit{identity morphism} $X \xrightarrow {id_x} X$ in $Hom_{\mathcal{C}}(X, X)$
-  \item a \textit{composition function} $f \in Hom_{\mathcal{C}}(X, Y) \times  g \in Hom_{\mathcal{C}}(Y, Z) \rightarrow g \circ f \in Hom_{\mathcal{C}}(X, Z)$
-\end{enumerate}
-such that
-\begin{enumerate}
-  \item \textit{unitality:} for every morphism $ X \xrightarrow{f} Y$, $f \circ id_x = f = id_y \circ f$
-  \item \textit{associativity:} if any three morphisms $f, g, h$ are composable,
-    \begin{equation*}
-      \begin{tikzcd}
-        X \arrow[r, "f"] \arrow[rrr, "h\circ(g\circ f) = (h\circ g)\circ f"', bend right, dashed] & Y  \arrow[r, "g"] & Z \arrow[r, "h"] & W
-        \end{tikzcd}
-  \end{equation*}
-  then they are associative such that $h\circ(g\circ f) = (h \circ g) \circ f$  \cite{lawvere2009conceptual,riehlCategoryTheoryContext,maclaneCategoriesWorkingMathematician2013,fongInvitationAppliedCategory2019}.
-  \end{enumerate}
-\end{definition}
-
-The standard construction of a category from a topological space is that it has open set objects $\opensetc$ and morphisms $\opensetc_i \xrightarrow{\hat{\phi}} \opensetc_j$\cite{riehlCategoryTheoryContext}.
+Following from Spivak's categorical abstraction of a database \cite{spivakSimplicialDatabases2009,spivakDatabasesAreCategories2010}, we also propose that the structure of the data types be formally specified as the objects of a category. The standard construction of a category from a topological space is that it has open set objects $\opensetc$ and morphisms $\opensetc_i \xrightarrow{\hat{\phi}} \opensetc_j$\cite{riehlCategoryTheoryContext}.
 
 \note{move $\hat{\phi}$ here}
 
@@ -1236,7 +1109,20 @@ The toy example presented in \autoref{sec:discussion} demonstrates that it is re
 These new components are also compatible with the existing library architecture, allowing for a slow iterative transition to components built using this framework.
 The framework introduced in this paper is a marriage of the ways the graphic and data visualization communities approach visualization. The graphic community prioritizes \note{?} how input is translated to output, which is encapsulated in the artist $\vartist$. The data visualization community prioritizes the manner in which that input is encoded, which is encapsulated in the separation of stages $\vmark \circ \vchannel$. Formalizing that both views are equivalent $\vartist=\vmark \circ \vchannel$ gives library developers the flexibility to build visualization components in the manner that makes more sense for the domain without having to sacrifice the equivariance of the translation.
 
+\section*{Supplemental Materials}
+\label{sec:supplemental_materials}
+
+Refer to the instructions for this section (\cref{sec:supplement_inst}).
+Below is an example you can follow that includes the actual supplemental material for this template:
+
+All supplemental materials are available on OSF at \url{https://doi.org/10.17605/OSF.IO/2NBSG}, released under a CC BY 4.0 license.
+In particular, they include (1) Excel files containing the data for and analyses for creating \cref{tab:vis_papers} and \cref{fig:vis_papers}, (2) figure images in multiple formats, and (3) a full version of this paper with all appendices.
+Our other code is intellectual property of a corporation---Starbucks Research---and there is no feasible way to share it publicly.
+
+
+
 \appendices
+
 
 \section{Summary}
 \label{sec:appndix:summary}
@@ -1406,23 +1292,6 @@ The topological spaces and functions introduced throughout this paper are summar
 }
 \end{table}
 
-\section{Trivial and non-trivial bundles}
-\label{sec:appendix:bundle_triviality}
-
-Generally, the distinguishing factor between a trivial bundle and a non-trivial bundle are how they are decomposed into local trivializations:
-\begin{LaTeXdescription}
-  \item[\textit{trivial bundle}] is directly isomorphic to $\dbasec\times\dfiberc$. For any choice of cover of $\dbasec$ by overlapping opensets, we can choose local trivializations such that all transition maps are identity maps.
-  \item[\textit{non-trivial bundle}] can not be constructed as $\dbasec\times\dfiberc$. For any choice of local trivializations, there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}.
-\end{LaTeXdescription}
-
-
-\begin{figure}[H]
-  \includegraphics[width=1\columnwidth]{transition_maps.pdf}
-  \caption{The cylinder is a trivial fiber bundle; therefore it can be decomposed into local trivializations that only need identity
-  maps to glue the trivializations together. The mobius band is a non-trivial bundle; therefore it can only be decomposed into trivializations where at least one transition map is not an identity map. }\label{fig:cyl_mob_bundles}
-\end{figure}
-
-In the example in Figure~\ref{fig:cyl_mob_bundles}, we use arrows $\uparrow$ to denote fiber alignments. In the cylinder case the fibers all point in the same direction, which illustrates that they are equal $\uparrow=\uparrow$. In the Möbius band case, while the fibers in an arbitrary local trivialization are equal $\uparrow=\uparrow$, the fibers at the twist are unequal but isomorphic $\uparrow \cong \downarrow$. The cylinder and mobius band can be decomposed to the same local trivializations, for example the fiber bundles in \autoref{fig:atct:fb} In the cylinder case, the fibers in the overlapping regions of the trivializations are equal $\dfiber_0\restriction_{\openset_1\cap\openset_2} = \dfiber_{1}\restriction_{\openset_1\cap\openset_2}$; therefore the transition maps at both intersections map the values in the fiber to themselves $\delement\rightarrow\delement$ . In the Möbius band case, while $\dfiber_0\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}\to\dfiber_1\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}$ can be chosen to be an identity map, the other transition map component $\dfiber_0\restriction_{(-\varepsilon,\varepsilon)}\to\dfiber_1\restriction_{(-\varepsilon,\varepsilon)}$ has to flip any section values. For example given  $\dfiber_{0}=\uparrow$ and $\dfiber_{1}=\downarrow$, the transition map $\delement \mapsto -\delement$ maps each point from one fiber to the other $\uparrow \mapsto \downarrow$ such that any sections remain continuous even though the fibers point in opposite directions.
 
 
 \section{Internal Library Specification}
@@ -1495,49 +1364,6 @@ This project has been made possible in part by grant number 2019-207333 and \not
 %\IEEEtriggercmd{\enlargethispage{-5in}}
 
 % references section
-
-\printbibliography
-
-% biography section
-% If you have an EPS/PDF photo (graphicx package needed) extra braces are
-% needed around the contents of the optional argument to biography to prevent
-% the LaTeX parser from getting confused when it sees the complicated
-% \includegraphics command within an optional argument. (You could create
-% your own custom macro containing the \includegraphics command to make things
-% simpler here.)
-%\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
-% or if you just want to reserve a space for a photo:
-
-%\begin{IEEEbiography}{Michael Shell}
-%\end{IEEEbiography}
-
-% if you will not have a photo at all:
-\begin{IEEEbiographynophoto}{Hannah Aizenman}
-Biography text here.
-\end{IEEEbiographynophoto}
-
-\begin{IEEEbiographynophoto}{Thomas Caswell}
-  Biography text here.
-\end{IEEEbiographynophoto}
-% insert where needed to balance the two columns on the last page with
-% biographies
-%\newpage
-
-\begin{IEEEbiographynophoto}{Michael Grossberg}
-Biography text here.
-\end{IEEEbiographynophoto}
-
-% You can push biographies down or up by placing
-% a \vfill before or after them. The appropriate
-% use of \vfill depends on what kind of text is
-% on the last page and whether or not the columns
-% are being equalized.
-
-%\vfill
-
-% Can be used to pull up biographies so that the bottom of the last one
-% is flush with the other column.
-%\enlargethispage{-5in}
-
-% that's all folks
+\bibliographystyle{abbrv-doi}
+\bibliography{references}
 \end{document}
