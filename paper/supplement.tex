@@ -1,0 +1,268 @@
+\documentclass[review]{vgtc}
+
+% *** MISC UTILITY PACKAGES ***
+
+\newcommand{\note}[1]{\textcolor{magenta}{#1}}
+
+%\usepackage{silence}
+%\WarningsOff[fixltx2e]
+
+\usepackage[switch]{lineno}
+\renewcommand{\linenumberfont}{\normalfont\bfseries\small\color{lightgray}}
+
+% *** GRAPHICS RELATED PACKAGES ***
+\usepackage{graphicx}
+\graphicspath{{./figures/}}
+
+% *** MATH PACKAGES ***
+%% with other math-related packages, you may want to disable it.
+\usepackage{amsmath, amsthm, amsfonts,amssymb,eulervm,xspace, mathtools}
+\usepackage{relsize} %bigger
+\usepackage{bm}
+
+% theorem environments
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newcommand{\definitionautorefname}{Definition}
+\theoremstyle{remark}
+\newtheorem{example}{Example}[section]
+\newtheorem{axiom}{Axiom}
+\newtheorem{prop}{Proposition}
+
+% *** diagrams
+\usepackage{tikz}
+\usetikzlibrary{cd}
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+\usepackage{xcolor}
+\usepackage[utf8]{inputenc}
+
+\usepackage[]{minted}
+\setminted[python]{fontsize=\scriptsize,
+                   linenos,
+                   numbersep=8pt,
+                   frame=lines,
+                   autogobble,
+                   framesep=3mm,
+                   breaklines=True}
+% *** ALIGNMENT PACKAGES ***
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{tabulary}
+\usepackage{tabularray}
+
+
+% Fonts
+\usepackage{times}                     % we use Times as the main font
+\renewcommand*\ttdefault{txtt}         % a nicer typewriter font
+\usepackage{stmaryrd}%maps from
+\renewcommand{\restriction}{\mathord{\upharpoonright}} %restriction w/p space
+\usepackage{mathrsfs} % math script fonts
+\usepackage{mathptmx}
+
+% *** SUBFIGURE PACKAGES ***
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+
+% *** FLOAT PACKAGES ***
+\usepackage{dblfloatfix}
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+\usepackage{xurl}
+
+% *** BIBLIOGRAPHY ***
+\usepackage[]{footmisc}
+
+\usepackage[inline]{showlabels}
+
+\usepackage{notation} %notation conventions
+% correct bad hyphenation here
+%\hyphenation{}
+
+\onlineid{0}
+
+%% declare the category of your paper, only shown in review mode
+\vgtccategory{Research}
+
+%% allow for this line if you want the electronic option to work properly
+\vgtcinsertpkg
+\title{Supplemental Materials: Math Glossary}
+
+\begin{document}
+
+\firstsection{Structure preservation}
+\maketitle
+
+\subsection{Actions}
+ Loosely we define structure as a mathematical space $X$ and the actions on that space
+
+
+\begin{definition}\label{def:related-work:action}\cite{grimaldiDiscreteCombinatorialMathematics2006}
+  An \textcolor{action}{\textbf{action}} of \textcolor{action}{$G = (G,\circ, e)$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
+\end{definition}
+
+Elements of $X$ can be from one data field or all of them or some subset; similarly the actions act on
+the elements of $X$ and each action can be a composition of actions.
+
+\subsection{Equivariance}
+A mathematical {group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative, and invertible, consisting of a set of values $X$ and \textcolor{action}{actions} on the set {$G = (G,\circ, e)$}.
+\begin{figure}
+  \includegraphics*[width=1\columnwidth]{equivariant.pdf}
+  \caption{Encoding data as the bar height using an exponential transform is not equivariant because encoding the data and then scaling the bar heights yields a much taller graph then scaling the data and then encoding those heights using the same exponential transform function.}
+  \label{fig:related-work:equivariance}
+\end{figure}
+
+ Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
+
+\begin{definition}\label{def:equivariance}
+ A function $f$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
+\end{definition}
+which means that
+ As illustrated in the commutative diagram in \autoref{fig:related-work:equivariance}, what this means is that the visual representation is consistent whether the data is scaled and then mapped to a graphic or whether the data is mapped to a graphic that is then modified in a compatible way.
+
+\subsection{Homomorphism}
+
+\begin{figure}
+  \includegraphics[width=1\columnwidth]{homomorphism.pdf}
+  \caption{Encoding data as bar height using an inverse transform is not homomorphic because the largest number is mapped to the smallest bar while the max function returns the largest bar.}
+  \label{fig:related-work:homomorphism}
+\end{figure}
+
+Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$
+
+\begin{definition}\label{def:homomorphism}
+  A function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identities $f(I_x) = I_y$ all $x, y \in X$ \cite{grimaldiDiscreteCombinatorialMathematics2006}
+\end{definition}
+
+which means that the operators $\circ$ and $*$ are compatible. In \autoref{fig:related-work:homomorphism}, the $\geq$ operator is defined as the compatible closed functions \texttt{max} and the inverse transform
+is not homomorphic because it does not encode the maximum data value as the maximum bar value.
+
+\subsection{Topology and Homeomorphism}
+
+We encode the continuity of the datasets using their topological structure, specifically using the neighborhood definition:
+
+ Given a set $X$ and a function $\mathcal{N}:X\to 2^{2^X}$ that assigns to any $x\in X$ a non-empty collection of subsets $\mathcal{N}(x)$, where each element of $\mathcal{N}(x)$ is a \emph{neighborhood of $x$}, then $X$ with  $\mathcal{N}$ is a \textcolor{base}{topological space} and $\mathcal{N}$ is a neighborhood \emph{topology} if for each $x$ in $X$: \cite{brownronaldTopologyGroupoids2006}
+
+\begin{definition}\label{def:topology}
+\begin{enumerate}
+  \item if $N$ is a neighborhood $N \in \mathcal{N}(x)$ of $x$ then $x \in N$
+  \item every superset of a neighborhood of $x$ is a neighborhood of $x$; therefore a union of a neighborhood and adjacent points in $X$ is also a neighborhood of $x$
+  \item the intersection of any two neighborhoods of $x$ is a neighborhood of $x$
+  \item any neighborhood $N$ of $x$ contains a neighborhood $M \subset N$ of $x$ such that $N$ is a neighborhood of each of the points in $M$
+\end{enumerate}
+\end{definition}
+
+We then use this topological structure as the basis of claiming topological equivalence between a data and a graphic if there exists a homeomorphic map between the continuities of the data and graphic:
+
+\begin{definition}
+  A function $f$ is a $homeomorphism$ if it is bijective, continuous, and has a continuous inverse function $f^{-1}$.
+\end{definition}
+
+
+\section{Fiber Bundles}
+
+
+\begin{definition}\label{def:fiber_bundle}
+   A \textbf{fiber bundle} $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and  bundle projection map $\pi: \dtotalc \rightarrow \dbasec$ \cite{spanier1989algebraic}.
+
+   \begin{equation} \label{eq:atct:fb:intro}
+    \begin{tikzcd}
+      \dfiberc \arrow[r, hook, color=total] & \dtotalc \arrow[r, "\pi", color=total, two heads] & \dbasec
+      \end{tikzcd}
+    \end{equation}
+
+A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
+\begin{enumerate}
+  \item all fibers in the bundle are isomorphic. Since all fibers are isomorphic $\dfiber \cong \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \dbase$, there is a uniquely determined \textcolor{fiber}{fiber space} \dfiberc\ given by the preimage of the projection $\pi$ at any point $\dbasepoint$ in the \textcolor{base}{base space} \dbasec: $\dfiberc = \pi^{-1}(k)$.
+  \item each point $\dbasepointc$ in the \textcolor{base}{base space} \dbasec\ has an open neighborhood $\openset_{\dbasepointc}$ such that the \textcolor{total}{total space} \dtotalc\ over the neighborhood is locally trivial.
+\end{enumerate}
+\end{definition}
+
+\textbf{Local triviality} means $\dtotal\vert_{\openset} = \openset\times \dfiber$. In this paper we use $\dtotal\vert_{\openset} = \pi^{-1}(\openset)$ to denote the preimage of an openset\footnote{Open sets (open subsets) are a generalization of open intervals to n dimensional spaces. For example, an open ball is the set of points inside the ball and excludes points on the surface of the ball. \cite{weissteinOpenSet,bradleyTopologyVsTopology}}, and a \textbf{local trivialization} is a specific choice of neighborhoods (described in \autoref{sec:atct:fb:base}) and their preimages such that the fibers in each preimage are identical $\dfiber = \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \openset$. All fiber bundles can be decomposed into sets of local trivializations that are also bundles and we can specify a gluing scheme that reconstructs the fiber bundle from locally trivial pieces by specifying\textbf{transition maps} for all overlaps of the local trivializations; therefore, while the framework in this paper applies to all bundles, in this paper we assume that the bundles are trivial bundles $\dtotal = \dbase \times \dfiber$ so that we can assign all fibers in a bundle the same type.
+
+\begin{minipage}{.5\columnwidth}
+\begin{definition}\label{def:fiber_bundle:section}
+A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotalc$ over a fiber bundle is a smooth right inverse of $\pi(\dsection(\dbasepoint)) = \dbasepoint$ for all $\dbasepoint \in \dbase$
+\end{definition}
+\end{minipage}
+\begin{minipage}{.4\columnwidth}
+  \begin{equation} \label{eq:atct:fb:intro-sec}
+    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+     \dfiberc
+      \arrow[r, hook, color=total] \&
+      \dtotalc
+      \arrow[d, "\pi"',color=total, two heads] \\
+       \&
+    \dbasec
+       \arrow[u, "\dsectionc"', bend right, pos=.5, color=section, dashed]
+    \end{tikzcd}
+  \end{equation}
+\end{minipage}
+
+We propose that the total space of a bundle can encode the mathematical space in which a  dataset is embedded, the base space can encode the topological properties of the dataset, the fiber space can encode the data types of the fields of the dataset, and that the datasets can be encoded as section functions from the continuity to the fiber space.
+
+\begin{figure}[!h]
+       \includegraphics[width=1\columnwidth]{fb.pdf}
+       \caption{The space of all data values encoded by this fiber bundle can be modeled as a \textcolor{total}{rectangle} total space. Each dataset in this data space lies along the interval \textcolor{base}{$[0,2\pi]$} base space. Each dataset has values along the \textcolor{fiber}{$-1 \rightarrow 1$} interval fiber. One dataset embedded in this total space is the \textcolor{section}{sin} section over the bundle.}\label{fig:atct:fb}
+  \end{figure}
+
+
+For example, the fiber bundle in \autoref{fig:atct:fb} encodes the space of all continuous functions that have a domain of $[0, 2\pi]$ and range $[0,1]$. Using a fiber bundle abstraction encodes that the dataset has a 1D linear continuity as the base space \dbase is the interval $[0,2\pi]$ and a field type that is a \texttt{float} in the range $[0,1]$. Therefore the type signature of the datasets in this fiber bundle, which is called a section \dsection, would be \texttt{dataset: $[0, 2\pi] \rightarrow [0,1]$}. One such dataset (section) is the $\sin$ function, which as shown in \autoref{fig:atct:fb} is defined via a function \dsection from a point in the base space to a corresponding point in the fiber. Evaluating the section function over the entire base space yields the $\sin$ curve that is composed of points intersecting each fiber over the corresponding point. The local trivializations shown in \autoref{fig:atct:fb} are one way of decomposing the total bundle and conversely the bundle can be constructed from the local trivializations $\dbase = \dbase_{0} \oplus \dbase_{1}$. As shown, the section $\sin$ spans the trivializations in the same manner that it spans the bundle; this is analogous to how a dataset may span multiple tables or be collected in one table. The trivializations are glued together into the bundle at the overlapping region $\frac{2\pi}{5}$ by defining the transition map $\dfiber_{1} \rightarrow \dfiber_{2}$. Because the fibers in \autoref{fig:atct:fb} at $\frac{2\pi}{5}$ are aligned, the transition map is an identity map that take every value in $\dfiber_1$ and maps it to the same value in $\dfiber_2$ so that the sections, such as $\sin$, remain continuous.
+
+
+\subsection{Trivial and non-trivial bundles}
+\label{sec:appendix:bundle_triviality}
+
+Generally, the distinguishing factor between a trivial bundle and a non-trivial bundle are how they are decomposed into local trivializations:
+\begin{LaTeXdescription}
+  \item[\textit{trivial bundle}] is directly isomorphic to $\dbasec\times\dfiberc$. For any choice of cover of $\dbasec$ by overlapping opensets, we can choose local trivializations such that all transition maps are identity maps.
+  \item[\textit{non-trivial bundle}] can not be constructed as $\dbasec\times\dfiberc$. For any choice of local trivializations, there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}.
+\end{LaTeXdescription}
+
+
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{transition_maps.pdf}
+  \caption{The cylinder is a trivial fiber bundle; therefore it can be decomposed into local trivializations that only need identity
+  maps to glue the trivializations together. The mobius band is a non-trivial bundle; therefore it can only be decomposed into trivializations where at least one transition map is not an identity map. }\label{fig:cyl_mob_bundles}
+\end{figure}
+
+In the example in Figure~\ref{fig:cyl_mob_bundles}, we use arrows $\uparrow$ to denote fiber alignments. In the cylinder case the fibers all point in the same direction, which illustrates that they are equal $\uparrow=\uparrow$. In the Möbius band case, while the fibers in an arbitrary local trivialization are equal $\uparrow=\uparrow$, the fibers at the twist are unequal but isomorphic $\uparrow \cong \downarrow$. The cylinder and mobius band can be decomposed to the same local trivializations, for example the fiber bundles in \autoref{fig:atct:fb} In the cylinder case, the fibers in the overlapping regions of the trivializations are equal $\dfiber_0\restriction_{\openset_1\cap\openset_2} = \dfiber_{1}\restriction_{\openset_1\cap\openset_2}$; therefore the transition maps at both intersections map the values in the fiber to themselves $\delement\rightarrow\delement$ . In the Möbius band case, while $\dfiber_0\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}\to\dfiber_1\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}$ can be chosen to be an identity map, the other transition map component $\dfiber_0\restriction_{(-\varepsilon,\varepsilon)}\to\dfiber_1\restriction_{(-\varepsilon,\varepsilon)}$ has to flip any section values. For example given  $\dfiber_{0}=\uparrow$ and $\dfiber_{1}=\downarrow$, the transition map $\delement \mapsto -\delement$ maps each point from one fiber to the other $\uparrow \mapsto \downarrow$ such that any sections remain continuous even though the fibers point in opposite directions.
+
+
+\section{Categories}
+We propose that the various structures of the bundle (base space, fiber, total space) can also be encoded as categories:
+
+
+\begin{definition}\label{def:atct:category}
+   An \textbf{category} $\mathcal{C}$ consists of the following \textit{data}:
+\begin{enumerate}
+  \item a collection of \textit{objects} $X \in \textbf{ob}(\mathcal{C})$
+  \item for every pair of objects $X, Y \in \textbf{ob}(\mathcal{C})$, a set of \textit{morphisms} $X \xrightarrow{f} Y \in Hom_{\mathcal{C}}(X, Y)$
+  \item for every object $X$, a distinct \textit{identity morphism} $X \xrightarrow {id_x} X$ in $Hom_{\mathcal{C}}(X, X)$
+  \item a \textit{composition function} $f \in Hom_{\mathcal{C}}(X, Y) \times  g \in Hom_{\mathcal{C}}(Y, Z) \rightarrow g \circ f \in Hom_{\mathcal{C}}(X, Z)$
+\end{enumerate}
+such that
+\begin{enumerate}
+  \item \textit{unitality:} for every morphism $ X \xrightarrow{f} Y$, $f \circ id_x = f = id_y \circ f$
+  \item \textit{associativity:} if any three morphisms $f, g, h$ are composable,
+    \begin{equation*}
+      \begin{tikzcd}
+        X \arrow[r, "f"] \arrow[rrr, "h\circ(g\circ f) = (h\circ g)\circ f"', bend right, dashed] & Y  \arrow[r, "g"] & Z \arrow[r, "h"] & W
+        \end{tikzcd}
+  \end{equation*}
+  then they are associative such that $h\circ(g\circ f) = (h \circ g) \circ f$  \cite{lawvere2009conceptual,riehlCategoryTheoryContext,maclaneCategoriesWorkingMathematician2013,fongInvitationAppliedCategory2019}.
+  \end{enumerate}
+\end{definition}
+
+The composability property expresses that the morphism is transitive, while associativity expresses that the morphisms can be curried in various equivalent groupings. By formally specifying the properties of the topological structure data types as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects.
+
+
+\section{Presheaves And Sheafs}
+
+
+
+\bibliographystyle{abbrv-doi}
+\bibliography{references}
+
+\end{document}
