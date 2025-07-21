@@ -25,7 +25,7 @@ You introduction ends by stating that your method is improves on some other cite
             - [ ] " . Restricting ourselves to homeomorphic mappings would eliminate many useful charts, the most obvious being planar geographic maps" <- our framework doesn't need that restriction b/c the generalization to non-trivial bundles accounts for it
             - [ ] instead he embeds in a metric space/other - figure out if metric space distance functions are $\hat{phi}$ in a presheaf context
                 - maybe: https://arxiv.org/abs/1901.09077
-            - [ ] also we propose a lot of these are actually field variables and the distance function is a property of the field
+            - [ ] also we propose a lot (all?) of these are actually field variables and the distance function is a property of the field, put it next to the munzner key/value discussion?
 - [ ] "by providing a framework for translating the theoretical ideas into buildable components"
     - [ ] make clear that this is a contribution of this work but not the novelty
     - [ ] contextualize in terms of the software related work - topology independent (where as existing very structure driven)
@@ -66,12 +66,12 @@ I have many questions about the contents of Figure 3.
     - [ ] make each of them a definition in the respective sections
     - [ ] add a note about how subscripts are for the side {date, viz} the transform is on (and change hat subscripts to base space)
 - What does the prime in $K'$ and $S'$ refer to? Are there in fact supposed to be several of each kind of bundle around?
-    - [ ] make clear that these are base spaces and these shouldn't actually be K'/S' b/c they're the same type as K/still K (same w/ the little k/k')
+    -  [x] make clear that these are base spaces and these shouldn't actually be K'/S' b/c they're the same type as K/still K (same w/ the little k/k')
 - What is the rotation in the triangle supposed to illustrate, and in what way is the transformation of the visual on the right-hand side relate to $\phi$?
     - [ ] part of figure explaination - rotation on the base space/rotated figure
 
 - The caption of Figure 4 only explains a small fraction of what is happening in the diagram. In particular, it is unclear which side of the diagram is supposed to be "data" and which "visualization", both sides containing data (a table and a list of coordinates, respectively) and a visualization...
-    - [ ] add a human readable title to each quadrant: graphic at point, graphic, data, data at pixel
+    - [x] add a human readable title to each quadrant: graphic at point, graphic, data, data at pixel
 
 - [ ] I don't know what it means for a topology to be "equipped with operators", or what a "record" is, although I presume you are trying to say that your framework includes a way to extend the topological spaces involved when further data is added.
     - [ ] yes
