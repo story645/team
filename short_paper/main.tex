@@ -42,7 +42,7 @@
 \title{Topological Equivariant Artist Model}
 
 \author{
-Hanna Aizenman\thanks{e-mail: haizenman@gradcenter.cuny.edu} \\
+Hannah Aizenman\thanks{e-mail: haizenman@gradcenter.cuny.edu} \\
 \scriptsize{CUNY Graduate Center}
 \and
 Mikael Vejdemo-Johansson\thanks{e-mail: mvj@math.csi.cuny.edu} \\
@@ -59,9 +59,7 @@ Michael Grossberg\thanks{e-mail: mgrossberg@ccny.cuny.edu} \\
 %\keywords{TODO:list keywords}
 
 \abstract{
-    The contract data visualization tools make with their users is that a chart is a faithful and accurate visual representation of the numbers it is made from. Motivated by wanting to make better tools, we propose a methodology for fully specifying arbitrary data to visualization mappings in a manner that easily translates to code. We propose that fiber bundles provide a uniform interface for describing a variety of underlying data - tables, images, networks, etc. - in a manner that independently encodes the mathematical structure of the topology and the fields of the dataset. Modeling the data structures that store the datasets as sheaves provide a method for specifying visualization methods that are designed to work regardless of how the dataset is stored - whether the data is on disk, distributed, or on demand. Specifying the visualization library components as natural transforms of sheaves means that the constraints that the component must satisfy to be structure preserving can be specified as the set of morphisms on the data and graphic sheaves, including the structure on the topology and fields of the data.
-    Using category theory to formally express how visual elements are constructed means we can translate those expectations into code, which can then be used to enforce the expectation that a visualization tool is faithfully translating between numbers and charts.
-    The sheaf formalism is generic enough that with appropriate choices of a sheaf structure to replace the graphic sheaves, the same framework will work to model and specify non-visual modalities with identical underlying data representations, and structurally similar data to perception transformations.
+    The contract data visualization tools make with their users is that a chart is a faithful and accurate visual representation of the numbers it is made from. Motivated by wanting to make better tools, we propose a methodology for fully specifying arbitrary data to visualization mappings in a manner that easily translates to code and provides a consistent interface for accessibility tools to query for information about the state of the visualization. We propose that fiber bundles provide a uniform interface for describing a variety of underlying data - tables, images, networks, etc. - in a manner that independently encodes the mathematical structure of the topology and the fields of the dataset. Modeling the data structures that store the datasets as sheaves provide a method for specifying visualization methods that are designed to work regardless of how the dataset is stored - whether the data is on disk, distributed, or on demand. Specifying the visualization library components as natural transforms of sheaves means that the constraints that the component must satisfy to be structure preserving can be specified as the set of morphisms on the data and graphic sheaves, including the structure on the topology and fields of the data.  Using category theory to formally express how visual elements are constructed means we can translate those expectations into code, which can then be used to enforce the expectation that a visualization tool is faithfully translating between numbers and charts. The sheaf formalism is generic enough that with appropriate choices of a sheaf structure to replace the graphic sheaves, the same framework will work to model and specify non-visual modalities with identical underlying data representations, and structurally similar data to perception transformations.
 }
 
 \begin{document}

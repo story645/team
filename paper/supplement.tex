@@ -19,7 +19,9 @@
 \usepackage{amsmath, amsthm, amsfonts,amssymb,eulervm,xspace, mathtools}
 \usepackage{relsize} %bigger
 \usepackage{bm}
-
+\usepackage{stmaryrd}%maps from
+%\renewcommand{\restriction}{\mathord{\upharpoonright}} %restriction w/p space
+\usepackage{mathrsfs} % math script fonts
 % theorem environments
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
@@ -61,7 +63,8 @@
 \renewcommand{\restriction}{\mathord{\upharpoonright}} %restriction w/p space
 \usepackage{mathrsfs} % math script fonts
 \usepackage{mathptmx}
-
+\DeclareMathDelimiter{(}{\mathopen} {operators}{"28}{largesymbols}{"00}
+\DeclareMathDelimiter{)}{\mathclose}{operators}{"29}{largesymbols}{"01}
 % *** SUBFIGURE PACKAGES ***
 \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 
@@ -74,7 +77,7 @@
 % *** BIBLIOGRAPHY ***
 \usepackage[]{footmisc}
 
-\usepackage[inline]{showlabels}
+%\usepackage[inline]{showlabels} %show equation labels
 
 \usepackage{notation} %notation conventions
 % correct bad hyphenation here
@@ -90,59 +93,64 @@
 \title{Supplemental Materials: Math Glossary}
 
 \begin{document}
-
-\firstsection{Structure preservation}
 \maketitle
 
+\firstsection{Categories}
+\label{sec:category}
+\begin{definition}\label{def:atct:category}
+   An \textbf{category} $\mathcal{C}$ consists of the following \textit{data}:
+\begin{enumerate}
+  \item a collection of \textit{objects} $X \in \textbf{ob}(\mathcal{C})$
+  \item for every pair of objects $X, Y \in \textbf{ob}(\mathcal{C})$, a set of \textit{morphisms} $X \xrightarrow{f} Y \in Hom_{\mathcal{C}}(X, Y)$
+  \item for every object $X$, a distinct \textit{identity morphism} $X \xrightarrow {id_x} X$ in $Hom_{\mathcal{C}}(X, X)$
+  \item a \textit{composition function} $f \in Hom_{\mathcal{C}}(X, Y) \times  g \in Hom_{\mathcal{C}}(Y, Z) \rightarrow g \circ f \in Hom_{\mathcal{C}}(X, Z)$
+\end{enumerate}
+such that
+\begin{enumerate}
+  \item \textit{unitality:} for every morphism $ X \xrightarrow{f} Y$, $f \circ id_x = f = id_y \circ f$
+  \item \textit{associativity:} if any three morphisms $f, g, h$ are composable,
+    \begin{equation*}
+      \begin{tikzcd}
+        X \arrow[r, "f"] \arrow[rrr, "h\circ(g\circ f) = (h\circ g)\circ f"', bend right, dashed] & Y  \arrow[r, "g"] & Z \arrow[r, "h"] & W
+        \end{tikzcd}
+  \end{equation*}
+  then they are associative such that $h\circ(g\circ f) = (h \circ g) \circ f$  \cite{lawvere2009conceptual,riehlCategoryTheoryContext,maclaneCategoriesWorkingMathematician2013,fongInvitationAppliedCategory2019}.
+  \end{enumerate}
+\end{definition}
+
+The composability property expresses that the morphism is transitive, while associativity expresses that the morphisms can be curried in various equivalent groupings. By formally specifying the properties of the topological structure data types as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects.
+
+\subsection{Functor}
+\begin{definition}\cite{bradleyWhatFunctorDefinitions,bradleyTopologyCategoricalApproach2020} A \textbf{functor} is a map $F: \mathcal{C} \rightarrow \mathcal{D}$, which means it is a function between objects $F: \textbf{ob}(\mathcal{C}) \mapsto \textbf{ob}(\mathcal{D})$ and that for every morphism $f \in Hom(C_1, C_2)$  there is a corresponding function $F: Hom(C1, C2) \mapsto Hom(F(C_1), F( C_2))$.
+A \textbf{functor} must satisfy the properties
+\begin{itemize}
+  \item \textit{identity}: $F(id_{C}(C)) = id_{D}(F(C))$
+  \item \textit{composition}: $F(g)\circ F(f) = F(g\circ f)$ for any composable morphisms $C_{1}\xrightarrow{f} C_2$, $C_2 \xrightarrow{g} C_3$
+\end{itemize}
+$F(C) \in \textbf{ob}(\mathcal{D})$ denotes the object to which an object $C$ is mapped, and $F(f) \in Hom(F_(C_1), F_(C_2))$ denotes the morphism that $f$ is mapped to.
+\end{definition}
+
+\subsection{Natural transforms}
+\begin{definition}\label{def:natural-transform}
+  Given two functors $F, G: \mathcal{C}\rightarrow \mathcal{D}$, a \textbf{natural transformation} $\alpha: F \rightarrow G$ is a function which assigns to each object $c$ of $\mathcal{C}$ a morphism $\alpha_c:F(input) \rightarrow G(c), G(c) \in \mathcal{D}$, in such a way that for every morphism $f:c \rightarrow c^\prime, c^\prime \in \mathcal{C}$, the morphisms in $\mathcal{D}$ commute such that $\alpha_c^{\prime}(F(f)(F(c))) = G(f)(\alpha_c(F(c))$. When this holds, $\alpha_{c}$ is \textit{natural} in $c$.\cite{maclaneCategoriesWorkingMathematician2013}.
+\end{definition}.
+
+
+\section{Structure}
+
 \subsection{Actions}
- Loosely we define structure as a mathematical space $X$ and the actions on that space
+Since our proposed methods work well for a range of possible settings, we abstract the notion of data type into some object in a category with some monoid action on the object. Here, we deliberately refrain from stating whether the structure is a group, a vector space, a partial order, or some other structure - just that there is some category the data comes from. Here, by a monoid action of a monoid $M$ on a set $X$ we mean a function $act: G\times X \rightarrow X$:
 
-
-\begin{definition}\label{def:related-work:action}\cite{grimaldiDiscreteCombinatorialMathematics2006}
-  An \textcolor{action}{\textbf{action}} of \textcolor{action}{$G = (G,\circ, e)$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
+\begin{definition}\label{def:related-work:action}
+  An \textcolor{action}{\textbf{action}} is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.\cite{grimaldiDiscreteCombinatorialMathematics2006}
 \end{definition}
 
 Elements of $X$ can be from one data field or all of them or some subset; similarly the actions act on
 the elements of $X$ and each action can be a composition of actions.
 
-\subsection{Equivariance}
-A mathematical {group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative, and invertible, consisting of a set of values $X$ and \textcolor{action}{actions} on the set {$G = (G,\circ, e)$}.
-\begin{figure}
-  \includegraphics*[width=1\columnwidth]{equivariant.pdf}
-  \caption{Encoding data as the bar height using an exponential transform is not equivariant because encoding the data and then scaling the bar heights yields a much taller graph then scaling the data and then encoding those heights using the same exponential transform function.}
-  \label{fig:related-work:equivariance}
-\end{figure}
 
- Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
-
-\begin{definition}\label{def:equivariance}
- A function $f$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
-\end{definition}
-which means that
- As illustrated in the commutative diagram in \autoref{fig:related-work:equivariance}, what this means is that the visual representation is consistent whether the data is scaled and then mapped to a graphic or whether the data is mapped to a graphic that is then modified in a compatible way.
-
-\subsection{Homomorphism}
-
-\begin{figure}
-  \includegraphics[width=1\columnwidth]{homomorphism.pdf}
-  \caption{Encoding data as bar height using an inverse transform is not homomorphic because the largest number is mapped to the smallest bar while the max function returns the largest bar.}
-  \label{fig:related-work:homomorphism}
-\end{figure}
-
-Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$
-
-\begin{definition}\label{def:homomorphism}
-  A function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identities $f(I_x) = I_y$ all $x, y \in X$ \cite{grimaldiDiscreteCombinatorialMathematics2006}
-\end{definition}
-
-which means that the operators $\circ$ and $*$ are compatible. In \autoref{fig:related-work:homomorphism}, the $\geq$ operator is defined as the compatible closed functions \texttt{max} and the inverse transform
-is not homomorphic because it does not encode the maximum data value as the maximum bar value.
-
-\subsection{Topology and Homeomorphism}
-
-We encode the continuity of the datasets using their topological structure, specifically using the neighborhood definition:
-
- Given a set $X$ and a function $\mathcal{N}:X\to 2^{2^X}$ that assigns to any $x\in X$ a non-empty collection of subsets $\mathcal{N}(x)$, where each element of $\mathcal{N}(x)$ is a \emph{neighborhood of $x$}, then $X$ with  $\mathcal{N}$ is a \textcolor{base}{topological space} and $\mathcal{N}$ is a neighborhood \emph{topology} if for each $x$ in $X$: \cite{brownronaldTopologyGroupoids2006}
+\subsection{Topology}
+Given a set $X$ and a function $\mathcal{N}:X\to 2^{2^X}$ that assigns to any $x\in X$ a non-empty collection of subsets $\mathcal{N}(x)$, where each element of $\mathcal{N}(x)$ is a \emph{neighborhood of $x$}, then $X$ with  $\mathcal{N}$ is a \textcolor{base}{topological space} and $\mathcal{N}$ is a neighborhood \emph{topology} if for each $x$ in $X$: \cite{brownronaldTopologyGroupoids2006}
 
 \begin{definition}\label{def:topology}
 \begin{enumerate}
@@ -153,11 +161,68 @@ We encode the continuity of the datasets using their topological structure, spec
 \end{enumerate}
 \end{definition}
 
-We then use this topological structure as the basis of claiming topological equivalence between a data and a graphic if there exists a homeomorphic map between the continuities of the data and graphic:
+
+
+\section{Structure preservation}
+
+\subsection{Equivariance}
+A mathematical {group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative, and invertible, consisting of a set of values $X$ and \textcolor{action}{actions} on the set {$G = (G,\circ, e)$}.
+
+\begin{definition}\label{def:equivariance}
+  Given a group $G$ that acts on both $X$ and $Y$, we say that a function $f: X \rightarrow Y$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
+\end{definition}
+
+
+\begin{figure}[H]
+  \includegraphics*[width=1\columnwidth]{equivariant.pdf}
+  \caption{Encoding data as the bar height using an exponential transform is not equivariant because encoding the data and then scaling the bar heights yields a much taller graph then scaling the data and then encoding those heights using the same exponential transform function.}
+  \label{fig:related-work:equivariance}
+\end{figure}
+
+ As illustrated in the commutative diagram in \autoref{fig:related-work:equivariance}, what this means is that the visual representation is consistent whether the data is scaled ($act(g,x)$) and then mapped ($f$) to a graphic or whether the data is mapped to a graphic that is then modified in a compatible way.
+
+\subsection{Homomorphism}
+Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$
+\begin{definition}\label{def:homomorphism}
+  A function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identities $f(I_x) = I_y$ for all $x, y \in X$ \cite{grimaldiDiscreteCombinatorialMathematics2006}
+\end{definition}
+which means that the operators $\circ$ and $*$ are compatible.
+
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{homomorphism.pdf}
+  \caption{Encoding data as bar height ($f$) using an inverse transform $\circ$ is not homomorphic because the largest number is mapped to the smallest bar while the max function ($*$)returns the largest bar.}
+  \label{fig:related-work:homomorphism}
+\end{figure}
+
+In \autoref{fig:related-work:homomorphism}, the $\geq$ operator ($\circ$) is defined as the compatible closed functions \texttt{max}($*$) and the inverse transform is not homomorphic because it does not encode the maximum data value as the maximum bar value.
+
+\subsection{Homeomorphism}
 
 \begin{definition}
-  A function $f$ is a $homeomorphism$ if it is bijective, continuous, and has a continuous inverse function $f^{-1}$.
+  A function $f$ is a \textit{homeomorphism} if it is bijective, continuous, and has a continuous inverse function $f^{-1}$.
 \end{definition}
+
+A function between topological spaces is continuous if the inverse image of any open sets is open. If two spaces are homeomorphic, they have identical topological properties and are considered topologically the same.
+
+\subsection{Deformation retraction}
+\begin{definition}
+  A \textit{deformation retraction} of a space $X$ onto a subspace A is a family of maps $f_{t}: X \rightarrow X, t \in I$ such that $f_0 =\mathbb{1}$ (identity), $f_{1}(X)=A$, and $f_{t}|A=\mathbb{1}$ for all $t$. The family $f_{t}$ should be continuous in the sense that the associated map $X \times I \rightarrow X, (x,t)
+ \mapsto f_{t}(x)$ is continuous. \cite{hatcherAlgebraicTopology2002} \end{definition}
+
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{xi_zoom.pdf}
+  \caption{The deformation retraction $\xi$ maps each point in each orange band on each space $\gbase_0, \gbase_1, \gbase_2$ to the same point $\dbasepoint_i$ in the circle $\dbase$.\label{fig:artist:xi}}
+\end{figure}
+
+For example, the map $\vindex$ in \autoref{fig:artist:xi} is a deformation retraction between the spaces \gbase\ and \dbase\:
+\begin{align}
+  \vindexc\textcolor{functor}{:} \underbrace{\dbasec\times[0,1]^{n}}_{\gbasec} \textcolor{functor}{\mapsto} \dbasec
+&&
+  n = \begin{cases}
+    dim(\gbasec) - dim(\dbasec) & dim(\dbasec)<dim(\gbasec)\\
+  0 & otherwise
+  \end{cases}
+\end{align}
 
 
 \section{Fiber Bundles}
@@ -202,7 +267,7 @@ A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotal
 
 We propose that the total space of a bundle can encode the mathematical space in which a  dataset is embedded, the base space can encode the topological properties of the dataset, the fiber space can encode the data types of the fields of the dataset, and that the datasets can be encoded as section functions from the continuity to the fiber space.
 
-\begin{figure}[!h]
+\begin{figure}[H]
        \includegraphics[width=1\columnwidth]{fb.pdf}
        \caption{The space of all data values encoded by this fiber bundle can be modeled as a \textcolor{total}{rectangle} total space. Each dataset in this data space lies along the interval \textcolor{base}{$[0,2\pi]$} base space. Each dataset has values along the \textcolor{fiber}{$-1 \rightarrow 1$} interval fiber. One dataset embedded in this total space is the \textcolor{section}{sin} section over the bundle.}\label{fig:atct:fb}
   \end{figure}
@@ -215,10 +280,10 @@ For example, the fiber bundle in \autoref{fig:atct:fb} encodes the space of all 
 \label{sec:appendix:bundle_triviality}
 
 Generally, the distinguishing factor between a trivial bundle and a non-trivial bundle are how they are decomposed into local trivializations:
-\begin{LaTeXdescription}
+\begin{description}
   \item[\textit{trivial bundle}] is directly isomorphic to $\dbasec\times\dfiberc$. For any choice of cover of $\dbasec$ by overlapping opensets, we can choose local trivializations such that all transition maps are identity maps.
   \item[\textit{non-trivial bundle}] can not be constructed as $\dbasec\times\dfiberc$. For any choice of local trivializations, there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}.
-\end{LaTeXdescription}
+\end{description}
 
 
 \begin{figure}[H]
@@ -230,35 +295,50 @@ Generally, the distinguishing factor between a trivial bundle and a non-trivial 
 In the example in Figure~\ref{fig:cyl_mob_bundles}, we use arrows $\uparrow$ to denote fiber alignments. In the cylinder case the fibers all point in the same direction, which illustrates that they are equal $\uparrow=\uparrow$. In the Möbius band case, while the fibers in an arbitrary local trivialization are equal $\uparrow=\uparrow$, the fibers at the twist are unequal but isomorphic $\uparrow \cong \downarrow$. The cylinder and mobius band can be decomposed to the same local trivializations, for example the fiber bundles in \autoref{fig:atct:fb} In the cylinder case, the fibers in the overlapping regions of the trivializations are equal $\dfiber_0\restriction_{\openset_1\cap\openset_2} = \dfiber_{1}\restriction_{\openset_1\cap\openset_2}$; therefore the transition maps at both intersections map the values in the fiber to themselves $\delement\rightarrow\delement$ . In the Möbius band case, while $\dfiber_0\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}\to\dfiber_1\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}$ can be chosen to be an identity map, the other transition map component $\dfiber_0\restriction_{(-\varepsilon,\varepsilon)}\to\dfiber_1\restriction_{(-\varepsilon,\varepsilon)}$ has to flip any section values. For example given  $\dfiber_{0}=\uparrow$ and $\dfiber_{1}=\downarrow$, the transition map $\delement \mapsto -\delement$ maps each point from one fiber to the other $\uparrow \mapsto \downarrow$ such that any sections remain continuous even though the fibers point in opposite directions.
 
 
-\section{Categories}
-We propose that the various structures of the bundle (base space, fiber, total space) can also be encoded as categories:
 
-
-\begin{definition}\label{def:atct:category}
-   An \textbf{category} $\mathcal{C}$ consists of the following \textit{data}:
-\begin{enumerate}
-  \item a collection of \textit{objects} $X \in \textbf{ob}(\mathcal{C})$
-  \item for every pair of objects $X, Y \in \textbf{ob}(\mathcal{C})$, a set of \textit{morphisms} $X \xrightarrow{f} Y \in Hom_{\mathcal{C}}(X, Y)$
-  \item for every object $X$, a distinct \textit{identity morphism} $X \xrightarrow {id_x} X$ in $Hom_{\mathcal{C}}(X, X)$
-  \item a \textit{composition function} $f \in Hom_{\mathcal{C}}(X, Y) \times  g \in Hom_{\mathcal{C}}(Y, Z) \rightarrow g \circ f \in Hom_{\mathcal{C}}(X, Z)$
-\end{enumerate}
-such that
-\begin{enumerate}
-  \item \textit{unitality:} for every morphism $ X \xrightarrow{f} Y$, $f \circ id_x = f = id_y \circ f$
-  \item \textit{associativity:} if any three morphisms $f, g, h$ are composable,
-    \begin{equation*}
-      \begin{tikzcd}
-        X \arrow[r, "f"] \arrow[rrr, "h\circ(g\circ f) = (h\circ g)\circ f"', bend right, dashed] & Y  \arrow[r, "g"] & Z \arrow[r, "h"] & W
-        \end{tikzcd}
-  \end{equation*}
-  then they are associative such that $h\circ(g\circ f) = (h \circ g) \circ f$  \cite{lawvere2009conceptual,riehlCategoryTheoryContext,maclaneCategoriesWorkingMathematician2013,fongInvitationAppliedCategory2019}.
-  \end{enumerate}
+\section{Presheaves and Sheaves}
+A common way of encapsulating a map from an arbitrary category to a category of sets is as a presheaf and sheaves add on conditions for gluing individual sections over subspaces into cohesive sections over the whole space.
+\subsection{Presheaf}
+\begin{definition}\label{def:atct:presheaf}
+  A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{spanier1989algebraic}.
 \end{definition}
 
-The composability property expresses that the morphism is transitive, while associativity expresses that the morphisms can be curried in various equivalent groupings. By formally specifying the properties of the topological structure data types as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects.
+A functor is contravariant when the morphisms between the input objects go in the opposite direction from the morphisms between the output objects. The presheaf is contravariant when for every arbitrary morphism between input base spaces $\dfunch: \openset_1 \rightarrow \openset_2$ there exists a corresponding pullback function between the sets of sections $\dfuncpull: \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} \rightarrow \cgamma{\opensetc_1}{\dtotalc\restriction_{\openset_c1}}$.
+
+\begin{figure}[H]
+  \includegraphics*[width=1\columnwidth]{figures/tex/presheaf.pdf}
+  \caption{Modeling this data container as a presheaf specifies that since $\cos, \sin, and \texttt{C}$ are continuous over $\openset_{2}$, they must be continuous over $\openset_{1}$ since $\openset_1$ is a subset of and therefore must be included in $\openset_2$. Because $\tan$ is only defined over $\openset_{2}$, it does not need to be included in the set $\Gamma_{2}$. \label{fig:atct:presheaf}}
+\end{figure}
+
+For example in \autoref{fig:atct:presheaf}, the transform $\dfunch$ maps indexing points on the subspace $\openset_{1}$ to points on the larger subspace $\openset_{2}$. A constraint on presheaves is that because $\dfunch$ exists, there must exist a corresponding pullback map $\dfuncpull$ that changes the indexes of the data indexed by $\openset_{2}$ to the corresponding index in $\openset_{1}$. Since the $constant, sin, cos$ functions are defined over the interval $\left[0,2\pi\right]$, these functions must also be continuous over the sub-interval $\left(\frac{\pi}{2}, \frac{3\pi}{2}\right)$; therefore the sections in $\Gamma_{2}$ must also be included in the set of sections over the subspace $\Gamma_{1}$. Sections (data) can also be present in subindexes without being present over the whole indexing space, as illustrated here by the presence of $tan$ over $\openset_{1}$.
 
 
-\section{Presheaves And Sheafs}
+\subsection{Sheaf}
+
+
+\begin{definition}\label{def:atct:sheaf}\cite{bakerEuclideanSpaceMathsSheaf,spanier1989algebraic} A \textbf{sheaf} is a presheaf that satisfies the following two axioms
+\begin{itemize}
+  \item \textit{locality} two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values $\dsection^{a}\vert_{\openset_i} =  \dsection^{b}\vert_{\openset_i}$ over the open cover $\bigcup_{i\in I} \openset_{i} \subset \openset$ (indexed by $I$).
+  \item \textit{gluing} the union of sections defined over subspaces $\dsection^{i} \in \Gamma(\openset_i, \dtotal|_{\openset_i})$ is equivalent to a section defined over the whole space $\dsection\vert_{\openset_i} = \dsection^{i}$ for all $i\in I$ if all pairs of sections agree on overlaps $\dsection^{i}\vert_{\openset_i\cap\openset_j} =  \dsection^{j}\vert_{\openset_i\cap\openset_j}$
+  \end{itemize}
+\end{definition}
+
+The gluing axiom says that a distributed representation of a dataset, which is a set of local sections, is equivalent to a section over the union of the opensets of the local sections. The gluing axiom can also be used to generate the gluing rules used to construct non-trivial bundles from the set of trivial local sections. The locality axiom asserts that the glued section function is equivalent to a function over the union if they evaluate to the same values.
+
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{tex/sheaf_rules.pdf}
+  \caption{A sheaf has the conditions that sections are equal when they match on all subsets (\textit{locality}) and that the sections can be concatenated when they match on overlaps \textit{gluing}.\label{fig:atct:sheaf}}
+\end{figure}
+
+For example, in \autoref{fig:atct:sheaf}, the $\tau^{a}$ and $\tau^{b}$ $\sin$ sections are equal because they match \textit{locally} on all subsets. This is true whether $\sin$ is defined over parts ($\sin\vert_{\openset_i}$) or the whole space. If $\sin$ is defined over parts, then those parts can be \textit{glued} together. The concatenated $\sin$ is continuous because the pieces of the section outside the overlap are continuous with the pieces inside the overlap. The glued $\sin$ is also equal to the non-glued $\sin$ because they match on the opensets; therefore they are equivalent representations of the same section $\sin$ and so have the same mathematical properties.
+
+\subsection{Germ}
+While each section of a sheaf is evaluated over a point $\dsection(\dbasepoint)$ such that it returns a single record, the sheaf model also provides an abstraction when neighboring information is required. The sheaf over a very small region surrounding a point $\dbasepoint$ is called a \textit{stalk}\cite{harder2008lectures}
+\begin{equation}
+  \label{eq:atct:sheaf:stalk}
+    \sheaf_{\dbase, \dtotalc}\restriction_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal\restriction_{\openset})
+\end{equation}
+where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The \textit{germ} is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. Since the stalk includes the values near the limit of the point at \dbasepoint\, the germ can be used to compute mathematical derivatives.
 
 
 
