@@ -1,7 +1,3 @@
-Review:
-This paper suggests a method for fully specifying arbitrary data into a visualization using code, based on mathematical formalisms. There is a mention that this method can also be applied to non-visual modalities.
-
-In general? Awesome idea. I think this is a very cool piece and has really interesting implications. I'd love to see this at the workshop, stimulating discussion. I bet a few tool-makers in our community will be interested in this, especially.
 
 However, I am not well-versed in topology or anything formal in mathematical research, so it was nearly impossible for me to fully understand. I get the core idea, but I am not sure how to follow most of the figures (and the piece also jumps right into concepts like ""sheaf formalism"" and ""fiber bundles"" without introduction or explanation, which requires heavy lifting!). I worry this piece will not effectively communicate what really matters to the workshop attendees and future readers
 
