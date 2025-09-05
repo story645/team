@@ -41,11 +41,11 @@
 
 \usepackage{notation} % move this later
 
-\graphicspath{.figures/, ../papers/figures/}
+\graphicspath{.figures/, ../paper/figures/}
 
 \usepackage[backend=bibtex, sorting=none, doi=false,isbn=false,url=false, giveninits=true]{biblatex}
 
-\bibliography{references}
+\bibliography{../paper/references}
 
 
 \newenvironment{changemargin}[2]{%
@@ -346,7 +346,40 @@ The base space of a fiber bundle is a quotient topology\cite{munkresElementsAlge
 
 \subsubsection{fields: fiber space \dfiberc}
 
-\begin{frame}{Field types }
+\begin{frame}{Fiber space: Fields}
+\begin{equation*}
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{|c|c|c|}
+      \hline
+       types and schema & \textcolor{fiber}{record} & \textcolor{section}{table}\\
+      \hline
+      \begin{tikzcd}[ampersand replacement=\&, sep=huge]
+        \textcolor{total}{\mathcal{U}_\sigma} \arrow[d, "\pi_{\sigma}"', color=total, two heads] \arrow[r, dotted] \arrow[rd, dotted] \& \textcolor{total}{\mathcal{U}} \arrow[d, "\pi"', color=total, two heads] \\
+        \textcolor{base}{C} \arrow[r, "\sigma"']                                                                                   \& \textcolor{base}{\texttt{DT}}
+      \end{tikzcd}
+    &
+    \begin{tikzcd}[ampersand replacement=\&, sep=huge]
+      \textcolor{total}{\mathcal{U}_{\sigma}} \arrow[d, "\pi_{\sigma}"', color=total, two heads] \\
+      \textcolor{base}{C} \arrow[u, "\delement"', dashed, bend right, color=fiber]
+      \end{tikzcd}
+    &
+    \begin{tikzcd}[ampersand replacement=\&, sep=huge]
+      \dfiberc\coloneqq \textcolor{total}{\Gamma^{\pi}(\sigma)} \arrow[d, "\pi"', color=total, two heads] \\
+      \dbasec \arrow[u, "\dsectionc"', dashed, bend right, color=section]
+      \end{tikzcd}\\
+      \hline
+    \end{tabular}
+    }
+\end{equation*}
+
+\begin{description}
+    \item[$\textcolor{total}{\mathcal{U}}$] Space of all possible values, e.g. $\mathbb{R} \times \mathbb{R}^{+}$
+    \item[$\textcolor{base}{C}$] Field names, e.g. $TEMP, PRCP$
+    \item[$\textcolor{base}{\texttt{DT}}$] Data Type, e.g. $\texttt{float}$, $\texttt{PosFloat}$
+\end{description} 
+\end{frame}
+
+\begin{frame}{Types and Schema }
    A \textit{schema} consists of a pair $(\fnames, \sigma)$ where $\fnames$ is the set of field names and $\sigma: \fnames \rightarrow \textbf{DT}$ is a function from field name to field data type\cite{spivakSimplicialDatabases2009}
 
    The function $\sigma$ is composed with $\pi$ such that $\pi^{-1}(\sigma(C)) \subseteq \mathscr{U}$; this composition induces a domain bundle $\pi_{\sigma}:\mathscr{U}_{\sigma} \rightarrow \fnames$ that associates a field name $c \in C$ with its corresponding domain $\pi^{-1}_{\sigma}(C) \subseteq \mathscr{U}_{\sigma}$.
@@ -640,13 +673,13 @@ such that $\vindexpush\gsection(\dbasepoint))(\gbasepoint) = \gsection(\gbasepoi
 
 \begin{frame}{Equivariant Artist}
 \begin{figure}
-    \includegraphics[width=\linewidth]{../paper/figures/artist_equiv.png}
+    \includegraphics[scale=.95, keepaspectratio]{../paper/figures/artist_equiv.pdf}
 \end{figure}
 \end{frame}
 
 \begin{frame}{artist composition}
     \begin{figure}
-        \includegraphics[width=\linewidth]{../paper/figures/composition.pdf}
+        \includegraphics[scale=.95, keepaspectratio]{../paper/figures/composition.pdf}
     \end{figure}
 \end{frame}
 
