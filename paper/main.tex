@@ -460,7 +460,7 @@ For example, in \autoref{fig:atct:sheaf}, the $\tau^{a}$ and $\tau^{b}$ $\sin$ s
 While each section of a sheaf is evaluated over a point $\dsection(\dbasepoint)$ such that it returns a single record, the sheaf model also provides an abstraction when neighboring information is required. The sheaf over a very small region surrounding a point $\dbasepoint$ is called a \textit{stalk}\cite{harder2008lectures}
 \begin{equation}
   \label{eq:atct:sheaf:stalk}
-    \sheaf_{\dbase, \dtotalc}\restriction_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal\restriction_{\openset})
+    \sheafc_{\dbasec, \dtotalc}\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc})
 \end{equation}
 where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The \textit{germ} is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$ and is the data. Since the stalk includes the values near the limit of the point at \dbasepoint\, the germ can be used to compute the mathematical derivative of the data for visualization tasks that require this information.
 
