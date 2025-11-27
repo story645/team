@@ -162,11 +162,12 @@ def make_ts(df, ax):
     ts = get_timeseries(df, airports['t_lat'], airports['t_lon'])
     
     ln,  = ax.plot('DATE_DTYPE', "PRCP", data=ts, color = airports['time_color'])
-    ax.axvline(pd.to_datetime(airports['point_date']), color=airports['point_color'], alpha=.75, zorder=-1)
+    point_date = pd.to_datetime(airports['point_date'])
+    ax.axvline(point_date, color=airports['point_color'], alpha=.75, zorder=-1)
     ax.set_xlim(xmin=ts['DATE_DTYPE'].min(), xmax=ts['DATE_DTYPE'].max())
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%b"))
-    ax.annotate("2002", (1, -0.1), xycoords='axes fraction', 
+    ax.annotate(point_date.year, (1, -0.1), xycoords='axes fraction', 
                 fontsize=fs['footnote'], va='top', ha='center')
     return ln 
     

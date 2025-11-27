@@ -16,6 +16,7 @@
 
 % *** MATH PACKAGES ***
 %% with other math-related packages, you may want to disable it.
+\usepackage{mathptmx}
 \usepackage{amsmath, amsthm, amsfonts,amssymb,eulervm,xspace, mathtools}
 \usepackage{stmaryrd}%maps from
 %\renewcommand{\restriction}{\mathord{\upharpoonright}} %restriction w/p space
@@ -41,7 +42,7 @@
 \usepackage{xcolor}
 \usepackage[utf8]{inputenc}
 
-\usepackage[]{minted}
+\usepackage[cache=false]{minted}
 \setminted[python]{fontsize=\scriptsize,
                    linenos,
                    numbersep=8pt,
@@ -124,7 +125,7 @@
 
 Visualization design guidelines, generally, describe how to choose visual encodings that preserve the structure of the data; to follow these guidelines the visualization tools that implement these $data \rightarrow graphic$ transforms must be structure preserving. Loosely, preserving structure means that the properties of the data and how the points are connected to each other should be inferable from the graphic such that a $graphic \rightarrow data$ mapping can be made. For example, values read off a bar chart have to be equivalent to the values used to construct that chart. Therefore a visualization tool is structure preserving when it preserves the bidirectional mapping $data\leftrightarrow graphic$.
 
-We propose that we can better enforce this expectation in software by providing a uniform way of expressing $data$ and $graphic$ using their respective algebraic structure and by uniformly specifying the behaviors and properties of those structures and the maps between them using category theory. For example, our framework can encapsulate how a table and scatter plot and heatmap are different representations of the same data and track an observation from a data cube as a point along a time series and on a map and in a network. The algebraic structures can then be translated into programmatic types, while the categorical descriptions translate to a functional design framework. Strong typing and function composition enable visualization software developers to build complex components from simpler verifiable parts \cite{huHowFunctionalProgramming2015, hughesWhyFunctionalProgramming1989}. These components can be built as a standalone library and integrated into existing libraries and we hope these ideas will influence the architecture of critical data visualization libraries, such as Matplotlib.
+We propose that structures from category theory and algebraic topology can be used as a sort of psuedo-code for uniformly specifying the behaviors and properties of $data$ and $graphic$ and rigorously expressing the structure preserving constraints on maps between them. For example, our framework can encapsulate how a table and scatter plot and heatmap are different representations of the same data and track an observation from a data cube as a point along a time series and on a map and in a network. By design, this psuedo-code translates to strong programmatic types and a functional design framework, which enable visualization software developers to build complex components from simpler verifiable parts \cite{huHowFunctionalProgramming2015, hughesWhyFunctionalProgramming1989}. These components can be built as a standalone library and integrated into existing libraries and we hope these ideas will influence the architecture of critical data visualization libraries, such as Matplotlib.
 
 The contribution of this paper is a methodology for describing structure, verifying structure preservation, and specifying the conditions for constructing a structure preserving map between data and graphics. This framework also provides guidance for the construction and testing of structure preserving visualization library components.
 
@@ -133,17 +134,47 @@ The contribution of this paper is a methodology for describing structure, verify
 
 This paper builds on how structure has traditionally been discussed in visualization and mathematics and encapsulated in visualization library design to propose a uniform interface for encoding structure that supports a broader variety of fields and more rigorously define how connectivity is preserved. Generally, preserving structure means that a visualization is expected to preserve the $field$ properties and $topology$ of the corresponding dataset:
 
-\begin{LaTeXdescription}
+\begin{description}
   \item[\textcolor{fiber}{\textbf{field}}]\footnote{In this paper, color in definitions, equations, and visualizations is used to group conceptually related terms\cite{headMathAugmentationHow2022}, for example \textcolor{fiber}{field} and \textcolor{fiber}{fiber}.} is a set of values of the same type, e.g. one column of a table or the pixels of an image
   \item[\textcolor{base}{\textbf{topology}}] is the connectivity and relative positioning of elements in a dataset \cite{wilkinsonGrammarGraphics2005}.
-\end{LaTeXdescription}
+\end{description}
 
 The conditions under which $data \rightarrow graphic$ is structure preserving is discussed extensively in the visualization literature, codified by Bertin\cite{bertinSemiologyGraphicsDiagrams2011} and extended to tool design by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}, and a set of conditions under which the $graphic \rightarrow data$ mapping is structure preserving is presented in Kindlemann and Scheidegger's algebraic visualization design (AVD) framework \cite{kindlmannAlgebraicProcessVisualization2014}. Encapsulating the AVD conditions, we present a uniform abstract data representation layer in \autoref{sec:atct:sheaves} for ensuring that the visualization should not change if the data representation (i.e. the data container) changes, define the conditions under which data is mapped unambiguously to visual encodings \cite{ziemkiewiczEmbeddingInformationVisualization2009} in \autoref{sec:atct:xi}, and provide a methodology for verifying that changes in data should correspond to changes in the visualization in \autoref{sec:artist:equivariant:artist} that does not necessarily require that the changes be perceptually significant. Furthermore, our model generalizes the AVD notion of equivariance by allowing non-group structures, explicitly incorporating topology and by providing a framework for translating the theoretical ideas into buildable components in \autoref{sec:construction}.
 
 \subsection{Fields}
 \label{sec:related-work:equivariance}
 
-Data is often described by its mathematical structure, for example the Steven's measurement scales define nominal, ordinal, interval, and ratio data by the allowed operations on each \cite{stevensTheoryScalesMeasurement1946} and other researchers have since expanded the scales to encapsulate more types of structure \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}. Loosely we define structure as a mathematical space $X$ and the actions on that space; our model is purposely generalizable to many different types of spaces (e.g sets, metric spaces, etc). Steven's conceptualizes the scales as mathematical groups with \textcolor{action}{actions}. A function that preserves structure when the input or output is changed by a group action is called \textit{equivariant}; a visualization is structure preserving when there exist compatible group actions on the data and visualization was proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}. Although the Steven's scales were conceptualized as having group structure, the ordinal scale has a monoidal structure because partial orders ($\geq, \leq$) are not invertible. This means \textit{equivariance} cannot be used to test for structure preservation; instead \textit{homomorphism} can be used to verify whether map preserve relations between data elements, as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}. These tests are mutually exclusive; a function can be homomorphic but not equivariant, such as an exponential encoding, or equivariant but not homomorphic, such as the inverse encoding. A function can also be homomorphic (or equivariant) with respect to one action but not with respect to another. The encoding transforms in visualization tools are expected to preserve the structure of whatever input they receive; therefore a methodology for codifying arbitrary structure is presented in \autoref{sec:atct:fb:fiber} and \autoref{sec:artist:equivariant:data} presents a generalization of equivariance and homomorphism for evaluating structure preservation.
+Data is often described by its mathematical structure, for example the Steven's measurement scales define nominal, ordinal, interval, and ratio data by the transformations allowed on the data \cite{stevensTheoryScalesMeasurement1946}. Other researchers have since expanded the scales to encapsulate more types of structure \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}, and in \autoref{sec:atct:fb:fiber} we generalize further by proposing that data can be encoded as mathematical categories.
+
+Loosely, structure is defined as a collection of values $X$ and transformations $G$ on those values. These transformations can be operations, relations, or generalized as actions:
+\begin{definition}\label{def:related-work:action}
+  An \textcolor{action}{\textbf{action}} is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.\cite{grimaldiDiscreteCombinatorialMathematics2006}
+\end{definition}
+Elements of $X$ can be from one data field or all of them or some subset; similarly the actions act on the elements of $X$ and each action can be a composition of actions.
+
+A function that preserves structure when the input or output is changed by a group\footnote{A mathematical {group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative, and invertible, consisting of a set of values $X$ and \textcolor{action}{actions} on the set {$G = (G,\circ, e)$}.} action is called \textit{equivariant}.  Given a group $G$ that acts on both $X$ and $Y$, 
+\begin{definition}\label{def:equivariance}
+ a function $f: X \rightarrow Y$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
+\end{definition}
+This means that a visualization is structure preserving when there exist compatible group actions on the data and visualization, as proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}. 
+
+Although the Steven's scales were conceptualized as having group structure, the ordinal scale has a monoidal structure because partial orders ($\geq, \leq$) are not invertible. This means \textit{equivariance} cannot be used to test for structure preservation; instead \textit{homomorphism} can be used. Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$
+\begin{definition}\label{def:homomorphism}
+  A function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identities $f(I_x) = I_y$ for all $x, y \in X$ \cite{grimaldiDiscreteCombinatorialMathematics2006}
+\end{definition}
+This means that a visualization is structure preserving when there
+exists compatible operators (here $\circ$ and $*$) such that the relations between data elements is preserved in the mapping, 
+as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}.
+
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{equiv_homo.pdf}
+  \caption{Encoding data as the bar height using an exponential transform is not equivariant because encoding the data and then scaling the bar heights yields a much taller graph then scaling the data and then encoding those heights using the same exponential transform function. Encoding data as bar height  using an inverse transform is not homomorphic because the largest number is mapped to the smallest bar while the max function returns the largest bar.}
+  \label{fig:related-work:field-preservation}
+\end{figure}
+
+As illustrated in \autoref{fig:related-work:field-preservation}, a visualization is structure preserving when the functions commute such that the graphic is the same whether the data is acted on ($
+\dfunct$) and then mapped ($A$) to a graphic or whether the data is mapped to a graphic that is then modified in a compatible way. As shown in \autoref{fig:related-work:field-preservation}, a function can be homomorphic but not equivariant, such as an exponential encoding, or equivariant but not homomorphic, such as the inverse encoding. As shown, a function can also be homomorphic (or equivariant) with respect to one action but not with respect to another. We generalize the expectation of commutativity to codify structure preservation in \autoref{sec:artist:equivariant:data}.
+
 
 \subsection{Topology}
 \label{sec:related-work:continuity}
@@ -789,11 +820,11 @@ and therefore which commonalities need to be preserved in the artists that act o
 \subsection{Animation and Interactivity}
 
 
-\begin{LaTeXdescription}
+\begin{description}
   \item[pan, zoom, scroll] sheaf: locality + gluing \autoref{def:atct:sheaf}
   \item[selection and hover] pushforward \autoref{eq:atct:sheaf:pushforward_select},  pullback \autoref{eq:atct:sheaf:pullback_hover}
   \item[brushing, linking, annotation] composition of artists \autoref{eq:artist:join_base_fiber}
-\end{LaTeXdescription}
+\end{description}
 
 Animation and interaction are a set of stills. Because the constraints are on the functions $\vartist\circ\dsection$ , satisfying the constraints on each function means that the constraint is satisfied for all visualizations $\{\vartist(\dsection(\dbasepoint)) \mid\dbasepoint \in \dbase \}$ that make up an animation or interaction.
 
@@ -1112,20 +1143,32 @@ The framework introduced in this paper is a marriage of the ways the graphic and
 \section*{Supplemental Materials}
 \label{sec:supplemental_materials}
 
-Refer to the instructions for this section (\cref{sec:supplement_inst}).
-Below is an example you can follow that includes the actual supplemental material for this template:
+\acknowledgments{
+The authors would like to thank the anonymous reviewers who gave constructive feedback on an earlier version of this paper. The authors are also grateful to  the various Matplotlib and Napari contributors, particularly Juan Nunez-Iglesias, and Nicolas Kruchten for their valuable feedback from the library developer perspective.
 
-All supplemental materials are available on OSF at \url{https://doi.org/10.17605/OSF.IO/2NBSG}, released under a CC BY 4.0 license.
-In particular, they include (1) Excel files containing the data for and analyses for creating \cref{tab:vis_papers} and \cref{fig:vis_papers}, (2) figure images in multiple formats, and (3) a full version of this paper with all appendices.
-Our other code is intellectual property of a corporation---Starbucks Research---and there is no feasible way to share it publicly.
+Hannah is also very grateful to Nicolas for the suggestion of augmented notation and to the nlab and wikipedia contributors who wrote clear explanations of many of the topics discussed in this paper.
+
+This project has been made possible in part by grant number 2019-207333 and \note{Cycle 3 grant number} Chan Zuckerberg Initiative DAF, an advised fund of Silicon Valley Community Foundation
+}
 
 
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
 
-\appendices
+% references section
+\bibliographystyle{abbrv-doi}
+\bibliography{references}
+
+\appendix
 
 
 \section{Summary}
-\label{sec:appndix:summary}
+\label{sec:appendix:summary}
 The topological spaces and functions introduced throughout this paper are summarized here for reference.
 
 \begin{table}[H]
@@ -1340,30 +1383,4 @@ layer shim so that they behave like existing artists.
               output = rho(renderer)
   \end{minted}
 
-\section*{Acknowledgment}
-\note{Acknowledge all the actual people}
-The authors would like to thank the anonymous reviewers who gave constructive feedback on an earlier version of this paper. The authors are also grateful to  the various Matplotlib and Napari contributors, particularly Juan Nunez-Iglesias, and Nicolas Kruchten for their valuable feedback from the library developer perspective.
-
-Hannah is also very grateful to Nicolas for the suggestion of augmented notation and to the nlab and wikipedia contributors who wrote clear explanations of many of the topics discussed in this paper.
-
-This project has been made possible in part by grant number 2019-207333 and \note{Cycle 3 grant number} Chan Zuckerberg Initiative DAF, an advised fund of Silicon Valley Community Foundation
-
-
-% Can use something like this to put references on a page
-% by themselves when using endfloat and the captionsoff option.
-\ifCLASSOPTIONcaptionsoff
-  \newpage
-\fi
-
-% trigger a \newpage just before the given reference
-% number - used to balance the columns on the last page
-% adjust value as needed - may need to be readjusted if
-% the document is modified later
-%\IEEEtriggeratref{8}
-% The "triggered" command can be changed if desired:
-%\IEEEtriggercmd{\enlargethispage{-5in}}
-
-% references section
-\bibliographystyle{abbrv-doi}
-\bibliography{references}
 \end{document}

@@ -57,14 +57,13 @@
 
 
 % Fonts
-\usepackage{times}                     % we use Times as the main font
+% Fonts: use T1 encoding and a Times-like text+math package for pdfLaTeX
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext,newtxmath}
 \renewcommand*\ttdefault{txtt}         % a nicer typewriter font
 \usepackage{stmaryrd}%maps from
 \renewcommand{\restriction}{\mathord{\upharpoonright}} %restriction w/p space
 \usepackage{mathrsfs} % math script fonts
-\usepackage{mathptmx}
-\DeclareMathDelimiter{(}{\mathopen} {operators}{"28}{largesymbols}{"00}
-\DeclareMathDelimiter{)}{\mathclose}{operators}{"29}{largesymbols}{"01}
 % *** SUBFIGURE PACKAGES ***
 \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 
@@ -131,8 +130,26 @@ $F(C) \in \textbf{ob}(\mathcal{D})$ denotes the object to which an object $C$ is
 \end{definition}
 
 \subsection{Natural transforms}
+\begin{equation*} {\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|c|c|}
+    \hline
+    $\mathcal{C}$ & $\mathcal{D}$ \\
+    \hline
+    \begin{tikzcd}[ampersand replacement=\&, sep=huge]
+        \textcolor{base}{c} \arrow[d, "f", color=action] \\ \textcolor{base}{c^{\prime}}      
+    \end{tikzcd}
+    & 
+    \begin{tikzcd}[ampersand replacement=\&, sep=huge]
+        \textcolor{sheaf}{F(c)} \arrow[d, "F(f)", color=action] \arrow[r, "\alpha_{c}", color=artist] \& 
+        \textcolor{sheaf}{G(c)} \arrow[d, "G(f)", color=action] \\
+        \textcolor{sheaf}{F(c^{\prime})} \arrow[r, "\alpha_{c^{\prime}}", color=artist] \& \textcolor{sheaf}{G(c^{\prime})} 
+    \end{tikzcd}\\
+    \hline
+  \end{tabular}}
+\end{equation*}
+
 \begin{definition}\label{def:natural-transform}
-  Given two functors $F, G: \mathcal{C}\rightarrow \mathcal{D}$, a \textbf{natural transformation} $\alpha: F \rightarrow G$ is a function which assigns to each object $c$ of $\mathcal{C}$ a morphism $\alpha_c:F(input) \rightarrow G(c), G(c) \in \mathcal{D}$, in such a way that for every morphism $f:c \rightarrow c^\prime, c^\prime \in \mathcal{C}$, the morphisms in $\mathcal{D}$ commute such that $\alpha_c^{\prime}(F(f)(F(c))) = G(f)(\alpha_c(F(c))$. When this holds, $\alpha_{c}$ is \textit{natural} in $c$.\cite{maclaneCategoriesWorkingMathematician2013}.
+  Given two functors $F, G: \mathcal{C}\rightarrow \mathcal{D}$, a \textbf{natural transformation} $\alpha: F \rightarrow G$ is a function which assigns to each object $c$ of $\mathcal{C}$ a morphism $\alpha_c:F(c) \rightarrow G(c)$ of $\mathcal{D}$, in such a way that for every morphism $f:c \rightarrow c^\prime$ in $\mathcal{C}$, the morphisms $F(f), G(f)$ in $\mathcal{D}$ commute such that $\alpha_c^{\prime}(F(f)(F(c))) = G(f)(\alpha_c(F(c)))$. When this holds, $\alpha_{c}$ can be said to be \textit{natural} in $\mathcal{C}$.\cite{maclaneCategoriesWorkingMathematician2013}.
 \end{definition}.
 
 
@@ -299,9 +316,19 @@ In the example in Figure~\ref{fig:cyl_mob_bundles}, we use arrows $\uparrow$ to 
 \section{Presheaves and Sheaves}
 A common way of encapsulating a map from an arbitrary category to a category of sets is as a presheaf and sheaves add on conditions for gluing individual sections over subspaces into cohesive sections over the whole space.
 \subsection{Presheaf}
+
 \begin{definition}\label{def:atct:presheaf}
   A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{spanier1989algebraic}.
 \end{definition}
+
+\begin{equation*}
+\begin{tikzcd}
+\cgamma{\opensetc_2}{\dtotalc|_{\opensetc_2}} \arrow[r, "
+\hat{\phi}^*", color=action, dashed] & \cgamma{\opensetc_1}{\dtotalc|_{\opensetc_1}}                \\
+\opensetc_2 \arrow[u, "\sheaf_{2}", maps to, color=sheaf]                  & \opensetc_1 \arrow[l, "\hat{
+  \phi}"', color=action] \arrow[u, "\sheaf_{1}", maps to, color=sheaf]
+\end{tikzcd}
+\end{equation*}
 
 A functor is contravariant when the morphisms between the input objects go in the opposite direction from the morphisms between the output objects. The presheaf is contravariant when for every arbitrary morphism between input base spaces $\dfunch: \openset_1 \rightarrow \openset_2$ there exists a corresponding pullback function between the sets of sections $\dfuncpull: \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} \rightarrow \cgamma{\opensetc_1}{\dtotalc\restriction_{\openset_c1}}$.
 
@@ -336,7 +363,7 @@ For example, in \autoref{fig:atct:sheaf}, the $\tau^{a}$ and $\tau^{b}$ $\sin$ s
 While each section of a sheaf is evaluated over a point $\dsection(\dbasepoint)$ such that it returns a single record, the sheaf model also provides an abstraction when neighboring information is required. The sheaf over a very small region surrounding a point $\dbasepoint$ is called a \textit{stalk}\cite{harder2008lectures}
 \begin{equation}
   \label{eq:atct:sheaf:stalk}
-    \sheaf_{\dbase, \dtotalc}\restriction_{\dbasepoint}\coloneqq \lim\limits_{\openset\ni \dbasepoint} \Gamma(\openset, \dtotal\restriction_{\openset})
+    \sheafc_{\dbasec, \dtotalc}\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc})
 \end{equation}
 where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The \textit{germ} is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. Since the stalk includes the values near the limit of the point at \dbasepoint\, the germ can be used to compute mathematical derivatives.
 
