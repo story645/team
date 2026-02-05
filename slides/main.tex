@@ -90,11 +90,44 @@
 \end{frame}
 
 \section{Introduction}
-\begin{frame}{Goals}
+\begin{frame}{Roadmap}
+\only<1>{
+\begin{equation*}
+    \begin{tikzcd}[ampersand replacement=\&]
+      \& {} \arrow[dd, "\texttt{artist}" description, Rightarrow, shift left=3.65, shorten <= .7em, shorten >= .7em, color=white, font=\Huge]
+      \& \\ {\scriptstyle\textcolor{base}{\texttt{topology}}}
+        \arrow[rr, "\texttt{graphic}"', bend right, color=white, font=\huge] \arrow[rr, "\texttt{data}", bend left, color=sheaf, font=\huge] \&
+      \& {\scriptstyle\textcolor{base}{\texttt{topology}}\textcolor{section}{\rightarrow} \textcolor{fiber}{\texttt{fields}}} \\
+      \& {}                                              \&
+  \end{tikzcd}
+  \end{equation*}
+}
+\only<2>{
+\begin{equation*}
+    \begin{tikzcd}[ampersand replacement=\&]
+      \& {} \arrow[dd, "\texttt{artist}" description, Rightarrow, shift left=3.65, shorten <= .7em, shorten >= .7em, color=white, font=\Huge]
+      \& \\ {\scriptstyle\textcolor{base}{\texttt{topology}}}
+        \arrow[rr, "\texttt{graphic}"', bend right, color=sheaf, font=\huge] \arrow[rr, "\texttt{data}", bend left, color=sheaf, font=\huge] \&
+      \& {\scriptstyle\textcolor{base}{\texttt{topology}}\textcolor{section}{\rightarrow} \textcolor{fiber}{\texttt{fields}}} \\
+      \& {}                                              \&
+  \end{tikzcd}
+  \end{equation*}
+}
+\only<3>{
+\begin{equation*}
+    \begin{tikzcd}[ampersand replacement=\&]
+      \& {} \arrow[dd, "\texttt{artist}" description, Rightarrow, shift left=3.65, shorten <= .7em, shorten >= .7em, color=artist, font=\Huge]
+      \& \\ {\scriptstyle\textcolor{base}{\texttt{topology}}}
+        \arrow[rr, "\texttt{graphic}"', bend right, color=sheaf, font=\huge] \arrow[rr, "\texttt{data}", bend left, color=sheaf, font=\huge] \&
+      \& {\scriptstyle\textcolor{base}{\texttt{topology}}\textcolor{section}{\rightarrow} \textcolor{fiber}{\texttt{fields}}} \\
+      \& {}                                              \&
+  \end{tikzcd}
+  \end{equation*}
+}
     \begin{itemize}
-        \item uniform API for arbitrary datasets in arbitrary data containers
-        \item generalizable methodology for expressing structure preservation
-        \item framework that translates into coding specifications
+        \uncover<1-3>{\item uniform API for arbitrary datasets in arbitrary data containers}
+        \uncover<2-3>{\item generalizable methodology for expressing structure preservation}
+        \uncover<3-3>{\item framework that translates into coding specifications}
     \end{itemize}
 \end{frame}
 
@@ -128,56 +161,52 @@
     \end{description}
 \end{frame}
 
-\begin{frame}{Structure Preservation: Equivalent scales and transforms}
-
+\begin{frame}{Structure Preservation: Groups}
+\only<2>{
+   \begin{figure}
+        \includegraphics[width=\linewidth]{../paper/figures/phi.pdf}
+        \label{fig:related-work:actions}
+      \end{figure}
+}
 \begin{definition}\label{def:related-work:action}\cite{grimaldiDiscreteCombinatorialMathematics2006}
-    An \textcolor{action}{\textbf{action}} of \textcolor{action}{$G = (G,\circ, e)$} on $X$ is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
+    An \textcolor{action}{\textbf{action}} of \textcolor{action}{$G = (G,\circ, e)$} on $X$ is a function  $\dfuncc: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $\dfuncc(\textcolor{action}{g}, \dfuncc(\textcolor{action}{f}, x)) = \dfuncc(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.
 \end{definition}
 \end{frame}
 
-\begin{frame}{Fields: Equivariance }
-
-    Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$
-    \begin{definition}\label{def:equivariance}
-     A function $f$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
-    \end{definition}
-\end{frame}
 \begin{frame}{Fields: Equivariance}
-    \begin{figure}
+\only<2>{
+   \begin{figure}
         \includegraphics[width=\linewidth]{../paper/figures/equivariant.pdf}
         \label{fig:related-work:equivariance}
       \end{figure}
-\end{frame}
-
-\begin{frame}{Fields: Homomorphism}
-    Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$
-
-    \begin{definition}\label{def:homomorphism}
-      A function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identities $f(I_x) = I_y$ all $x, y \in X$ \cite{grimaldiDiscreteCombinatorialMathematics2006}
+}
+    \begin{definition}\label{def:equivariance}
+        Given a group $G$ that acts on both the input $X$ and the output $Y$ of a function $f: X \rightarrow Y$, a function $f$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
     \end{definition}
 \end{frame}
 
-
 \begin{frame}{Fields: Homomorphism}
-
-    \begin{figure}
+\only<2>{
+        \begin{figure}
         \includegraphics[width=\linewidth]{../paper/figures/homomorphism.pdf}
         \label{fig:related-work:homomorphism}
       \end{figure}
+}
+    \begin{definition}\label{def:homomorphism}
+     Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$, a function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identities $f(I_x) = I_y$ all $x, y \in X$ \cite{grimaldiDiscreteCombinatorialMathematics2006}
+    \end{definition}
 \end{frame}
 
 
 \begin{frame}{Topology: Homeomorphism}
-
-    \begin{definition}
+\only<2>{
+    \begin{figure}
+        \includegraphics[scale=.95]{../paper/figures/k_different_types.pdf}
+    \end{figure}
+}
+        \begin{definition}
         A function $f$ is a $homeomorphism$ if it is bijective, continuous, and has a continuous inverse function $f^{-1}$.
       \end{definition}
-\end{frame}
-
-\begin{frame}{Homeomorphic topology}
-    \begin{figure}
-        \includegraphics[width=\linewidth]{../paper/figures/k_different_types.pdf}
-    \end{figure}
 \end{frame}
 
 
@@ -316,7 +345,7 @@ The base space of a fiber bundle is a quotient topology\cite{munkresElementsAlge
 \end{frame}
 
 \begin{frame}{Base \texttt{TYPE} \dbasec}
-    \begin{definition}\label{def:atct:category}
+  \only<1>{
         An \textbf{category} $\mathcal{C}$ consists of the following \textit{data}:
      \begin{enumerate}
        \item a collection of \textit{objects} $X \in \textbf{ob}(\mathcal{C})$
@@ -335,7 +364,12 @@ The base space of a fiber bundle is a quotient topology\cite{munkresElementsAlge
        \end{equation*}
        then they are associative such that $h\circ(g\circ f) = (h \circ g) \circ f$  \cite{lawvere2009conceptual,riehlCategoryTheoryContext,maclaneCategoriesWorkingMathematician2013,fongInvitationAppliedCategory2019}.
        \end{enumerate}
-     \end{definition}
+     }
+       \only<2>{
+            The base space category consists of the openset object $\dbasec$ and morphisms between openset objects $\dfunchc \in Hom(\dbasec, \dbasec)$.
+
+    The base space category $\mathcal{\dbasec}$ is also equipped with functor  $\oplus: \mathcal{\dbasec} \sqcup \mathcal{\dbasec} \rightarrow \mathcal{\dbasec}$ for combining base spaces. 
+       }
 \end{frame}
 
 \begin{frame}{Add records $\rightarrow$ Add to base space}
@@ -372,39 +406,37 @@ The base space of a fiber bundle is a quotient topology\cite{munkresElementsAlge
     }
 \end{equation*}
 
+\only<1>{
 \begin{description}
     \item[$\textcolor{total}{\mathcal{U}}$] Space of all possible values, e.g. $\mathbb{R} \times \mathbb{R}^{+}$
     \item[$\textcolor{base}{C}$] Field names, e.g. $TEMP, PRCP$
     \item[$\textcolor{base}{\texttt{DT}}$] Data Type, e.g. $\texttt{float}$, $\texttt{PosFloat}$
-\end{description} 
-\end{frame}
-
-\begin{frame}{Types and Schema }
+\end{description}}
+\only<2>{
    A \textit{schema} consists of a pair $(\fnames, \sigma)$ where $\fnames$ is the set of field names and $\sigma: \fnames \rightarrow \textbf{DT}$ is a function from field name to field data type\cite{spivakSimplicialDatabases2009}
 
    The function $\sigma$ is composed with $\pi$ such that $\pi^{-1}(\sigma(C)) \subseteq \mathscr{U}$; this composition induces a domain bundle $\pi_{\sigma}:\mathscr{U}_{\sigma} \rightarrow \fnames$ that associates a field name $c \in C$ with its corresponding domain $\pi^{-1}_{\sigma}(C) \subseteq \mathscr{U}_{\sigma}$.
+}
+\only<3-4>{
+    A \textcolor{fiber}{\textbf{record}} is a function $\delement: \fnames \rightarrow \mathscr{U}_{\sigma}$ and the set of records on $\pi_{\sigma}$ is denoted $\Gamma^{\pi}(\sigma)$. Records must return an object of type $\sigma(\fname) \in \textbf{DT}$ for each field $c \in C$.
+}
 
-\end{frame}
-
-\begin{frame}{Record}
-    \begin{definition} A \textbf{record} is a function $\delement: \fnames \rightarrow \mathscr{U}_{\sigma}$ and the set of records on $\pi_{\sigma}$ is denoted $\Gamma^{\pi}(\sigma)$. Records must return an object of type $\sigma(\fname) \in \textbf{DT}$ for each field $c \in C$.
-    \end{definition}
-
-    Tables are sections $\dsection: \dbase \rightarrow \Gamma^{\pi}(\sigma)$ from an indexing space $\dbase$ to the set of all possible records $\Gamma^{\pi}(\sigma)$ on the schema bundle
-\end{frame}
-
-\begin{frame}{Fiber \texttt{TYPE} \dfiberc}
+\only<4>{
+    \textcolor{section}{Tables} are sections $\dsection: \dbase \rightarrow \Gamma^{\pi}(\sigma)$ from an indexing space $\dbase$ to the set of all possible records $\Gamma^{\pi}(\sigma)$ on the schema bundle
+}
+\only<5>{
     We define the \textcolor{fiber}{fiber space} \dfiberc\ to be the space of all possible data records
     \begin{equation}
       \dfiberc \coloneqq \{\delement: \fnames \rightarrow \mathscr{U}_{\sigma} \bigm{\vert} \pi_{\sigma}(\delement(\fname)) = \fname\;for\;all\; \fname \in \fnames \}
     \end{equation}
     such that the preimage of a point is the corresponding data type domain $\pi^{-1}(\dbasepoint) = \dfiber_{k} = \mathscr{U}_{{\sigma}_{\dbasepoint}}$.
+}
 \end{frame}
 
 \begin{frame}{Fiber category \dfiberc}
     The fiber category has a single object $\dfiberc$ of an arbitrary type and morphisms on the fiber object $\dfunctc \in Hom(\dfiberc, \dfiberc)$.
 
-    The fiber category $\mathcal{\dfiberc}$ is also equipped with a bifunctor  $\otimes: \mathcal{\dfiber} \times \mathcal{\dfiber} \rightarrow \mathcal{\dfiber}$ for combining fiber types.
+    The fiber category $\mathcal{\dfiberc}$ is also equipped with a bifunctor  $\otimes: \mathcal{\dfiberc} \times \mathcal{\dfiberc} \rightarrow \mathcal{\dfiberc}$ for combining fiber types.
 \end{frame}
 
 \begin{frame}{Fiber morphism \dfunctc}
@@ -490,19 +522,23 @@ The base space of a fiber bundle is a quotient topology\cite{munkresElementsAlge
 \end{frame}
 
 \begin{frame}{topological equivariance: presheaf}
-    \begin{definition}\label{def:atct:presheaf}
-        A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{spanier1989algebraic}.
-    \end{definition}
-    The presheaf is contravariant when for every arbitrary morphism between input base spaces $\dfunch: \openset_1 \rightarrow \openset_2$ there exists a corresponding pullback function between the sets of sections $\dfuncpull: \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} \rightarrow \cgamma{\opensetc_1}{\dtotalc\restriction_{\openset_c1}}$.
-\end{frame}
-
-\begin{frame}{topological equivariance: presheaf}
+    \uncover<2-3>{
     \begin{figure}
         \includegraphics[width=\textwidth]{../paper/figures/tex/presheaf.pdf}
     \end{figure}
+    }
+    \only<1-2>{
+    \begin{definition}\label{def:atct:presheaf}
+        A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{spanier1989algebraic}.
+    \end{definition}
+    }
+    \only<3>{
+     The presheaf is contravariant when for every arbitrary morphism between input base spaces $\dfunch: \openset_1 \rightarrow \openset_2$ there exists a corresponding pullback function between the sets of sections $\dfuncpull: \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} \rightarrow \cgamma{\opensetc_1}{\dtotalc\restriction_{\openset_c1}}$.
+    }
 \end{frame}
 
 \begin{frame}{Container invariance: sheaf}
+
     \begin{definition}\label{def:atct:sheaf}\cite{bakerEuclideanSpaceMathsSheaf,spanier1989algebraic} A \textbf{sheaf} is a presheaf that satisfies the following two axioms
         \begin{itemize}
           \item \textit{locality} two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values $\dsection^{a}\vert_{\openset_i} =  \dsection^{b}\vert_{\openset_i}$ over the open cover $\bigcup_{i\in I} \openset_{i} \subset \openset$ (indexed by $I$).
@@ -510,11 +546,35 @@ The base space of a fiber bundle is a quotient topology\cite{munkresElementsAlge
           \end{itemize}
         \end{definition}
 \end{frame}
-
 \begin{frame}{Container invariance: sheaf}
-\begin{figure}
-    \includegraphics[width=\linewidth]{../paper/figures/tex/sheaf_rules.pdf}
-\end{figure}
+       A \textbf{sheaf} is a presheaf that satisfies the following two axioms  \cite{bakerEuclideanSpaceMathsSheaf,spanier1989algebraic}
+   
+    \begin{columns}
+      \column{.6\textwidth}
+           \begin{itemize}
+        \only<1-2, 4>{
+          \item \textit{locality} two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values $\dsection^{a}\vert_{\openset_i} =  \dsection^{b}\vert_{\openset_i}$ over the open cover $\bigcup_{i\in I} \openset_{i} \subset \openset$ (indexed by $I$).}
+        \only<1, 3-4>{
+          \item \textit{gluing} the union of sections defined over subspaces $\dsection^{i} \in \Gamma(\openset_i, \dtotal|_{\openset_i})$ is equivalent to a section defined over the whole space $\dsection\vert_{\openset_i} = \dsection^{i}$ for all $i\in I$ if all pairs of sections agree on overlaps $\dsection^{i}\vert_{\openset_i\cap\openset_j} =  \dsection^{j}\vert_{\openset_i\cap\openset_j}$
+        }
+        \end{itemize}
+           \column{.4\textwidth}
+           \only<2>{
+            \begin{figure}
+                \includegraphics[width=\linewidth]{../paper/figures/tex/local.pdf}
+            \end{figure}
+           }
+             \only<3>{
+            \begin{figure}
+                \includegraphics[width=\linewidth]{../paper/figures/tex/glue.pdf}
+            \end{figure}
+           }
+             \only<4>{
+            \begin{figure}
+                \includegraphics[width=\linewidth]{../paper/figures/tex/local_glue.pdf}
+            \end{figure}
+           }
+      \end{columns}
 \end{frame}
 
 \begin{frame}{What about needing more than one record?}
@@ -525,6 +585,32 @@ The base space of a fiber bundle is a quotient topology\cite{munkresElementsAlge
 \end{equation}
 where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The \textit{germ} is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$ and is the data.
 \end{frame}
+
+\begin{frame}[Sheaves: Data Containers]
+\begin{table}[H]
+  \centering
+  {\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|r|l|}
+    \hline
+      axiom & applied to datasets and indexes \\
+    \hline
+     presheaf & given $\textcolor{base}{index_1} \subset \textcolor{base}{index_2}$:\\
+        & $\exists\;\textcolor{section}{dataset}[\textcolor{base}{index_2}]$\\
+      & $\Rightarrow \textcolor{section}{dataset}[\textcolor{base}{index_2}][\textcolor{base}{index_1}] = \textcolor{section}{dataset}[\textcolor{base}{index_1}]$\\
+     &  $\exists\;\textcolor{section}{dataset}[\textcolor{base}{index_1}] \nRightarrow \exists\;\textcolor{section}{dataset}[\textcolor{base}{index_2}]$\\
+     &\\
+    \hline
+    locality & $\textcolor{section}{dataset^1}[\textcolor{base}{i}] = \textcolor{section}{dataset^2}[\textcolor{base}{i}]\;\forall\; \textcolor{base}{i}\in \textcolor{base}{index}\;$ \\
+     & $\Rightarrow \textcolor{section}{dataset^1}=\textcolor{section}{dataset^2}$ \\
+    \hline
+    gluing & $\textcolor{base}{i}=\textcolor{base}{j}$ and $\textcolor{section}{dataset^1}[\textcolor{base}{i}] = \textcolor{section}{dataset^2}[\textcolor{base}{j}]$ \\
+     & $\textcolor{section}{dataset^3}\coloneq  \textcolor{section}{dataset^1}[\textcolor{base}{:i}]  \oplus \textcolor{section}{dataset^2}[\textcolor{base}{j:}]$ \\
+\hline
+  \end{tabular}
+  }
+\end{table}
+\end{frame}
+
 \section{Artist}
 
 \subsection{Homeomorphism}
@@ -584,9 +670,29 @@ such that $\vindexpush\gsection(\dbasepoint))(\gbasepoint) = \gsection(\gbasepoi
 \end{frame}
 
 \begin{frame}{Artist}
-    \begin{definition}\label{def:natural-transform}
+
+\uncover<2>{
+    \begin{equation*} {\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|c|c|}
+    \hline
+    $\mathcal{C}$ & $\mathcal{D}$ \\
+    \hline
+    \begin{tikzcd}[ampersand replacement=\&, sep=huge]
+        \textcolor{base}{c} \arrow[d, "f", color=action] \\ \textcolor{base}{c^{\prime}}      
+    \end{tikzcd}
+    & 
+    \begin{tikzcd}[ampersand replacement=\&, sep=huge]
+        \textcolor{sheaf}{F(c)} \arrow[d, "F(f)", color=action] \arrow[r, "\alpha_{c}", color=artist] \& 
+        \textcolor{sheaf}{G(c)} \arrow[d, "G(f)", color=action] \\
+        \textcolor{sheaf}{F(c^{\prime})} \arrow[r, "\alpha_{c^{\prime}}", color=artist] \& \textcolor{sheaf}{G(c^{\prime})} 
+    \end{tikzcd}\\
+    \hline
+  \end{tabular}}
+\end{equation*}
+}
+    \begin{definition}[natural transform]\label{def:natural-transform}
         Given two functors $F, G: \mathcal{C}\rightarrow \mathcal{D}$, a \textbf{natural transformation} $\alpha: F \rightarrow G$ is a function which assigns to each object $c$ of $\mathcal{C}$ a morphism $\alpha_c:F(input) \rightarrow G(c), G(c) \in \mathcal{D}$, in such a way that for every morphism $f:c \rightarrow c^\prime, c^\prime \in \mathcal{C}$, the morphisms in $\mathcal{D}$ commute such that $\alpha_c^{\prime}(F(f)(F(c))) = G(f)(\alpha_c(F(c))$. When this holds, $\alpha_{c}$ is \textit{natural} in $c$.\cite{maclaneCategoriesWorkingMathematician2013}.
-      \end{definition}
+     \end{definition}
 
 \end{frame}
 
