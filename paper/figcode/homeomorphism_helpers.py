@@ -69,7 +69,7 @@ def get_mapdata(mapfile, geofile, map_date):
     nygeo = gpd.GeoDataFrame(nyg, geometry=gpd.points_from_xy(nyg['LONGITUDE'], nyg['LATITUDE']), crs='EPSG:4269')
     return nygeo, nyshp
     
-def make_voxels(dates, lons, lats):
+def make_voxels(dates, lons, lats, dims=3):
     i, j, k =  np.meshgrid(dates, lons, lats)
     vox_shape = (lons.size, dates.size, lats.size)
     filled = np.zeros(vox_shape, dtype='bool') 
@@ -78,29 +78,36 @@ def make_voxels(dates, lons, lats):
     
     # plane: fixed time
     mp = (i == airports['map_date'])
-    filled[mp] = 1
-    colors[mp] = airports['map_color']
-    
+    if dims in [2, 3]:
+        filled[mp] = 1
+        colors[mp] = airports['map_color']
+        
     
     # timeseries: fixed lat and lon 
     time = (j == airports['t_lon']) & (k == airports['t_lat']) 
-    filled[time] = 1
-    colors[time] = airports['time_color']
-    #edgecolors[lga] = lga_color
+    if dims in [1, 3]:
+        filled[time] = 1
+        colors[time] = airports['time_color']
     alb = ((i==airports['point_date']) & (j==airports['t_lon']) & (k == airports['t_lat']))
-    edgecolors[alb] = airports['time_point_color']
+    if dims == 3:
+        edgecolors[alb] = airports['time_point_color']
+    elif dims == 0:
+        filled[alb] = 1
+        colors[alb] = airports['time_color']
     # points  - compare two stations
     jfk = ((i==airports['point_date']) & (j==airports['jfk_lon']) & (k==airports['jfk_lat']))
-    filled[jfk] = 1
-    colors[jfk] = airports['jfk_color']
+    if dims in [0,3]:
+        filled[jfk] = 1
+        colors[jfk] = airports['jfk_color']
     #edgecolors[jfk] = jfk_color
     lga = ((i==airports['point_date']) & (j ==airports['lga_lon']) & (k == airports['lga_lat']))
-    filled[lga]= 1
+    if dims in [0,3]:
+        filled[lga]= 1
     colors[lga] = airports['lga_color']
     
     return filled, colors, edgecolors
 
-def make_cube(dates, lons, lats, ax):
+def make_cube(dates, lons, lats, ax, labels=True, dims=3):
     x0, x1 = 0, len(lons)
     y0, y1 = 0, len(dates)
     z0, z1 = 0, len(lats)
@@ -121,27 +128,32 @@ def make_cube(dates, lons, lats, ax):
     cube_front = Poly3DCollection(z_more, facecolor=('lavender', .5), edgecolor=pcd['base'], ls=':', zorder=20)
     ax.add_collection3d(cube_front)
 
-    filled, colors, edgecolors = make_voxels(dates, lons, lats)
+    filled, colors, edgecolors = make_voxels(dates, lons, lats, dims=dims)
     vox = ax.voxels(filled, facecolors = colors, edgecolors=edgecolors, ls='--', shade=None, alpha=1, zorder=10)
-    
-    # project the date on the date axes so     
-    y_ind = np.where(dates==airports['point_date'])[0]
-    p_alpha = .75
-    # y is the date, z is latitude +- where, longitude is lost, x is fixed at x0
-    for p_lat, p_color in [(airports['jfk_lat'], airports['jfk_color']), 
-                           (airports['lga_lat'], airports['lga_color']), 
-                           (airports['t_lat'], airports['time_point_color'])]:
-        p_ind = np.where(lats == p_lat)[0]
-        ax.plot((x0, x0), (y_ind, y_ind), (p_ind, p_ind + 1), color=p_color, alpha=p_alpha)
-    span_ind = np.where(lats == airports['t_lat'])[0]
 
-    ax.plot((x0,x0), (y_ind, y_ind), (z0, x1), color=airports['point_color'], alpha=p_alpha, zorder=-1)
-
+    if dims in [1, 3]:
+        # project the date on the date axes so     
+        y_ind = np.where(dates==airports['point_date'])[0]
+        p_alpha = .75
+        # y is the date, z is latitude +- where, longitude is lost, x is fixed at x0
+        for p_lat, p_color in [(airports['jfk_lat'], airports['jfk_color']), 
+                               (airports['lga_lat'], airports['lga_color']), 
+                               (airports['t_lat'], airports['time_point_color'])]:
+            p_ind = np.where(lats == p_lat)[0]
+            ax.plot((x0, x0), (y_ind, y_ind), (p_ind, p_ind + 1), color=p_color, alpha=p_alpha)
+        span_ind = np.where(lats == airports['t_lat'])[0]
+        ax.plot((x0,x0), (y_ind, y_ind), (z0, x1), color=airports['point_color'], alpha=p_alpha, zorder=-1)
     
-    N = 10
-    t_ind = np.where(dates==airports['map_date'])
-    poly_alpha = p_alpha - .25
-    ax.fill_between(x0, np.linspace(y0, t_ind, N), span_ind, x0, np.linspace(y0, t_ind, N), span_ind+1, facecolor=airports['time_color'],  alpha=poly_alpha, edgecolor= None, zorder=-30)
+        
+        N = 10
+        t_ind = np.where(dates==airports['map_date'])
+        poly_alpha = p_alpha - .25
+        
+        ax.fill_between(x0, np.linspace(y0, t_ind if dims == 3 else y1 , N), span_ind, 
+                        x0, np.linspace(y0, t_ind if dims == 3 else y1, N), span_ind+1, 
+                        facecolor=airports['time_color'], alpha=poly_alpha, edgecolor= None, zorder=-30)
+   
+        
 
     #fake the lines to get the correct zorder
     ax.plot((x0, x0),(y1, y1), (z0, z1), color=cube_front.get_ec(), ls=cube_front.get_ls()[0], zorder=-10, lw=cube_front.get_lw())
@@ -151,29 +163,31 @@ def make_cube(dates, lons, lats, ax):
     ax.axis('off')
             
     
-            
-    ax.text(x0, y0+y1/2, z1, "date", zdir='y', va='bottom', ha='center', size=fs['normal'])
-    ax.text(x1, y1, z0 + z1/2, "latitutude", zdir='z', ha='center', va='top', rotation=90, 
-            transform_rotates_text=True, rotation_mode='anchor', size=fs['normal'])
-    ax.text(x0+x1/2, y1, z1, "longitude", zdir='x', va='bottom', ha='center', size=fs['normal'] )
+    if labels:
+        ax.text(x0, y0+y1/2, z1, "date", zdir='y', va='bottom', ha='center', size=fs['normal'])
+        ax.text(x1, y1, z0 + z1/2, "latitutude", zdir='z', ha='center', va='top', rotation=90, 
+                transform_rotates_text=True, rotation_mode='anchor', size=fs['normal'])
+        ax.text(x0+x1/2, y1, z1, "longitude", zdir='x', va='bottom', ha='center', size=fs['normal'] )
     return vox
 
-def make_ts(df, ax):
+def make_ts(df, ax, year=True, day=True):
     ts = get_timeseries(df, airports['t_lat'], airports['t_lon'])
     
     ln,  = ax.plot('DATE_DTYPE', "PRCP", data=ts, color = airports['time_color'])
     point_date = pd.to_datetime(airports['point_date'])
-    ax.axvline(point_date, color=airports['point_color'], alpha=.75, zorder=-1)
+    if day:
+        ax.axvline(point_date, color=airports['point_color'], alpha=.75, zorder=-1)
     ax.set_xlim(xmin=ts['DATE_DTYPE'].min(), xmax=ts['DATE_DTYPE'].max())
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%b"))
-    ax.annotate(point_date.year, (1, -0.1), xycoords='axes fraction', 
-                fontsize=fs['footnote'], va='top', ha='center')
+    if year:
+        ax.annotate(point_date.year, (1, -0.1), xycoords='axes fraction', 
+                    fontsize=fs['footnote'], va='top', ha='center')
     return ln 
     
 def make_bars(df, ax1):    
     ax1.set_title(pd.to_datetime(airports['point_date']).strftime(format="%b %d"), 
-                  color=papercolors.lighten(airports['point_color'], 2), size=fs['small'])
+               color=papercolors.lighten(airports['point_color'], 2), size=fs['small'])
     jfk = df[(df['DATE']==airports['point_date']) & (df['LATITUDE'] == airports['jfk_lat']) & (df['LONGITUDE'] == airports['jfk_lon'])]
     lga = df[(df['DATE']==airports['point_date']) & (df['LATITUDE'] == airports['lga_lat']) & (df['LONGITUDE'] == airports['lga_lon'])]
     ts = get_timeseries(df, airports['t_lat'], airports['t_lon'])
