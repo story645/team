@@ -195,7 +195,7 @@ def _get_bar_data(df):
 def make_bars(df, ax1):    
     ax1.set_title(pd.to_datetime(airports['point_date']).strftime(format="%b %d"), 
                color=papercolors.lighten(airports['point_color'], 2), size=fs['small'])
-    vals,  = _get_bar_data(df)
+    vals, _  = _get_bar_data(df)
     bars = ax1.bar(["JFK", "LGA", "ALB"], vals, color=[airports['jfk_color'], airports['lga_color'], airports['time_color']])
     print(vals)
     return bars
