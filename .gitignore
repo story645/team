@@ -12,6 +12,7 @@ _minted*
 syntax: glob
 *~
 *.aux
+*.brf
 *.glo
 *.idx
 *.log
