@@ -1,3 +1,79 @@
+\subsection{Structure Preservation}
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{k_different_types.pdf}
+  \caption{This weather station data has multiple embedded continuities - points at each time and position, timeseries at each position, and maps at each time. The corresponding visualizations - bar chart, timeseries, and map - each preserve the continuity of the subset of the data they visualize by not introducing or leaving out values and preserving the relative positioning of continuous values.}
+  \label{fig:related-work:continuity:ktypes}
+\end{figure}
+
+Generally, preserving structure means that a visualization is expected to preserve the $field$ properties and $connectivity$ of the corresponding dataset:
+
+\begin{description}
+  \item[\textcolor{fiber}{\textbf{field}}]\footnote{In this paper, color in definitions, equations, and visualizations is used to group conceptually related terms\cite{headMathAugmentationHow2022}, for example \textcolor{fiber}{field} and \textcolor{fiber}{fiber}.} is a set of values of the same type, e.g. the date, location, stations, and precipitation in \autoref{fig:related-work:continuity:ktypes}. 
+  \item[\textcolor{base}{\textbf{connectivity}}] is how elements are arranged in a dataset\cite{wilkinsonGrammarGraphics2005}, for example as 0D ($\bullet$) points, along a 1D (--) line, in a 2D ($\blacksquare$) surface, as a 3D cube, or all of the above as in \autoref{fig:related-work:continuity:ktypes}.
+\end{description}
+
+To encode connectivity and field structure in a way that is both uniform and generalizable, we extend Butler's work on using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but Butler provides a thorough introduction to bundles for visualization practitioners. 
+
+
+\note{Move most of this to topology}
+
+semantic indexing as described by Munzner's key-value model of data structure \cite{munznerWhatDataAbstraction2014} act as different ways of partitioning the underlying data continuity. 
+
+For example, the data cube in \autoref{fig:related-work:continuity:ktypes} could be subset into sets of timeseries where the key would be $station$, or subset into maps where the key would be $date$, or subset into station records where the keys are $(date, latitude, longitude)$. Using a connectivity model rather than semantic indexing also makes clearer when different labeling schemes refer to the same point, for example how 0-360 and 180E-180W are two ways of labeling longitude or how (date, lat, lon) and (date, station) refer to the same point. 
+\note{generalization, also use to lead into homemomorphism}
+This is in contrast to Wilkinson modeling the continuity as metric spaces\cite{wilkinsonGrammarGraphics2005} such that a distance function is a fixed property of the continuity; in our model it distance is a property of a field over that continuity. 
+
+\subsubsection{Homemomorphism}
+\label{sec:related-work:continuity}
+Visual algorithms are assumed to preserve the underlying continuity of their input data, as described in taxonomies of visualization algorithms Chi\cite{chiTaxonomyVisualizationTechniques2000} and by Troy and M\"{o}ller \cite{toryRethinkingVisualizationHighlevel2004}, and codified by 
+
+
+but generally do not verify that input structure. 
+
+% move 
+For example, a \texttt{line} algorithm often does not have a way to query whether a list of (x,y) coordinates is the distinct rows, the time series, or the list of stations in \autoref{fig:related-work:continuity:ktypes}. While plotting the time series as a continuous line would be correct, it would be incorrect for a visualization to indicate that the distinct rows or stations are connected in a 1D continuous manner because it introduces ambiguity over which part of the line maps back to the data. This 
+
+
+This ambiguity cannot exist when the map between data and graphic is a homeomorphism:
+\begin{definition}]\cite{wilkinsonGrammarGraphics2005}
+  A function $f$ is a \textit{homeomorphism} if $f$ is a continuous bijective function and its inverse function $f^{-1}$ is also continuous.
+\end{definition}
+which means that every element of the graphic maps back to a data element. The bar plot, line plot, and heatmap in \autoref{fig:related-work:continuity:ktypes} have a homeomorphic relationship to the 0D, 1D, and 2D ($\blacksquare$) connectivity's embedded in the continuous 3 dimensional indexing space; each point of the visualization maps back into a point in its corresponding indexing space in the cube. Using homeomorphism to test whether continuity is preserved formalizes Bertin's codification of how the topology of observations matches the class of representation (i.e. point , line, area) \cite{bertinSemiologyGraphicsDiagrams2011} and Wilkinson's assertion that connectivity must be preserved \cite{wilkinsonGrammarGraphics2005}. Wilkinson \cite{wilkinsonGrammarGraphics2005} objected to using homeomorphism as a test for structural equality because some common visualizations are not homemorphic (for example, no continuous map exists between a plane and a sphere), but the fiber bundle abstraction provides a method for subdividing spaces such that a homemorphism can be constructed. 
+\subsubsection{Equivariance}
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{actions.pdf}
+  \caption{}
+  \label{fig:related-work:field-preservation}
+\end{figure}
+
+Data is often described by its mathematical structure, for example the Steven's measurement scales define nominal, ordinal, interval, and ratio data by the transformations allowed on the data \cite{stevensTheoryScalesMeasurement1946}. Other researchers have since expanded the scales to encapsulate more types of structure \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}, and in \autoref{sec:atct:fb:fiber} we generalize further by proposing that data can be encoded as mathematical categories.
+
+Loosely, structure is defined as a collection of values $X$ and transformations $G$ on those values. These transformations can be operations, relations, or generalized as actions:
+\begin{definition}\label{def:related-work:action}
+  An \textcolor{action}{\textbf{action}} is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.\cite{grimaldiDiscreteCombinatorialMathematics2006}
+\end{definition}
+Elements of $X$ can be from one data field or all of them or some subset; similarly the actions act on the elements of $X$ and each action can be a composition of actions.
+
+A function that preserves structure when the input or output is changed by a group\footnote{A mathematical {group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative, and invertible, consisting of a set of values $X$ and \textcolor{action}{actions} on the set {$G = (G,\circ, e)$}.} action is called \textit{equivariant}.  Given a group $G$ that acts on both $X$ and $Y$, 
+\begin{definition}\label{def:equivariance}
+ a function $f: X \rightarrow Y$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
+\end{definition}
+This means that a visualization is structure preserving when there exist compatible group actions on the data and visualization, as proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}. 
+
+Although the Steven's scales were conceptualized as having group structure, the ordinal scale has a monoidal structure because partial orders ($\geq, \leq$) are not invertible. This means \textit{equivariance} cannot be used to test for structure preservation; instead \textit{homomorphism} can be used. Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$
+\begin{definition}\label{def:homomorphism}
+  A function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identities $f(I_x) = I_y$ for all $x, y \in X$ \cite{grimaldiDiscreteCombinatorialMathematics2006}
+\end{definition}
+This means that a visualization is structure preserving when there
+exists compatible operators (here $\circ$ and $*$) such that the relations between data elements is preserved in the mapping, 
+as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}.
+
+As illustrated in \autoref{fig:related-work:field-preservation}, a visualization is structure preserving when the functions commute such that the graphic is the same whether the data is acted on ($
+\dfunct$) and then mapped ($A$) to a graphic or whether the data is mapped to a graphic that is then modified in a compatible way. As shown in \autoref{fig:related-work:field-preservation}, a function can be homomorphic but not equivariant, such as an exponential encoding, or equivariant but not homomorphic, such as the inverse encoding. As shown, a function can also be homomorphic (or equivariant) with respect to one action but not with respect to another. We generalize the expectation of commutativity to codify structure preservation in \autoref{sec:artist:equivariant:data}.
+
+
+
+
 ## reorder:
 # inclusion & equiv can be done as O_E->O_H
 # equiv can then be used to introduce O_A which is the constraint on O_H

@@ -1,0 +1,396 @@
+\subsection{Structure Preservation}
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{k_different_types.pdf}
+  \caption{This weather station data has multiple embedded continuities - points at each time and position, timeseries at each position, and maps at each time. The corresponding visualizations - bar chart, timeseries, and map - each preserve the continuity of the subset of the data they visualize by not introducing or leaving out values and preserving the relative positioning of continuous values.}
+  \label{fig:related-work:continuity:ktypes}
+\end{figure}
+
+Generally, preserving structure means that a visualization is expected to preserve the $field$ properties and $connectivity$ of the corresponding dataset:
+
+\begin{description}
+  \item[\textcolor{fiber}{\textbf{field}}]\footnote{In this paper, color in definitions, equations, and visualizations is used to group conceptually related terms\cite{headMathAugmentationHow2022}, for example \textcolor{fiber}{field} and \textcolor{fiber}{fiber}.} is a set of values of the same type, e.g. the date, location, stations, and precipitation in \autoref{fig:related-work:continuity:ktypes}. 
+  \item[\textcolor{base}{\textbf{connectivity}}] is how elements are arranged in a dataset\cite{wilkinsonGrammarGraphics2005}, for example as 0D ($\bullet$) points, along a 1D (--) line, in a 2D ($\blacksquare$) surface, as a 3D cube, or all of the above as in \autoref{fig:related-work:continuity:ktypes}.
+\end{description}
+
+To encode connectivity and field structure in a way that is both uniform and generalizable, we extend Butler's work on using a mathematical structure called fiber bundles as an abstract data representation in visualization \cite{butlerVectorBundleClassesForm1992, butlerVisualizationModelBased1989}. We sketch out fiber bundles in \autoref{sec:atct:fiber-bundles}, but Butler provides a thorough introduction to bundles for visualization practitioners. 
+
+
+\note{Move most of this to topology}
+
+semantic indexing as described by Munzner's key-value model of data structure \cite{munznerWhatDataAbstraction2014} act as different ways of partitioning the underlying data continuity. 
+
+For example, the data cube in \autoref{fig:related-work:continuity:ktypes} could be subset into sets of timeseries where the key would be $station$, or subset into maps where the key would be $date$, or subset into station records where the keys are $(date, latitude, longitude)$. Using a connectivity model rather than semantic indexing also makes clearer when different labeling schemes refer to the same point, for example how 0-360 and 180E-180W are two ways of labeling longitude or how (date, lat, lon) and (date, station) refer to the same point. 
+\note{generalization, also use to lead into homemomorphism}
+This is in contrast to Wilkinson modeling the continuity as metric spaces\cite{wilkinsonGrammarGraphics2005} such that a distance function is a fixed property of the continuity; in our model it distance is a property of a field over that continuity. 
+
+\subsubsection{Homemomorphism}
+\label{sec:related-work:continuity}
+Visual algorithms are assumed to preserve the underlying continuity of their input data, as described in taxonomies of visualization algorithms Chi\cite{chiTaxonomyVisualizationTechniques2000} and by Troy and M\"{o}ller \cite{toryRethinkingVisualizationHighlevel2004}, and codified by 
+
+
+but generally do not verify that input structure. 
+
+% move 
+For example, a \texttt{line} algorithm often does not have a way to query whether a list of (x,y) coordinates is the distinct rows, the time series, or the list of stations in \autoref{fig:related-work:continuity:ktypes}. While plotting the time series as a continuous line would be correct, it would be incorrect for a visualization to indicate that the distinct rows or stations are connected in a 1D continuous manner because it introduces ambiguity over which part of the line maps back to the data. This 
+
+
+This ambiguity cannot exist when the map between data and graphic is a homeomorphism:
+\begin{definition}]\cite{wilkinsonGrammarGraphics2005}
+  A function $f$ is a \textit{homeomorphism} if $f$ is a continuous bijective function and its inverse function $f^{-1}$ is also continuous.
+\end{definition}
+which means that every element of the graphic maps back to a data element. The bar plot, line plot, and heatmap in \autoref{fig:related-work:continuity:ktypes} have a homeomorphic relationship to the 0D, 1D, and 2D ($\blacksquare$) connectivity's embedded in the continuous 3 dimensional indexing space; each point of the visualization maps back into a point in its corresponding indexing space in the cube. Using homeomorphism to test whether continuity is preserved formalizes Bertin's codification of how the topology of observations matches the class of representation (i.e. point , line, area) \cite{bertinSemiologyGraphicsDiagrams2011} and Wilkinson's assertion that connectivity must be preserved \cite{wilkinsonGrammarGraphics2005}. Wilkinson \cite{wilkinsonGrammarGraphics2005} objected to using homeomorphism as a test for structural equality because some common visualizations are not homemorphic (for example, no continuous map exists between a plane and a sphere), but the fiber bundle abstraction provides a method for subdividing spaces such that a homemorphism can be constructed. 
+\subsubsection{Equivariance}
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{actions.pdf}
+  \caption{}
+  \label{fig:related-work:field-preservation}
+\end{figure}
+
+Data is often described by its mathematical structure, for example the Steven's measurement scales define nominal, ordinal, interval, and ratio data by the transformations allowed on the data \cite{stevensTheoryScalesMeasurement1946}. Other researchers have since expanded the scales to encapsulate more types of structure \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}, and in \autoref{sec:atct:fb:fiber} we generalize further by proposing that data can be encoded as mathematical categories.
+
+Loosely, structure is defined as a collection of values $X$ and transformations $G$ on those values. These transformations can be operations, relations, or generalized as actions:
+\begin{definition}\label{def:related-work:action}
+  An \textcolor{action}{\textbf{action}} is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.\cite{grimaldiDiscreteCombinatorialMathematics2006}
+\end{definition}
+Elements of $X$ can be from one data field or all of them or some subset; similarly the actions act on the elements of $X$ and each action can be a composition of actions.
+
+A function that preserves structure when the input or output is changed by a group\footnote{A mathematical {group} is a set with an associative binary operator. This operation must have an identity element and be closed, associative, and invertible, consisting of a set of values $X$ and \textcolor{action}{actions} on the set {$G = (G,\circ, e)$}.} action is called \textit{equivariant}.  Given a group $G$ that acts on both $X$ and $Y$, 
+\begin{definition}\label{def:equivariance}
+ a function $f: X \rightarrow Y$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
+\end{definition}
+This means that a visualization is structure preserving when there exist compatible group actions on the data and visualization, as proposed by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}. 
+
+Although the Steven's scales were conceptualized as having group structure, the ordinal scale has a monoidal structure because partial orders ($\geq, \leq$) are not invertible. This means \textit{equivariance} cannot be used to test for structure preservation; instead \textit{homomorphism} can be used. Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$
+\begin{definition}\label{def:homomorphism}
+  A function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identities $f(I_x) = I_y$ for all $x, y \in X$ \cite{grimaldiDiscreteCombinatorialMathematics2006}
+\end{definition}
+This means that a visualization is structure preserving when there
+exists compatible operators (here $\circ$ and $*$) such that the relations between data elements is preserved in the mapping, 
+as proposed by Mackinlay\cite{mackinlayAutomaticDesignGraphical1987}.
+
+As illustrated in \autoref{fig:related-work:field-preservation}, a visualization is structure preserving when the functions commute such that the graphic is the same whether the data is acted on ($
+\dfunct$) and then mapped ($A$) to a graphic or whether the data is mapped to a graphic that is then modified in a compatible way. As shown in \autoref{fig:related-work:field-preservation}, a function can be homomorphic but not equivariant, such as an exponential encoding, or equivariant but not homomorphic, such as the inverse encoding. As shown, a function can also be homomorphic (or equivariant) with respect to one action but not with respect to another. We generalize the expectation of commutativity to codify structure preservation in \autoref{sec:artist:equivariant:data}.
+
+
+
+
+
+
+
+\appendix
+
+
+\section{Summary}
+\label{sec:appendix:summary}
+The topological spaces and functions introduced throughout this paper are summarized here for reference.
+
+\begin{table}[H]
+  \centering
+  {\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|r | c c c|}
+    \hline
+    &\textcolor{base}{point}/\textcolor{base}{openset}/\textcolor{base}{base space} & \textcolor{fiber}{fiber space} & \textcolor{total}{total space}\\
+     &  location/subset/indices & record/fields &  dataset type\\
+    \hline
+   Data & $\dbasepointc \in \opensetc \subseteq \dbasec$ & $\delementc \in \dfiberc$ & \dtotalc\\
+   Visual & $\dbasepointc \in \opensetc \subseteq \dbasec$  & $\velementc \in \vfiberc$ & \vtotalc\\
+   Graphic & $\gbasepointc \in \opensetgc \subseteq \gbasec$ & $\gelementc \in \gfiberc$ & \gtotalc\\
+   \hline
+  \end{tabular}
+  \caption{Topological spaces introduced in \autoref{sec:atct:fiber-bundles}}
+  \label{tab:appendix:summary:objects}
+  }
+\end{table}
+
+\begin{table}[H]
+  \centering
+  {\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|r | l l | }
+    \hline
+     & \textcolor{section}{section} & \textcolor{sheaf}{sheaf} \\
+     & record at location & set of possible records for subset \\
+     \hline
+  Data & $ \cgamma{\dbasec}{\dtotalc} \ni \dsectionc: \dbase \textcolor{section}{\rightarrow} \dfiberc$ & $\sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}$\\
+  Visual &  $\cgamma{\dbasec}{\vtotalc} \ni \vsectionc: \dbase \textcolor{section}{\rightarrow} \vfiberc$ & $\sheafc_{\dbasec, \vtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\vtotalc\restriction_{\opensetc}}$\\
+  Graphic &    $\cgamma{\gbasec}{\gtotalc} \ni \gsectionc: \gbase \textcolor{section}{\rightarrow} \gfiberc$ &  $\sheafc_{\gbasec, \gtotalc}: \opensetgc \rightarrow \cgamma{\opensetc}{\gtotalc\restriction_{\opensetgc}}$ \\
+  \hline
+  \end{tabular}
+  \caption{Functions that associate topological subspaces with records, discussed in \autoref{sec:atct:fb:sections} and \autoref{sec:atct:sheaves}}
+  \label{tab:appendix:summary:datafunctions}
+  }
+\end{table}
+
+\begin{table}[H]
+  \centering
+  {\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|r|l|}
+    \hline
+      axiom & applied to datasets and indexes \\
+    \hline
+     presheaf & given $\textcolor{base}{index_1} \subset \textcolor{base}{index_2}$:\\
+        & $\exists\;\textcolor{section}{dataset}[\textcolor{base}{index_2}]$\\
+      & $\Rightarrow \textcolor{section}{dataset}[\textcolor{base}{index_2}][\textcolor{base}{index_1}] = \textcolor{section}{dataset}[\textcolor{base}{index_1}]$\\
+     &  $\exists\;\textcolor{section}{dataset}[\textcolor{base}{index_1}] \nRightarrow \exists\;\textcolor{section}{dataset}[\textcolor{base}{index_2}]$\\
+     &\\
+    \hline
+    locality & $\textcolor{section}{dataset^1}[\textcolor{base}{i}] = \textcolor{section}{dataset^2}[\textcolor{base}{i}]\;\forall\; \textcolor{base}{i}\in \textcolor{base}{index}\;$ \\
+     & $\Rightarrow \textcolor{section}{dataset^1}=\textcolor{section}{dataset^2}$ \\
+    \hline
+    gluing & $\textcolor{base}{i}=\textcolor{base}{j}$ and $\textcolor{section}{dataset^1}[\textcolor{base}{i}] = \textcolor{section}{dataset^2}[\textcolor{base}{j}]$ \\
+     & $\textcolor{section}{dataset^3}\coloneq  \textcolor{section}{dataset^1}[\textcolor{base}{:i}]  \oplus \textcolor{section}{dataset^2}[\textcolor{base}{j:}]$ \\
+\hline
+  \end{tabular}
+  \caption{Presheaf and sheaf constraints implemented by structure preserving data containers, discussed in \autoref{sec:atct:sheaves}}
+  \label{tab:appendix:summary:sheaves}
+  }
+\end{table}
+
+\begin{table}[H]
+  \centering
+  {\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|r | l  l |}
+\hline
+& function & constraint\\
+\hline
+ \gbasepointc\ to \dbasepointc& $ \vindexc: \opensetgc \rightarrow \opensetc$ & for $\gbasepointc \in \opensetgc$ exists $\dbasepointc \in \opensetc$ \\
+ & & s.t. $\vindexc(\gbasepointc) = \dbasepointc$\\
+ graphic for \dbasepointc & $ \vindexpushc \gsectionc: \opensetc \rightarrow \vindexpushc\gtotalc\restriction_{\opensetc}$ & $\vindexpushc\gsectionc(\dbasepointc)(\gbasepointc) = \gsectionc(\gbasepointc)$ \\
+ record for \gbasepointc & $\vindexpullc\dsectionc: \opensetgc \rightarrow  \vindexpullc\dtotalc\restriction_{\opensetgc}$ & $\vindexpullc\dsectionc(\gbasepointc)=\dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)$  \\
+\hline
+  \end{tabular}
+  \caption{Functors between graphic and data indexing spaces  \autoref{sec:atct:xi}}
+  \label{tab:appendix:summary:transport}
+  }
+\end{table}
+
+
+
+\begin{table}[H]
+\centering
+{\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|r|l|l|}
+  \hline
+  changes & function & constraints, for all $\dbasepointc \in \opensetc$ \\
+  \hline
+  index & $\dfunchc: \opensetc \rightarrow \opensetc^{\prime}$ &   $\dsectionc(\dbasepointc) = \dsectionc(\dfunchc(\dbasepointc^{\prime})) = \dfuncpullc \dsectionc(\dbasepointc^{\prime})$ \\
+  & & \\
+  record  & $\dfunctc: \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc}}$ &  $\lim\limits_{x\rightarrow \dbasepointc}\dfunctc(\dsectionc(x)) = \dfunctc(\dsectionc(\dbasepointc))$
+  \\
+  & $\textcolor{white}{\dfunct: } \rightarrow \cgamma{\opensetc^{\prime}}{\dfuncpullc\dtotalc\restriction_{\opensetc}}$ &
+  \\
+  & $\dfunctc: \dfiberc \rightarrow \dfiberc$ &  $\dfunctc(\dsectionc(\dbasepointc)) \in \dfiberc$  \\
+  & & $\dfunctc(id_{\dfiberc}(\dsectionc(\dbasepointc))) = id_{\dfiberc}(\dfunctc(\dsectionc(\dbasepointc)))$\\
+  & & $\dfunctc(\dfunctc(\dsectionc(\dbasepointc))) = (\dfunctc\circ\dfunctc)(\dsectionc(\dbasepointc))$\\
+  \hline
+\end{tabular}
+\caption{Functions $\dfunc=(\dfunchc, \dfunctc)$ for modifying data records. Equivalent constructions can be applied to elements in visual and graphic sheaves, and these functions are distinguished through subscripts $\dfunc_{\dtotal}$, $\dfunc_{\vtotal}$ and $\dfunc_{\gtotal}$}
+\label{tab:appendix:summary:datamod}
+}
+\end{table}
+
+\begin{table}[H]
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|lll|}\hline
+      scale & operators & sample constraint \\ \hline
+      nominal & $=,\neq$ &  $\dsectionc(\dbasepointc_1) \neq \dsectionc(\dbasepointc_2)\implies \dfunctc (\dsectionc(\dbasepointc_1)) \neq\dfunctc(\dsectionc(\dbasepointc_2))$\\
+      ordinal & $<, \leq, \geq, >$ &  $\dsectionc(\dbasepointc_1) \leq \dsectionc(\dbasepointc_2) \implies \dfunctc (\dsectionc(\dbasepointc_1)) \leq \dfunctc(\dsectionc(\dbasepointc_2)$) \\
+      interval & $+, -$ &  $\dfunctc(\dsectionc(\dbasepointc) + C) = \dfunctc(\dsectionc(\dbasepointc)) + C$ \\
+      ratio & $*,/$ &  $\dfunctc(\dsectionc(\dbasepointc) * C) = \dfunctc(\dsectionc(\dbasepointc))*C $\\ \hline
+  \end{tabular}
+  \caption{The record transformer $\dfunctc$ must satisfy the constraints listed in \autoref{tab:appendix:summary:datamod} and $\dfunctc$ must also respect the mathematical structure of $\dfiber$. This table lists examples of $\dfunct$ preserving one of the binary operators that are part of the definition of each of the Steven's measurement scale types\cite{stevensTheoryScalesMeasurement1946}}. A full implementation would ensure that all operators that are defined as part of of $\dfiber$ are preserved.
+  \label{tab:appendix:summary:stevens}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  {\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|r|l|l|}
+  \hline
+      & function & constraints \\
+  \hline
+  \textcolor{artist}{artist} & $\vartistc: \cgamma{\dbasec}{\dtotalc} \rightarrow \imartist{\gbasec}{\gtotalc}$ &  \\
+  Data to Graphic  &  $\imartist{\gbasec}{\gtotalc} \subset \cgamma{\gbasec}{\gtotalc}$ & $\vindexc(\gbasec) = \dbasec$\\
+  & & \\
+  \hline
+  Encode
+    & & \\
+           & & \\
+  \hline
+  Decompose & & \\
+              && \\
+  \hline
+\end{tabular}
+\caption{artist, verification functions, and construction $\vartist = \vmarkc \circ \nu$ introduced in \autoref{sec:artist}, and \autoref{sec:construction}}
+\label{tab:appedendix:summary:artist}
+}
+\end{table}
+
+
+\note{color}
+\begin{table}[H]
+  \centering
+  {\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|r|l|l|}
+  \hline
+      & function & constraint \\
+  \hline
+  \textcolor{artist}{artist} & $\vartist: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\gbase, \gtotal)$ &  \\
+  \hline
+  \textcolor{functor}{lookup} & $\vindex: \gbase\rightarrow \dbase$  &  \\
+  \hline
+  \textcolor{artist}{encoders} & $\vchannel: \Gamma(\dbase, \dtotal) \rightarrow \Gamma(\dbase, \vtotal) $  & \\
+  \hline
+  \textcolor{artist}{compositor} & $\vmark: \Gamma(\dbase,\vtotal) \rightarrow \Gamma(\gbase, \vtotal)$ &  \\
+  \hline
+\end{tabular}
+\caption{artist, verification functions, and construction $\vartist = \vmarkc \circ \nu$ introduced in \autoref{sec:artist}, and \autoref{sec:construction}}
+\label{tab:appendix:summary:artist}
+}
+\end{table}
+
+
+
+\section{Internal Library Specification}
+As mentioned in \autoref{sec:construction:vtotal}, the internal types of visualization libraries can be defined using this model, which creates a consistent standard for developers writing new functions to target. These are the formal specifications of various aesthetic parameters in Matplotlib.
+
+\label{tab:appendix:library_spec}
+\begin{table}[H]
+  \centering
+  \renewcommand{\arraystretch}{2}
+  \begin{tabulary}{\columnwidth}{|l|L|l|}\hline
+   \(\bm{\vchannel_{i}}\)    & \(\bm{\vsection_{i}}\)  & \(\bm{codomain(\vchannel_{i}) \subset \vfiber_{i}}\)  \\ \hline
+  position                    & x, y, z, theta, r      & \(\mathbb{R}\)   \\ \hline
+  size                        & linewidth, markersize  & \(\mathbb{R}^{+}\)  \\ \hline
+  shape                       & markerstyle            & \(\{f_{0}, \ldots, f_{n}\}\)\\ \hline
+  color                       & color, facecolor, markerfacecolor, edgecolor  & \(\mathbb{R}^{4}\) \\ \hline
+  \multirow{2}{*}{texture}    & hatch      & \(\mathbb{N}^{10}\)\\\cline{2-3}
+                              & linestyle    & \((\mathbb{R}, \mathbb{R^+}^{n, n\%2=0})\) \\ \hline
+  \end{tabulary}
+  \caption{Some of the $\vfiber$ components of the $\vtotal$ bundles in Matplotlib components}
+  \label{tab:math:artist:mpl:fiber}
+\end{table}
+
+\pagebreak
+\section{Matplotlib Compatibility}
+\label{sec:appendix:artist_shim}
+
+As mentioned in \autoref{sec:discussion}, one advantage of using this type of
+functional categorical approach to software design is that we can develop new
+components that can be incorporated into the existing code base. For matplotlib,
+we can use these functional artists by wrapping them in a very thin compatibility
+layer shim so that they behave like existing artists.
+
+\begin{minted}{python}
+  class GenericArtist(martist.Artist):
+      def __init__(self, artist:TopologicalArtist):
+          super().__init__()
+          self.artist = artist
+
+      def compose_with_tau(self, section):
+          self.section = section
+
+      def draw(self, renderer, bounds, rate):
+          for tau_local in self.section.query(bounds, rate):
+              mu = self.artist.nu(tau_local)
+              rho = self.artist.qhat(**mu)
+              output = rho(renderer)
+  \end{minted}
+
+
+  A monoidal category $\mathcal{M}$ is a category \mathcal{c} equipped with:
+\begin{description}
+  \item[tensor product] a bifunctor $\otimes \colon \mathcal{C} \times \mathcal{C} \rightarrow$
+  \item[unit object] an object $I \in \mathcal{C}$
+  \item[associator]a natural isomorphism $\alpha$ with components of the form $\alpha_{x,y,z}\colon(x\oplus y)\oplus z  \xrightarrow{\simeq} x\otimes (y\otimes z)$
+  \item[left unitor] a natural isomorphism $\lambda$ with components of the form $\lambda_{x}\colon I \otimes x \rightarrow x$
+  \item[right unitor]  a natural isomorphism $\rho$ with components of the form $\rho_{x}: x \otimes I \rightarrow x$
+\end{description}
+such that the following diagrams commute:
+\begin{description}
+    \item[triangle identity] 
+  \begin{equation*}
+      \begin{tikzcd}[ampersand replacement=\&]
+(x \otimes I)\otimes y \arrow[rr, "{\alpha_{x,I,y}}"] \arrow[rd, "\rho_{x} \otimes I_{y}"] \&             \& x \otimes(I \otimes y) \arrow[ld, "I_{x}\otimes\lambda_{y}"] \\
+                                                                                           \& x \otimes y \&                                                             
+\end{tikzcd}
+      \end{equation*}
+    \item[pentagon identity]
+    \begin{equation*}
+    \begin{tikzcd}
+                                                                                                                         & (w \otimes x) \otimes (y\otimes z) \arrow[rd, "{\alpha_{w,x,y \otimes z}}"] &                                                                                 \\
+((w \otimes x) \otimes y)\otimes z \arrow[d, "{\alpha_{w,x,y}\otimes id_{z}}"'] \arrow[ru, "{\alpha_{w \otimes x,y,z}}"] &                                                                             & w \otimes (x \otimes (y\otimes z))                                              \\
+(w \otimes (x \otimes y))\otimes z \arrow[rr, "{\alpha_{w,x\otimes y, z}}"']                                             &                                                                             & w \otimes ((x \otimes y)\otimes z) \arrow[u, "{id_{w}\otimes \alpha_{x,y,z}}"']
+\end{tikzcd}
+\end{equation*}
+    \end{description}
+\end{definition} 
+
+
+
+\begin{definition}\label{def:fiber_bundle}
+   A \textbf{fiber bundle} $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and  bundle projection map $\pi: \dtotalc \rightarrow \dbasec$ \cite{spanierAlgebraicTopology1989}.
+
+   \begin{equation} \label{eq:atct:fb:intro}
+    \begin{tikzcd}
+      \dfiberc \arrow[r, hook, color=total] & \dtotalc \arrow[r, "\pi", color=total, two heads] & \dbasec
+      \end{tikzcd}
+    \end{equation}
+
+A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
+\begin{enumerate}
+  \item all fibers in the bundle are isomorphic. Since all fibers are isomorphic $\dfiber \cong \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \dbase$, there is a uniquely determined \textcolor{fiber}{fiber space} \dfiberc\ given by the preimage of the projection $\pi$ at any point $\dbasepoint$ in the \textcolor{base}{base space} \dbasec: $\dfiberc = \pi^{-1}(k)$.
+  \item each point $\dbasepointc$ in the \textcolor{base}{base space} \dbasec\ has an open neighborhood $\openset_{\dbasepointc}$ such that the \textcolor{total}{total space} \dtotalc\ over the neighborhood is locally trivial.
+\end{enumerate}
+\end{definition}
+
+\textbf{Local triviality} means $\dtotal\vert_{\openset} = \openset\times \dfiber$. In this paper we use $\dtotal\vert_{\openset} = \pi^{-1}(\openset)$ to denote the preimage of an openset\footnote{Open sets (open subsets) are a generalization of open intervals to n dimensional spaces. For example, an open ball is the set of points inside the ball and excludes points on the surface of the ball. \cite{weissteinOpenSet,bradleyTopologyVsTopology}}, and a \textbf{local trivialization} is a specific choice of neighborhoods (described in \autoref{sec:atct:fb:base}) and their preimages such that the fibers in each preimage are identical $\dfiber = \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \openset$. All fiber bundles can be decomposed into sets of local trivializations that are also bundles and we can specify a gluing scheme that reconstructs the fiber bundle from locally trivial pieces by specifying\textbf{transition maps} for all overlaps of the local trivializations; therefore, while the framework in this paper applies to all bundles, in this paper we assume that the bundles are trivial bundles $\dtotal = \dbase \times \dfiber$ so that we can assign all fibers in a bundle the same type.
+
+\begin{minipage}{.5\columnwidth}
+\begin{definition}\label{def:fiber_bundle:section}
+A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotalc$ over a fiber bundle is a smooth right inverse of $\pi(\dsection(\dbasepoint)) = \dbasepoint$ for all $\dbasepoint \in \dbase$
+\end{definition}
+\end{minipage}
+\begin{minipage}{.4\columnwidth}
+  \begin{equation} \label{eq:atct:fb:intro-sec}
+    \begin{tikzcd}[ampersand replacement=\&, row sep=huge]
+     \dfiberc
+      \arrow[r, hook, color=total] \&
+      \dtotalc
+      \arrow[d, "\pi"',color=total, two heads] \\
+       \&
+    \dbasec
+       \arrow[u, "\dsectionc"', bend right, pos=.5, color=section, dashed]
+    \end{tikzcd}
+  \end{equation}
+\end{minipage}
+
+We propose that the total space of a bundle can encode the mathematical space in which a  dataset is embedded, the base space can encode the topological properties of the dataset, the fiber space can encode the data types of the fields of the dataset, and that the datasets can be encoded as section functions from the continuity to the fiber space.
+
+\begin{figure}[H]
+       \includegraphics[width=1\columnwidth]{fb.pdf}
+       \caption{The space of all data values encoded by this fiber bundle can be modeled as a \textcolor{total}{rectangle} total space. Each dataset in this data space lies along the interval \textcolor{base}{$[0,2\pi]$} base space. Each dataset has values along the \textcolor{fiber}{$-1 \rightarrow 1$} interval fiber. One dataset embedded in this total space is the \textcolor{section}{sin} section over the bundle.}\label{fig:atct:fb}
+  \end{figure}
+
+
+For example, the fiber bundle in \autoref{fig:atct:fb} encodes the space of all continuous functions that have a domain of $[0, 2\pi]$ and range $[0,1]$. Using a fiber bundle abstraction encodes that the dataset has a 1D linear continuity as the base space \dbase is the interval $[0,2\pi]$ and a field type that is a \texttt{float} in the range $[0,1]$. Therefore the type signature of the datasets in this fiber bundle, which is called a section \dsection, would be \texttt{dataset: $[0, 2\pi] \rightarrow [0,1]$}. One such dataset (section) is the $\sin$ function, which as shown in \autoref{fig:atct:fb} is defined via a function \dsection from a point in the base space to a corresponding point in the fiber. Evaluating the section function over the entire base space yields the $\sin$ curve that is composed of points intersecting each fiber over the corresponding point. The local trivializations shown in \autoref{fig:atct:fb} are one way of decomposing the total bundle and conversely the bundle can be constructed from the local trivializations $\dbase = \dbase_{0} \oplus \dbase_{1}$. As shown, the section $\sin$ spans the trivializations in the same manner that it spans the bundle; this is analogous to how a dataset may span multiple tables or be collected in one table. The trivializations are glued together into the bundle at the overlapping region $\frac{2\pi}{5}$ by defining the transition map $\dfiber_{1} \rightarrow \dfiber_{2}$. Because the fibers in \autoref{fig:atct:fb} at $\frac{2\pi}{5}$ are aligned, the transition map is an identity map that take every value in $\dfiber_1$ and maps it to the same value in $\dfiber_2$ so that the sections, such as $\sin$, remain continuous.
+
+\paragraph{Trivial and non-trivial bundles}
+\label{sec:appendix:bundle_triviality}
+
+Generally, the distinguishing factor between a trivial bundle and a non-trivial bundle are how they are decomposed into local trivializations:
+\begin{description}
+  \item[\textit{trivial bundle}] is directly isomorphic to $\dbasec\times\dfiberc$. For any choice of cover of $\dbasec$ by overlapping opensets, we can choose local trivializations such that all transition maps are identity maps.
+  \item[\textit{non-trivial bundle}] can not be constructed as $\dbasec\times\dfiberc$. For any choice of local trivializations, there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}.
+\end{description}
+
+
+\begin{figure}[H]
+  \includegraphics[width=1\columnwidth]{transition_maps.pdf}
+  \caption{The cylinder is a trivial fiber bundle; therefore it can be decomposed into local trivializations that only need identity
+  maps to glue the trivializations together. The mobius band is a non-trivial bundle; therefore it can only be decomposed into trivializations where at least one transition map is not an identity map. }\label{fig:cyl_mob_bundles}
+\end{figure}
+
+In the example in Figure~\ref{fig:cyl_mob_bundles}, we use arrows $\uparrow$ to denote fiber alignments. In the cylinder case the fibers all point in the same direction, which illustrates that they are equal $\uparrow=\uparrow$. In the Möbius band case, while the fibers in an arbitrary local trivialization are equal $\uparrow=\uparrow$, the fibers at the twist are unequal but isomorphic $\uparrow \cong \downarrow$. The cylinder and mobius band can be decomposed to the same local trivializations, for example the fiber bundles in \autoref{fig:atct:fb} In the cylinder case, the fibers in the overlapping regions of the trivializations are equal $\dfiber_0\restriction_{\openset_1\cap\openset_2} = \dfiber_{1}\restriction_{\openset_1\cap\openset_2}$; therefore the transition maps at both intersections map the values in the fiber to themselves $\delement\rightarrow\delement$ . In the Möbius band case, while $\dfiber_0\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}\to\dfiber_1\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}$ can be chosen to be an identity map, the other transition map component $\dfiber_0\restriction_{(-\varepsilon,\varepsilon)}\to\dfiber_1\restriction_{(-\varepsilon,\varepsilon)}$ has to flip any section values. For example given  $\dfiber_{0}=\uparrow$ and $\dfiber_{1}=\downarrow$, the transition map $\delement \mapsto -\delement$ maps each point from one fiber to the other $\uparrow \mapsto \downarrow$ such that any sections remain continuous even though the fibers point in opposite directions.
+
+
+\end{document}
