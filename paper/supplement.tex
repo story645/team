@@ -161,6 +161,8 @@ A monoid is a category with one object $X$ and a bifunctor $\otimes\colon X \tim
 
    
 \subsection{Functors}
+\label{sec:functors}
+Functors are mappings between categories that preserve the domains, codomains, composition, and identities of the morphisms within the category\cite{riehlCategoryTheoryContext2016}, 
 \begin{definition}\cite{bradleyWhatFunctorDefinitions,bradleyTopologyCategoricalApproach2020} A \textbf{functor} is a map $F: \mathcal{C} \rightarrow \mathcal{D}$, which means it is a function between objects $F: \textbf{ob}(\mathcal{C}) \mapsto \textbf{ob}(\mathcal{D})$ and that for every morphism $f \in Hom(C_1, C_2)$  there is a corresponding function $F: Hom(C1, C2) \mapsto Hom(F(C_1), F( C_2))$.
 A \textbf{functor} must satisfy the properties
 \begin{itemize}
@@ -317,6 +319,7 @@ In the example in Figure~\ref{fig:supplement:cyl_mob_bundles}, we use arrows $\u
 
 
 \section{Presheaves and Sheaves}
+\label{sec:preasheaf_sheave}
 A common way of encapsulating a map from an arbitrary category to a category of sets is as a presheaf and sheaves add on conditions for gluing individual sections over subspaces into cohesive sections over the whole space.
 \subsection{Presheaf}
 

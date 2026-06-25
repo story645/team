@@ -243,7 +243,7 @@ such that the preimage of a point is the corresponding data type domain $\pi^{-1
 Adopting Spivak's fiber bundle construction of types allows our model to reuse types so long as the field names are distinct and that field values can be accessed by field name,  since those are sections on $\mathcal{U}_{\sigma}$. Furthermore, since domains $\mathscr{U}_{{\sigma}}$ of types are a mathematical space, multi-dimensional fields can be encoded in the same manner as single dimensional fields and fields can have different names but the same type.
 
 \paragraph{Fiber space Data Type}
-As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ to encapsulate the field types of the data. The fiber category has a single object $\dfiberc$ of an arbitrary data type (e.g. \textt{int}) and morphisms on the fiber object $\dfunctc \in Hom(\dfiberc, \dfiberc)$. We can also equip the category with any operators or relations that are part of the mathematical structure of the field type, for example an addition or comparison operator. A single object category is a monoid and therefore also equipped with a bifunctor $\otimes: dfiber\times\dfiber \rightarrow \dfiber$. 
+As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ to encapsulate the field types of the data. The fiber category has a single object $\dfiberc$ of an arbitrary data type (e.g. $\texttt{int}$) and morphisms on the fiber object $\dfunctc \in Hom(\dfiberc, \dfiberc)$. We can also equip the category with any operators or relations that are part of the mathematical structure of the field type, for example an addition or comparison operator. A single object category is a monoid and therefore also equipped with a bifunctor $\otimes: dfiber\times\dfiber \rightarrow \dfiber$. 
 
 The bifunctor can be defined to express constraints on composite types. For example, dates can be represented as three fields $\dfiber_{year} \times \dfiber_{month} \times \dfiber_{day}$ or a composite fiber field $\dfiber_{year} \times \dfiber_{month} \times \dfiber_{day} = \dfiber_{date}$. The $\otimes$ encapsulates both the sets of values associated with each fiber $\{y \in \mathbb{I}\vert 1992 \leq y \leq 2025\} \times \{m \in \mathbb{I}\vert 1 \leq m \leq 12 \} \times \{d \in \mathbb{I}\vert 1 \leq d \leq 31 \}$ and the composition function $ \otimes: \dfiber_{year} \times \dfiber_{month} \times \dfiber_{day} \rightarrow \dfiber_{date}$ which would include a constraint to only return dates that have the right number of days for each month. The bifunctor also composes the morphisms associated with each category into a morphism on the composite category $(\dfunct_{year}, \dfunct_{month}, \dfunct_{day}) = \dfunct_{date}$. 
 
@@ -265,7 +265,7 @@ We encode data as a \textcolor{section}{section} \dsectionc\ of a bundle because
 
 We define section functions locally, meaning that 
 \begin{definition}
-the \textcolor{section}{section} \dsectionc is (piece-wise) continuous over a specific open subset \openset\ of \dbase\:
+the \textcolor{section}{section} \dsectionc\ is (piece-wise) continuous over a specific open subset \openset\ of \dbase\:
 \begin{equation}
   \label{eq:atct:fb:sections}
   \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}} \coloneqq \big\{\dsectionc: \opensetc\rightarrow \dtotalc\restriction_{\opensetc} \; \bigm{\vert} \pi(\dsectionc(\dbasepointc)) = \dbasepointc\;for\, all\; \dbasepointc \in \opensetc \big\}
@@ -304,6 +304,7 @@ In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ maps into the
 
 
 \subsubsection{Data transformations}
+\label{sec:atct:transforms}
 Data is often codified as the set of values and the mathematical actions (Supplement~\autoref{supp-sec:actions}) on those values, for example the Steven's measurement scales define nominal, ordinal, interval, and ratio data by the group actions on the data \cite{stevensTheoryScalesMeasurement1946}; other researchers have since expanded the scales to encapsulate more types of structure \cite{leaFormalizationMeasurementScale1971, thomasMathematizationNotMeasurement2014}. We separate data transformations into two components, transformations on the base space $(\dfunchc, \dfuncpullc)$ and transformations on the fiber space $\dfunctc$.
 
 
@@ -319,7 +320,7 @@ such that $\openset, \openset^{\prime} \subseteq \dbase$. This means $\openset$ 
   \label{eq:atct:morphism:basepull}
   \dfuncpullc \dsectionc \restriction_{\opensetc^{\prime}}: \dsectionc\restriction_{\opensetc^{\prime}} \mapsto \dsectionc \restriction_{\opensetc^{\prime} \circ \dfunchc}
 \end{equation}
-such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\opensetc^{\prime})}$. This means that the base space transformation  $\dfunch(\dbasepoint^{\prime}) = \dfunch(\dbasepoint)$ such that
+such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\openset^{\prime}}$ because $\dsection|_{\openset} = \dsection|_{\dfunch(\openset^{\prime})}$. This means that the base space transformation  $\dfunch(\dbasepoint^{\prime}) = \dfunch(\dbasepoint)$ such that
 \begin{equation}
   \label{eq:atct:morphism:verify_base}
   \dsectionc(\dbasec) = \dfuncpullc\dsectionc(\dbasepointc^{\prime}) = \dsectionc(\dfunchc(\dbasepointc^{\prime}))
@@ -327,7 +328,7 @@ such that $\dsection|_{\openset} = \dfuncpull\dsection|_{\opensetc^{\prime}}$ be
 which means that the index of the record changes from $\dbasepoint$ to $\dbasepoint^{\prime}$ but the values in the record are unmodified.
 
 \paragraph{\textbf{Records}}
-As introduced in \autoref{eq:artist:sheaves:monoid_morphism}, the fiber transformation $\dfunctc$ is a change in section
+The fiber transformation $\dfunctc$ is a change in section
 \begin{equation}
   \label{eq:atct:morphism:fiber}
   \dfunctc: \dfuncpullc \dsectionc \restriction_{\opensetc^{\prime}} \mapsto \dfuncpullc \dsectionc^{\prime} \restriction_{\opensetc}
@@ -346,9 +347,9 @@ a morphism on the fiber category $\dfunct \in Hom(\dfuncpull\dfiber\restriction_
   $\dfunctc(\dfunctc(\dfuncpullc\dsectionc(\dbasepointc^{\prime}))) = (\dfunctc\circ\dfunctc)(\dfuncpullc\dsectionc(\dbasepointc^{\prime}))$
 \end{itemize}
 
-Additionally, $\dfunctc$ must preserve any features of $\dfiber$, such as operators that are defined as part of the structure of $\dfiber$. Examples of testing that $\dfunctc$ preserves the operations, and therefore structure, of the Steven's measurement scales are shown in \autoref{tab:appendix:summary:stevens}. We do not provide a general rule here because these constraints are defined with respect to how specific properties of the mathematical structure of individual fields $\dfiber$ are expected to be preserved rather than as a general consequence of $\dfunctc$ being a section map and morphism of the category.
+Additionally, $\dfunctc$ must preserve any features of $\dfiber$, such as operators that are defined as part of the structure of $\dfiber$. We do not provide a general rule here because these constraints are defined with respect to how specific properties of the mathematical structure of individual fields $\dfiber$ are expected to be preserved rather than as a general consequence of $\dfunctc$ being a section map and morphism of the category.
 
-\paragraph{\textbf{connectivity and records}}
+\paragraph{\textbf{Connectivity and Records}}
 \noindent We define a full data transformation as one that induces both a remapping of the index space and a change in the data values
 \begin{equation}
   \label{eq:atct:morphism:all}
@@ -367,137 +368,47 @@ if each (identical) component base space is transformed in the same way $\dfunch
   \caption{The actions on the base and fiber space commute such that the data can be shuffled then scaled or scaled then shuffled.} \label{fig:actions}
 \end{figure}
 
-Tests of structure preservation, such as equivariance and homomorphism (Supplement~\autoref{supp-sec:equiv, supp-sec:homo}) verify that actions commute such that the order in which they applied does not affect the output. In \autoref{fig:actions}, the action $\dfunch$ permutes the indexing space such that location of the bars relative to each other changes. The action $\dfunct$ doubles the data value associated with the height of the bar. Because these are both structure preserving actions, the order in which the bars are transformed - permute then scale or scale then permute - does not effect the final image. This means that structure preserving library components should also not be sensitive to the order of transforms.  
+The component actions are independent such that they can be applied in either order. In \autoref{fig:actions}, the action $\dfunch, \dfuncpull$ permutes the indexing space such that location of the bars relative to each other changes. The action $\dfunct$ doubles the data value associated with the height of the bar. Because these are both structure preserving actions, the order in which the bars are transformed - permute then scale or scale then permute - does not change the final image. 
 
 \subsection{Abstract Data Containers}
 \label{sec:atct:sheaves}
-While bundles provide a way to describe the structure of the data, sheaves are a mathematical way of describing the data container. Sheaves are an algebraic data structure that provides a way of abstractly discussing the bookkeeping that data containers must implement to keep track of the continuity of the data \cite{ghristElementaryAppliedTopology2014}. This abstraction facilitates representational invariance, as introduced by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}, since the container level is uniformly specified as satisfying presheaf and sheaf constraints. When a data container satisfies these constraints, the subsets and whole data space have the same mathematical properties, e.g. morphisms, such that the framework in this paper applies whether the data is in memory, distributed, streaming, or on-demand.
+While bundles provide a way to describe the structure of the data, sheaves are a mathematical way of describing the data container. Sheaves are an algebraic data structure that provides a way of abstractly discussing the bookkeeping that data containers must implement to keep track of the continuity of the data \cite{ghristElementaryAppliedTopology2014}.This is because sheaves and presheaves are functors  (Supplement~\autoref{supp-sec:functors}), which are mappings between categories that preserve the domains, codomains, composition, and identities of the morphisms within the category\cite{riehlCategoryTheoryContext2016}. Using sheaves as the data container abstraction facilitates representational invariance, as formulated by Kindlemann and Scheidegger\cite{kindlmannAlgebraicProcessVisualization2014}, since the container level is uniformly specified as satisfying presheaf and sheaf constraints (Supplement~\autoref{supp-sec:preasheaf_sheave}). When a data container satisfies these constraints, the subsets and whole data space have the same mathematical properties, e.g. morphisms, such that the framework in this paper applies whether the data is in memory, distributed, streaming, or on-demand.
 
-We can mathematically encode that we expect data containers to preserve the underlying continuity of the indexing space and the mappings between indexing space and record space using a type of function called a functor. Functors are mappings between categories that preserve the domains, codomains, composition, and identities of the morphisms within the category\cite{riehlCategoryTheoryContext2016}.
-
-\begin{definition}\cite{bradleyWhatFunctorDefinitions,bradleyTopologyCategoricalApproach2020} A \textbf{functor} is a map $F: \mathcal{C} \rightarrow \mathcal{D}$, which means it is a function between objects $F: \textbf{ob}(\mathcal{C}) \mapsto \textbf{ob}(\mathcal{D})$ and that for every morphism $f \in Hom(C_1, C_2)$  there is a corresponding function $F: Hom(C1, C2) \mapsto Hom(F(C_1), F( C_2))$.
-A \textbf{functor} must satisfy the properties
-\begin{itemize}
-  \item \textit{identity}: $F(id_{C}(C)) = id_{D}(F(C))$
-  \item \textit{composition}: $F(g)\circ F(f) = F(g\circ f)$ for any composable morphisms $C_{1}\xrightarrow{f} C_2$, $C_2 \xrightarrow{g} C_3$
-\end{itemize}
-$F(C) \in \textbf{ob}(\mathcal{D})$ denotes the object to which an object $C$ is mapped, and $F(f) \in Hom(F_(C_1), F_(C_2))$ denotes the morphism that $f$ is mapped to.
-\end{definition}
-Modeling the data container as a functor allows us state that, just like a functor, the container is a map between index space objects and sets of data records that preserve morphisms between index space objects and data records.
+ Modeling the data container as a functor allows us state that, just like a functor, the container is a map between the index space objects and sets of data records that preserve morphisms between index space objects and data records.
 \begin{equation}
   \label{eq:atct:sheaf:functor}
   \sheafc_{\dbasec, \dtotalc}: \opensetc \rightarrow \cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
 \end{equation}
-A common way of encapsulating a map from a topological space to a category of sets is as a presheaf
-\begin{definition}\label{def:atct:presheaf}
-  A \textbf{presheaf} $F:\mathcal{C}^{op} \rightarrow \setb$ is a contravariant functor from an object in an arbitrary category to an object in the category \setb\cite{spanierAlgebraicTopology1989}.
-\end{definition}
 
-A functor is contravariant when the morphisms between the input objects go in the opposite direction from the morphisms between the output objects. The presheaf is contravariant when for every arbitrary morphism between input base spaces $\dfunch: \openset_1 \rightarrow \openset_2$ there exists a corresponding pullback function between the sets of sections $\dfuncpull: \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} \rightarrow \cgamma{\opensetc_1}{\dtotalc\restriction_{\openset_c1}}$.
+A presheaf is a functor from an arbitrary category to the set category, here used to codify the mapping from index to records. A property of presheaves is that it is contravariant, meaning that the morphisms between the input objects $\dfunch$ go in the opposite direction from the morphisms between the output objects $\dfuncpull$. As discussed in \autoref{sec:atct:transforms}, $\dfunch$ changes the index and $\dfuncpull$ aligns the records by "pulling back" records to where they belong in the new index. The map between sets is contravariant to the map over indices because not all sets exist over all indices, for example when $\dfunch$ is an inclusion mapping that returns a subset of the full index. Sheaves are presheaves that satisfy the gluing and locality axioms. The gluing axiom says that a distributed representation of a dataset, which is a set of local sections, is equivalent to a section over the union of the opensets of the local sections. The gluing axiom can also be used to generate the gluing rules used to construct non-trivial bundles from the set of trivial local sections. The locality axiom asserts that the glued section function is equivalent to a function over the union if they evaluate to the same values. When satisfied, these axioms ensure that a data container is managing distributed and streaming data in a structure preserving way. 
 
+The advantage of using these constraints for specifying structure preserving data containts is that the 
+test for whether a container implements these constraints is trivial:
 
-%% these two paragraphs cen be condensed and moved below the figure as an example
-A functor is contravariant when the morphisms between the input objects go in the opposite direction from the morphisms between the output objects. The presheaf is contravariant because the inclusion morphisms between input object $\iota: \opensetc_1 \rightarrow \opensetc_2$
-are defined such that they correspond to the partial ordering $\openset_1 \subseteq \openset_2$, but the restriction morphisms $\iota^*$ between the sets of sections $\iota^*: \cgamma{\opensetc_2}{\dtotalc\restriction_{\opensetc_2}} \rightarrow \cgamma{\opensetc_1}{\dtotalc\restriction_{\openset_c1}}$ restricts the larger set to the smaller one such that all functions that are continuous over a space must be continuous over a subspace $\Gamma_2 \subseteq \Gamma_1$, where $\Gamma_{i}\coloneqq\Gamma(\openset_{i}, \dtotal\restriction_{\openset_{i}})$.
+\begin{table}[H]
+  \centering
+  {\renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|r|l|}
+    \hline
+      axiom & applied to datasets and indexes \\
+    \hline
+     presheaf & given $\textcolor{base}{index_1} \subset \textcolor{base}{index_2}$:\\
+        & $\exists\;\textcolor{section}{dataset}[\textcolor{base}{index_2}]$\\
+      & $\Rightarrow \textcolor{section}{dataset}[\textcolor{base}{index_2}][\textcolor{base}{index_1}] = \textcolor{section}{dataset}[\textcolor{base}{index_1}]$\\
+     &  $\exists\;\textcolor{section}{dataset}[\textcolor{base}{index_1}] \nRightarrow \exists\;\textcolor{section}{dataset}[\textcolor{base}{index_2}]$\\
+     &\\
+    \hline
+    locality & $\textcolor{section}{dataset^1}[\textcolor{base}{i}] = \textcolor{section}{dataset^2}[\textcolor{base}{i}]\;\forall\; \textcolor{base}{i}\in \textcolor{base}{index}\;$ \\
+     & $\Rightarrow \textcolor{section}{dataset^1}=\textcolor{section}{dataset^2}$ \\
+    \hline
+    gluing & $\textcolor{base}{i}=\textcolor{base}{j}$ and $\textcolor{section}{dataset^1}[\textcolor{base}{i}] = \textcolor{section}{dataset^2}[\textcolor{base}{j}]$ \\
+     & $\textcolor{section}{dataset^3}\coloneq  \textcolor{section}{dataset^1}[\textcolor{base}{:i}]  \oplus \textcolor{section}{dataset^2}[\textcolor{base}{j:}]$ \\
+\hline
+  \end{tabular}
+  \caption{Example of testing whether a data container supports inclusion/subsetting in a manner that satisfies sheave constraints.}}
+\end{table}
 
-Data containers that implement managing subsets in a structure preserving way are satisfying the  presheaf constraints that subsets of the indexing space $\openset_1$ are included in any index $\openset_2$ that is a superset $\iota$ and that data defined over an indexing space must exist over any indexes inside that space $\iota^*$. For example, lets define presheaves $\sheaf_1, \sheaf_2$. These are maps from intervals $\openset_1, \openset_2$ to a set of functions $\Gamma_1, \Gamma_2$ that are continuous over that interval:
-
-\begin{figure}[H]
-  \includegraphics*[width=1\columnwidth]{figures/tex/presheaf.pdf}
-  \caption{Modeling this data container as a presheaf specifies that since $\cos, \sin, and \texttt{C}$ are continuous over $\openset_{2}$, they must be continuous over $\openset_{1}$ since $\openset_1$ is a subset of and therefore must be included in $\openset_2$. Because $\tan$ is only defined over $\openset_{2}$, it does not need to be included in the set $\Gamma_{2}$. \label{fig:atct:presheaf}}
-\end{figure}
-
-For example in \autoref{fig:atct:presheaf}, since the $constant, sin, cos$ functions are defined over the interval $\left[0,2\pi\right]$, these functions must also be continuous over the sub-interval $\left(\frac{\pi}{2}, \frac{3\pi}{2}\right)$; therefore the sections in $\Gamma_{2}$ must also be included in the set of sections over the subspace $\Gamma_{1}$. One generalization of this constraint is that data structures that contain continuous functions must support interpolating them over arbitrarily small subspaces.
-
-While presheaves preserve the rules for sets of sections, sheaves add on conditions for gluing individual sections over subspaces into cohesive sections over the whole space.These are the conditions that when satisfied ensure that a data container is managing distributed and streaming data in a structure preserving way.
-
-\begin{definition}\label{def:atct:sheaf}\cite{bakerEuclideanSpaceMathsSheaf,spanierAlgebraicTopology1989} A \textbf{sheaf} is a presheaf that satisfies the following two axioms
-\begin{itemize}
-  \item \textit{locality} two sections in a sheaf are equal $\dsection^{a} = \dsection^{b}$ when they evaluate to the same values $\dsection^{a}\vert_{\openset_i} =  \dsection^{b}\vert_{\openset_i}$ over the open cover $\bigcup_{i\in I} \openset_{i} \subset \openset$ (indexed by $I$).
-  \item \textit{gluing} the union of sections defined over subspaces $\dsection^{i} \in \Gamma(\openset_i, \dtotal|_{\openset_i})$ is equivalent to a section defined over the whole space $\dsection\vert_{\openset_i} = \dsection^{i}$ for all $i\in I$ if all pairs of sections agree on overlaps $\dsection^{i}\vert_{\openset_i\cap\openset_j} =  \dsection^{j}\vert_{\openset_i\cap\openset_j}$
-  \end{itemize}
-\end{definition}
-
-The gluing axiom says that a distributed representation of a dataset, which is a set of local sections, is equivalent to a section over the union of the opensets of the local sections. The gluing axiom can also be used to generate the gluing rules used to construct non-trivial bundles from the set of trivial local sections. The locality axiom asserts that the glued section function is equivalent to a function over the union if they evaluate to the same values.
-
-\begin{figure}[h]
-  \includegraphics[width=1\columnwidth]{tex/sheaf_rules.pdf}
-  \caption{A sheaf has the conditions that sections are equal when they match on all subsets (\textit{locality}) and that the sections can be concatenated when they match on overlaps \textit{gluing}.\label{fig:atct:sheaf}}
-\end{figure}
-
-For example, in \autoref{fig:atct:sheaf}, the $\tau^{a}$ and $\tau^{b}$ $\sin$ sections are equal because they match \textit{locally} on all subsets. This is true whether $\sin$ is defined over parts ($\sin\vert_{\openset_i}$) or the whole space. If $\sin$ is defined over parts, then those parts can be \textit{glued} together. The concatenated $\sin$ is continuous because the pieces of the section outside the overlap are continuous with the pieces inside the overlap. The glued $\sin$ is also equal to the non-glued $\sin$ because they match on the opensets; therefore they are equivalent representations of the same section $\sin$ and so have the same mathematical properties.
-
-While each section of a sheaf is evaluated over a point $\dsection(\dbasepoint)$ such that it returns a single record, the sheaf model also provides an abstraction when neighboring information is required. The sheaf over a very small region surrounding a point $\dbasepoint$ is called a \textit{stalk}\cite{harderLecturesAlgebraicGeometry2008}
-\begin{equation}
-  \label{eq:atct:sheaf:stalk}
-    \sheafc_{\dbasec, \dtotalc}\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc})
-\end{equation}
-where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. The \textit{germ} is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$ and is the data. Since the stalk includes the values near the limit of the point at \dbasepoint\, the germ can be used to compute the mathematical derivative of the data for visualization tasks that require this information.
-
-\subsection{Data Index and Graphic Index Correspondence}
-\label{sec:atct:xi}
-When data and graphic containers are modeled as sheaves and there is a continuous map between their base spaces, the properties of sheaves can be used to describe how visual elements correspond to distinct data elements, which is a necessary condition of a visualization being readable\cite{ziemkiewiczEmbeddingInformationVisualization2009}. We propose that if a visualization is structure preserving, there exists a homeomorphic map \vindexc\ between the graphic indexing space \gbase\ and the data indexing space \dbase\ that maps multiple graphic indexes to one data index such that every index in the graphic space can be mapped to an index in the data space. We define the mapping \vindexc\ to be a surjective continuous map:
-\begin{equation}
-  \label{eq:atct:xi}
-  \vindexc: \opensetgc \textcolor{functor}{\rightarrow} \opensetc
-\end{equation}
-between a graphic subspace $\opensetg \subseteq \gbase$ and data subspace $\openset \subseteq \dbase$. The set of points in graphic space that correspond to each point in data space is
-\begin{equation}
-  \label{eq:atct:xi:inverse}
-  \vindexprec(\dbasepointc) = \{\gbasepointc | \vindexc(\gbasepointc) = \dbasepointc \forall \dbasepointc \in \dbase, \gbasepointc \in \gbasec\}
-\end{equation}
-such that every point in a graphic space has a corresponding point in data space.
-
-We construct the map as going from graphic to data because that encodes the notion that every visual element traces back to the data in some way, but there may be more data available than what is shown in the graphic. As exemplified in \autoref{fig:atct:morphisms:sheaf}, defining $\vindex$ as a surjective map allows allows us to express visual representations of a single record that are the union of many primitives, each of which has a different base space $\gbase_i$. These visual representations include multipart glyphs (e.g boxplots), combinations of plot types (e.g line with point markers), and the same point showing up in different continuities, such as $\dsection(\dbase_{point})$ in \autoref{fig:atct:morphisms:sheaf} and a station in \autoref{fig:related-work:continuity:ktypes}.
-
-\subsubsection{Data and Graphic Correspondence}
-Since we have defined a continuous function \vindex\ between two spaces $\dbase, \gbase$, we can construct functors that transport sheaves over each space to the other space\cite{harderLecturesAlgebraicGeometry2008}. This allows us to describe what data we expect is being visualized at each graphic index location and what graphic is generated for the data at each data index location. Transport functors compose the indexing map \vindex\ with the sheaf map to say that a record \dsection\ evaluated at a data index \dbasepoint\ is the same record at all corresponding  graphic indices \gbasepoint\ and that a graphic specification \gsection\ over one point \gbasepoint\ is the same specification at all points $\gbasepoint \in \gbase$ that correspond to the same record index \dbasepoint.
-
-\paragraph{\textbf{Graphic Corresponding to Data}}
-
-The pushforward (direct image) sheaf establishes which graphic generating function $\gsection$ corresponds to a point $\dbasepoint \in dbase$ in the data base space.
-\begin{definition} Given a sheaf $\sheaf_{\gbase, \gtotal}$ on $\gbase$, the \textbf{pushforward} sheaf  $\vindexpush\sheaf_{\gbase, \gtotal}$ on $\dbase$ is defined as
-  \begin{equation}
-    \vindexpushc(\sheafc_{\gbasec, \gtotalc})(\opensetc)  = \sheafc_{\gbasec, \gtotalc}(\vindexc^{-1}(\opensetc))
-  \end{equation}
-for all opensets $\opensetc \subset \dbasec$\cite{harder2008lectures}.
-\end{definition}
-The pushforward sheaf returns the set of graphic sections over the data base space that corresponds to the graphic space $\vindex^{-1}(\openset) = \opensetgc$. The pushforward functor $\vindexpushc$ transports sheaves of sections on $\opensetgc$ over $\openset$
- \begin{equation}
-  \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}  \ni \vindexpushc\gsectionc: \opensetc \rightarrow \vindexpushc \gtotalc\restriction_{\opensetc}
-\end{equation}
-such that it provides a way to look up which graphic corresponds with a data index
-\begin{equation}
-  \label{eq:atct:sheaf:pushforward_select}
-  \vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexprec(\dbasepointc)}
-\end{equation}
-such that $\vindexpush\gsection(\dbasepoint))(\gbasepoint) = \gsection(\gbasepoint)$ for all $\gbasepoint \in \vindexpre(\dbasepoint)$. Therefore, the continuous map $\vindex$ and transport functors $\vindexpull, \vindexpush$ allow us to express the correspondence between graphic section and data section. The parameterization of $\vindexpush\gsection$ in \autoref{fig:atct:morphisms:sheaf} is intended as an approximation and is akin to declarative visualization specs such as vega \cite{satyanarayanDeclarativeInteractionDesign2014} and svg \cite{quintScalableVectorGraphics2003}. These specs and $\vindexpush\gsection$ also provide a renderer independent way of describing the graphic and are therefore useful for standardizing internal representation of the graphic and serializing the graphic for portability.
-
-
-\paragraph{\textbf{Data Corresponding to Graphic}}
-The pullback (inverse image) sheaf establishes which data record returned by $\dsection$ corresponds to each point $\gbasepoint \in \gbase$ in the graphic base space.
-\begin{definition} \cite{harderLecturesAlgebraicGeometry2008} Given a sheaf $\sheaf_{\dbase, \dtotal}$ on $\dbase$, the \textbf{pullback} sheaf $\vindexpullc\sheafc_{\dbasec, \dtotalc}$ on $\gbasec$ is defined as the sheaf associated to the presheaf $\vindexpullc(\sheafc_{\dbasec, \dtotalc})(\opensetgc) = \sheafc_{\dbasec, \dtotalc}(\vindexc(\opensetgc))$ for $\vindex(\opensetgc) \in \dbase$.
-\end{definition}
-The pullback sheaf returns the set of data sections over the graphic base space that corresponds to the graphic space $\vindex(\opensetg) = \openset$. The pullback $\vindexpullc$ transports sheaves of sections on $\openset \subseteq \dbase$ over $\opensetg \subseteq \gbase$
-\begin{equation}
-  \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}} \ni \vindexpullc\dsectionc: \opensetgc \rightarrow \vindexpullc \dtotalc\restriction_{\opensetgc}
-\end{equation}
-such that there is a way to then look up what data values correspond with a graphic index
-\begin{equation}
-  \label{eq:atct:sheaf:pullback_hover}
-  \vindexpullc\dsectionc(\gbasepointc) = \dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)
-\end{equation}
-As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ in the graphic space that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$. As illustrated in \autoref{fig:atct:morphisms:sheaf}, $\vindexpullc$ is critical to interactive techniques such as brushing, linking, and tooltips\cite{beckerBrushingScatterplots1987} because they depend on being able to look up which data values go to which parts of the graphic.
-
-\subsubsection{Example: Graphic and Data}
-\begin{figure*}[t]
-  \includegraphics[width=1\textwidth]{xi_diagram.pdf}
-  \caption{The data  \dsectionc\ consists of the $sin$ and $cos$ functions over a unit circle base space, which here are circle and two line plots generated from the graphic specification \gsectionc\. The index map \vindexc\ keeps track of which part of the circle, sin, and cosine plots correspond to which point on the unit circle. For example the orange bands on $\gbase_0, \gbase_1, \gbase_2$ map to the orange point $\dbasepoint_i$. The pushforward $\vindexpushc$ matches each point in the data space to the specification of the graphic at that point, here illustrated as an svg-like specification. The pullback $\vindexpull$ matches each point in the graphic space to the data over that point, and as shown often the same data point maps to multiple graphic spaces (and their corresponding pixels). The artist \vartistc\ is the function
-  that transforms data into a graphic and is introduced in \autoref{sec:artist}.
-  \label{fig:atct:morphisms:sheaf}}
-\end{figure*}
-
-As illustrated in \autoref{fig:atct:morphisms:sheaf}, modeling the data and graphic containers as sheaves and constructing structure preserving maps between the indices provides a method of precisely describing the which data values belong with which graphical representations. The $(\dbasepoint_i, \gbase_i)$ pairing expressed in \autoref{eq:atct:xi} establishes that there is a correspondence between data at an index $\dbasepoint_i$ and graphics generated at $\gbase_i$. In \autoref{fig:atct:morphisms:sheaf}, one example of this correspondence is the the orange bands on $\gbase_0, \gbase_1, \gbase_2$ that correspond to the orange point $\dbasepoint_i$. Because of this correspondence and the properties of sheaves, we can construct a graphic specifications for each data index $\vindexpush\gsection$; in \autoref{fig:atct:morphisms:sheaf}  $\vindexpush\gsection(\dbase_i)$ a svg-like spec describing the piece of the circle, sin, and cosine curves generated for the data at the point \dbasepointc\. We can also retrieve the data $\vindexpull\dsection_{\vindexpre(\dbasepoint)}$ that is being visualized by each specific part of the graphic, which in \autoref{fig:atct:morphisms:sheaf} is the section $\dsection(\dbasepoint_i)$.
+While each section of a sheaf is evaluated over a point $\dsection(\dbasepoint)$ such that it returns a single record, the sheaf over a very small region surrounding a point $\dbasepoint$ is called a \textit{stalk} and the \textit{germ} is the section evaluated at a point in the stalk. Since the stalk includes the values near the limit of the point at \dbasepoint\, the germ can be used to compute the mathematical derivative of the data for visualization tasks that require this information.
 
 \section{Codifying Structure Preservation}
 \label{sec:artist}
