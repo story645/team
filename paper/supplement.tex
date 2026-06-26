@@ -112,8 +112,8 @@ Since our proposed methods work well for a range of possible settings, we abstra
   An \textcolor{action}{\textbf{action}} is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.\cite{grimaldiDiscreteCombinatorialMathematics2006}
 \end{definition}
 
-Elements of $X$ can be from one data field or all of them or some subset; similarly the actions act on
-the elements of $X$ and each action can be a composition of actions.
+Elements of $X$ can be from one data field or all of them or some subset; similarly the actions act on the elements of $X$ and each action can be a composition of actions.
+
 \subsection{Topology}
 \label{sec:topology}
 Given a set $X$ and a function $\mathcal{N}:X\to 2^{2^X}$ that assigns to any $x\in X$ a non-empty collection of subsets $\mathcal{N}(x)$, where each element of $\mathcal{N}(x)$ is a \emph{neighborhood of $x$}, then $X$ with  $\mathcal{N}$ is a \textcolor{base}{topological space} and $\mathcal{N}$ is a neighborhood \emph{topology} if for each $x$ in $X$: \cite{brownronaldTopologyGroupoids2006}
@@ -173,6 +173,9 @@ $F(C) \in \textbf{ob}(\mathcal{D})$ denotes the object to which an object $C$ is
 \end{definition}
 
 \subsection{Natural transforms}
+\label{sec:natural-transform}
+Natural transforms are maps of functors that take the same input object and return objects in the same category\cite{milewskiCategoryTheoryProgrammers2019}: 
+
 \begin{equation*} {\renewcommand{\arraystretch}{1.2}
   \begin{tabular}{|c|c|}
     \hline
@@ -365,8 +368,8 @@ The gluing axiom says that a distributed representation of a dataset, which is a
 
 For example, in \autoref{fig:supplement:atct:sheaf}, the $\tau^{a}$ and $\tau^{b}$ $\sin$ sections are equal because they match \textit{locally} on all subsets. This is true whether $\sin$ is defined over parts ($\sin\vert_{\openset_i}$) or the whole space. If $\sin$ is defined over parts, then those parts can be \textit{glued} together. The concatenated $\sin$ is continuous because the pieces of the section outside the overlap are continuous with the pieces inside the overlap. The glued $\sin$ is also equal to the non-glued $\sin$ because they match on the opensets; therefore they are equivalent representations of the same section $\sin$ and so have the same mathematical properties.
 
-\subsection{Germ}
-\label{sec:}
+\subsection{Stalk and Germ}
+\label{sec:stalk_germ}
 While each section of a sheaf is evaluated over a point $\dsection(\dbasepoint)$ such that it returns a single record, the sheaf model also provides an abstraction when neighboring information is required.
 
 \begin{definition}
@@ -381,6 +384,108 @@ The \textit{germ} is the section evaluated at a point in the stalk  $\dsection(\
 
 
 
+\subsection{Sheave Transport Functors}
+\label{sec:transports}
+Given a continuous function $\vindexc: \gbasec \rightarrow \dbasec$ between spaces $\gbase, \dbase$, we can construct functors that transport sheaves between the spaces \cite{harderLecturesAlgebraicGeometry2008}.
+
+\paragraph{\textbf{Pushforward functor}}
+The pushforward (direct image) sheaf establishes which record returned by $\gsection$ corresponds to a point $\dbasepoint \in \dbase$:
+
+\begin{definition} Given a sheaf $\sheaf_{\gbase, \gtotal}$ on $\gbase$, the \textbf{pushforward} sheaf  $\vindexpush\sheaf_{\gbase, \gtotal}$ on $\dbase$ is defined as
+  \begin{equation}
+    \vindexpushc(\sheafc_{\gbasec, \gtotalc})(\opensetc)  = \sheafc_{\gbasec, \gtotalc}(\vindexc^{-1}(\opensetc))
+  \end{equation}
+for all opensets $\opensetc \subset \dbasec$\cite{harderLecturesAlgebraicGeometry2008}.
+\end{definition}
+
+The pushforward sheaf returns the set of sections \gsection\ over \dbase\ that corresponds to the space $\vindex^{-1}(\openset) = \opensetg$. The pushforward functor $\vindexpush$ transports sheaves of sections on $\opensetg$ over $\openset$
+ \begin{equation}
+  \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}  \ni \vindexpushc\gsectionc: \opensetc \rightarrow \vindexpushc \gtotalc\restriction_{\opensetc}
+\end{equation}
+such that it provides a way to look up which records returned by $\gsection$ correspond to \dbasepoint\:
+\begin{equation}
+  \label{eq:atct:sheaf:pushforward_select}
+  \vindexpushc\gsectionc(\dbasepointc) = \gsectionc\restriction_{\vindexprec(\dbasepointc)}
+\end{equation}
+such that $\vindexpush\gsection(\dbasepoint))(\gbasepoint) = \gsection(\gbasepoint)$ for all $\gbasepoint \in \vindexpre(\dbasepoint)$. 
+
+\paragraph{\textbf{Pullback functor}}
+The pullback (inverse image) sheaf establishes which record returned by $\dsection$ corresponds to each point $\gbasepoint \in \gbase$:
+\begin{definition} \cite{harderLecturesAlgebraicGeometry2008} Given a sheaf $\sheaf_{\dbase, \dtotal}$ on $\dbase$, the \textbf{pullback} sheaf $\vindexpullc\sheafc_{\dbasec, \dtotalc}$ on $\gbasec$ is defined as the sheaf associated to the presheaf $\vindexpullc(\sheafc_{\dbasec, \dtotalc})(\opensetgc) = \sheafc_{\dbasec, \dtotalc}(\vindexc(\opensetgc))$ for $\vindex(\opensetgc) \in \dbase$.
+\end{definition}
+The pullback sheaf returns the set of sections \dsection\ over the space \gbase\ that corresponds to the space $\vindex(\opensetg) = \openset$. The pullback $\vindexpullc$ transports sheaves of sections on $\openset \subseteq \dbase$ over $\opensetg \subseteq \gbase$
+\begin{equation}
+  \cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}} \ni \vindexpullc\dsectionc: \opensetgc \rightarrow \vindexpullc \dtotalc\restriction_{\opensetgc}
+\end{equation}
+such that there is a way to then look up what records returned by \dsection\ correspond to a region $\gbasepoint$
+\begin{equation}
+  \label{eq:atct:sheaf:pullback_hover}
+  \vindexpullc\dsectionc(\gbasepointc) = \dsectionc(\vindexc(\gbasepointc)) = \dsectionc(\dbasepointc)
+\end{equation}
+As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$. 
+
+\subsection{Transport Artist Between Spaces}
+\label{sec:artist-transform}
+While Artists are defined as maps going from data over \dbase\ to graphic over \gbase\, they are compatible with maps defined solely over \dbase\ or \gbase. This is because when a sheaf is equipped with transport functors (\vindexpush, \vindexpull), maps between sheaves over one space $Hom _{\sheaf_{\dbase}}$ are isomorphic to maps between sheaves over the other space $Hom _{\sheaf_{\gbase}}$\cite{harderLecturesAlgebraicGeometry2008}:
+
+\begin{equation}
+  \label{eq:artist:homset}
+  \begin{tikzcd}[column sep=50]
+ \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}
+& \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}
+\arrow[l, "\vindexpushc"', color=functor]                                          \\
+\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
+\arrow[r, "\vindexpullc", color=functor]
+\arrow[u, "\textcolor{set}{Hom}_{\sheafc_{\dbasec}}", color=homset]
+\arrow[ru, "{\textcolor{set}{Hom}_{\sheafc_{\dbasec},\sheafc_{\gbasec}}}", color=homset]
+&
+\cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}
+\arrow[u, "\textcolor{set}{Hom}_{\sheafc_{\gbasec}}"', color=homset]
+\end{tikzcd}
+\end{equation}
+Both $Hom _{\sheaf_{\dbase}}$ and $Hom _{\sheaf_{\gbase}}$ are compatible, via composition with \vindex, with a mapping from data sheaf in data space to graphic sheaf in graphic space $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$. Artists are a subset of structure preserving functions in $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$ \textcolor{artist}{Artists}. 
+
+The commutativity of \autoref{eq:artist:homset} means that an artist over data space $\vartist_{\dbase}: \dsection \mapsto \vindexpush \gsection$, an artist over graphic space $\vartist_{\gbase}: \vindexpull \dsection \mapsto \gsection$, and an artist $\vartist: \dsection \mapsto \gsection$ are equivalent. Specifically, given \autoref{eq:atct:sheaf:pullback_hover} (\vindexpull) and \autoref{eq:atct:sheaf:pushforward_select} (\vindexpush), $\vartist_{\dbase}(\dsection(\dbasepoint)) = \vartist_{\gbase}(\vindexpull\dsection(\gbasepoint)) = \vartist(\dsection(\dbasepoint)$ when $\vindex(\gbasepoint) = \dbasepoint$. The ability to shift base spaces using adaptors (\vindexpush, \vindexpull) allows a developer to specify structure preserving visualization components in data space, graphic space, or a mix of both depending on what is optimal for the specific use case. For example, mapping a line to a color in data space, but drawing the line in graphic space so that it can be dynamically resampled based on panning and zooming.
+
+\subsubsection{Implementing the artist}
+Since the artist is a family of functions in the homset between sheaves, the isomorphism allows for the specification of the transformation from data as a combination of functions over different spaces:
+
+\begin{equation}
+  \label{eq:construction:artist:path}
+\begin{tikzcd}[row sep=2.5em, column sep=1.5em]
+  \cgamma{\dbasec}{\dtotalc}
+  \arrow[rr, "\vchannelc^{\dbasec}", color=artist]
+  \arrow[rrrr, "\vartistc^{\dbasec}", bend left, color=artist]
+  \arrow[dd, "\vindexpullc"', color=functor]
+  \arrow[rrrrdd, "\vartistc", color=artist, pos=.2] &  &
+  \cgamma{\dbasec}{\vtotalc}
+  \arrow[rrdd, "\vmarkc", color=artist]
+  \arrow[rr, "\vmarkc^{\dbasec}", color=artist]
+  \arrow[dd, "\vindexpullc", color=functor, pos=.2] &  & \imartist{\dbasec}{\vindexpushc\gtotalc}  \\
+   & & & & \\
+  \cgamma{\gbasec}{\vindexpullc\dtotalc}
+  \arrow[rr, "\vchannelc^{\gbasec}", color=artist]
+  \arrow[rrrr, "\vartistc^{\gbasec}", bend right, color=artist] & &
+  \cgamma{\gbasec}{\vindexpullc\vtotalc}
+  \arrow[rr, "\vmarkc^{\gbasec}", color=artist] &  &
+  \imartist{\gbasec}{\gtotalc}
+  \arrow[uu, "\vindexpushc"', color=functor]
+\end{tikzcd}
+\end{equation}
+This means that an artist over data space $\vartist_{\dbase}: \dsection \mapsto \vindexpush \gsection$, an artist over graphic space $vartist_{\gbase}: \vindexpull \dsection \mapsto \gsection$, and an artist $\vartist: \dsection \mapsto \gsection$ are equivalent such that:
+\begin{equation*}
+  \begin{split}
+  & \dsection(\dbasepoint) = \vindexpull\dsection(\gbasepoint)  \\
+   & \implies
+  \vartist_{\dbase}(\dsection(\dbasepoint)) = \vartist_{\gbase}(\vindexpull\dsection(\gbasepoint)) = \vartist(\dsection(\dbasepoint))\\
+  & \implies \vindexpush\gsection(\gbasepoint) = \gsection(\gbasepoint)
+  \end{split}
+\end{equation*}
+when $\vindex(\gbasepoint) = \dbasepoint$. 
+
+\section{Spivak's Type System}
+\label{sec:spivak}
+In Spivak's fiber bundle formulation of tables in relational databases \cite{spivakDatabasesAreCategories2010, spivakSimplicialDatabases2009}, Spivak introduces a \textit{type specification} as a bundle map $\pi: \mathscr{U} \rightarrow \textbf{DT}$. The base space $\textbf{DT}$ is a set of data types $T \in \textbf{DT}$ and the total space $\mathscr{U}$ is the disjoint union of the domains of each type $\mathscr{U} = \bigsqcup_{T \in \textbf{DT}} \pi^{-1}(T)$ such that each element $x$ in the domain $\pi^{-1}(T)$ is one possible value of an object of type $T$ \cite{spivakSimplicialDatabases2009}. For example, if $T=\texttt{int}$, then the image $\pi^{-1}(\texttt{int}) = \mathbb{Z} \subset \mathscr{U}$ is the set of all integers and $x=3 \in \mathbb{Z}$ is the value of one $\texttt{int}$ object. Spivak's analogue of a database \textit{schema} is the \textit{simple schema of type $\pi$} which is defined as consisting of the pair $(\fnames, \sigma)$ where $\fnames$ is the set of field names and $\sigma: \fnames \rightarrow \textbf{DT}$ is a function from field name to field data type\cite{spivakSimplicialDatabases2009}. The function $\sigma$ is composed with $\pi$ such that $\pi^{-1}(\sigma(C)) \subseteq \mathscr{U}$; this composition induces a domain bundle $\pi_{\sigma}:\mathscr{U}_{\sigma} \rightarrow \fnames$ that associates a field name $c \in C$ with its corresponding domain $\pi^{-1}_{\sigma}(C) \subseteq \mathscr{U}_{\sigma}$. Spivak defines a \textit{record} as a function $\delement: \fnames \rightarrow \mathscr{U}_{\sigma}$ from column name to type domain and the set of records on $\pi_{\sigma}$ is denoted $\Gamma^{\pi}(\sigma)$\footnote{This paper follows the convention that $\Gamma$ denotes a set.}. Records must return an object of type $\sigma(\fname) \in \textbf{DT}$ for each field $c \in C$. Spivak then describes tables as sections $\dsection: \dbase \rightarrow \Gamma^{\pi}(\sigma)$ from an indexing space $\dbase$ to the set of all possible records $\Gamma^{\pi}(\sigma)$ on the schema bundle, and his construction of a table generalizes to our notion of a dataset. 
 
 \bibliographystyle{abbrv-doi}
 \bibliography{references}

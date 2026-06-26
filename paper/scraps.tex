@@ -392,5 +392,69 @@ Generally, the distinguishing factor between a trivial bundle and a non-trivial 
 
 In the example in Figure~\ref{fig:cyl_mob_bundles}, we use arrows $\uparrow$ to denote fiber alignments. In the cylinder case the fibers all point in the same direction, which illustrates that they are equal $\uparrow=\uparrow$. In the Möbius band case, while the fibers in an arbitrary local trivialization are equal $\uparrow=\uparrow$, the fibers at the twist are unequal but isomorphic $\uparrow \cong \downarrow$. The cylinder and mobius band can be decomposed to the same local trivializations, for example the fiber bundles in \autoref{fig:atct:fb} In the cylinder case, the fibers in the overlapping regions of the trivializations are equal $\dfiber_0\restriction_{\openset_1\cap\openset_2} = \dfiber_{1}\restriction_{\openset_1\cap\openset_2}$; therefore the transition maps at both intersections map the values in the fiber to themselves $\delement\rightarrow\delement$ . In the Möbius band case, while $\dfiber_0\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}\to\dfiber_1\restriction_{(2\pi/5-\varepsilon, 2\pi/5+\varepsilon)}$ can be chosen to be an identity map, the other transition map component $\dfiber_0\restriction_{(-\varepsilon,\varepsilon)}\to\dfiber_1\restriction_{(-\varepsilon,\varepsilon)}$ has to flip any section values. For example given  $\dfiber_{0}=\uparrow$ and $\dfiber_{1}=\downarrow$, the transition map $\delement \mapsto -\delement$ maps each point from one fiber to the other $\uparrow \mapsto \downarrow$ such that any sections remain continuous even though the fibers point in opposite directions.
 
+Because multiple graphics can correspond to one data record and every graphic must have a corresponding record \cite{tufteVisualDisplayQuantitative2001,ziemkiewiczEmbeddingInformationVisualization2009}, we define \textcolor{functor}{indexing look up functor} \vindexc\ as a deformation retraction\cite{hatcherAlgebraicTopology2002} of the graphic indexing space \gbase\ into the data indexing space \dbase.
+
+This means that every point in \gbase\ can be mapped, non-uniquely, to a point in \dbase\:
+
+\begin{equation}
+  \vindexc: \dbasec \times I \rightarrow \dbasec\;s.t\;\vindexc(\gbasepointc) = \dbasepointc\;\forall \dbasepointc \in \gbasec
+\end{equation}
+The graphic indexing space is defined as the data space multiplied by an identity $\gbase = \dbase\times I$ because it allows us to encode the data index into the graphic index. For example, for a 2D space the graphic basepoint is defined as $\gbasepoint=(\alpha,\beta) \in \dbasepoint_i\times I$ . This means that the first coordinate $\alpha=\dbasepoint_i$ provides a lookup into the data space and the second coordinate is a point on the interval $\beta \in I$ and together they are input into the graphic function $\gsection(\gbasepoint)$ which returns how the pixel at $\gbasepoint$ is set.
+
+
+\subsubsection{Artist as Natural Transform}
+While Artists are defined as maps going from data over \dbase\ to graphic over \gbase\, they are compatible with maps defined solely over \dbase\ or \gbase. This is because when a sheaf is equipped with transport functors (\vindexpush, \vindexpull), maps between sheaves over one space $Hom _{\sheaf_{\dbase}}$ are isomorphic to maps between sheaves over the other space $Hom _{\sheaf_{\gbase}}$\cite{harderLecturesAlgebraicGeometry2008}:
+
+\begin{equation}
+  \label{eq:artist:homset}
+  \begin{tikzcd}[column sep=50]
+ \cgamma{\opensetc}{\vindexpushc\gtotalc\restriction_{\opensetc}}
+& \cgamma{\opensetgc}{\gtotalc\restriction_{\opensetgc}}
+\arrow[l, "\vindexpushc"', color=functor]                                          \\
+\cgamma{\opensetc}{\dtotalc\restriction_{\opensetc}}
+\arrow[r, "\vindexpullc", color=functor]
+\arrow[u, "\textcolor{set}{Hom}_{\sheafc_{\dbasec}}", color=homset]
+\arrow[ru, "{\textcolor{set}{Hom}_{\sheafc_{\dbasec},\sheafc_{\gbasec}}}", color=homset]
+&
+\cgamma{\opensetgc}{\vindexpullc\dtotalc\restriction_{\opensetgc}}
+\arrow[u, "\textcolor{set}{Hom}_{\sheafc_{\gbasec}}"', color=homset]
+\end{tikzcd}
+\end{equation}
+Both $Hom _{\sheaf_{\dbase}}$ and $Hom _{\sheaf_{\gbase}}$ are compatible, via composition with \vindex, with a mapping from data sheaf in data space to graphic sheaf in graphic space $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$. Artists are a subset of structure preserving functions in $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$ \textcolor{artist}{Artists}. 
+
+The commutativity of \autoref{eq:artist:homset} means that an artist over data space $\vartist_{\dbase}: \dsection \mapsto \vindexpush \gsection$, an artist over graphic space $\vartist_{\gbase}: \vindexpull \dsection \mapsto \gsection$, and an artist $\vartist: \dsection \mapsto \gsection$ are equivalent. Specifically, given \autoref{eq:atct:sheaf:pullback_hover} (\vindexpull) and \autoref{eq:atct:sheaf:pushforward_select} (\vindexpush), $\vartist_{\dbase}(\dsection(\dbasepoint)) = \vartist_{\gbase}(\vindexpull\dsection(\gbasepoint)) = \vartist(\dsection(\dbasepoint)$ when $\vindex(\gbasepoint) = \dbasepoint$. The ability to shift base spaces using adaptors (\vindexpush, \vindexpull) allows a developer to specify structure preserving visualization components in data space, graphic space, or a mix of both depending on what is optimal for the specific use case. For example, mapping a line to a color in data space, but drawing the line in graphic space so that it can be dynamically resampled based on panning and zooming.
+
+\begin{equation}
+  \label{eq:artist:equivariance}
+  \begin{tikzcd}[ampersand replacement=\&, column sep=small]
+  \cgamma{\dbasec}{\dtotalc}
+  \arrow[rrr, "\vartistc", color=artist]
+  \arrow[d, "\dfuncpullc_{\dtotalc}"', color=action]
+  \& \& \&
+  \imartist{\gbasec}{\gtotalc}
+  \arrow[d, "\dfuncpullc_{\gtotalc}", dotted] \\
+  \cgamma{\dbasec^{\prime}}{\dfuncpullc_{\dtotalc}\dtotalc}
+  \arrow[dd, "\dfunctc_{\dtotalc}"', color=action] \&
+  \dbasec
+   \&
+  \gbasec
+  \arrow[l, "\vindexc"', color=functor]
+  \&
+  \imartist{\gbase^{\prime}}{\dfuncpullc_{\gtotalc}\gtotalc}
+  \arrow[dd, "\dfunctc_{\gtotalc}", dotted, color=action] \\
+  \&
+  \dbasec^{\prime}
+  \arrow[u, "\dfunchc_{\dtotalc}", color=action]
+  \&
+  \gbasec^{\prime}
+  \arrow[l, "\vindexc"', color=functor]
+  \arrow[u, "\dfunchc_{\gtotalc}"', dotted, color=action]
+  \& \\
+  \cgamma{\dbasec^{\prime}}{\dtotalc^{\prime}}
+  \arrow[rrr, "\vartistc", color=artist]
+  \& \& \&
+  \imartist{\gbasec^{\prime}}{\gtotalc^{\prime}}
+  \end{tikzcd}
+\end{equation}
 
 \end{document}
