@@ -16,12 +16,15 @@
 
 % *** MATH PACKAGES ***
 %% with other math-related packages, you may want to disable it.
+\usepackage{mathptmx}
 \usepackage{amsmath, amsthm, amsfonts,amssymb,eulervm,xspace, mathtools}
-\usepackage{relsize} %bigger
-\usepackage{bm}
 \usepackage{stmaryrd}%maps from
 %\renewcommand{\restriction}{\mathord{\upharpoonright}} %restriction w/p space
 \usepackage{mathrsfs} % math script fonts
+\usepackage{relsize} %bigger
+\usepackage{bm}
+
+
 % theorem environments
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
@@ -40,7 +43,7 @@
 \usepackage{xcolor}
 \usepackage[utf8]{inputenc}
 
-\usepackage[]{minted}
+\usepackage[cache=false]{minted}
 \setminted[python]{fontsize=\scriptsize,
                    linenos,
                    numbersep=8pt,
@@ -54,30 +57,26 @@
 \usepackage{multirow}
 \usepackage{tabulary}
 \usepackage{tabularray}
+% IEEEtran contains the IEEEeqnarray family of commands
 
 
 % Fonts
-% Fonts: use T1 encoding and a Times-like text+math package for pdfLaTeX
-\usepackage[T1]{fontenc}
-\usepackage{newtxtext,newtxmath}
+
+\usepackage{times}                     % we use Times as the main font
 \renewcommand*\ttdefault{txtt}         % a nicer typewriter font
-\usepackage{stmaryrd}%maps from
-\renewcommand{\restriction}{\mathord{\upharpoonright}} %restriction w/p space
-\usepackage{mathrsfs} % math script fonts
+\usepackage{mathptmx}
+
 % *** SUBFIGURE PACKAGES ***
 \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 
 % *** FLOAT PACKAGES ***
 \usepackage{dblfloatfix}
-
 % *** PDF, URL AND HYPERLINK PACKAGES ***
-\usepackage{xurl}
+%\usepackage{xurl}
 
-% *** BIBLIOGRAPHY ***
+% *** footnotes and crossrefs 
+
 \usepackage[]{footmisc}
-
-%\usepackage[inline]{showlabels} %show equation labels
-
 \usepackage{notation} %notation conventions
 % correct bad hyphenation here
 %\hyphenation{}
@@ -97,28 +96,30 @@
 \section{Structure}
 \subsection{Monoids and Groups}
 \begin{definition}
-A group is a set with an associative binary operator. This operation must have an identity element and be closed, associative, and invertible, consisting of a set of values $X$ and \textcolor{action}{actions} on the set {$G = (G,\circ, e)$}.
+A monoid is a set with an associative binary operator and an identity element.
 \end{definition}
 
 \begin{definition}
-A monoid is a set with an associative binary operator. This operation must have an identity element and be closed, and associative, consisting of a set of values $X$ and \textcolor{action}{actions} on the set {$M = (M,\circ, e)$}.
+A group is a monoid where every element is invertible.
 \end{definition}
 
 \subsection{Actions}
 \label{sec:actions}
-Since our proposed methods work well for a range of possible settings, we abstract the notion of data type into some object in a category with some monoid action on the object. Here, we deliberately refrain from stating the structure on the data - e.g. group, vector space, partial order - just that there is some category the data comes from. Here, by a monoid action of a monoid $M$ on a set $X$ we mean a function $act: G\times X \rightarrow X$:
+Since our proposed methods work well for a range of possible settings, we abstract the notion of data type into some object in a category with some monoid action on the object. Here, we deliberately refrain from stating the structure on the data - e.g. group, vector space, partial order - just that there is some category the data comes from. Here, by a monoid action of a monoid $M$ on an object $X$, we mean a morphism $act: G\times X \rightarrow X$:
 
 \begin{definition}\label{def:related-work:action}
-  An \textcolor{action}{\textbf{action}} is a function  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.\cite{grimaldiDiscreteCombinatorialMathematics2006}
+  An \textcolor{action}{\textbf{action}} is a morphism  $act: \textcolor{action}{G} \times X \rightarrow X$. An action has the properties of identity $act(\textcolor{action}{e}, x) = x$ for all  $x \in X$ and associativity $act(\textcolor{action}{g}, act(\textcolor{action}{f}, x)) = act(\textcolor{action}{f} \circ \textcolor{action}{g}, x)$ for $\textcolor{action}{f},\textcolor{action}{g} \in \textcolor{action}{G}$.\cite{grimaldiDiscreteCombinatorialMathematics2006}
 \end{definition}
 
 Elements of $X$ can be from one data field or all of them or some subset; similarly the actions act on the elements of $X$ and each action can be a composition of actions.
 
 \subsection{Topology}
 \label{sec:topology}
-Given a set $X$ and a function $\mathcal{N}:X\to 2^{2^X}$ that assigns to any $x\in X$ a non-empty collection of subsets $\mathcal{N}(x)$, where each element of $\mathcal{N}(x)$ is a \emph{neighborhood of $x$}, then $X$ with  $\mathcal{N}$ is a \textcolor{base}{topological space} and $\mathcal{N}$ is a neighborhood \emph{topology} if for each $x$ in $X$: \cite{brownronaldTopologyGroupoids2006}
+
+There are numerous equivalent ways to formally define a topology. For our work, it is most convenient to use the \textit{neighborhood} axioms of a topology, where a set $X$ is a topological space if it is equipped with a function $N:X\to 2^{2^X}$ that assigns to any $x\in X$ the non-empty collection of all \textit{neighborhoods} of $x$. The exact function chosen determines what \textit{neighborhood} means for a given topological space. 
 
 \begin{definition}\label{def:topology}
+The function $N$ is called a \textit{neighborhood} topology if the following axioms are satisfied; and then $X$ with $N$ is called a topological space. The following axioms must hold for each $x$ in $X$:\cite{brownronaldTopologyGroupoids2006}
 \begin{enumerate}
   \item if $N$ is a neighborhood $N \in \mathcal{N}(x)$ of $x$ then $x \in N$
   \item every superset of a neighborhood of $x$ is a neighborhood of $x$; therefore a union of a neighborhood and adjacent points in $X$ is also a neighborhood of $x$
@@ -147,39 +148,42 @@ such that
         X \arrow[r, "f"] \arrow[rrr, "h\circ(g\circ f) = (h\circ g)\circ f"', bend right, dashed] & Y  \arrow[r, "g"] & Z \arrow[r, "h"] & W
         \end{tikzcd}
   \end{equation*}
-  then they are associative such that $h\circ(g\circ f) = (h \circ g) \circ f$  \cite{lawvereConceptualMathematicsFirst2009, riehlCategoryTheoryContext2016,maclaneCategoriesWorkingMathematician2013,fongInvitationAppliedCategory2019}.
+  then they are associative $h\circ(g\circ f) = (h \circ g) \circ f$  \cite{lawvereConceptualMathematicsFirst2009, riehlCategoryTheoryContext2016,maclaneCategoriesWorkingMathematician2013,fongInvitationAppliedCategory2019}.
   \end{enumerate}
 \end{definition}
 
 The composability property expresses that the morphism is transitive, while associativity expresses that the morphisms can be curried in various equivalent groupings. By formally specifying the properties of the topological structure data types as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects.
 
-\subsubsection{Monoid}
-\label{sec:monoid}
-\begin{definition}\label{def:monoid}
-A monoid is a category with one object $X$ and a bifunctor $\otimes\colon X \times X \rightarrow X$.
-\end{definition} 
+A monoid is a single object category $(M, I, \otimes)$ consisting of an obkect $M$, identity element $I$, and binary operation $\otimes:M\times M \rightarrow M$.\cite{bartonicekNoMoreNo2025}.
 
-   
+
 \subsection{Functors}
 \label{sec:functors}
 Functors are mappings between categories that preserve the domains, codomains, composition, and identities of the morphisms within the category\cite{riehlCategoryTheoryContext2016}, 
-\begin{definition}\cite{bradleyWhatFunctorDefinitions,bradleyTopologyCategoricalApproach2020} A \textbf{functor} is a map $F: \mathcal{C} \rightarrow \mathcal{D}$, which means it is a function between objects $F: \textbf{ob}(\mathcal{C}) \mapsto \textbf{ob}(\mathcal{D})$ and that for every morphism $f \in Hom(C_1, C_2)$  there is a corresponding function $F: Hom(C1, C2) \mapsto Hom(F(C_1), F( C_2))$.
+
+\begin{definition}\cite{bradleyWhatFunctorDefinitions,bradleyTopologyCategoricalApproach2020} A \textbf{functor} is a structure preserving map $F: \mathcal{C} \rightarrow \mathcal{D}$ between categories, which means it is a function between objects $F: \textbf{ob}(\mathcal{C}) \mapsto \textbf{ob}(\mathcal{D})$ and that for every morphism $f \in Hom(C_1, C_2)$  there is a corresponding function $F: Hom(C_1, C_2) \mapsto Hom(F(C_1), F( C_2))$.
 A \textbf{functor} must satisfy the properties
 \begin{itemize}
   \item \textit{identity}: $F(id_{C}(C)) = id_{D}(F(C))$
   \item \textit{composition}: $F(g)\circ F(f) = F(g\circ f)$ for any composable morphisms $C_{1}\xrightarrow{f} C_2$, $C_2 \xrightarrow{g} C_3$
 \end{itemize}
-$F(C) \in \textbf{ob}(\mathcal{D})$ denotes the object to which an object $C$ is mapped, and $F(f) \in Hom(F_(C_1), F_(C_2))$ denotes the morphism that $f$ is mapped to.
+$F(C) \in \textbf{ob}(\mathcal{D})$ denotes the object to which an object $C$ is mapped, and $F(f) \in Hom(F_{(C_1)}, F_{(C_2)})$ denotes the morphism that $f$ is mapped to.
 \end{definition}
 
 \subsection{Natural transforms}
 \label{sec:natural-transform}
-Natural transforms are maps of functors that take the same input object and return objects in the same category\cite{milewskiCategoryTheoryProgrammers2019}: 
+Natural transforms are structure preserving maps of functors \cite{milewskiCategoryTheoryProgrammers2019}.
 
-\begin{equation*} {\renewcommand{\arraystretch}{1.2}
+\begin{definition}\label{def:natural-transform}
+  Given two functors $F, G \colon \mathcal{C}\rightarrow \mathcal{D}$, a \textbf{natural transformation} $\alpha: F \rightarrow G$ is a function which assigns to each object $c$ of $\mathcal{C}$ a morphism $\alpha_c:F(c) \rightarrow G(c)$ of $\mathcal{D}$, in such a way that for every morphism $f:c \rightarrow c^\prime$ in $\mathcal{C}$, the morphisms $F(f), G(f)$ in $\mathcal{D}$ commute such that $\alpha_c^{\prime}(F(f)(F(c))) = G(f)(\alpha_c(F(c)))$. When this holds, $\alpha_{c}$ can be said to be \textit{natural} in $\mathcal{C}$.\cite{maclaneCategoriesWorkingMathematician2013}.
+\end{definition}.
+
+\begin{table}[H]
+  \center
+  {\renewcommand{\arraystretch}{1.2}
   \begin{tabular}{|c|c|}
     \hline
-    $\mathcal{C}$ & $\mathcal{D}$ \\
+    $\textcolor{base}{\mathcal{C}}$ & $\textcolor{sheaf}{\mathcal{D}}$ \\
     \hline
     \begin{tikzcd}[ampersand replacement=\&, sep=huge]
         \textcolor{base}{c} \arrow[d, "f", color=action] \\ \textcolor{base}{c^{\prime}}      
@@ -192,34 +196,19 @@ Natural transforms are maps of functors that take the same input object and retu
     \end{tikzcd}\\
     \hline
   \end{tabular}}
-\end{equation*}
+  \caption{A \textcolor{artist}{natural transform} from $\textcolor{action}{F:}\textcolor{base}{C} \textcolor{action}{\to} \textcolor{sheaf}{D}$ to $\textcolor{action}{G}:\textcolor{base}{C}\textcolor{action}{\to} \textcolor{sheaf}{D}$ is a family \textcolor{artist}{$\alpha_*$} of transformations for objects $c$, so that $\textcolor{artist}{\alpha_{c}}: \textcolor{sheaf}{F(c)}\textcolor{artist}{\to} \textcolor{sheaf}{G(c)}$ is compatible with all the functor structures.}
+  \label{tab:nt}
+\end{table}
 
-\begin{definition}\label{def:natural-transform}
-  Given two functors $F, G \colon \mathcal{C}\rightarrow \mathcal{D}$, a \textbf{natural transformation} $\alpha: F \rightarrow G$ is a function which assigns to each object $c$ of $\mathcal{C}$ a morphism $\alpha_c:F(c) \rightarrow G(c)$ of $\mathcal{D}$, in such a way that for every morphism $f:c \rightarrow c^\prime$ in $\mathcal{C}$, the morphisms $F(f), G(f)$ in $\mathcal{D}$ commute such that $\alpha_c^{\prime}(F(f)(F(c))) = G(f)(\alpha_c(F(c)))$. When this holds, $\alpha_{c}$ can be said to be \textit{natural} in $\mathcal{C}$.\cite{maclaneCategoriesWorkingMathematician2013}.
-\end{definition}.
 
 \section{Structure preservation}
-\subsection{Equivariance}
-\label{sec:equiv}
-Given a group $G$ that acts on both $X$ and $Y$
-\begin{definition}\label{def:equivariance}
-  A function $f: X \rightarrow Y$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
-\end{definition}
 
-
-\begin{figure}[H]
-  \includegraphics*[width=1\columnwidth]{equivariant.pdf}
-  \caption{Encoding data as the bar height using an exponential transform is not equivariant because encoding the data and then scaling the bar heights yields a much taller graph then scaling the data and then encoding those heights using the same exponential transform function.}
-  \label{fig:supplement:related-work:equivariance}
-\end{figure}
-
- As illustrated in the commutative diagram in \autoref{fig:supplement:related-work:equivariance}, what this means is that the visual representation is consistent whether the data is scaled ($act(g,x)$) and then mapped ($f$) to a graphic or whether the data is mapped to a graphic that is then modified in a compatible way.
 
 \subsection{Homomorphism}
 \label{sec:homo}
-Given the function $f: X \rightarrow Y$, with operators $(X, \circ)$ and $(Y, *)$
+Given the function $f: X \rightarrow Y$, with monoids $(X, \circ)$ and $(Y, *)$
 \begin{definition}\label{def:homomorphism}
-  A function $f$ is \textbf{homomorphic} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and preserves identities $f(I_x) = I_y$ for all $x, y \in X$ \cite{grimaldiDiscreteCombinatorialMathematics2006}
+  A function $f$ is a monoid \textbf{homomorphism} when $f(x_1 \circ x_2) = f(x_1) * f(x_2)$ and the function preserves identities $f(I_x) = I_y$ for all $x, y \in X$ \cite{grimaldiDiscreteCombinatorialMathematics2006}
 \end{definition}
 which means that the operators $\circ$ and $*$ are compatible.
 
@@ -231,13 +220,29 @@ which means that the operators $\circ$ and $*$ are compatible.
 
 In \autoref{fig:supplement:related-work:homomorphism}, the $\geq$ operator ($\circ$) is defined as the compatible closed functions \texttt{max}($*$) and the inverse transform is not homomorphic because it does not encode the maximum data value as the maximum bar value.
 
+\subsection{Equivariance}
+\label{sec:equiv}
+Given a group action $G$ that acts on both $X$ and $Y$
+\begin{definition}\label{def:equivariance}
+  A function $f: X \rightarrow Y$ is \textbf{equivariant} when $f(act(g,x)) = act(g,f(x))$ for all $g$ in $G$ and for all $x$ in $X$ \cite{pittsNominalSetsNames2013}
+\end{definition}
+ 
+
+\begin{figure}[H]
+  \includegraphics*[width=1\columnwidth]{equivariant.pdf}
+  \caption{Encoding data as the bar height using an exponential transform is not equivariant because encoding the data and then scaling the bar heights yields a much taller graph then scaling the data and then encoding those heights using the same exponential transform function.}
+  \label{fig:supplement:related-work:equivariance}
+\end{figure}
+
+ As illustrated in the commutative diagram in \autoref{fig:supplement:related-work:equivariance}, what this means is that the visual representation is consistent whether the data is scaled ($act(g,x)$) and then mapped ($f$) to a graphic or whether the data is mapped to a graphic that is then modified in a compatible way.
+
 \subsection{Homeomorphism}
 
 \begin{definition}
   A function $f$ is a \textit{homeomorphism} if it is bijective, continuous, and has a continuous inverse function $f^{-1}$.
 \end{definition}
 
-A function between topological spaces is continuous if the inverse image of any open sets is open. If two spaces are homeomorphic, they have identical topological properties and are considered topologically the same.
+A function between topological spaces is continuous if the inverse image of any open sets is open. If two spaces are homeomorphic, they have identical topological properties and are considered topologically the same. Homeomorphism is almost always an unattainably strict notion of equality; therefore most topologists focus instead on weaker notions of equality, such as given by deformation retracts.
 
 \subsection{Deformation retraction}
 \begin{definition}
@@ -254,7 +259,7 @@ A function between topological spaces is continuous if the inverse image of any 
 \label{sec:supplement:fiber_bundles}
 
 \begin{definition}\label{def:fiber_bundle}
-   A \textbf{fiber bundle} $(\dtotalc, \dbasec, \pi, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and  bundle projection map $\pi: \dtotalc \rightarrow \dbasec$ \cite{spanierAlgebraicTopology1989}.
+   A \textbf{fiber bundle} $(\dtotalc, \dbasec, \textcolor{total}{\pi}, \dfiberc)$ is a structure with topological spaces $\dtotalc, \dfiberc, \dbasec$ and  bundle projection map $\textcolor{total}{\pi: \dtotalc \rightarrow \dbasec}$ \cite{spanierAlgebraicTopology1989}.
 
    \begin{equation} \label{eq:atct:fb:intro}
     \begin{tikzcd}
@@ -264,12 +269,12 @@ A function between topological spaces is continuous if the inverse image of any 
 
 A continuous surjective map $\bm{\pi}$ is a \textbf{bundle projection} map when
 \begin{enumerate}
-  \item all fibers in the bundle are isomorphic. Since all fibers are isomorphic $\dfiber \cong \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \dbase$, there is a uniquely determined \textcolor{fiber}{fiber space} \dfiberc\ given by the preimage of the projection $\pi$ at any point $\dbasepoint$ in the \textcolor{base}{base space} \dbasec: $\dfiberc = \pi^{-1}(k)$.
-  \item each point $\dbasepointc$ in the \textcolor{base}{base space} \dbasec\ has an open neighborhood $\openset_{\dbasepointc}$ such that the \textcolor{total}{total space} \dtotalc\ over the neighborhood is locally trivial.
+  \item all fibers $\dfiberc_{\dbasepointc} = \textcolor{total}{\pi^{-1}(\dbasepointc)}, \dbasepointc\in \dbasec$ are isomorphic to $\dfiberc$. We call the uniquely determined \dfiberc\ the \textcolor{fiber}{fiber space}, and it is implicitly encoded in the bundle projection since $\dfiberc = \textcolor{total}{\pi^{-1}(\dbasepointc)}$ for any $\dbasepointc$.
+  \item each point $\dbasepointc$ in the \textcolor{base}{base space} \dbasec\ has an open neighborhood $\opensetc_{\dbasepointc}$ such that the \textcolor{total}{total space} \dtotalc\ over the neighborhood is locally trivial.
 \end{enumerate}
 \end{definition}
 
-\textbf{Local triviality} means $\dtotal\vert_{\openset} = \openset\times \dfiber$. In this paper we use $\dtotal\vert_{\openset} = \pi^{-1}(\openset)$ to denote the preimage of an openset\footnote{Open sets (open subsets) are a generalization of open intervals to n dimensional spaces. For example, an open ball is the set of points inside the ball and excludes points on the surface of the ball. \cite{weissteinOpenSet,bradleyTopologyVsTopology}}, and a \textbf{local trivialization} is a specific choice of neighborhoods and their preimages such that the fibers in each preimage are identical $\dfiber = \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \openset$. All fiber bundles can be decomposed into sets of local trivializations that are also bundles and we can specify a gluing scheme that reconstructs the fiber bundle from locally trivial pieces by specifying\textbf{transition maps} for all overlaps of the local trivializations; therefore, while the framework in this paper applies to all bundles, in this paper we assume that the bundles are trivial bundles $\dtotal = \dbase \times \dfiber$ so that we can assign all fibers in a bundle the same type.
+\textbf{Local triviality} means $\dtotal\vert_{\openset} = \openset\times \dfiber$. In this paper we use $\dtotal\vert_{\openset} = \pi^{-1}(\openset)$ to denote the preimage of a neighborhood, and a \textbf{local trivialization} is a specific choice of neighborhoods and their preimages such that the fibers in each preimage are identical $\dfiber = \dfiber_{\dbasepoint}$ for all points $\dbasepoint \in \openset$. 
 
 \begin{minipage}{.5\columnwidth}
 \begin{definition}\label{def:fiber_bundle:section}
@@ -290,7 +295,6 @@ A \textcolor{section}{\textbf{section}} $\dsectionc: \dbasec \rightarrow \dtotal
   \end{equation}
 \end{minipage}
 
-We propose that the total space of a bundle can encode the mathematical space in which a  dataset is embedded, the base space can encode the topological properties of the dataset, the fiber space can encode the data types of the fields of the dataset, and that the datasets can be encoded as section functions from the continuity to the fiber space.
 
 \begin{figure}[H]
        \includegraphics[width=1\columnwidth]{fb.pdf}
@@ -298,7 +302,7 @@ We propose that the total space of a bundle can encode the mathematical space in
   \end{figure}
 
 
-For example, the fiber bundle in \autoref{fig:supplement:atct:fb} encodes the space of all continuous functions that have a domain of $[0, 2\pi]$ and range $[0,1]$. Using a fiber bundle abstraction encodes that the dataset has a 1D linear continuity as the base space \dbase is the interval $[0,2\pi]$ and a field type that is a \texttt{float} in the range $[0,1]$. Therefore the type signature of the datasets in this fiber bundle, which is called a section \dsection, would be \texttt{dataset: $[0, 2\pi] \rightarrow [0,1]$}. One such dataset (section) is the $\sin$ function, which as shown in \autoref{fig:supplement:atct:fb} is defined via a function \dsection from a point in the base space to a corresponding point in the fiber. Evaluating the section function over the entire base space yields the $\sin$ curve that is composed of points intersecting each fiber over the corresponding point. The local trivializations shown in \autoref{fig:supplement:atct:fb} are one way of decomposing the total bundle and conversely the bundle can be constructed from the local trivializations $\dbase = \dbase_{0} \oplus \dbase_{1}$. As shown, the section $\sin$ spans the trivializations in the same manner that it spans the bundle; this is analogous to how a dataset may span multiple tables or be collected in one table. The trivializations are glued together into the bundle at the overlapping region $\frac{2\pi}{5}$ by defining the transition map $\dfiber_{1} \rightarrow \dfiber_{2}$. Because the fibers in \autoref{fig:supplement:atct:fb} at $\frac{2\pi}{5}$ are aligned, the transition map is an identity map that take every value in $\dfiber_1$ and maps it to the same value in $\dfiber_2$ so that the sections, such as $\sin$, remain continuous.
+For example, the fiber bundle in \autoref{fig:supplement:atct:fb} encodes the space of all continuous functions that have a domain of $[0, 2\pi]$ and range $[0,1]$. Using a fiber bundle abstraction encodes that the dataset has a 1D linear continuity as the base space \dbase is the interval $[0,2\pi]$ and a field type that is a \texttt{float} in the range $[0,1]$. Therefore the type signature of the datasets in this fiber bundle, which is called a section \dsection, would be \texttt{dataset: $[0, 2\pi] \rightarrow [0,1]$}. One such dataset (section) is the $\sin$ function, which as shown in \autoref{fig:supplement:atct:fb} is defined via a function \dsection\ from a point in the base space to a corresponding point in the fiber. Evaluating the section function over the entire base space yields the $\sin$ curve that is composed of points intersecting each fiber over the corresponding point. The local trivializations shown in \autoref{fig:supplement:atct:fb} are one way of decomposing the total bundle and conversely the bundle can be constructed from the local trivializations $\dbase = \dbase_{0} \oplus \dbase_{1}$. As shown, the section $\sin$ spans the trivializations in the same manner that it spans the bundle; this is analogous to how a dataset may span multiple tables or be collected in one table. The trivializations are glued together into the bundle at the overlapping region $\frac{2\pi}{5}$ by defining the transition map $\dfiber_{1} \rightarrow \dfiber_{2}$. Because the fibers in \autoref{fig:supplement:atct:fb} at $\frac{2\pi}{5}$ are aligned, the transition map is an identity map that takes every value in $\dfiber_1$ and maps it to the same value in $\dfiber_2$ so that the sections, such as $\sin$, remain continuous.
 
 
 \subsection{Trivial and non-trivial bundles}
@@ -306,7 +310,7 @@ For example, the fiber bundle in \autoref{fig:supplement:atct:fb} encodes the sp
 
 Generally, the distinguishing factor between a trivial bundle and a non-trivial bundle are how they are decomposed into local trivializations:
 \begin{description}
-  \item[\textit{trivial bundle}] is directly isomorphic to $\dbasec\times\dfiberc$. For any choice of cover of $\dbasec$ by overlapping opensets, we can choose local trivializations such that all transition maps are identity maps.
+  \item[\textit{trivial bundle}] is directly isomorphic to $\dbasec\times\dfiberc$. For any choice of cover of $\dbasec$ by overlapping neighborhoods, we can choose local trivializations such that all transition maps are identity maps.
   \item[\textit{non-trivial bundle}] can not be constructed as $\dbasec\times\dfiberc$. For any choice of local trivializations, there is at least one transition map that is not an identity \cite{hatcherAlgebraicTopology2002}.
 \end{description}
 
@@ -323,7 +327,7 @@ In the example in Figure~\ref{fig:supplement:cyl_mob_bundles}, we use arrows $\u
 
 \section{Presheaves and Sheaves}
 \label{sec:preasheaf_sheave}
-A common way of encapsulating a map from an arbitrary category to a category of sets is as a presheaf and sheaves add on conditions for gluing individual sections over subspaces into cohesive sections over the whole space.
+A common way of encapsulating a map from an arbitrary category to a category of sets is as a presheaf; Sheaves add on conditions for gluing individual sections over subspaces into cohesive sections over the whole space.
 \subsection{Presheaf}
 
 \begin{definition}\label{def:atct::presheaf}
@@ -359,29 +363,14 @@ For example in \autoref{fig:supplement:atct:presheaf}, the transform $\dfunch$ m
   \end{itemize}
 \end{definition}
 
-The gluing axiom says that a distributed representation of a dataset, which is a set of local sections, is equivalent to a section over the union of the opensets of the local sections. The gluing axiom can also be used to generate the gluing rules used to construct non-trivial bundles from the set of trivial local sections. The locality axiom asserts that the glued section function is equivalent to a function over the union if they evaluate to the same values.
+The gluing axiom says that a distributed representation of a dataset, which is a set of local sections, is equivalent to a section over the union of the neighborhoods of the local sections. The gluing axiom can also be used to generate the gluing rules used to construct non-trivial bundles from the set of trivial local sections. The locality axiom asserts that the glued section function is equivalent to a function over the union if they evaluate to the same values.
 
 \begin{figure}[H]
   \includegraphics[width=1\columnwidth]{tex/sheaf_rules.pdf}
   \caption{A sheaf has the conditions that sections are equal when they match on all subsets (\textit{locality}) and that the sections can be concatenated when they match on overlaps \textit{gluing}.\label{fig:supplement:atct:sheaf}}
 \end{figure}
 
-For example, in \autoref{fig:supplement:atct:sheaf}, the $\tau^{a}$ and $\tau^{b}$ $\sin$ sections are equal because they match \textit{locally} on all subsets. This is true whether $\sin$ is defined over parts ($\sin\vert_{\openset_i}$) or the whole space. If $\sin$ is defined over parts, then those parts can be \textit{glued} together. The concatenated $\sin$ is continuous because the pieces of the section outside the overlap are continuous with the pieces inside the overlap. The glued $\sin$ is also equal to the non-glued $\sin$ because they match on the opensets; therefore they are equivalent representations of the same section $\sin$ and so have the same mathematical properties.
-
-\subsection{Stalk and Germ}
-\label{sec:stalk_germ}
-While each section of a sheaf is evaluated over a point $\dsection(\dbasepoint)$ such that it returns a single record, the sheaf model also provides an abstraction when neighboring information is required.
-
-\begin{definition}
-A \textit{stalk} is a sheaf restricted to a very small region over a point $\dbasepoint$:
-\begin{equation}
-  \label{eq:atct:sheaf:stalk}
-    \sheafc_{\dbasec, \dtotalc}\restriction_{\dbasepointc}\coloneqq \lim\limits_{\opensetc\ni \dbasepointc} \Gamma(\opensetc, \dtotalc\restriction_{\opensetc})
-\end{equation}
-where the fiber is contained inside the stalk  $\dfiber_{\dbasepoint} \subset  \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$.\cite{harderLecturesAlgebraicGeometry2008}
-\end{definition}
-The \textit{germ} is the section evaluated at a point in the stalk  $\dsection(\dbasepoint) \in \sheaf_{\dbase, \dtotal}\restriction_{\dbasepoint}$. Since the stalk includes the values near the limit of the point at \dbasepoint\, the germ can be used to compute mathematical derivatives.
-
+For example, in \autoref{fig:supplement:atct:sheaf}, the $\tau^{a}$ and $\tau^{b}$ $\sin$ sections are equal because they match \textit{locally} on all subsets. This is true whether $\sin$ is defined over parts ($\sin\vert_{\openset_i}$) or the whole space. If $\sin$ is defined over parts, then those parts can be \textit{glued} together. The concatenated $\sin$ is continuous because the pieces of the section outside the overlap are continuous with the pieces inside the overlap. The glued $\sin$ is also equal to the non-glued $\sin$ because they match on the neighborhoods; therefore they are equivalent representations of the same section $\sin$ and so have the same mathematical properties.
 
 
 \subsection{Sheave Transport Functors}
@@ -424,7 +413,7 @@ such that there is a way to then look up what records returned by \dsection\ cor
 \end{equation}
 As \vindex\ is surjective, there are many points $\gbasepoint \in \opensetg\subseteq\gbase$ that correspond to a single point $\vindex(\gbasepoint) = \dbasepoint$. 
 
-\subsection{Transport Artist Between Spaces}
+\subsection{Artists over K and S}
 \label{sec:artist-transform}
 While Artists are defined as maps going from data over \dbase\ to graphic over \gbase\, they are compatible with maps defined solely over \dbase\ or \gbase. This is because when a sheaf is equipped with transport functors (\vindexpush, \vindexpull), maps between sheaves over one space $Hom _{\sheaf_{\dbase}}$ are isomorphic to maps between sheaves over the other space $Hom _{\sheaf_{\gbase}}$\cite{harderLecturesAlgebraicGeometry2008}:
 
@@ -443,10 +432,7 @@ While Artists are defined as maps going from data over \dbase\ to graphic over \
 \arrow[u, "\textcolor{set}{Hom}_{\sheafc_{\gbasec}}"', color=homset]
 \end{tikzcd}
 \end{equation}
-Both $Hom _{\sheaf_{\dbase}}$ and $Hom _{\sheaf_{\gbase}}$ are compatible, via composition with \vindex, with a mapping from data sheaf in data space to graphic sheaf in graphic space $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$. Artists are a subset of structure preserving functions in $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$ \textcolor{artist}{Artists}. 
-
-The commutativity of \autoref{eq:artist:homset} means that an artist over data space $\vartist_{\dbase}: \dsection \mapsto \vindexpush \gsection$, an artist over graphic space $\vartist_{\gbase}: \vindexpull \dsection \mapsto \gsection$, and an artist $\vartist: \dsection \mapsto \gsection$ are equivalent. Specifically, given \autoref{eq:atct:sheaf:pullback_hover} (\vindexpull) and \autoref{eq:atct:sheaf:pushforward_select} (\vindexpush), $\vartist_{\dbase}(\dsection(\dbasepoint)) = \vartist_{\gbase}(\vindexpull\dsection(\gbasepoint)) = \vartist(\dsection(\dbasepoint)$ when $\vindex(\gbasepoint) = \dbasepoint$. The ability to shift base spaces using adaptors (\vindexpush, \vindexpull) allows a developer to specify structure preserving visualization components in data space, graphic space, or a mix of both depending on what is optimal for the specific use case. For example, mapping a line to a color in data space, but drawing the line in graphic space so that it can be dynamically resampled based on panning and zooming.
-
+Both $Hom _{\sheaf_{\dbase}}$ and $Hom _{\sheaf_{\gbase}}$ are compatible, via composition with \vindex, with a mapping from data sheaf in data space to graphic sheaf in graphic space $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$. Artists are a subset of structure preserving functions in $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$ \textcolor{artist}{Artists}. The commutativity of \autoref{eq:artist:homset} means that an artist over data space $\vartist_{\dbase}: \dsection \mapsto \vindexpush \gsection$, an artist over graphic space $\vartist_{\gbase}: \vindexpull \dsection \mapsto \gsection$, and an artist $\vartist: \dsection \mapsto \gsection$ are equivalent. Specifically, given \autoref{eq:atct:sheaf:pullback_hover} (\vindexpull) and \autoref{eq:atct:sheaf:pushforward_select} (\vindexpush), $\vartist_{\dbase}(\dsection(\dbasepoint)) = \vartist_{\gbase}(\vindexpull\dsection(\gbasepoint)) = \vartist(\dsection(\dbasepoint)$ when $\vindex(\gbasepoint) = \dbasepoint$.
 \subsubsection{Implementing the artist}
 Since the artist is a family of functions in the homset between sheaves, the isomorphism allows for the specification of the transformation from data as a combination of functions over different spaces:
 
