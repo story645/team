@@ -1,4 +1,4 @@
-\documentclass[review]{vgtc}
+\documentclass{vgtc}
 
 % *** MISC UTILITY PACKAGES ***
 
@@ -89,7 +89,6 @@
 %% allow for this line if you want the electronic option to work properly
 \vgtcinsertpkg
 \title{Supplemental Materials: Math Glossary}
-
 \begin{document}
 \maketitle
 
@@ -154,9 +153,6 @@ such that
 
 The composability property expresses that the morphism is transitive, while associativity expresses that the morphisms can be curried in various equivalent groupings. By formally specifying the properties of the topological structure data types as $\mathcal{\dbase}$, we can express that these are the properties that are required as part of the implementation of the data type objects.
 
-A monoid is a single object category $(M, I, \otimes)$ consisting of an obkect $M$, identity element $I$, and binary operation $\otimes:M\times M \rightarrow M$.\cite{bartonicekNoMoreNo2025}.
-
-
 \subsection{Functors}
 \label{sec:functors}
 Functors are mappings between categories that preserve the domains, codomains, composition, and identities of the morphisms within the category\cite{riehlCategoryTheoryContext2016}, 
@@ -196,7 +192,7 @@ Natural transforms are structure preserving maps of functors \cite{milewskiCateg
     \end{tikzcd}\\
     \hline
   \end{tabular}}
-  \caption{A \textcolor{artist}{natural transform} from $\textcolor{action}{F:}\textcolor{base}{C} \textcolor{action}{\to} \textcolor{sheaf}{D}$ to $\textcolor{action}{G}:\textcolor{base}{C}\textcolor{action}{\to} \textcolor{sheaf}{D}$ is a family \textcolor{artist}{$\alpha_*$} of transformations for objects $c$, so that $\textcolor{artist}{\alpha_{c}}: \textcolor{sheaf}{F(c)}\textcolor{artist}{\to} \textcolor{sheaf}{G(c)}$ is compatible with all the functor structures.}
+  \caption{A \textcolor{artist}{natural transform} from $\textcolor{action}{F:}\textcolor{base}{C} \textcolor{action}{\to} \textcolor{sheaf}{D}$ to $\textcolor{action}{G}:\textcolor{base}{C}\textcolor{action}{\to} \textcolor{sheaf}{D}$ is a family \textcolor{artist}{$\alpha_*$} of transformations for objects, so that $\textcolor{artist}{\alpha_{c}}: \textcolor{sheaf}{F(c)}\textcolor{artist}{\to} \textcolor{sheaf}{G(c)}$ is compatible with all the functor structures in the diagram above.}
   \label{tab:nt}
 \end{table}
 
@@ -245,6 +241,7 @@ Given a group action $G$ that acts on both $X$ and $Y$
 A function between topological spaces is continuous if the inverse image of any open sets is open. If two spaces are homeomorphic, they have identical topological properties and are considered topologically the same. Homeomorphism is almost always an unattainably strict notion of equality; therefore most topologists focus instead on weaker notions of equality, such as given by deformation retracts.
 
 \subsection{Deformation retraction}
+\label{sec:deform-retract}
 \begin{definition}
   A \textit{deformation retraction} of a space $X$ onto a subspace A is a family of maps $f_{t}: X \rightarrow X, t \in I$ such that $f_0 =\mathbb{1}$ (identity), $f_{1}(X)=A$, and $f_{t}|A=\mathbb{1}$ for all $t$. The family $f_{t}$ should be continuous in the sense that the associated map $X \times I \rightarrow X, (x,t)
  \mapsto f_{t}(x)$ is continuous. \cite{hatcherAlgebraicTopology2002} \end{definition}
@@ -373,7 +370,7 @@ The gluing axiom says that a distributed representation of a dataset, which is a
 For example, in \autoref{fig:supplement:atct:sheaf}, the $\tau^{a}$ and $\tau^{b}$ $\sin$ sections are equal because they match \textit{locally} on all subsets. This is true whether $\sin$ is defined over parts ($\sin\vert_{\openset_i}$) or the whole space. If $\sin$ is defined over parts, then those parts can be \textit{glued} together. The concatenated $\sin$ is continuous because the pieces of the section outside the overlap are continuous with the pieces inside the overlap. The glued $\sin$ is also equal to the non-glued $\sin$ because they match on the neighborhoods; therefore they are equivalent representations of the same section $\sin$ and so have the same mathematical properties.
 
 
-\subsection{Sheave Transport Functors}
+\subsection{Sheaf Transport Functors}
 \label{sec:transports}
 Given a continuous function $\vindexc: \gbasec \rightarrow \dbasec$ between spaces $\gbase, \dbase$, we can construct functors that transport sheaves between the spaces \cite{harderLecturesAlgebraicGeometry2008}.
 
@@ -432,7 +429,7 @@ While Artists are defined as maps going from data over \dbase\ to graphic over \
 \arrow[u, "\textcolor{set}{Hom}_{\sheafc_{\gbasec}}"', color=homset]
 \end{tikzcd}
 \end{equation}
-Both $Hom _{\sheaf_{\dbase}}$ and $Hom _{\sheaf_{\gbase}}$ are compatible, via composition with \vindex, with a mapping from data sheaf in data space to graphic sheaf in graphic space $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$. Artists are a subset of structure preserving functions in $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$ \textcolor{artist}{Artists}. The commutativity of \autoref{eq:artist:homset} means that an artist over data space $\vartist_{\dbase}: \dsection \mapsto \vindexpush \gsection$, an artist over graphic space $\vartist_{\gbase}: \vindexpull \dsection \mapsto \gsection$, and an artist $\vartist: \dsection \mapsto \gsection$ are equivalent. Specifically, given \autoref{eq:atct:sheaf:pullback_hover} (\vindexpull) and \autoref{eq:atct:sheaf:pushforward_select} (\vindexpush), $\vartist_{\dbase}(\dsection(\dbasepoint)) = \vartist_{\gbase}(\vindexpull\dsection(\gbasepoint)) = \vartist(\dsection(\dbasepoint)$ when $\vindex(\gbasepoint) = \dbasepoint$.
+Both $Hom _{\sheaf_{\dbase}}$ and $Hom _{\sheaf_{\gbase}}$ are compatible, via composition with \vindex, with a mapping from data sheaf in data space to graphic sheaf in graphic space $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$. Artists are a subset of structure preserving functions in $Hom _{\sheaf_{\dbase}, \sheaf_{\gbase}}$. The commutativity of \autoref{eq:artist:homset} means that an artist over data space $\vartist_{\dbase}: \dsection \mapsto \vindexpush \gsection$, an artist over graphic space $\vartist_{\gbase}: \vindexpull \dsection \mapsto \gsection$, and an artist $\vartist: \dsection \mapsto \gsection$ are equivalent. Specifically, given \autoref{eq:atct:sheaf:pullback_hover} (\vindexpull) and \autoref{eq:atct:sheaf:pushforward_select} (\vindexpush), $\vartist_{\dbase}(\dsection(\dbasepoint)) = \vartist_{\gbase}(\vindexpull\dsection(\gbasepoint)) = \vartist(\dsection(\dbasepoint)$ when $\vindex(\gbasepoint) = \dbasepoint$.
 \subsubsection{Implementing the artist}
 Since the artist is a family of functions in the homset between sheaves, the isomorphism allows for the specification of the transformation from data as a combination of functions over different spaces:
 

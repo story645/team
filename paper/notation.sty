@@ -22,8 +22,11 @@
 \definecolor{set}{HTML}{4C8A6E}
 
 % colored Gamma({open set}, bundle )
+%\newcommand\cgamma[2]{%
+%    \ensuremath{\textcolor{set}{\Gamma(}#1 \textcolor{set}{,}\; #2 \textcolor{set}{)}}}
+
 \newcommand\cgamma[2]{%
-    \ensuremath{\textcolor{set}{\Gamma(}#1 \textcolor{set}{,}\; #2 \textcolor{set}{)}}}
+    \ensuremath{\textcolor{set}{\Gamma_{#1}(}#2\textcolor{set}{)}}}
 
 % ImA{openset} {bundle\restriction_{openset}}
 \newcommand\imartist[2]{%
@@ -37,6 +40,9 @@
 \newcommand\hombig[3]{%
     \ensuremath{\textcolor{set}{{Hom}_{#1}(}#2 \textcolor{set}{,}\; #3 \textcolor{set}{)}}}
 
+ %Hom_{source}{target}
+\newcommand\homc[2]{%
+    \ensuremath{\textcolor{set}{{Hom}(}#1 \textcolor{set}{,}\; #2 \textcolor{set}{)}}}
 %% measurement
 \cdef{measure}{M}
 \cdef{measurec}{\textcolor{monoid}{\measure}}
@@ -70,7 +76,7 @@
 \cdef{dfiberc}{\textcolor{fiber}{\dfiber}}
 
 \cdef{delement}{r}
-\cdef{delementc}{\textcolor{set}{\delement}}
+\cdef{delementc}{\textcolor{fiber}{\delement}}
 
 \cdef{dbase}{K}
 \cdef{dbasec}{\textcolor{base}{\dbase}}
