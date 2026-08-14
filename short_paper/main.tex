@@ -3,6 +3,12 @@
 \usepackage{times}
 \renewcommand*\ttdefault{txtt}
 \usepackage{mathptmx}
+\DeclareRobustCommand{\coprod}{\mathop{\text{\fakecoprod}}}
+\newcommand{\fakecoprod}{%
+  \sbox0{$\prod$}%
+  \smash{\raisebox{\dimexpr.9625\depth-\dp0}{\scalebox{1}[-1]{$\prod$}}}%
+  \vphantom{$\prod$}%
+}
 
 % *** MATH PACKAGES ***
 %% with other math-related packages, you may want to disable it.
@@ -38,7 +44,7 @@
 
 
 
-\title{A Categorical Framework for Visualization Software Architecture}
+\title{Mind Your \vchannel s and \vmark s: A Categorical Framework for Specifying Visualization Components}
 
 
 \author{Hannah Aizenman \thanks{email:haizenman@gradcenter.cuny.edu}\\%
@@ -53,9 +59,10 @@
 
 %\keywords{TODO:list keywords}
 
-\abstract{ ????
-
+\abstract{ 
+Graphical grammars express how to put visual elements together; we propose a methodology for defining those visual elements in a manner that guarantees that they are structure preserving. Fiber bundles provide a uniform interface for describing a variety of data - tables, images, networks, etc. - in a manner that independently encodes the mathematical structure of the continuity and fields of the dataset. Modeling the data containers that store the datasets as sheaves provides a framework for specifying visualization methods that are designed to work regardless of how the dataset is stored - whether on disk, distributed, or on demand. Specifying the visualization library components as natural transforms of sheaves means that the constraints that the component must satisfy to be structure preserving can be specified as the set of morphisms on the data and graphic sheaves, including the structure on the continuity and fields of the data. Formally expressing how visual elements are constructed using category theory means we can translate those constraints into pseudocode, which can be used to implement the words in the visual sentence in a way that ensures that the sentences generate images that are faithful translations of the data.
 }
+
 
 \begin{document}
 
@@ -63,111 +70,103 @@
 
 \section{Intro}
 \label{sec:intro}
-Graphical grammars are used to express how to put various visual elements together; we propose a methodology for defining those visual elements in a manner that ensures that they are structure preserving. We propose that fiber bundles provide a uniform interface for describing a variety of underlying data - tables, images, networks, etc. - in a manner that independently encodes the mathematical structure of the topology and the fields of the dataset. Modeling the data structures that store the datasets as sheaves provides a framework for specifying visualization methods that are designed to work regardless of how the dataset is stored - whether the data is on disk, distributed, or on demand. Specifying the visualization library components as natural transforms of sheaves means that the constraints that the component must satisfy to be structure preserving can be specified as the set of morphisms on the data and graphic sheaves, including the structure on the continuity and fields of the data. Using category theory to formally express how visual elements are constructed means we can translate those constraints into pseudocode, which can be used to implement the words in the visual sentence in way that ensures that the sentences generate images that are faithful translations of the data.
+A visualization described by a visual grammar is a faithful translation of the underlying data only if the visual components that generated the graphic are implemented in a structure preserving way. While visualization libraries aim to do so, architecture decisions and ongoing development can lead to bugs. For example, the Matplotlib Python visualization library has different APIs for accessing each type of data (e.g. line and image), which leads to changes to the data (e.g. unit conversions) not always applied consistently across plotting methods. This inconsistency motivated us to develop a framework that provides a uniform interface for arbitrary datasets in arbitrary containers, uses category theory as the language for expressing what structure needs to be preserved across mapping and provides guidance for the construction and testing of structure preserving visualization library components.
 
 \section{Related Work}
 \label{sec:related-work}
-Our model generalizes previous mathematically derived frameworks by allowing arbitrary structures, explicitly incorporating topology, and by providing an explicit framework for translating the theoretical ideas into buildable components. Bertin\cite{bertinSemiologyGraphicsDiagrams2011} codified the idea that properties of data and graphics should match, using the Steven's measurement scales \cite{stevensTheoryScalesMeasurement1946} as a case study. Mackinlay and Wilkinson translate algebras on data to grammars for specifying graphics to develop frameworks for designing structure preserving visualization tools \cite{mackinlayAutomatingDesignGraphical1986,mackinlayAutomaticDesignGraphical1987, wilkinsonGrammarGraphics2005}, while our framework uses the same abstractions for data and graphics. Vickers et al \cite{vickersUnderstandingVisualizationFormal2013} apply category theory to visualization semantics, while our focus is structural. Bartonicek built a tool based on the algebraic properties of summary statistics \cite{bartonicekNoMoreNo2025}; our work provides a more general framework for codifying those properties and proposes that sheaves are a better abstraction for reasoning about connectivity constraints. Similarly to Kindlemann and Scheidegger's algebraic visualization design (AVD) framework \cite{kindlmannAlgebraicProcessVisualization2014} --- but with a focus on software architecture rather than visualization design --- we present a uniform abstract data representation layer for ensuring that the visualization should not change if the data representation changes, define the conditions under which data is mapped unambiguously to visual encodings \cite{ziemkiewiczEmbeddingInformationVisualization2009}, and provide a methodology for verifying that changes in data should correspond to changes in the visualization.
+Our model generalizes existing mathematically derived models of visualization by allowing arbitrary structures, explicitly incorporating topology, and by providing an explicit framework for translating the theoretical ideas into buildable components. Bertin~\cite{bertinSemiologyGraphicsDiagrams2011} codified the idea that properties of data and graphics should match, using the Steven's measurement scales~\cite{stevensTheoryScalesMeasurement1946} as a case study. Mackinlay and Wilkinson translate algebras on data to grammars for specifying graphics to develop frameworks for designing structure preserving visualization tools~\cite{mackinlayAutomatingDesignGraphical1986,mackinlayAutomaticDesignGraphical1987, wilkinsonGrammarGraphics2005}, while our framework uses the same abstractions for data and graphics. Vickers et al~\cite{vickersUnderstandingVisualizationFormal2013} apply category theory to visualization semantics, while our focus is structural. Bartonicek built a tool based on the algebraic properties of summary statistics~\cite{bartonicekNoMoreNo2025}; our work provides a more general framework for codifying those properties and proposes that sheaves are a better abstraction for reasoning about connectivity constraints. Similarly to Kindlemann and Scheidegger's algebraic visualization design (AVD) framework~\cite{kindlmannAlgebraicProcessVisualization2014} --- but with a focus on software architecture rather than visualization design --- we present a uniform abstract data representation layer for ensuring that the visualization should not change if the data representation changes, define the conditions under which data is mapped unambiguously to visual encodings~\cite{ziemkiewiczEmbeddingInformationVisualization2009}, and provide a methodology for verifying that changes in data should correspond to changes in the visualization. 
+
+
 \section{Uniform Abstraction for Data \& Graphics}
 \label{sec:atct}
+Generally, preserving structure means that a visualization is expected to preserve the field properties and connectivity of the corresponding dataset. We use \textcolor{fiber}{\textbf{field}}\footnote{In this paper, color in definitions, equations, and visualizations is used to group conceptually related terms~\cite{headMathAugmentationHow2022}, e.g. \textcolor{fiber}{field} and \textcolor{fiber}{fiber}.} to denote the set of values of the same type, e.g. date, location, stations, and precipitation in a weather station dataset and \textcolor{base}{\textbf{connectivity}} to denote how elements are arranged in a dataset~\cite{wilkinsonGrammarGraphics2005}, e.g. as 0D ($\bullet$) points, along a 1D (--) line, in a 2D ($\blacksquare$) surface, as a 3D trajectory, a volumetric cube, or as a network. We propose a mathematical abstraction of the data input and pre-rendered graphic output that allows us to express the structure of data and graphics using the type signature $\textcolor{section}{\texttt{dataset}}: \textcolor{base}{\texttt{connectivity}} \rightarrow \textcolor{fiber}{\texttt{fields}}$, which means visualization algorithms can check the data input against a signature to ensure that the assumptions of the data match the assumptions of the algorithm, that output fields are equivalent to the input fields, and that the connectivity of the output graphic matches the connectivity of the input data. 
+
+\subsection{Abstract Data Representation}
+\label{sec:atct:fiber-bundles}
+We model data using a structure from algebraic topology called a fiber bundle that can encode topological properties, field types, and data values in a uniform manner. We extend Butler's proposal of using bundles as an abstraction for visualization data~\cite{butlerVectorBundleClassesForm1992,butlerVisualizationModelBased1989} by incorporating Spivak's methodology for encoding named data types from his fiber bundle representation of relational databases~\cite{spivakDatabasesAreCategories2010,spivakSimplicialDatabases2009}. We propose that the \textcolor{total}{total space} \dtotalc\ of a bundle can encode the mathematical space in which a dataset is embedded, the \textcolor{base}{base space} \dbasec\ can encode the connectivity of the dataset, the \textcolor{fiber}{fiber space} \dfiberc\ can encode the field properties of the dataset, and that the datasets can be encoded as \textcolor{section}{section functions} \dsectionc\ from the base space to the fiber space. 
+
 \begin{figure}[!h]
   \includegraphics[width=1\columnwidth]{k_different_types.pdf}
   \caption{This weather station data has multiple embedded continuities - points at each time and position, timeseries at each position, and maps at each time. The corresponding visualizations - bar chart, timeseries, and map - each preserve the continuity of the subset of the data they visualize by not introducing or leaving out values and preserving the relative positioning of continuous values.}
   \label{fig:connectivity:ktypes}
 \end{figure}
 
-\begin{figure}[!h]
-  \includegraphics*[width=1\columnwidth]{tex/more_records.pdf}
-  \caption{Records are added to the dataset as the \textit{fibered coproduct} $\dbase_{a}\sqcup_{\dbase_c} \dbase_{b}$ of index spaces. Fields are added to each record as the \textit{fiber product} $\dfiber_{a}\times_{\dfiber_c} \dfiber_{b}$ of fiber spaces.}
-  \label{fig:atct:joint}
-\end{figure}
+The base space \dbase\ can be thought of as an
+indexing set for the data because the index (usually) encodes the connectivity. Framing this in the language of topology provides us with an abstraction of our data that can be unified over data representation (in memory, distributed, streaming) and over different connectivity types (discrete, $d$-dimensional). There are many formal definitions of a topology; we choose to work with the neighborhood space axiomatization~\cite{brownronaldTopologyGroupoids2006} because it is most analogous to the data access model of index (element) in subset (neighborhood) of all indices (base space). In the indexing cube in~\autoref{fig:connectivity:ktypes}, the brown surface and blue rectangle cube are both neighborhoods of the index for the measurement in Albany on June 09. The blue rectangle is also a neighborhood of the index for the measurement in Albany on March 09. The indexing cube is a neighborhood for both of these indices. Using Munzner's key-value based semantic indexing~\cite{munznerWhatDataAbstraction2014}, the data in~\autoref{fig:connectivity:ktypes} could be subset into sets of timeseries where the key would be $station$, or subset into maps where the key would be $date$, or subset into station records where the keys are $(date, latitude, longitude)$. We encapsulate the desired properties of the connectivity as the category~\cite{maclaneCategoriesWorkingMathematician2013} $\mathcal{\dbase}$ where the objects are all the neighborhoods and the morphisms are inclusion maps between neighborhoods~\cite{riehlCategoryTheoryContext2016}; these are the properties that are required as part of the implementation of the base space data type.  Index spaces can be composed by taking the fibered coproduct, which is generalization of inserting non-duplicated records into a database. 
+
+Spivak shows that data typing can be expressed in a categorical framework in his fiber bundle formulation of tables in relational databases~\cite{spivakDatabasesAreCategories2010,spivakSimplicialDatabases2009}. We adopt Spivak's definitions of \textit{type}, \textit{schema}, \textit{record}, and \textit{table} because that allows us to use a dimension agnostic named typing system for the dataset fields that is consistent with the abstraction we are using to express the continuity. As with the base space category $\mathcal{\dbase}$, we propose a fiber category $\mathcal{\dfiberc}$ with a single object $\dfiberc$ of an arbitrary data type and morphisms on the fiber object $\dfunctc \in Hom(\dfiberc, \dfiberc)$\footnote{Hom(source, target) denotes the set of maps from source to target}. Fields can be composed by taking the fiber product, which is a generalization of a database join on a key. 
 
 \subsubsection{Example: Uniform Abstract Graphic Representation}
 \begin{figure}[!h]
   \includegraphics[width=1\columnwidth]{fb_rho.pdf}
-  \caption{The pixels in the scatter marker are the records returned by the section function $\gsection$ over the points $\gbasepoint \in \gbase$.\label{fig:atct:fb:graphic}}
+  \caption{The pixels in the scatter marker are the records returned by the section function $\gsection$ over the points in the indexing space $\gbasepoint \in \gbase$.\label{fig:atct:fb:graphic}}
 \end{figure}
+
+ We denote the output as a graphic, but the use of bundles allows us to generalize to output on any display space, such as a screen or 3D print. The graphic bundle consists of the total space \gtotalc\ which is an abstraction of an ideal (infinite resolution) space into which the graphic can be rendered, the base space \gbasec\ which is a parameterization of the display area (e.g. an inked bounding box), and the fiber space \gfiberc\ which is an abstraction of the renderer fields (e.g. pixels). In \autoref{fig:atct:fb:graphic}, the section function $\gsection$ maps into the fiber for a simplified 2D RGB infinite resolution pre-render space and returns the values of a pixel, approximated as the small colored boxes, in an infinite resolution space.
 
 \subsubsection{Data transformations}
 \begin{figure}[!h]
   \includegraphics[width=1\columnwidth]{actions.pdf}
   \caption{The actions on the base and fiber space commute such that the data can be permuted then scaled or scaled then permuted.} \label{fig:actions}
 \end{figure}
+
+We separate data transformations into independent transformations on the base space $(\dfunchc, \dfuncpullc)$ and on the fiber space $\dfunctc$ and define a full data transformation as one that induces both a remapping of the index space and a change in the data values: $\dfuncc: \dsectionc\mapsto\dfunctc\circ\dsectionc\circ\dfunchc$.  We can define a composite transform where each fiber transform in a collection can be applied to a different fiber field, implemented in the same manner as record compositions. In \autoref{fig:actions}, the locations of the bars relative to each other change because the actions $\dfunch, \dfuncpull$ permute the indexing space. The action $\dfunct$ doubles the data value associated with the height of the bar. Because these are both structure preserving actions, the order - permute then scale or scale then permute - does not change the final image. 
+
 \subsection{Abstract Data Containers}
 
-
-\begin{table}[!h]
-  \centering
-  \begin{tabular}{|r|l|}
-    \hline
-      axiom & applied to datasets and indexes \\
-    \hline
-     presheaf & given $\textcolor{base}{index_1} \subset \textcolor{base}{index_2}$:\\
-        & $\exists\;\textcolor{section}{dataset}[\textcolor{base}{index_2}]$\\
-      & $\Rightarrow \textcolor{section}{dataset}[\textcolor{base}{index_2}][\textcolor{base}{index_1}] = \textcolor{section}{dataset}[\textcolor{base}{index_1}]$\\
-     &  $\exists\;\textcolor{section}{dataset}[\textcolor{base}{index_1}] \nRightarrow \exists\;\textcolor{section}{dataset}[\textcolor{base}{index_2}]$\\
-    \hline
-    locality & $\textcolor{section}{dataset^1}[\textcolor{base}{i}] = \textcolor{section}{dataset^2}[\textcolor{base}{i}]\;\forall\; \textcolor{base}{i}\in \textcolor{base}{index}\;$ \\
-     & $\Rightarrow \textcolor{section}{dataset^1}=\textcolor{section}{dataset^2}$ \\
-    \hline
-    gluing & $\textcolor{base}{i}=\textcolor{base}{j}$ and $\textcolor{section}{dataset^1}[\textcolor{base}{i}] = \textcolor{section}{dataset^2}[\textcolor{base}{j}]$ \\
-     & $\textcolor{section}{dataset^3}\coloneq  \textcolor{section}{dataset^1}[\textcolor{base}{:i}]  \oplus \textcolor{section}{dataset^2}[\textcolor{base}{j:}]$ \\
-\hline
-  \end{tabular}
-  \caption{When these axioms are satisfied, we can treat the data container as a sheaf, which means  local data availability and consistency constraints are modeled by inclusion maps \dfunch\ and the resulting restriction maps \dfuncpull.}
-\end{table}
+While bundles provide a way to describe the structure of the data, sheaves are a mathematical way of describing the data container. Ghrist describes sheaves as an algebraic data structure; they provide a method for codifying the bookkeeping that data containers must implement to keep track of the continuity of the data~\cite{ghristElementaryAppliedTopology2014}. Presheaves require that every change in index function $\dfunch$ has a corresponding function $\dfuncpull$ that aligns the records by "pulling back" records to where they belong in the new index. Sheaves are presheaves that satisfy the gluing and locality axioms: the gluing axiom says that the sections of the distributed representation of a dataset can be glued together and the locality axiom asserts that the glued representation is equivalent to a non-distributed representation over the same indexing space. When a data container implements sheaf constraints, the subsets and whole data space are guaranteed to have the same mathematical properties, e.g. morphisms such that visual algorithms written in our framework treat data that is in memory, distributed, streaming, or on-demand as equivalent. 
 
 \section{Connectivity Preserving Map: Readability $\vindexc$}
 \begin{figure*}[t]
   \includegraphics[width=1\textwidth]{xi_diagram.pdf}
-  \caption{The data \dsection\ consists of the $sin$ and $cos$ functions over a unit circle base space \dbase\, visualized as the circle and two line plots generated from the graphic specification \gsection. The index map \vindex\ keeps track of which part of the circle, sin, and cosine plots correspond to which point on the unit circle. The pushforward \vindexpush\ matches each point in the data space to the corresponding graphic specification, and the pullback \vindexpull\ matches each point in the graphic space to the data at that point.
+  \caption{The data \dsection\ consists of the $sin$ and $cos$ functions over a unit circle base space \dbase\, visualized as the circle and two line plots generated from the graphic specification \gsection. The index map \vindex\ keeps track of which part of the circle, sine, and cosine plots correspond to which point on the unit circle. The pushforward \vindexpush\ matches each point in the data space to the corresponding graphic specification, and the pullback \vindexpull\ matches each point in the graphic space to the data at that point.
   \label{fig:atct:morphisms:sheaf}}
 \end{figure*}
+From the early maps of stars on, there has been an expectation that the connectivity in visualizations matches the connectivity of the underlying data~\cite{friendlyBriefHistoryData2008}. This is somewhat codified in the notion of readability~\cite{ziemkiewiczEmbeddingInformationVisualization2009}, which is that visual elements must correspond to distinct data elements.  We propose that if connectivity is preserved then there should exist a continuous map \vindexc\ that expresses the correspondence between graphic and data indexing spaces. We construct the map as going from graphic to data because that encodes the notion that every visual element traces back to the data in some way, but there may be more data available than what is shown in the graphic. As illustrated in \autoref{fig:atct:morphisms:sheaf}, modeling the data and graphic containers as sheaves and constructing structure preserving maps between the indices provides a method of precisely describing which data values belong with which graphical representations. In \autoref{fig:atct:morphisms:sheaf}, one example is that the orange bands on $\gbase_0, \gbase_1, \gbase_2$ correspond to the orange point $\dbasepoint_i$ and this correspondence allows us to construct a graphic specification for each data index $\vindexpush\gsection$. In \autoref{fig:atct:morphisms:sheaf}  $\vindexpush\gsection(\dbase_i)$ a svg-like spec describing the piece of the circle, sine, and cosine curves generated for the data at the point $\dbasepointc$. We can also retrieve the data $\vindexpull\dsection_{\vindexpre(\dbasepoint)}$ that is being visualized by each specific part of the graphic, which in \autoref{fig:atct:morphisms:sheaf} is the section $\dsection(\dbasepoint_i)$.
 
 \section{Artist: Structure Preserving Maps}
 \label{sec:artist}
+
+We build off of Kindlmann and Scheidegger's notion of equivariant~\cite{kindlmannAlgebraicProcessVisualization2014} and Mackinlay's notion of homomorphic~\cite{mackinlayAutomatingDesignGraphical1986} visualizations in our definition of structure preservation. We define a mapping from data to graphic to be \textbf{structure preserving} when connectivity is preserved, the structure on the data and the graphics is compatible, and changes to data and graphic commute. We call the structure preserving mappings \textcolor{artist}{Artists}\footnote{Artists are named for the Artist class in Matplotlib~\cite{hunterArchitectureOpenSource} because the Artist is the parent class of all the objects that assemble and manage visual elements such as points, lines, and shapes.}. The output of an artist \vartist\ is a restricted subset of graphic sections $\imartist{\gbasec}{\gtotalc}$ that are, by definition, only reachable through a structure preserving artist. The artist signature can be formulated as $
+  \textcolor{artist}{\texttt{Artist}}:(\textcolor{section}{\texttt{dataset}}: \textcolor{base}{\texttt{connectivity}}\textcolor{section}{\rightarrow} \textcolor{fiber}{\texttt{fields}}) \textcolor{artist}{\rightarrow} (\textcolor{section}{\texttt{graphic}}: \textcolor{base}{\texttt{connectivity}}\textcolor{section}{\rightarrow} \textcolor{fiber}{\texttt{fields}})$ where \texttt{connectivity} and \texttt{field} are meta classes of compatible types. A structurally preserving Artist is a \textit{natural transform}~\cite{milewskiCategoryTheoryProgrammers2019,maclaneCategoriesWorkingMathematician2013}, which means that the Artist must preserve the constraints on the input sheaves and output sections, meaning that actions $\dfunc$ on data and graphic must be equivariant, and the Artist must respect the sheaf constraints of \textit{locality} and \textit{gluing} for the input and equivalent output.
+  
 \begin{figure}[!h]
     \includegraphics[width=.5\textwidth, alt={Diagram of a dirichelet distribution evaluated on a triangle, transposed, and binned and the corresponding visualization output by the artist function.}]{artist_equiv.pdf}
-    \caption{This artist maps a numerical section of the Dirichlet distribution to a corresponding graphical representation. The artist preserves connectivity by not breaking presheaf implementations of rotation $(\dfunch, \dfuncpull)$ of the indexing space $\dbase, \gbase$ and field structure by implementing the data to color mapping such that binning $(\dfunct)$ the data and mapping the bins to colors is equivalent to binning the colors directly. The subscripts denote the space the action occurs in.}\label{fig:artist}
+    \caption{This artist maps a numerical section of the Dirichlet distribution to a graphical representation. The artist preserves connectivity by not breaking presheaf implementations of rotation $(\dfunch, \dfuncpull)$ of the indexing space $\dbase, \gbase$ and field structure by implementing the data to color mapping such that binning $(\dfunct)$ the data and then colormapping the bins is equivalent to binning the colors directly. The subscripts denote the space the action occurs in.}\label{fig:artist}
 \end{figure}
+An artist is equivariant when changes to the input and output commute; for all points, starting at an arbitrary data point and transforming it into a different data point and then into a graphic is equivalent to transforming the original data point into a graphic and then transforming the graphic into another graphic. For example, \autoref{fig:artist} shows an artist function $\vartist$ that maps a Dirichlet distribution: the artist is equivariant with respect to connectivity because the base space rotation actions $\dfunch, \dfuncpull$ commute such that rotating the data and then mapping it to a graphic or rotating the graphic yield the same Dirichlet distribution graphic where the values have moved to new locations but not changed and the artist is equivariant with respect to field structure because the binning action $\dfunct$ commutes such that binning and then colormapping the data yields an equivalent graph to binning the colormap directly.
+
 \subsection{Composing Artists}\label{sec:artist:operators}
 \begin{figure}[!h]
   \includegraphics[width=1\linewidth]{composition.pdf}
   \caption{The scatter plot of stations on the rain map from \autoref{fig:connectivity:ktypes} can either be generated as a composition of scatter and map drawing functions or a singular scatter and map drawing function.}
   \label{fig:composition}
 \end{figure}
+ Artists are composable because they preserve the properties of the coproduct and product~\cite{maclaneCategoriesWorkingMathematician1978} when composing with composable data; therefore, graphic composition is implemented correctly when artists return the same graphic on points in the intersection $\dbase^{c}$ and any shared fiber $\dfiber^{c}$ is encoded consistently. This expectation of using the same encoding for the same variable is a generalization of the concept of consistency checking of multiple view encodings discussed by Qu and Hullman~\cite{quKeepingMultipleViews2018}. In \autoref{fig:composition}, this is a check that, e.g., the scatter marker drawn by $\vartist_{a}$ is identical to the scatter marker drawn by $\vartist_{abcd}$. As illustrated in \autoref{fig:composition}, preserving these properties on compositions means that the same graphic can be generated from multiple artists drawing individual elements or a singular artist drawing the composite image. Structure preserving animations and interactions fall out as a consequence of implementing structure preserving artists because animation and interaction are simply a composition of base spaces (more frames) and/or fiber spaces (additions to the graphic such as annotations, or cursors).
 
 \section{Constructing Structure Preserving Components}
 \label{sec:construction}
+Artists naturally factorize into a two-stage process, starting with an encoding stage $\vchannel$ followed by a compositing stage $\vmark$. We encapsulate the space of components reachable through the encoding stage $\vchannel$ as a visual fiber bundle \textcolor{total}{\vtotalc} with sections \textcolor{section}{\vsectionc}. The restricted fiber space $\vfiber$ of the bundle acts as the specification of the internal library representation of the visual components. We propose that reusing the fibers $\vfiber$ across components facilitates standardizing internal types across the library and that this standardization improves maintainability. 
 \begin{figure}[!h]
   \includegraphics[width=1\columnwidth]{construction_comp.pdf}
-  \caption{The artist function that draws the green point on the circle is composed of two stages $\vartist = \vchannel \circ \vmark$. The encoder \vchannelc\ maps the data values to visual values and the compositor \vmark\ generates the graphic specification for producing the sections of the circle. Default encodings, such as color and mark type, are here treated as pullbacks of constant values in the data.}
+  \caption{The encoder \vchannelc\ maps the data values to visual values and the compositor \vmark\ generates the graphic specification for producing the sections of the circle. Default encodings, such as color and mark type, are here treated as pullbacks of constant values in the data.}
   \label{fig:construction:q}
 \end{figure}
 
-\subsection{Verification}
-\label{sec:construction:verification}
-\begin{figure}[!h]
-  \includegraphics{encoder.pdf}
-  \caption{The encoders $\vchannel_{color, marker}$ and $\vchannel_{color}$  correctly encode JFK INTL AP as steelblue if they return steelblue and it matches the reference color \#4682b4. An external testing library can follow a similar procedure using \equivb\ functions to test library encoders \vchannelc.}
-  \label{fig:verify_encoder}
-\end{figure}
-\begin{figure}[!h]
-    \center
-  \includegraphics{compositor.pdf}
-  \caption{The compositors $\vmark_{square}$ amd $\vmark_{circle}$ correctly compose the visual parameter "steelblue" in their outputs if the measured color is the same in the output of both compositors is equal to the reference color \#4682b4.}
-  \label{fig:verify_compositor}
-\end{figure}
+In the \textcolor{artist}{encoding} stage $\vchannelc$, a data bundle is treated as separable fields where each field is mapped to a visual variable. In the encoding stage, many of the expected visual mappings $\equivb$ can be implemented inside the library. Factoring out the encoding stage leaves the \textcolor{artist}{compositing} stage $\vmarkc$ responsible for faithfully translating those visual components into a visual element. The encoder is infinitely composable $\vchannel^{\prime}=\vchannel \circ \vchannel$ and the mark is composable with the encoder $\vmark^{\prime} = \vmark \circ \vchannel$. The factorization of the artist into the encoding and composition stages provides a framework for testing the conversion from data to visual component separately from the assembly of components into a glyph. As shown in \autoref{fig:construction:q}, a set of  $\vchannel$ functions individually convert the values in the data record to visual components. Then the $\vmark$ function combines these visual encodings to produce a graphic section \gsection. When this section is evaluated on the graphic space associated with the data $\gsection(\vindexpre(\dbasepoint))$, it produces green pixels at the intersection of the x and y positions listed in \vsection. 
 
 \section{Conclusion}
+This paper demonstrates a mathematical formalism for representing the architecture of components in a data visualization library, in which the mathematical structures both enforce well known principles of data visualization and suggest factorizations and decompositions that result in highly modular infrastructure, such that artists can be constructed from composable primitives. There has been ongoing work to implement a new data container~\cite{ProofConceptData} in Matplotlib using ideas from our framework, which is adapted from \url{https://github.com/matplotlib/data-prototype}. 
+
+
 \section*{Supplemental Materials}
 \label{sec:supplemental_materials}
-This paper is based on the theoretical work described in \url{https://github.com/story645/team/paper/}.
+This paper summarizes a yet unpublished expanded manuscript at \url{https://github.com/story645/team/paper/}.
 
 \section*{Acknowledgements}
 The authors would like to thank the anonymous reviewers who gave constructive feedback on an earlier version of this paper. The authors are also grateful to  the various Matplotlib and Napari contributors, particularly Juan Nunez-Iglesias, and Nicolas Kruchten for their valuable feedback. Hannah is also very grateful to Nicolas for the suggestion of augmented notation and to the nlab and wikipedia contributors who wrote clear explanations of many of the topics discussed in this paper. This project has been made possible in part by grant number 2019-207333 (EOSS Cycle 1) and EOSS Cycle 3 from the Chan Zuckerberg Initiative DAF, an advised fund of Silicon Valley Community Foundation
 
 
 \bibliographystyle{plain}
-\bibliography{references}
+\bibliography{../paper/references}
 \end{document}
